@@ -108,8 +108,9 @@ module.exports = {
         target: 'http://v2.qby.testin.qtoolsbaby.net:81',
       },
       '/qtoolsOms': {
+        target:'http://192.168.2.37:8001',
+        pathRewrite: {"^/qtoolsOms" : ""},
         changeOrigin: true,
-        target: 'http://v2.qby.testin.qtoolsbaby.net:81',
       }
     }
   }

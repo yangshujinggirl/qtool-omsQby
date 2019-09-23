@@ -7,3 +7,14 @@ export function GoLoginApi(values) {
     data:values
   })
 }
+export function GoLoginTApi({username,password}) {
+  // values = JSON.stringify(values)
+  return Req.get('/login', {
+    params: {
+      username,password
+    }
+  })
+  // return Req.get('/login', {
+  //   username,password
+  // })
+}

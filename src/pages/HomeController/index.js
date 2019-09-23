@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { Layout } from 'antd';
 
-import SiderBarController from '../SiderBarController';
+import SiderBarController from './components/SiderBarController';
 import AccountRoutes from '../AccountRoutes';
 import './index.less';
 

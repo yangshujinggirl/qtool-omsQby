@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Form, Icon, Input, Button, Checkbox,
 } from 'antd';
-import { GoLoginApi } from '../../api/user/Login';
+import { GoLoginApi, GoLoginTApi } from '../../api/user/Login';
 import { Sessions } from 'utils';
 import './index.less';
 
@@ -15,7 +15,7 @@ class Login extends Component {
     super(props);
   }
   submit=(values)=> {
-    GoLoginApi(values)
+    GoLoginTApi(values)
     .then(res=> {
       const { sessionId, urUser } =res;
       Sessions.set('sessionKey',sessionId);

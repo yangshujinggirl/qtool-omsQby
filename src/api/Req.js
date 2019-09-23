@@ -26,18 +26,18 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
   })
   // 请求响应拦截器
   axiosinstance.interceptors.response.use((response) => {
-      const { code, message:resultMessage} = response.data;
+      const { httpCode, msg:resultMessage} = response.data;
       // 用户登录超时统一处理
-      if(code=='E_300'){
+      if(httpCode=='E_300'){
          window.location.href= '/';
          sessionStorage.clear();
          return;
       }
-      if(code!='0'){//业务错误弹框
+      if(httpCode!=200){//业务错误弹框
           Qmessage.error(resultMessage);
-          return Promise.reject(response.data);
+          return Promise.reject(response.result);
       }
-      return response.data;
+      return response.result;
     }, error => {
       window.location.href= '/';
       sessionStorage.clear();
@@ -45,5 +45,5 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
     });
   return axiosinstance;
 }
-const ajax = new request({baseURL:'/erpWebRest'});
+const ajax = new request({baseURL:'/qtoolsOms'});
 export default ajax;
