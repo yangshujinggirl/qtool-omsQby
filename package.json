@@ -1,0 +1,73 @@
+{
+  "name": "com.qtool.qby",
+  "version": "1.0.0",
+  "description": "Q本营重构",
+  "main": "index.js",
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 9",
+    "iOS >= 8",
+    "Android >= 4"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=development webpack-dev-server --progress --color",
+    "build:dev": "NODE_ENV=development webpack --progress",
+    "build:prod": "NODE_ENV=production webpack --progress",
+    "dev": "webpack --progress --color"
+  },
+  "author": "yangjing",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.8",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {
+    "antd": "^3.23.3",
+    "axios": "^0.19.0",
+    "lodash": "^4.17.15",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.0.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "theme": {
+    "primary-color": "#35BAB0",
+    "link-color": "#35BAB0",
+    "border-radius-base": "1px",
+    "border-color-base": "#d9d9d9",
+    "btn-primary-bg": "#35BAB0",
+    "input-hover-border-color": "#35BAB0",
+    "input-outline-offset": "0 0",
+    "font-size-base": "12px",
+    "table-padding-vertical": "10px",
+    "table-header-color": "#666",
+    "input-placeholder-color": "#9b9b9b",
+    "input-color": "#666",
+    "error-color": "#ea2727",
+    "card-head-color": "#666"
+  }
+}

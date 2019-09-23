@@ -1,0 +1,150 @@
+@import "./variates.less";
+// 公用样式
+body,
+html {
+  font-family: PingFangSC,Helvetica,Arial,Microsoft YaHei,Droid Sans,sans-serif;
+  height: 100%;
+  // height: inherit !important;
+  background: @body-bg;
+  font-size: 12px;
+  color: @tLevel3;
+  #root {
+    height: 100%;
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+dd,
+dl,
+li,
+ol,
+ul {
+  margin : 0;
+  padding: 0;
+}
+
+ol,
+ul {
+  list-style: none outside none;
+}
+
+img {
+  width: 100%;
+}
+.cf:after,
+.cf:before {
+  content: '';
+  display: table;
+}
+.cf:after {
+  clear: both;
+}
+.cf {
+  *zoom: 1;
+}
+//清除浮动
+.clear:after {
+  content: '';
+  height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+ //品牌色--字体
+ .brandColor {
+   color: @brandColor;
+ }
+ //一级字体
+ .tLeve1 {
+   color: @tLeve1;
+ }
+ //二级字体
+ .tLevel2 {
+   color: @tLevel2;
+ }
+ //三级，正文字体
+ .tLevel3 {
+   color: @tLevel3;
+ }
+ //表单颜色
+.ant-table {
+  color: @tLevel2;
+}
+textarea {
+  resize: none;
+}
+//去除Inpur默认样式
+.ant-input {
+  width: 100%;
+  // padding-left: 20px;
+  box-sizing: border-box;
+  border-radius:0;
+  font-size: 12px;
+  &:hover,
+  &:focus {
+    box-shadow:none;
+    outline:none;
+  }
+}
+.ant-calendar-picker {
+  width: 100%;
+}
+//按钮hover颜色
+.ant-btn {
+  height: @btn-height;
+  &.ant-btn-primary {
+    &:focus,
+    &:hover {
+      background: @btnHover;
+    }
+  }
+}
+//文字做input显示使用
+.label-show-input {
+  border: 0;
+  background: rgba(0,0,0,0);
+  color: #666;
+}
+//搜索区form样式
+.qtools-condition-form {
+  .search-form-outWap {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 20px 0;
+    border-bottom: 1px solid @line;
+    position: relative;
+  }
+  .ant-form-item {
+    margin:0 15px 20px 0;
+  }
+  .ant-form-item-label {
+    width: 100px;
+    text-align: right;
+    label {
+      font-size: 12px;
+      color: @tLevel2;
+    }
+  }
+  .ant-form-item-control-wrapper {
+    display: inline-block;
+  }
+  .ant-select, .ant-cascader-picker,
+  .ant-input {
+    width: 200px;
+  }
+  .ant-calendar-picker-input {
+    width: 290px;
+  }
+  .handle-action {
+    position: absolute;
+    right: 20px;
+    bottom:20px;
+  }
+}
