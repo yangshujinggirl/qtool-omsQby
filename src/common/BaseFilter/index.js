@@ -33,16 +33,19 @@ class BaseFilter extends Component {
       xl: 6
     };
   }
-  handleSubmit() {
-    let value = this.props.fields;
-    for (let i in value) {
-      // 替换搜索条件中字符串的前后空格
-      if (typeof value[i] == 'string') {
-        value[i] = value[i].replace(/^\s+|\s+$/gm, '');
+  handleSubmit(e) {
+    // let value = this.props.fields;
+    e.preventDefault();
+    this.props.form.validateFields((err, value) => {
+      for (let i in value) {
+        // 替换搜索条件中字符串的前后空格
+        if (typeof value[i] == 'string') {
+          value[i] = value[i].replace(/^\s+|\s+$/gm, '');
+        }
       }
-    }
-    console.log(value)
-    this.props.onSubmit && this.props.onSubmit(value);
+      this.props.onSubmit && this.props.onSubmit(value);
+    });
+
   }
 }
 export default BaseFilter;
