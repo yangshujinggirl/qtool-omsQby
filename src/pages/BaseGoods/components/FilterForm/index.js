@@ -117,7 +117,7 @@ class Search extends BaseFilter {
                 )}
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
+            <Col span={24}>
               <FormItem className="oms-condition-operate">
                 <Qbtn
                   type="primary"
