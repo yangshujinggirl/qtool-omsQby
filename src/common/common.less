@@ -2,7 +2,8 @@
 // 公用样式
 body,
 html {
-  font-family: PingFangSC,Helvetica,Arial,Microsoft YaHei,Droid Sans,sans-serif;
+  font-family: PingFangSC, Helvetica, Arial, Microsoft YaHei, Droid Sans,
+    sans-serif;
   height: 100%;
   // height: inherit !important;
   background: @body-bg;
@@ -26,7 +27,7 @@ dl,
 li,
 ol,
 ul {
-  margin : 0;
+  margin: 0;
   padding: 0;
 }
 
@@ -40,7 +41,7 @@ img {
 }
 .cf:after,
 .cf:before {
-  content: '';
+  content: "";
   display: table;
 }
 .cf:after {
@@ -51,29 +52,29 @@ img {
 }
 //清除浮动
 .clear:after {
-  content: '';
+  content: "";
   height: 0;
   display: block;
   visibility: hidden;
   clear: both;
 }
- //品牌色--字体
- .brandColor {
-   color: @brandColor;
- }
- //一级字体
- .tLeve1 {
-   color: @tLeve1;
- }
- //二级字体
- .tLevel2 {
-   color: @tLevel2;
- }
- //三级，正文字体
- .tLevel3 {
-   color: @tLevel3;
- }
- //表单颜色
+//品牌色--字体
+.brandColor {
+  color: @brandColor;
+}
+//一级字体
+.tLeve1 {
+  color: @tLeve1;
+}
+//二级字体
+.tLevel2 {
+  color: @tLevel2;
+}
+//三级，正文字体
+.tLevel3 {
+  color: @tLevel3;
+}
+//表单颜色
 .ant-table {
   color: @tLevel2;
 }
@@ -85,12 +86,12 @@ textarea {
   width: 100%;
   // padding-left: 20px;
   box-sizing: border-box;
-  border-radius:0;
+  border-radius: 0;
   font-size: 12px;
   &:hover,
   &:focus {
-    box-shadow:none;
-    outline:none;
+    box-shadow: none;
+    outline: none;
   }
 }
 .ant-calendar-picker {
@@ -109,42 +110,27 @@ textarea {
 //文字做input显示使用
 .label-show-input {
   border: 0;
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
   color: #666;
 }
-//搜索区form样式
-.qtools-condition-form {
-  .search-form-outWap {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px 20px 0;
-    border-bottom: 1px solid @line;
-    position: relative;
-  }
+.serach-common-form {
   .ant-form-item {
-    margin:0 15px 20px 0;
-  }
-  .ant-form-item-label {
-    width: 100px;
-    text-align: right;
-    label {
-      font-size: 12px;
-      color: @tLevel2;
+    .ant-form-item-control-wrapper {
+      display: inline-block;
+      height: 35px;
+      line-height: 35px;
+      vertical-align: middle;
     }
-  }
-  .ant-form-item-control-wrapper {
-    display: inline-block;
-  }
-  .ant-select, .ant-cascader-picker,
-  .ant-input {
-    width: 200px;
-  }
-  .ant-calendar-picker-input {
-    width: 290px;
-  }
-  .handle-action {
-    position: absolute;
-    right: 20px;
-    bottom:20px;
+    .ant-input {
+      width: 180px;
+    }
+    .ant-select-selection--single {
+      width: 180px;
+    }
+    .ant-form-item-label {
+      width: 90px;
+      height: 35px;
+      line-height: 35px;
+    }
   }
 }
