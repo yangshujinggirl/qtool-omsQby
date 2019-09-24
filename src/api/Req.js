@@ -39,9 +39,10 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
       }
       return {result};
     }, error => {
-      window.location.href= '/';
+      // window.location.href= '/';
       sessionStorage.clear();
-      Qmessage.error(error);
+      return Promise.reject({message:'服务异常'});
+      // Qmessage.error(error);
     });
   return axiosinstance;
 }

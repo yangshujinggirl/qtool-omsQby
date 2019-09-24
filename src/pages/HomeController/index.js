@@ -15,17 +15,17 @@ const { Header, Footer, Sider, Content } = Layout;
 class HomeController extends React.Component {
   render() {
     return(
-      <div className="oms-pages">
+      <div className="oms-pages-wrap">
         <Layout>
           <Sider
-            theme="dark"
-            mode="inline">
+            width="220"
+            className="oms-slider-wrap">
             <SiderBarController />
           </Sider>
           <Layout>
-            <Header>qoms-header</Header>
+            <Header className="oms-header-wrap">qoms-header</Header>
             <Content>
-              <div className="oms-content">
+              <div className="oms-content-wrap">
                 <AccountRoutes />
               </div>
             </Content>
