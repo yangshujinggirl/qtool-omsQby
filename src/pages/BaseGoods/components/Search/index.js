@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Form, Input, Select, DatePicker,Row,Col } from "antd";
 import { moment } from "moment";
+import { BaseFilter } from 'common';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-class Search extends Component {
+
+class Search extends BaseFilter {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -12,7 +14,7 @@ class Search extends Component {
         <Form className='serach-common-form'>
           <Row gutter={8}>
             <Col span={6}>
-              <FormItem label="商品名称">
+              <FormItem label="商品名称" >
                 {getFieldDecorator("productName")(
                   <Input placeholder="请输入商品名称" />
                 )}
@@ -115,7 +117,9 @@ class Search extends Component {
             <Col span={6}>
               <FormItem label="创建时间">
                 {getFieldDecorator("time")(
-                  <RangePicker format="YYYY-MM-DD HH:mm:ss" showTime />
+                  <RangePicker
+                    placeholder={this.placeholder}
+                    format="YYYY-MM-DD HH:mm:ss" showTime />
                 )}
               </FormItem>
             </Col>
