@@ -26,7 +26,7 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
   })
   // 请求响应拦截器
   axiosinstance.interceptors.response.use((response) => {
-      const { httpCode, msg:resultMessage} = response.data;
+      const { httpCode, msg:resultMessage, result} = response.data;
       // 用户登录超时统一处理
       if(httpCode=='E_300'){
          window.location.href= '/';
@@ -35,9 +35,9 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
       }
       if(httpCode!=200){//业务错误弹框
           Qmessage.error(resultMessage);
-          return Promise.reject(response.result);
+          return Promise.reject(result);
       }
-      return response.result;
+      return {result};
     }, error => {
       window.location.href= '/';
       sessionStorage.clear();

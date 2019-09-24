@@ -17,11 +17,11 @@ class Login extends Component {
   submit=(values)=> {
     GoLoginTApi(values)
     .then(res=> {
-      const { sessionId, urUser } =res;
-      Sessions.set('sessionKey',sessionId);
-      Sessions.set('name', urUser.name);
-      Sessions.set('adminType', urUser.adminType);
-      Sessions.set('wsName', urUser.wsName);
+      // const { sessionId, urUser } =res;
+      Sessions.set('sessionKey','12fkosiuimjjsssssss');
+      // Sessions.set('name', urUser.name);
+      // Sessions.set('adminType', urUser.adminType);
+      // Sessions.set('wsName', urUser.wsName);
       this.props.history.push('/account/public')
     },err=> {
       console.log(err)
