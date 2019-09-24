@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
-import Search from './components/Search'
+import {Table} from 'antd'
+import FilterForm from './components/FilterForm'
 class BaseGoods extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            
+        }
+    }
+    onSubmit=(params)=>{
+        console.log(params)
+    }
     render() {
         return (
             <div>
-               <Search/> 
+               <FilterForm onSubmit={this.onSubmit}/> 
             </div>
         );
     }

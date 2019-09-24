@@ -41,6 +41,7 @@ class BaseFilter extends Component {
         value[i] = value[i].replace(/^\s+|\s+$/gm, '');
       }
     }
+    console.log(value)
     this.props.onSubmit && this.props.onSubmit(value);
   }
 }
