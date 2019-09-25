@@ -44,7 +44,7 @@ class Search extends BaseFilter {
             <Col {...this.colspans}>
               <FormItem label="商品品牌" {...this.formItemLayout}>
                 {getFieldDecorator("productName")(
-                  <Input placeholder="请输入商品品牌" />
+                  <Input placeholder="请输入商品品牌"/>
                 )}
               </FormItem>
             </Col>
@@ -117,7 +117,7 @@ class Search extends BaseFilter {
                 )}
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
+            <Col>
               <FormItem className="oms-condition-operate">
                 <Qbtn
                   type="primary"

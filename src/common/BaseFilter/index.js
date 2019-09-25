@@ -29,8 +29,8 @@ class BaseFilter extends Component {
     this.colspans = {
       xxs: 24,
       xs: 12,
-      l: 6,
-      xl: 6
+      xxl: 6,
+      xl: 8
     };
   }
   handleSubmit(e) {
