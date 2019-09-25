@@ -1,4 +1,4 @@
-const keyPrefix='qby_';
+const keyPrefix='oms_';
 const Sessions = {
   // 获取sessionkty
   get(key) {

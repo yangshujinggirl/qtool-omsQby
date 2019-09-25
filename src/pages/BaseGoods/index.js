@@ -1,5 +1,9 @@
 import React, { Component } from "react";
+<<<<<<< HEAD
 import { Button } from "antd";
+=======
+import { Table, Spin } from "antd";
+>>>>>>> c31cfcc42ed6eb12e6532ba908eb036767b87796
 import FilterForm from "./components/FilterForm";
 import Qpagination from "common/Qpagination";
 import OpenQtable from "common/OpenQtable";
@@ -7,6 +11,7 @@ import * as Actions from "./actions";
 import { QbyConnect } from "common";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
+
 class BaseGoods extends Component {
   constructor(props) {
     super(props);
@@ -89,9 +94,9 @@ class BaseGoods extends Component {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
     return (
-      <div>
-        <FilterForm onSubmit={this.onSubmit} />
+      <Spin tip="加载中..." spinning={this.props.loading}>
         <div>
+<<<<<<< HEAD
           <Button type="primary">新建一般贸易品</Button>
           <Button type="primary">新建跨境品</Button>
           <Button type="primary">商品导出</Button>
@@ -120,6 +125,21 @@ class BaseGoods extends Component {
         }
         
       </div>
+=======
+          <FilterForm onSubmit={this.onSubmit} />
+          <div>
+            <Table
+              columns={Columns}
+              expandedRowRender={record => {
+                console.log(record);
+                return <Table columns={Columns1} dataSource={record.list} />;
+              }}
+              dataSource={goodLists}
+            />
+          </div>
+        </div>
+      </Spin>
+>>>>>>> c31cfcc42ed6eb12e6532ba908eb036767b87796
     );
   }
 }

@@ -70,6 +70,12 @@
     "input-placeholder-color": "#9b9b9b",
     "input-color": "#666",
     "error-color": "#ea2727",
-    "card-head-color": "#666"
+    "card-head-color": "#666",
+    "link-hover-color": "#35BAB0",
+    "link-active-color": "#35BAB0",
+    "table-header-bg": "#35BAB0",
+    "layout-header-background": "#F9F9FE",
+    "menu-dark-bg": "#1A1D26",
+    "layout-sider-background": "#1A1D26"
   }
 }

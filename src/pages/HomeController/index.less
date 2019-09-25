@@ -2,12 +2,25 @@
   .oms-slider-wrap {
     overflow:auto;
     height:100vh;
+    position: absolute;
+    left: 0;
+    z-index: 999;
+  }
+  .oms-part-r {
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    padding-left: 220px;
   }
   .oms-header-wrap {
     height: 80px;
+    border-bottom:1px solid #ccc;
   }
   .oms-content-wrap {
     padding: 20px;
     background: #fff;
+    overflow:auto;
+    height:100vh;
   }
 }
