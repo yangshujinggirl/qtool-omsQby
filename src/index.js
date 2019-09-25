@@ -15,7 +15,7 @@ import { Sessions } from 'utils';
 
 import rootReducer from './reducers';
 import Login from './pages/Login';
-import HomeRoutes from './pages/HomeController';
+import HomeController from './pages/HomeController';
 
 const store = createStore(
         rootReducer,
@@ -36,7 +36,7 @@ ReactDOM.render(
         } else {
           if(sessionKey) {
             return <div>
-                    <Route  path="/account" component={HomeRoutes}/>
+                    <Route  path="/account" component={HomeController}/>
                     <Route  path="/login" component={Login}/>
                     <Route exact path="/" render={()=>{
                       return <Redirect to="/account/public"/>
