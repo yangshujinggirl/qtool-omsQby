@@ -4,13 +4,14 @@ import { QsubTable, Qpagination, QbyConnect, Qbtn} from "common";
 import * as Actions from "./actions";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
+import { goAuditApi } from "api/home/BaseGoods";
 
 class BaseGoods extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      status:0,
+      status: 0,
       inputValues: {
         productNature: -1,
         productType: -1,
@@ -22,21 +23,46 @@ class BaseGoods extends React.Component {
   }
   //初始化数据
   componentDidMount = () => {
-    this.searchData();
+    this.props.actions.getGoodsList({ ...this.state.inputValues });
   };
   //审核取消
-  onCancel = () => {
+  onCancel = resetFields => {
     this.setState({
       visible: false
     });
+    resetFields();
   };
   //审核确认
-  onOk = () => {};
+  onOk = (values, resetFields) => {
+    const { status, skuCode } = this.state;
+    const params = { status, skuCode };
+    if (status == 3) {
+      status.remark = values.remark;
+    };
+    goAuditApi(params).then(res => {
+      if (res.code == "0") {
+        resetFields();
+        this.searchData();
+      }
+    });
+  };
   //搜索列表
   searchData = values => {
+    const {
+      productNature = -1,
+      productType = -1,
+      sendType = -1,
+      status = -1,
+      currentPage = 1,
+      ..._values
+    } = values;
     this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      ...values
+      productNature,
+      productType,
+      sendType,
+      status,
+      currentPage,
+      ..._values
     });
   };
   changePage = (currentPage, everyPage) => {
@@ -65,7 +91,7 @@ class BaseGoods extends React.Component {
         this.look(record);
         break;
       default:
-        this.audit(type);
+        this.audit(record, type);
         break;
     }
   };
@@ -76,8 +102,9 @@ class BaseGoods extends React.Component {
   //编辑
   edit = record => {};
   //审核
-  audit = type => {
-    this.setState({status: type},() => {
+  audit = (record, type) => {
+    console.log(typeof(record.skuCode))
+    this.setState({ status: type, skuCode: record.skuCode }, () => {
       this.setState({
         visible: true
       });
