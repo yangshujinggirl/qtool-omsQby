@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Table } from "antd";
+import './index.less';
 
 class Index extends Component {
   //绑定方法
@@ -25,10 +26,12 @@ class Index extends Component {
     const parList = this.processData(this.props.parList);
     return (
       <Table
+        className="tree-Table-wrap"
         bordered
         columns={parColumns}
         expandedRowRender={record => (
           <Table
+            className="level-two-Table-wrap"
             bordered
             pagination={false}
             columns={subColumns}
