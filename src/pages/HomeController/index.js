@@ -22,7 +22,7 @@ class HomeController extends React.Component {
             className="oms-slider-wrap">
             <SiderBarController />
           </Sider>
-          <Layout>
+          <Layout className="oms-part-r">
             <Header className="oms-header-wrap">qoms-header</Header>
             <Content>
               <div className="oms-content-wrap">

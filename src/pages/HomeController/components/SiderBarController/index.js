@@ -6,6 +6,7 @@ import {
 import { Menu, Icon, Button } from 'antd';
 import { GetMenuApi } from '../../../../api/home/Home';
 import './index.less';
+import menuLogo from '../../imgs/menu_logo.png';
 
 const { SubMenu } = Menu;
 
@@ -65,20 +66,21 @@ class SiderBarController extends React.Component {
     return(
       <div className="oms-sider-controller">
         <div className="slider-logo">
-          门店&用户中心
+          <img src={menuLogo}/>
         </div>
         <Menu
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           mode="inline"
           theme="dark"
+          style={{ height: '100%', borderRight: 0 }}
           collapsed={this.state.collapsed}>
           {
             menuList.length>0&&menuList.map((el,index) => (
               <SubMenu
                 key={el.id}
                 title={
-                  <span>
+                  <span className="diy-menu-title">
                     <Icon type="mail" />
                     <span>{el.name}</span>
                   </span>
