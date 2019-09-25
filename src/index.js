@@ -10,7 +10,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import 'antd/dist/antd.less';
-import './common/common.less';
+import './common/common.less';//reset,公共样式 /
+import './common/commonOperation.less';//公共业务样式
 import { Sessions } from 'utils';
 
 import rootReducer from './reducers';

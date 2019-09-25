@@ -76,6 +76,8 @@
     "table-header-bg": "#35BAB0",
     "layout-header-background": "#F9F9FE",
     "menu-dark-bg": "#1A1D26",
-    "layout-sider-background": "#1A1D26"
+    "layout-sider-background": "#1A1D26",
+    "table-header-color": "#fff",
+    "table-padding-horizontal": "10px"
   }
 }

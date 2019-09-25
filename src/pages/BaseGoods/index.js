@@ -90,23 +90,20 @@ class BaseGoods extends Component {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
     return (
-      <Spin tip="加载中..." spinning={this.props.loading}>
-        <div>
+        <div className="oms-common-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
-          <div>
+          <div className="handle-operate-btn-action">
             <Button type="primary">新建一般贸易品</Button>
             <Button type="primary">新建跨境品</Button>
             <Button type="primary">商品导出</Button>
           </div>
-          <div>
-            <OpenQtable
-              parColumns={Columns}
-              subColumns={Columns1}
-              parList={goodLists}
-              subList="list"
-              onOperateClick={this.handleOperateClick}
-            />
-          </div>
+          <OpenQtable
+            parColumns={Columns}
+            subColumns={Columns1}
+            parList={goodLists}
+            subList="list"
+            onOperateClick={this.handleOperateClick}
+          />
           <Qpagination
             data={this.props}
             onChange={this.changePage}
@@ -120,7 +117,6 @@ class BaseGoods extends Component {
             />
           }
         </div>
-      </Spin>
     );
   }
 }
