@@ -1,5 +1,10 @@
-import { GetMenuApi } from '../../../../api/home/Home';
+import {
+  Switch,
+  Route,
+  Link
+} from 'react-router-dom';
 import { Menu, Icon, Button } from 'antd';
+import { GetMenuApi } from '../../../../api/home/Home';
 import './index.less';
 
 const { SubMenu } = Menu;
@@ -81,14 +86,18 @@ class SiderBarController extends React.Component {
                 {
                   el.subActions&&el.subActions.length>0&&el.subActions.map((item,idx) => {
                     if(!item.subActions) {
-                      return <Menu.Item key={`${item.id}${idx}`}>{item.name}</Menu.Item>
+                      return <Menu.Item key={`${item.id}${idx}`}>
+                        <Link to={item.action}>{item.name}</Link>
+                      </Menu.Item>
                     } else {
                       return <SubMenu
                         key={`${item.id}${idx}`}
                         title={item.name}>
                           {
                             item.subActions.length>0&&item.subActions.map((ter,dx) => (
-                              <Menu.Item key={`${ter.id}${idx}`}>{ter.name}</Menu.Item>
+                              <Menu.Item key={`${ter.id}${idx}`}>
+                                <Link to={ter.action}>{ter.name}</Link>
+                              </Menu.Item>
                             ))
                           }
                       </SubMenu>
