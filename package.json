@@ -74,8 +74,10 @@
     "link-hover-color": "#35BAB0",
     "link-active-color": "#35BAB0",
     "table-header-bg": "#35BAB0",
+    "table-header-color": "#fff",
     "layout-header-background": "#F9F9FE",
     "menu-dark-bg": "#1A1D26",
-    "layout-sider-background": "#1A1D26"
+    "layout-sider-background": "#1A1D26",
+    "table-padding-horizontal": "10px"
   }
 }

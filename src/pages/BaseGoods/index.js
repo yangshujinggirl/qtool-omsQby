@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { Table, Spin, Button } from "antd";
 import FilterForm from "./components/FilterForm";
-import Qpagination from "common/Qpagination";
-import OpenQtable from "common/OpenQtable";
+import { QsubTable, Qpagination, QbyConnect} from "common";
 import * as Actions from "./actions";
-import { QbyConnect } from "common";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
 import { goAuditApi } from "api/home/BaseGoods";
@@ -116,38 +114,34 @@ class BaseGoods extends Component {
   render() {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
-    console.log(this.state)
     return (
-      <div>
-        <FilterForm onSubmit={this.onSubmit} />
-        <div>
-          <Button type="primary">新建一般贸易品</Button>
-          <Button type="primary">新建跨境品</Button>
-          <Button type="primary">商品导出</Button>
-        </div>
-        <div>
-          <OpenQtable
+        <div className="oms-common-pages-wrap">
+          <FilterForm onSubmit={this.onSubmit} />
+          <div className="handle-operate-btn-action">
+            <Button type="primary">新建一般贸易品</Button>
+            <Button type="primary">新建跨境品</Button>
+            <Button type="primary">商品导出</Button>
+          </div>
+          <QsubTable
             parColumns={Columns}
             subColumns={Columns1}
             parList={goodLists}
             subList="list"
             onOperateClick={this.handleOperateClick}
           />
+          <Qpagination
+            data={this.props}
+            onChange={this.changePage}
+            onShowSizeChange={this.onShowSizeChange}/>
+          {(status==3||status==4)&&
+            <PassModal
+              onOk={this.onOk}
+              onCancel={this.onCancel}
+              status={status}
+              visible={visible}
+            />
+          }
         </div>
-        <Qpagination
-          data={this.props}
-          onChange={this.changePage}
-          onShowSizeChange={this.onShowSizeChange}
-        />
-        {(status == 3 || status == 4) && (
-          <PassModal
-            onOk={this.onOk}
-            onCancel={this.onCancel}
-            status={status}
-            visible={visible}
-          />
-        )}
-      </div>
     );
   }
 }
