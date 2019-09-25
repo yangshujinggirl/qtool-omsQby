@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-<<<<<<< HEAD
-import { Button } from "antd";
-=======
-import { Table, Spin } from "antd";
->>>>>>> c31cfcc42ed6eb12e6532ba908eb036767b87796
+import { Table, Spin, Button } from "antd";
 import FilterForm from "./components/FilterForm";
 import Qpagination from "common/Qpagination";
 import OpenQtable from "common/OpenQtable";
@@ -96,50 +92,35 @@ class BaseGoods extends Component {
     return (
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div>
-<<<<<<< HEAD
-          <Button type="primary">新建一般贸易品</Button>
-          <Button type="primary">新建跨境品</Button>
-          <Button type="primary">商品导出</Button>
-        </div>
-        <div>
-          <OpenQtable
-            parColumns={Columns}
-            subColumns={Columns1}
-            parList={goodLists}
-            subList="list"
-            onOperateClick={this.handleOperateClick}
-          />
-        </div>
-        <Qpagination
-          data={this.props}
-          onChange={this.changePage}
-          onShowSizeChange={this.onShowSizeChange}
-        />
-        {(status==3||status==4)&&
-          <PassModal
-            onOk={this.onOk}
-            onCancel={this.onCancel}
-            status={status}
-            visible={visible}
-          />
-        }
-        
-      </div>
-=======
           <FilterForm onSubmit={this.onSubmit} />
           <div>
-            <Table
-              columns={Columns}
-              expandedRowRender={record => {
-                console.log(record);
-                return <Table columns={Columns1} dataSource={record.list} />;
-              }}
-              dataSource={goodLists}
+            <Button type="primary">新建一般贸易品</Button>
+            <Button type="primary">新建跨境品</Button>
+            <Button type="primary">商品导出</Button>
+          </div>
+          <div>
+            <OpenQtable
+              parColumns={Columns}
+              subColumns={Columns1}
+              parList={goodLists}
+              subList="list"
+              onOperateClick={this.handleOperateClick}
             />
           </div>
+          <Qpagination
+            data={this.props}
+            onChange={this.changePage}
+            onShowSizeChange={this.onShowSizeChange}/>
+          {(status==3||status==4)&&
+            <PassModal
+              onOk={this.onOk}
+              onCancel={this.onCancel}
+              status={status}
+              visible={visible}
+            />
+          }
         </div>
       </Spin>
->>>>>>> c31cfcc42ed6eb12e6532ba908eb036767b87796
     );
   }
 }
