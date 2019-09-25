@@ -9,16 +9,11 @@ class Qpagination extends Component {
       sizeOptions:this.props.sizeOptions||'1',
     }
   }
-  onShowSizeChange(currentPage, pageSize) {
-    currentPage = 0;
-    let params = {
-      currentPage,
-      limit:pageSize,
-    }
-    this.props.onShowSizeChange&&this.props.onShowSizeChange(params)
+  onShowSizeChange(currentPage,everyPage) {
+    this.props.onShowSizeChange && this.props.onShowSizeChange(currentPage,everyPage)
   }
   initPageSize() {
-    const { sizeOptions } =this.state;
+    const { sizeOptions } = this.state;
     if(sizeOptions == '1') {
       return ['15','30','50','100','200','500']
     } else {
@@ -27,15 +22,14 @@ class Qpagination extends Component {
   }
 
   render() {
-    let { total, limit, currentPage } = this.props.data;
-    currentPage++;
+    let { totalCount, everyPage, currentPage } = this.props.data;
     return(
       <div className="common-pagination-components">
         <Pagination
           showTotal={total => `共${total}条`}
           showSizeChanger
-          total={total}
-          pageSize={limit}
+          total={totalCount}
+          pageSize={everyPage}
           current={currentPage}
           pageSizeOptions={this.initPageSize()}
           onChange={this.props.onChange}

@@ -1,7 +1,10 @@
 const initialState = {
   loading: false,
   goodLists: [],
-  error: ""
+  error: "",
+  everyPage:15,
+  currentPage:1,
+  totalCount:''
 };
 const index = (state = initialState, action) => {
   switch (action.type) {
@@ -14,7 +17,10 @@ const index = (state = initialState, action) => {
       return { 
         ...state,
         loading: false,
-        goodLists: action.goodLists
+        goodLists: action.resultList,
+        totalCount:action.totalCount,
+        everyPage:action.everyPage,
+        currentPage:action.currentPage
       };
     case "FETCH_FAIL":
       return {

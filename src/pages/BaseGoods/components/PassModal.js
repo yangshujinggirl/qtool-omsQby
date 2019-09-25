@@ -1,12 +1,33 @@
 import React, { Component } from "react";
 import { Modal, Input,Form } from "antd";
 const FormItem = Form.Item;
-const TexteArea = Input.TexteArea;
+const TextArea = Input.TextArea;
 
 class PassModal extends Component {
+  constructor(props){
+    super(props)
+  }
+  resetFields=()=>{
+    this.props.form.resetFields()
+  }
+  onOk=()=>{
+    if(this.props.status==4){
+      this.props.onOk()
+    }else{
+      this.props.form.validateFieldsAndScroll((err,values)=>{
+        if(!err){
+          this.props.onOk(values,resetFields)
+        }
+      })
+    }
+  }
+  onCancel=()=>{
+    this.props.onCancel(this.resetFields)
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { status,visible } = this.props;
+    console.log(status)
     return (
       <div>
         <Modal
@@ -24,12 +45,12 @@ class PassModal extends Component {
               <Form>
                 <FormItem
                   label="理由"
-                  labelCol={{ span: 4 }}
-                  wrapperCol={{ span: 16 }}
+                  labelCol={{span:4}}
+                  wrapperCol={{span:12}}
                 >
                   {getFieldDecorator("remark", {
                     rules: [{ required: true, message: "请输入不通过的理由" }]
-                  })(<TexteArea placeholder="请填写不通过理由" />)}
+                  })(<TextArea placeholder="请填写不通过理由" rows={5} />)}
                 </FormItem>
               </Form>
             )}

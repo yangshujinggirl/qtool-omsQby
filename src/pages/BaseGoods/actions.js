@@ -13,11 +13,13 @@ function fetchStart() {
  * @param {*} data
  */
 function fetchSuccess(data) {
-  const {goodLists} = data;
-  goodLists.map((item)=>(item.key = item.id))
+  data.resultList.map(item=>{
+    item.key = item.id;
+    item.list.map(subItem=>subItem.key=item.id)
+  });
   return {
     type: "FETCH_SUCCESS",
-    goodLists,
+    ...data,
     time: Date.now()
   };
 }
@@ -41,7 +43,7 @@ export const getGoodsList = value => {
     dispatch(fetchStart());
     GetGoodsApi(value).then(
       res => {
-        dispatch(fetchSuccess({ goodLists: res.result.resultList }));
+        dispatch(fetchSuccess(res.result));
       },
       err => {
         dispatch(fetchFailed(err));
