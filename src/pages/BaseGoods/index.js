@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { Table, Spin, Button } from "antd";
 import FilterForm from "./components/FilterForm";
-import Qpagination from "common/Qpagination";
-import OpenQtable from "common/OpenQtable";
+import { QsubTable, Qpagination, QbyConnect} from "common";
 import * as Actions from "./actions";
-import { QbyConnect } from "common";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
 
@@ -97,7 +95,7 @@ class BaseGoods extends Component {
             <Button type="primary">新建跨境品</Button>
             <Button type="primary">商品导出</Button>
           </div>
-          <OpenQtable
+          <QsubTable
             parColumns={Columns}
             subColumns={Columns1}
             parList={goodLists}

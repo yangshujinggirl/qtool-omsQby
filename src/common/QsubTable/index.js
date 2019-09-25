@@ -31,7 +31,7 @@ class Index extends Component {
         columns={parColumns}
         expandedRowRender={record => (
           <Table
-            className="level-two-Table-wrap"
+            className="sub-two-Table-wrap"
             bordered
             pagination={false}
             columns={subColumns}
