@@ -9,12 +9,15 @@ export function GoLoginApi(values) {
 }
 export function GoLoginTApi({username,password}) {
   // values = JSON.stringify(values)
-  return Req.get('/login', {
-    params: {
-      username,password
-    }
-  })
   // return Req.get('/login', {
-  //   username,password
+  //   params: {
+  //     username,password
+  //   }
   // })
+  return Req.post('/login', {
+    username,password
+  })
+}
+export function GoLoginOutTApi() {
+  return Req.post('/logout')
 }

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import FilterForm from "./components/FilterForm";
 import * as Actions from "./actions";
 import { QbyConnect } from "common";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
+
 class BaseGoods extends Component {
   constructor(props) {
     super(props);
@@ -34,19 +35,21 @@ class BaseGoods extends Component {
     const { goodLists } = this.props;
     console.log(goodLists);
     return (
-      <div>
-        <FilterForm onSubmit={this.onSubmit} />
+      <Spin tip="加载中..." spinning={this.props.loading}>
         <div>
-          <Table
-            columns={Columns}
-            expandedRowRender={record => {
-              console.log(record);
-              return <Table columns={Columns1} dataSource={record.list} />;
-            }}
-            dataSource={goodLists}
-          />
+          <FilterForm onSubmit={this.onSubmit} />
+          <div>
+            <Table
+              columns={Columns}
+              expandedRowRender={record => {
+                console.log(record);
+                return <Table columns={Columns1} dataSource={record.list} />;
+              }}
+              dataSource={goodLists}
+            />
+          </div>
         </div>
-      </div>
+      </Spin>
     );
   }
 }
