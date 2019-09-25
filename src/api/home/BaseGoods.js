@@ -8,3 +8,12 @@ export function GetGoodsApi(values){
        ...values
     })
 }
+/**
+ * 审核
+ * @param {*} values 
+ */
+export function goAuditApi(values){
+    return Req.get('/items/examineSku',{
+       params:{...values}
+    })
+}

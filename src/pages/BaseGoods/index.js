@@ -7,13 +7,14 @@ import * as Actions from "./actions";
 import { QbyConnect } from "common";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
+import { goAuditApi } from "api/home/BaseGoods";
 
 class BaseGoods extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      status:0,
+      status: 0,
       inputValues: {
         productNature: -1,
         productType: -1,
@@ -25,21 +26,46 @@ class BaseGoods extends Component {
   }
   //初始化数据
   componentDidMount = () => {
-    this.searchData();
+    this.props.actions.getGoodsList({ ...this.state.inputValues });
   };
   //审核取消
-  onCancel = () => {
+  onCancel = resetFields => {
     this.setState({
       visible: false
     });
+    resetFields();
   };
   //审核确认
-  onOk = () => {};
+  onOk = (values, resetFields) => {
+    const { status, skuCode } = this.state;
+    const params = { status, skuCode };
+    if (status == 3) {
+      status.remark = values.remark;
+    };
+    goAuditApi(params).then(res => {
+      if (res.code == "0") {
+        resetFields();
+        this.searchData();
+      }
+    });
+  };
   //搜索列表
   searchData = values => {
+    const {
+      productNature = -1,
+      productType = -1,
+      sendType = -1,
+      status = -1,
+      currentPage = 1,
+      ..._values
+    } = values;
     this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      ...values
+      productNature,
+      productType,
+      sendType,
+      status,
+      currentPage,
+      ..._values
     });
   };
   changePage = (currentPage, everyPage) => {
@@ -68,7 +94,7 @@ class BaseGoods extends Component {
         this.look(record);
         break;
       default:
-        this.audit(type);
+        this.audit(record, type);
         break;
     }
   };
@@ -79,8 +105,9 @@ class BaseGoods extends Component {
   //编辑
   edit = record => {};
   //审核
-  audit = type => {
-    this.setState({status: type},() => {
+  audit = (record, type) => {
+    console.log(typeof(record.skuCode))
+    this.setState({ status: type, skuCode: record.skuCode }, () => {
       this.setState({
         visible: true
       });
@@ -89,38 +116,38 @@ class BaseGoods extends Component {
   render() {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
+    console.log(this.state)
     return (
-      <Spin tip="加载中..." spinning={this.props.loading}>
+      <div>
+        <FilterForm onSubmit={this.onSubmit} />
         <div>
-          <FilterForm onSubmit={this.onSubmit} />
-          <div>
-            <Button type="primary">新建一般贸易品</Button>
-            <Button type="primary">新建跨境品</Button>
-            <Button type="primary">商品导出</Button>
-          </div>
-          <div>
-            <OpenQtable
-              parColumns={Columns}
-              subColumns={Columns1}
-              parList={goodLists}
-              subList="list"
-              onOperateClick={this.handleOperateClick}
-            />
-          </div>
-          <Qpagination
-            data={this.props}
-            onChange={this.changePage}
-            onShowSizeChange={this.onShowSizeChange}/>
-          {(status==3||status==4)&&
-            <PassModal
-              onOk={this.onOk}
-              onCancel={this.onCancel}
-              status={status}
-              visible={visible}
-            />
-          }
+          <Button type="primary">新建一般贸易品</Button>
+          <Button type="primary">新建跨境品</Button>
+          <Button type="primary">商品导出</Button>
         </div>
-      </Spin>
+        <div>
+          <OpenQtable
+            parColumns={Columns}
+            subColumns={Columns1}
+            parList={goodLists}
+            subList="list"
+            onOperateClick={this.handleOperateClick}
+          />
+        </div>
+        <Qpagination
+          data={this.props}
+          onChange={this.changePage}
+          onShowSizeChange={this.onShowSizeChange}
+        />
+        {(status == 3 || status == 4) && (
+          <PassModal
+            onOk={this.onOk}
+            onCancel={this.onCancel}
+            status={status}
+            visible={visible}
+          />
+        )}
+      </div>
     );
   }
 }
