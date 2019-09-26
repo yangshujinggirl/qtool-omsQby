@@ -4,7 +4,7 @@ import { QsubTable, Qpagination, QbyConnect, Qbtn} from "common";
 import * as Actions from "./actions/actionsIndex";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
-import { goAuditApi } from "api/home/BaseGoods";
+import { GoAuditApi } from "api/home/BaseGoods";
 import moment from 'moment'
 
 class BaseGoods extends React.Component {
@@ -38,7 +38,7 @@ class BaseGoods extends React.Component {
     const { status, skuCode } = this.state;
     const params = { status, skuCode };
     if (status == 3) {params.remark = values.remark;}
-    goAuditApi(params).then(res => {
+    GoAuditApi(params).then(res => {
       resetFields();
       this.searchData(this.state.inputValues);
       this.setState({visible: false});
@@ -120,7 +120,7 @@ class BaseGoods extends React.Component {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
     return (
-        <div className="oms-common-pages-wrap">
+        <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
           <div className="handle-operate-btn-action">
             <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
