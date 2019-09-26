@@ -13,9 +13,9 @@ function fetchStart() {
  * @param {*} data
  */
 function fetchSuccess(data) {
-  data.resultList.map(item=>{
+  (data.resultList || []).map(item => {
     item.key = item.id;
-    item.list.map(subItem=>subItem.key=item.id)
+    item.list.map((subItem, index) => (subItem.key = index));
   });
   return {
     type: "FETCH_SUCCESS",

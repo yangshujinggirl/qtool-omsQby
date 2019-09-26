@@ -17,3 +17,21 @@ export function goAuditApi(values){
        params:{...values}
     })
 }
+/**
+ * 后台一级类目列表
+ * @param {*} values 
+ */
+export function getOneCategoryApi(values){
+    return Req.get('/category/searchCategoryByLevel',{
+       params:{...values}
+    })
+}
+/**
+ * 后台二级类目列表
+ * @param {*} values 
+ */
+export function getSubCategoryApi(values){
+    return Req.get('/category/findByParentId',{
+       params:{...values}
+    })
+}

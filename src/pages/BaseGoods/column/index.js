@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const Columns = [
   { title: "商品名称", dataIndex: "productName", key: "1" },
   {
@@ -21,7 +23,9 @@ const Columns = [
     key: "7",
     render: text => (text == 1 ? "系统发货" : "供应商发货")
   },
-  { title: "创建时间/最近更新时间", dataIndex: "createTime", key: "8" },
+  { title: "创建时间", dataIndex: "createTime", key: "8",render:(text,record,index)=>(
+    <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
+  ) },
   {
     title: "操作",
     key: "action",
@@ -69,7 +73,7 @@ const Columns1 = [
     dataIndex: "action",
     key: "5",
     render: (text, record, index) =>
-      record.status == 4 && (
+      record.status == 1 && (
         <div>
           <a
             className="link-color action-left"

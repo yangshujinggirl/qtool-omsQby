@@ -27,14 +27,13 @@ class BaseFilter extends Component {
     };
     // 表单的列布局
     this.colspans = {
-      xxs: 24,
-      xs: 12,
+      xs: 24,
+      md:12,
+      xl: 7,
       xxl: 6,
-      xl: 8
     };
   }
   handleSubmit(e) {
-    // let value = this.props.fields;
     e.preventDefault();
     this.props.form.validateFields((err, value) => {
       for (let i in value) {

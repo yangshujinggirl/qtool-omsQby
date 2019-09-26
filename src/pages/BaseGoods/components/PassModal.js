@@ -12,14 +12,14 @@ class PassModal extends Component {
   }
   onOk=()=>{
     if(this.props.status==4){
-      this.props.onOk()
+      this.props.onOk({},this.resetFields)
     }else{
       this.props.form.validateFieldsAndScroll((err,values)=>{
         if(!err){
-          this.props.onOk(values,resetFields)
-        }
+          this.props.onOk(values,this.resetFields)
+        };
       })
-    }
+    };
   }
   onCancel=()=>{
     this.props.onCancel(this.resetFields)
@@ -27,7 +27,6 @@ class PassModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { status,visible } = this.props;
-    console.log(status)
     return (
       <div>
         <Modal

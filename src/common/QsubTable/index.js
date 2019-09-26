@@ -27,7 +27,6 @@ class Index extends Component {
     return (
       <Table
         className="tree-Table-wrap"
-        bordered
         columns={parColumns}
         expandedRowRender={record => (
           <Table

@@ -26,14 +26,14 @@ class Qpagination extends Component {
     return(
       <div className="common-pagination-components">
         <Pagination
-          showTotal={total => `共${total}条`}
-          showSizeChanger
+          showTotal={totalCount => `共${totalCount}条`}
+          // showSizeChanger
           total={totalCount}
           pageSize={everyPage}
           current={currentPage}
           pageSizeOptions={this.initPageSize()}
-          onChange={this.props.onChange}
-          onShowSizeChange={this.onShowSizeChange.bind(this)}/>
+          onChange={this.props.onChange}/>
+          {/* onShowSizeChange={this.onShowSizeChange.bind(this)}/> */}
       </div>
     )
   }
