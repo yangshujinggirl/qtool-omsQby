@@ -21,7 +21,7 @@ class QTable extends Component {
     const { select, columns, } = this.props;
     return(
       <Table
-        className="qby-table-components"
+        className="tree-Table-wrap"
         loading={this.props.loading}
         pagination={false}
         bordered={true}

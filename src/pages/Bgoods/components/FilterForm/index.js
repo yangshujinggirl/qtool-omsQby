@@ -1,7 +1,7 @@
 import { Form, Input, Select, DatePicker, Row, Col } from "antd";
 import { moment } from "moment";
 import { BaseFilter, Qbtn } from "common";
-import { getOneCategoryApi, getSubCategoryApi } from "api/home/BaseGoods";
+import { GetOneCategoryApi, GetSubCategoryApi } from "api/home/BaseGoods";
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -17,14 +17,14 @@ class Search extends BaseFilter {
     this.initPage();
   };
   initPage = () => {
-    getOneCategoryApi({ level: 1 }).then(res => {
+    GetOneCategoryApi({ level: 1 }).then(res => {
       this.setState({
         catagoryList: res.result
       });
     });
   };
   onChange = value => {
-    getSubCategoryApi({ parentId: value }).then(res => {
+    GetSubCategoryApi({ parentId: value }).then(res => {
       this.setState({
         catagoryList2: res.result
       });

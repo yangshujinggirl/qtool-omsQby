@@ -68,7 +68,7 @@ class Bgoods extends React.Component {
   render() {
     const { goodLists } = this.props;
     return (
-      <div className="oms-common-pages-wrap">
+      <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Qbtn size="free">商品导出</Qbtn>
