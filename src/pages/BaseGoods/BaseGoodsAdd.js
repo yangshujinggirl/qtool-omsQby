@@ -3,7 +3,7 @@ import {
   Select,Row,Col,Checkbox,
   Button,Radio,AutoComplete,
 } from 'antd';
-import { Qtable } from 'common';
+import { Qtable, Qbtn } from 'common';
 import { columnsAdd } from './column'
 
 let FormItem = Form.Item;
@@ -27,6 +27,7 @@ const formItemLayoutBig = {
         sm: { span: 20 },
       },
     };
+
 class BaseGoodsAdd extends React.Component {
   render() {
     console.log(this.props)
@@ -35,9 +36,7 @@ class BaseGoodsAdd extends React.Component {
       <div className="oms-common-addEdit-pages">
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="spu编码">
-            {getFieldDecorator('email')(
-                <Input placeholder="请输入spu编码" autoComplete="off"/>
-            )}
+            spu编码
           </Form.Item>
           <Form.Item
             label="商品名称">
@@ -209,11 +208,14 @@ class BaseGoodsAdd extends React.Component {
           <Form.Item label="商品信息" {...formItemLayoutBig}>
             <Qtable dataSource={[]} columns={columnsAdd}/>
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Register
-            </Button>
-          </Form.Item>
+          <div className="handle-operate-save-action">
+            <Qbtn>
+              返回
+            </Qbtn>
+            <Qbtn>
+              保存
+            </Qbtn>
+          </div>
         </Form>
       </div>
     )
