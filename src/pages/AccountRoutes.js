@@ -18,8 +18,8 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/public" component={Public} />
         <Route exact path="/account/protected" component={Protected} />
         <Route exact path="/account/baseGoodList" component={BaseGoods}/>
-        <Route exact path="/account/baseGoodsAdd" component={BaseGoodsAdd}/>
         <Route exact path="/account/Bgoods" component={Bgoods}/>
+        <Route exact path="/account/baseGoodsAdd" component={BaseGoodsAdd}/>
         <Route component={NotFound}/>
       </Switch>
     )

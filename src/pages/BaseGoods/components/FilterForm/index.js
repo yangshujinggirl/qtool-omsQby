@@ -1,5 +1,4 @@
 import { Form, Input, Select, DatePicker, Row, Col } from "antd";
-import { moment } from "moment";
 import { BaseFilter, Qbtn } from "common";
 import { getOneCategoryApi, getSubCategoryApi } from "api/home/BaseGoods";
 const FormItem = Form.Item;
@@ -73,7 +72,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="后台一级类目" {...this.formItemLayout}>
+              <FormItem label="一级类目" {...this.formItemLayout}>
                 {getFieldDecorator("categoryCode1", {
                   onChange: this.onChange
                 })(
@@ -88,7 +87,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="后台二级类目" {...this.formItemLayout}>
+              <FormItem label="二级类目" {...this.formItemLayout}>
                 {getFieldDecorator("categoryCode2")(
                   <Select
                     placeholder="请选择"

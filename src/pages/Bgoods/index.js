@@ -1,18 +1,15 @@
-import { Table, Spin, Button } from "antd";
 import FilterForm from "./components/FilterForm";
-import { QsubTable, Qpagination, QbyConnect, Qbtn} from "common";
+import { Qtable, Qpagination, QbyConnect, Qbtn } from "common";
 import * as Actions from "./actions/actionsIndex";
-import { Columns, Columns1 } from "./column";
-import PassModal from "./components/PassModal";
-import { goAuditApi } from "api/home/BaseGoods";
-import moment from 'moment'
+import Columns from "./column";
+import moment from "moment";
 
-class BaseGoods extends React.Component {
+class Bgoods extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       inputValues: {
-        saleRange:'b',
+        saleRange: "b",
         currentPage: 1
       }
     };
@@ -21,38 +18,19 @@ class BaseGoods extends React.Component {
   componentDidMount = () => {
     this.props.actions.getGoodsList({ ...this.state.inputValues });
   };
-  //审核取消
-  onCancel = resetFields => {
-    this.setState({
-      visible: false
-    });
-    resetFields();
-  };
-  //审核确认
-  onOk = (values,resetFields) => {
-    const { status, skuCode } = this.state;
-    const params = { status, skuCode };
-    if (status == 3) {params.remark = values.remark;}
-    goAuditApi(params).then(res => {
-      resetFields();
-      this.searchData(this.state.inputValues);
-      this.setState({visible: false});
-    });
-  };
   //搜索列表
   searchData = values => {
-    const {
-      productNature = -1,
-      productType = -1,
-      sendType = -1,
-      status = -1,
-      currentPage = 1,
-      ..._values
-    } = values;
-    const params = {productNature,productType,sendType,status,currentPage,..._values}
+    debugger
+    const {time,_values} = values;
+    if(time){
+      values.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+      values.etime = moment(time[1]).format('YYYY-MM-DD H:mm:ss');
+    };
+    const params = { ...this.state.inputValues, ...values };
     this.props.actions.getGoodsList(params);
-    this.setState({inputValues: params});
+    this.setState({ inputValues: params });
   };
+  //更改分页
   changePage = (currentPage, everyPage) => {
     this.props.actions.getGoodsList({
       ...this.state.inputValues,
@@ -60,19 +38,13 @@ class BaseGoods extends React.Component {
       everyPage
     });
   };
-  onShowSizeChange = (currentPage, everyPage) => {
-    this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
-    });
-  };
+  //搜索查询
   onSubmit = params => {
-    const {time,..._values} = params;
-    if(time){
-      params.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
-      params.etime = moment(time[1]).format('YYYY-MM-DD H:mm:ss');
-    };
+    const { time, ..._values } = params;
+    if (time) {
+      params.stime = moment(time[0]).format("YYYY-MM-DD H:mm:ss");
+      params.etime = moment(time[1]).format("YYYY-MM-DD H:mm:ss");
+    }
     this.searchData(params);
   };
   handleOperateClick = (record, type) => {
@@ -83,9 +55,6 @@ class BaseGoods extends React.Component {
       case "look":
         this.look(record);
         break;
-      default:
-        this.audit(record, type);
-        break;
     }
   };
   //查看
@@ -93,73 +62,29 @@ class BaseGoods extends React.Component {
     console.log(record);
   };
   //编辑
-  edit = record => {};
-  //审核
-  audit = (record, type) => {
-    console.log(typeof record.skuCode);
-    this.setState({ status: type, skuCode: record.skuCode }, () => {
-      this.setState({
-        visible: true
-      });
-    });
+  edit = record => {
+
   };
-  addTrade=()=> {
-    this.props.history.push('/account/baseGoodsAdd')
-  }
   render() {
-    const { visible, status } = this.state;
     const { goodLists } = this.props;
     return (
-        <div className="oms-common-pages-wrap">
-          <FilterForm onSubmit={this.onSubmit} />
-          <div className="handle-operate-btn-action">
-            <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
-            <Qbtn size="free">新建跨境品</Qbtn>
-            <Qbtn size="free">商品导出</Qbtn>
-          </div>
-          <QsubTable
-            parColumns={Columns}
-            subColumns={Columns1}
-            parList={goodLists}
-            subList="list"
-            onOperateClick={this.handleOperateClick}
-          />
-          <Qpagination
-            data={this.props}
-            onChange={this.changePage}
-            onShowSizeChange={this.onShowSizeChange}/>
-          {(status==3||status==4)&&
-            <PassModal
-              onOk={this.onOk}
-              onCancel={this.onCancel}
-              status={status}
-              visible={visible}
-            />
-          }
+      <div className="oms-common-pages-wrap">
+        <FilterForm onSubmit={this.onSubmit} />
+        <div className="handle-operate-btn-action">
+          <Qbtn size="free">商品导出</Qbtn>
         </div>
-        <QsubTable
-          parColumns={Columns}
-          subColumns={Columns1}
-          parList={goodLists}
-          subList="list"
+        <Qtable
+          columns={Columns}
+          dataSource={goodLists}
           onOperateClick={this.handleOperateClick}
         />
         <Qpagination
           data={this.props}
           onChange={this.changePage}
-          onShowSizeChange={this.onShowSizeChange}
         />
-        {(status == 3 || status == 4) && (
-          <PassModal
-            onOk={this.onOk}
-            onCancel={this.onCancel}
-            status={status}
-            visible={visible}
-          />
-        )}
       </div>
     );
   }
 }
 
-export default QbyConnect(BaseGoods, Actions, "BaseGoodsReducers");
+export default QbyConnect(Bgoods, Actions, "BgoodsReducers");

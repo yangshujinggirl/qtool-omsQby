@@ -46,6 +46,11 @@ class BaseGoods extends React.Component {
   };
   //搜索列表
   searchData = values => {
+    const {time,_value} = values;
+    if(time){
+      values.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+      values.etime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+    };
     const {
       productNature = -1,
       productType = -1,
