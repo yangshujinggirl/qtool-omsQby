@@ -33,7 +33,7 @@ ReactDOM.render(
         } else {
           if(sessionKey) {
             return <div>
-                    <Route  path="/account" component={HomeController}/>
+                    <HomeController  path="/account" />
                     <Route  path="/login" component={Login}/>
                     <Route exact path="/" render={()=>{
                       return <Redirect to="/account/public"/>

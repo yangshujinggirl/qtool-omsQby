@@ -87,5 +87,51 @@ const Columns1 = [
       )
   }
 ];
-
-export { Columns, Columns1 };
+const columnsAdd=[
+  {
+    title: "sku编码",
+    dataIndex: "skuCode"
+  },{
+    title: "规格",
+    dataIndex: "skuCode"
+  },{
+    title: "*商品条码",
+    dataIndex: "skuCode"
+  },{
+    title: "*税务码",
+    dataIndex: "skuCode"
+  },{
+    title: "*采购价",
+    dataIndex: "skuCode"
+  },{
+    title: "*到货价",
+    dataIndex: "skuCode"
+  },{
+    title: "*C端参考价",
+    dataIndex: "skuCode"
+  },{
+    title: "*出库价",
+    dataIndex: "skuCode"
+  },{
+    title: "*税率",
+    dataIndex: "skuCode"
+  },{
+    title: "保质期/天",
+    dataIndex: "skuCode"
+  },{
+    title: "*毛重/g",
+    dataIndex: "skuCode"
+  },{
+    title: "长/cm",
+    dataIndex: "skuCode"
+  },{
+    title: "宽/cm",
+    dataIndex: "skuCode"
+  },{
+    title: "高/cm",
+    dataIndex: "skuCode"
+  },{
+    title: "sku图片",
+    dataIndex: "skuCode"
+  }]
+export { Columns, Columns1, columnsAdd };
