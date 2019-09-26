@@ -36,11 +36,37 @@ export function GetSubCategoryApi(values){
     })
 }
 /**
- * 后台二级类目列表
+ * 查询品牌
+ * @param {*} values
+ */
+export function GetBrandApi(values){
+    return Req.post('/brand/searchByName',{...values})
+}
+/**
+ * 新建商品
  * @param {*} values
  */
 export function GetAddApi(values){
-    return Req.get('/items/addSpu',{
-       params:{...values}
-    })
+    return Req.post('/items/addSpu',{...values})
+}
+/**
+ * 修改商品
+ * @param {*} values
+ */
+export function GetEditApi(values){
+    return Req.post('/items/modSpu',{...values})
+}
+/**
+ * 新增sku
+ * @param {*} values
+ */
+export function GetAddSkuApi(values){
+    return Req.post('/items/addSpuSku',{...values})
+}
+/**
+ * 修改sku
+ * @param {*} values
+ */
+export function GetEditSkuApi(values){
+    return Req.post('/items/modSku',{...values})
 }

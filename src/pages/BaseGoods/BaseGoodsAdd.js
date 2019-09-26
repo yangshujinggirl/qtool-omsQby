@@ -40,19 +40,21 @@ class BaseGoodsAdd extends React.Component {
           </Form.Item>
           <Form.Item
             label="商品名称">
-            {getFieldDecorator('nickname', {
+            {getFieldDecorator('productName', {
               rules: [{ required: true, message: '请输入商品名称'}],
-            })(<Input placeholder="请输入商品名称" autoComplete="off"/>)}
+              })(
+                <Input placeholder="请输入商品名称" autoComplete="off"/>
+            )}
           </Form.Item>
           <Form.Item label="货主">
-            {getFieldDecorator('phone', {
+            {getFieldDecorator('supplierName', {
                 rules: [{ required: true, message: '请输入货主' }],
               })(
                 <Input placeholder="请输入货主" autoComplete="off"/>
             )}
           </Form.Item>
           <Form.Item label="商品类型">
-            {getFieldDecorator('radio-group')(
+            {getFieldDecorator('productType')(
               <Radio.Group>
                 <Radio value="a">普通商品</Radio>
                 <Radio value="b">赠品</Radio>
@@ -61,7 +63,7 @@ class BaseGoodsAdd extends React.Component {
           </Form.Item>
           <FormItem label='品牌' {...formItemLayout}>
              {
-               getFieldDecorator('pdBrandId',{
+               getFieldDecorator('brandId',{
                  rules: [{ required: true, message: '请选择商品品牌'}],
                  initialValue:''
                })(
@@ -72,14 +74,14 @@ class BaseGoodsAdd extends React.Component {
              }
           </FormItem>
           <Form.Item label="品牌归属地">
-            {getFieldDecorator('website', {
+            {getFieldDecorator('brandAddress', {
               rules: [{ required: true, message: '请输入品牌归属地' }],
             })(
               <Input disabled autoComplete="off" placeholder="请输入品牌归属地"/>
             )}
           </Form.Item>
           <FormItem label='产地' {...formItemLayout}>
-             {getFieldDecorator('pdCountryId',{
+             {getFieldDecorator('country',{
                rules: [{ required: true, message: '请选择产地'}],
              })(
                <Select placeholder="请选择产地">
@@ -142,42 +144,47 @@ class BaseGoodsAdd extends React.Component {
             )}
           </Form.Item>
           <Form.Item label="分润服务扣点">
-            {getFieldDecorator('website', {
+            {getFieldDecorator('bonusRate', {
               rules: [{ required: true, message: '请输入分润服务扣点' }],
             })(
               <Input placeholder="请输入分润服务扣点"/>
             )}
           </Form.Item>
           <Form.Item label="联营分成类别">
-            {getFieldDecorator('radio-group')(
+            {getFieldDecorator('profits')(
               <Radio.Group>
-                <Radio value="a">食品类</Radio>
-                <Radio value="b">非食品类</Radio>
+                <Radio value={2} key={2}>食品类</Radio>
+                <Radio value={1} key={1}>非食品类</Radio>
               </Radio.Group>,
             )}
           </Form.Item>
           <Form.Item label="销售端">
-            {getFieldDecorator('radio-group')(
+            {getFieldDecorator('saleRange')(
               <Checkbox.Group>
-                <Checkbox value="A">B端</Checkbox>
-                <Checkbox value="B">C端</Checkbox>
+                <Checkbox value="B" key="B">B端</Checkbox>
+                <Checkbox value="C" key="C">C端</Checkbox>
               </Checkbox.Group>
             )}
           </Form.Item>
           <Form.Item label="是否预售">
-            {getFieldDecorator('radio-group')(
+            {getFieldDecorator('isBeforeSales')(
               <Radio.Group>
-                <Radio value="a">是</Radio>
-                <Radio value="b">否</Radio>
+                <Radio value={1} key={1}>是</Radio>
+                <Radio value={0} key={0}>否</Radio>
               </Radio.Group>
             )}
           </Form.Item>
           <Form.Item label="发货类型">
-            {getFieldDecorator('radio-group')(
+            {getFieldDecorator('sendType')(
               <Radio.Group>
-                <Radio value="a">系统发货</Radio>
-                <Radio value="b">非食品类</Radio>
+                <Radio value={1} key={1}>系统发货</Radio>
+                <Radio value={2} key={2}>非食品类</Radio>
               </Radio.Group>
+            )}
+          </Form.Item>
+          <Form.Item label="商品图片">
+            {getFieldDecorator('imageListB')(
+              <Input placeholder="请输入商品描述"/>
             )}
           </Form.Item>
           <Form.Item label="商品描述">
