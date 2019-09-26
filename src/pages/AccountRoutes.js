@@ -8,6 +8,7 @@ import NotFound from './NotFound';
 import Public from './Public';
 import Protected from './Protected';
 import BaseGoods from './BaseGoods';
+import Bgoods from './Bgoods';
 import BaseGoodsAdd from './BaseGoods/BaseGoodsAdd';
 
 class HomeRoutes extends React.Component {
@@ -17,6 +18,7 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/public" component={Public} />
         <Route exact path="/account/protected" component={Protected} />
         <Route exact path="/account/baseGoodList" component={BaseGoods}/>
+        <Route exact path="/account/Bgoods" component={Bgoods}/>
         <Route exact path="/account/baseGoodsAdd" component={BaseGoodsAdd}/>
         <Route component={NotFound}/>
       </Switch>
