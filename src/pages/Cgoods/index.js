@@ -4,7 +4,7 @@ import * as Actions from "./actions/actionsIndex";
 import Columns from "./column";
 import moment from "moment";
 
-class Bgoods extends React.Component {
+class Cgoods extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,4 +87,4 @@ class Bgoods extends React.Component {
   }
 }
 
-export default QbyConnect(Bgoods, Actions, "BgoodsReducers");
+export default QbyConnect(Cgoods, Actions, "CgoodsReducers");

@@ -21,17 +21,8 @@ export function GoAuditApi(values){
  * 后台一级类目列表
  * @param {*} values
  */
-export function GetOneCategoryApi(values){
-    return Req.get('/category/searchCategoryByLevel',{
-       params:{...values}
-    })
-}
-/**
- * 后台二级类目列表
- * @param {*} values
- */
-export function GetSubCategoryApi(values){
-    return Req.get('/category/findByParentId',{
+export function GetCategoryApi(values){
+    return Req.get('/category/searchCategoryByPro',{
        params:{...values}
     })
 }
