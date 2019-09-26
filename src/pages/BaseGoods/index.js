@@ -141,7 +141,6 @@ class BaseGoods extends React.Component {
               visible={visible}
             />
           }
-        </div>
         <QsubTable
           parColumns={Columns}
           subColumns={Columns1}
