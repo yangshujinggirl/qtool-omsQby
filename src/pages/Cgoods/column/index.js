@@ -12,20 +12,21 @@ const Columns = [
     key: "3",
     render:(text)=>(<img src={text} style={{ width: "90px", height: "90px" }}/>)
   },
-  { title: "B端参考价", dataIndex: "bprice", key: "4" },
+  { title: "C端参考价", dataIndex: "bprice", key: "4" },
   { title: "税率", dataIndex: "taxRate", key: "5" },
-  { title: "上架状态", dataIndex: "upperStatus", key: "6",render:(text)=>(text==1?'上架':'下架')},
+  { title: "商品性质", dataIndex: "productNature", key: "6",render:(text)=>(text==1?'普通商品':'跨境商品')},
+  { title: "上架状态", dataIndex: "upperStatus", key: "7",render:(text)=>(text==1?'上架':'下架')},
   {
     title: "创建时间",
     dataIndex: "createTime",
-    key: "7",
+    key: "8",
     render:(text)=>(<span>{moment(text).format('YYYY-MM-DD H:mm:ss')}</span>)
   },
  
   {
     title: "操作",
     key: "action",
-    dataIndex: "",
+    dataIndex: "9",
     render: (text,record,index) => (
       <div>
         <a
