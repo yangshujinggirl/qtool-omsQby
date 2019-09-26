@@ -1,7 +1,7 @@
 import { Table, Spin, Button } from "antd";
 import FilterForm from "./components/FilterForm";
 import { QsubTable, Qpagination, QbyConnect, Qbtn} from "common";
-import * as Actions from "./actions";
+import * as Actions from "./actions/actionsIndex";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
 import { goAuditApi } from "api/home/BaseGoods";
@@ -141,7 +141,6 @@ class BaseGoods extends React.Component {
               visible={visible}
             />
           }
-        </div>
         <QsubTable
           parColumns={Columns}
           subColumns={Columns1}

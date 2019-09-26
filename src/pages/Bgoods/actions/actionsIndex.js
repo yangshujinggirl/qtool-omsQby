@@ -1,4 +1,4 @@
-import { GetGoodsApi } from "../../api/home/BaseGoods";
+import { GetGoodsApi } from "../../../api/home/BaseGoods";
 /**
  * 请求开始的请求
  */
@@ -15,7 +15,6 @@ function fetchStart() {
 function fetchSuccess(data) {
   (data.resultList || []).map(item => {
     item.key = item.id;
-    item.list.map((subItem, index) => (subItem.key = index));
   });
   return {
     type: "FETCH_SUCCESS",
