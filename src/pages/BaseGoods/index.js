@@ -146,26 +146,6 @@ class BaseGoods extends React.Component {
               visible={visible}
             />
           }
-        <QsubTable
-          parColumns={Columns}
-          subColumns={Columns1}
-          parList={goodLists}
-          subList="list"
-          onOperateClick={this.handleOperateClick}
-        />
-        <Qpagination
-          data={this.props}
-          onChange={this.changePage}
-          onShowSizeChange={this.onShowSizeChange}
-        />
-        {(status == 3 || status == 4) && (
-          <PassModal
-            onOk={this.onOk}
-            onCancel={this.onCancel}
-            status={status}
-            visible={visible}
-          />
-        )}
       </div>
     );
   }
