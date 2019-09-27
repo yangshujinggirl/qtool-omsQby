@@ -97,45 +97,45 @@ const columnsAdd=[
     dataIndex: "skuCode"
   },{
     title: "规格",
-    dataIndex: "skuCode"
+    dataIndex: "salesAttributeName"
   },{
     title: "*商品条码",
-    dataIndex: "skuCode"
+    dataIndex: "barCode"
   },{
     title: "*税务码",
-    dataIndex: "skuCode"
+    dataIndex: "taxNo"
   },{
     title: "*采购价",
-    dataIndex: "skuCode"
+    dataIndex: "purchasePrice"
   },{
     title: "*到货价",
-    dataIndex: "skuCode"
+    dataIndex: "dhPrice"
   },{
     title: "*C端参考价",
-    dataIndex: "skuCode"
+    dataIndex: "cPrice"
   },{
     title: "*出库价",
-    dataIndex: "skuCode"
+    dataIndex: "ckPrice"
   },{
     title: "*税率",
-    dataIndex: "skuCode"
+    dataIndex: "taxRate"
   },{
     title: "保质期/天",
-    dataIndex: "skuCode"
+    dataIndex: "shelfLife"
   },{
     title: "*毛重/g",
-    dataIndex: "skuCode"
+    dataIndex: "weight"
   },{
     title: "长/cm",
-    dataIndex: "skuCode"
+    dataIndex: "length"
   },{
     title: "宽/cm",
-    dataIndex: "skuCode"
+    dataIndex: "wide"
   },{
     title: "高/cm",
-    dataIndex: "skuCode"
+    dataIndex: "high"
   },{
     title: "sku图片",
-    dataIndex: "skuCode"
+    dataIndex: "image"
   }]
 export { Columns, Columns1, columnsAdd };

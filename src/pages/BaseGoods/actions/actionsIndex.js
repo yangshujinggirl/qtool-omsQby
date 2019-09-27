@@ -13,10 +13,6 @@ function fetchStart() {
  * @param {*} data
  */
 function fetchSuccess(data) {
-  (data.resultList || []).map(item => {
-    item.key = item.id;
-    item.list.map((subItem, index) => (subItem.key = index));
-  });
   return {
     type: "FETCH_SUCCESS",
     ...data,
@@ -41,13 +37,15 @@ function fetchFailed(error) {
 export const getGoodsList = value => {
   return dispatch => {
     dispatch(fetchStart());
-    GetGoodsApi(value).then(
-      res => {
+    GetGoodsApi(value)
+    .then(res => {
+      res.result.resultList&&res.result.resultList.map(item => {
+        item.key = item.id;
+        item.list.map((subItem, index) => (subItem.key = index));
+      })
         dispatch(fetchSuccess(res.result));
-      },
-      err => {
+    },err => {
         dispatch(fetchFailed(err));
-      }
-    );
+    });
   };
 };

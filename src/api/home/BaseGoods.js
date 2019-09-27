@@ -31,7 +31,7 @@ export function GetCategoryApi(values){
  * @param {*} values
  */
 export function GetBrandApi(values){
-    return Req.post('/brand/searchByName',{...values})
+    return Req.get('/brand/searchByName',{params:{...values}})
 }
 /**
  * 新建商品
