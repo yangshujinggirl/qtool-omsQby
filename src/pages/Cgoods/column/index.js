@@ -22,7 +22,6 @@ const Columns = [
     key: "8",
     render:(text)=>(<span>{moment(text).format('YYYY-MM-DD H:mm:ss')}</span>)
   },
- 
   {
     title: "操作",
     key: "action",
