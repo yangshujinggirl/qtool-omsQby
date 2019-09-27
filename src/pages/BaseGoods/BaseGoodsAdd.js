@@ -146,7 +146,7 @@ class BaseGoodsAdd extends React.Component {
                )}
              </FormItem>
             <Form.Item label="后台一级类目">
-              {getFieldDecorator('select-multiple', {
+              {getFieldDecorator('categoryId', {
                 rules: [
                   { required: true, message: '请选择后台一级类目'},
                 ],
@@ -159,7 +159,7 @@ class BaseGoodsAdd extends React.Component {
               )}
             </Form.Item>
             <Form.Item label="后台二级类目">
-              {getFieldDecorator('select-multiple', {
+              {getFieldDecorator('secondCategoryId', {
                 rules: [
                   { required: true, message: '请选择后台二级类目'},
                 ],
@@ -185,7 +185,7 @@ class BaseGoodsAdd extends React.Component {
               )}
             </Form.Item>
             <Form.Item label="后台四级类目">
-              {getFieldDecorator('select-multiple', {
+              {getFieldDecorator('fourCategoryId', {
                 rules: [
                   { required: true, message: '请选择后台四级类目'},
                 ],

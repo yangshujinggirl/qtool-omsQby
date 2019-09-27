@@ -13,10 +13,6 @@ function fetchStart() {
  * @param {*} data
  */
 function fetchSuccess(data) {
-  (data.resultList || []).map(item => {
-    item.key = item.id;
-    item.list.map((subItem, index) => (subItem.key = index));
-  });
   return {
     type: "T.FETCH_SUCCESS",
     ...data,
@@ -54,7 +50,7 @@ export const setLoading =(loading)=> {
     // dispatch(setload({ loading }))
   }
 }
-//设置loading
+//重置数据
 export const resetPages =()=> {
   let data = {
     loading: false,
@@ -62,14 +58,14 @@ export const resetPages =()=> {
     totalData:{}
   }
   return (dispatch) => {
-    dispatch({
-      type: 'RESET_DATA',
-      ...data,
-      time: Date.now()
-    })
-    // dispatch(setload({ loading }))
+    dispatch(fetchSuccess(data));
   }
 }
+export const getTotalData = value => {
+  return dispatch => {
+    dispatch(fetchSuccess(value));
+  };
+};
 export const getbrandList = value => {
   return dispatch => {
     dispatch(fetchStart());
@@ -80,7 +76,29 @@ export const getbrandList = value => {
         let item={}
         item.key =el.id;
         item.value =el.id;
-        item.text =el.brandCountry;
+        item.brandCountry =el.brandCountry;
+        item.text =el.brandNameCn;
+        return item;
+      })
+      dispatch(fetchSuccess({ brandDataSource }));
+    },err => {
+      dispatch(fetchFailed(err));
+    });
+  };
+};
+
+export const fetchTotalData = value => {
+  return dispatch => {
+    dispatch(fetchStart());
+    GetBrandApi({brandName:value})
+    .then(res => {
+      const { result } =res;
+      let brandDataSource = result.map((el)=>{
+        let item={}
+        item.key =el.id;
+        item.value =el.id;
+        item.brandCountry =el.brandCountry;
+        item.text =el.brandNameCn;
         return item;
       })
       dispatch(fetchSuccess({ brandDataSource }));
