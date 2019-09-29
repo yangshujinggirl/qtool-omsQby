@@ -90,20 +90,22 @@ class BaseGoods extends React.Component {
       case "pass":
         this.audit(record);
         break;
-      case "look":
-        this.look(record);
-        break;
-      default:
-        this.audit(record, type);
-        break;
+      // case "look":
+      //   this.look(record);
+      //   break;
+      // case "edit":
+      //   this.edit(record);
+      //   break;
     }
   };
-  //查看
-  look = record => {
-    console.log(record);
-  };
-  //编辑
-  edit = record => {};
+  // //查看
+  // look = record => {
+  //   console.log(record);
+  // };
+  // //编辑
+  // edit = record => {
+  //   console.log(record)
+  // };
   //审核
   audit = (record, type) => {
     console.log(typeof record.skuCode);

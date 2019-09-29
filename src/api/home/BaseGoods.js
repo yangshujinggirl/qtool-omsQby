@@ -27,6 +27,13 @@ export function GetCategoryApi(values){
     })
 }
 /**
+ * 查询编辑详情
+ * @param {*} values
+ */
+export function GetEditInfoApi(values){
+    return Req.get('/items/searchItemsBySpuCode',{params:{...values}})
+}
+/**
  * 查询品牌
  * @param {*} values
  */

@@ -1,4 +1,4 @@
-import { GetBrandApi } from "../../../api/home/BaseGoods";
+import { GetBrandApi, GetEditInfoApi, GetCategoryApi } from "../../../api/home/BaseGoods";
 /**
  * 请求开始的请求
  */
@@ -61,33 +61,54 @@ export const resetPages =()=> {
     dispatch(fetchSuccess(data));
   }
 }
-export const getTotalData = value => {
+export const setData = value => {
   return dispatch => {
     dispatch(fetchSuccess(value));
   };
 };
-export const getbrandList = value => {
-  return dispatch => {
-    dispatch(fetchStart());
-    GetBrandApi({brandName:value})
-    .then(res => {
-      const { result } =res;
-      let brandDataSource = result.map((el)=>{
-        let item={}
-        item.key =el.id;
-        item.value =el.id;
-        item.brandCountry =el.brandCountry;
-        item.text =el.brandNameCn;
-        return item;
-      })
-      dispatch(fetchSuccess({ brandDataSource }));
-    },err => {
-      dispatch(fetchFailed(err));
-    });
-  };
-};
 
 export const fetchTotalData = value => {
+  return dispatch => {
+    dispatch(fetchStart());
+    GetEditInfoApi(value)
+    .then((res) => {
+      let { result } =res;
+      let { omsCategoryPropertyDto } =result;
+      result={...result,...omsCategoryPropertyDto}
+      dispatch(fetchSuccess({
+        totalData:result,
+      }));
+      Promise.all([
+        fetchCategoryData({level:'-1',parentId:omsCategoryPropertyDto.categoryId}),
+        fetchCategoryData({level:'-1',parentId:omsCategoryPropertyDto.secondCategoryId}),
+        fetchCategoryData({level:'-1',parentId:omsCategoryPropertyDto.thirdCategoryId})
+      ]).then((values)=> {
+        let [categoryLevelTwo,categoryLevelThr,categoryLevelFour] = values;
+        dispatch(fetchSuccess({
+          categoryLevelTwo,
+          categoryLevelThr,
+          categoryLevelFour,
+          isLevelTwo:false,
+          isLevelThr:false,
+          isLevelFour:false
+        }));
+      })
+    },err=> {
+      dispatch(fetchFailed(err));
+    })
+  };
+};
+export const fetchCategoryData = value => {
+  GetCategoryApi(value)
+  .then((res) => {
+    let { result } =res;
+    result&&result.length>0&&result.map((el)=>el.key =el.id)
+    return result
+  },err=> {
+    dispatch(fetchFailed(err));
+  })
+};
+export const fetchbrandList = value => {
   return dispatch => {
     dispatch(fetchStart());
     GetBrandApi({brandName:value})

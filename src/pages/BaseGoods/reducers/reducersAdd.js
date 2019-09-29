@@ -1,7 +1,16 @@
 const index = (state = {
   loading: false,
   brandDataSource:[],
-  totalData:{}
+  totalData:{},
+  categoryData:{
+    categoryLevelOne:[],
+    categoryLevelTwo:[],
+    categoryLevelThr:[],
+    categoryLevelFour:[],
+    isLevelTwo:false,
+    isLevelThr:false,
+    isLevelFour:false
+  }
 }, action) => {
   console.log(action)
   switch (action.type) {
