@@ -1,4 +1,7 @@
-import { GetBrandApi, GetEditInfoApi, GetCategoryApi } from "../../../api/home/BaseGoods";
+import {
+  GetBrandApi, GetEditInfoApi,
+  GetCategoryApi, GetAttributeApi
+ } from "../../../api/home/BaseGoods";
 /**
  * 请求开始的请求
  */
@@ -66,7 +69,7 @@ export const setData = value => {
     dispatch(fetchSuccess(value));
   };
 };
-
+//详情
 export const fetchTotalData = value => {
   return dispatch => {
     dispatch(fetchStart());
@@ -78,35 +81,56 @@ export const fetchTotalData = value => {
       dispatch(fetchSuccess({
         totalData:result,
       }));
+      //分类列表
       Promise.all([
-        fetchCategoryData({level:'-1',parentId:omsCategoryPropertyDto.categoryId}),
-        fetchCategoryData({level:'-1',parentId:omsCategoryPropertyDto.secondCategoryId}),
-        fetchCategoryData({level:'-1',parentId:omsCategoryPropertyDto.thirdCategoryId})
+        GetCategoryApi({level:'-1',parentId:omsCategoryPropertyDto.categoryId}),
+        GetCategoryApi({level:'-1',parentId:omsCategoryPropertyDto.secondCategoryId}),
+        GetCategoryApi({level:'-1',parentId:omsCategoryPropertyDto.thirdCategoryId})
       ]).then((values)=> {
-        let [categoryLevelTwo,categoryLevelThr,categoryLevelFour] = values;
+        let [levelTwo,levelThr,levelFour] = values;
         dispatch(fetchSuccess({
-          categoryLevelTwo,
-          categoryLevelThr,
-          categoryLevelFour,
+          categoryLevelTwo:levelTwo.result,
+          categoryLevelThr:levelThr.result,
+          categoryLevelFour:levelFour.result,
           isLevelTwo:false,
           isLevelThr:false,
           isLevelFour:false
         }));
       })
+      //规格列表
+      fetchAttributeData({categoryId:omsCategoryPropertyDto.fourCategoryId})(dispatch);
     },err=> {
       dispatch(fetchFailed(err));
     })
   };
 };
+//查询分类
 export const fetchCategoryData = value => {
-  GetCategoryApi(value)
-  .then((res) => {
-    let { result } =res;
-    result&&result.length>0&&result.map((el)=>el.key =el.id)
-    return result
-  },err=> {
-    dispatch(fetchFailed(err));
-  })
+  return dispatch=> {
+    dispatch(fetchStart());
+    GetCategoryApi(value)
+    .then((res) => {
+      let { result } =res;
+      result&&result.length>0&&result.map((el)=>el.key =el.id);
+      dispatch(fetchSuccess({ categoryLevelOne: result }));
+    },err=> {
+      dispatch(fetchFailed(err));
+    })
+  }
+};
+//查询规格
+export const fetchAttributeData = value => {
+  return dispatch=> {
+    dispatch(fetchStart())
+    GetAttributeApi(value)
+    .then((res) => {
+      let { result } =res;
+      result&&result.length>0&&result.map((el)=>el.key =el.id);
+      dispatch(fetchSuccess({ AttributeList: result }));
+    },err=> {
+      dispatch(fetchFailed(err));
+    })
+  }
 };
 export const fetchbrandList = value => {
   return dispatch => {

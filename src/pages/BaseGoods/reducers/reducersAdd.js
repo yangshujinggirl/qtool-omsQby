@@ -2,15 +2,14 @@ const index = (state = {
   loading: false,
   brandDataSource:[],
   totalData:{},
-  categoryData:{
-    categoryLevelOne:[],
-    categoryLevelTwo:[],
-    categoryLevelThr:[],
-    categoryLevelFour:[],
-    isLevelTwo:false,
-    isLevelThr:false,
-    isLevelFour:false
-  }
+  AttributeList:[],//规格
+  categoryLevelOne:[],
+  categoryLevelTwo:[],
+  categoryLevelThr:[],
+  categoryLevelFour:[],
+  isLevelTwo:false,
+  isLevelThr:false,
+  isLevelFour:false
 }, action) => {
   console.log(action)
   switch (action.type) {

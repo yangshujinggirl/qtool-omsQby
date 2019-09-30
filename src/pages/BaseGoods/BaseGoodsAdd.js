@@ -46,6 +46,7 @@ class BaseGoodsAdd extends React.Component {
     if(params.id) {
       this.props.actions.fetchTotalData({spuCode:params.id})
     }
+    this.props.actions.fetchCategoryData({level:1,parentId:''})
   }
   //品牌搜索
   handleSearch=(value)=> {
@@ -66,14 +67,18 @@ class BaseGoodsAdd extends React.Component {
   }
   render() {
     console.log(this.props)
-    const { categoryData, totalData, brandDataSource, match } =this.props;
+    const {
+      categoryLevelOne, categoryLevelTwo,
+      categoryLevelThr, categoryLevelFour,
+      totalData, brandDataSource, match } =this.props;
     const { getFieldDecorator } = this.props.form;
+    let isEdit=match.params.id?true:false;
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           {
-            match.params.id&&
+          isEdit&&
             <Form.Item label="spu编码">
               {match.params.id}
             </Form.Item>
@@ -146,10 +151,10 @@ class BaseGoodsAdd extends React.Component {
                   { required: true, message: '请选择后台一级类目'},
                 ],
               })(
-                <Select placeholder="请选择后台一级类目">
+                <Select disabled={isEdit} placeholder="请选择后台一级类目">
                 {
-                  categoryData.categoryLevelOne.length>0&&
-                  categoryData.categoryLevelOne.map((el) => (
+                  categoryLevelOne.length>0&&
+                  categoryLevelOne.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
@@ -163,10 +168,10 @@ class BaseGoodsAdd extends React.Component {
                   { required: true, message: '请选择后台二级类目'},
                 ],
               })(
-                <Select placeholder="请选择后台二级类目">
+                <Select disabled={isEdit} placeholder="请选择后台二级类目">
                 {
-                  categoryData.categoryLevelTwo.length>0&&
-                  categoryData.categoryLevelTwo.map((el) => (
+                  categoryLevelTwo.length>0&&
+                  categoryLevelTwo.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
@@ -180,10 +185,10 @@ class BaseGoodsAdd extends React.Component {
                   { required: true, message: '请选择后台三级类目'},
                 ],
               })(
-                <Select placeholder="请选择后台三级类目">
+                <Select disabled={isEdit} placeholder="请选择后台三级类目">
                 {
-                  categoryData.categoryLevelThr.length>0&&
-                  categoryData.categoryLevelThr.map((el) => (
+                  categoryLevelThr.length>0&&
+                  categoryLevelThr.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
@@ -197,10 +202,10 @@ class BaseGoodsAdd extends React.Component {
                   { required: true, message: '请选择后台四级类目'},
                 ],
               })(
-                <Select mode="multiple" placeholder="请选择后台四级类目">
+                <Select disabled={isEdit} placeholder="请选择后台四级类目">
                 {
-                  categoryData.categoryLevelFour.length>0&&
-                  categoryData.categoryLevelFour.map((el) => (
+                  categoryLevelFour.length>0&&
+                  categoryLevelFour.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
