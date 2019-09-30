@@ -83,9 +83,9 @@ export const fetchTotalData = value => {
       }));
       //分类列表
       Promise.all([
-        GetCategoryApi({level:'-1',parentId:omsCategoryPropertyDto.categoryId}),
-        GetCategoryApi({level:'-1',parentId:omsCategoryPropertyDto.secondCategoryId}),
-        GetCategoryApi({level:'-1',parentId:omsCategoryPropertyDto.thirdCategoryId})
+        GetCategoryApi({level:'2',parentId:omsCategoryPropertyDto.categoryId}),
+        GetCategoryApi({level:'3',parentId:omsCategoryPropertyDto.secondCategoryId}),
+        GetCategoryApi({level:'4',parentId:omsCategoryPropertyDto.thirdCategoryId})
       ]).then((values)=> {
         let [levelTwo,levelThr,levelFour] = values;
         dispatch(fetchSuccess({
