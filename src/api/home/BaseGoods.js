@@ -27,6 +27,23 @@ export function GetCategoryApi(values){
     })
 }
 /**
+ * 规格
+ * @param {*} values
+ */
+export function GetAttributeApi(values){
+  console.log(values)
+    return Req.get('/attribute/searchAttributeByCategoryId',{
+       params:{...values}
+    })
+}
+/**
+ * 查询编辑详情
+ * @param {*} values
+ */
+export function GetEditInfoApi(values){
+    return Req.get('/items/searchItemsBySpuCode',{params:{...values}})
+}
+/**
  * 查询品牌
  * @param {*} values
  */

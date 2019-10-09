@@ -1,4 +1,7 @@
-import { GetBrandApi } from "../../../api/home/BaseGoods";
+import {
+  GetBrandApi, GetEditInfoApi,
+  GetCategoryApi, GetAttributeApi
+ } from "../../../api/home/BaseGoods";
 /**
  * 请求开始的请求
  */
@@ -13,10 +16,6 @@ function fetchStart() {
  * @param {*} data
  */
 function fetchSuccess(data) {
-  (data.resultList || []).map(item => {
-    item.key = item.id;
-    item.list.map((subItem, index) => (subItem.key = index));
-  });
   return {
     type: "T.FETCH_SUCCESS",
     ...data,
@@ -54,7 +53,7 @@ export const setLoading =(loading)=> {
     // dispatch(setload({ loading }))
   }
 }
-//设置loading
+//重置数据
 export const resetPages =()=> {
   let data = {
     loading: false,
@@ -62,15 +61,78 @@ export const resetPages =()=> {
     totalData:{}
   }
   return (dispatch) => {
-    dispatch({
-      type: 'RESET_DATA',
-      ...data,
-      time: Date.now()
-    })
-    // dispatch(setload({ loading }))
+    dispatch(fetchSuccess(data));
   }
 }
-export const getbrandList = value => {
+export const setData = value => {
+  return dispatch => {
+    dispatch(fetchSuccess(value));
+  };
+};
+//详情
+export const fetchTotalData = value => {
+  return dispatch => {
+    dispatch(fetchStart());
+    GetEditInfoApi(value)
+    .then((res) => {
+      let { result } =res;
+      let { omsCategoryPropertyDto } =result;
+      result={...result,...omsCategoryPropertyDto}
+      dispatch(fetchSuccess({
+        totalData:result,
+      }));
+      //分类列表
+      Promise.all([
+        GetCategoryApi({level:'2',parentId:omsCategoryPropertyDto.categoryId}),
+        GetCategoryApi({level:'3',parentId:omsCategoryPropertyDto.secondCategoryId}),
+        GetCategoryApi({level:'4',parentId:omsCategoryPropertyDto.thirdCategoryId})
+      ]).then((values)=> {
+        let [levelTwo,levelThr,levelFour] = values;
+        dispatch(fetchSuccess({
+          categoryLevelTwo:levelTwo.result,
+          categoryLevelThr:levelThr.result,
+          categoryLevelFour:levelFour.result,
+          isLevelTwo:false,
+          isLevelThr:false,
+          isLevelFour:false
+        }));
+      })
+      //规格列表
+      fetchAttributeData({categoryId:omsCategoryPropertyDto.fourCategoryId})(dispatch);
+    },err=> {
+      dispatch(fetchFailed(err));
+    })
+  };
+};
+//查询分类
+export const fetchCategoryData = value => {
+  return dispatch=> {
+    dispatch(fetchStart());
+    GetCategoryApi(value)
+    .then((res) => {
+      let { result } =res;
+      result&&result.length>0&&result.map((el)=>el.key =el.id);
+      dispatch(fetchSuccess({ categoryLevelOne: result }));
+    },err=> {
+      dispatch(fetchFailed(err));
+    })
+  }
+};
+//查询规格
+export const fetchAttributeData = value => {
+  return dispatch=> {
+    dispatch(fetchStart())
+    GetAttributeApi(value)
+    .then((res) => {
+      let { result } =res;
+      result&&result.length>0&&result.map((el)=>el.key =el.id);
+      dispatch(fetchSuccess({ AttributeList: result }));
+    },err=> {
+      dispatch(fetchFailed(err));
+    })
+  }
+};
+export const fetchbrandList = value => {
   return dispatch => {
     dispatch(fetchStart());
     GetBrandApi({brandName:value})
@@ -80,7 +142,8 @@ export const getbrandList = value => {
         let item={}
         item.key =el.id;
         item.value =el.id;
-        item.text =el.brandCountry;
+        item.brandCountry =el.brandCountry;
+        item.text =el.brandNameCn;
         return item;
       })
       dispatch(fetchSuccess({ brandDataSource }));

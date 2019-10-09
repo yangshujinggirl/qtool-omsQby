@@ -10,6 +10,7 @@ class Public extends React.Component {
       menuList:['a','b','c'],
       totalData:{qty:1234},
     }
+    console.log('componentDidMount')
     // this.props.actions.setMenuList(params)
     // this.props.actions.getMenuList()
   }

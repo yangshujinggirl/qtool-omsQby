@@ -1,5 +1,5 @@
 import moment from "moment";
-
+import { Link } from 'react-router-dom';
 const Columns = [
   { title: "商品名称", dataIndex: "productName", key: "1" },
   {
@@ -32,18 +32,16 @@ const Columns = [
     dataIndex: "",
     render: (text,record,index) => (
       <div>
-        <a
+        <Link
           className="link-color action-left"
-          onClick={() => record.onOperateClick("look")}
-        >
+          to={`/account/baseGoodsInfo/${record.spuCode}`}>
           查看
-        </a>
-        <a
+        </Link>
+        <Link
           className="link-color"
-          onClick={() => record.onOperateClick("edit")}
-        >
+          to={`/account/baseGoodsAdd/${record.spuCode}`}>
           编辑
-        </a>
+        </Link>
       </div>
     )
   }
