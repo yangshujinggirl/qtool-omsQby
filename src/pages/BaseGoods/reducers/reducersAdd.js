@@ -2,7 +2,17 @@ const index = (state = {
   loading: false,
   brandDataSource:[],
   totalData:{},
+  supplierList:[],
   AttributeList:[],//规格
+  categoryData:{
+    categoryLevelOne:[],
+    categoryLevelTwo:[],
+    categoryLevelThr:[],
+    categoryLevelFour:[],
+    isLevelTwo:false,
+    isLevelThr:false,
+    isLevelFour:false
+  },
   categoryLevelOne:[],
   categoryLevelTwo:[],
   categoryLevelThr:[],
@@ -11,7 +21,6 @@ const index = (state = {
   isLevelThr:false,
   isLevelFour:false
 }, action) => {
-  console.log(action)
   switch (action.type) {
     case "T.FETCH_START":
       return {

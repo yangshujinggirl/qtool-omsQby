@@ -23,6 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.0",
     "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.6.1",
@@ -54,6 +55,7 @@
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
+    "redux-saga": "^1.1.1",
     "redux-thunk": "^2.3.0"
   },
   "theme": {
@@ -66,7 +68,7 @@
     "input-outline-offset": "0 0",
     "font-size-base": "12px",
     "table-padding-vertical": "10px",
-    "table-header-color": "#666",
+    "table-header-color": "#fff",
     "input-placeholder-color": "#9b9b9b",
     "input-color": "#666",
     "error-color": "#ea2727",
@@ -74,7 +76,6 @@
     "link-hover-color": "#35BAB0",
     "link-active-color": "#35BAB0",
     "table-header-bg": "#35BAB0",
-    "table-header-color": "#fff",
     "layout-header-background": "#F9F9FE",
     "menu-dark-bg": "#1A1D26",
     "layout-sider-background": "#1A1D26",

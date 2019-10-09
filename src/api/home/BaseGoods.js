@@ -31,7 +31,6 @@ export function GetCategoryApi(values){
  * @param {*} values
  */
 export function GetAttributeApi(values){
-  console.log(values)
     return Req.get('/attribute/searchAttributeByCategoryId',{
        params:{...values}
     })
@@ -77,4 +76,11 @@ export function GetAddSkuApi(values){
  */
 export function GetEditSkuApi(values){
     return Req.post('/items/modSku',{...values})
+}
+/**
+ * 货主
+ * @param {*} values
+ */
+export function GetSupplierApi(values){
+    return Req.post('/supplier/supplierNames',{...values})
 }
