@@ -60,10 +60,10 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="上架状态" {...this.formItemLayout}>
-                {getFieldDecorator("productNature")(
+                {getFieldDecorator("upperStatus")(
                   <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>普通商品</Option>
-                    <Option value={2}>跨境商品</Option>
+                    <Option value={1}>上架</Option>
+                    <Option value={0}>下架</Option>
                   </Select>
                 )}
               </FormItem>

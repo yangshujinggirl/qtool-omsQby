@@ -20,7 +20,7 @@ class BgoodsAdd extends React.Component {
     }
   }
   componentDidMount() {
-    GetGoodDetailApi({ id: 1, saleRange: "b" }).then(res => {
+    GetGoodDetailApi({ id:17769, saleRange: "c" }).then(res => {
       this.setState({
         infos: res.result
       });
@@ -29,10 +29,10 @@ class BgoodsAdd extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        saveGoodApi({saleRange:'b',OmsProductSkuDto:{id:'17769',...values}}).then(res=>{
+        saveGoodApi({saleRange:'c',OmsProductSkuDto:{id:'17769',...values}}).then(res=>{
           message.error('保存成功')
         })
-      };
+      }
     })
   }
   render() {
