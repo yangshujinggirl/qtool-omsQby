@@ -46,15 +46,25 @@ class BaseGoodsAdd extends React.Component {
     if(params.id) {
       this.props.actions.fetchTotalData({spuCode:params.id})
     }
+    this.props.actions.resetPages()
     this.props.actions.fetchCategoryData({level:1,parentId:''})
+    this.props.actions.fetchSupplier()
+  }
+  handleChangeLevel=(level,selected)=>{
+    level++;
+    this.props.actions.fetchCategoryData({level,parentId:selected })
   }
   //品牌搜索
   handleSearch=(value)=> {
     this.props.actions.fetchbrandList(value)
   }
   //品牌，国家选中事件
-  autoSelect(e) {
-    console.log(e)
+  autoSelect(value, option) {
+    let { brandDataSource,totalData } =this.props;
+    let item = brandDataSource.find((el)=> el.value== value);
+    totalData = { ...totalData, brandAddress:item.brandCountry};
+    // totalData = { ...totalData, brandAddress:'美国'};
+    this.props.actions.setData({totalData});
   }
   submit=(e)=> {
     e.preventDefault();
@@ -66,13 +76,14 @@ class BaseGoodsAdd extends React.Component {
     });
   }
   render() {
-    console.log(this.props)
+
     const {
-      categoryLevelOne, categoryLevelTwo,
-      categoryLevelThr, categoryLevelFour,
+      categoryLevelOne, categoryLevelTwo,isLevelTwo,isLevelThr,isLevelFour,
+      categoryLevelThr, categoryLevelFour,supplierList,
       totalData, brandDataSource, match } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
+    console.log(this.props);
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
@@ -92,14 +103,16 @@ class BaseGoodsAdd extends React.Component {
               )}
             </Form.Item>
             <Form.Item label="货主">
-              {getFieldDecorator('supplierName', {
-                  initialValue:totalData.supplierName,
+              {getFieldDecorator('supplierId', {
+                  initialValue:totalData.supplierId,
                   rules: [{ required: true, message: '请选择货主' }],
                 })(
                   <Select placeholder="请选择货主">
-                    <Option value="red">Red</Option>
-                    <Option value="green">Green</Option>
-                    <Option value="blue">Blue</Option>
+                  {
+                    supplierList.length>0&&supplierList.map((el)=> (
+                      <Option value={el.id} key={el.id}>{el.name}</Option>
+                    ))
+                  }
                   </Select>
               )}
             </Form.Item>
@@ -109,8 +122,8 @@ class BaseGoodsAdd extends React.Component {
                 rules: [{ required: true, message: '请选择商品类型' }],
               })(
                 <Radio.Group>
-                  <Radio value="a">普通商品</Radio>
-                  <Radio value="b">赠品</Radio>
+                  <Radio value={1}>普通商品</Radio>
+                  <Radio value={2}>赠品</Radio>
                 </Radio.Group>,
               )}
             </Form.Item>
@@ -123,7 +136,7 @@ class BaseGoodsAdd extends React.Component {
                    <AutoComplete
                     dataSource={brandDataSource}
                     onSearch={this.handleSearch}
-                    onSelect={(e)=>this.autoSelect(e)}
+                    onSelect={(value, option)=>this.autoSelect(value, option)}
                     placeholder="请选择商品品牌"/>
                  )
                }
@@ -147,13 +160,11 @@ class BaseGoodsAdd extends React.Component {
             <Form.Item label="后台一级类目">
               {getFieldDecorator('categoryId', {
                 initialValue:totalData.categoryId,
-                rules: [
-                  { required: true, message: '请选择后台一级类目'},
-                ],
+                rules: [{ required: true, message: '请选择后台一级类目'}],
+                onChange:(select)=>this.handleChangeLevel(1,select)
               })(
                 <Select disabled={isEdit} placeholder="请选择后台一级类目">
                 {
-                  categoryLevelOne.length>0&&
                   categoryLevelOne.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
@@ -164,13 +175,11 @@ class BaseGoodsAdd extends React.Component {
             <Form.Item label="后台二级类目">
               {getFieldDecorator('secondCategoryId', {
                 initialValue:totalData.secondCategoryId,
-                rules: [
-                  { required: true, message: '请选择后台二级类目'},
-                ],
+                rules: [{ required: true, message: '请选择后台二级类目'}],
+                onChange:(select)=>this.handleChangeLevel(2,select)
               })(
-                <Select disabled={isEdit} placeholder="请选择后台二级类目">
+                <Select disabled={isEdit||isLevelTwo} placeholder="请选择后台二级类目">
                 {
-                  categoryLevelTwo.length>0&&
                   categoryLevelTwo.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
@@ -181,13 +190,11 @@ class BaseGoodsAdd extends React.Component {
             <Form.Item label="后台三级类目">
               {getFieldDecorator('thirdCategoryId', {
                 initialValue:totalData.thirdCategoryId,
-                rules: [
-                  { required: true, message: '请选择后台三级类目'},
-                ],
+                rules: [{ required: true, message: '请选择后台三级类目'}],
+                onChange:(select)=>this.handleChangeLevel(3,select)
               })(
-                <Select disabled={isEdit} placeholder="请选择后台三级类目">
+                <Select disabled={isEdit||isLevelThr} placeholder="请选择后台三级类目">
                 {
-                  categoryLevelThr.length>0&&
                   categoryLevelThr.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
@@ -198,13 +205,10 @@ class BaseGoodsAdd extends React.Component {
             <Form.Item label="后台四级类目">
               {getFieldDecorator('fourCategoryId', {
                 initialValue:totalData.fourCategoryId,
-                rules: [
-                  { required: true, message: '请选择后台四级类目'},
-                ],
+                rules: [{ required: true, message: '请选择后台四级类目'}],
               })(
-                <Select disabled={isEdit} placeholder="请选择后台四级类目">
+                <Select disabled={isEdit||isLevelFour} placeholder="请选择后台四级类目">
                 {
-                  categoryLevelFour.length>0&&
                   categoryLevelFour.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
@@ -232,8 +236,8 @@ class BaseGoodsAdd extends React.Component {
               )}
             </Form.Item>
             <Form.Item label="销售端">
-              {getFieldDecorator('saleRange',{
-                initialValue:totalData.saleRange,
+              {getFieldDecorator('saleRangeShow',{
+                initialValue:totalData.saleRangeShow,
                 rules: [{ required: true, message: '请选择销售端' }],
               })(
                 <Checkbox.Group>
@@ -270,7 +274,9 @@ class BaseGoodsAdd extends React.Component {
               )}
             </Form.Item>
             <Form.Item label="商品描述">
-              {getFieldDecorator('rproductDetailB')(
+              {getFieldDecorator('productDetailB',{
+                initialValue:totalData.productDetailB,
+              })(
                 <Input placeholder="请输入商品描述"/>
               )}
             </Form.Item>

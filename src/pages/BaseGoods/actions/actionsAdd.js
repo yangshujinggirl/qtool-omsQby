@@ -1,6 +1,7 @@
 import {
   GetBrandApi, GetEditInfoApi,
-  GetCategoryApi, GetAttributeApi
+  GetCategoryApi, GetAttributeApi,
+  GetSupplierApi
  } from "../../../api/home/BaseGoods";
 /**
  * 请求开始的请求
@@ -58,7 +59,16 @@ export const resetPages =()=> {
   let data = {
     loading: false,
     brandDataSource:[],
-    totalData:{}
+    totalData:{},
+    supplierList:[],
+    AttributeList:[],//规格
+    categoryLevelOne:[],
+    categoryLevelTwo:[],
+    categoryLevelThr:[],
+    categoryLevelFour:[],
+    isLevelTwo:true,
+    isLevelThr:true,
+    isLevelFour:true
   }
   return (dispatch) => {
     dispatch(fetchSuccess(data));
@@ -89,12 +99,12 @@ export const fetchTotalData = value => {
       ]).then((values)=> {
         let [levelTwo,levelThr,levelFour] = values;
         dispatch(fetchSuccess({
-          categoryLevelTwo:levelTwo.result,
-          categoryLevelThr:levelThr.result,
-          categoryLevelFour:levelFour.result,
-          isLevelTwo:false,
-          isLevelThr:false,
-          isLevelFour:false
+            categoryLevelTwo:levelTwo.result,
+            categoryLevelThr:levelThr.result,
+            categoryLevelFour:levelFour.result,
+            isLevelTwo:false,
+            isLevelThr:false,
+            isLevelFour:false
         }));
       })
       //规格列表
@@ -112,7 +122,35 @@ export const fetchCategoryData = value => {
     .then((res) => {
       let { result } =res;
       result&&result.length>0&&result.map((el)=>el.key =el.id);
-      dispatch(fetchSuccess({ categoryLevelOne: result }));
+      const { level } =value;
+      let categoryKey, categoryLevelOne, categoryLevelTwo, categoryLevelThr, categoryLevelFour, isLevelTwo,isLevelThr,isLevelFour;
+      switch(level) {
+        case 1:
+          categoryKey='categoryLevelOne';
+          isLevelTwo=true;
+          isLevelThr=true;
+          isLevelFour=true;
+          break;
+        case 2:
+          categoryKey='categoryLevelTwo';
+          isLevelTwo=false;
+          isLevelThr=true;
+          isLevelFour=true;
+          break;
+        case 3:
+          categoryKey='categoryLevelThr';
+          isLevelTwo=false;
+          isLevelThr=false;
+          isLevelFour=true;
+          break;
+        case 4:
+          categoryKey='categoryLevelFour';
+          isLevelTwo=false;
+          isLevelThr=false;
+          isLevelFour=false;
+          break;
+      }
+      dispatch(fetchSuccess({ [categoryKey]: result,isLevelTwo, isLevelThr, isLevelFour }));
     },err=> {
       dispatch(fetchFailed(err));
     })
@@ -147,6 +185,19 @@ export const fetchbrandList = value => {
         return item;
       })
       dispatch(fetchSuccess({ brandDataSource }));
+    },err => {
+      dispatch(fetchFailed(err));
+    });
+  };
+};
+export const fetchSupplier = value => {
+  return dispatch => {
+    dispatch(fetchStart());
+    GetSupplierApi()
+    .then(res => {
+      const { result } =res;
+      result.map((el)=>el.key=el.id);
+      dispatch(fetchSuccess({ supplierList: result}));
     },err => {
       dispatch(fetchFailed(err));
     });
