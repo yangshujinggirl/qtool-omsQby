@@ -28,8 +28,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/cgoods" component={Cgoods}/>
         <Route  path="/account/bgoodsAdd" component={BgoodsAdd}/>
         <Route  path="/account/cgoodsAdd" component={CgoodsAdd}/>
-        <Route  path="/account/bgoodsInfo" component={BgoodsInfo}/>
-        <Route  path="/account/cgoodsInfo" component={CgoodsInfo}/>
+        <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
+        <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
         <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
         <Route component={NotFound}/>

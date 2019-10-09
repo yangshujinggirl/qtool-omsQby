@@ -44,24 +44,6 @@ class Cgoods extends React.Component {
   onSubmit = params => {
     this.searchData(params);
   };
-  handleOperateClick = (record, type) => {
-    switch (type) {
-      case "pass":
-        this.audit(record);
-        break;
-      case "look":
-        this.look(record);
-        break;
-    }
-  };
-  //查看
-  look = record => {
-    this.props.history.push({pathname:'/account/cGoodsDetail',state:{id:record.id}})
-  };
-  //编辑
-  edit = record => {
-    this.prosps.history.push({pathname:'/account/bGoodsAdd',state:{id:record.id}})
-  };
   render() {
     const { goodLists } = this.props;
     return (
@@ -73,7 +55,6 @@ class Cgoods extends React.Component {
         <Qtable
           columns={Columns}
           dataSource={goodLists}
-          onOperateClick={this.handleOperateClick}
         />
         <Qpagination
           data={this.props}
