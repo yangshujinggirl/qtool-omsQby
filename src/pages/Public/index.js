@@ -23,7 +23,7 @@ class Public extends React.Component {
   render() {
     console.log(this.props)
     return (
-      <Spin tip="加载中..." spinning={this.props.loading}>
+      <Spin tip="加载中..." spinning={false}>
         <Qbtn
         size="free"
         onClick={this.onClick}>加载中时点不了我哦</Qbtn>
@@ -33,4 +33,11 @@ class Public extends React.Component {
     )
   }
 }
-export default QbyConnect( Public, Actions,'PublicReducers');
+function mapStateToProps(state) {
+  const { BaseGoodsAddReducers } =state;
+  return BaseGoodsAddReducers;
+    // return {
+    //     ...state
+    // };
+}
+export default connect(mapStateToProps)(Public);

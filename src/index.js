@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+import createSagaMiddleware from 'redux-saga'
+import { helloSaga } from './saga'
 import 'antd/dist/antd.less';
 import './common/common.less';//reset,公共样式 /
 import './common/commonOperation.less';//公共业务样式
@@ -19,8 +21,12 @@ import Login from './pages/Login';
 import HomeController from './pages/HomeController';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
-
+const sagaMiddleware=createSagaMiddleware();
+const store = createStore(
+  rootReducer,
+  applyMiddleware(sagaMiddleware)
+);
+sagaMiddleware.run(helloSaga);
 // const store = createStore(rootReducer,applyMiddleware(thunkMiddleware,createLogger()));
 ReactDOM.render(
   <Provider store={store}>
