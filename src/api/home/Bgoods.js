@@ -4,7 +4,24 @@ import Req from '../Req'
  * 获取B商品列表
  */
 export function GetGoodsApi(values){
-    return Req.post('items/searchProductBListByQbc',{
-       ...values
+    return Req.get('items/searchProductBListByQbc',{
+        params:{...values}
+    })
+}
+/**
+ * 
+ * 获取B商品详情
+ */
+export function GetGoodDetailApi(values){
+    return Req.get('items/searchSkuDetail',{
+        params:{...values}
+    })
+}
+/**
+ * B端商品保存
+ */
+export function saveGoodApi(values){
+    return Req.get('/items/updateSkuBC',{
+        params:{...values}
     })
 }
