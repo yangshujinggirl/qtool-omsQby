@@ -5,6 +5,7 @@ import * as Actions from "./actions/actionsIndex";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
 import { GoAuditApi } from "api/home/BaseGoods";
+import { ExportApi } from "api/home/Common";
 import moment from 'moment'
 
 class BaseGoods extends React.Component {
@@ -100,6 +101,11 @@ class BaseGoods extends React.Component {
   addTrade=()=> {
     this.props.history.push('/account/baseGoodsAdd')
   }
+  export =()=> {
+    ExportApi({...this.state.inputValues,type:1}).then(res=>{
+      
+    })
+  }
   render() {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
@@ -109,7 +115,7 @@ class BaseGoods extends React.Component {
           <div className="handle-operate-btn-action">
             <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
             <Qbtn size="free">新建跨境品</Qbtn>
-            <Qbtn size="free">商品导出</Qbtn>
+            <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
           </div>
           <QsubTable
             parColumns={Columns}

@@ -1,17 +1,16 @@
-import React, { Component } from "react";
-import { Columns1, Columns2, Columns3, Columns4 } from "../../Columns";
-import FilterForm from "./FilterForm";
+import { Qtable, Qpagination, QbyConnect, Qbtn } from "common";
+import * as Actions from "../../actions/actionsIndex";
+import FilterForm from "../FilterForm";
+import { Columns1, Columns2, Columns3, Columns4 } from "../../column";
 import AddModal from "../AddModal";
 
-class CommonSort extends Component {
+class CommonSort extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      Columns: {},
-      inputValues: {
-        currentPage: 1
-      }
+      Columns: [],
+      inputValues: {}
     };
   }
   //初始化数据
@@ -37,7 +36,7 @@ class CommonSort extends Component {
   };
   //搜索列表
   searchData = values => {
-    const params = { ...this.state.inputValues, ..._values };
+    const params = { ...this.state.inputValues, ...values };
     this.props.actions.getCategoryList(params);
     this.setState({ inputValues: params });
   };
@@ -64,8 +63,10 @@ class CommonSort extends Component {
     });
   };
   render() {
-    const { Columns, visible, text } = this.state;
-    const { categoryLists, level } = this.props;
+    console.log(this.props)
+    const { Columns, visible } = this.state;
+    const { categoryLists, level, text } = this.props;
+    console.log(this.state)
     return (
       <div>
         <FilterForm onSubmit={this.onSubmit} level={level} />

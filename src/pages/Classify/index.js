@@ -1,12 +1,13 @@
-import { QbyConnect } from "common";
-import * as Actions from "./actions/actionsIndex";
-import { CommonSort } from "./components/CommonSort";
 import { Tabs } from "antd";
+import  CommonSort  from "./components/CommonSort";
+const { TabPane } = Tabs;
+
+
 class Classify extends React.Component {
   render() {
     return (
       <div className="oms-common-index-pages-wrap">
-        <Tabs defaultActiveKey="1" onChange={this.callback}>
+        <Tabs defaultActiveKey="1">
           <TabPane tab="一级目录" key="1">
             <CommonSort level={1} text="一级" />
           </TabPane>

@@ -19,6 +19,7 @@ import CgoodsInfo from './Cgoods/CgoodsInfo';
 import Brand from './Brand'
 import BrandAdd from './Brand/BrandAdd'
 import BrandInfo from './Brand/BrandInfo'
+import Classify from './Classify'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -38,6 +39,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/brand" component={Brand}/>
         <Route  path="/account/brandAdd/:id?" component={BrandAdd}/>
         <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
+        <Route  path="/account/classify" component={Classify}/>
         <Route component={NotFound}/>
       </Switch>
     )

@@ -6,9 +6,16 @@ class Search extends BaseFilter {
     super(props);
     this.state = {};
   }
+  handleSubmit=()=>{
+    this.props.form.validateFieldsAndScroll((err,values)=>{
+      if(!err){
+        this.props.onSubmit(values)
+      };
+    })
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {level} = this.props;
+    const { level } = this.props;
     return (
       <div className="qtoolOms-condition">
         <Form className="serach-common-form">
@@ -20,7 +27,7 @@ class Search extends BaseFilter {
                 )}
               </FormItem>
             </Col>
-            {level != 1 && (
+            {level == 2 && (
               <Col {...this.colspans}>
                 <FormItem label="二级类目名称" {...this.formItemLayout}>
                   {getFieldDecorator("category2")(
@@ -32,7 +39,7 @@ class Search extends BaseFilter {
                 </FormItem>
               </Col>
             )}
-            {(level != 1 || level != 2) && (
+            {level == 3 && (
               <Col {...this.colspans}>
                 <FormItem label="三级类目名称" {...this.formItemLayout}>
                   {getFieldDecorator("category3")(
@@ -56,6 +63,13 @@ class Search extends BaseFilter {
                 </FormItem>
               </Col>
             )}
+            <Col span={24}>
+              <FormItem className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
+                  搜索
+                </Qbtn>
+              </FormItem>
+            </Col>
           </Row>
         </Form>
       </div>

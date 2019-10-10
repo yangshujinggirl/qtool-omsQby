@@ -21,11 +21,13 @@ class BrandAdd extends React.Component {
   }
   componentDidMount() {
     const {id} = this.props.match.params;
-    GetInfoApi({brandId:id}).then(res => {
-      this.setState({
-        infos: res.result
+    if(id){
+      GetInfoApi({brandId:id}).then(res => {
+        this.setState({
+          infos: res.result
+        });
       });
-    });
+    }
   }
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -33,7 +35,7 @@ class BrandAdd extends React.Component {
         saveBrandApi({...values}).then(res => {
           message.error("保存成功");
         });
-      }
+      };
     });
   };
   render() {
@@ -88,7 +90,6 @@ class BrandAdd extends React.Component {
             })(<Input.TextArea rows={7} cols={6} maxLength='400' placeholder='请输入品牌介绍，400字符以内' />)}
           </Form.Item>
           <div className="handle-operate-save-action">
-            <Qbtn>返回</Qbtn>
             <Qbtn>保存</Qbtn>
           </div>
         </Form>
