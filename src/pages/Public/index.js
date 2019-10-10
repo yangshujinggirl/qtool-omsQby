@@ -13,6 +13,14 @@ class Public extends React.Component {
     console.log('componentDidMount')
     // this.props.actions.setMenuList(params)
     // this.props.actions.getMenuList()
+    this.props.dispatch({
+      type:'P.FETCH_SUCCESS',
+      payload:{testSaga:'success'}
+    })
+    this.props.dispatch({
+      type:'P.FETCH_INFO',
+      payload:{moreTest:'info'}
+    })
   }
   goPro=()=> {
     this.props.history.push('/account/protected')
@@ -34,8 +42,8 @@ class Public extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  const { BaseGoodsAddReducers } =state;
-  return BaseGoodsAddReducers;
+  const { PublicReducers } =state;
+  return PublicReducers;
     // return {
     //     ...state
     // };

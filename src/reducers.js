@@ -8,5 +8,5 @@ export default combineReducers({
   PublicReducers,
   BaseGoodsReducers,BaseGoodsAddReducers,
   BgoodsReducers,
-  CgoodsReducers,
+  CgoodsReducers,PublicReducers
 })
