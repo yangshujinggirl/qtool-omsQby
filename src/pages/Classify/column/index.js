@@ -1,5 +1,4 @@
 import moment from "moment";
-import { Link } from "react-router-dom";
 const Columns1 = [
   {
     title: "一级类目编码",
@@ -10,11 +9,6 @@ const Columns1 = [
     title: "一级类目名称",
     dataIndex: "productName",
     key: "2"
-  },
-  {
-    title: "关联商品数",
-    dataIndex: "productName",
-    key: "3"
   },
   {
     title: "最新修改时间",
@@ -54,11 +48,6 @@ const Columns2 = [
     title: "二级类目名称",
     dataIndex: "productName",
     key: "3"
-  },
-  {
-    title: "关联商品数",
-    dataIndex: "productName",
-    key: "4"
   },
   {
     title: "最新修改时间",
@@ -103,11 +92,6 @@ const Columns3 = [
     title: "三级类目名称",
     dataIndex: "productName",
     key: "4"
-  },
-  {
-    title: "关联商品数",
-    dataIndex: "productName",
-    key: "5"
   },
   {
     title: "最新修改时间",
@@ -159,11 +143,6 @@ const Columns4 = [
     key: "5"
   },
   {
-    title: "关联商品数",
-    dataIndex: "productName",
-    key: "6"
-  },
-  {
     title: "最新修改时间",
     dataIndex: "createTime",
     key: "7",
@@ -186,4 +165,4 @@ const Columns4 = [
     )
   }
 ];
-export default {Columns1,Columns2,Columns3,Columns4}
+export  {Columns1,Columns2,Columns3,Columns4}

@@ -10,7 +10,9 @@ class CommonSort extends React.Component {
     this.state = {
       visible: false,
       Columns: [],
-      inputValues: {}
+      inputValues: {
+        level: this.props.level
+      }
     };
   }
   //初始化数据
@@ -19,20 +21,27 @@ class CommonSort extends React.Component {
     this.props.actions.getCategoryList({ ...this.state.inputValues });
   };
   initColumnss = () => {
+    console.log(111);
+    console.log(this.props.level);
     let Columns;
     switch (this.props.level) {
       case 1:
         Columns = Columns1;
+        break;
       case 2:
         Columns = Columns2;
+        break;
       case 3:
         Columns = Columns3;
+        break;
       case 4:
         Columns = Columns4;
+        break;
     }
     this.setState({
       Columns
     });
+    console.log(Columns);
   };
   //搜索列表
   searchData = values => {
@@ -62,11 +71,14 @@ class CommonSort extends React.Component {
       visible: true
     });
   };
+  onCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
   render() {
-    console.log(this.props)
     const { Columns, visible } = this.state;
     const { categoryLists, level, text } = this.props;
-    console.log(this.state)
     return (
       <div>
         <FilterForm onSubmit={this.onSubmit} level={level} />
@@ -81,7 +93,9 @@ class CommonSort extends React.Component {
           onOperateClick={this.handleOperateClick}
         />
         <Qpagination data={this.props} onChange={this.changePage} />
-        {visible && <AddModal visible={visible} level={level} />}
+        {visible && (
+          <AddModal visible={visible} level={level} onCancel={this.onCancel} />
+        )}
       </div>
     );
   }

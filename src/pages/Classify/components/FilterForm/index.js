@@ -6,13 +6,13 @@ class Search extends BaseFilter {
     super(props);
     this.state = {};
   }
-  handleSubmit=()=>{
-    this.props.form.validateFieldsAndScroll((err,values)=>{
-      if(!err){
-        this.props.onSubmit(values)
-      };
-    })
-  }
+  handleSubmit = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        this.props.onSubmit(values);
+      }
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     const { level } = this.props;
@@ -20,13 +20,18 @@ class Search extends BaseFilter {
       <div className="qtoolOms-condition">
         <Form className="serach-common-form">
           <Row gutter={24}>
-            <Col {...this.colspans}>
-              <FormItem label="一级类目名称" {...this.formItemLayout}>
-                {getFieldDecorator("category1")(
-                  <Input placeholder="请输入一级类目名称" autoComplete="off" />
-                )}
-              </FormItem>
-            </Col>
+            {level == 1 && (
+              <Col {...this.colspans}>
+                <FormItem label="一级类目名称" {...this.formItemLayout}>
+                  {getFieldDecorator("category1")(
+                    <Input
+                      placeholder="请输入一级类目名称"
+                      autoComplete="off"
+                    />
+                  )}
+                </FormItem>
+              </Col>
+            )}
             {level == 2 && (
               <Col {...this.colspans}>
                 <FormItem label="二级类目名称" {...this.formItemLayout}>
