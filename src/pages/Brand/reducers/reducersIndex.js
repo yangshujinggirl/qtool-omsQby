@@ -1,6 +1,6 @@
 const initialState = {
   loading: false,
-  goodLists: [],
+  brandLists: [],
   error: "",
   everyPage:15,
   currentPage:1,
@@ -13,8 +13,15 @@ const index = (state = initialState, action) => {
         ...state,
         loading: true
       };
-    case "BASEGOODS_TABLELIST":
-      return { ...state, loading: false, ...action.payload };
+    case "FETCH_SUCCESS":
+      return { 
+        ...state,
+        loading: false,
+        brandLists: action.resultList,
+        totalCount:action.totalCount,
+        everyPage:action.everyPage,
+        currentPage:action.currentPage
+      };
     case "FETCH_FAIL":
       return {
         ...state,

@@ -1,10 +1,12 @@
 import { Table, Spin, Button } from "antd";
+import { connect } from 'react-redux';
 import FilterForm from "./components/FilterForm";
 import { QsubTable, Qpagination, QbyConnect, Qbtn} from "common";
 import * as Actions from "./actions/actionsIndex";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
 import { GoAuditApi } from "api/home/BaseGoods";
+import { ExportApi } from "api/home/Common";
 import moment from 'moment'
 
 class BaseGoods extends React.Component {
@@ -23,8 +25,12 @@ class BaseGoods extends React.Component {
     };
   }
   //初始化数据
-  componentDidMount = () => {
-    this.props.actions.getGoodsList({ ...this.state.inputValues });
+  componentDidMount (){
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:this.state.inputValues
+    })
+    // this.props.actions.getGoodsList({ ...this.state.inputValues });
   };
   //审核取消
   onCancel = resetFields => {
@@ -60,22 +66,42 @@ class BaseGoods extends React.Component {
       ..._values
     } = values;
     const params = {productNature,productType,sendType,status,currentPage,..._values}
-    this.props.actions.getGoodsList(params);
+    // this.props.actions.getGoodsList(params);
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:params
+    })
     this.setState({inputValues: params});
   };
   changePage = (currentPage, everyPage) => {
-    this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
-    });
+    // this.props.actions.getGoodsList({
+    //   ...this.state.inputValues,
+    //   currentPage,
+    //   everyPage
+    // });
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:{
+        ...this.state.inputValues,
+        currentPage,
+        everyPage
+      }
+    })
   };
   onShowSizeChange = (currentPage, everyPage) => {
-    this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
-    });
+    // this.props.actions.getGoodsList({
+    //   ...this.state.inputValues,
+    //   currentPage,
+    //   everyPage
+    // });
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:{
+        ...this.state.inputValues,
+        currentPage,
+        everyPage
+      }
+    })
   };
   onSubmit = params => {
     const {time,..._values} = params;
@@ -85,27 +111,9 @@ class BaseGoods extends React.Component {
     };
     this.searchData(params);
   };
-  handleOperateClick = (record, type) => {
-    switch (type) {
-      case "pass":
-        this.audit(record);
-        break;
-      // case "look":
-      //   this.look(record);
-      //   break;
-      // case "edit":
-      //   this.edit(record);
-      //   break;
-    }
+  handleOperateClick = (record,type) => {
+    this.audit(record);
   };
-  // //查看
-  // look = record => {
-  //   console.log(record);
-  // };
-  // //编辑
-  // edit = record => {
-  //   console.log(record)
-  // };
   //审核
   audit = (record, type) => {
     console.log(typeof record.skuCode);
@@ -118,16 +126,22 @@ class BaseGoods extends React.Component {
   addTrade=()=> {
     this.props.history.push('/account/baseGoodsAdd')
   }
+  export =()=> {
+    ExportApi({...this.state.inputValues,type:1}).then(res=>{
+
+    })
+  }
   render() {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
+    console.log(this.props)
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
           <div className="handle-operate-btn-action">
             <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
             <Qbtn size="free">新建跨境品</Qbtn>
-            <Qbtn size="free">商品导出</Qbtn>
+            <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
           </div>
           <QsubTable
             parColumns={Columns}
@@ -152,5 +166,8 @@ class BaseGoods extends React.Component {
     );
   }
 }
-
-export default QbyConnect(BaseGoods, Actions, "BaseGoodsReducers");
+function mapStateToProps(state) {
+  const { BaseGoodsReducers } =state;
+  return BaseGoodsReducers;
+}
+export default connect(mapStateToProps)(BaseGoods);

@@ -16,6 +16,10 @@ import Cgoods from './Cgoods';
 import Bgoods from './Bgoods';
 import CgoodsAdd from './Cgoods/CgoodsAdd';
 import CgoodsInfo from './Cgoods/CgoodsInfo';
+import Brand from './Brand'
+import BrandAdd from './Brand/BrandAdd'
+import BrandInfo from './Brand/BrandInfo'
+import Classify from './Classify'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -32,6 +36,10 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
         <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
+        <Route  path="/account/brand" component={Brand}/>
+        <Route  path="/account/brandAdd/:id?" component={BrandAdd}/>
+        <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
+        <Route  path="/account/classify" component={Classify}/>
         <Route component={NotFound}/>
       </Switch>
     )

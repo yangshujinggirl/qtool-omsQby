@@ -3,6 +3,7 @@ import {
   Select,Row,Col,Checkbox,
   Button,Radio,AutoComplete,
 } from 'antd';
+import { connect } from 'react-redux';
 import { Qtable, Qbtn, QbyConnect } from 'common';
 import { columnsAdd } from './column';
 import { GetEditInfoApi } from '../../api/home/BaseGoods';
@@ -43,12 +44,25 @@ class BaseGoodsAdd extends React.Component {
   }
   initPage() {
     const  { params } =this.props.match;
+    this.props.dispatch({
+      type:'baseGoodsAdd/resetPage',
+      payload:{}
+    })
     if(params.id) {
-      this.props.actions.fetchTotalData({spuCode:params.id})
+      this.props.dispatch({
+        type:'baseGoodsAdd/fetchTotalData',
+        payload:{spuCode:params.id}
+      })
     }
-    this.props.actions.resetPages()
-    this.props.actions.fetchCategoryData({level:1,parentId:''})
-    this.props.actions.fetchSupplier()
+    this.props.dispatch({
+      type:'baseGoodsAdd/fetchCategory',
+      payload:{level:1,parentId:''}
+    })
+    this.props.dispatch({
+      type:'baseGoodsAdd/fetchSupplier',
+      payload:{}
+    })
+    // this.props.actions.fetchSupplier()
   }
   handleChangeLevel=(level,selected)=>{
     level++;
@@ -56,7 +70,10 @@ class BaseGoodsAdd extends React.Component {
   }
   //品牌搜索
   handleSearch=(value)=> {
-    this.props.actions.fetchbrandList(value)
+    this.props.dispatch({
+      type:'baseGoodsAdd/fetchbrandList',
+      payload:{brandName:value}
+    })
   }
   //品牌，国家选中事件
   autoSelect(value, option) {
@@ -64,7 +81,7 @@ class BaseGoodsAdd extends React.Component {
     let item = brandDataSource.find((el)=> el.value== value);
     totalData = { ...totalData, brandAddress:item.brandCountry};
     // totalData = { ...totalData, brandAddress:'美国'};
-    this.props.actions.setData({totalData});
+    // this.props.actions.setData({totalData});
   }
   submit=(e)=> {
     e.preventDefault();
@@ -76,11 +93,7 @@ class BaseGoodsAdd extends React.Component {
     });
   }
   render() {
-
-    const {
-      categoryLevelOne, categoryLevelTwo,isLevelTwo,isLevelThr,isLevelFour,
-      categoryLevelThr, categoryLevelFour,supplierList,
-      totalData, brandDataSource, match } =this.props;
+    const { categoryData,supplierList,totalData, brandDataSource, match } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     console.log(this.props);
@@ -163,9 +176,9 @@ class BaseGoodsAdd extends React.Component {
                 rules: [{ required: true, message: '请选择后台一级类目'}],
                 onChange:(select)=>this.handleChangeLevel(1,select)
               })(
-                <Select disabled={isEdit} placeholder="请选择后台一级类目">
+                <Select placeholder="请选择后台一级类目">
                 {
-                  categoryLevelOne.map((el) => (
+                  categoryData.categoryLevelOne.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
@@ -178,9 +191,9 @@ class BaseGoodsAdd extends React.Component {
                 rules: [{ required: true, message: '请选择后台二级类目'}],
                 onChange:(select)=>this.handleChangeLevel(2,select)
               })(
-                <Select disabled={isEdit||isLevelTwo} placeholder="请选择后台二级类目">
+                <Select disabled={isEdit||categoryData.isLevelTwo} placeholder="请选择后台二级类目">
                 {
-                  categoryLevelTwo.map((el) => (
+                  categoryData.categoryLevelTwo.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
@@ -193,9 +206,9 @@ class BaseGoodsAdd extends React.Component {
                 rules: [{ required: true, message: '请选择后台三级类目'}],
                 onChange:(select)=>this.handleChangeLevel(3,select)
               })(
-                <Select disabled={isEdit||isLevelThr} placeholder="请选择后台三级类目">
+                <Select disabled={isEdit||categoryData.isLevelThr} placeholder="请选择后台三级类目">
                 {
-                  categoryLevelThr.map((el) => (
+                  categoryData.categoryLevelThr.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
@@ -207,9 +220,9 @@ class BaseGoodsAdd extends React.Component {
                 initialValue:totalData.fourCategoryId,
                 rules: [{ required: true, message: '请选择后台四级类目'}],
               })(
-                <Select disabled={isEdit||isLevelFour} placeholder="请选择后台四级类目">
+                <Select disabled={isEdit||categoryData.isLevelFour} placeholder="请选择后台四级类目">
                 {
-                  categoryLevelFour.map((el) => (
+                  categoryData.categoryLevelFour.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
                   ))
                 }
@@ -317,6 +330,10 @@ class BaseGoodsAdd extends React.Component {
     )
   }
 }
+function mapStateToProps(state) {
+  const { BaseGoodsAddReducers } =state;
+  return BaseGoodsAddReducers;
+}
 const BaseGoodsAddF = Form.create()(BaseGoodsAdd);
-export default QbyConnect(BaseGoodsAddF, Actions, "BaseGoodsAddReducers");
+export default connect(mapStateToProps)(BaseGoodsAddF);
 // export default BaseGoodsAddF;
