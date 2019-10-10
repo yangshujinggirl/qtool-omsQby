@@ -78,7 +78,6 @@ function* fetchCategoryData(action){
       isLevelFour=false;
       break;
   }
-  console.log('categoryLevelOne',categoryLevelOne)
   yield put({
     type: 'BASEGOODSADD_CATEGORY',
     payload: {
@@ -95,17 +94,17 @@ function* fetchCategoryData(action){
   })
 };
 //查询规格
-function* fetchAttributeData(action){
-  let params = action.payload;
-  GetAttributeApi(params)
-  .then((res) => {
-    let { result } =res;
-    result&&result.length>0&&result.map((el)=>el.key =el.id);
-    // dispatch(fetchSuccess({ AttributeList: result }));
-  },err=> {
-    // dispatch(fetchFailed(err));
-  })
-};
+// function* fetchAttributeData(action){
+//   let params = action.payload;
+//   GetAttributeApi(params)
+//   .then((res) => {
+//     let { result } =res;
+//     result&&result.length>0&&result.map((el)=>el.key =el.id);
+//     // dispatch(fetchSuccess({ AttributeList: result }));
+//   },err=> {
+//     // dispatch(fetchFailed(err));
+//   })
+// };
 function* fetchbrandList(action) {
   let params = action.payload;
   const res = yield call(GetBrandApi,params);
@@ -150,15 +149,13 @@ function* resetPages(action){
       isLevelThr:false,
       isLevelFour:false
     },
-    isLevelTwo:true,
-    isLevelThr:true,
-    isLevelFour:true
   }
   yield put({
     type: 'BASEGOODSADD_RESETPAGE',
     payload: data
   })
 };
+
 export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchTotalData', fetchTotalData)
   yield takeEvery('baseGoodsAdd/fetchCategory', fetchCategoryData)

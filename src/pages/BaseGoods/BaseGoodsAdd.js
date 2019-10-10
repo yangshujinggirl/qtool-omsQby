@@ -96,7 +96,7 @@ class BaseGoodsAdd extends React.Component {
     const { categoryData,supplierList,totalData, brandDataSource, match } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
-    console.log(this.props);
+    // console.log(this.props);
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
