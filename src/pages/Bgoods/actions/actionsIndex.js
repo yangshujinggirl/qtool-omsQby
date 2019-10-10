@@ -1,4 +1,4 @@
-import { GetGoodsApi } from "../../../api/home/Bgoods";
+import { GetGoodsApi } from "api/home/Bgoods";
 /**
  * 请求开始的请求
  */

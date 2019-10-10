@@ -1,4 +1,4 @@
-import { GetCategoryListApi } from "api/home/Classify";
+import { GetAtrListApi } from "api/home/Attributions";
 /**
  * 请求开始的请求
  */
@@ -37,10 +37,10 @@ function fetchFailed(error) {
  * 请求基础商品列表
  * @param {*} value
  */
-export const getCategoryList = value => {
+export const getAtrList = value => {
   return dispatch => {
     dispatch(fetchStart());
-    GetCategoryListApi(value).then(
+    GetAtrListApi(value).then(
       res => {
         dispatch(fetchSuccess(res.result));
       },

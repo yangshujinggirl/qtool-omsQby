@@ -20,6 +20,9 @@ import Brand from './Brand'
 import BrandAdd from './Brand/BrandAdd'
 import BrandInfo from './Brand/BrandInfo'
 import Classify from './Classify'
+import Attributions from './Attributions'
+import AttrAdd from './Attributions/AttrAdd'
+import AttrInfo from './Attributions/AttrInfo'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -40,6 +43,9 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/brandAdd/:id?" component={BrandAdd}/>
         <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
         <Route  path="/account/classify" component={Classify}/>
+        <Route  path="/account/Attributions" component={Attributions}/>
+        <Route  path="/account/AttrAdd/:id?" component={AttrAdd}/>
+        <Route  path="/account/AttrInfo/:id?" component={AttrInfo}/>
         <Route component={NotFound}/>
       </Switch>
     )
