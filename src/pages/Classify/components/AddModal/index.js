@@ -154,6 +154,9 @@ class AddModal extends Component {
         );
     }
   }
+  onCancel=()=>{
+    this.props.onCancel()
+  }
   render() {
     const { visible } = this.props;
     return (

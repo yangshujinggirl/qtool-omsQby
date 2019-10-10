@@ -6,7 +6,7 @@ import * as Actions from "./actions/actionsIndex";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
 import { GoAuditApi } from "api/home/BaseGoods";
-import { ExportApi } from "api/home/Common";
+import { ExportApi } from "api/Export";
 import moment from 'moment'
 
 class BaseGoods extends React.Component {
@@ -52,10 +52,10 @@ class BaseGoods extends React.Component {
   };
   //搜索列表
   searchData = values => {
-    const {time,_value} = values;
+    const {time,..._value} = values;
     if(time){
-      values.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
-      values.etime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+      _values.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+      _values.etime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
     };
     const {
       productNature = -1,
@@ -127,9 +127,7 @@ class BaseGoods extends React.Component {
     this.props.history.push('/account/baseGoodsAdd')
   }
   export =()=> {
-    ExportApi({...this.state.inputValues,type:1}).then(res=>{
-
-    })
+    ExportApi({...this.state.inputValues,type:1})
   }
   render() {
     const { visible, status } = this.state;

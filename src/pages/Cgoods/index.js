@@ -1,6 +1,7 @@
 import FilterForm from "./components/FilterForm";
 import { Qtable, Qpagination, QbyConnect, Qbtn } from "common";
 import * as Actions from "./actions/actionsIndex";
+import {ExportApi} from 'api/Export'
 import Columns from "./column";
 import moment from "moment";
 
@@ -44,13 +45,17 @@ class Cgoods extends React.Component {
   onSubmit = params => {
     this.searchData(params);
   };
+   //导出
+  export =()=> {
+    ExportApi({...this.state.inputValues,type:2})
+  }
   render() {
     const { goodLists } = this.props;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Qbtn size="free">商品导出</Qbtn>
+          <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
         </div>
         <Qtable
           columns={Columns}
