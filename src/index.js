@@ -21,13 +21,13 @@ import Login from './pages/Login';
 import HomeController from './pages/HomeController';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// const sagaMiddleware=createSagaMiddleware();
-// const store = createStore(
-//   rootReducer,
-//   applyMiddleware(sagaMiddleware)
-// );
-// sagaMiddleware.run(helloSaga);
-const store = createStore(rootReducer,applyMiddleware(thunkMiddleware,createLogger()));
+const sagaMiddleware=createSagaMiddleware();
+const store = createStore(
+  rootReducer,
+  applyMiddleware(sagaMiddleware)
+);
+sagaMiddleware.run(helloSaga);
+// const store = createStore(rootReducer,applyMiddleware(thunkMiddleware,createLogger()));
 ReactDOM.render(
   <Provider store={store}>
     <Router>

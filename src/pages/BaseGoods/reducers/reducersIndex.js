@@ -13,15 +13,8 @@ const index = (state = initialState, action) => {
         ...state,
         loading: true
       };
-    case "FETCH_SUCCESS":
-      return { 
-        ...state,
-        loading: false,
-        goodLists: action.resultList,
-        totalCount:action.totalCount,
-        everyPage:action.everyPage,
-        currentPage:action.currentPage
-      };
+    case "BASEGOODS_TABLELIST":
+      return { ...state, loading: false, ...action.payload };
     case "FETCH_FAIL":
       return {
         ...state,

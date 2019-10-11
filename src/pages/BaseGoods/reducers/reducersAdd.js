@@ -27,6 +27,16 @@ const index = (state = {
         ...state,
         loading: true
       };
+    case "BASEGOODSADD_TOTALDATA":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_CATEGORY":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_RESETPAGE":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_SUPPLIERLIST":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_BRANDLIST":
+      return { ...state,loading: false,...action.payload };
     case "T.FETCH_SUCCESS":
       return { ...state,loading: false,...action };
     case "T.FETCH_FAIL":

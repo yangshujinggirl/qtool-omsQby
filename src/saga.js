@@ -1,13 +1,23 @@
 
 import { all,call, select} from 'redux-saga/effects'
-import { getTabsListFlow, fetchTotalData } from './pages/Public/Sagas'
-// export function* helloSaga() {
-//   const id = yield select(state => state.BaseGoodsAddReducers);
-//   console.log(id)
-//   console.log('Hello Sagas!');
-// }
+import rootSagas from './pages/Public/Sagas'
+import BaseGoodsSagas from './models/BaseGoods';
+import BaseAddSagas from './models/BaseGoods/BaseAdd';
+import BgoodSagas from './models/Bgoods';
+import CgoodSagas from './models/Cgoods';
+import BrandSagas from './models/Brand';
+import ClassifySagas from './models/Classify';
+import AttributionSagas from './models/Attributions';
+
 export function* helloSaga () {
-  // const id = yield select(state => state.BaseGoodsAddReducers);
-    // console.log(id)
-  yield all([call(getTabsListFlow),call(fetchTotalData)])
+  yield all([
+    call(rootSagas),
+    call(BaseGoodsSagas),
+    call(BaseAddSagas),
+    call(BgoodSagas),
+    call(CgoodSagas),
+    call(BrandSagas),
+    call(ClassifySagas),
+    call(AttributionSagas),
+  ])
 }

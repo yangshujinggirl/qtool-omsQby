@@ -3,7 +3,7 @@ import Req from '../Req'
  * 
  * 获取规格列表
  */
-export function GetAtrListApi(values){
+export function GetListsApi(values){
     return Req.get('attribute/searchByQbc',{
         params:{...values}
     })

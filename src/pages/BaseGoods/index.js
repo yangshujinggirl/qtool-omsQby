@@ -1,4 +1,5 @@
 import { Table, Spin, Button } from "antd";
+import { connect } from 'react-redux';
 import FilterForm from "./components/FilterForm";
 import { QsubTable, Qpagination, QbyConnect, Qbtn} from "common";
 import * as Actions from "./actions/actionsIndex";
@@ -24,8 +25,12 @@ class BaseGoods extends React.Component {
     };
   }
   //初始化数据
-  componentDidMount = () => {
-    this.props.actions.getGoodsList({ ...this.state.inputValues });
+  componentDidMount (){
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:this.state.inputValues
+    })
+    // this.props.actions.getGoodsList({ ...this.state.inputValues });
   };
   //审核取消
   onCancel = resetFields => {
@@ -61,22 +66,42 @@ class BaseGoods extends React.Component {
       ..._values
     } = values;
     const params = {productNature,productType,sendType,status,currentPage,..._values}
-    this.props.actions.getGoodsList(params);
+    // this.props.actions.getGoodsList(params);
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:params
+    })
     this.setState({inputValues: params});
   };
   changePage = (currentPage, everyPage) => {
-    this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
-    });
+    // this.props.actions.getGoodsList({
+    //   ...this.state.inputValues,
+    //   currentPage,
+    //   everyPage
+    // });
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:{
+        ...this.state.inputValues,
+        currentPage,
+        everyPage
+      }
+    })
   };
   onShowSizeChange = (currentPage, everyPage) => {
-    this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
-    });
+    // this.props.actions.getGoodsList({
+    //   ...this.state.inputValues,
+    //   currentPage,
+    //   everyPage
+    // });
+    this.props.dispatch({
+      type:'baseGoods/fetchList',
+      payload:{
+        ...this.state.inputValues,
+        currentPage,
+        everyPage
+      }
+    })
   };
   onSubmit = params => {
     const {time,..._values} = params;
@@ -107,6 +132,7 @@ class BaseGoods extends React.Component {
   render() {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
+    console.log(this.props)
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
@@ -138,5 +164,8 @@ class BaseGoods extends React.Component {
     );
   }
 }
-
-export default QbyConnect(BaseGoods, Actions, "BaseGoodsReducers");
+function mapStateToProps(state) {
+  const { BaseGoodsReducers } =state;
+  return BaseGoodsReducers;
+}
+export default connect(mapStateToProps)(BaseGoods);

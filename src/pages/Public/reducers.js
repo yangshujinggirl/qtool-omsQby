@@ -4,10 +4,10 @@ const index = (state={
   menuList:[]//侧边栏
 },action) => {
   switch(action.type) {
-    case 'FETCH_SUCCESS':
-      return { ...state, loading:false, ...action }
-    case 'FETCH_START':
-      return { ...state, loading:true }
+    case 'P.FETCH_SUCCESS':
+      return { ...state, loading:false, ...action.payload }
+    case 'P.FETCH_INFO':
+      return { ...state, loading:true, ...action.payload }
     case 'FETCH_FAILED':
       return { ...state, loading:false }
     case 'SET_LOADING':

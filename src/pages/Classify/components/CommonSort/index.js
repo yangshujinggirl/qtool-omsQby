@@ -1,5 +1,5 @@
-import { Qtable, Qpagination, QbyConnect, Qbtn } from "common";
-import * as Actions from "../../actions/actionsIndex";
+import { connect } from "react-redux";
+import { Qtable, Qpagination, Qbtn } from "common";
 import FilterForm from "../FilterForm";
 import { Columns1, Columns2, Columns3, Columns4 } from "../../column";
 import AddModal from "../AddModal";
@@ -18,11 +18,12 @@ class CommonSort extends React.Component {
   //初始化数据
   componentDidMount = () => {
     this.initColumnss();
-    this.props.actions.getCategoryList({ ...this.state.inputValues });
+    this.props.dispatch({
+      type: "classify/fetchList",
+      payload: { ...this.state.inputValues }
+    });
   };
   initColumnss = () => {
-    console.log(111);
-    console.log(this.props.level);
     let Columns;
     switch (this.props.level) {
       case 1:
@@ -41,20 +42,25 @@ class CommonSort extends React.Component {
     this.setState({
       Columns
     });
-    console.log(Columns);
   };
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
-    this.props.actions.getCategoryList(params);
+    this.props.dispatch({
+      type: "classify/fetchList",
+      payload: params
+    });
     this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    this.props.actions.getCategoryList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
+    this.props.dispatch({
+      type: "classify/fetchList",
+      payload: {
+        ...this.state.inputValues,
+        currentPage,
+        everyPage
+      }
     });
   };
   //搜索查询
@@ -100,5 +106,8 @@ class CommonSort extends React.Component {
     );
   }
 }
-
-export default QbyConnect(CommonSort, Actions, "ClassifyReducers");
+function mapStateToProps(state) {
+  const { ClassifyReducers } = state;
+  return ClassifyReducers;
+}
+export default connect(mapStateToProps)(CommonSort);

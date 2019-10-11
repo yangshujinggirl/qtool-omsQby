@@ -1,6 +1,6 @@
 import FilterForm from "./components/FilterForm";
-import { Qtable, Qpagination, QbyConnect, Qbtn } from "common";
-import * as Actions from "./actions/actionsIndex";
+import { connect } from "react-redux";
+import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
 
 class Attributions extends React.Component {
@@ -12,20 +12,25 @@ class Attributions extends React.Component {
   }
   //初始化数据
   componentDidMount = () => {
-    this.props.actions.getAtrList({ ...this.state.inputValues });
+    this.props.dispatch({
+      type: "attribution/fetchList",
+      payload: {}
+    });
   };
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
-    this.props.actions.getAtrList(params);
+    this.props.dispatch({
+      type: "attribution/fetchList",
+      payload: params
+    });
     this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    this.props.actions.getAtrList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
+    this.props.dispatch({
+      type: "attribution/fetchList",
+      payload: { ...this.state.inputValues, currentPage, everyPage }
     });
   };
   //搜索查询
@@ -33,16 +38,18 @@ class Attributions extends React.Component {
     this.searchData(params);
   };
   //新增属性
-  addAtr =()=> {
-  }
+  addAtr = () => {
+    
+  };
   render() {
-    console.log(this.props)
     const { atrLists } = this.props;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Qbtn size="free" onClick={this.addAtr}>新增属性</Qbtn>
+          <Qbtn size="free" onClick={this.addAtr}>
+            新增属性
+          </Qbtn>
         </div>
         <Qtable columns={Columns} dataSource={atrLists} />
         <Qpagination data={this.props} onChange={this.changePage} />
@@ -50,5 +57,8 @@ class Attributions extends React.Component {
     );
   }
 }
-
-export default QbyConnect(Attributions,Actions, "AttributionsReducers");
+function mapStateToProps(state) {
+  const { AttributionsReducers } = state;
+  return AttributionsReducers;
+}
+export default connect(mapStateToProps)(Attributions);

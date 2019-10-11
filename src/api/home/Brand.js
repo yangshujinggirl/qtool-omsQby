@@ -3,7 +3,7 @@ import Req from '../Req'
  * 
  * 获取品牌列表
  */
-export function GetBrandApi(values){
+export function GetListsApi(values){
     return Req.get('/brand/searchBrand',{
         params:{...values}
     })

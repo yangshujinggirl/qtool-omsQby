@@ -1,6 +1,6 @@
+import { connect } from "react-redux";
 import FilterForm from "./components/FilterForm";
-import { Qtable, Qpagination, QbyConnect, Qbtn } from "common";
-import * as Actions from "./actions/actionsIndex";
+import { Qtable, Qpagination, Qbtn } from "common";
 import { Link } from "react-router-dom";
 import Columns from "./column";
 
@@ -13,21 +13,25 @@ class Brand extends React.Component {
   }
   //初始化数据
   componentDidMount = () => {
-    console.log(this.props);
-    this.props.actions.getBrandList({ currentPage: 1, pageNum: 20 });
+    this.props.dispatch({
+      type: "brand/fetchList",
+      payload: {}
+    });
   };
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
-    this.props.actions.getBrandList(params);
+    this.props.dispatch({
+      type: "brand/fetchList",
+      payload: params
+    });
     this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    this.props.actions.getBrandList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
+    this.props.dispatch({
+      type: "brand/fetchList",
+      payload: { ...this.state.inputValues, currentPage, everyPage }
     });
   };
   //搜索查询
@@ -35,6 +39,7 @@ class Brand extends React.Component {
     this.searchData(params);
   };
   render() {
+    console.log(this.props);
     const { brandLists } = this.props;
     return (
       <div className="oms-common-index-pages-wrap">
@@ -44,10 +49,14 @@ class Brand extends React.Component {
             <Qbtn size="free">新增品牌</Qbtn>
           </Link>
         </div>
-        <Qtable columns={Columns} dataSource={brandLists}/>
-        <Qpagination data={this.props} onChange={this.changePage}/>
+        <Qtable columns={Columns} dataSource={brandLists} />
+        <Qpagination data={this.props} onChange={this.changePage} />
       </div>
     );
   }
 }
-export default QbyConnect(Brand, Actions, "BrandReducers");
+function mapStateToProps(state) {
+  const { BrandReducers } = state;
+  return BrandReducers;
+}
+export default connect(mapStateToProps)(Brand);
