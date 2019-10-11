@@ -3,7 +3,7 @@ const index = (state = {
   brandDataSource:[],
   totalData:{},
   supplierList:[],
-  AttributeList:[],//规格
+  attributeList:[],//规格
   categoryData:{
     categoryLevelOne:[],
     categoryLevelTwo:[],
@@ -13,13 +13,6 @@ const index = (state = {
     isLevelThr:false,
     isLevelFour:false
   },
-  categoryLevelOne:[],
-  categoryLevelTwo:[],
-  categoryLevelThr:[],
-  categoryLevelFour:[],
-  isLevelTwo:false,
-  isLevelThr:false,
-  isLevelFour:false
 }, action) => {
   switch (action.type) {
     case "T.FETCH_START":
@@ -36,6 +29,8 @@ const index = (state = {
     case "BASEGOODSADD_SUPPLIERLIST":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_BRANDLIST":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_ATTRIBUTE":
       return { ...state,loading: false,...action.payload };
     case "T.FETCH_SUCCESS":
       return { ...state,loading: false,...action };
