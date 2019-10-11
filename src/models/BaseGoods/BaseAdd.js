@@ -6,24 +6,26 @@ import {
 } from "../../api/home/BaseGoods";
 
 //详情
-function* fetchTotalData(action){
+function* getTotalState(action){
+  let totalData={...totalData,...action.payload};
+  yield put({
+    type: 'BASEGOODSADD_TOTALDATA',
+    payload: {totalData}
+  })
+}
+function* fetchTotal(action){
   let params = action.payload;
   const res = yield call(GetEditInfoApi,params);
   let { result } =res;
   let { omsCategoryPropertyDto } =result;
   result={ ...result, ...omsCategoryPropertyDto };
-  yield put({
-    type: 'BASEGOODSADD_TOTALDATA',
-    payload: {
-      totalData:result
-    }
-  })
+  yield call(getTotalState,{payload:result})
   const [levelTwo,levelThr,levelFour,attributeList] = yield all([
     call(GetCategoryApi,{level:'2',parentId:omsCategoryPropertyDto.categoryId}),
     call(GetCategoryApi,{level:'3',parentId:omsCategoryPropertyDto.secondCategoryId}),
     call(GetCategoryApi,{level:'4',parentId:omsCategoryPropertyDto.thirdCategoryId}),
-    call(GetAttributeApi,{categoryId:omsCategoryPropertyDto.fourCategoryId}),
   ])
+  yield call(fetchAttribute,{payload:omsCategoryPropertyDto.fourCategoryId})
   const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
   yield put({
     type: 'BASEGOODSADD_CATEGORY',
@@ -33,7 +35,6 @@ function* fetchTotalData(action){
         categoryLevelTwo:levelTwo.result,
         categoryLevelThr:levelThr.result,
         categoryLevelFour:levelFour.result,
-        attributeList:attributeList.result?attributeList.result:[],
         isLevelTwo:false,
         isLevelThr:false,
         isLevelFour:false
@@ -42,13 +43,14 @@ function* fetchTotalData(action){
   })
 };
 //查询分类
-function* fetchCategoryData(action){
+function* fetchCategory(action){
   let params = action.payload;
   const res = yield call(GetCategoryApi,params);
   let { result } =res;
   result&&result.length>0&&result.map((el)=>el.key =el.id);
-  const { level } =params;
-  const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
+  const { level, parentId } =params;
+  let categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
+  let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
   let { categoryLevelOne,categoryLevelTwo,
     categoryLevelThr,categoryLevelFour,
     isLevelTwo,isLevelThr,isLevelFour,attributeList } =categoryData;
@@ -64,20 +66,32 @@ function* fetchCategoryData(action){
       isLevelTwo=false;
       isLevelThr=true;
       isLevelFour=true;
+      totalData.categoryId=parentId;
+      totalData.secondCategoryId=null;
+      totalData.thirdCategoryId=null;
+      totalData.fourCategoryId=null;
       break;
     case 3:
       categoryLevelThr = result
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=true;
+      totalData.secondCategoryId=parentId;
+      totalData.thirdCategoryId=null;
+      totalData.fourCategoryId=null;
       break;
     case 4:
       categoryLevelFour = result
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=false;
+      totalData.thirdCategoryId=parentId;
       break;
   }
+  yield put({
+    type: 'BASEGOODSADD_TOTALDATA',
+    payload: {totalData}
+  })
   yield put({
     type: 'BASEGOODSADD_CATEGORY',
     payload: {
@@ -94,17 +108,18 @@ function* fetchCategoryData(action){
   })
 };
 //查询规格
-// function* fetchAttributeData(action){
-//   let params = action.payload;
-//   GetAttributeApi(params)
-//   .then((res) => {
-//     let { result } =res;
-//     result&&result.length>0&&result.map((el)=>el.key =el.id);
-//     // dispatch(fetchSuccess({ AttributeList: result }));
-//   },err=> {
-//     // dispatch(fetchFailed(err));
-//   })
-// };
+function* fetchAttribute(action){
+  let params = action.payload;
+  const res = yield call(GetAttributeApi,{categoryId:params});
+  let { result } =res;
+  result=result?result:[]
+  result.length>0&&result.map((el)=>el.key =el.id);
+  console.log(result)
+  yield put({
+    type: 'BASEGOODSADD_ATTRIBUTE',
+    payload: {attributeList:result}
+  })
+};
 function* fetchbrandList(action) {
   let params = action.payload;
   const res = yield call(GetBrandApi,params);
@@ -157,9 +172,11 @@ function* resetPages(action){
 };
 
 export default function* rootSagas () {
-  yield takeEvery('baseGoodsAdd/fetchTotalData', fetchTotalData)
-  yield takeEvery('baseGoodsAdd/fetchCategory', fetchCategoryData)
+  yield takeEvery('baseGoodsAdd/fetchTotal', fetchTotal)
+  yield takeEvery('baseGoodsAdd/getTotalState', getTotalState)
+  yield takeEvery('baseGoodsAdd/fetchCategory', fetchCategory)
   yield takeEvery('baseGoodsAdd/fetchSupplier', fetchSupplier)
   yield takeEvery('baseGoodsAdd/fetchbrandList', fetchbrandList)
+  yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
 }

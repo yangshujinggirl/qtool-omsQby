@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Qtable, Qbtn, QbyConnect } from 'common';
 import { columnsAdd } from './column';
 import { GetEditInfoApi } from '../../api/home/BaseGoods';
-import * as Actions from "./actions/actionsAdd";
+// import * as Actions from "./actions/actionsAdd";
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -50,7 +50,7 @@ class BaseGoodsAdd extends React.Component {
     })
     if(params.id) {
       this.props.dispatch({
-        type:'baseGoodsAdd/fetchTotalData',
+        type:'baseGoodsAdd/fetchTotal',
         payload:{spuCode:params.id}
       })
     }
@@ -62,11 +62,19 @@ class BaseGoodsAdd extends React.Component {
       type:'baseGoodsAdd/fetchSupplier',
       payload:{}
     })
-    // this.props.actions.fetchSupplier()
   }
   handleChangeLevel=(level,selected)=>{
     level++;
-    this.props.actions.fetchCategoryData({level,parentId:selected })
+    this.props.dispatch({
+      type:'baseGoodsAdd/fetchCategory',
+      payload:{level,parentId:selected }
+    })
+  }
+  handleAttribute=(selected)=>{
+    this.props.dispatch({
+      type:'baseGoodsAdd/fetchAttribute',
+      payload:selected
+    })
   }
   //品牌搜索
   handleSearch=(value)=> {
@@ -79,9 +87,17 @@ class BaseGoodsAdd extends React.Component {
   autoSelect(value, option) {
     let { brandDataSource,totalData } =this.props;
     let item = brandDataSource.find((el)=> el.value== value);
-    totalData = { ...totalData, brandAddress:item.brandCountry};
+    // totalData = { ...totalData, brandAddress:item.brandCountry};
     // totalData = { ...totalData, brandAddress:'美国'};
     // this.props.actions.setData({totalData});
+    this.props.dispatch({
+      type:'baseGoodsAdd/getTotalState',
+      payload:{brandAddress:item.brandCountry}
+    })
+  }
+  //规格
+  changeAttrubte(value) {
+    console.log(value)
   }
   submit=(e)=> {
     e.preventDefault();
@@ -93,7 +109,7 @@ class BaseGoodsAdd extends React.Component {
     });
   }
   render() {
-    const { categoryData,supplierList,totalData, brandDataSource, match } =this.props;
+    const { categoryData,supplierList, attributeList, totalData, brandDataSource, match } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     // console.log(this.props);
@@ -176,7 +192,7 @@ class BaseGoodsAdd extends React.Component {
                 rules: [{ required: true, message: '请选择后台一级类目'}],
                 onChange:(select)=>this.handleChangeLevel(1,select)
               })(
-                <Select placeholder="请选择后台一级类目">
+                <Select placeholder="请选择后台一级类目" disabled={isEdit}>
                 {
                   categoryData.categoryLevelOne.map((el) => (
                     <Option value={el.id} key={el.id}>{el.categoryName}</Option>
@@ -219,6 +235,7 @@ class BaseGoodsAdd extends React.Component {
               {getFieldDecorator('fourCategoryId', {
                 initialValue:totalData.fourCategoryId,
                 rules: [{ required: true, message: '请选择后台四级类目'}],
+                onChange:(select)=>this.handleAttribute(select)
               })(
                 <Select disabled={isEdit||categoryData.isLevelFour} placeholder="请选择后台四级类目">
                 {
@@ -293,26 +310,23 @@ class BaseGoodsAdd extends React.Component {
                 <Input placeholder="请输入商品描述"/>
               )}
             </Form.Item>
-            <Form.Item label="商品SKU规格1">
-              {getFieldDecorator('radio-group')(
-                <Select mode="multiple" placeholder="Please select favourite colors">
-                  <Option value="red">Red</Option>
-                  <Option value="green">Green</Option>
-                  <Option value="blue">Blue</Option>
-                  <Option value="blue">yellow</Option>
-                </Select>
-              )}
-            </Form.Item>
-            <Form.Item label="商品SKU规格2">
-              {getFieldDecorator('radio-group')(
-                <Select mode="multiple" placeholder="Please select favourite colors">
-                  <Option value="red">Red</Option>
-                  <Option value="green">Green</Option>
-                  <Option value="blue">Blue</Option>
-                  <Option value="blue">yellow</Option>
-                </Select>
-              )}
-            </Form.Item>
+            {
+              attributeList.length>0&&attributeList.map((el,index)=> (
+                <Form.Item label={el.attributeName} key={index}>
+                  {getFieldDecorator('radio-group',{
+                    onChange:this.changeAttrubte
+                  })(
+                    <Select mode="multiple" placeholder="Please select favourite colors">
+                    {
+                      el.attributeValueShow.map((item,index) => (
+                        <Option value={item} key={index}>{item}</Option>
+                      ))
+                    }
+                    </Select>
+                  )}
+                </Form.Item>
+              ))
+            }
             <Form.Item label="商品信息" {...formItemLayoutBig}>
               <Qtable dataSource={[]} columns={columnsAdd}/>
             </Form.Item>
