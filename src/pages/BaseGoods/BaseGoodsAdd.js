@@ -4,9 +4,9 @@ import {
   Button,Radio,AutoComplete,
 } from 'antd';
 import { connect } from 'react-redux';
-import { Qtable, Qbtn, QbyConnect } from 'common';
+import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
 import { columnsAdd } from './column';
-import { GetEditInfoApi } from '../../api/home/BaseGoods';
+import { GetEditInfoApi, GetAddApi } from '../../api/home/BaseGoods';
 import UpLoadImgLimt from './components/UpLoadImgLimt';
 // import * as Actions from "./actions/actionsAdd";
 
@@ -99,41 +99,31 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   //规格
-  changeAttrubte(value) {
-    console.log(value)
+  changeAttrubte(value,typeIdx) {
+    console.log(value,typeIdx)
   }
   submit=(e)=> {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.log(values)
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log(values);
+        GetAddApi(values)
+        .then((res)=> {
+          console.log(res)
+        })
       }
     });
   }
-  uploadButton=()=>{
-    return <div>
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-           </div>
-  };
-  handleCancel = () => this.setState({ previewVisible: false });
-  handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    this.setState({
-      previewImage: file.url || file.preview,
-      previewVisible: true,
-    });
-  };
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  updateFileList = (fileList) => {
+    this.props.dispatch({
+      type:'baseGoodsAdd/getFileList',
+      payload:fileList
+    })
+  }
   render() {
-    const { categoryData,supplierList, attributeList, totalData, brandDataSource, match } =this.props;
+    const { categoryData,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
-    let fileList = [];
     console.log(this.props);
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
@@ -158,7 +148,7 @@ class BaseGoodsAdd extends React.Component {
                   initialValue:totalData.supplierId,
                   rules: [{ required: true, message: '请选择货主' }],
                 })(
-                  <Select placeholder="请选择货主">
+                  <Select placeholder="请选择货主" autoComplete="off">
                   {
                     supplierList.length>0&&supplierList.map((el)=> (
                       <Option value={el.id} key={el.id}>{el.name}</Option>
@@ -185,6 +175,7 @@ class BaseGoodsAdd extends React.Component {
                    rules: [{ required: true, message: '请选择商品品牌'}],
                  })(
                    <AutoComplete
+                    autoComplete="off"
                     dataSource={brandDataSource}
                     onSearch={this.handleSearch}
                     onSelect={(value, option)=>this.autoSelect(value, option)}
@@ -271,9 +262,12 @@ class BaseGoodsAdd extends React.Component {
             <Form.Item label="分润服务扣点">
               {getFieldDecorator('bonusRate', {
                 initialValue:totalData.bonusRate,
-                rules: [{ required: true, message: '请输入分润服务扣点' }],
+                rules: [
+                  { required: true, message: '请输入分润服务扣点' },
+                  { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
+                ],
               })(
-                <Input placeholder="请输入分润服务扣点"/>
+                <Input placeholder="请输入分润服务扣点" autoComplete="off"/>
               )}
             </Form.Item>
             <Form.Item label="联营分成类别">
@@ -320,51 +314,40 @@ class BaseGoodsAdd extends React.Component {
                 </Radio.Group>
               )}
             </Form.Item>
-            <UpLoadImgLimt
-              name="imageListB"
-              fileList={fileList}
-              form={this.props.form}/>
             <Form.Item label="商品图片">
-              {getFieldDecorator('imageListB',{
-                initialValue:fileList,
-                rules:[{required:true,message:'请上传图片'}],
-                valuePropName: 'file',
-              })(
-                <Upload
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  listType="picture-card"
-                  onPreview={this.handlePreview}
-                  onChange={this.handleChange}>
-                  {fileList.length >= 8 ? null : this.uploadButton()}
-                </Upload>
-              )}
+              <QupLoadImgLimt
+                limit={5}
+                upDateList={this.updateFileList}
+                fileList={fileList}/>
             </Form.Item>
             <Form.Item label="商品描述">
               {getFieldDecorator('productDetailB',{
                 initialValue:totalData.productDetailB,
               })(
-                <Input placeholder="请输入商品描述"/>
+                <Input placeholder="请输入商品描述" autoComplete="off"/>
               )}
             </Form.Item>
             {
               attributeList.length>0&&attributeList.map((el,index)=> (
                 <Form.Item label={el.attributeName} key={index}>
-                  {getFieldDecorator('radio-group',{
-                    onChange:this.changeAttrubte
+                  {getFieldDecorator(`attribute${index}`,{
+                    onChange:(value)=>this.changeAttrubte(value,index)
                   })(
-                    <Select mode="multiple" placeholder="Please select favourite colors">
+                    <Checkbox.Group>
                     {
-                      el.attributeValueShow.map((item,index) => (
-                        <Option value={item} key={index}>{item}</Option>
+                      el.attributeValueShow.map((item,idx) => (
+                        <Checkbox value={item} key={`${el.attributeId}${idx}`}>{item}</Checkbox>
                       ))
                     }
-                    </Select>
+                    </Checkbox.Group>
                   )}
                 </Form.Item>
               ))
             }
             <Form.Item label="商品信息" {...formItemLayoutBig}>
-              <Qtable dataSource={[]} columns={columnsAdd}/>
+              <Qtable
+                dataSource={[]}
+                columns={columnsAdd}/>
             </Form.Item>
             <div className="handle-operate-save-action">
               <Qbtn>

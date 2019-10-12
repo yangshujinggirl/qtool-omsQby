@@ -5,6 +5,13 @@ import {
   GetSupplierApi
 } from "../../api/home/BaseGoods";
 
+//图片
+function* getFileListState(action){
+  yield put({
+    type: 'BASEGOODSADD_FILELIST',
+    payload: {fileList:action.payload}
+  })
+}
 //详情
 function* getTotalState(action){
   let totalData={...totalData,...action.payload};
@@ -124,7 +131,8 @@ function* fetchAttribute(action){
 function* fetchbrandList(action) {
   let params = action.payload;
   const res = yield call(GetBrandApi,params);
-  const { result } =res;
+  let { result } =res;
+  result=result?result:[]
   let brandDataSource = result.map((el)=>{
     let item={}
     item.key =el.id;
@@ -154,13 +162,13 @@ function* resetPages(action){
     brandDataSource:[],
     totalData:{},
     supplierList:[],
-    AttributeList:[],//规格
+    fileList:[],
+    attributeList:[],//规格
     categoryData:{
       categoryLevelOne:[],
       categoryLevelTwo:[],
       categoryLevelThr:[],
       categoryLevelFour:[],
-      attributeList:[],//规格
       isLevelTwo:false,
       isLevelThr:false,
       isLevelFour:false
@@ -180,4 +188,5 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchbrandList', fetchbrandList)
   yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
+  yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
 }

@@ -4,8 +4,8 @@ import Req from '../Req'
  * 获取基础商品列表
  */
 export function GetGoodsApi(values){
-    return Req.post('/items/searchItems',{
-       ...values
+    return Req.get('/items/searchItems',{
+       params:{...values}
     })
 }
 /**
@@ -54,7 +54,8 @@ export function GetBrandApi(values){
  * @param {*} values
  */
 export function GetAddApi(values){
-    return Req.post('/items/addSpu',{...values})
+  console.log(values)
+    return Req.post('/items/addSpu',values)
 }
 /**
  * 修改商品

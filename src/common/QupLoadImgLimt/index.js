@@ -11,6 +11,9 @@ class UpLoadImg extends Component {
       previewImage: '',
     }
   }
+  static defaultProps={
+    limit:1,
+  }
   checkImg=(file)=> {
     let regExp = /image\/(jpeg|jpg|gif|png)/ig;
     let isImg = new Promise((resolve, reject) => {
@@ -50,7 +53,7 @@ class UpLoadImg extends Component {
       });
     }
   render() {
-      let { fileList } = this.props;
+      let { fileList,limit } = this.props;
       const { previewVisible, previewImage } = this.state;
       const uploadButton = (
         <div>
@@ -67,7 +70,7 @@ class UpLoadImg extends Component {
           beforeUpload={this.beforeUpload}
           onPreview={this.handlePreview}
           onChange={this.handleChange}>
-          {fileList.length >= 5 ? null : uploadButton}
+          {fileList.length >= limit ? null : uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
