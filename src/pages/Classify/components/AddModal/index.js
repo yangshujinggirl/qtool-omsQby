@@ -23,9 +23,18 @@ class AddModal extends React.Component {
       });
     }
   };
+  onChange=(value)=>{
+    debugger
+    GetCategoryApi({parentId:value,level:2}).then(res=>{
+      this.setState({
+        catagoryList2:res.result
+      });
+    })
+  }
   renderForm() {
     const { level } = this.props;
     const { getFieldDecorator } = this.props.form;
+    const {catagoryList,catagoryList2} = this.state;
     switch (level) {
       case 1:
         return (
@@ -49,8 +58,9 @@ class AddModal extends React.Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("categoryName", {
+              {getFieldDecorator("parentId", {
                 rules: [{ required: true, message: "请输入类目名称" }],
+                
               })(
                 <Select>
                   {catagoryList.map(item => (
@@ -68,7 +78,6 @@ class AddModal extends React.Component {
             >
               {getFieldDecorator("categoryName", {
                 rules: [{ required: true, message: "请输入类目名称" }],
-                initialValue: 1
               })(<Input placeholder="最多20个字符" autoComplete="off" />)}
             </FormItem>
           </div>
@@ -81,12 +90,12 @@ class AddModal extends React.Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("name1", {
+              {getFieldDecorator("categoryName1", {
                 rules: [{ required: true, message: "请输入类目名称" }],
-                initialValue: 2
+                onChange:this.onChange
               })(
                 <Select>
-                  {catagoryList.map(item => (
+                  {catagoryList&&catagoryList.map(item => (
                     <Option value={item.id} key={item.id}>
                       {item.categoryName}
                     </Option>
@@ -99,12 +108,15 @@ class AddModal extends React.Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("name1", {
+              {getFieldDecorator("parentId", {
                 rules: [{ required: true, message: "请输入二级类目名称" }],
-                initialValue: 1
               })(
                 <Select>
-                  <Option></Option>
+                  {catagoryList2&&catagoryList2.map(item => (
+                    <Option value={item.id} key={item.id}>
+                      {item.categoryName}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </FormItem>

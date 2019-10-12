@@ -23,7 +23,7 @@ class Search extends BaseFilter {
             {level == 1 && (
               <Col {...this.colspans}>
                 <FormItem label="一级类目名称" {...this.formItemLayout}>
-                  {getFieldDecorator("category1")(
+                  {getFieldDecorator("categoryName")(
                     <Input
                       placeholder="请输入一级类目名称"
                       autoComplete="off"
@@ -35,7 +35,7 @@ class Search extends BaseFilter {
             {level == 2 && (
               <Col {...this.colspans}>
                 <FormItem label="二级类目名称" {...this.formItemLayout}>
-                  {getFieldDecorator("category2")(
+                  {getFieldDecorator("categoryName2")(
                     <Input
                       placeholder="请输入二级类目名称"
                       autoComplete="off"
@@ -47,7 +47,7 @@ class Search extends BaseFilter {
             {level == 3 && (
               <Col {...this.colspans}>
                 <FormItem label="三级类目名称" {...this.formItemLayout}>
-                  {getFieldDecorator("category3")(
+                  {getFieldDecorator("categoryName3")(
                     <Input
                       placeholder="请输入三级类目名称"
                       autoComplete="off"
@@ -59,7 +59,7 @@ class Search extends BaseFilter {
             {level == 4 && (
               <Col {...this.colspans}>
                 <FormItem label="四级类目名称" {...this.formItemLayout}>
-                  {getFieldDecorator("category4")(
+                  {getFieldDecorator("categoryName4")(
                     <Input
                       placeholder="请输入四级类目名称"
                       autoComplete="off"

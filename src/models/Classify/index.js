@@ -6,8 +6,8 @@ function* getTabsList(action) {
   const res = yield call(GetListsApi, params);
   const { resultList, currentPage, everyPage, totalCount } = res.result;
   resultList &&
-    resultList.map(item => {
-      item.key = item.id;
+    resultList.map((item,index) => {
+      item.key = index;
     });
   yield put({
     type: "CLASSIFY_TABLELIST",
