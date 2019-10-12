@@ -1,6 +1,5 @@
 import { message } from 'antd';
 import { Qmessage } from 'common';
-import qs from 'qs'
 import axios from 'axios';
 
 const defaultHeader = {
@@ -15,8 +14,6 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
     withCredentials: true,
   })
   axiosinstance.interceptors.request.use((config) => {
-    const { method, params = {} } = config;
-    let { data = {}, url } = config;
     return config;
   },error => {
     Promise.reject({

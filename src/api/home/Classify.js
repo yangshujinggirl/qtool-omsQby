@@ -5,7 +5,7 @@ import Req from "../Req";
  */
 export function GetListsApi(values) {
   return Req.get("category/searchCategory", {
-     params:{...values} 
+    params:{...values} 
   });
 }
 /**
