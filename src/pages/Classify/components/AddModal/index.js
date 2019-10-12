@@ -1,9 +1,28 @@
-import React, { Component } from "react";
-import { Modal, Form, Select } from "antd";
+import { Modal, Form, Input, Select } from "antd";
+import { GetCategoryApi } from "api/home/BaseGoods";
+import { saveApi } from "api/home/classify";
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-class AddModal extends Component {
+class AddModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      catagoryList: [],
+      catagoryList2: [],
+      catagoryList3: [],
+      catagoryList4: []
+    };
+  }
+  componentDidMount = () => {
+    if(this.props.level != 1){
+      GetCategoryApi({ level: -1, parentId: "" }).then(res => {
+        this.setState({
+          catagoryList: res.result
+        });
+      });
+    }
+  };
   renderForm() {
     const { level } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -16,9 +35,8 @@ class AddModal extends Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("name1", {
+              {getFieldDecorator("categoryName", {
                 rules: [{ required: true, message: "请输入类目名称" }],
-                initialValue: 1
               })(<Input placeholder="最多20个字符" autoComplete="off" />)}
             </FormItem>
           </div>
@@ -31,12 +49,15 @@ class AddModal extends Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("name1", {
+              {getFieldDecorator("categoryName", {
                 rules: [{ required: true, message: "请输入类目名称" }],
-                initialValue: 1
               })(
                 <Select>
-                  <Option></Option>
+                  {catagoryList.map(item => (
+                    <Option value={item.id} key={item.id}>
+                      {item.categoryName}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </FormItem>
@@ -45,7 +66,7 @@ class AddModal extends Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("name1", {
+              {getFieldDecorator("categoryName", {
                 rules: [{ required: true, message: "请输入类目名称" }],
                 initialValue: 1
               })(<Input placeholder="最多20个字符" autoComplete="off" />)}
@@ -65,7 +86,11 @@ class AddModal extends Component {
                 initialValue: 2
               })(
                 <Select>
-                  <Option></Option>
+                  {catagoryList.map(item => (
+                    <Option value={item.id} key={item.id}>
+                      {item.categoryName}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </FormItem>
@@ -88,14 +113,14 @@ class AddModal extends Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("name1", {
+              {getFieldDecorator("categoryName", {
                 rules: [{ required: true, message: "请输入三级类目名称" }],
                 initialValue: 1
               })(<Input placeholder="最多20个字符" autoComplete="off" />)}
             </FormItem>
           </div>
         );
-        case 4:
+      case 4:
         return (
           <div>
             <FormItem
@@ -108,7 +133,11 @@ class AddModal extends Component {
                 initialValue: 2
               })(
                 <Select>
-                  <Option></Option>
+                  {catagoryList.map(item => (
+                    <Option value={item.id} key={item.id}>
+                      {item.categoryName}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </FormItem>
@@ -145,7 +174,7 @@ class AddModal extends Component {
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator("name1", {
+              {getFieldDecorator("categoryName", {
                 rules: [{ required: true, message: "请输入四级类目名称" }],
                 initialValue: 1
               })(<Input placeholder="最多20个字符" autoComplete="off" />)}
@@ -154,20 +183,32 @@ class AddModal extends Component {
         );
     }
   }
-  onCancel=()=>{
-    this.props.onCancel()
+  onCancel = () => {
+    this.props.onCancel();
+  };
+  onOk=()=>{
+    this.props.form.validateFieldsAndScroll((err,values)=>{
+      if(!err){
+        saveApi({...values,level:this.props.level}).then(res=>{
+
+        })
+      }
+    })
   }
   render() {
-    const { visible } = this.props;
+    const { visible, text } = this.props;
+    console.log(text);
     return (
       <div>
         <Modal
-          title="新增title"
+          title={"新增" + text + "目录"}
           onCancel={this.onCancel}
           onOk={this.onOk}
           visible={visible}
+          cancelText="取消"
+          okText="确定"
         >
-          <Form></Form>
+          <Form>{this.renderForm()}</Form>
         </Modal>
       </div>
     );
