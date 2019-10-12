@@ -1,5 +1,5 @@
 import {
-  Form,Input,Icon,Spin,
+  Form,Input,Icon,Spin,Upload,
   Select,Row,Col,Checkbox,
   Button,Radio,AutoComplete,
 } from 'antd';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Qtable, Qbtn, QbyConnect } from 'common';
 import { columnsAdd } from './column';
 import { GetEditInfoApi } from '../../api/home/BaseGoods';
+import UpLoadImgLimt from './components/UpLoadImgLimt';
 // import * as Actions from "./actions/actionsAdd";
 
 let FormItem = Form.Item;
@@ -36,7 +37,9 @@ class BaseGoodsAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
-      brandDataSource:[]
+      brandDataSource:[],
+      previewVisible: false,
+      previewImage: '',
     }
   }
   componentDidMount() {
@@ -108,11 +111,30 @@ class BaseGoodsAdd extends React.Component {
       }
     });
   }
+  uploadButton=()=>{
+    return <div>
+            <Icon type="plus" />
+            <div className="ant-upload-text">Upload</div>
+           </div>
+  };
+  handleCancel = () => this.setState({ previewVisible: false });
+  handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+    });
+  };
+  handleChange = ({ fileList }) => this.setState({ fileList });
   render() {
     const { categoryData,supplierList, attributeList, totalData, brandDataSource, match } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
-    // console.log(this.props);
+    let fileList = [];
+    console.log(this.props);
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
@@ -298,9 +320,23 @@ class BaseGoodsAdd extends React.Component {
                 </Radio.Group>
               )}
             </Form.Item>
+            <UpLoadImgLimt
+              name="imageListB"
+              fileList={fileList}
+              form={this.props.form}/>
             <Form.Item label="商品图片">
-              {getFieldDecorator('imageListB')(
-                <Input placeholder="请输入商品描述"/>
+              {getFieldDecorator('imageListB',{
+                initialValue:fileList,
+                rules:[{required:true,message:'请上传图片'}],
+                valuePropName: 'file',
+              })(
+                <Upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  onPreview={this.handlePreview}
+                  onChange={this.handleChange}>
+                  {fileList.length >= 8 ? null : this.uploadButton()}
+                </Upload>
               )}
             </Form.Item>
             <Form.Item label="商品描述">

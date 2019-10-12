@@ -47,13 +47,14 @@ function* fetchCategory(action){
   let params = action.payload;
   const res = yield call(GetCategoryApi,params);
   let { result } =res;
-  result&&result.length>0&&result.map((el)=>el.key =el.id);
+  result=result?result:[]
+  result.length>0&&result.map((el)=>el.key =el.id);
   const { level, parentId } =params;
   let categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
   let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
   let { categoryLevelOne,categoryLevelTwo,
     categoryLevelThr,categoryLevelFour,
-    isLevelTwo,isLevelThr,isLevelFour,attributeList } =categoryData;
+    isLevelTwo,isLevelThr,isLevelFour } =categoryData;
   switch(level) {
     case 1:
       categoryLevelOne = result
@@ -99,7 +100,7 @@ function* fetchCategory(action){
         categoryLevelOne,
         categoryLevelTwo,
         categoryLevelThr,
-        categoryLevelFour,attributeList,
+        categoryLevelFour,
         isLevelTwo,
         isLevelThr,
         isLevelFour
