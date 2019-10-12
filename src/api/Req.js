@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const defaultHeader = {
   // 'Accept': 'application/json, text/plain, */*',
-  'Content-Type': 'application/x-www-form-urlencoded'
+  'Content-Type': 'application/json'
 };
 function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
   const axiosinstance  = axios.create({
@@ -17,7 +17,6 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
   axiosinstance.interceptors.request.use((config) => {
     const { method, params = {} } = config;
     let { data = {}, url } = config;
-    config.data = qs.stringify(data);
     return config;
   },error => {
     Promise.reject({
@@ -46,5 +45,5 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
     });
   return axiosinstance;
 }
-const ajax = new request({baseURL:'/qtoolsOms'});
+const ajax = new request({baseURL:'/qtoolsOms'}); 
 export default ajax;

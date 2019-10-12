@@ -100,7 +100,7 @@ class CommonSort extends React.Component {
         />
         <Qpagination data={this.props} onChange={this.changePage} />
         {visible && (
-          <AddModal visible={visible} level={level} onCancel={this.onCancel} />
+          <AddModal text={text} visible={visible} level={level} onCancel={this.onCancel} />
         )}
       </div>
     );
