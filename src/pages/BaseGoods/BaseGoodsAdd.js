@@ -99,8 +99,8 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   //规格
-  changeAttrubte(value) {
-    console.log(value)
+  changeAttrubte(value,typeIdx) {
+    console.log(value,typeIdx)
   }
   submit=(e)=> {
     e.preventDefault();
@@ -331,15 +331,15 @@ class BaseGoodsAdd extends React.Component {
               attributeList.length>0&&attributeList.map((el,index)=> (
                 <Form.Item label={el.attributeName} key={index}>
                   {getFieldDecorator(`attribute${index}`,{
-                    onChange:this.changeAttrubte
+                    onChange:(value)=>this.changeAttrubte(value,index)
                   })(
-                    <Select mode="multiple" placeholder="请选择规格" autoComplete="off">
+                    <Checkbox.Group>
                     {
-                      el.attributeValueShow.map((item,index) => (
-                        <Option value={item} key={index}>{item}</Option>
+                      el.attributeValueShow.map((item,idx) => (
+                        <Checkbox value={item} key={`${el.attributeId}${idx}`}>{item}</Checkbox>
                       ))
                     }
-                    </Select>
+                    </Checkbox.Group>
                   )}
                 </Form.Item>
               ))
