@@ -4,7 +4,7 @@ import {
   Button,Radio,AutoComplete,
 } from 'antd';
 import { connect } from 'react-redux';
-import { Qtable, Qbtn, QbyConnect } from 'common';
+import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
 import { columnsAdd } from './column';
 import { GetEditInfoApi, GetAddApi } from '../../api/home/BaseGoods';
 import UpLoadImgLimt from './components/UpLoadImgLimt';
@@ -148,7 +148,7 @@ class BaseGoodsAdd extends React.Component {
                   initialValue:totalData.supplierId,
                   rules: [{ required: true, message: '请选择货主' }],
                 })(
-                  <Select placeholder="请选择货主">
+                  <Select placeholder="请选择货主" autoComplete="off">
                   {
                     supplierList.length>0&&supplierList.map((el)=> (
                       <Option value={el.id} key={el.id}>{el.name}</Option>
@@ -175,6 +175,7 @@ class BaseGoodsAdd extends React.Component {
                    rules: [{ required: true, message: '请选择商品品牌'}],
                  })(
                    <AutoComplete
+                    autoComplete="off"
                     dataSource={brandDataSource}
                     onSearch={this.handleSearch}
                     onSelect={(value, option)=>this.autoSelect(value, option)}
@@ -261,9 +262,12 @@ class BaseGoodsAdd extends React.Component {
             <Form.Item label="分润服务扣点">
               {getFieldDecorator('bonusRate', {
                 initialValue:totalData.bonusRate,
-                rules: [{ required: true, message: '请输入分润服务扣点' }],
+                rules: [
+                  { required: true, message: '请输入分润服务扣点' },
+                  { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
+                ],
               })(
-                <Input placeholder="请输入分润服务扣点"/>
+                <Input placeholder="请输入分润服务扣点" autoComplete="off"/>
               )}
             </Form.Item>
             <Form.Item label="联营分成类别">
@@ -311,7 +315,8 @@ class BaseGoodsAdd extends React.Component {
               )}
             </Form.Item>
             <Form.Item label="商品图片">
-              <UpLoadImgLimt
+              <QupLoadImgLimt
+                limit={5}
                 upDateList={this.updateFileList}
                 fileList={fileList}/>
             </Form.Item>
@@ -319,7 +324,7 @@ class BaseGoodsAdd extends React.Component {
               {getFieldDecorator('productDetailB',{
                 initialValue:totalData.productDetailB,
               })(
-                <Input placeholder="请输入商品描述"/>
+                <Input placeholder="请输入商品描述" autoComplete="off"/>
               )}
             </Form.Item>
             {
@@ -328,7 +333,7 @@ class BaseGoodsAdd extends React.Component {
                   {getFieldDecorator(`attribute${index}`,{
                     onChange:this.changeAttrubte
                   })(
-                    <Select mode="multiple" placeholder="Please select favourite colors">
+                    <Select mode="multiple" placeholder="请选择规格" autoComplete="off">
                     {
                       el.attributeValueShow.map((item,index) => (
                         <Option value={item} key={index}>{item}</Option>
@@ -340,7 +345,9 @@ class BaseGoodsAdd extends React.Component {
               ))
             }
             <Form.Item label="商品信息" {...formItemLayoutBig}>
-              <Qtable dataSource={[]} columns={columnsAdd}/>
+              <Qtable
+                dataSource={[]}
+                columns={columnsAdd}/>
             </Form.Item>
             <div className="handle-operate-save-action">
               <Qbtn>

@@ -13,6 +13,7 @@ import _QenlargeImg from './QenlargeImg';
 import _QupLoadList from './QupLoadList';
 import _BaseConstant from './BaseConstant';
 import _QsubTable from './QsubTable';
+import _QupLoadImgLimt from './QupLoadImgLimt';
 
 
 export const QbyConnect = _QbyConnect;
@@ -29,3 +30,4 @@ export const RangeTime = _RangeTime;
 export const QenlargeImg = _QenlargeImg;
 export const QupLoadList = _QupLoadList;
 export const QsubTable = _QsubTable;
+export const QupLoadImgLimt = _QupLoadImgLimt;

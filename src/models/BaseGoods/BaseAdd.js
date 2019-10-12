@@ -131,7 +131,8 @@ function* fetchAttribute(action){
 function* fetchbrandList(action) {
   let params = action.payload;
   const res = yield call(GetBrandApi,params);
-  const { result } =res;
+  let { result } =res;
+  result=result?result:[]
   let brandDataSource = result.map((el)=>{
     let item={}
     item.key =el.id;
@@ -161,13 +162,13 @@ function* resetPages(action){
     brandDataSource:[],
     totalData:{},
     supplierList:[],
-    AttributeList:[],//规格
+    fileList:[],
+    attributeList:[],//规格
     categoryData:{
       categoryLevelOne:[],
       categoryLevelTwo:[],
       categoryLevelThr:[],
       categoryLevelFour:[],
-      attributeList:[],//规格
       isLevelTwo:false,
       isLevelThr:false,
       isLevelFour:false
