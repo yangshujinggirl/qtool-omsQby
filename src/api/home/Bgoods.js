@@ -3,7 +3,7 @@ import Req from '../Req'
  * 
  * 获取B商品列表
  */
-export function GetGoodsApi(values){
+export function GetListsApi(values){
     return Req.get('items/searchProductBListByQbc',{
         params:{...values}
     })

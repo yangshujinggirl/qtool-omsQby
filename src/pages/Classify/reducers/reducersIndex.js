@@ -13,14 +13,11 @@ const index = (state = initialState, action) => {
         ...state,
         loading: true
       };
-    case "FETCH_SUCCESS":
+    case "CLASSIFY_TABLELIST":
       return { 
         ...state,
         loading: false,
-        categoryLists: action.resultList,
-        totalCount:action.totalCount,
-        everyPage:action.everyPage,
-        currentPage:action.currentPage
+        ...action.payload
       };
     case "FETCH_FAIL":
       return {

@@ -1,6 +1,6 @@
 const initialState = {
   loading: false,
-  goodLists: [],
+  atrLists: [],
   error: "",
   everyPage:15,
   currentPage:1,
@@ -13,7 +13,7 @@ const index = (state = initialState, action) => {
         ...state,
         loading: true
       };
-    case "BGOODS_TABLELIST":
+    case "ATTRIBUTION_TABLELIST":
       return { 
         ...state,
         loading: false,

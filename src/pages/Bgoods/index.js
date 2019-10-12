@@ -1,7 +1,7 @@
+import { connect } from "react-redux";
 import FilterForm from "./components/FilterForm";
-import { Qtable, Qpagination, QbyConnect, Qbtn } from "common";
-import * as Actions from "./actions/actionsIndex";
-import {ExportApi} from 'api/Export'
+import { Qtable, Qpagination, Qbtn } from "common";
+import { ExportApi } from "api/Export";
 import Columns from "./column";
 import moment from "moment";
 
@@ -17,7 +17,12 @@ class Bgoods extends React.Component {
   }
   //初始化数据
   componentDidMount = () => {
-    this.props.actions.getGoodsList({ ...this.state.inputValues });
+    this.props.dispatch({
+      type: "bgoods/fetchList",
+      payload: {
+        ...this.state.inputValues
+      }
+    });
   };
   //搜索列表
   searchData = values => {
@@ -30,15 +35,21 @@ class Bgoods extends React.Component {
       _values.etime = "";
     }
     const params = { ...this.state.inputValues, ..._values };
-    this.props.actions.getGoodsList(params);
+    this.props.dispatch({
+      type: "bgoods/fetchList",
+      payload: params
+    });
     this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    this.props.actions.getGoodsList({
-      ...this.state.inputValues,
-      currentPage,
-      everyPage
+    this.props.dispatch({
+      type: "bgoods/fetchList",
+      payload: {
+        ...this.state.inputValues,
+        currentPage,
+        everyPage
+      }
     });
   };
   //搜索查询
@@ -46,16 +57,19 @@ class Bgoods extends React.Component {
     this.searchData(params);
   };
   //导出
-  export =()=> {
-    ExportApi({...this.state.inputValues,type:2})
-  }
+  export = () => {
+    ExportApi({ ...this.state.inputValues, type: 2 });
+  };
   render() {
+    console.log(this.props);
     const { goodLists } = this.props;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
+          <Qbtn size="free" onClick={this.export}>
+            商品导出
+          </Qbtn>
         </div>
         <Qtable columns={Columns} dataSource={goodLists} />
         <Qpagination data={this.props} onChange={this.changePage} />
@@ -63,5 +77,9 @@ class Bgoods extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  const { BgoodsReducers } = state;
+  return BgoodsReducers;
+}
 
-export default QbyConnect(Bgoods, Actions, "BgoodsReducers");
+export default connect(mapStateToProps)(Bgoods);

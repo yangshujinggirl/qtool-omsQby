@@ -1,10 +1,9 @@
-import { connect } from "react-redux";
 import FilterForm from "./components/FilterForm";
+import { connect } from "react-redux";
 import { Qtable, Qpagination, Qbtn } from "common";
-import { Link } from "react-router-dom";
 import Columns from "./column";
 
-class Brand extends React.Component {
+class Attributions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,7 +13,7 @@ class Brand extends React.Component {
   //初始化数据
   componentDidMount = () => {
     this.props.dispatch({
-      type: "brand/fetchList",
+      type: "attribution/fetchList",
       payload: {}
     });
   };
@@ -22,7 +21,7 @@ class Brand extends React.Component {
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
     this.props.dispatch({
-      type: "brand/fetchList",
+      type: "attribution/fetchList",
       payload: params
     });
     this.setState({ inputValues: params });
@@ -30,7 +29,7 @@ class Brand extends React.Component {
   //更改分页
   changePage = (currentPage, everyPage) => {
     this.props.dispatch({
-      type: "brand/fetchList",
+      type: "attribution/fetchList",
       payload: { ...this.state.inputValues, currentPage, everyPage }
     });
   };
@@ -38,25 +37,28 @@ class Brand extends React.Component {
   onSubmit = params => {
     this.searchData(params);
   };
+  //新增属性
+  addAtr = () => {
+    
+  };
   render() {
-    console.log(this.props);
-    const { brandLists } = this.props;
+    const { atrLists } = this.props;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Link to={`/account/brandAdd`}>
-            <Qbtn size="free">新增品牌</Qbtn>
-          </Link>
+          <Qbtn size="free" onClick={this.addAtr}>
+            新增属性
+          </Qbtn>
         </div>
-        <Qtable columns={Columns} dataSource={brandLists} />
+        <Qtable columns={Columns} dataSource={atrLists} />
         <Qpagination data={this.props} onChange={this.changePage} />
       </div>
     );
   }
 }
 function mapStateToProps(state) {
-  const { BrandReducers } = state;
-  return BrandReducers;
+  const { AttributionsReducers } = state;
+  return AttributionsReducers;
 }
-export default connect(mapStateToProps)(Brand);
+export default connect(mapStateToProps)(Attributions);
