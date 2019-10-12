@@ -5,6 +5,13 @@ import {
   GetSupplierApi
 } from "../../api/home/BaseGoods";
 
+//图片
+function* getFileListState(action){
+  yield put({
+    type: 'BASEGOODSADD_FILELIST',
+    payload: {fileList:action.payload}
+  })
+}
 //详情
 function* getTotalState(action){
   let totalData={...totalData,...action.payload};
@@ -180,4 +187,5 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchbrandList', fetchbrandList)
   yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
+  yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
 }

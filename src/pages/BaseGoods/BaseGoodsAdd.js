@@ -6,7 +6,7 @@ import {
 import { connect } from 'react-redux';
 import { Qtable, Qbtn, QbyConnect } from 'common';
 import { columnsAdd } from './column';
-import { GetEditInfoApi } from '../../api/home/BaseGoods';
+import { GetEditInfoApi, GetAddApi } from '../../api/home/BaseGoods';
 import UpLoadImgLimt from './components/UpLoadImgLimt';
 // import * as Actions from "./actions/actionsAdd";
 
@@ -105,35 +105,25 @@ class BaseGoodsAdd extends React.Component {
   submit=(e)=> {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.log(values)
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log(values);
+        GetAddApi(values)
+        .then((res)=> {
+          console.log(res)
+        })
       }
     });
   }
-  uploadButton=()=>{
-    return <div>
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-           </div>
-  };
-  handleCancel = () => this.setState({ previewVisible: false });
-  handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    this.setState({
-      previewImage: file.url || file.preview,
-      previewVisible: true,
-    });
-  };
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  updateFileList = (fileList) => {
+    this.props.dispatch({
+      type:'baseGoodsAdd/getFileList',
+      payload:fileList
+    })
+  }
   render() {
-    const { categoryData,supplierList, attributeList, totalData, brandDataSource, match } =this.props;
+    const { categoryData,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
-    let fileList = [];
     console.log(this.props);
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
@@ -320,24 +310,10 @@ class BaseGoodsAdd extends React.Component {
                 </Radio.Group>
               )}
             </Form.Item>
-            <UpLoadImgLimt
-              name="imageListB"
-              fileList={fileList}
-              form={this.props.form}/>
             <Form.Item label="商品图片">
-              {getFieldDecorator('imageListB',{
-                initialValue:fileList,
-                rules:[{required:true,message:'请上传图片'}],
-                valuePropName: 'file',
-              })(
-                <Upload
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  listType="picture-card"
-                  onPreview={this.handlePreview}
-                  onChange={this.handleChange}>
-                  {fileList.length >= 8 ? null : this.uploadButton()}
-                </Upload>
-              )}
+              <UpLoadImgLimt
+                upDateList={this.updateFileList}
+                fileList={fileList}/>
             </Form.Item>
             <Form.Item label="商品描述">
               {getFieldDecorator('productDetailB',{
@@ -349,7 +325,7 @@ class BaseGoodsAdd extends React.Component {
             {
               attributeList.length>0&&attributeList.map((el,index)=> (
                 <Form.Item label={el.attributeName} key={index}>
-                  {getFieldDecorator('radio-group',{
+                  {getFieldDecorator(`attribute${index}`,{
                     onChange:this.changeAttrubte
                   })(
                     <Select mode="multiple" placeholder="Please select favourite colors">

@@ -7,19 +7,9 @@ class UpLoadImg extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading:false,
       previewVisible: false,
       previewImage: '',
-      fileList:[]
     }
-  }
-  getBase64=(file)=> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
   }
   checkImg=(file)=> {
     let regExp = /image\/(jpeg|jpg|gif|png)/ig;
@@ -45,29 +35,14 @@ class UpLoadImg extends Component {
       return Promise.reject(false)
     })
   }
-  // handleChange = info => {
-  //   this.setState({
-  //     loading: true,
-  //   })
-  //   if (info.file.status === 'uploading') {
-  //     this.setState({ loading: true });
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     const { response } =info.file;
-  //     if(response.code == 0) {
-  //       this.setState({
-  //         loading: false,
-  //       })
-  //     }
-  //   }
-  // };
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ file, fileList }) => {
+    const { response, status } =file;
+    this.props.upDateList([...fileList])
+  };
   handleCancel = () => this.setState({ previewVisible: false })
   handlePreview =  file => {
-    console.log(file)
       if (!file.url && !file.preview) {
-        file.preview = file.response.thumbUrl;
+        file.preview = file.response.result;
       }
       this.setState({
         previewImage: file.url || file.preview,
@@ -75,21 +50,21 @@ class UpLoadImg extends Component {
       });
     }
   render() {
-      const { getFieldDecorator } =this.props.form;
-      // let { fileList,index,name } = this.props;
-      const { previewVisible, previewImage, fileList } = this.state;
+      let { fileList } = this.props;
+      const { previewVisible, previewImage } = this.state;
       const uploadButton = (
         <div>
           <Icon type="plus" />
-          <div className="ant-upload-text">Upload</div>
+          <div className="ant-upload-text">上传</div>
         </div>
       );
      return(
-       <FormItem className="banner-upload-wrap" label="商品图片">
+       <div>
          <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action="/qtoolsOms/upload/file"
           listType="picture-card"
           fileList={fileList}
+          beforeUpload={this.beforeUpload}
           onPreview={this.handlePreview}
           onChange={this.handleChange}>
           {fileList.length >= 5 ? null : uploadButton}
@@ -97,7 +72,7 @@ class UpLoadImg extends Component {
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
-       </FormItem>
+      </div>
       )
   }
 }

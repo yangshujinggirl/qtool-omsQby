@@ -3,6 +3,7 @@ const index = (state = {
   brandDataSource:[],
   totalData:{},
   supplierList:[],
+  fileList:[],
   attributeList:[],//规格
   categoryData:{
     categoryLevelOne:[],
@@ -20,6 +21,8 @@ const index = (state = {
         ...state,
         loading: true
       };
+    case "BASEGOODSADD_FILELIST":
+      return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_CATEGORY":

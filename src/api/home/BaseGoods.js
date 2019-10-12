@@ -54,7 +54,8 @@ export function GetBrandApi(values){
  * @param {*} values
  */
 export function GetAddApi(values){
-    return Req.post('/items/addSpu',{...values})
+  console.log(values)
+    return Req.post('/items/addSpu',values)
 }
 /**
  * 修改商品
