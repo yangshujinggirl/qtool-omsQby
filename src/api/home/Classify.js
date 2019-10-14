@@ -5,14 +5,14 @@ import Req from "../Req";
  */
 export function GetListsApi(values) {
   return Req.get("category/searchCategory", {
-    params:{...values} 
+    params:{...values}
   });
 }
 /**
  *
  *新增保存接口
  */
-export function saveApi(values) {
+export function SaveApi(values) {
   return Req.post("category/addCategory", {
     ...values
   });
