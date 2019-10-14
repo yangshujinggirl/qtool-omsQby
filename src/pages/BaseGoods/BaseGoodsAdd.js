@@ -99,8 +99,42 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   //规格
-  changeAttrubte(value,typeIdx) {
-    console.log(value,typeIdx)
+  changeAttrubte(value,record,typeIndex) {
+    let { attrubteArray } =this.props;
+    let idx = attrubteArray.findIndex((el)=> el.attributeId==record.attributeId);
+    value =value.map((el,index)=> {
+      let item = {};
+      item.id =`${record.attributeId}${index}`;
+      item.value =el;
+      return item;
+    })
+    if(idx == '-1') {
+      let item = {
+        attributeId:record.attributeId,
+        attributeVal:value
+      }
+      attrubteArray.push(item)
+    } else {
+      attrubteArray[idx].attributeVal = value
+    }
+    let selectArry =[];
+    attrubteArray.map((el)=>{
+      el.attributeVal.map((item)=>{
+        let current = {
+          name:`${item.value}/`,
+          parentId:el.attributeId,
+          typeId:item.id,
+        }
+        let idxParent = selectArry.findIndex((value)=> item.parentId==value.parentId);
+        let idxType = selectArry.findIndex((value)=> item.attributeId==value.attributeId);
+        console.log(idxParent,idxType)
+        selectArry.push(current);
+      })
+    })
+    this.props.dispatch({
+      type:'baseGoodsAdd/getAttrubteList',
+      payload:attrubteArray
+    })
   }
   submit=(e)=> {
     e.preventDefault();
@@ -125,6 +159,7 @@ class BaseGoodsAdd extends React.Component {
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     console.log(this.props);
+
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
@@ -331,7 +366,7 @@ class BaseGoodsAdd extends React.Component {
               attributeList.length>0&&attributeList.map((el,index)=> (
                 <Form.Item label={el.attributeName} key={index}>
                   {getFieldDecorator(`attribute${index}`,{
-                    onChange:(value)=>this.changeAttrubte(value,index)
+                    onChange:(value)=>this.changeAttrubte(value,el,index)
                   })(
                     <Checkbox.Group>
                     {

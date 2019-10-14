@@ -4,6 +4,7 @@ const index = (state = {
   totalData:{},
   supplierList:[],
   fileList:[],
+  attrubteArray:[],
   attributeList:[],//规格
   categoryData:{
     categoryLevelOne:[],
@@ -22,6 +23,8 @@ const index = (state = {
         loading: true
       };
     case "BASEGOODSADD_FILELIST":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_ATTRUBTELIST":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":
       return { ...state,loading: false,...action.payload };

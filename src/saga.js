@@ -1,6 +1,6 @@
 
 import { all,call, select} from 'redux-saga/effects'
-import rootSagas from './pages/Public/Sagas'
+// import rootSagas from './pages/Public/Sagas'
 import BaseGoodsSagas from './models/BaseGoods';
 import BaseAddSagas from './models/BaseGoods/BaseAdd';
 import BgoodSagas from './models/Bgoods';
@@ -11,7 +11,6 @@ import AttributionSagas from './models/Attributions';
 
 export function* helloSaga () {
   yield all([
-    call(rootSagas),
     call(BaseGoodsSagas),
     call(BaseAddSagas),
     call(BgoodSagas),

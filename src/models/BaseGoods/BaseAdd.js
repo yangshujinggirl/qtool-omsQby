@@ -13,6 +13,21 @@ function* getFileListState(action){
   })
 }
 //详情
+function* getAttrubteState(action){
+  // attrubteArray.reduce((total, currentValue, currentIndex, arr)=>{
+  //   console.log(total);
+  //   console.log(currentValue);
+  //   currentValue.attrubteVal.map((el)=>{
+  //     console.log(el)
+  //   })
+  //   return currentValue
+  // })
+  yield put({
+    type: 'BASEGOODSADD_ATTRUBTELIST',
+    payload: {attrubteArray:action.payload}
+  })
+}
+//详情
 function* getTotalState(action){
   let totalData={...totalData,...action.payload};
   yield put({
@@ -163,6 +178,7 @@ function* resetPages(action){
     totalData:{},
     supplierList:[],
     fileList:[],
+    attrubteArray:[],//规格
     attributeList:[],//规格
     categoryData:{
       categoryLevelOne:[],
@@ -189,4 +205,5 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
   yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
+  yield takeEvery('baseGoodsAdd/getAttrubteList', getAttrubteState)
 }

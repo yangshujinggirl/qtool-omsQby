@@ -60,7 +60,7 @@ class AddModal extends React.Component {
             >
               {getFieldDecorator("parentId", {
                 rules: [{ required: true, message: "请输入类目名称" }],
-                
+
               })(
                 <Select>
                   {catagoryList.map(item => (
