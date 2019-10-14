@@ -99,8 +99,29 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   //规格
-  changeAttrubte(value,typeIdx) {
-    console.log(value,typeIdx)
+  changeAttrubte(value,record) {
+    let { attrubteArray } =this.props;
+    debugger
+    let idx = attrubteArray.findIndex((el)=> el.attrubteKey==record.attributeId);
+    value =value.map((el,index)=> {
+      let item = {};
+      item.id =`${record.attributeId}${index}`;
+      item.value =el;
+      return item;
+    })
+    if(idx == '-1') {
+      let item = {
+        attrubteKey:record.attributeId,
+        attrubteVal:value
+      }
+      attrubteArray.push(item)
+    } else {
+      attrubteArray[idx].attrubteVal = value
+    }
+    this.props.dispatch({
+      type:'baseGoodsAdd/getAttrubteList',
+      payload:attrubteArray
+    })
   }
   submit=(e)=> {
     e.preventDefault();
@@ -125,6 +146,7 @@ class BaseGoodsAdd extends React.Component {
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     console.log(this.props);
+
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
@@ -331,7 +353,7 @@ class BaseGoodsAdd extends React.Component {
               attributeList.length>0&&attributeList.map((el,index)=> (
                 <Form.Item label={el.attributeName} key={index}>
                   {getFieldDecorator(`attribute${index}`,{
-                    onChange:(value)=>this.changeAttrubte(value,index)
+                    onChange:(value)=>this.changeAttrubte(value,el)
                   })(
                     <Checkbox.Group>
                     {
