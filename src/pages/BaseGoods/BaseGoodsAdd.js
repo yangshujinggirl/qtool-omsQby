@@ -99,10 +99,9 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   //规格
-  changeAttrubte(value,record) {
+  changeAttrubte(value,record,typeIndex) {
     let { attrubteArray } =this.props;
-    debugger
-    let idx = attrubteArray.findIndex((el)=> el.attrubteKey==record.attributeId);
+    let idx = attrubteArray.findIndex((el)=> el.attributeId==record.attributeId);
     value =value.map((el,index)=> {
       let item = {};
       item.id =`${record.attributeId}${index}`;
@@ -111,13 +110,27 @@ class BaseGoodsAdd extends React.Component {
     })
     if(idx == '-1') {
       let item = {
-        attrubteKey:record.attributeId,
-        attrubteVal:value
+        attributeId:record.attributeId,
+        attributeVal:value
       }
       attrubteArray.push(item)
     } else {
-      attrubteArray[idx].attrubteVal = value
+      attrubteArray[idx].attributeVal = value
     }
+    let selectArry =[];
+    attrubteArray.map((el)=>{
+      el.attributeVal.map((item)=>{
+        let current = {
+          name:`${item.value}/`,
+          parentId:el.attributeId,
+          typeId:item.id,
+        }
+        let idxParent = selectArry.findIndex((value)=> item.parentId==value.parentId);
+        let idxType = selectArry.findIndex((value)=> item.attributeId==value.attributeId);
+        console.log(idxParent,idxType)
+        selectArry.push(current);
+      })
+    })
     this.props.dispatch({
       type:'baseGoodsAdd/getAttrubteList',
       payload:attrubteArray
@@ -353,7 +366,7 @@ class BaseGoodsAdd extends React.Component {
               attributeList.length>0&&attributeList.map((el,index)=> (
                 <Form.Item label={el.attributeName} key={index}>
                   {getFieldDecorator(`attribute${index}`,{
-                    onChange:(value)=>this.changeAttrubte(value,el)
+                    onChange:(value)=>this.changeAttrubte(value,el,index)
                   })(
                     <Checkbox.Group>
                     {

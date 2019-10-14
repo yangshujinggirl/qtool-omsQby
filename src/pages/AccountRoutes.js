@@ -29,21 +29,20 @@ class HomeRoutes extends React.Component {
     return(
       <Switch>
         <Route  exact path="/account/public" component={Public} />
-        <Route  path="/account/protected" component={Protected} />
-        <Route  path="/account/baseGoodList" component={BaseGoods}/>
-        <Route  path="/account/bgoods" component={Bgoods}/>
-        <Route  path="/account/cgoods" component={Cgoods}/>
+        <Route  path="/account/basicCommodityManage" component={BaseGoods}/>
+        <Route  path="/account/Bsite" component={Bgoods}/>
+        <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/bgoodsAdd" component={BgoodsAdd}/>
         <Route  path="/account/cgoodsAdd" component={CgoodsAdd}/>
         <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
         <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
-        <Route  path="/account/brand" component={Brand}/>
+        <Route  path="/account/brandManage" component={Brand}/>
         <Route  path="/account/brandAdd/:id?" component={BrandAdd}/>
         <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
-        <Route  path="/account/classify" component={Classify}/>
-        <Route  path="/account/Attributions" component={Attributions}/>
+        <Route  path="/account/categoryManage" component={Classify}/>
+        <Route  path="/account/attributeManage" component={Attributions}/>
         <Route  path="/account/AttrAdd/:id?" component={AttrAdd}/>
         <Route  path="/account/AttrInfo/:id?" component={AttrInfo}/>
         <Route component={NotFound}/>

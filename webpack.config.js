@@ -12,6 +12,7 @@ const extractLeSS = new ExtractTextPlugin({
 });
 //生产环增压缩js;
 let UglifyArray = []
+console.log(process.env.NODE_ENV === 'production')
 if(process.env.NODE_ENV === 'production'){
   UglifyArray.push(new UglifyJSPlugin({}))
 }

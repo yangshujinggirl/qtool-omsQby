@@ -14,18 +14,6 @@ function* getFileListState(action){
 }
 //详情
 function* getAttrubteState(action){
-  let attrubteArray = action.payload;
-  let selectArry =[];
-  attrubteArray.map((el)=>{
-    el.attrubteVal.map((item)=>{
-      // item = `${item}/`;
-      let current = {
-        name:`${item.value}/`
-      }
-      selectArry.push(current);
-    })
-  })
-  console.log(selectArry)
   // attrubteArray.reduce((total, currentValue, currentIndex, arr)=>{
   //   console.log(total);
   //   console.log(currentValue);
