@@ -36,11 +36,11 @@ const Columns = [
       <div>
         <Link
           className="link-color action-left"
-          to={`/account/cgoodsInfo/${record.id}`}
+          to={`/account/bgoodsInfo/${record.id}`}
         >
           查看
         </Link>
-        <Link className="link-color" to={`/account/cgoodsAdd/${record.id}`}>
+        <Link className="link-color" to={`/account/bgoodsAdd/${record.id}`}>
           编辑
         </Link>
       </div>

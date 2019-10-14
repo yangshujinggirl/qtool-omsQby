@@ -12,7 +12,7 @@ export function GetListsApi(values) {
  *
  *新增保存接口
  */
-export function saveApi(values) {
+export function SaveApi(values) {
   return Req.post("category/addCategory", {
     ...values
   });

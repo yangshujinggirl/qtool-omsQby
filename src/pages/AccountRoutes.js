@@ -22,7 +22,7 @@ import BrandInfo from './Brand/BrandInfo'
 import Classify from './Classify'
 import Attributions from './Attributions'
 import AttrAdd from './Attributions/AttrAdd'
-import AttrInfo from './Attributions/AttrInfo'
+import AttrBind from './Attributions/AttrBind'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -33,8 +33,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/baseGoodList" component={BaseGoods}/>
         <Route  path="/account/bgoods" component={Bgoods}/>
         <Route  path="/account/cgoods" component={Cgoods}/>
-        <Route  path="/account/bgoodsAdd" component={BgoodsAdd}/>
-        <Route  path="/account/cgoodsAdd" component={CgoodsAdd}/>
+        <Route  path="/account/bgoodsAdd/:id" component={BgoodsAdd}/>
+        <Route  path="/account/cgoodsAdd/:id" component={CgoodsAdd}/>
         <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
@@ -45,7 +45,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/classify" component={Classify}/>
         <Route  path="/account/Attributions" component={Attributions}/>
         <Route  path="/account/AttrAdd/:id?" component={AttrAdd}/>
-        <Route  path="/account/AttrInfo/:id?" component={AttrInfo}/>
+        <Route  path="/account/AttrBind/:id?" component={AttrBind}/>
         <Route component={NotFound}/>
       </Switch>
     )

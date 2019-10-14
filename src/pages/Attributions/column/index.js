@@ -40,11 +40,11 @@ const Columns = [
       <div>
         <Link
           className="link-color action-left"
-          to={`/account/atrInfo/${record.id}`}
+          to={`/account/attrAdd/${record.attributeId}`}
         >
-          查看
+          编辑
         </Link>
-        <Link className="link-color" to={`/account/atrAdd/${record.id}`}>
+        <Link className="link-color" to={`/account/AttrBind/${record.attributeId}`}>
           绑定分类
         </Link>
       </div>

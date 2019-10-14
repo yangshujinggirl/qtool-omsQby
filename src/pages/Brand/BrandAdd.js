@@ -1,5 +1,6 @@
 import { Form, Input, Select, message } from "antd";
-import { GetInfoApi, saveBrandApi } from "api/home/Brand";
+import { GetInfoApi, AddBrandApi,UpdataBrandApi } from "api/home/Brand";
+import QupLoadImgLimt from 'common/QupLoadImgLimt'
 import { Qbtn } from "common";
 const Option = Select.Option;
 const formItemLayout = {
@@ -16,30 +17,45 @@ class BrandAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      infos: {}
+      infos: {},
+      fileList:[]
     };
   }
   componentDidMount() {
     const {id} = this.props.match.params;
     if(id){
+      this.setState({id});
       GetInfoApi({brandId:id}).then(res => {
         this.setState({
           infos: res.result
         });
       });
-    }
+    };
   }
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        saveBrandApi({...values}).then(res => {
-          message.error("保存成功");
-        });
+        const {id} = this.state;
+        values.logo = this.state.fileList[0].response.result;
+        if(id){//修改
+          UpdataBrandApi({id,...values}).then(res => {
+            message.error("保存成功");
+            this.props.history.push('/account/brandManage');
+          });
+        }else{//新建
+          AddBrandApi({...values}).then(res => {
+            message.error("保存成功");
+            this.props.history.push('/account/brandManage');
+          });
+        };
       };
     });
   };
+  upDateList=(fileList)=>{
+    this.setState({fileList})
+  }
   render() {
-    const { infos } = this.state;
+    const { infos,fileList } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="oms-common-addEdit-pages">
@@ -72,6 +88,7 @@ class BrandAdd extends React.Component {
             })(<Input placeholder="请输入品牌归属地" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="品牌logo">
+          <QupLoadImgLimt upDateList={this.upDateList} fileList={fileList}/>
           </Form.Item>
           <Form.Item label="品牌授权">
             {getFieldDecorator("isSq",{

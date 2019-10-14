@@ -1,6 +1,6 @@
 import { Modal, Form, Input, Select } from "antd";
 import { GetCategoryApi } from "api/home/BaseGoods";
-import { saveApi } from "api/home/classify";
+import { SaveApi } from "api/home/Classify";
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -201,7 +201,7 @@ class AddModal extends React.Component {
   onOk=()=>{
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        saveApi({...values,level:this.props.level}).then(res=>{
+        SaveApi({...values,level:this.props.level}).then(res=>{
 
         })
       }

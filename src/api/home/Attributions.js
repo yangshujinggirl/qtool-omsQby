@@ -9,20 +9,38 @@ export function GetListsApi(values){
     })
 }
 /**
- * 规格修改
+ * 修改
  * @param {*} values 
  */
-export function saveAtrApi(values){
-    return Req.get('attribute/updateAttribute',{
-        params:{...values}
+export function UpdataAtrApi(values){
+    return Req.post('attribute/updateAttribute',{
+        ...values
     })
 }
 /**
- * 规格编辑
+ * 规格详情
  * @param {*} values 
  */
 export function GetInfoApi(values){
     return Req.get('attribute/detail',{
         params:{...values}
+    })
+}
+/**
+ * 新增
+ * @param {*} values 
+ */
+export function AddAtrApi(values){
+    return Req.post('/attribute/addAttribute',{
+        ...values
+    })
+}
+/**
+ * 绑定分类
+ * @param {*} values 
+ */
+export function AtrBindApi(values){
+    return Req.post('/attribute/relation',{
+        ...values
     })
 }

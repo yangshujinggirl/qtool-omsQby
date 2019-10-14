@@ -1,5 +1,6 @@
 import { Form, Input, Radio,message} from "antd";
 import { GetGoodDetailApi,saveGoodApi } from "api/home/Bgoods";
+import QupLoadImgLimt from 'common/QupLoadImgLimt'
 import { Qbtn } from 'common';
 let FormItem = Form.Item;
 const formItemLayout = {
@@ -16,11 +17,13 @@ class BgoodsAdd extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      infos:{}
+      infos:{},
+      fileList:[]
     }
   }
   componentDidMount() {
-    GetGoodDetailApi({ id: 1, saleRange: "b" }).then(res => {
+    const {id} = this.props.match.params;
+    GetGoodDetailApi({ sku_id:id, saleRange: "b" }).then(res => {
       this.setState({
         infos: res.result
       });
@@ -29,14 +32,19 @@ class BgoodsAdd extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        saveGoodApi({saleRange:'b',OmsProductSkuDto:{id:'17769',...values}}).then(res=>{
-          message.error('保存成功')
-        })
+        values.image = this.state.fileList[0].response.result;
+        saveGoodApi({saleRange:'b',id:'17769',...values}).then(res=>{
+          message.success('保存成功')
+          this.props.history.push('/account/Bsite');
+        });
       };
     })
   }
+  upDateList=(fileList)=>{
+    this.setState({fileList})
+  }
   render() {
-    const {infos} = this.state;
+    const {infos,fileList} = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="oms-common-addEdit-pages">
@@ -114,7 +122,7 @@ class BgoodsAdd extends React.Component {
             )}
           </Form.Item>
           <Form.Item label="商品图片">
-            
+            <QupLoadImgLimt upDateList={this.upDateList} fileList={fileList}/>
           </Form.Item>
           <Form.Item label="商品说明">
             {getFieldDecorator("skuRemark",{

@@ -11,7 +11,7 @@ class Bgoods extends React.Component {
     this.state = {
       inputValues: {
         saleRange: "b",
-        currentPage: 1
+        upperStatus: 1
       }
     };
   }

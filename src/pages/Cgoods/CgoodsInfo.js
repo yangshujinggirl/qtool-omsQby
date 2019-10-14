@@ -42,7 +42,7 @@ class CgoodsDetail extends React.Component {
           <Form.Item label="金卡价(元)">{infos.goldCardPrice}</Form.Item>
           <Form.Item label="银卡价(元)">{infos.silverCardPrice}</Form.Item>
           <Form.Item label="上下架状态">{infos.upperStatus==1?'上架':'下架'}</Form.Item>
-          <Form.Item label="商品图片"><img src={infos.image}/></Form.Item>
+          <Form.Item label="商品图片"><img src={infos.image} style={{width:'100px',height:'100px'}}/></Form.Item>
           <Form.Item label="商品说明">{infos.skuRemark}</Form.Item>
         </Form>
       </div>

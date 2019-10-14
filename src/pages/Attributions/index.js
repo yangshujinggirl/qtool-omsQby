@@ -1,5 +1,6 @@
 import FilterForm from "./components/FilterForm";
 import { connect } from "react-redux";
+import {Link} from 'react-router-dom'
 import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
 
@@ -48,7 +49,7 @@ class Attributions extends React.Component {
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={this.addAtr}>
-            新增属性
+            <Link to="/account/AttrAdd">新增属性</Link>
           </Qbtn>
         </div>
         <Qtable columns={Columns} dataSource={atrLists} />
