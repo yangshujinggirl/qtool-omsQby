@@ -58,19 +58,32 @@ class AttrAdd extends React.Component {
         let { categoryId, attributeValue } = values;
         const { id } = this.state;
         attributeValue = attributeValue.join("|");
-        AtrBindApi({ attributeId:id, attributeValue, categoryId }).then(res => {
-          message.success("保存成功");
-          this.props.history.push("/account/attributeManage");
-        });
+        AtrBindApi({ attributeId: id, attributeValue, categoryId }).then(
+          res => {
+            message.success("保存成功");
+            this.props.history.push("/account/attributeManage");
+          }
+        );
       }
     });
   };
   handleChange = (value, type) => {
+    if (type == 1) {
+      this.props.form.resetFields(["categoryId", "categoryId2", "categoryId3"]);
+      this.setState({
+        categoryLists1: [],
+        categoryLists2: [],
+        categoryLists3: []
+      });
+    }
     GetCategoryApi({ level: type + 1, parentId: value }).then(res => {
       this.setState({
-        ["categoryLists" + type]: res.result||[]
+        ["categoryLists" + type]: res.result || []
       });
     });
+  };
+  goBack = () => {
+    this.props.history.push("/account/attributeManage");
   };
   render() {
     const {
@@ -158,13 +171,17 @@ class AttrAdd extends React.Component {
                 </Select>
               )}
             </Form.Item>
-            <Form.Item label="属性值" className="differ_situation">
+            <Form.Item label="属性值" className="situation">
               {getFieldDecorator("attributeValue", {
+                rules: [{ required: true, message: "请选择属性值" }],
                 initialValue: checkedList
               })(<CheckboxGroup options={plainOptions} />)}
             </Form.Item>
           </Form>
-          <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
+          <div className="handle-operate-save-action">
+            <Qbtn onClick={this.goBack}>返回</Qbtn>
+            <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
+          </div>
         </div>
       </div>
     );

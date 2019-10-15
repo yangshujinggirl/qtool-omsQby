@@ -24,8 +24,17 @@ class BgoodsAdd extends React.Component {
   componentDidMount() {
     const {id} = this.props.match.params;
     GetGoodDetailApi({ sku_id:id, saleRange: "c" }).then(res => {
+      const fileList = [
+        {
+          uid: "-1",
+          name: "image.png",
+          status: "done",
+          url: res.result.image
+        }
+      ];
       this.setState({
-        infos: res.result
+        infos: res.result,
+        fileList
       });
     });
   }
@@ -43,12 +52,15 @@ class BgoodsAdd extends React.Component {
   upDateList = fileList => {
     this.setState({ fileList });
   };
+  goBack=()=>{
+    this.props.history.push('/account/Csite');
+  }
   render() {
     const { infos, fileList } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="oms-common-addEdit-pages">
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form {...formItemLayout} >
           <Form.Item label="spu编码">{infos.spuCode}</Form.Item>
           <Form.Item label="货主">{infos.supplierName}</Form.Item>
           <Form.Item label="sku编码">{infos.skuCode}</Form.Item>
@@ -130,8 +142,8 @@ class BgoodsAdd extends React.Component {
             })(<Input.TextArea rowSpan={6} colSpan={5} />)}
           </Form.Item>
           <div className="handle-operate-save-action">
-            <Qbtn>返回</Qbtn>
-            <Qbtn>保存</Qbtn>
+            <Qbtn onClick={this.goBack}>返回</Qbtn>
+            <Qbtn onSubmit={this.handleSubmit}>保存</Qbtn>
           </div>
         </Form>
       </div>

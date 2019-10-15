@@ -1,5 +1,6 @@
 import { Modal, Form, Input,  message } from "antd";
 import { EditApi } from "api/home/Classify";
+import './index.less'
 const FormItem = Form.Item;
 
 class EditModal extends React.Component {
@@ -7,7 +8,6 @@ class EditModal extends React.Component {
     super(props);
     this.state = {};
   }
-  
   onCancel = () => {
     this.props.onCancel();
   };
@@ -40,6 +40,7 @@ class EditModal extends React.Component {
               label="原名称"
               labelCol={{ span: 6 }}
               wrapperCol={{span:12}}
+              className='form_situation'
             >
               <span>{categoryName}</span>
             </FormItem>

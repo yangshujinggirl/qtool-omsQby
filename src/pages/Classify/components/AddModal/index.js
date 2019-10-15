@@ -24,7 +24,13 @@ class AddModal extends React.Component {
     }
   };
   onChange = (value, type) => {
-    if(type==1){
+    if(type==1){//一级分类修改
+      if(this.props.level==3){
+        this.props.form.resetFields(['parentId'])
+      };
+      if(this.props.level==4){
+        this.props.form.resetFields(['parentId','parentId2']) 
+      };
       this.setState({
         catagoryList2:[],
         catagoryList3:[],

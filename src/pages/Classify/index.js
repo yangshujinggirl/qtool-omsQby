@@ -6,7 +6,7 @@ class Classify extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activityKey: 1
+      activityKey: "1"
     };
   }
   callback = key => {

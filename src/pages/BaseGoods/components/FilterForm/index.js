@@ -23,6 +23,8 @@ class Search extends BaseFilter {
     });
   };
   onChange = value => {
+    this.props.form.resetFields(['categoryCode2'])
+    this.setState({catagoryList2:[]});
     if (value) {
       GetCategoryApi({ level: -1, parentId: value }).then(res => {
         this.setState({

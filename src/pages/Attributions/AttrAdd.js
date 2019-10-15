@@ -1,8 +1,8 @@
 import { Form, Input, message, Tag, Tooltip, Icon } from "antd";
-import {connect} from 'react-redux'
-import { GetInfoApi, AddAtrApi,UpdataAtrApi  } from "api/home/Attributions";
+import { connect } from "react-redux";
+import { GetInfoApi, AddAtrApi, UpdataAtrApi } from "api/home/Attributions";
 import { Qbtn } from "common";
-import './index.less'
+import "./index.less";
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -17,27 +17,29 @@ class AttrAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      attributeId:'',
+      attributeId: "",
       tags: [],
       inputVisible: false,
       inputValue: ""
     };
   }
-  componentDidMount(){
-    this.initPage()
+  componentDidMount() {
+    this.initPage();
   }
   //初始化数据
-  initPage =()=> {
-    const {id} = this.props.match.params;
-    this.setState({id});
-    GetInfoApi({attributeId:id}).then(res => {
-      const {attributeValue,attributeName} = res.result;
-      this.setState({
-        tags:attributeValue.split('|'),
-        attributeName,
+  initPage = () => {
+    const { id } = this.props.match.params;
+    this.setState({ id });
+    if (id) {
+      GetInfoApi({ attributeId: id }).then(res => {
+        const { attributeValue, attributeName } = res.result;
+        this.setState({
+          tags: attributeValue.split("|"),
+          attributeName
+        });
       });
-    });
-  }
+    }
+  };
   saveInputRef = input => {
     this.input = input;
   };
@@ -49,24 +51,30 @@ class AttrAdd extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const {id} = this.state;
-        const attributeValue = this.state.tags.join('|');
-        if(id){//修改
-          UpdataAtrApi({id,attributeValue,...values}).then(res=>{
-            message.success('保存成功')
-            this.props.history.push('/account/attributeManage');
+        const { id, tags } = this.state;
+        if (!tags.length > 0) {
+          message.error("请先添加属性", 0.8);
+          return;
+        }
+        const attributeValue = tags.join("|");
+        if (id) {
+          //修改
+          UpdataAtrApi({ id, attributeValue, ...values }).then(res => {
+            message.success("保存成功");
+            this.props.history.push("/account/attributeManage");
           });
-        }else{//新增
-          AddAtrApi({attributeValue,...values}).then(res=>{
-            message.success('保存成功')
-            this.props.history.push('/account/attributeManage');
+        } else {
+          //新增
+          AddAtrApi({ attributeValue, ...values }).then(res => {
+            message.success("保存成功");
+            this.props.history.push("/account/attributeManage");
           });
-        };
-      };
+        }
+      }
     });
   };
   //input变化
-  handleInputChange = (e) => {
+  handleInputChange = e => {
     this.setState({ inputValue: e.target.value });
   };
   handleInputConfirm = () => {
@@ -74,7 +82,7 @@ class AttrAdd extends React.Component {
     let { tags } = this.state;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
-    };
+    }
     this.setState({
       tags,
       inputVisible: false,
@@ -82,27 +90,28 @@ class AttrAdd extends React.Component {
     });
   };
   //点击 X 时
-  handleClose=(removeTag)=>{
-    const tags = this.state.tags.filter(tag=>tag!=removeTag)
-    this.setState({tags})
-  }
+  handleClose = removeTag => {
+    const tags = this.state.tags.filter(tag => tag != removeTag);
+    this.setState({ tags });
+  };
+  goBack = () => {
+    this.props.history.push("/account/attributeManage");
+  };
   render() {
-    const { tags, inputVisible, inputValue,attributeName } = this.state;
+    const { tags, inputVisible, inputValue, attributeName } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="oms-common-addEdit-pages">
         <div className="handle-operate-save-action">
-          <Form
-            {...formItemLayout}
-          >
+          <Form {...formItemLayout}>
             <Form.Item label="规格名称">
               {getFieldDecorator("attributeName", {
                 rules: [{ required: true, message: "请输入规格名称" }],
-                initialValue:attributeName
+                initialValue: attributeName
               })(<Input placeholder="请输入规格名称" autoComplete="off" />)}
             </Form.Item>
-            <Form.Item label="属性值" className='q-required'>
-              <div className='add_atr'>
+            <Form.Item label="属性值" className="q-required">
+              <div className="add_atr">
                 {tags.map((tag, index) => (
                   <Tag
                     key={tag}
@@ -136,16 +145,19 @@ class AttrAdd extends React.Component {
               </div>
             </Form.Item>
           </Form>
-          <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
+          <div className="handle-operate-save-action">
+            <Qbtn onClick={this.goBack}>返回</Qbtn>
+            <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
+          </div>
         </div>
       </div>
     );
   }
 }
 const AttrAdds = Form.create({})(AttrAdd);
-function mapStateToProps(state){
-  const {AttributionsReducers} = state;
-  return AttributionsReducers
+function mapStateToProps(state) {
+  const { AttributionsReducers } = state;
+  return AttributionsReducers;
 }
 
 export default connect(mapStateToProps)(AttrAdds);

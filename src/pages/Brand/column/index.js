@@ -13,7 +13,6 @@ const Columns = [
     dataIndex: "brandNameEn",
     key: "3"
   },
-
   {
     title: "品牌授权",
     dataIndex: "isSq",
