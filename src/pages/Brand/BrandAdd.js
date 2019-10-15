@@ -39,12 +39,12 @@ class BrandAdd extends React.Component {
         values.logo = this.state.fileList[0].response.result;
         if(id){//修改
           UpdataBrandApi({id,...values}).then(res => {
-            message.error("保存成功");
+            message.success("保存成功");
             this.props.history.push('/account/brandManage');
           });
         }else{//新建
           AddBrandApi({...values}).then(res => {
-            message.error("保存成功");
+            message.success("保存成功");
             this.props.history.push('/account/brandManage');
           });
         };
