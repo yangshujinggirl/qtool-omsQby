@@ -73,7 +73,7 @@ class CommonSort extends React.Component {
     const num = this.props.level==1?'':this.props.level;
     this.setState({
       editVisible: true,
-      ['id'+num]: record['id'+num],
+      id: record.id,
       ['categoryName'+num]:record['categoryName'+num]
     });
   };
@@ -115,8 +115,7 @@ class CommonSort extends React.Component {
   render() {
     const num = this.props.level==1?'':this.props.level;
     const categoryName = this.state['categoryName'+num];
-    const id = this.state['id'+num]
-    const { Columns, visible, editVisible} = this.state;
+    const { Columns, visible, editVisible,id} = this.state;
     const { categoryLists, level, text } = this.props;
     return (
       <div>
