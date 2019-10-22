@@ -12,8 +12,17 @@ export function GetListsApi(values) {
  *
  *新增保存接口
  */
-export function SaveApi(values) {
+export function AddApi(values) {
   return Req.post("category/addCategory", {
+    ...values
+  });
+}
+/**
+ *
+ *编辑
+ */
+export function EditApi(values) {
+  return Req.post("category/modCategory", {
     ...values
   });
 }

@@ -13,8 +13,12 @@ const Columns = [
     dataIndex: "brandNameEn",
     key: "3"
   },
-
-  { title: "品牌授权", dataIndex: "bprice", key: "4" },
+  {
+    title: "品牌授权",
+    dataIndex: "isSq",
+    key: "4",
+    render: (text, record, index) => (text == 1 ? "有" : "无")
+  },
   {
     title: "品牌状态",
     dataIndex: "status",

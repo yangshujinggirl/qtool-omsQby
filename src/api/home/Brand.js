@@ -21,8 +21,17 @@ export function GetInfoApi(values){
  * 新增品牌
  * @param {*} values 
  */
-export function saveBrandApi(values){
-    return Req.get('/brand/addBrand',{
-        params:{...values}
+export function AddBrandApi(values){
+    return Req.post('/brand/addBrand',{
+        ...values
+    })
+}
+/**
+ * 修改品牌
+ * @param {*} values 
+ */
+export function UpdataBrandApi(values){
+    return Req.post('/brand/editBrand',{
+        ...values
     })
 }

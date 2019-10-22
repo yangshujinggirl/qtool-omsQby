@@ -10,25 +10,29 @@ class Search extends BaseFilter {
     super(props);
     this.state = {
       catagoryList: [],
-      catagoryList2: [],
+      catagoryList2: []
     };
   }
   componentDidMount = () => {
     this.initPage();
   };
   initPage = () => {
-    GetCategoryApi({ level:1,parentId:'' }).then(res => {
+    GetCategoryApi({ level: 1, parentId: "" }).then(res => {
       this.setState({
         catagoryList: res.result
       });
     });
   };
   onChange = value => {
-    GetCategoryApi({ level:-1,parentId:value }).then(res => {
-      this.setState({
-        catagoryList2: res.result
+    this.props.form.resetFields(['categoryCode2'])
+    this.setState({catagoryList2:[]});
+    if (value) {
+      GetCategoryApi({ level: -1, parentId: value }).then(res => {
+        this.setState({
+          catagoryList2: res.result || []
+        });
       });
-    });
+    }
   };
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -47,14 +51,14 @@ class Search extends BaseFilter {
             <Col {...this.colspans}>
               <FormItem label="spu编码" {...this.formItemLayout}>
                 {getFieldDecorator("spuCode")(
-                  <Input placeholder="请输入spu编码" autoComplete="off"/>
+                  <Input placeholder="请输入spu编码" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="sku编码" {...this.formItemLayout}>
                 {getFieldDecorator("skuCode")(
-                  <Input placeholder="请输入sku编码" autoComplete="off"/>
+                  <Input placeholder="请输入sku编码" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
@@ -71,7 +75,7 @@ class Search extends BaseFilter {
             <Col {...this.colspans}>
               <FormItem label="商品品牌" {...this.formItemLayout}>
                 {getFieldDecorator("productName")(
-                  <Input placeholder="请输入商品品牌" autoComplete="off"/>
+                  <Input placeholder="请输入商品品牌" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
@@ -109,8 +113,8 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="创建时间" {...this.formItemLayout}>
-                {getFieldDecorator("time",{
-                  initialValue:this.initTime
+                {getFieldDecorator("time", {
+                  initialValue: this.initTime
                 })(
                   <RangePicker
                     placeholder={this.placeholder}

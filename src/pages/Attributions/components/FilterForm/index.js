@@ -14,15 +14,15 @@ class Search extends BaseFilter {
           <Row gutter={24}>
             <Col {...this.colspans}>
               <FormItem label="属性名称" {...this.formItemLayout}>
-                {getFieldDecorator("productName")(
+                {getFieldDecorator("attributeName")(
                   <Input placeholder="请输入属性名称" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="关联的四级类目" {...this.formItemLayout}>
-                {getFieldDecorator("spuCode")(
-                  <Input placeholder="请输入spu编码" autoComplete="off"/>
+                {getFieldDecorator("categoryName")(
+                  <Input placeholder="请输入关联的四级类目" autoComplete="off"/>
                 )}
               </FormItem>
             </Col>
