@@ -23,7 +23,7 @@ import Classify from './Classify'
 import Attributions from './Attributions'
 import AttrAdd from './Attributions/AttrAdd'
 import AttrBind from './Attributions/AttrBind'
-1
+
 class HomeRoutes extends React.Component {
   render() {
     return(
