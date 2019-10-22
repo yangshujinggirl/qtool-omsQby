@@ -48,7 +48,7 @@ class SiderBarController extends React.Component {
                   el.subActions&&el.subActions.length>0&&el.subActions.map((item,idx) => {
                     if(!item.subActions) {
                       return <Menu.Item key={`${item.id}${idx}`}>
-                        <Link to={item.action}>{item.name}</Link>
+                        <Link to={`/account/${item.action}`}>{item.name}</Link>
                       </Menu.Item>
                     } else {
                       return <SubMenu

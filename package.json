@@ -12,7 +12,6 @@
     "Android >= 4"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --progress --color",
     "build:dev": "cross-env NODE_ENV=development webpack --progress",
     "build:prod": "cross-env NODE_ENV=production webpack --progress",

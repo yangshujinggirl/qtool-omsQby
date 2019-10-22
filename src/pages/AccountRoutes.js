@@ -28,24 +28,24 @@ class HomeRoutes extends React.Component {
   render() {
     return(
       <Switch>
-        <Route  exact path="/account/public" component={Public} />
-        <Route  path="/account/basicCommodityManage" component={BaseGoods}/>
-        <Route  path="/account/Bsite" component={Bgoods}/>
-        <Route  path="/account/Csite" component={Cgoods}/>
-        <Route  path="/account/bgoodsAdd" component={BgoodsAdd}/>
-        <Route  path="/account/cgoodsAdd" component={CgoodsAdd}/>
-        <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
-        <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
-        <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
-        <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
-        <Route  path="/account/brandManage" component={Brand}/>
-        <Route  path="/account/brandAdd/:id?" component={BrandAdd}/>
-        <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
-        <Route  path="/account/categoryManage" component={Classify}/>
-        <Route  path="/account/attributeManage" component={Attributions}/>
-        <Route  path="/account/AttrAdd/:id?" component={AttrAdd}/>
-        <Route  path="/account/AttrInfo/:id?" component={AttrInfo}/>
-        <Route component={NotFound}/>
+        <Route exact  exact path="/account/public" component={Public} />
+        <Route exact  path="/account/basicCommodityManage" component={BaseGoods}/>
+        <Route exact  path="/account/Bsite" component={Bgoods}/>
+        <Route exact  path="/account/Csite" component={Cgoods}/>
+        <Route exact  path="/account/bgoodsAdd" component={BgoodsAdd}/>
+        <Route exact  path="/account/cgoodsAdd" component={CgoodsAdd}/>
+        <Route exact  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
+        <Route exact  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
+        <Route exact  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
+        <Route exact  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
+        <Route exact  path="/account/brandManage" component={Brand}/>
+        <Route exact  path="/account/brandAdd/:id?" component={BrandAdd}/>
+        <Route exact  path="/account/brandInfo/:id?" component={BrandInfo}/>
+        <Route exact  path="/account/categoryManage" component={Classify}/>
+        <Route exact  path="/account/attributeManage" component={Attributions}/>
+        <Route exact  path="/account/AttrAdd/:id?" component={AttrAdd}/>
+        <Route exact  path="/account/AttrInfo/:id?" component={AttrInfo}/>
+        <Route  component={NotFound}/>
       </Switch>
     )
   }

@@ -90,9 +90,6 @@ class BaseGoodsAdd extends React.Component {
   autoSelect(value, option) {
     let { brandDataSource,totalData } =this.props;
     let item = brandDataSource.find((el)=> el.value== value);
-    // totalData = { ...totalData, brandAddress:item.brandCountry};
-    // totalData = { ...totalData, brandAddress:'美国'};
-    // this.props.actions.setData({totalData});
     this.props.dispatch({
       type:'baseGoodsAdd/getTotalState',
       payload:{brandAddress:item.brandCountry}
@@ -100,6 +97,7 @@ class BaseGoodsAdd extends React.Component {
   }
   //规格
   changeAttrubte(value,record,typeIndex) {
+    console.log(value,record)
     let { attrubteArray } =this.props;
     let idx = attrubteArray.findIndex((el)=> el.attributeId==record.attributeId);
     value =value.map((el,index)=> {
@@ -117,23 +115,33 @@ class BaseGoodsAdd extends React.Component {
     } else {
       attrubteArray[idx].attributeVal = value
     }
-    let selectArry =[];
-    attrubteArray.map((el)=>{
-      el.attributeVal.map((item)=>{
+    let selectArry=[]
+    attrubteArray.map((el,index)=>{
+      el.attributeVal.map((item,idx)=>{
         let current = {
-          name:`${item.value}/`,
+          name:`${item.value}`,
           parentId:el.attributeId,
-          typeId:item.id,
+          id:item.id,
         }
-        let idxParent = selectArry.findIndex((value)=> item.parentId==value.parentId);
-        let idxType = selectArry.findIndex((value)=> item.attributeId==value.attributeId);
-        console.log(idxParent,idxType)
-        selectArry.push(current);
+        if(selectArry.length==0) {
+          selectArry.push(current);
+        } else {
+          selectArry.map((va,dxs)=> {
+            if(el.attributeId==va.parentId) {
+              if(item.id != va.id){
+                selectArry.push(current);
+              }
+            } else {
+              va.name=`${va.name}/${item.value}`
+            }
+          })
+        }
       })
     })
+    console.log(selectArry)
     this.props.dispatch({
       type:'baseGoodsAdd/getAttrubteList',
-      payload:attrubteArray
+      payload:{selectArry,attrubteArray}
     })
   }
   submit=(e)=> {
