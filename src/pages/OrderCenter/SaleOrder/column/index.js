@@ -14,7 +14,7 @@ const Columns = [
   },
   {
     title: "订单状态",
-    dataIndex: "warehouseName",
+    dataIndex: "orderStatusStr",
     key: "4"
   },
   {
@@ -30,22 +30,22 @@ const Columns = [
   {
     title: "收货地址",
     dataIndex: "address",
-    key: "6"
+    key: "7"
   },
   {
     title: "商品总价",
     dataIndex: "productTotal",
-    key: "6"
+    key: "8"
   },
   {
     title: "优惠金额",
     dataIndex: "discountTotal",
-    key: "6"
+    key: "9"
   },
   {
     title: "订单类型",
     dataIndex: "orderType",
-    key: "6",
+    key: "10",
     render: text => {
       switch (text) {
         case 1:
@@ -68,7 +68,7 @@ const Columns = [
   {
     title: "支付方式",
     dataIndex: "payType",
-    key: "6",
+    key: "11",
     render: (text, record) => {
       switch (text) {
         case 1:
@@ -89,14 +89,14 @@ const Columns = [
   {
     title: "支付金额",
     dataIndex: "orderTotal",
-    key: "6"
+    key: "12"
   },
   {
     title: "下单时间",
-    dataIndex: "channelOrderCreateTime",
-    key: "6",
+    dataIndex: "createTime",
+    key: "13",
     render: text => {
-      return <span>{text && moment().format("YYYY-MM-DD HH:mm:ss")}</span>;
+      return <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>;
     }
   }
 ];

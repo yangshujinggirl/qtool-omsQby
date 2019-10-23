@@ -27,6 +27,8 @@ import StoreHouse from './StoreHouse'
 import StockManage from './StockManage'
 import StoreAdd from './StoreHouse/StoreAdd'
 import SaleOrder from './OrderCenter/SaleOrder'
+import Supplier from './BaseGoodsCenter/Supplier'
+import SupplierAdd from './BaseGoodsCenter/Supplier/SupplierAdd'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -52,7 +54,9 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/wareHouseManage" component={StoreHouse}/>
         <Route  path="/account/stockManage" component={StockManage}/>
         <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>
-        <Route  path="/account/SaleOrder" component={SaleOrder}/>
+        <Route  path="/account/orderSale" component={SaleOrder}/>
+        <Route  path="/account/productsIstation" component={Supplier}/>
+        <Route  path="/account/supplierAdd/:id?" component={SupplierAdd}/>
         <Route component={NotFound}/>
       </Switch>
     )

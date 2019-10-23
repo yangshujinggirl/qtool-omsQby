@@ -13,7 +13,9 @@ export function GetListsApi(values){
  * @param {\} values 
  */
 export function GetShopListApi(values){
-    return Req.get('warehouse/addWarehouse',values)
+    return Req.get('warehouse/getChannel',{
+        params:values
+    })
 }
 /**
  * 修改库存
@@ -29,4 +31,13 @@ export function updataStoreApi(values){
  */
 export function storeAddApi(values){
     return Req.post('warehouse/addWarehouse',values)
+}
+/**
+ * 详情
+ * @param {*} values 
+ */
+export function storeInfoApi(values){
+    return Req.get('warehouse/viewWarehouse',{
+        params:values
+    })
 }

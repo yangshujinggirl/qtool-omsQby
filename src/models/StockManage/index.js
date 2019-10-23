@@ -5,7 +5,7 @@ function* getTableList(action){
     const params = action.payload;
     const res = yield call(GetListsApi,params);
     const {resultList,everyPage,currentPage,totalCount} = res.result;
-    resultList&&resultList.map(item=>{
+    resultList && resultList.map(item=>{
         item.key = item.id
     });
     yield put({

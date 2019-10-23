@@ -1,6 +1,6 @@
 import qs from "qs";
 // 发送 post 请求
-const url = "/qtoolsOms/items/exportItmes";
+const url = "/qtoolsOms/export/exportItmes";
 export function ExportApi(data) {
   fetch(url, {
     method: "POST",

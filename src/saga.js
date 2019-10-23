@@ -11,6 +11,7 @@ import AttributionSagas from './models/Attributions';
 import StoreHouseSagas from './models/StoreHouse';
 import StockManage from './models/StockManage'
 import SaleOrder from './models/OrderCenter/SaleOrder'
+import Supplier from './models/BaseGoodsCenter/Supplier'
 
 export function* helloSaga () {
   yield all([
@@ -24,5 +25,6 @@ export function* helloSaga () {
     call(StoreHouseSagas),
     call(StockManage),
     call(SaleOrder),
+    call(Supplier),
   ])
 }
