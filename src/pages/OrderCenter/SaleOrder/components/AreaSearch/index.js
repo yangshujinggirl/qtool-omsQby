@@ -48,7 +48,7 @@ class index extends React.Component {
     });
   };
   onOK = () => {
-    this.props.onOk(this.state.selectedRowKeys);
+    this.props.onOk(this.state.rowSelection.selectedRowKeys);
   };
   render() {
     const { rowSelection } = this.state;

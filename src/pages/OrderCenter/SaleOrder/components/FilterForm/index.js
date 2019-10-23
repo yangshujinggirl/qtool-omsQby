@@ -7,7 +7,12 @@ class Search extends BaseFilter {
   constructor(props) {
     super(props);
   }
+  handleChange=()=>{
+
+  }
   render() {
+    const {shopId} = this.props;
+    console.log(shopId)
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="qtoolOms-condition">
@@ -71,6 +76,28 @@ class Search extends BaseFilter {
                     <Option value={390}>退货完成</Option>
                     <Option value={0}>缺货中</Option>
                   </Select>
+                )}
+              </FormItem>
+            </Col>
+            <Col {...this.colspans}>
+              <FormItem label="订单ID" {...this.formItemLayout}>
+                {getFieldDecorator("orderStatus",{
+                  initialValue:shopId,
+                  onChange:this.handleChange,
+                })(
+                  <Select
+                    maxTagTextLength={100}
+                    maxTagCount={3}
+                    allowClear={true}
+                    mode="multiple"
+                    placeholder="选择门店id"
+                >
+                 {shopId.map(item=>(
+                   <Option key={item} value={item}>
+                     {item}
+                   </Option>
+                 ))} 
+                </Select>
                 )}
               </FormItem>
             </Col>

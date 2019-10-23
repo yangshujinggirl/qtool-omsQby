@@ -9,7 +9,8 @@ class SaleOrder extends React.Component {
     super(props);
     this.state = {
       visible:false, 
-      inputValues: {}
+      inputValues: {},
+      shopId:[]
     };
   }
   //初始化数据
@@ -60,15 +61,18 @@ class SaleOrder extends React.Component {
       visible:false
     });
   }
-  onOk=()=>{
-    
+  onOk=(selectKeys)=>{
+    this.setState({
+      shopId:selectKeys,
+      visible:false
+    })
   }
   render() {
-    const {visible} = this.state;
+    const {visible,shopId} = this.state;
     const { tableLists } = this.props;
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.onSubmit} />
+        <FilterForm onSubmit={this.onSubmit} shopId={shopId}/>
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={this.setVisible}>
             区域搜索
