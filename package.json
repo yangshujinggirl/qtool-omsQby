@@ -14,8 +14,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --progress --color",
     "build:dev": "cross-env NODE_ENV=development webpack --progress",
-    "build:prod": "cross-env NODE_ENV=production webpack --progress",
-    "dev": "webpack --progress --color"
+    "build:prod": "cross-env NODE_ENV=production webpack --progress"
   },
   "author": "yangjing",
   "license": "ISC",
