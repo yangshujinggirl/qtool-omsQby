@@ -143,7 +143,7 @@ class BgoodsAdd extends React.Component {
           </Form.Item>
           <div className="handle-operate-save-action">
             <Qbtn onClick={this.goBack}>返回</Qbtn>
-            <Qbtn onSubmit={this.handleSubmit}>保存</Qbtn>
+            <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
           </div>
         </Form>
       </div>

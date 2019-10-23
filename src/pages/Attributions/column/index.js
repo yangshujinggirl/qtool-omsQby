@@ -19,19 +19,18 @@ const Columns = [
     title: "创建时间",
     dataIndex: "createTime",
     key: "4",
-    render: text => <span>{moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
   },
   {
     title: "最新修改时间",
     dataIndex: "lastUpdateTime",
     key: "5",
-    render: text => <span>{moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
   },
   {
     title: "最新修改人",
     dataIndex: "modifyBy",
     key: "6",
-    render: text => <span>{moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
   },
   {
     title: "操作",

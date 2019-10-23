@@ -23,6 +23,10 @@ import Classify from './Classify'
 import Attributions from './Attributions'
 import AttrAdd from './Attributions/AttrAdd'
 import AttrBind from './Attributions/AttrBind'
+import StoreHouse from './StoreHouse'
+import StockManage from './StockManage'
+import StoreAdd from './StoreHouse/StoreAdd'
+import SaleOrder from './OrderCenter/SaleOrder'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -45,6 +49,10 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/attributeManage" component={Attributions}/>
         <Route  path="/account/AttrAdd/:id?" component={AttrAdd}/>
         <Route  path="/account/AttrBind/:id?" component={AttrBind}/>
+        <Route  path="/account/wareHouseManage" component={StoreHouse}/>
+        <Route  path="/account/stockManage" component={StockManage}/>
+        <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>
+        <Route  path="/account/SaleOrder" component={SaleOrder}/>
         <Route component={NotFound}/>
       </Switch>
     )
