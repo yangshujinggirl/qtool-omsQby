@@ -1,6 +1,5 @@
 import {call,put,takeEvery} from 'redux-saga/effects'
 import {GetListsApi} from 'api/home/OrderCenter/SaleOrder'
-
 function* getTableList(action){
     const params = action.payload;
     const res = yield call(GetListsApi,params)

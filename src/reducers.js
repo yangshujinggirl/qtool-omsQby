@@ -21,5 +21,5 @@ export default combineReducers({
   AttributionsReducers,
   StoreHouseReducers,
   StockManageReducers,
-  SaleOrderReducers
+  SaleOrderReducers,
 })

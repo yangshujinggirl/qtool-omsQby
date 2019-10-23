@@ -26,7 +26,10 @@ import AttrBind from './Attributions/AttrBind'
 import StoreHouse from './StoreHouse'
 import StockManage from './StockManage'
 import StoreAdd from './StoreHouse/StoreAdd'
+//订单中心
 import SaleOrder from './OrderCenter/SaleOrder'
+import ShopstockOrder from './OrderCenter/ShopstockOrder';
+import UnconfirmedOrder from './OrderCenter/UnconfirmedOrder';
 
 class HomeRoutes extends React.Component {
   render() {
@@ -53,6 +56,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/stockManage" component={StockManage}/>
         <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>
         <Route  path="/account/SaleOrder" component={SaleOrder}/>
+        <Route  path="/account/orderShopstock" component={ShopstockOrder}/>
+        <Route  path="/account/orderConfirm" component={UnconfirmedOrder}/>
         <Route component={NotFound}/>
       </Switch>
     )
