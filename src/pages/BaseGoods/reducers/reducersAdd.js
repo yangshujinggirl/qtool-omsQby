@@ -5,6 +5,7 @@ const index = (state = {
   supplierList:[],
   fileList:[],
   attrubteArray:[],
+  selectArry:[],
   attributeList:[],//规格
   categoryData:{
     categoryLevelOne:[],

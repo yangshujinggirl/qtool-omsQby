@@ -24,7 +24,7 @@ function* getAttrubteState(action){
   // })
   yield put({
     type: 'BASEGOODSADD_ATTRUBTELIST',
-    payload: {attrubteArray:action.payload}
+    payload: action.payload
   })
 }
 //详情
