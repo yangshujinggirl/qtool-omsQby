@@ -46,7 +46,7 @@ class StockManage extends React.Component {
   };
   //导出
   export = () => {
-    ExportApi({ ...this.state.inputValues, type: 2 });
+    ExportApi({ ...this.state.inputValues, type: 3 });
   };
   render() {
     console.log(this.props)

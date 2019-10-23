@@ -47,7 +47,7 @@ class StoreHouse extends React.Component {
   };
   //导出
   export = () => {
-    ExportApi({ ...this.state.inputValues, type: 2 });
+    ExportApi({ ...this.state.inputValues, type: 3 });
   };
   render() {
     const { tableLists } = this.props;
@@ -56,7 +56,7 @@ class StoreHouse extends React.Component {
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Link to="/account/storeAdd">
-            <Qbtn size="free" onClick={this.export}>
+            <Qbtn size="free">
               新增仓库
             </Qbtn>
           </Link>

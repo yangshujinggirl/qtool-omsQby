@@ -1,6 +1,8 @@
-import { Form, Input, Select, Row, Col } from "antd";
+import { Form, Input, Select, Row, Col,DatePicker } from "antd";
 import { BaseFilter, Qbtn } from "common";
 const FormItem = Form.Item;
+const {RangePicker} = DatePicker;
+const {Option} = Select;
 class Search extends BaseFilter {
   constructor(props) {
     super(props);
@@ -13,82 +15,69 @@ class Search extends BaseFilter {
           <Row gutter={24}>
             <Col {...this.colspans}>
               <FormItem label="订单编号" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseName")(
+                {getFieldDecorator("orderNo")(
                   <Input placeholder="请输入订单编号" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="门店编号" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseName")(
-                  <Input placeholder="请输入门店编号" autoComplete="off" />
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
-              <FormItem label="区域" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseName")(
-                  <Input placeholder="请输入门店名称" autoComplete="off" />
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
-              <FormItem label="门店名称" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseName")(
-                  <Input placeholder="请输入门店名称" autoComplete="off" />
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
               <FormItem label="SKU商品编号" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseCode")(
+                {getFieldDecorator("skuCode")(
                   <Input placeholder="请输入SKU商品编号" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="收货人" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseName")(
+                {getFieldDecorator("consignee")(
                   <Input placeholder="请输入收货人" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="联系电话" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseCode")(
+                {getFieldDecorator("phone")(
                   <Input placeholder="请输入联系电话" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="渠道" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseType")(
+                {getFieldDecorator("sourceCode")(
                   <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>所有</Option>
-                    <Option value={2}>线上</Option>
-                    <Option value={3}>线下</Option>
-                    <Option value={3}>pos</Option>
-                    <Option value={3}>掌柜</Option>
-                    <Option value={3}>安卓</Option>
-                    <Option value={3}>ios</Option>
-                    <Option value={3}>小程序</Option>
+                    <Option value="">所有</Option>
+                    <Option value="QANDDROID,QIOS,QWCHAT">线上</Option>
+                    <Option value="QPOS,QMANAGER">线下</Option>
+                    <Option value="QPOS">pos</Option>
+                    <Option value="QMANAGER">掌柜</Option>
+                    <Option value="QANDDROID">安卓</Option>
+                    <Option value="QIOS">ios</Option>
+                    <Option value="QWCHAT">小程序</Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="渠道" {...this.formItemLayout}>
-                {getFieldDecorator("warehouseType")(
+              <FormItem label="订单状态" {...this.formItemLayout}>
+                {getFieldDecorator("orderStatus")(
                   <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>所有</Option>
-                    <Option value={2}>线上</Option>
-                    <Option value={3}>线下</Option>
-                    <Option value='QPOS'>pos</Option>
-                    <Option value='QMANAGER'>掌柜</Option>
-                    <Option value='QANDROID'>安卓</Option>
-                    <Option value='QIOS'>ios</Option>
-                    <Option value='QWCHAT'>小程序</Option>
+                    <Option value="">所有</Option>
+                    <Option value={210}>待发货</Option>
+                    <Option value={230}>已发货</Option>
+                    <Option value={999}>已完成</Option>
+                    <Option value={310}>申请退货</Option>
+                    <Option value={911}>订单关闭</Option>
+                    <Option value={320}>退货中</Option>
+                    <Option value={390}>退货完成</Option>
+                    <Option value={0}>缺货中</Option>
                   </Select>
+                )}
+              </FormItem>
+            </Col>
+            <Col {...this.colspans}>
+              <FormItem label="下单时间" {...this.formItemLayout}>
+                {getFieldDecorator("time")(
+                  <RangePicker showTime format='YYYY-MM-DD HH:mm:ss'/>
                 )}
               </FormItem>
             </Col>
