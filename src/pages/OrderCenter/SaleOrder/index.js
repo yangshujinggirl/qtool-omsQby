@@ -49,7 +49,9 @@ class SaleOrder extends React.Component {
   };
   //搜索查询
   onSubmit = params => {
-    this.searchData(params);
+    const {channelCode,..._values} = params;
+    _values.channelCode = channelCode.join(',');
+    this.searchData(_values);
   };
   setVisible=()=>{
     this.setState({
@@ -65,14 +67,19 @@ class SaleOrder extends React.Component {
     this.setState({
       shopId:selectKeys,
       visible:false
-    })
+    });
+  }
+  shopIdChange=(value)=>{
+    this.setState({
+      shopId:value
+    });
   }
   render() {
     const {visible,shopId} = this.state;
     const { tableLists } = this.props;
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.onSubmit} shopId={shopId}/>
+        <FilterForm onSubmit={this.onSubmit} shopId={shopId} shopIdChange={this.shopIdChange}/>
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={this.setVisible}>
             区域搜索

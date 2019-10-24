@@ -1,18 +1,15 @@
-import { Form, Input, Select, Row, Col,DatePicker } from "antd";
+import { Form, Input, Select, Row, Col, DatePicker } from "antd";
 import { BaseFilter, Qbtn } from "common";
 const FormItem = Form.Item;
-const {RangePicker} = DatePicker;
-const {Option} = Select;
+const { RangePicker } = DatePicker;
+const { Option } = Select;
 class Search extends BaseFilter {
   constructor(props) {
     super(props);
   }
-  handleChange=()=>{
-
-  }
   render() {
-    const {shopId} = this.props;
-    console.log(shopId)
+    const { shopId } = this.props;
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="qtoolOms-condition">
@@ -80,31 +77,35 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="订单ID" {...this.formItemLayout}>
-                {getFieldDecorator("orderStatus",{
-                  initialValue:shopId,
-                  onChange:this.handleChange,
+              <FormItem
+                className="select_multiple"
+                label="门店ID"
+                {...this.formItemLayout}
+              >
+                {getFieldDecorator("channelCode", {
+                  initialValue: shopId,
+                  onChange:this.props.shopIdChange
                 })(
                   <Select
                     maxTagTextLength={100}
-                    maxTagCount={3}
+                    maxTagCount={2}
                     allowClear={true}
                     mode="multiple"
                     placeholder="选择门店id"
-                >
-                 {shopId.map(item=>(
-                   <Option key={item} value={item}>
-                     {item}
-                   </Option>
-                 ))} 
-                </Select>
+                  >
+                    {shopId.map(item => (
+                      <Option key={item} value={item}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="下单时间" {...this.formItemLayout}>
                 {getFieldDecorator("time")(
-                  <RangePicker showTime format='YYYY-MM-DD HH:mm:ss'/>
+                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                 )}
               </FormItem>
             </Col>
@@ -121,5 +122,13 @@ class Search extends BaseFilter {
     );
   }
 }
-const SearchForm = Form.create({})(Search);
+const SearchForm = Form.create({
+  mapPropsToFields(props) {
+    return {
+      channelCode: Form.createFormField({
+        value: props.shopId,
+      }),
+    };
+  },
+})(Search);
 export default SearchForm;

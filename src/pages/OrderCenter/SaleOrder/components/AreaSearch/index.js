@@ -18,8 +18,6 @@ class index extends React.Component {
     this.setState({
       rowSelection: { ...this.state.rowSelection, selectedRowKeys }
     });
-    console.log(selectedRowKeys);
-    console.log(selectedRows);
   };
   componentDidMount = () => {
     this.props.dispatch({

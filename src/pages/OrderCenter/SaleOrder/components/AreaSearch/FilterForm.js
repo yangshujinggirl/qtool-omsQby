@@ -27,7 +27,6 @@ class FilterForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { areaList } = this.state;
-    console.log(areaList)
     return (
       <div>
         <Form>
