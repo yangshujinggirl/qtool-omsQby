@@ -11,10 +11,9 @@ const AuditModal=({...props})=>{
           closable
           width={320}
           visible={props.visible}
-          onOk={props.onOk}
           onCancel={props.onCancel}
           footer={[
-            <Qbtn key="pass">审核通过</Qbtn>
+            <Qbtn key="pass" onClick={props.onOk}>审核通过</Qbtn>
           ]}>
           <div className="audit-main-content">
             <p>
@@ -24,7 +23,7 @@ const AuditModal=({...props})=>{
               订单总价：{content.orderTotal}
             </p>
             <p>
-              运费：{content.orderTotal}
+              运费：{content.sync}
             </p>
             <p>
               订单创建时间：{moment(content.channelOrderCreateTime).format('YYYY-MM-DD H:mm:ss')}

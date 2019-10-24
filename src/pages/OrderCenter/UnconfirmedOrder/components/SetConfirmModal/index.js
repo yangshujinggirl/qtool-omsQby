@@ -3,66 +3,80 @@ import { GetEditAmoutLimitApi } from '../../../../../api/home/OrderCenter/Unconf
 import { Qbtn, Qmessage } from 'common';
 import './index.less';
 
-const SetModal=({...props})=>{
-  const { getFieldDecorator } = props.form;
-  const { content={} }=props;
-  const handleSubmit =()=> {
-    props.form.validateFields((err, values) => {
+class SetModal extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state={
+      loading:false
+    }
+  }
+  handleSubmit =()=> {
+    this.props.form.validateFields((err, values) => {
       if (!err) {
+        this.setState({ loading:true })
+        values={...values,id:this.props.content.id}
         GetEditAmoutLimitApi(values)
         .then((res)=> {
           Qmessage.success('修改成功');
-          props.form.resetFields()
-          props.onOk();
+          this.props.form.resetFields()
+          this.props.onOk();
+          this.setState({ loading:false })
         })
       }
     });
   }
-  const onCancel=()=>{
-    props.form.resetFields()
-    props.onCancel();
+  onCancel=()=>{
+    this.props.form.resetFields()
+    this.props.onCancel();
   }
-  return <Modal
-          className="setConfirm-modal-wrap"
-          title=""
-          closable
-          width={320}
-          visible={props.visible}
-          onCancel={onCancel}
-          footer={[
-            <Qbtn key="pass" onClick={handleSubmit}>审核通过</Qbtn>
-          ]}>
-          <div className="audit-main-content">
-          <Form.Item>
-            <span className="ant-form-text"> 小于</span>
-            {
-              getFieldDecorator('minAmount',{
-                initialValue:content.minAmount,
-                rules:[{ required: true, message: '请输入数字'},{
-                  pattern:/^\d+$/,message:'请输入正整数'
-                }],
-              })(
-                <Input placeholder="请输入数字" autoComplete="off"/>
-              )
-            }
-            <span className="ant-form-text"> 金额时拦截订单</span>
-          </Form.Item>
-          <Form.Item>
-            <span className="ant-form-text"> 大于</span>
-            {
-              getFieldDecorator('maxAmout',{
-                initialValue:content.maxAmout,
-                rules:[{ required: true, message: '请输入数字'},{
-                  pattern:/^\d+$/,message:'请输入正整数'
-                }],
-              })(
-                <Input placeholder="请输入数字" autoComplete="off"/>
-              )
-            }
-            <span className="ant-form-text"> 金额时拦截订单</span>
-          </Form.Item>
-          </div>
-        </Modal>
+  render(){
+    const { getFieldDecorator } = this.props.form;
+    const { content={} }=this.props;
+    return <Modal
+            className="setConfirm-modal-wrap"
+            title=""
+            closable
+            width={320}
+            visible={this.props.visible}
+            onCancel={this.onCancel}
+            footer={[
+              <Qbtn
+                loading={this.state.loading}
+                key="pass"
+                onClick={this.handleSubmit}>保存</Qbtn>
+            ]}>
+            <div className="audit-main-content">
+            <Form.Item>
+              <span className="ant-form-text"> 小于</span>
+              {
+                getFieldDecorator('minAmount',{
+                  initialValue:content.minAmount,
+                  rules:[{ required: true, message: '请输入数字'},{
+                    pattern:/^\d+$/,message:'请输入正整数'
+                  }],
+                })(
+                  <Input placeholder="请输入数字" autoComplete="off"/>
+                )
+              }
+              <span className="ant-form-text"> 金额时拦截订单</span>
+            </Form.Item>
+            <Form.Item>
+              <span className="ant-form-text"> 大于</span>
+              {
+                getFieldDecorator('maxAmout',{
+                  initialValue:content.maxAmout,
+                  rules:[{ required: true, message: '请输入数字'},{
+                    pattern:/^\d+$/,message:'请输入正整数'
+                  }],
+                })(
+                  <Input placeholder="请输入数字" autoComplete="off"/>
+                )
+              }
+              <span className="ant-form-text"> 金额时拦截订单</span>
+            </Form.Item>
+            </div>
+          </Modal>
+  }
 }
 const SetModalF = Form.create()(SetModal);
 

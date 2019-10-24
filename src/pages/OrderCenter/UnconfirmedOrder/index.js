@@ -89,6 +89,7 @@ class ShopstockOrder extends React.Component {
     this.setState({ confirmVisible:false });
   };
   handleConfirmOnOk = () => {
+    this.setState({ confirmVisible:false });
     this.initPage();
   };
   render() {
