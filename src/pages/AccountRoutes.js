@@ -32,6 +32,7 @@ import ShopstockOrder from './OrderCenter/ShopstockOrder';
 import UnconfirmedOrder from './OrderCenter/UnconfirmedOrder';
 import Supplier from './BaseGoodsCenter/Supplier'
 import SupplierAdd from './BaseGoodsCenter/Supplier/SupplierAdd'
+import InvestmentManage from './BaseGoodsCenter/InvestmentManage'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -62,6 +63,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/orderSale" component={SaleOrder}/>
         <Route  path="/account/productsIstation" component={Supplier}/>
         <Route  path="/account/supplierAdd/:id?" component={SupplierAdd}/>
+        <Route  path="/account/InvestmentManage" component={InvestmentManage}/>
         <Route component={NotFound}/>
       </Switch>
     )
