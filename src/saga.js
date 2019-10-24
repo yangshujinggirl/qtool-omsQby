@@ -11,6 +11,10 @@ import AttributionSagas from './models/Attributions';
 import StoreHouseSagas from './models/StoreHouse';
 import StockManage from './models/StockManage'
 import SaleOrder from './models/OrderCenter/SaleOrder'
+import PosOrder from './models/OrderCenter/PosOrder'
+import ShopKeeperOrder from './models/OrderCenter/ShopKeeperOrder'
+import OnlineOrder from './models/OrderCenter/OnlineOrder'
+import TaxOrder from './models/OrderCenter/TaxOrder'
 import Supplier from './models/BaseGoodsCenter/Supplier'
 
 export function* helloSaga () {
@@ -25,6 +29,10 @@ export function* helloSaga () {
     call(StoreHouseSagas),
     call(StockManage),
     call(SaleOrder),
+    call(PosOrder),
+    call(ShopKeeperOrder),
+    call(OnlineOrder),
+    call(TaxOrder),
     call(Supplier),
   ])
 }
