@@ -5,18 +5,19 @@ import moment from 'moment';
 import { Link } from "react-router-dom";
 import Columns from "./column";
 import { ExportApi } from "../../../api/Export";
-import { GetOrderListApi, GetAmoutLimitApi } from '../../../api/home/OrderCenter/UnconfirmedOrder';
+import {GetListsApi } from '../../../api/home/BaseGoodsCenter/InvestmentManage';
 import AuditModal from './components/AuditModal'
-import SetConfirmModal from './components/SetConfirmModal'
+import AddCurstomerModal from './components/AddCurstomerModal';
+import './index.less';
 
-class ShopstockOrder extends React.Component {
+class InvestmentManage extends React.Component {
   constructor(props) {
     super(props);
     this.state={
       fields:{},
       ordeList:[],
       limitAmount:{},
-      confirmVisible:false,
+      curstomerVisible:false,//新增客户
       auditVisible:false,
       auditContent:{},
       dataPag:{
@@ -32,17 +33,9 @@ class ShopstockOrder extends React.Component {
   };
   initPage() {
     this.getList();
-    this.getLimit()
-  }
-  getLimit(){
-    GetAmoutLimitApi()
-    .then((res)=> {
-      let { result } = res;
-      this.setState({ limitAmount:result })
-    })
   }
   getList(values){
-    GetOrderListApi(values)
+    GetListsApi(values)
     .then((res)=> {
       let {resultList=[],everyPage,currentPage,totalCount} = res.result;
       resultList.map((el,index)=>el.key=index)
@@ -62,10 +55,11 @@ class ShopstockOrder extends React.Component {
   };
   //搜索查询
   onSubmit = params => {
-    let { time, ...vals } =params;
-    if(time){
-      vals.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
-      vals.etime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+    let { address, ...vals } =params;
+    if(address){
+      vals.province = address[0];
+      vals.city = address[1];
+      vals.area = address[2];
     };
     this.getList(vals)
     this.setState({fields: vals})
@@ -74,47 +68,50 @@ class ShopstockOrder extends React.Component {
     ExportApi({...this.state.fields,type:1})
   }
   handleOperateClick = (record,type) => {
-    this.setState({ auditVisible:true, auditContent:record });
+    switch(type) {
+      case "upload":
+        console.log('upload',record)
+        break;
+      case "editRecord":
+        console.log('editRecord',record)
+        break;
+      case "lookRecord":
+        console.log('lookRecord',record)
+        break;
+      case "audit":
+        console.log('audit',record)
+        break;
+    }
   };
-  handleAuditOnCancel = () => {
-    this.setState({ auditVisible:false, auditContent:{} });
+  //新增客户
+  addCurstomer = (record,type) => {
+    this.setState({ curstomerVisible:true });
   };
-  handleAuditOk = () => {
-    this.setState({ auditVisible:false, auditContent:{} });
+  handleCurstomerOnCancel = () => {
+    this.setState({ curstomerVisible:false });
   };
-  setConfirmRange = (record,type) => {
-    this.setState({ confirmVisible:true });
-  };
-  handleConfirmOnCancel = () => {
-    this.setState({ confirmVisible:false });
-  };
-  handleConfirmOnOk = () => {
-    this.setState({ confirmVisible:false });
+  handleCurstomerOnOk = () => {
+    this.setState({ curstomerVisible:false });
     this.initPage();
   };
   render() {
-    const { ordeList, limitAmount, confirmVisible, auditVisible, auditContent} = this.state;
+    const { ordeList, limitAmount, curstomerVisible, auditVisible, auditContent} = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Qbtn size="free" onClick={this.setConfirmRange}>设置人工确认范围</Qbtn>
+          <Qbtn size="free" onClick={this.addCurstomer}>新增客户</Qbtn>
         </div>
         <Qtable
           onOperateClick={this.handleOperateClick}
           columns={Columns}
           dataSource={ordeList} />
         <Qpagination data={this.state.dataPag} onChange={this.changePage} />
-        <AuditModal
-          visible={auditVisible}
-          content={auditContent}
-          onCancel={this.handleAuditOnCancel}
-          onOk={this.handleAuditOk}/>
-        <SetConfirmModal
-          visible={confirmVisible}
+        <AddCurstomerModal
+          visible={curstomerVisible}
           content={limitAmount}
-          onCancel={this.handleConfirmOnCancel}
-          onOk={this.handleConfirmOnOk}/>
+          onCancel={this.handleCurstomerOnCancel}
+          onOk={this.handleCurstomerOnOk}/>
       </div>
     );
   }
@@ -122,4 +119,4 @@ class ShopstockOrder extends React.Component {
 function mapStateToProps(state) {
   return state;
 }
-export default connect(mapStateToProps)(ShopstockOrder);
+export default connect(mapStateToProps)(InvestmentManage);
