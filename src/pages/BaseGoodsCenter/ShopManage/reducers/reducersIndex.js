@@ -12,7 +12,7 @@ const index=(state=initialState,action)=>{
                 ...state,
                 loading:true
             }
-        case 'SALE_TABLELIST':
+        case 'GET_TABLELIST':
             return{
                 ...state,
                 loading:false,

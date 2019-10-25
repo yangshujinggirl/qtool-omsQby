@@ -15,7 +15,9 @@ import PosOrder from './models/OrderCenter/PosOrder'
 import ShopKeeperOrder from './models/OrderCenter/ShopKeeperOrder'
 import OnlineOrder from './models/OrderCenter/OnlineOrder'
 import TaxOrder from './models/OrderCenter/TaxOrder'
+import ShopManage from './models/BaseGoodsCenter/ShopManage'
 import Supplier from './models/BaseGoodsCenter/Supplier'
+
 
 export function* helloSaga () {
   yield all([
@@ -34,5 +36,6 @@ export function* helloSaga () {
     call(OnlineOrder),
     call(TaxOrder),
     call(Supplier),
+    call(ShopManage),
   ])
 }

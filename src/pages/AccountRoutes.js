@@ -37,6 +37,8 @@ import UnconfirmedOrder from './OrderCenter/UnconfirmedOrder';
 import Supplier from './BaseGoodsCenter/Supplier'
 import SupplierAdd from './BaseGoodsCenter/Supplier/SupplierAdd'
 import InvestmentManage from './BaseGoodsCenter/InvestmentManage'
+import ShopManage from './BaseGoodsCenter/ShopManage'
+import AddShop from './BaseGoodsCenter/ShopManage/AddShop'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -62,7 +64,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/wareHouseManage" component={StoreHouse}/>
         <Route  path="/account/stockManage" component={StockManage}/>
         <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>
-        <Route  path="/account/orderShopstock" component={ShopstockOrder}/>
+        <Route  path="/account/orderException" component={ShopstockOrder}/>
         <Route  path="/account/orderConfirm" component={UnconfirmedOrder}/>
         <Route  path="/account/orderSale" component={SaleOrder}/>
         <Route  path="/account/orderPos" component={PosOrder}/>
@@ -72,6 +74,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/productsIstation" component={Supplier}/>
         <Route  path="/account/supplierAdd/:id?" component={SupplierAdd}/>
         <Route  path="/account/InvestmentManage" component={InvestmentManage}/>
+        <Route  path="/account/channelManage" component={ShopManage}/>
+        <Route  path="/account/addShop/:id?" component={AddShop}/>
         <Route component={NotFound}/>
       </Switch>
     )

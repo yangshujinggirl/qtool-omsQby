@@ -47,9 +47,7 @@ class TaxOrder extends React.Component {
   };
   //搜索查询
   onSubmit = params => {
-    const {channelCode,..._values} = params;
-    _values.channelCode = channelCode.join(',');
-    this.searchData(_values);
+    this.searchData(params);
   };
   setVisible=()=>{
     this.setState({
