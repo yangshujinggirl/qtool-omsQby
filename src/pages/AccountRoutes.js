@@ -39,6 +39,9 @@ import SupplierAdd from './BaseGoodsCenter/Supplier/SupplierAdd'
 import InvestmentManage from './BaseGoodsCenter/InvestmentManage'
 import ShopManage from './BaseGoodsCenter/ShopManage'
 import AddShop from './BaseGoodsCenter/ShopManage/AddShop'
+import SetShop from './BaseGoodsCenter/ShopManage/SetShop'
+import SupplierManage from './BaseGoodsCenter/SupplierManage'
+import AddSupplier from './BaseGoodsCenter/SupplierManage/AddSupplier'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -76,6 +79,9 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/InvestmentManage" component={InvestmentManage}/>
         <Route  path="/account/channelManage" component={ShopManage}/>
         <Route  path="/account/addShop/:id?" component={AddShop}/>
+        <Route  path="/account/shopSet/:id?" component={SetShop}/>
+        <Route  path="/account/supplierManage" component={SupplierManage}/>
+        <Route  path="/account/addSupplier/:id?" component={AddSupplier}/>
         <Route component={NotFound}/>
       </Switch>
     )

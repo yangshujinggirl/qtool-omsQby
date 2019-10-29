@@ -1,10 +1,10 @@
-import { Form, Input, Select, message, Cascader, DatePicker } from "antd";
+import { Form, Input, Select, message, Radio, DatePicker } from "antd";
 import {
   ShopInfosApi,
   updataRuleApi
 } from "api/home/BaseGoodsCenter/ShopManage";
 
-import { Qbtn, CascaderAddressOptions } from "common";
+import { Qbtn } from "common";
 let FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -30,11 +30,6 @@ class AddShop extends React.Component {
     };
   }
   componentDidMount() {
-    ShopListsApi().then(res => {
-      this.setState({
-        shopLists: res.result
-      });
-    });
     const { id } = this.props.match.params;
     if (id) {
       ShopInfosApi({ id }).then(res => {

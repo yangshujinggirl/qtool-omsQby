@@ -38,7 +38,7 @@ export function UpdateShopApi(values){
  * 门店详情
  */
 export function ShopInfosApi(values){
-    return Req.post('channel/viewChannel',values)
+    return Req.get('channel/viewChannel',{params:values})
 }
 /**
  * 开/关店

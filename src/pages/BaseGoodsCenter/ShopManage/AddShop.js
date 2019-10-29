@@ -19,7 +19,6 @@ const formItemLayout = {
     sm: { span: 12 }
   }
 };
-
 class AddShop extends React.Component {
   constructor(props) {
     super(props);
@@ -39,18 +38,22 @@ class AddShop extends React.Component {
     const { id } = this.props.match.params;
     if (id) {
       ShopInfosApi({ id }).then(res => {
-        const {channelPic} = res.result;
-        const fileList = [
-          {
+        const { channelPic } = res.result;
+        const imgBox = channelPic&&channelPic.split(',');
+        const fileList = [];
+        imgBox&&imgBox.map(item=>{
+          const obj = {
             uid: "-1",
             name: "image.png",
             status: "done",
-            url: res.result.image
-          }
-        ];
+            url: item
+          };
+          fileList.push(obj)
+        });
         this.setState({
           infos: res.result,
-          fileList
+          fileList,
+          checkValue:res.result.isSynchro
         });
       });
     }
@@ -58,33 +61,82 @@ class AddShop extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { id } = this.props.match.params;
-        debugger
-        values.image = this.state.fileList[0].response.result;
+        this.formatValue(values);
+        this.sendRequest(values);
+      }
+    });
+  };
+  
+  formatValue=(values)=>{
+    const imgsBox = [];
+        this.state.fileList.map(item => {
+          if(item.response){
+            if (item.response.httpCode == "200") {
+              imgsBox.push(item.response.result);
+            };
+          }else{
+            imgsBox.push(item.url)
+          };
+        });
+        values.channelPic = imgsBox.join(",");
+        values.province = values.shopAddress[0];
+        values.city = values.shopAddress[1];
+        values.area = values.shopAddress[2];
+        if(this.state.checkValue){
+          values.shProvince = values.shopAddress[0];
+          values.shCity = values.shopAddress[1];
+          values.shArea = values.shopAddress[2];
+          values.shAddress = values.address;
+        }else{
+          values.province = values.getGoodsAddress[0];
+          values.city = values.getGoodsAddress[1];
+          values.area = values.getGoodsAddress[2];
+          delete values.getGoodsAddress
+        }
+        delete values.shopAddress
+  }
+  sendRequest=(values)=>{
+    const { id } = this.props.match.params;
         if (!id) {
           AddShopApi({ ...values }).then(res => {
             message.success("保存成功");
             this.props.history.push("/account/channelManage");
           });
-        } else
+        } else{
+
           UpdateShopApi({ id, ...values }).then(res => {
             message.success("保存成功");
             this.props.history.push("/account/channelManage");
           });
-      }
-    });
-  };
+        }
+  }
   updateFileList = fileList => {
     this.setState({ fileList });
   };
   goBack = () => {
     this.props.history.push("/account/channelManage");
   };
-  onChange = value => {
+  onChange = e => {
     this.setState({
-      checkValue: value
+      checkValue: e.target.checked
     });
   };
+  //纬度校验
+  validatorLng(rule, value, callback) {
+    if (value > 180 || value < -180) {
+      callback("请输入正确的纬度");
+    } else {
+      callback();
+    }
+  }
+  //经度校验
+  validatorLat(rule, value, callback) {
+    if (value > 90 || value < -90) {
+      callback("请输入正确的经度");
+    } else {
+      callback();
+    }
+  }
   render() {
     const { infos, fileList, shopLists, checkValue } = this.state;
     const { getFieldDecorator } = this.props.form;
@@ -97,7 +149,7 @@ class AddShop extends React.Component {
               initialValue: infos.person,
               rules: [{ required: true, message: "请选择" }]
             })(
-              <Select placeholder="请选择" allowClear={true}>
+              <Select disabled={Boolean(this.props.match.params.id)} placeholder="请选择" allowClear={true}>
                 {shopLists &&
                   shopLists.map(item => (
                     <Option key={item.id} value={item.id}>
@@ -111,10 +163,20 @@ class AddShop extends React.Component {
             {getFieldDecorator("channelCode", {
               initialValue: infos.channelCode,
               rules: [
-                  { required: true, message: "请输入门店编码" },
-                  { pattern: /^[a-zA-Z0-9]{1,10}$/,message:'10以内数字加字母'}
-                ]
-            })(<Input maxLength={10} placeholder="请输入门店编码(10以内数字加字母)" autoComplete="off" />)}
+                { required: true, message: "请输入门店编码" },
+                {
+                  pattern: /^(?![^a-zA-Z]+$)(?!\D+$).{0,10}$/,
+                  message: "10以内数字加字母"
+                }
+              ]
+            })(
+              <Input
+                disabled={Boolean(this.props.match.params.id)}
+                maxLength={10}
+                placeholder="请输入门店编码(10以内数字加字母)"
+                autoComplete="off"
+              />
+            )}
           </Form.Item>
           <Form.Item label="联系方式">
             {getFieldDecorator("channelPhone", {
@@ -143,6 +205,7 @@ class AddShop extends React.Component {
           </Form.Item>
           <Form.Item label="收货地址同门店地址">
             {getFieldDecorator("checkValue", {
+              valuePropName: "checked",
               initialValue: this.state.checkValue,
               rules: [{ required: true, message: "请选择" }]
             })(<Checkbox onChange={this.onChange} />)}
@@ -150,7 +213,7 @@ class AddShop extends React.Component {
           {!checkValue && (
             <div>
               <Form.Item label="收货地址">
-                {getFieldDecorator("shAddress", {
+                {getFieldDecorator("getGoodsAddress", {
                   initialValue: infos.shProvince
                     ? [infos.shProvince, infos.shCity, infos.shArea]
                     : undefined,
@@ -165,20 +228,20 @@ class AddShop extends React.Component {
               <Form.Item label="详细地址">
                 {getFieldDecorator("shAddress", {
                   initialValue: infos.shAddress,
-                  rules: [{ required: true, message: "请输入采购价" }]
-                })(<Input placeholder="请输入采购价" autoComplete="off" />)}
+                  rules: [{ required: true, message: "请输入详细地址" }]
+                })(<Input placeholder="请输入详细地址" autoComplete="off" />)}
               </Form.Item>
             </div>
           )}
           <Form.Item label="门店照片">
             <QupLoadImgLimt
-              limit={5}
+              limit={3}
               upDateList={this.updateFileList}
               fileList={fileList}
             />
           </Form.Item>
           <Form.Item label="门店名称">
-            {getFieldDecorator("channelName",{
+            {getFieldDecorator("channelName", {
               initialValue: infos.channelName,
               rules: [{ required: true, message: "请输入门店名称" }]
             })(<Input placeholder="请输入门店名称" autoComplete="off" />)}
@@ -192,7 +255,6 @@ class AddShop extends React.Component {
           <Form.Item label="客服电话">
             {getFieldDecorator("servicePhone", {
               initialValue: infos.servicePhone,
-              rules: [{ required: true, message: "请输入客服电话" }]
             })(<Input placeholder="请输入客服电话" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="门店备注">
@@ -204,13 +266,17 @@ class AddShop extends React.Component {
           <Form.Item label="经度">
             {getFieldDecorator("warp", {
               initialValue: infos.warp,
-              rules: [{ required: true, message: "请输入经度" }]
+              rules: [
+                { validator: this.validatorLat }
+              ]
             })(<Input placeholder="请输入经度" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="纬度">
             {getFieldDecorator("weft", {
               initialValue: infos.weft,
-              rules: [{ required: true, message: "请输入纬度" }]
+              rules: [
+                { validator: this.validatorLng }
+              ]
             })(<Input placeholder="请输入纬度" autoComplete="off" />)}
           </Form.Item>
 

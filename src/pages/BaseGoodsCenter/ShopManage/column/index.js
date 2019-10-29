@@ -15,7 +15,7 @@ const Columns = [
   },
   {
     title: "地址（省市区地址）",
-    dataIndex: "shAddress",
+    dataIndex: "address",
     key: "3"
   },
   {
@@ -37,36 +37,24 @@ const Columns = [
   {
     title: "操作",
     dataIndex: "channelStatus",
+    width: "30%",
     key: "7", //1开业中2待开业3关店
     render: (text, record, index) => (
       <div>
         <Link to={`/account/addShop/${record.id}`}>
-          <span className="theme-color">修改</span>
+          <span className="theme-color">修改</span>　
         </Link>
         {text == 1 ? (
-          <div>
+          <span>
             <Link to={`/account/shopSet/${record.id}`}>
-              <a className="theme-color">调整营业规则</a>
-            </Link>
-            　
-            <a
-              className="theme-color"
-              onClick={() => record.onOperateClick("close")}
-            >
-              关店
-            </a>
-          </div>
+              <span className="theme-color">调整营业规则</span>
+            </Link>　
+            <a className="theme-color" onClick={() => record.onOperateClick("close")}>关店</a>
+          </span>
         ) : text == 2 ? (
-          <Link to="/account/shopSet">
-            <a className="theme-color">开店</a>
-          </Link>
+          <Link to="/account/shopSet"><span className="theme-color">开店</span></Link>
         ) : (
-          <a
-            className="theme-color"
-            onClick={() => record.onOperateClick("open")}
-          >
-            开店
-          </a>
+          <a className="theme-color" onClick={() => record.onOperateClick("open")}>开店</a>
         )}
       </div>
     )

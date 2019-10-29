@@ -17,6 +17,7 @@ import OnlineOrder from './models/OrderCenter/OnlineOrder'
 import TaxOrder from './models/OrderCenter/TaxOrder'
 import ShopManage from './models/BaseGoodsCenter/ShopManage'
 import Supplier from './models/BaseGoodsCenter/Supplier'
+import SupplierManage from './models/BaseGoodsCenter/SupplierManage'
 
 
 export function* helloSaga () {
@@ -37,5 +38,6 @@ export function* helloSaga () {
     call(TaxOrder),
     call(Supplier),
     call(ShopManage),
+    call(SupplierManage),
   ])
 }
