@@ -1,5 +1,6 @@
 import { Form, Input, Select, Row, Col, DatePicker,Cascader } from "antd";
 import { BaseFilter, Qbtn, CascaderAddressOptions } from "common";
+import { statusOption } from '../../optionMap';
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -45,10 +46,11 @@ class Search extends BaseFilter {
               <FormItem label="招商状态" {...this.formItemLayout}>
                 {getFieldDecorator("status")(
                   <Select placeholder="请选择" allowClear={true}>
-                    <Option value={0}>待提交</Option>
-                    <Option value={1}>待审核</Option>
-                    <Option value={2}>审核不通过</Option>
-                    <Option value={3}>审核通过</Option>
+                  {
+                    statusOption.map((el,index)=> (
+                      <Option value={el.key} key={el.key}>{el.value}</Option>
+                    ))
+                  }
                   </Select>
                 )}
               </FormItem>

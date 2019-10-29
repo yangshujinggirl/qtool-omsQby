@@ -36,7 +36,8 @@ import TaxOrder from './OrderCenter/TaxOrder';
 import UnconfirmedOrder from './OrderCenter/UnconfirmedOrder';
 import Supplier from './BaseGoodsCenter/Supplier'
 import SupplierAdd from './BaseGoodsCenter/Supplier/SupplierAdd'
-import InvestmentManage from './BaseGoodsCenter/InvestmentManage'
+import InvestmentManage from './BaseGoodsCenter/InvestmentManage';//招商管理
+import InvestmentManageInfo from './BaseGoodsCenter/InvestmentManage/InvestmentManageInfo';//招商信息
 import ShopManage from './BaseGoodsCenter/ShopManage'
 import AddShop from './BaseGoodsCenter/ShopManage/AddShop'
 
@@ -74,6 +75,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/productsIstation" component={Supplier}/>
         <Route  path="/account/supplierAdd/:id?" component={SupplierAdd}/>
         <Route  path="/account/InvestmentManage" component={InvestmentManage}/>
+        <Route  path="/account/investmentInfo/:id" component={InvestmentManageInfo}/>
         <Route  path="/account/channelManage" component={ShopManage}/>
         <Route  path="/account/addShop/:id?" component={AddShop}/>
         <Route component={NotFound}/>
