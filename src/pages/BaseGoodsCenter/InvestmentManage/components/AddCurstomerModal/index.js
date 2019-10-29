@@ -12,6 +12,7 @@ class SetModal extends React.Component{
   }
   handleSubmit =()=> {
     this.props.form.validateFields((err, values) => {
+      console.log(values)
       if (!err) {
         this.setState({ loading:true })
         let { address ,...params } =values;
@@ -34,7 +35,6 @@ class SetModal extends React.Component{
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const { content={} }=this.props;
     const formItemLayout = {
       labelCol: {
         span:6

@@ -11,17 +11,26 @@ const extractLeSS = new ExtractTextPlugin({
   allChunks:true,
 });
 //生产环增压缩js;
-let UglifyArray = []
+let UglifyArray = [],sourceMap="inline-source-map";
 console.log(process.env.NODE_ENV === 'production')
 if(process.env.NODE_ENV === 'production'){
-  UglifyArray.push(new UglifyJSPlugin({}))
+  UglifyArray.push(new UglifyJSPlugin({
+    uglifyOptions:{
+      compress:{
+        drop_console: true,
+        dead_code: true,
+      }
+    }
+  }));
+  sourceMap="source-map"
 }
+console.log(sourceMap)
 console.log(JSON.stringify(process.env.NODE_ENV))
 
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: './src/index.js',
-  devtool: 'inline-source-map',
+  devtool: sourceMap,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash].bundle.js.js'

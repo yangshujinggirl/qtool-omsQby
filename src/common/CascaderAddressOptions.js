@@ -30,5 +30,4 @@ const options = provinces.map(province => ({
   value: province.name,
   children: province.children,
 }));
-
 export default options;
