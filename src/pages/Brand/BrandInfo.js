@@ -29,7 +29,7 @@ class BrandInfo extends React.Component {
           <Form.Item label="品牌状态">{infos.status==1?'启用':'不启用'}</Form.Item>
           <Form.Item label="品牌归属地">{infos.brandCountry}</Form.Item>
           <Form.Item label="品牌logo"><img src={infos.logo} style={{'width':'100px','height':'100px'}}/></Form.Item>
-          <Form.Item label="品牌授权">{infos.isSq==1?'有':'无'}</Form.Item>
+          <Form.Item label="品牌授权">{infos.isSq?'有':'无'}</Form.Item>
           <Form.Item label="品牌介绍">{infos.brandIntroduce}</Form.Item>
         </Form>
       </div>

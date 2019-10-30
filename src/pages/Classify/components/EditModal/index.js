@@ -23,7 +23,7 @@ class EditModal extends React.Component {
     });
   };
   render() {
-    const { visible,categoryName } = this.props;
+    const { visible,categoryName,level } = this.props;
     const {getFieldDecorator} = this.props.form
     return (
       <div>
@@ -45,7 +45,7 @@ class EditModal extends React.Component {
               <span>{categoryName}</span>
             </FormItem>
             <FormItem
-              label="一级分类名称"
+              label={level==1?'一级分类名称':(level==2?"二级分类名称":(level==3?"三级分类名称":"四级分类名称"))}
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 12 }}
             >

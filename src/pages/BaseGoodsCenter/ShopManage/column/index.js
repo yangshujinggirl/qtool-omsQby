@@ -44,17 +44,12 @@ const Columns = [
         <Link to={`/account/addShop/${record.id}`}>
           <span className="theme-color">修改</span>　
         </Link>
-        {text == 1 ? (
+        {text == 1 && (
           <span>
             <Link to={`/account/shopSet/${record.id}`}>
               <span className="theme-color">调整营业规则</span>
             </Link>　
-            <a className="theme-color" onClick={() => record.onOperateClick("close")}>关店</a>
           </span>
-        ) : text == 2 ? (
-          <Link to="/account/shopSet"><span className="theme-color">开店</span></Link>
-        ) : (
-          <a className="theme-color" onClick={() => record.onOperateClick("open")}>开店</a>
         )}
       </div>
     )

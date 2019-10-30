@@ -52,7 +52,7 @@ class AddModal extends React.Component {
         return (
           <div>
             <FormItem
-              label="一级分类名称"
+              label={"一级分类名称"}
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 12 }}
             >

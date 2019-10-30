@@ -58,7 +58,7 @@ class AddSupplier extends React.Component {
         const params = this.formatValue(values);
         if(params){
           this.sendRequest(params)
-        }
+        };
       }
     });
   };
@@ -97,7 +97,7 @@ class AddSupplier extends React.Component {
   return values
  }
   goBack = () => {
-    this.props.history.push("/account/productsIstation");
+    this.props.history.push("/account/supplierManage");
   };
   //账期类型变化的时候
   typeChange = e => {

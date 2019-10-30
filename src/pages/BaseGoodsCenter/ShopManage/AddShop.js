@@ -43,7 +43,7 @@ class AddShop extends React.Component {
         const fileList = [];
         imgBox&&imgBox.map(item=>{
           const obj = {
-            uid: "-1",
+            uid: item,
             name: "image.png",
             status: "done",
             url: item
@@ -88,9 +88,9 @@ class AddShop extends React.Component {
           values.shArea = values.shopAddress[2];
           values.shAddress = values.address;
         }else{
-          values.province = values.getGoodsAddress[0];
-          values.city = values.getGoodsAddress[1];
-          values.area = values.getGoodsAddress[2];
+          values.shProvince = values.getGoodsAddress[0];
+          values.shCity = values.getGoodsAddress[1];
+          values.shAddress = values.getGoodsAddress[2];
           delete values.getGoodsAddress
         }
         delete values.shopAddress

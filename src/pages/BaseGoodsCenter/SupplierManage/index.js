@@ -50,9 +50,8 @@ class SupplierManage  extends React.Component {
   };
   //审核、停止合作
   handleOperation=(record,type)=>{
-    debugger
     AuditApi({id:record.id,cooperationStatus:type}).then(res=>{
-      this.initPage()
+      this.initPage() 
     })
   }
   render() {
