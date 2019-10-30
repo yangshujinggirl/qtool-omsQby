@@ -41,8 +41,8 @@ class BgoodsAdd extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.image = this.state.fileList[0].response.result;
-        saveGoodApi({ saleRange: "b", id: "17769", ...values }).then(res => {
+        values.image = this.state.fileList[0].response?this.state.fileList[0].response.result:this.state.fileList[0].url
+        saveGoodApi({ saleRange: "b", id: this.props.match.params.id, ...values }).then(res => {
           message.success("保存成功");
           this.props.history.push("/account/Bsite");
         });
@@ -94,16 +94,16 @@ class BgoodsAdd extends React.Component {
             })(<Input placeholder="请输入货主" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="B端参考价(元)">
-            {getFieldDecorator("bPrice", {
-              initialValue: infos.bPrice,
+            {getFieldDecorator("bprice", {
+              initialValue: infos.bprice,
               rules: [{ required: true, message: "请输入B端参考价" }]
             })(<Input placeholder="请输入B端参考价" autoComplete="off" />)}
           </Form.Item>
-          <Form.Item label="B端参考价">
+          <Form.Item label="税率">
             {getFieldDecorator("taxRate", {
               initialValue: infos.taxRate,
-              rules: [{ required: true, message: "请输入B端参考价" }]
-            })(<Input placeholder="请输入B端参考价" autoComplete="off" />)}
+              rules: [{ required: true, message: "请输入税率" }]
+            })(<Input placeholder="请输入税率" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="采购价(元)">
             {getFieldDecorator("purchasePrice", {

@@ -36,7 +36,7 @@ class BgoodsDetail extends React.Component {
           <Form.Item label="长">{infos.length}</Form.Item>
           <Form.Item label="宽">{infos.wide}</Form.Item>
           <Form.Item label="高">{infos.high}</Form.Item>
-          <Form.Item label="B端参考价(元)">{infos.spuCode}</Form.Item>
+          <Form.Item label="B端参考价(元)">{infos.bprice}</Form.Item>
           <Form.Item label="税率">{infos.taxRate}</Form.Item>
           <Form.Item label="采购价(元)">{infos.purchasePrice}</Form.Item>
           <Form.Item label="金卡价(元)">{infos.goldCardPrice}</Form.Item>

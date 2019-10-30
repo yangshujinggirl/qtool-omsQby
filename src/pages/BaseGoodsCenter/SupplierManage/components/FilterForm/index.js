@@ -23,7 +23,7 @@ class Search extends BaseFilter {
             <Col {...this.colspans}>
               <FormItem label="状态" {...this.formItemLayout}>
                 {getFieldDecorator("cooperationStatus")(
-                  <Select allowClear='true' placeholder='请选择'>
+                  <Select allowClear={true} placeholder='请选择'>
                     <Option value={1}>合作中</Option>
                     <Option value={2}>待合作</Option>
                     <Option value={3}>停止合作</Option>

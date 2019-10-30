@@ -7,7 +7,7 @@ const Columns = [
   },
   {
     title: "简称",
-    dataIndex: "jName",
+    dataIndex: "shortName",
     key: "3"
   },
   {

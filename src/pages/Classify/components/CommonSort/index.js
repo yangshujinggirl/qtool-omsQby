@@ -143,6 +143,7 @@ class CommonSort extends React.Component {
         {editVisible && (
           <EditModal
             id={id}
+            level={level}
             categoryName={categoryName}
             visible={editVisible}
             onCancel={this.onEditCancel}

@@ -86,7 +86,7 @@ class BrandAdd extends React.Component {
           </Form.Item>
           <Form.Item label="品牌状态">
             {getFieldDecorator("status", {
-              initialValue: infos.status,
+              initialValue: infos.status?infos.status:undefined,
               rules: [{ required: true, message: "请选择" }]
             })(
               <Select>
@@ -102,16 +102,16 @@ class BrandAdd extends React.Component {
             })(<Input placeholder="请输入品牌归属地" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="品牌logo">
-            <QupLoadImgLimt upDateList={this.upDateList} fileList={fileList} />
+            <QupLoadImgLimt upDateList={this.upDateList} fileList={fileList}/>
           </Form.Item>
           <Form.Item label="品牌授权">
             {getFieldDecorator("isSq", {
-              initialValue: infos.isSq,
+              initialValue: infos.isSq?infos.isSq:undefined,
               rules: [{ required: true, message: "请选择" }]
             })(
-              <Select>
-                <Option value={1}>有</Option>
-                <Option value={0}>无</Option>
+              <Select placeholder='请选择'>
+                <Option value={true}>有</Option>
+                <Option value={false}>无</Option>
               </Select>
             )}
           </Form.Item>

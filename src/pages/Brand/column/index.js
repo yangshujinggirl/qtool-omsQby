@@ -5,7 +5,7 @@ const Columns = [
     title: "品牌logo",
     dataIndex: "logo",
     key: "1",
-    render: text => <img src={text} style={{ width: "90px", height: "90px" }} />
+    render: text => <img src={text} style={{ width: "90px", height: "90px" }}/>
   },
   { title: "品牌中文名", dataIndex: "brandNameCn", key: "2" },
   {

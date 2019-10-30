@@ -38,7 +38,6 @@ class StoreAdd extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        debugger
         const { suppliers } = values;
         values.supplierCode = suppliers.split(",")[0];
         values.supplierName = suppliers.split(",")[1];
@@ -113,7 +112,7 @@ class StoreAdd extends React.Component {
           <Form.Item label="供应商名称">
             {getFieldDecorator("suppliers", {
               rules: [{ required: true, message: "请选择供应商" }],
-              initialValue: ""
+              initialValue: infos.supplierName
             })(
               <AutoComplete
                 dataSource={this.options()}
