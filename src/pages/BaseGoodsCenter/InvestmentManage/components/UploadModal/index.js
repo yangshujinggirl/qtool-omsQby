@@ -21,17 +21,24 @@ class UploadModal extends React.Component {
   onSubmit=()=>{
     let { fileList }=this.state;
     let file = fileList&&fileList.map((el,index)=> {
-      return el.response.result
+      let item;
+      if(el.respons) {
+        item=el.response.result
+      } else {
+        item=el;
+      }
+      return item;
     })
     let { content={} }= this.props;
     let params ={ id:content.id };
     if(content.status==2) {
-      params ={ ...params, intentionContractList:file }
+      params ={ ...params, intentionContractList:file, contractType:1 }
     } else {
-      params ={ ...params, formalContractList:value }
+      params ={ ...params, formalContractList:file,contractType:2 }
     }
     GetSaveImgApi(params)
     .then((res)=> {
+      Qmessage.success('上传成功');
       this.props.onOk()
     })
   }

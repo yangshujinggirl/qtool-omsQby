@@ -33,9 +33,7 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="省市区" {...this.formItemLayout}>
-                {getFieldDecorator('address',{
-                    rules:[{ required: true, message: '请选择地区'}],
-                  })(
+                {getFieldDecorator('address')(
                     <Cascader
                       options={CascaderAddressOptions}
                       placeholder="请选择地区" />

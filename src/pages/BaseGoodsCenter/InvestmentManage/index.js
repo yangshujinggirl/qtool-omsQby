@@ -70,7 +70,7 @@ class InvestmentManage extends React.Component {
   handleOperateClick = (record,type) => {
     switch(type) {
       case "upload":
-        this.setState({ uploadVisible:true,intentionContent: record})
+        this.uploadFile()
         break;
       case "editRecord":
         this.setState({ recordVisible:true, intentionContent: record })
@@ -80,6 +80,25 @@ class InvestmentManage extends React.Component {
         break;
     }
   };
+  uploadFile=(record)=>{
+    let { intentionContractList, formalContractList } = record;
+    let {fileList}=this.state;
+    if(record.status==2||record.status==3) {
+      fileList = intentionContractList;
+    } else if(record.status==5||record.status==6) {
+      fileList = formalContractList;
+    }
+    fileList=fileList?fileList:[];
+    fileList =fileList.length>0&&fileList.map((el,index)=>{
+      let item={};
+      item.uid =index;
+      item.name ='image.jpg';
+      item.status ='done';
+      item.url =el;
+      return item;
+    })
+    this.setState({ uploadVisible:true,intentionContent: record,fileList:fileList})
+  }
   //新增客户
   addCurstomer = (record,type) => {
     this.setState({ curstomerVisible:true });
@@ -116,7 +135,7 @@ class InvestmentManage extends React.Component {
     this.initPage();
   };
   render() {
-    const { ordeList,recordList,fileList,recordVisible,auditVisible,
+    const { ordeList,fileList,recordList,recordVisible,auditVisible,
       curstomerVisible,uploadVisible,intentionContent } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">

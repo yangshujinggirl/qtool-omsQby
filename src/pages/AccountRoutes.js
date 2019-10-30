@@ -34,6 +34,9 @@ import OnlineOrder from './OrderCenter/OnlineOrder'
 import ShopstockOrder from './OrderCenter/ShopstockOrder';
 import TaxOrder from './OrderCenter/TaxOrder';
 import UnconfirmedOrder from './OrderCenter/UnconfirmedOrder';
+import PurchaseOrder from './OrderCenter/PurchaseOrder';//采购单
+import PurchaseOrderAdd from './OrderCenter/PurchaseOrder/PurchaseOrderAdd';//采购单
+
 import Supplier from './BaseGoodsCenter/Supplier'
 import SupplierAdd from './BaseGoodsCenter/Supplier/SupplierAdd'
 import InvestmentManage from './BaseGoodsCenter/InvestmentManage';//招商管理
@@ -84,6 +87,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/shopSet/:id?" component={SetShop}/>
         <Route  path="/account/supplierManage" component={SupplierManage}/>
         <Route  path="/account/addSupplier/:id?" component={AddSupplier}/>
+        <Route  path="/account/purchaseOrder" component={PurchaseOrder}/>
+        <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
         <Route component={NotFound}/>
       </Switch>
     )

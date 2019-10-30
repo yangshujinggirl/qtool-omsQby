@@ -15,6 +15,7 @@ let UglifyArray = [],sourceMap="inline-source-map";
 console.log(process.env.NODE_ENV === 'production')
 if(process.env.NODE_ENV === 'production'){
   UglifyArray.push(new UglifyJSPlugin({
+    sourceMap: true,
     uglifyOptions:{
       compress:{
         drop_console: true,
@@ -24,7 +25,6 @@ if(process.env.NODE_ENV === 'production'){
   }));
   sourceMap="source-map"
 }
-console.log(sourceMap)
 console.log(JSON.stringify(process.env.NODE_ENV))
 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
   devtool: sourceMap,
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[hash].bundle.js.js'
+    filename: '[name].[hash].bundle.js',
   },
   module: {
     rules: [
@@ -105,6 +105,13 @@ module.exports = {
           enforce: true,
           priority: 10,
           name: 'vendor'
+        },
+        common: {
+          chunks: "all",
+          minChunks: 2,
+          name: 'common',
+          enforce: true,
+          priority: 5
         }
       }
     }
