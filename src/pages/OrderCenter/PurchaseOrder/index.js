@@ -25,7 +25,6 @@ class PurchaseOrder extends React.Component {
     this.getlist()
   };
   getlist(values){
-    consoe.log('123')
     GetOrderListApi(values)
     .then((res)=> {
       let {resultList=[],everyPage,currentPage,totalCount} = res.result;
