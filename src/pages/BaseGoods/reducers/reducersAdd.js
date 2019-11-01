@@ -4,8 +4,8 @@ const index = (state = {
   totalData:{},
   supplierList:[],
   fileList:[],
-  attrubteArray:[],
-  selectArry:[],
+  attrubteArray:[],//checked规格
+  goodsList:[],//商品数据
   attributeList:[],//规格
   categoryData:{
     categoryLevelOne:[],

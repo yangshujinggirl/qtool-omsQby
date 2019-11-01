@@ -14,14 +14,6 @@ function* getFileListState(action){
 }
 //详情
 function* getAttrubteState(action){
-  // attrubteArray.reduce((total, currentValue, currentIndex, arr)=>{
-  //   console.log(total);
-  //   console.log(currentValue);
-  //   currentValue.attrubteVal.map((el)=>{
-  //     console.log(el)
-  //   })
-  //   return currentValue
-  // })
   yield put({
     type: 'BASEGOODSADD_ATTRUBTELIST',
     payload: action.payload

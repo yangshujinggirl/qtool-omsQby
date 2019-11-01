@@ -1,4 +1,6 @@
 import moment from "moment";
+import { Input } from 'antd';
+
 import { Link } from 'react-router-dom';
 const Columns = [
   { title: "商品名称", dataIndex: "productName", key: "1" },
@@ -89,51 +91,199 @@ const Columns1 = [
       )
   }
 ];
-const columnsAdd=[
-  {
-    title: "sku编码",
-    dataIndex: "skuCode"
-  },{
-    title: "规格",
-    dataIndex: "salesAttributeName"
-  },{
-    title: "*商品条码",
-    dataIndex: "barCode"
-  },{
-    title: "*税务码",
-    dataIndex: "taxNo"
-  },{
-    title: "*采购价",
-    dataIndex: "purchasePrice"
-  },{
-    title: "*到货价",
-    dataIndex: "dhPrice"
-  },{
-    title: "*C端参考价",
-    dataIndex: "cPrice"
-  },{
-    title: "*出库价",
-    dataIndex: "ckPrice"
-  },{
-    title: "*税率",
-    dataIndex: "taxRate"
-  },{
-    title: "保质期/天",
-    dataIndex: "shelfLife"
-  },{
-    title: "*毛重/g",
-    dataIndex: "weight"
-  },{
-    title: "长/cm",
-    dataIndex: "length"
-  },{
-    title: "宽/cm",
-    dataIndex: "wide"
-  },{
-    title: "高/cm",
-    dataIndex: "high"
-  },{
-    title: "sku图片",
-    dataIndex: "image"
-  }]
+const columnsAdd=(form)=> {
+  return [
+    {
+      title: "sku编码",
+      dataIndex: "skuCode"
+    },{
+      title: "规格",
+      dataIndex: "salesAttributeName",
+      render:(text,record,index)=> {
+        return record.attributeName
+      }
+    },{
+      title: "*商品条码",
+      dataIndex: "barCode",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].barCode`,{
+                    initialValue:record.name
+                  })(
+                    <Input className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "税务码",
+      dataIndex: "taxNo",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].taxNo`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "*采购价",
+      dataIndex: "purchasePrice",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].purchasePrice`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "*到货价",
+      dataIndex: "dhPrice",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].dhPrice`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+       }
+    },{
+      title: "*C端参考价",
+      dataIndex: "cPrice",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].cPrice`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "*出库价",
+      dataIndex: "ckPrice",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].ckPrice`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "*税率",
+      dataIndex: "taxRate",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].taxRate`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "保质期/天",
+      dataIndex: "shelfLife",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].shelfLife`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "*毛重/g",
+      dataIndex: "weight",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].weight`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "长/cm",
+      dataIndex: "length",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].length`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "宽/cm",
+      dataIndex: "wide",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].wide`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "高/cm",
+      dataIndex: "high",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].high`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    },{
+      title: "sku图片",
+      dataIndex: "image",
+      render:(text,record,index)=> {
+        return  <div>
+                {
+                  form.getFieldDecorator(`skuList[${index}].image`,{
+                    initialValue:record.name
+                  })(
+                    <Input  disabled className="goods-name" key={index}/>
+                  )
+                }
+              </div>
+      }
+    }]
+}
 export { Columns, Columns1, columnsAdd };

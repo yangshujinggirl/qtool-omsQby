@@ -8,7 +8,6 @@ import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
 import { columnsAdd } from './column';
 import { GetEditInfoApi, GetAddApi } from '../../api/home/BaseGoods';
 import UpLoadImgLimt from './components/UpLoadImgLimt';
-// import * as Actions from "./actions/actionsAdd";
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -97,13 +96,13 @@ class BaseGoodsAdd extends React.Component {
   }
   //规格
   changeAttrubte(value,record,typeIndex) {
-    console.log(value,record)
     let { attrubteArray } =this.props;
     let idx = attrubteArray.findIndex((el)=> el.attributeId==record.attributeId);
     value =value.map((el,index)=> {
       let item = {};
       item.id =`${record.attributeId}${index}`;
-      item.value =el;
+      item.key =item.id ;
+      item.attributeName =el;
       return item;
     })
     if(idx == '-1') {
@@ -115,34 +114,54 @@ class BaseGoodsAdd extends React.Component {
     } else {
       attrubteArray[idx].attributeVal = value
     }
-    let selectArry=[]
-    attrubteArray.map((el,index)=>{
-      el.attributeVal.map((item,idx)=>{
-        let current = {
-          name:`${item.value}`,
-          parentId:el.attributeId,
-          id:item.id,
-        }
-        if(selectArry.length==0) {
-          selectArry.push(current);
-        } else {
-          selectArry.map((va,dxs)=> {
-            if(el.attributeId==va.parentId) {
-              if(item.id != va.id){
-                selectArry.push(current);
-              }
-            } else {
-              va.name=`${va.name}/${item.value}`
-            }
-          })
-        }
-      })
-    })
-    console.log(selectArry)
+    attrubteArray = attrubteArray.filter((el)=> el.attributeVal.length!=0);
+    let combineVal=attrubteArray.map((el)=> {return el.attributeVal});
+    let goodsList=this.handleCombine(combineVal);
     this.props.dispatch({
       type:'baseGoodsAdd/getAttrubteList',
-      payload:{selectArry,attrubteArray}
+      payload:{goodsList,attrubteArray}
     })
+  }
+  //n级规格排列组合
+  handleCombine=(arr)=> {
+    var len = arr.length;
+    if (len >= 2) {
+      //从前两个开始组合
+      var len1 = arr[0].length;
+      var len2 = arr[1].length;
+      var lenBoth = len1 * len2;
+      var items = new Array(lenBoth);
+      var index = 0;
+      //for循环构建两两组合后的数组
+      for (var i = 0; i < len1; i++) {
+        for (var j = 0; j < len2; j++) {
+          if (arr[0][i] instanceof Array) {
+            items[index] = {
+              attributeName:`${arr[0][i].attributeName}${arr[1][j].attributeName}`.concat(arr[1][j].attributeName),
+              id:`${arr[0][i].id}${arr[1][j].id}`.concat(arr[1][j].id),
+              key:`${arr[0][i].id}${arr[1][j].id}`.concat(arr[1][j].id),
+            };
+          } else {
+            items[index] = {
+              attributeName:`${arr[0][i].attributeName}/${arr[1][j].attributeName}`,
+              id:`${arr[0][i].id}/${arr[1][j].id}`,
+              key:`${arr[0][i].id}/${arr[1][j].id}`,
+            };
+          }
+          index++;
+        }
+      }
+      // 新组合的数组取代原来前两个数组
+      var newArr = new Array(len - 1);
+      for (var i = 2; i < arr.length; i++) {
+        newArr[i - 1] = arr[i];
+      }
+      newArr[0] = items;
+      // 再次组合前两个
+      return this.handleCombine(newArr);
+    } else {
+      return arr[0];
+    }
   }
   submit=(e)=> {
     e.preventDefault();
@@ -163,21 +182,20 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   render() {
-    const { categoryData,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
+    const { categoryData,goodsList,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     console.log(this.props);
-
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          {
-          isEdit&&
-            <Form.Item label="spu编码">
-              {match.params.id}
-            </Form.Item>
-          }
+            {
+              isEdit&&
+                <Form.Item label="spu编码">
+                  {match.params.id}
+                </Form.Item>
+            }
             <Form.Item label="商品名称">
               {getFieldDecorator('productName', {
                   initialValue:totalData.productName,
@@ -389,8 +407,8 @@ class BaseGoodsAdd extends React.Component {
             }
             <Form.Item label="商品信息" {...formItemLayoutBig}>
               <Qtable
-                dataSource={[]}
-                columns={columnsAdd}/>
+                dataSource={goodsList}
+                columns={columnsAdd(this.props.form)}/>
             </Form.Item>
             <div className="handle-operate-save-action">
               <Qbtn>
@@ -410,6 +428,16 @@ function mapStateToProps(state) {
   const { BaseGoodsAddReducers } =state;
   return BaseGoodsAddReducers;
 }
-const BaseGoodsAddF = Form.create()(BaseGoodsAdd);
+const BaseGoodsAddF = Form.create({
+  onValuesChange(props, changedFields, allFields) {
+    const { totalData,goodsList }=props;
+    console.log(props)
+    console.log(allFields)
+    // props.dispatch({
+    //   type:'ctipActivityAddOne/getActivityInfo',
+    //   payload:{...activityInfo,...valFileds}
+    // })
+  }
+})(BaseGoodsAdd);
 export default connect(mapStateToProps)(BaseGoodsAddF);
 // export default BaseGoodsAddF;
