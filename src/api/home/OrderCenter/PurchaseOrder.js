@@ -27,3 +27,14 @@ export function GetAddOrderApi(values){
 // export function GetAddApi(values){
 //     return Req.post('/items/addSpu',values)
 // }
+//供应商列表
+export function SupplierListApi(values){
+    return Req.get('/supplier/rummageSupplier',{
+        params:values
+    })
+}
+
+//根据sku编码搜索商品
+export function getGoodsApi(values){
+    return Req.post('substitutingSku/getSkuListBySkuCodes',values)
+}
