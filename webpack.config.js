@@ -11,7 +11,7 @@ const extractLeSS = new ExtractTextPlugin({
   allChunks:true,
 });
 //生产环增压缩js;
-let UglifyArray = [],sourceMap="inline-source-map";
+let UglifyArray = [], sourceMap="inline-source-map";
 console.log(process.env.NODE_ENV === 'production')
 if(process.env.NODE_ENV === 'production'){
   UglifyArray.push(new UglifyJSPlugin({
