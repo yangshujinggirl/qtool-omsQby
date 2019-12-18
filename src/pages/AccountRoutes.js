@@ -46,6 +46,10 @@ import AddShop from './BaseGoodsCenter/ShopManage/AddShop'
 import SetShop from './BaseGoodsCenter/ShopManage/SetShop'
 import SupplierManage from './BaseGoodsCenter/SupplierManage'
 import AddSupplier from './BaseGoodsCenter/SupplierManage/AddSupplier'
+import OrderAgency from './OrderCenter/OrderAgency'
+//基础商品中心
+ 
+
 
 class HomeRoutes extends React.Component {
   render() {
@@ -86,11 +90,13 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/addShop/:id?" component={AddShop}/>
         <Route  path="/account/shopSet/:id?" component={SetShop}/>
         <Route  path="/account/supplierManage" component={SupplierManage}/>
-        <Route  path="/account/addSupplier/:id?" component={AddSupplier}/>
+        {/* <Route  path="/account/addSupplier/:id?" component={AddSupplier}/> */}
+        <Route  path="/account/addSupplier/" component={AddSupplier}/>
         <Route  path="/account/purchaseOrder" component={PurchaseOrder}/>
         <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
+        <Route  path="/account/orderAgency" component={OrderAgency}/>
         <Route component={NotFound}/>
-      </Switch>
+      </Switch>                                   
     )
   }
 }

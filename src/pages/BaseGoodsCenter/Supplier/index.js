@@ -67,6 +67,7 @@ class Supplier extends React.Component {
   }
 }
 function mapStateToProps(state) {
+  console.log(state)
   const { SupplierReducers } = state;
   return SupplierReducers;
 }

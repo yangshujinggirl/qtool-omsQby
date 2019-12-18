@@ -11,7 +11,7 @@ const getColumns =(form,Form)=> {
         },
         {
           title: "采购价",
-          dataIndex: "stockingPrice",
+          dataIndex: "price",
           render:()=>{
               const {getFieldDecorator} = form;
               return(
@@ -30,7 +30,7 @@ const getColumns =(form,Form)=> {
         },
         {
           title: "申请备货数量",
-          dataIndex: "amount",
+          dataIndex: "amout",
           render:()=>{
             const {getFieldDecorator} = form;
             return(
@@ -43,15 +43,14 @@ const getColumns =(form,Form)=> {
                     }
                   </Form.Item>
                 </Form>
-                
             )
         }
         },
-        {
+        { 
           title: "申请总价",
           dataIndex: "totalCount",
           render:(text)=>{
-              return <span>{text}</span>
+              return <span>{}</span>
           }
         },
         {
@@ -61,7 +60,7 @@ const getColumns =(form,Form)=> {
         {
           title: "操作",
           render:(record,index,text)=>{
-            return <span onClick={()=>record.onOperateClick()} className='theme-color'>删除</span>
+            return <a onClick={()=>record.onOperateClick()} className='theme-color'>删除</a>
           }
         }
       ];

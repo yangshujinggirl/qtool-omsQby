@@ -73,6 +73,7 @@ class SupplierManage  extends React.Component {
   }
 }
 function mapStateToProps(state) {
+  console.log(state)
   const { SupplierManageReducers } = state;
   return SupplierManageReducers;
 }
