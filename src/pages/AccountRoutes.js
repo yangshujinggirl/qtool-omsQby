@@ -48,7 +48,7 @@ import SupplierManage from './BaseGoodsCenter/SupplierManage'
 import AddSupplier from './BaseGoodsCenter/SupplierManage/AddSupplier'
 import OrderAgency from './OrderCenter/OrderAgency'
 //基础商品中心
- 
+
 
 
 class HomeRoutes extends React.Component {
@@ -56,7 +56,8 @@ class HomeRoutes extends React.Component {
     return(
       <Switch>
         <Route  exact path="/account/public" component={Public} />
-        <Route  path="/account/basicCommodityManage" component={BaseGoods}/>
+        {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
+        <Route  path="/account/itemsReport" component={BaseGoods}/>
         <Route  path="/account/Bsite" component={Bgoods}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
@@ -96,7 +97,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
         <Route  path="/account/orderAgency" component={OrderAgency}/>
         <Route component={NotFound}/>
-      </Switch>                                   
+      </Switch>
     )
   }
 }

@@ -7,6 +7,8 @@ const index = (state = {
   attrubteArray:[],//checked规格
   goodsList:[],//商品数据
   attributeList:[],//规格
+  attributeListOne:[],
+  attributeListTwo:[],
   categoryData:{
     categoryLevelOne:[],
     categoryLevelTwo:[],
@@ -26,6 +28,8 @@ const index = (state = {
     case "BASEGOODSADD_FILELIST":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_ATTRUBTELIST":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_ATTRUBTELISTONE":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":
       return { ...state,loading: false,...action.payload };

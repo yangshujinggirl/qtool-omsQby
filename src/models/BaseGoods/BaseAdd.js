@@ -39,7 +39,7 @@ function* fetchTotal(action){
     call(GetCategoryApi,{level:'3',parentId:omsCategoryPropertyDto.secondCategoryId}),
     call(GetCategoryApi,{level:'4',parentId:omsCategoryPropertyDto.thirdCategoryId}),
   ])
-  yield call(fetchAttribute,{payload:omsCategoryPropertyDto.fourCategoryId})
+  // yield call(fetchAttribute,{payload:omsCategoryPropertyDto.fourCategoryId})
   const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
   yield put({
     type: 'BASEGOODSADD_CATEGORY',
