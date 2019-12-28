@@ -33,6 +33,7 @@ class AddSupplier extends React.Component {
     };
   }
   componentDidMount() {
+    console.log(this.props)
     const {id} = this.props.match.params;
     if(id){
       SupplierDetailApi({supplierId:id}).then(res=>{

@@ -77,8 +77,6 @@ class PosOrder extends React.Component {
   render() {
     const {visible,shopId} = this.state;
     const { tableLists } = this.props;
-    console.log(this.props)
-    console.log(tableLists)
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} shopId={shopId} shopIdChange={this.shopIdChange}/>
