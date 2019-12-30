@@ -1,6 +1,7 @@
-import { Form, Input, Select, message } from "antd";
+import { Form, Input, Select, message, Radio } from "antd";
 import { GetInfoApi, AddBrandApi, UpdataBrandApi } from "api/home/Brand";
-import QupLoadImgLimt from "common/QupLoadImgLimt";
+import UploadLogo from "common/QupLoadImgLimt";
+import UploadIsSq from "common/QupLoadImgLimt";
 import { Qbtn } from "common";
 const Option = Select.Option;
 const formItemLayout = {
@@ -17,8 +18,10 @@ class BrandAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSq: "",
       infos: {},
-      fileList: []
+      fileList: [],
+      authList: []
     };
   }
   componentDidMount() {
@@ -34,9 +37,14 @@ class BrandAdd extends React.Component {
             url: res.result.logo
           }
         ];
+        let authList = [];
+        if (res.result.isSq == 1) {
+          authList = [];
+        }
         this.setState({
           infos: res.result,
-          fileList
+          fileList,
+          authList
         });
       });
     }
@@ -65,11 +73,21 @@ class BrandAdd extends React.Component {
   upDateList = fileList => {
     this.setState({ fileList });
   };
+  upAuthList = fileList => {
+    this.setState({ authList: fileList });
+  };
   goBack = () => {
     this.props.history.push("/account/brandManage");
   };
+  //更改品牌授权
+  changeIsSq = e => {
+    const { value } = e.target;
+    this.setState({
+      isSq: value
+    });
+  };
   render() {
-    const { infos, fileList } = this.state;
+    const { infos, fileList, isSq, authList } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="oms-common-addEdit-pages">
@@ -84,9 +102,15 @@ class BrandAdd extends React.Component {
               initialValue: infos.brandNameEn
             })(<Input placeholder="请输入品牌英文名称" autoComplete="off" />)}
           </Form.Item>
+          <Form.Item label="品牌归属地">
+            {getFieldDecorator("brandCountry", {
+              initialValue: infos.brandCountry,
+              rules: [{ required: true, message: "请输入品牌归属地" }]
+            })(<Input placeholder="请输入品牌归属地" autoComplete="off" />)}
+          </Form.Item>
           <Form.Item label="品牌状态">
             {getFieldDecorator("status", {
-              initialValue: infos.status?infos.status:undefined,
+              initialValue: infos.status ? infos.status : undefined,
               rules: [{ required: true, message: "请选择" }]
             })(
               <Select>
@@ -95,26 +119,40 @@ class BrandAdd extends React.Component {
               </Select>
             )}
           </Form.Item>
-          <Form.Item label="品牌归属地">
-            {getFieldDecorator("brandCountry", {
-              initialValue: infos.brandCountry,
-              rules: [{ required: true, message: "请输入品牌归属地" }]
-            })(<Input placeholder="请输入品牌归属地" autoComplete="off" />)}
-          </Form.Item>
-          <Form.Item label="品牌logo">
-            <QupLoadImgLimt upDateList={this.upDateList} fileList={fileList}/>
-          </Form.Item>
           <Form.Item label="品牌授权">
             {getFieldDecorator("isSq", {
-              initialValue: infos.isSq?infos.isSq:undefined,
+              initialValue: infos.isSq ? infos.isSq : undefined,
+              onChange: this.changeIsSq,
               rules: [{ required: true, message: "请选择" }]
             })(
-              <Select placeholder='请选择'>
-                <Option value={true}>有</Option>
-                <Option value={false}>无</Option>
-              </Select>
+              <Radio.Group>
+                <Radio value={1}>有</Radio>
+                <Radio value={0}>无</Radio>
+              </Radio.Group>
             )}
           </Form.Item>
+          <Form.Item label="品牌logo">
+            <UploadLogo
+              upDateList={this.upDateList}
+              fileList={fileList}
+              width={500}
+              height={500}
+            />
+          </Form.Item>
+          {isSq == 1 && (
+            <React.Fragment>
+              <Form.Item label="授权图片">
+                <UploadIsSq
+                  upDateList={this.upAuthList}
+                  fileList={authList}
+                  limit={3}
+                />
+              </Form.Item>
+              <Form.Item label="授权有效期">
+                
+              </Form.Item>
+            </React.Fragment>
+          )}
           <Form.Item label="品牌介绍">
             {getFieldDecorator("brandIntroduce", {
               initialValue: infos.brandIntroduce

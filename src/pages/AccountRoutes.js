@@ -20,9 +20,7 @@ import Brand from './Brand'
 import BrandAdd from './Brand/BrandAdd'
 import BrandInfo from './Brand/BrandInfo'
 import Classify from './Classify'
-import Attributions from './Attributions'
-import AttrAdd from './Attributions/AttrAdd'
-import AttrBind from './Attributions/AttrBind'
+import Attributions from './Attributions'//规格
 import StoreHouse from './StoreHouse'
 import StockManage from './StockManage'
 import StoreAdd from './StoreHouse/StoreAdd'
@@ -70,8 +68,6 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
         <Route  path="/account/categoryManage" component={Classify}/>
         <Route  path="/account/attributeManage" component={Attributions}/>
-        <Route  path="/account/AttrAdd/:id?" component={AttrAdd}/>
-        <Route  path="/account/AttrBind/:id?" component={AttrBind}/>
         <Route  path="/account/wareHouseManage" component={StoreHouse}/>
         <Route  path="/account/stockManage" component={StockManage}/>
         <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>

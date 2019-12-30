@@ -1,31 +1,47 @@
 import moment from "moment";
 const Columns1 = [
   {
-    title: "一级类目编码",
-    dataIndex: "categoryCode",
+    title: "一级类目",
+    dataIndex: "categoryName",
     key: "1"
   },
   {
-    title: "一级类目名称",
-    dataIndex: "categoryName",
-    key: "2"
-  },
-  {
-    title: "最新修改时间",
-    dataIndex: "lastUpdateTime",
-    key: "4",
-    render: text => (
-      <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    title: "一级类目状态",
+    dataIndex: "status",
+    key: "2",
+    render: (text, record, index) => (
+      <span>{text && text == 1 ? "启用" : "禁用"}</span>
     )
   },
   {
-    title: "最新修改人",
+    title: "创建人",
+    dataIndex: "createTime",
+    key: "3",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.createTime &&
+          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
+  },
+  {
+    title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "5"
+    key: "4",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.lastUpdateTime &&
+          moment(record.lastUpdateTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
   },
   {
     title: "操作",
-    key: "6",
+    key: "5",
     render: (text, record, index) => (
       <div>
         <a className="link-color" onClick={() => record.onOperateClick()}>
@@ -37,34 +53,52 @@ const Columns1 = [
 ];
 const Columns2 = [
   {
-    title: "二级类目编码",
-    dataIndex: "categoryCode",
+    title: "一级类目",
+    dataIndex: "categoryName",
     key: "1"
   },
   {
-    title: "一级类目名称",
-    dataIndex: "categoryName",
+    title: "二级类目",
+    dataIndex: "categoryName2",
     key: "2"
   },
   {
-    title: "二级类目名称",
-    dataIndex: "categoryName2",
-    key: "3"
+    title: "二级类目状态",
+    dataIndex: "status",
+    key: "3",
+    render: (text, record, index) => (
+      <span>{text && text == 1 ? "启用" : "禁用"}</span>
+    )
   },
   {
-    title: "最新修改时间",
-    dataIndex: "lastUpdateTime",
-    key: "5",
-    render: text => <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    title: "创建人",
+    dataIndex: "createTime",
+    key: "4",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.createTime &&
+          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
   },
   {
-    title: "最新修改人",
+    title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "6"
+    key: "5",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.lastUpdateTime &&
+          moment(record.lastUpdateTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
   },
   {
     title: "操作",
-    key: "7",
+    key: "6",
     render: (text, record, index) => (
       <div>
         <a className="link-color" onClick={() => record.onOperateClick()}>
@@ -76,39 +110,57 @@ const Columns2 = [
 ];
 const Columns3 = [
   {
-    title: "三级类目编码",
-    dataIndex: "categoryCode",
+    title: "一级类目",
+    dataIndex: "categoryName",
     key: "1"
   },
   {
-    title: "一级类目名称",
-    dataIndex: "categoryName",
+    title: "二级类目",
+    dataIndex: "categoryName2",
     key: "2"
   },
   {
-    title: "二级类目名称",
-    dataIndex: "categoryName2",
+    title: "三级类目",
+    dataIndex: "categoryName3",
     key: "3"
   },
   {
-    title: "三级类目名称",
-    dataIndex: "categoryName3",
-    key: "4"
+    title: "四级类目状态",
+    dataIndex: "status",
+    key: "4",
+    render: (text, record, index) => (
+      <span>{text && text == 1 ? "启用" : "禁用"}</span>
+    )
   },
   {
-    title: "最新修改时间",
-    dataIndex: "lastUpdateTime",
-    key: "6",
-    render: text => <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    title: "创建人",
+    dataIndex: "createTime",
+    key: "5",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.createTime &&
+          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
   },
   {
-    title: "最新修改人",
+    title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "7"
+    key: "6",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.lastUpdateTime &&
+          moment(record.lastUpdateTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
   },
   {
     title: "操作",
-    key: "8",
+    key: "7",
     render: (text, record, index) => (
       <div>
         <a className="link-color" onClick={() => record.onOperateClick()}>
@@ -120,46 +172,62 @@ const Columns3 = [
 ];
 const Columns4 = [
   {
-    title: "四级类目编码",
-    dataIndex: "categoryCode",
+    title: "一级类目",
+    dataIndex: "categoryName",
     key: "1"
   },
   {
-    title: "一级类目名称",
-    dataIndex: "categoryName",
+    title: "二级类目",
+    dataIndex: "categoryName2",
     key: "2"
   },
   {
-    title: "二级类目名称",
-    dataIndex: "categoryName2",
+    title: "三级类目",
+    dataIndex: "categoryName3",
     key: "3"
   },
   {
-    title: "三级类目名称",
-    dataIndex: "categoryName3",
+    title: "四级类目",
+    dataIndex: "categoryName4",
     key: "4"
   },
   {
-    title: "四级类目名称",
-    dataIndex: "categoryName4",
-    key: "5"
-  },
-  {
-    title: "最新修改时间",
-    dataIndex: "lastUpdateTime",
-    key: "7",
-    render: text => (
-      <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    title: "四级类目状态",
+    dataIndex: "status",
+    key: "5",
+    render:(text, record, index) => (
+      <span>{text && text == 1 ? "启用" : "禁用"}</span>
     )
   },
   {
-    title: "最新修改人",
+    title: "创建人",
+    dataIndex: "categoryName",
+    key: "6",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.createTime &&
+          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
+  },
+  {
+    title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "8"
+    key: "7",
+    render: (text, record, index) => (
+      <span>
+        {record.modifyBy}
+        <br />
+        {record.lastUpdateTime &&
+          moment(record.lastUpdateTime).format("YYYY-MM-DD HH:mm:ss")}
+      </span>
+    )
   },
   {
     title: "操作",
-    key: "9",
+    key: "8",
     render: (text, record, index) => (
       <div>
         <a className="link-color" onClick={() => record.onOperateClick()}>

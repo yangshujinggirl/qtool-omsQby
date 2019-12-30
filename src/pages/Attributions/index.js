@@ -1,23 +1,31 @@
 import FilterForm from "./components/FilterForm";
 import { connect } from "react-redux";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
+import AddAtrModal from "./components/AddAtr";
 
 class Attributions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValues: {}
+      inputValues: {},
+      visible: false,
+      attributeId:'',
+      attributeName :'',
+      attributeState:undefined
     };
   }
   //初始化数据
   componentDidMount = () => {
+    this.initPage()
+  };
+  initPage=()=>{
     this.props.dispatch({
       type: "attribution/fetchList",
       payload: {}
     });
-  };
+  }
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
@@ -40,20 +48,53 @@ class Attributions extends React.Component {
   };
   //新增属性
   addAtr = () => {
-    
+    this.setState({
+      visible: true
+    });
   };
+  //编辑
+  handleOperateClick = (record) => {
+    const {attributeId,attributeName,attributeState} = record;
+    this.setState({
+      attributeId,
+      attributeName,
+      attributeState,
+      visible:true
+    });
+  };
+  onOk=(clearForm)=>{
+    debugger
+    this.setState({
+      visible:false,
+      attributeId:'',
+      attributeState:undefined,
+      attributeName:''
+    });
+    this.initPage()
+  }
+  onCancel=(clearForm)=>{
+    this.setState({
+      visible:false,
+      attributeId:'',
+      attributeState:undefined,
+      attributeName:''
+    });
+    this.initPage()
+  }
   render() {
     const { atrLists } = this.props;
+    const { visible,attributeId,attributeState,attributeName } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={this.addAtr}>
-            <Link to="/account/AttrAdd">新增属性</Link>
+            新增属性
           </Qbtn>
         </div>
-        <Qtable columns={Columns} dataSource={atrLists} />
+        <Qtable onOperateClick={this.handleOperateClick} columns={Columns} dataSource={atrLists} />
         <Qpagination data={this.props} onChange={this.changePage} />
+        <AddAtrModal {...{ visible,attributeId,attributeName,attributeState }} onOk={this.onOk} onCancel={this.onCancel} />
       </div>
     );
   }

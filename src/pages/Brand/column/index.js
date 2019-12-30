@@ -7,11 +7,23 @@ const Columns = [
     key: "1",
     render: text => <img src={text} style={{ width: "90px", height: "90px" }}/>
   },
-  { title: "品牌中文名", dataIndex: "brandNameCn", key: "2" },
+  { title: "品牌中文名称", dataIndex: "brandNameCn", key: "2" },
   {
-    title: "品牌英文名",
+    title: "品牌英文名称",
     dataIndex: "brandNameEn",
     key: "3"
+  },
+  {
+    title: "品牌归属地",
+    dataIndex: "brandCountry",
+    key: "3"
+  },
+  
+  {
+    title: "状态",
+    dataIndex: "status",
+    key: "5",
+    render: text => (text == 1 ? "启用" : "不启用")
   },
   {
     title: "品牌授权",
@@ -20,19 +32,13 @@ const Columns = [
     render: (text, record, index) => (text == 1 ? "有" : "无")
   },
   {
-    title: "品牌状态",
-    dataIndex: "status",
-    key: "5",
-    render: text => (text == 1 ? "启用" : "不启用")
-  },
-  {
-    title: "创建时间",
+    title: "创建人",
     dataIndex: "createTime",
     key: "6",
     render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
   },
   {
-    title: "最新修改时间",
+    title: "最后修改人",
     dataIndex: "lastUpdateTime",
     key: "7",
     render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>

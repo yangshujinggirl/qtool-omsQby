@@ -33,7 +33,7 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
           Qmessage.error(resultMessage);
           return Promise.reject(result);
       }
-      return {result};
+      return {result,httpCode};
     }, error => {
       // window.location.href= '/';
       sessionStorage.clear();

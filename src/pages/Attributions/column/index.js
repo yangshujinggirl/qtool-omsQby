@@ -1,51 +1,48 @@
 import moment from "moment";
-import { Link } from "react-router-dom";
 const Columns = [
-  { title: "属性名称", dataIndex: "attributeName", key: "1" },
+  { title: "规格名称", dataIndex: "attributeName", key: "1" },
   {
-    title: "属性值",
-    dataIndex: "attributeValue",
-    key: "2"
+    title: "状态",
+    dataIndex: "attributeState",
+    key: "2",
+    render: (text, record, index) => <span>{text == 0 ? "禁用" : "启用"}</span>
   },
   {
-    title: "关联四级类目",
-    dataIndex: "categoryNameList",
+    title: "创建人",
+    dataIndex: "modifyBy",
     key: "3",
-    render:(text,record,index)=>(
-      <span>{text.join('|')}</span>
+    render: (text, record, index) => (
+      <div>
+        <span>{record.modifyBy}</span>
+        <br />
+        <span>
+          {record.createTime &&
+            moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
+        </span>
+      </div>
     )
   },
   {
-    title: "创建时间",
-    dataIndex: "createTime",
-    key: "4",
-    render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
-  },
-  {
-    title: "最新修改时间",
-    dataIndex: "lastUpdateTime",
-    key: "5",
-    render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
-  },
-  {
-    title: "最新修改人",
+    title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "6",
+    key: "4",
+    render: (text, record, index) => (
+      <div>
+        <span>{record.modifyBy}</span>
+        <br />
+        <span>
+          {record.lastUpdateTime &&
+            moment(record.lastUpdateTime).format("YYYY-MM-DD HH:mm:ss")}
+        </span>
+      </div>
+    )
   },
   {
     title: "操作",
     key: "action",
     render: (text, record, index) => (
       <div>
-        <Link
-          className="link-color action-left"
-          to={`/account/attrAdd/${record.attributeId}`}
-        >
-          编辑
-        </Link>
-        <Link className="link-color" to={`/account/AttrBind/${record.attributeId}`}>
-          绑定分类
-        </Link>
+        <a className='theme-color' onClick={record.onOperateClick.bind(this)}>编辑</a>
       </div>
     )
   }

@@ -9,10 +9,10 @@ class GoodsAudit extends Component {
       <div>
         <Tabs defaultActiveKey="1">
           <TabPane tab="一般贸易商品" key="1">  
-            <TradeGoods />
+            <TradeGoods/>
           </TabPane>
           <TabPane tab="跨境商品" key="2">
-            <PassGoods />
+            <PassGoods/>
           </TabPane>
         </Tabs>
       </div>

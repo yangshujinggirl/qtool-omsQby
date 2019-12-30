@@ -43,7 +43,9 @@ class TradeGoods extends Component {
   onSubmit = params => {
     this.searchData(params);
   };
-  handleOperateClick = () => {};
+  handleOperateClick = () => {
+    
+  };
   render() {
     const { tableLists } = this.state;
     return (
@@ -54,7 +56,7 @@ class TradeGoods extends Component {
           columns={Columns}
           dataSource={tableLists}
         />
-        <Qpagination data={this.props} onChange={this.changePage} />
+        <Qpagination data={this.props} onChange={this.changePage}/>
       </div>
     );
   }

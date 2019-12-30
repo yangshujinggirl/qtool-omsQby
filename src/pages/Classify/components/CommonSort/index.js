@@ -3,7 +3,6 @@ import { Qtable, Qpagination, Qbtn } from "common";
 import FilterForm from "../FilterForm";
 import { Columns1, Columns2, Columns3, Columns4 } from "../../column";
 import AddModal from "../AddModal";
-import EditModal from "../EditModal";
 
 class CommonSort extends React.Component {
   constructor(props) {
@@ -14,7 +13,8 @@ class CommonSort extends React.Component {
       Columns: [],
       inputValues: {
         level: this.props.level
-      }
+      },
+      id:'',
     };
   }
   //初始化数据
@@ -70,11 +70,9 @@ class CommonSort extends React.Component {
     this.searchData(params);
   };
   handleOperateClick = record => {
-    const num = this.props.level==1?'':this.props.level;
     this.setState({
-      editVisible: true,
-      id: record.id,
-      ['categoryName'+num]:record['categoryName'+num]
+      visible: true,
+      id:record.id
     });
   };
   addSort = () => {
@@ -85,24 +83,26 @@ class CommonSort extends React.Component {
   //新增onCancel
   onCancel = () => {
     this.setState({
-      visible: false
+      visible: false,
+      id:'',
     });
   };
   //新增onCancel
   onOk = () => {
     this.setState({
-      visible: false
+      visible: false,
+      id:'',
     });
     this.props.dispatch({
       type: "classify/fetchList",
       payload: { ...this.state.inputValues }
     });
   };
-  onEditCancel=()=>{
+  onEditCancel = () => {
     this.setState({
       editVisible: false
     });
-  }
+  };
   onEditOk = () => {
     this.setState({
       editVisible: false
@@ -113,9 +113,7 @@ class CommonSort extends React.Component {
     });
   };
   render() {
-    const num = this.props.level==1?'':this.props.level;
-    const categoryName = this.state['categoryName'+num];
-    const { Columns, visible, editVisible,id} = this.state;
+    const { Columns, visible, id } = this.state;
     const { categoryLists, level, text } = this.props;
     return (
       <div>
@@ -133,21 +131,9 @@ class CommonSort extends React.Component {
         <Qpagination data={this.props} onChange={this.changePage} />
         {visible && (
           <AddModal
-            text={text}
-            visible={visible}
-            level={level}
+            {...{ text, visible, level, id }}
             onCancel={this.onCancel}
             onOk={this.onOk}
-          />
-        )}
-        {editVisible && (
-          <EditModal
-            id={id}
-            level={level}
-            categoryName={categoryName}
-            visible={editVisible}
-            onCancel={this.onEditCancel}
-            onOk={this.onEditOk}
           />
         )}
       </div>

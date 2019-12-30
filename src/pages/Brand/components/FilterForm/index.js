@@ -28,16 +28,9 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="最新修改人" {...this.formItemLayout}>
-                {getFieldDecorator("modifyBy")(
-                  <Input placeholder="请输入最新修改人" autoComplete="off"/>
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
               <FormItem label="品牌状态" {...this.formItemLayout}>
                 {getFieldDecorator("status")(
-                  <Select placeholder="请选择" allowClear={true}>
+                  <Select placeholder="请选择" allowClear={true}> 
                     <Option value={1}>启用</Option>
                     <Option value={0}>不启用</Option>
                   </Select>

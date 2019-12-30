@@ -1,5 +1,6 @@
-import { Form, Input, Row, Col } from "antd";
+import { Form, Input, Row, Col, Select } from "antd";
 import { BaseFilter, Qbtn } from "common";
+const Option = Select.Option;
 const FormItem = Form.Item;
 class Search extends BaseFilter {
   constructor(props) {
@@ -13,16 +14,19 @@ class Search extends BaseFilter {
         <Form className="serach-common-form">
           <Row gutter={24}>
             <Col {...this.colspans}>
-              <FormItem label="属性名称" {...this.formItemLayout}>
+              <FormItem label="规格名称" {...this.formItemLayout}>
                 {getFieldDecorator("attributeName")(
-                  <Input placeholder="请输入属性名称" autoComplete="off" />
+                  <Input placeholder="请输入规格名称" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="关联的四级类目" {...this.formItemLayout}>
-                {getFieldDecorator("categoryName")(
-                  <Input placeholder="请输入关联的四级类目" autoComplete="off"/>
+              <FormItem label="状态" {...this.formItemLayout}>
+                {getFieldDecorator("attributeState")(
+                  <Select placeholder="请选择状态" allowClear={true}>
+                    <Option value={0}>禁用</Option>
+                    <Option value={1}>启用</Option>
+                  </Select>
                 )}
               </FormItem>
             </Col>

@@ -34,7 +34,6 @@ class BaseFilter extends Component {
     };
   }
   handleSubmit(e) {
-    console.log(this.props)
     e.preventDefault();
     this.props.form.validateFields((err, value) => {
       for (let i in value) {
