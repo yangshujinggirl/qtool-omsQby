@@ -64,6 +64,10 @@ class BaseGoodsAdd extends React.Component {
       type:'baseGoodsAdd/fetchSupplier',
       payload:{}
     })
+    this.props.dispatch({
+      type:'baseGoodsAdd/fetchAttribute',
+      payload:{}
+    })
   }
   handleChangeLevel=(level,selected)=>{
     level++;
@@ -182,10 +186,10 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   handleChangeOne=()=> {
-    
+
   }
   render() {
-    const { categoryData,goodsList,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
+    const { sizeIdList, attributeArray, categoryData,goodsList,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     console.log(this.props);
@@ -395,6 +399,7 @@ class BaseGoodsAdd extends React.Component {
             <FormItem label='商品规格1'>
                {
                  getFieldDecorator('pdType1Id',{
+                   initialValue:sizeIdList.pdSkusSizeOne,
                    onChange:(selected)=>this.handleChangeOne('one',selected)
                  })(
                   <Select
@@ -402,11 +407,11 @@ class BaseGoodsAdd extends React.Component {
                     autoComplete="off">
                     <Option value={0} key={0}>无</Option>
                     {
-                      goodsType.length>0 &&
-                      goodsType.map((ele,index) => (
+                      attributeArray.length>0 &&
+                      attributeArray.map((ele,index) => (
                         <Option
-                          value={ele.pdTypeId}
-                          key={ele.pdTypeId}>{ele.name}</Option>
+                          value={ele.attributeId}
+                          key={ele.attributeId}>{ele.attributeName}</Option>
                       ))
                     }
                   </Select>
@@ -416,14 +421,17 @@ class BaseGoodsAdd extends React.Component {
             <FormItem label='商品规格2'>
                {
                  getFieldDecorator('pdType2Id',{
+                   initialValue:sizeIdList.pdSkusSizeTwo,
                    onChange:(selected)=>this.handleChangeOne('two',selected)
                  })(
                   <Select placeholder="商品规格2" autoComplete="off">
                     <Option value={0} key={0}>无</Option>
                     {
-                      goodsType.length>0 &&
-                      goodsType.map((ele,index) => (
-                        <Option value={ele.pdTypeId} key={ele.pdTypeId}>{ele.name}</Option>
+                      attributeArray.length>0 &&
+                      attributeArray.map((ele,index) => (
+                        <Option
+                          value={ele.attributeId}
+                          key={ele.attributeId}>{ele.attributeName}</Option>
                       ))
                     }
                   </Select>

@@ -125,14 +125,14 @@ function* fetchCategory(action){
 //查询规格
 function* fetchAttribute(action){
   let params = action.payload;
-  const res = yield call(GetAttributeApi,{categoryId:params});
+  const res = yield call(GetAttributeApi);
   let { result } =res;
   result=result?result:[]
-  result.length>0&&result.map((el)=>el.key =el.id);
+  result.length>0&&result.map((el)=>el.key =el.attributeId);
   console.log(result)
   yield put({
-    type: 'BASEGOODSADD_ATTRIBUTE',
-    payload: {attributeList:result}
+    type: 'BASEGOODSADD_ATTRUBTEARRAY',
+    payload: {attributeArray:result}
   })
 };
 function* fetchbrandList(action) {
