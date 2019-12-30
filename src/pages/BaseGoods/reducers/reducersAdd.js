@@ -7,6 +7,11 @@ const index = (state = {
   attrubteArray:[],//checked规格
   goodsList:[],//商品数据
   attributeList:[],//规格
+  attributeArray:[],//规格列表
+  sizeIdList:{//商品规格id
+    pdSkusSizeOne:null,
+    pdSkusSizeTwo:null
+  },
   categoryData:{
     categoryLevelOne:[],
     categoryLevelTwo:[],
@@ -26,6 +31,8 @@ const index = (state = {
     case "BASEGOODSADD_FILELIST":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_ATTRUBTELIST":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_ATTRUBTEARRAY":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":
       return { ...state,loading: false,...action.payload };

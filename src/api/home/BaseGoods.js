@@ -31,10 +31,19 @@ export function GetCategoryApi(values){
  * @param {*} values
  */
 export function GetAttributeApi(values){
-    return Req.get('/attribute/searchAttributeByCategoryId',{
+    return Req.get('/attribute/getAttributeList',{
        params:{...values}
     })
 }
+// /**
+//  * 规格
+//  * @param {*} values
+//  */
+// export function GetAttributeApi(values){
+//     return Req.get('/attribute/searchAttributeByCategoryId',{
+//        params:{...values}
+//     })
+// }
 /**
  * 查询编辑详情
  * @param {*} values

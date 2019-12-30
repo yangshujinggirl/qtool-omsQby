@@ -64,6 +64,10 @@ class BaseGoodsAdd extends React.Component {
       type:'baseGoodsAdd/fetchSupplier',
       payload:{}
     })
+    this.props.dispatch({
+      type:'baseGoodsAdd/fetchAttribute',
+      payload:{}
+    })
   }
   handleChangeLevel=(level,selected)=>{
     level++;
@@ -181,11 +185,15 @@ class BaseGoodsAdd extends React.Component {
       payload:fileList
     })
   }
+  handleChangeOne=()=> {
+
+  }
   render() {
-    const { categoryData,goodsList,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
+    const { sizeIdList, attributeArray, categoryData,goodsList,supplierList, attributeList, totalData, brandDataSource, match, fileList } =this.props;
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     console.log(this.props);
+    let goodsType =[];
     return(
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages">
@@ -388,23 +396,48 @@ class BaseGoodsAdd extends React.Component {
                 <Input placeholder="请输入商品描述" autoComplete="off"/>
               )}
             </Form.Item>
-            {
-              attributeList.length>0&&attributeList.map((el,index)=> (
-                <Form.Item label={el.attributeName} key={index}>
-                  {getFieldDecorator(`attribute${index}`,{
-                    onChange:(value)=>this.changeAttrubte(value,el,index)
-                  })(
-                    <Checkbox.Group>
+            <FormItem label='商品规格1'>
+               {
+                 getFieldDecorator('pdType1Id',{
+                   initialValue:sizeIdList.pdSkusSizeOne,
+                   onChange:(selected)=>this.handleChangeOne('one',selected)
+                 })(
+                  <Select
+                    placeholder="请选择商品分类"
+                    autoComplete="off">
+                    <Option value={0} key={0}>无</Option>
                     {
-                      el.attributeValueShow.map((item,idx) => (
-                        <Checkbox value={item} key={`${el.attributeId}${idx}`}>{item}</Checkbox>
+                      attributeArray.length>0 &&
+                      attributeArray.map((ele,index) => (
+                        <Option
+                          value={ele.attributeId}
+                          key={ele.attributeId}>{ele.attributeName}</Option>
                       ))
                     }
-                    </Checkbox.Group>
-                  )}
-                </Form.Item>
-              ))
-            }
+                  </Select>
+                 )
+               }
+            </FormItem>
+            <FormItem label='商品规格2'>
+               {
+                 getFieldDecorator('pdType2Id',{
+                   initialValue:sizeIdList.pdSkusSizeTwo,
+                   onChange:(selected)=>this.handleChangeOne('two',selected)
+                 })(
+                  <Select placeholder="商品规格2" autoComplete="off">
+                    <Option value={0} key={0}>无</Option>
+                    {
+                      attributeArray.length>0 &&
+                      attributeArray.map((ele,index) => (
+                        <Option
+                          value={ele.attributeId}
+                          key={ele.attributeId}>{ele.attributeName}</Option>
+                      ))
+                    }
+                  </Select>
+                 )
+               }
+             </FormItem>
             <Form.Item label="商品信息" {...formItemLayoutBig}>
               <Qtable
                 dataSource={goodsList}
