@@ -5,7 +5,7 @@ const Columns = [
     title: "品牌logo",
     dataIndex: "logo",
     key: "1",
-    render: text => <img src={text} style={{ width: "90px", height: "90px" }}/>
+    render: text => <img src={text} style={{ width: "90px", height: "90px" }} />
   },
   { title: "品牌中文名称", dataIndex: "brandNameCn", key: "2" },
   {
@@ -18,7 +18,7 @@ const Columns = [
     dataIndex: "brandCountry",
     key: "3"
   },
-  
+
   {
     title: "状态",
     dataIndex: "status",
@@ -35,13 +35,25 @@ const Columns = [
     title: "创建人",
     dataIndex: "createTime",
     key: "6",
-    render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    render: (text, record, index) => (
+      <div>
+        <span>{record.modifyBy}</span>
+        <br />
+        <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+      </div>
+    )
   },
   {
     title: "最后修改人",
     dataIndex: "lastUpdateTime",
     key: "7",
-    render: text => <span>{text&&moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+    render: (text, record, index) => (
+      <div>
+        <span>{record.modifyBy}</span>
+        <br />
+        <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
+      </div>
+    )
   },
   {
     title: "操作",
@@ -50,12 +62,12 @@ const Columns = [
       <div>
         <Link
           className="link-color action-left"
-          to={`/account/brandInfo/${record.id}`}
+          to={`/account/brandAdd/${record.id}`}
         >
-          查看
-        </Link>
-        <Link className="link-color" to={`/account/brandAdd/${record.id}`}>
           编辑
+        </Link>
+        <Link className="link-color" to={`/account/brandInfo/${record.id}`}>
+          查看
         </Link>
       </div>
     )

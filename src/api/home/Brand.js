@@ -35,3 +35,9 @@ export function UpdataBrandApi(values){
         ...values
     })
 }
+//品牌归属地查询
+export function BrandAddressApi(values){
+    return Req.get('/brand/brandCountry',{
+        params:{...values}
+    })
+}

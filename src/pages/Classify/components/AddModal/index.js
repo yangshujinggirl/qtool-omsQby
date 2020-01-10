@@ -16,8 +16,8 @@ class AddModal extends React.Component {
     };
   }
   componentDidMount = () => {
-    const { id } = this.props;
-    if (id) {
+    const { id,level } = this.props;
+    if (id) {//编辑
       getClassInfo({ id }).then(res => {
         if (res.httpCode == 200) {
           this.getCategoryList(res.result);
@@ -26,15 +26,17 @@ class AddModal extends React.Component {
           });
         }
       });
-    } else {
+    } else {//新增
       //请求一级类目列表
-      GetCategoryApi({ level: 1, parentId: "" }).then(res => {
-        if (res.httpCode == 200) {
-          this.setState({
-            catagoryList: res.result
-          });
-        }
-      });
+      if (level != 1) {
+        GetCategoryApi({ level: 1, parentId: "" }).then(res => {
+          if (res.httpCode == 200) {
+            this.setState({
+              catagoryList: res.result
+            });
+          }
+        });
+      };
     }
   };
   getCategoryList = res => {
@@ -89,17 +91,17 @@ class AddModal extends React.Component {
         }
         //四级
         if (this.props.level == 4) {
-          if(type == 1){
+          if (type == 1) {
             this.props.form.setFieldsValue({
               parentId2: undefined,
-              parentId3: undefined,
+              parentId3: undefined
             });
-          };
-          if(type==2){
+          }
+          if (type == 2) {
             this.props.form.setFieldsValue({
-              parentId3: undefined,
+              parentId3: undefined
             });
-          };
+          }
         }
       });
     });
