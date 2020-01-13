@@ -21,7 +21,8 @@ function* getAttrubteState(action){
 }
 //详情
 function* getTotalState(action){
-  let totalData={...totalData,...action.payload};
+  let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
+  totalData={...totalData,...action.payload};
   yield put({
     type: 'BASEGOODSADD_TOTALDATA',
     payload: {totalData}
@@ -81,28 +82,26 @@ function* fetchCategory(action){
       isLevelTwo=false;
       isLevelThr=true;
       isLevelFour=true;
-      totalData.categoryId=parentId;
-      totalData.secondCategoryId=null;
-      totalData.thirdCategoryId=null;
-      totalData.fourCategoryId=null;
+      totalData.categoryCode2=undefined;
+      totalData.categoryCode3=undefined;
+      totalData.categoryCode4=undefined;
       break;
     case 3:
       categoryLevelThr = result
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=true;
-      totalData.secondCategoryId=parentId;
-      totalData.thirdCategoryId=null;
-      totalData.fourCategoryId=null;
+      totalData.categoryCode3=undefined;
+      totalData.categoryCode4=undefined;
       break;
     case 4:
       categoryLevelFour = result
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=false;
-      totalData.thirdCategoryId=parentId;
       break;
   }
+  console.log(totalData)
   yield put({
     type: 'BASEGOODSADD_TOTALDATA',
     payload: {totalData}
@@ -129,7 +128,7 @@ function* fetchAttribute(action){
   let { result } =res;
   result=result?result:[]
   result.length>0&&result.map((el)=>el.key =el.attributeId);
-  console.log(result)
+  // console.log(result)
   yield put({
     type: 'BASEGOODSADD_ATTRUBTEARRAY',
     payload: {attributeArray:result}
