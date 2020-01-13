@@ -59,7 +59,7 @@ class HomeRoutes extends React.Component {
       <Switch>
         <Route  exact path="/account/public" component={Public} />
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
-        <Route  path="/account/itemsReport" component={BaseGoods}/>
+        <Route  path="/account/items_list" component={BaseGoods}/>
         <Route  path="/account/Bsite" component={Bgoods}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
@@ -97,7 +97,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
         <Route  path="/account/orderAgency" component={OrderAgency}/>
         <Route path='/account/country' component={Country}/>
-        <Route path='/account/itemsExamine' component={GoodsAudit}/> 
+        <Route path='/account/itemsExamine' component={GoodsAudit}/>
         <Route component={NotFound}/>
       </Switch>
     )
