@@ -69,8 +69,8 @@ class UpLoadImg extends Component {
       let _URL = window.URL || window.webkitURL;
       let img = new Image();
       img.onload = function() {
-        let valid = img.width / img.height == width / height;
-        // let valid = img.width == width && img.height == height;
+        // let valid = img.width / img.height == width / height;
+        let valid = img.width == width && img.height == height;
         valid ? resolve() : reject();
       };
       img.src = _URL.createObjectURL(file);

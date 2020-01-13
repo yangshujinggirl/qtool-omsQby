@@ -9,7 +9,8 @@ class Search extends BaseFilter {
     super(props);
     this.state = {
         catagoryList:[],
-        categoryCode2:[]
+        categoryCode2:[],
+        catagoryList2:[]
     }
   }
   componentDidMount = () => {

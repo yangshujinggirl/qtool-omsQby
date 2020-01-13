@@ -46,6 +46,10 @@ import SupplierManage from './BaseGoodsCenter/SupplierManage'
 import AddSupplier from './BaseGoodsCenter/SupplierManage/AddSupplier'
 import OrderAgency from './OrderCenter/OrderAgency'
 //基础商品中心
+import Country from './BaseGoodsCenter/Country'//国家地区管理
+import GoodsAudit from './BaseGoodsCenter/GoodsAudit/index'//商品审核
+
+
 
 
 
@@ -92,6 +96,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/purchaseOrder" component={PurchaseOrder}/>
         <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
         <Route  path="/account/orderAgency" component={OrderAgency}/>
+        <Route path='/account/country' component={Country}/>
+        <Route path='/account/itemsExamine' component={GoodsAudit}/> 
         <Route component={NotFound}/>
       </Switch>
     )
