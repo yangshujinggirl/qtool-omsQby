@@ -4,9 +4,7 @@ const index = (state = {
   totalData:{},
   supplierList:[],
   fileList:[],
-  attrubteArray:[],//checked规格
   goodsList:[],//商品数据
-  attributeList:[],//规格
   attributeArray:[],//规格列表
   sizeIdList:{//商品规格id
     pdSkusSizeOne:null,

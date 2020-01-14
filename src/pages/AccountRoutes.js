@@ -53,49 +53,46 @@ class HomeRoutes extends React.Component {
       <Switch>
         <Route exact path="/account/public" component={Public} />
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
-        <Route path="/account/itemsReport" component={BaseGoods} />
-        <Route path="/account/Bsite" component={Bgoods} />
-        <Route path="/account/Csite" component={Cgoods} />
-        <Route path="/account/bgoodsAdd/:id?" component={BgoodsAdd} />
-        <Route path="/account/cgoodsAdd/:id?" component={CgoodsAdd} />
-        <Route path="/account/bgoodsInfo/:id?" component={BgoodsInfo} />
-        <Route path="/account/cgoodsInfo/:id?" component={CgoodsInfo} />
-        <Route path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd} />
-        <Route path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo} />
-        <Route path="/account/brand" component={Brand} />
-        <Route path="/account/brandAdd/:id?" component={BrandAdd} />
-        <Route path="/account/brandInfo/:id?" component={BrandInfo} />
-        <Route path="/account/category" component={Classify} />
-        <Route path="/account/wareHouseManage" component={StoreHouse} />
-        <Route path="/account/stockManage" component={StockManage} />
-        <Route path="/account/storeAdd/:id?" component={StoreAdd} />
-        <Route path="/account/orderException" component={ShopstockOrder} />
-        <Route path="/account/orderConfirm" component={UnconfirmedOrder} />
-        <Route path="/account/orderSale" component={SaleOrder} />
-        <Route path="/account/orderPos" component={PosOrder} />
-        <Route path="/account/orderShopkeeper" component={ShopKeeperOrder} />
-        <Route path="/account/orderOnline" component={OnlineOrder} />
-        <Route path="/account/orderBonded" component={TaxOrder} />
-        <Route path="/account/productsIstation" component={Supplier} />
-        <Route path="/account/supplierAdd/:id?" component={SupplierAdd} />
-        <Route path="/account/InvestmentManage" component={InvestmentManage} />
-        <Route
-          path="/account/investmentInfo/:id"
-          component={InvestmentManageInfo}
-        />
-        <Route path="/account/channelManage" component={ShopManage} />
-        <Route path="/account/addShop/:id?" component={AddShop} />
-        <Route path="/account/shopSet/:id?" component={SetShop} />
-        <Route path="/account/supplierManage" component={SupplierManage} />
+        <Route  path="/account/items_list" component={BaseGoods}/>
+        <Route  path="/account/Bsite" component={Bgoods}/>
+        <Route  path="/account/Csite" component={Cgoods}/>
+        <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
+        <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
+        <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
+        <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
+        <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
+        <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
+        <Route  path="/account/brandManage" component={Brand}/>
+        <Route  path="/account/brandAdd/:id?" component={BrandAdd}/>
+        <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
+        <Route  path="/account/categoryManage" component={Classify}/>
+        <Route  path="/account/attributeManage" component={Attributions}/>
+        <Route  path="/account/wareHouseManage" component={StoreHouse}/>
+        <Route  path="/account/stockManage" component={StockManage}/>
+        <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>
+        <Route  path="/account/orderException" component={ShopstockOrder}/>
+        <Route  path="/account/orderConfirm" component={UnconfirmedOrder}/>
+        <Route  path="/account/orderSale" component={SaleOrder}/>
+        <Route  path="/account/orderPos" component={PosOrder}/>
+        <Route  path="/account/orderShopkeeper" component={ShopKeeperOrder}/>
+        <Route  path="/account/orderOnline" component={OnlineOrder}/>
+        <Route  path="/account/orderBonded" component={TaxOrder}/>
+        <Route  path="/account/productsIstation" component={Supplier}/>
+        <Route  path="/account/supplierAdd/:id?" component={SupplierAdd}/>
+        <Route  path="/account/InvestmentManage" component={InvestmentManage}/>
+        <Route  path="/account/investmentInfo/:id" component={InvestmentManageInfo}/>
+        <Route  path="/account/channelManage" component={ShopManage}/>
+        <Route  path="/account/addShop/:id?" component={AddShop}/>
+        <Route  path="/account/shopSet/:id?" component={SetShop}/>
+        <Route  path="/account/supplierManage" component={SupplierManage}/>
         {/* <Route  path="/account/addSupplier/:id?" component={AddSupplier}/> */}
-        <Route path="/account/addSupplier/" component={AddSupplier} />
-        <Route path="/account/purchaseOrder" component={PurchaseOrder} />
-        <Route path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd} />
-        <Route path="/account/orderAgency" component={OrderAgency} />
-        <Route path="/account/country_and_region" component={Country} />
-        <Route path="/account/standards" component={Attributions} />
-        <Route path="/account/items_examine" component={GoodsAudit} />
-        <Route component={NotFound} />
+        <Route  path="/account/addSupplier/" component={AddSupplier}/>
+        <Route  path="/account/purchaseOrder" component={PurchaseOrder}/>
+        <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
+        <Route  path="/account/orderAgency" component={OrderAgency}/>
+        <Route path='/account/country' component={Country}/>
+        <Route path='/account/itemsExamine' component={GoodsAudit}/>
+        <Route component={NotFound}/>
       </Switch>
     );
   }
