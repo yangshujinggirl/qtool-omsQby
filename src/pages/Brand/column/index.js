@@ -16,7 +16,7 @@ const Columns = [
   {
     title: "品牌归属地",
     dataIndex: "brandCountry",
-    key: "3"
+    key: "4"
   },
 
   {
@@ -28,13 +28,13 @@ const Columns = [
   {
     title: "品牌授权",
     dataIndex: "isSq",
-    key: "4",
+    key: "6",
     render: (text, record, index) => (text == 1 ? "有" : "无")
   },
   {
     title: "创建人",
     dataIndex: "createTime",
-    key: "6",
+    key: "7",
     render: (text, record, index) => (
       <div>
         <span>{record.modifyBy}</span>
@@ -46,7 +46,7 @@ const Columns = [
   {
     title: "最后修改人",
     dataIndex: "lastUpdateTime",
-    key: "7",
+    key: "8",
     render: (text, record, index) => (
       <div>
         <span>{record.modifyBy}</span>
@@ -57,7 +57,7 @@ const Columns = [
   },
   {
     title: "操作",
-    key: "8",
+    key: "9",
     render: (text, record, index) => (
       <div>
         <Link

@@ -11,21 +11,21 @@ class Attributions extends React.Component {
     this.state = {
       inputValues: {},
       visible: false,
-      attributeId:'',
-      attributeName :'',
-      attributeState:undefined
+      attributeId: "",
+      attributeName: "",
+      attributeState: undefined
     };
   }
   //初始化数据
   componentDidMount = () => {
-    this.initPage()
+    this.initPage();
   };
-  initPage=()=>{
+  initPage = () => {
     this.props.dispatch({
       type: "attribution/fetchList",
       payload: {}
     });
-  }
+  };
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
@@ -53,48 +53,50 @@ class Attributions extends React.Component {
     });
   };
   //编辑
-  handleOperateClick = (record) => {
-    const {attributeId,attributeName,attributeState} = record;
+  handleOperateClick = record => {
+    const { attributeId, attributeName, attributeState } = record;
     this.setState({
       attributeId,
       attributeName,
       attributeState,
-      visible:true
+      visible: true
     });
   };
-  onOk=(clearForm)=>{
-    debugger
+  onOk = clearForm => {
+    this.onCancel(clearForm);
+    this.initPage();
+  };
+  onCancel = clearForm => {
     this.setState({
-      visible:false,
-      attributeId:'',
-      attributeState:undefined,
-      attributeName:''
+      visible: false,
+      attributeId: "",
+      attributeState: undefined,
+      attributeName: ""
     });
-    this.initPage()
-  }
-  onCancel=(clearForm)=>{
-    this.setState({
-      visible:false,
-      attributeId:'',
-      attributeState:undefined,
-      attributeName:''
-    });
-    this.initPage()
-  }
+    clearForm();
+  };
   render() {
     const { atrLists } = this.props;
-    const { visible,attributeId,attributeState,attributeName } = this.state;
+    const { visible, attributeId, attributeState, attributeName } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={this.addAtr}>
-            新增属性
+            新增规格
           </Qbtn>
         </div>
-        <Qtable onOperateClick={this.handleOperateClick} columns={Columns} dataSource={atrLists} />
+        <Qtable
+          onOperateClick={this.handleOperateClick}
+          columns={Columns}
+          dataSource={atrLists}
+        />
         <Qpagination data={this.props} onChange={this.changePage} />
-        <AddAtrModal {...{ visible,attributeId,attributeName,attributeState }} onOk={this.onOk} onCancel={this.onCancel} />
+        <AddAtrModal
+          {...{ visible, attributeId, attributeName, attributeState }}
+          onOk={this.onOk}
+          onCancel={this.onCancel}
+        />
       </div>
     );
   }

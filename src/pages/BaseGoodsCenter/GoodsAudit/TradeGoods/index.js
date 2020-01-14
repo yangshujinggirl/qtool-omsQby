@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import FilterForm from "./FilterForm";
+import EditModal from "./components/Audit";
 import { GetListApi } from "api/home/BaseGoodsCenter/GoodsAudit";
-import { Qtable, Qpagination } from "common";
+import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
 
 class TradeGoods extends Component {
@@ -9,8 +10,15 @@ class TradeGoods extends Component {
     super(props);
     this.state = {
       tableLists: [],
+      everyPage: 20,
+      currentPage: 0,
+      totalCount: 0,
+      selectedRowKeys: [],
+      type: "",
+      visible: false,
+      record: [],
       inputValues: {
-        productNature:1
+        productNature: 1
       }
     };
   }
@@ -22,9 +30,22 @@ class TradeGoods extends Component {
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
     GetListApi(params).then(res => {
-      if (res.code == "0") {
+      if (res.httpCode == 200) {
+        const {
+          resultList = [],
+          everyPage,
+          currentPage,
+          totalCount
+        } = res.result;
+        const tableLists = resultList.map(item => {
+          item.key = item.id;
+          return item;
+        });
         this.setState({
-          tableLists: res.result.resultList
+          tableLists,
+          everyPage,
+          currentPage,
+          totalCount
         });
       }
     });
@@ -43,20 +64,74 @@ class TradeGoods extends Component {
   onSubmit = params => {
     this.searchData(params);
   };
-  handleOperateClick = () => {
-    
+  handleOperateClick = (record, type) => {
+    this.setState({
+      type,
+      record,
+      visible: true
+    });
+  };
+  rowSelectChange = (selectedRowKeys, selectedRows) => {
+    this.setState({
+      selectedRowKeys
+    });
+  };
+  //批量审核
+  audit = () => {
+    this.setState({
+      visible:true,
+      type:'all'
+    })
+  };
+  onOk = (values,clearForm) => {
+    this.setState({
+      visible:false,
+      selectedRowKeys:[]
+    });
+    this.searchData({...this.state.inputValues});
+  };
+  onCancel = () => {
+    this.setState({
+      visible:false,
+      selectedRowKeys:[]
+    });
   };
   render() {
-    const { tableLists } = this.state;
+    const {
+      selectedRowKeys,
+      tableLists,
+      everyPage,
+      totalCount,
+      currentPage,
+      visible,
+      record,
+      type
+    } = this.state;
+    const rowSelection = {
+      onChange: this.rowSelectChange,
+      selectedRowKeys
+    };
+    console.log(selectedRowKeys)
     return (
       <div>
         <FilterForm onSubmit={this.onSubmit} />
+        <Qbtn onClick={this.audit}> 批量审核 </Qbtn>
         <Qtable
           onOperateClick={this.handleOperateClick}
           columns={Columns}
           dataSource={tableLists}
+          select={true}   
+          rowSelection={rowSelection}
         />
-        <Qpagination data={this.props} onChange={this.changePage}/>
+        <Qpagination
+          data={{ everyPage, totalCount, currentPage }}
+          onChange={this.changePage}
+        />
+        <EditModal
+          {...{visible,type,record,selectedRowKeys}}
+          onOk={this.onOk}
+          onCancel={this.onCancel}
+        />
       </div>
     );
   }

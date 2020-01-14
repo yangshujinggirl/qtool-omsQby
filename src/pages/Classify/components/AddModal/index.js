@@ -16,8 +16,9 @@ class AddModal extends React.Component {
     };
   }
   componentDidMount = () => {
-    const { id,level } = this.props;
-    if (id) {//编辑
+    const { id, level } = this.props;
+    if (id) {
+      //编辑
       getClassInfo({ id }).then(res => {
         if (res.httpCode == 200) {
           this.getCategoryList(res.result);
@@ -26,7 +27,8 @@ class AddModal extends React.Component {
           });
         }
       });
-    } else {//新增
+    } else {
+      //新增
       //请求一级类目列表
       if (level != 1) {
         GetCategoryApi({ level: 1, parentId: "" }).then(res => {
@@ -36,7 +38,7 @@ class AddModal extends React.Component {
             });
           }
         });
-      };
+      }
     }
   };
   getCategoryList = res => {
@@ -117,24 +119,32 @@ class AddModal extends React.Component {
         let params = {};
         if (level == 2) {
           params.parentId = values.parentId;
-        }
+        };
         if (level == 3) {
           params.parentId = values.parentId2;
-        }
+        };
         if (level == 4) {
           params.parentId = values.parentId3;
-        }
+        };
+        params.categoryName = values.categoryName;
+        params.status = values.status;
         if (this.props.id) {
           EditApi({ id: this.props.id, level, ...params }).then(res => {
-            message.success("编辑分类成功");
+            if (res.httpCode == 200) {
+              message.success("编辑分类成功");
+              this.props.form.resetFields();
+              this.props.onOk();
+            }
           });
-        } else {
+        } else { 
           AddApi({ ...params, level }).then(res => {
-            message.success("添加分类成功");
+            if (res.httpCode == 200) {
+              message.success("添加分类成功");
+              this.props.form.resetFields();
+              this.props.onOk();
+            }
           });
         }
-        this.props.form.resetFields();
-        this.props.onOk();
       }
     });
   };
@@ -407,7 +417,6 @@ class AddModal extends React.Component {
   }
   render() {
     const { visible, text, id } = this.props;
-    console.log(id + text);
     return (
       <div>
         <Modal

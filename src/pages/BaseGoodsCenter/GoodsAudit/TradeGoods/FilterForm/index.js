@@ -1,5 +1,5 @@
-import { Form, Input, Select, Row, Col, DatePicker,Cascader } from "antd";
-import { BaseFilter, Qbtn,CascaderAddressOptions } from "common";
+import { Form, Input, Select, Row, Col, DatePicker, Cascader } from "antd";
+import { BaseFilter, Qbtn, CascaderAddressOptions } from "common";
 import { GetCategoryApi } from "api/home/BaseGoods";
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
@@ -8,32 +8,25 @@ class Search extends BaseFilter {
   constructor(props) {
     super(props);
     this.state = {
-        catagoryList:[],
-        categoryCode2:[],
-        catagoryList2:[]
-    }
+      catagoryList: [],
+      categoryCode2: [],
+      catagoryList2: []
+    };
   }
-  componentDidMount = () => {
-    this.initPage();
-  };
-  initPage = () => {
-    GetCategoryApi({ level: 1, parentId: "" }).then(res => {
-      this.setState({
-        catagoryList: res.result
-      });
-    });
-  };
-  onChange = value => {
-    this.props.form.resetFields(['categoryCode2'])
-    this.setState({catagoryList2:[]});
-    if (value) {
-      GetCategoryApi({ level: -1, parentId: value }).then(res => {
-        this.setState({
-          catagoryList2: res.result || []
-        });
-      });
-    }
-  };
+  handleSubmit=()=>{
+    this.props.form.validateFields((err,values)=>{
+      const {time,time2,..._values} = values;
+      if(time&&time[0]){//提报时间
+        _values.create_stime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.create_etime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
+      };
+      if(time2&&time2[0]){//审核时间
+        _values.update_stime = moment(time2[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.update_etime = moment(time2[1]).format('YYYY-MM-DD HH:mm:ss');
+      }
+      this.props.onSubmit(_values);
+    })
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { catagoryList, catagoryList2 } = this.state;
@@ -50,54 +43,46 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="spu编码" {...this.formItemLayout}>
-                {getFieldDecorator("channelName")(
+                {getFieldDecorator("spuCode")(
                   <Input placeholder="请输入spu编码" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="sku编码" {...this.formItemLayout}>
-                {getFieldDecorator("channelName")(
+                {getFieldDecorator("skuCode")(
                   <Input placeholder="请输入sku编码" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="一级类目" {...this.formItemLayout}>
-                {getFieldDecorator("categoryCode1", {
-                  onChange: this.onChange
-                })(
+              <FormItem label="审核状态" {...this.formItemLayout}>
+                {getFieldDecorator("status")(
                   <Select placeholder="请选择" allowClear={true}>
-                    {catagoryList.map(item => (
-                      <Option value={item.id} key={item.id}>
-                        {item.categoryName}
-                      </Option>
-                    ))}
+                    <Option value={1} key={1}>
+                      待审核
+                    </Option>
+                    <Option value={2} key={2}>
+                      审核通过
+                    </Option>
+                    <Option value={3} key={3}>
+                      审核不通过
+                    </Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="二级类目" {...this.formItemLayout}>
-                {getFieldDecorator("categoryCode2")(
-                  <Select
-                    placeholder="请选择"
-                    disabled={!catagoryList2.length > 0}
-                    allowClear={true}
-                  >
-                    {catagoryList2.map(item => (
-                      <Option value={item.id} key={item.id}>
-                        {item.categoryName}
-                      </Option>
-                    ))}
-                  </Select>
+              <FormItem label="提报时间" {...this.formItemLayout}>
+                {getFieldDecorator("time")(
+                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="提交人" {...this.formItemLayout}>
-                {getFieldDecorator("channelName")(
-                  <Input placeholder="请输入提交人" autoComplete="off" />
+            <FormItem label="审核时间" {...this.formItemLayout}>
+                {getFieldDecorator("time2")(
+                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                 )}
               </FormItem>
             </Col>

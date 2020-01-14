@@ -43,47 +43,59 @@ class BrandAdd extends React.Component {
     };
   }
   componentDidMount() {
+    this.getInfos();
+  }
+  //获取详情
+  getInfos = () => {
     const { id } = this.props.match.params;
     if (id) {
-      this.setState({ id });
       GetInfoApi({ brandId: id }).then(res => {
-        // const fileList = [
-        //   {
-        //     uid: "-1",
-        //     name: "image.png",
-        //     status: "done",
-        //     url: res.result.logo
-        //   }
-        // ];
-        // let authList = [];
-        // if (res.result.isSq == 1) {
-        //   authList = [];
-        // }
-        // this.setState({
-        //   infos: res.result,
-        //   fileList,
-        //   authList
-        // });
+        let { logo, introduceImgList = [] } = res;
+        logo = [
+          {
+            uid: "-1",
+            name: "image.png",
+            status: "done",
+            url: res.result.logo
+          }
+        ];
+        let introduceImg = [];
+        introduceImgList.length > 0 &&
+          introduceImgList.map(item => {
+            const obj = {
+              uid: "-1",
+              name: "image.png",
+              status: "done",
+              url: item
+            };
+            introduceImg.push(obj);
+          });
+        this.setState({
+          infos: res.result,
+          logo,
+          introduceImg
+        });
       });
     }
-    this.getBrandAdress();
-  }
-  getBrandAdress = () => {};
+  };
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        if (values.brandNameCn || values.brandNameEn) {//二者有一必填
-          const { id, introduceImg } = this.state;
-          const _values = this.formatValue(values)
-          if (id) {//修改
+      if (values.brandNameCn || values.brandNameEn) {
+        //二者有一必填
+        if (!err) {
+          const { id } = this.props.match.params;
+          const _values = this.formatValue(values);
+          if (id) {
+            //修改
             UpdataBrandApi({ id, ..._values }).then(res => {
               message.success("保存成功");
-              this.props.history.push("/account/brandManage");
+              this.props.history.push("/account/brand");
             });
-          } else {//新建
+          } else {
+            //新建
             AddBrandApi({ ..._values }).then(res => {
               message.success("保存成功");
-              this.props.history.push("/account/brandManage");
+              this.props.history.push("/account/brand");
             });
           }
         } else {
@@ -94,27 +106,28 @@ class BrandAdd extends React.Component {
             },
             brandNameEn: { value: "", errors: [] }
           });
-        };
+        }
       }
     });
   };
-  formatValue = (values) => {
-    const { introduceImg,logo } = this.state;
+  //格式化数据
+  formatValue = values => {
+    const { introduceImg, logo } = this.state;
     const { time, ..._values } = values;
     if (time && time[0]) {
       _values.validityStart = moment(time[0]).format("YYYY-MM-DD");
       _values.validityEnd = moment(time[1]).format("YYYY-MM-DD");
-    };
+    }
     const imgs = [];
-    if(introduceImg[0]){
-      introduceImg.map(item=>{
-        imgs.push(item.response.result)
+    if (introduceImg[0]) {
+      introduceImg.map(item => {
+        imgs.push(item.response ? item.response.result : item.url);
       });
-    };
-    _values.introduceImg = imgs;
-    if(logo[0]){
-      _values.logo = logo[0].response.result;
-    };
+    }
+    _values.introduceImgList = imgs;
+    if (logo[0]) {
+      _values.logo = logo[0].response ? logo[0].response.result : logo[0].url;
+    }
     return _values;
   };
   upDateList = fileList => {
@@ -123,9 +136,6 @@ class BrandAdd extends React.Component {
   upAuthList = fileList => {
     this.setState({ introduceImg: fileList });
   };
-  goBack = () => {
-    this.props.history.push("/account/brandManage");
-  };
   //更改品牌授权
   changeIsSq = e => {
     const { value } = e.target;
@@ -133,6 +143,7 @@ class BrandAdd extends React.Component {
       isSq: value
     });
   };
+  //搜索品牌归属地
   onSearch = value => {
     BrandAddressApi({ brandCountry: value }).then(res => {
       if (res.httpCode == 200) {
@@ -144,10 +155,9 @@ class BrandAdd extends React.Component {
   };
   render() {
     const { infos, logo, isSq, introduceImg, addressList } = this.state;
-    console.log(introduceImg);
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="oms-common-addEdit-pages">
+      <div className="oms-common-addEdit-pages add_brand">
         <Form>
           <Form.Item
             labelCol={{ span: 4 }}
@@ -167,7 +177,6 @@ class BrandAdd extends React.Component {
                 />
               )}
             </Form.Item>
-            　
             <Form.Item style={{ display: "inline-block" }}>
               {getFieldDecorator("brandNameEn", {
                 initialValue: infos.brandNameEn
@@ -233,7 +242,6 @@ class BrandAdd extends React.Component {
               </Radio.Group>
             )}
           </Form.Item>
-
           {isSq == 1 && (
             <React.Fragment>
               <Form.Item
@@ -300,7 +308,6 @@ class BrandAdd extends React.Component {
             )}
           </Form.Item>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={this.goBack}>返回</Qbtn>
             <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
           </div>
         </Form>
