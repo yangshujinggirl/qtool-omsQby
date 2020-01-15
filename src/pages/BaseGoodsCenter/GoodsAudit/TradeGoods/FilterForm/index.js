@@ -12,28 +12,38 @@ class Search extends BaseFilter {
       categoryCode2: [],
       catagoryList2: []
     };
+    // 表单的列布局
+    this.colspans2 = {
+      xs: 24,
+      md:12,
+      xl: 8,
+      xxl: 6,
+    };
   }
-  handleSubmit=()=>{
-    this.props.form.validateFields((err,values)=>{
-      const {time,time2,..._values} = values;
-      if(time&&time[0]){//提报时间
-        _values.create_stime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.create_etime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
-      };
-      if(time2&&time2[0]){//审核时间
-        _values.update_stime = moment(time2[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.update_etime = moment(time2[1]).format('YYYY-MM-DD HH:mm:ss');
+
+  handleSubmit = () => {
+    this.props.form.validateFields((err, values) => {
+      const { time, time2, ..._values } = values;
+      if (time && time[0]) {
+        //提报时间
+        _values.create_stime = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
+        _values.create_etime = moment(time[1]).format("YYYY-MM-DD HH:mm:ss");
+      }
+      if (time2 && time2[0]) {
+        //审核时间
+        _values.update_stime = moment(time2[0]).format("YYYY-MM-DD HH:mm:ss");
+        _values.update_etime = moment(time2[1]).format("YYYY-MM-DD HH:mm:ss");
       }
       this.props.onSubmit(_values);
-    })
-  }
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     const { catagoryList, catagoryList2 } = this.state;
     return (
       <div className="qtoolOms-condition">
         <Form className="serach-common-form">
-          <Row gutter={24}>
+          <Row gutter={8}>
             <Col {...this.colspans}>
               <FormItem label="商品名称" {...this.formItemLayout}>
                 {getFieldDecorator("channelName")(
@@ -72,15 +82,15 @@ class Search extends BaseFilter {
                 )}
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
+            <Col {...this.colspans2}>
               <FormItem label="提报时间" {...this.formItemLayout}>
                 {getFieldDecorator("time")(
                   <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                 )}
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-            <FormItem label="审核时间" {...this.formItemLayout}>
+            <Col {...this.colspans2}>
+              <FormItem label="审核时间" {...this.formItemLayout}>
                 {getFieldDecorator("time2")(
                   <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                 )}

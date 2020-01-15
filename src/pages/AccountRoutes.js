@@ -62,11 +62,11 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
         <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
-        <Route  path="/account/brandManage" component={Brand}/>
+        <Route  path="/account/brand" component={Brand}/>
         <Route  path="/account/brandAdd/:id?" component={BrandAdd}/>
         <Route  path="/account/brandInfo/:id?" component={BrandInfo}/>
-        <Route  path="/account/categoryManage" component={Classify}/>
-        <Route  path="/account/attributeManage" component={Attributions}/>
+        <Route  path="/account/category" component={Classify}/>
+        <Route  path="/account/standards" component={Attributions}/>
         <Route  path="/account/wareHouseManage" component={StoreHouse}/>
         <Route  path="/account/stockManage" component={StockManage}/>
         <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>
@@ -90,8 +90,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/purchaseOrder" component={PurchaseOrder}/>
         <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
         <Route  path="/account/orderAgency" component={OrderAgency}/>
-        <Route path='/account/country' component={Country}/>
-        <Route path='/account/itemsExamine' component={GoodsAudit}/>
+        <Route path='/account/country_and_region' component={Country}/>
+        <Route path='/account/items_examine' component={GoodsAudit}/>
         <Route component={NotFound}/>
       </Switch>
     );

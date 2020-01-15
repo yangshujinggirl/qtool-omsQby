@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Modal, Input, Radio, message } from "antd";
+import { Form, Modal, Input, Radio, message, Button,Icon } from "antd";
 import {
   cancelAuditApi,
   goAuditApi
@@ -74,19 +74,36 @@ class Audit extends Component {
     return (
       <Modal
         title={
-          type == "audit"
+          type == "cancel"
             ? "撤销审核"
-            : type == "cancel"
+            : type == "audit"
             ? "商品审核"
             : "批量审核"
         }
         visible={visible}
-        onOk={this.onOk}
-        onCancel={this.onCancel}
-        cancelText="取消"
-        okText="提交"
+        footer={
+          <div>
+            <Button onClick={this.onCancel}>取消</Button>
+            {type == "cancel" ? (
+              <Button type="danger" onClick={this.onOk}>
+                撤销
+              </Button>
+            ) : (
+              <Button type="primary" onClick={this.onOk}>
+                提交
+              </Button>
+            )}
+          </div>
+        }
       >
         <Form {...formItemLayout}>
+          <div>
+            <Icon
+              style={{ color: "red" }}
+              theme="filled"
+              type="exclamation-circle"
+            /> 撤销后，将默认任务审核不通过
+          </div>
           {type == "all" ? (
             <FormItem label="SKU数" {...formItemLayout}>
               {selectedRowKeys.length}

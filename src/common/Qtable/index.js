@@ -27,7 +27,8 @@ class QTable extends Component {
         dataSource={dataSource}
         columns = {this.props.columns}
         rowKey={this.props.rowKey?this.props.rowKey:(record)=>record.key}
-        rowSelection={select?this.props.rowSelection:null}/>
+        rowSelection={select?this.props.rowSelection:null}
+        scroll={scroll&&this.props.scroll}/>
     )
   }
 }
