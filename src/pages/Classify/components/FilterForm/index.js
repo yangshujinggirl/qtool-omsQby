@@ -40,7 +40,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}
@@ -81,7 +81,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}
@@ -129,7 +129,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}
@@ -184,7 +184,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}

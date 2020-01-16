@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Form, Modal, Input, Radio, message, Button,Icon } from "antd";
+import { Form, Modal, Input, Radio, message, Button, Icon } from "antd";
 import {
   cancelAuditApi,
   goAuditApi
 } from "api/home/BaseGoodsCenter/GoodsAudit";
+import { deBounce } from "common/tools";
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -31,7 +32,7 @@ class Audit extends Component {
       status: ""
     });
   };
-  onOk = () => {
+  onOk = deBounce(() => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const { type, record } = this.props;
@@ -62,7 +63,7 @@ class Audit extends Component {
         }
       }
     });
-  };
+  }, 500);
   onCancel = () => {
     this.clearForm();
     this.props.onCancel();
@@ -102,7 +103,8 @@ class Audit extends Component {
               style={{ color: "red" }}
               theme="filled"
               type="exclamation-circle"
-            /> 撤销后，将默认任务审核不通过
+            />{" "}
+            撤销后，将默认任务审核不通过
           </div>
           {type == "all" ? (
             <FormItem label="SKU数" {...formItemLayout}>

@@ -12,7 +12,7 @@ class GoodsAudit extends Component {
             <TradeGoods/>
           </TabPane>
           <TabPane tab="跨境商品" key="2">
-            <PassGoods/>
+            111
           </TabPane>
         </Tabs>
       </div>

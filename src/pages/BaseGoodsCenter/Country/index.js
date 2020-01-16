@@ -13,7 +13,7 @@ class Country extends React.Component {
   //初始化数据
   componentDidMount = () => {
     console.log(this.refs['container']);
-    this.refs['container'].addEventListener("scroll", this.handleScroll);
+    // this.refs['container'].addEventListener("scroll", this.handleScroll);
     this.searchData({});
   };
   // componentWillUnmount() {
@@ -23,21 +23,19 @@ class Country extends React.Component {
   searchData = values => {
     GetCountryListsApi(values).then(res => {
       if (res.httpCode == 200) {
-        const { resultList, currentPage } = res.result;
-        const countryList = resultList.map(item => {
+        // const { resultList, currentPage } = res.result;
+        const countryList = res.result.map(item => {
           item.key = item.id;
           return item;
         });
         this.setState({
-          countryList: this.state.countryList.concat(countryList),
-          currentPage
+          countryList,
         });
       }
     });
   };
   //滚动事件
   handleScroll = () => {
-    console.log(111)
     const scrollTop =
       window.pageYOffset ||
       document.documentElement.scrollTop ||
@@ -59,13 +57,13 @@ class Country extends React.Component {
     this.searchData(params);
   };
   render() {
-    const { countryList } = this.state;
+    const { countryList=[] } = this.state;
     return (
       <div className="oms-common-index-pages-wrap country" ref='container'>
         <FilterForm onSubmit={this.onSubmit} />
         <div onScrollCapture={this.handleScroll} ref="country">
-          {countryList.map(item => (
-            <div className="imgBox">
+          {countryList.length>0&&countryList.map(item => (
+            <div key={item.id} className="imgBox">
               <img src={item.countryImages} />
               <p>{item.countryName}</p>
             </div>

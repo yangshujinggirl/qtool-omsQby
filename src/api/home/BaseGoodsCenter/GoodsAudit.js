@@ -12,5 +12,7 @@ export function goAuditApi(values) {
 }
 //撤销审核
 export function cancelAuditApi(values) {
-    return Req.post("items/examineCannel", values);
-  }
+  return Req.get("items/examineCannel", {
+    params: values
+  });
+}

@@ -44,7 +44,7 @@ class BrandInfo extends React.Component {
             {moment(infos.validityEnd).format("YYYY-MM-DD HH:mm:ss")}
           </Form.Item>
           <Form.Item label="品牌logo">
-            <img src={infos.logo} style={{ width: "100px", height: "100px" }} />
+            <img className='brand_infos_logo' src={infos.logo}/>
           </Form.Item>
           <Form.Item label="品牌简介">{infos.brandIntroduce}</Form.Item>
         </Form>

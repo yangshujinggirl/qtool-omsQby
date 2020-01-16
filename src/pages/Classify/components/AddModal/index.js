@@ -1,6 +1,7 @@
 import { Modal, Form, Input, Select, message } from "antd";
 import { GetCategoryApi } from "api/home/BaseGoods";
 import { AddApi, EditApi, getClassInfo } from "api/home/Classify";
+import { deBounce } from "common/tools";
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -8,7 +9,7 @@ class AddModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      catagoryList: [],
+      catagoryList1: [],
       catagoryList2: [],
       catagoryList3: [],
       catagoryList4: [],
@@ -20,8 +21,9 @@ class AddModal extends React.Component {
     if (id) {
       //编辑
       getClassInfo({ id }).then(res => {
+        //请求详情
         if (res.httpCode == 200) {
-          this.getCategoryList(res.result);
+          this.getList(level, res.result); //请求类目列表
           this.setState({
             infos: res.result
           });
@@ -29,53 +31,43 @@ class AddModal extends React.Component {
       });
     } else {
       //新增
-      //请求一级类目列表
       if (level != 1) {
         GetCategoryApi({ level: 1, parentId: "" }).then(res => {
           if (res.httpCode == 200) {
             this.setState({
-              catagoryList: res.result
+              catagoryList1: res.result
             });
           }
         });
       }
     }
   };
-  getCategoryList = res => {
-    const { level } = this.props;
+  getList = (level, infos) => {
     if (level != 1) {
-      //请求一级类目列表
-      GetCategoryApi({ level: 1, parentId: "" }).then(res1 => {
-        if (res1.httpCode == 200) {
-          this.setState({
-            catagoryList: res1.result
-          });
-          if (level == 3 || level == 4) {
-            //请求二级类目列表
-            GetCategoryApi({ level: 2, parentId: res.categoryId }).then(
-              res2 => {
-                if (res2.httpCode == 200) {
-                  this.setState({
-                    catagoryList2: res2.result
-                  });
-                  if (level == 4) {
-                    //请求三级类目列表
-                    GetCategoryApi({
-                      level: 3,
-                      parentId: res.categoryId2
-                    }).then(res3 => {
-                      this.setState({
-                        catagoryList3: res3.result
-                      });
-                    });
-                  }
-                }
-              }
-            );
-          }
-        }
-      });
+      this.getCategoryList(1, infos);
     }
+    if (level == 3 || level == 4) {
+      this.getCategoryList(2, infos);
+    }
+    if (level == 4) {
+      this.getCategoryList(3, infos);
+    }
+  };
+  //请求各级类目列表
+  getCategoryList = (level, infos) => {
+    GetCategoryApi({
+      level,
+      parentId:
+        level == 1
+          ? ""
+          : infos["categoryId" + (level - 1 == 1 ? "" : level - 1)]
+    }).then(res => {
+      if (res.httpCode == 200) {
+        this.setState({
+          ["catagoryList" + level]: res.result || []
+        });
+      }
+    });
   };
   onChange = (value, type) => {
     if (type == 1) {
@@ -112,46 +104,55 @@ class AddModal extends React.Component {
     this.props.onCancel();
   };
   //保存
-  onOk = () => {
+  onOk = deBounce(() => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { level } = this.props;
-        let params = {};
-        if (level == 2) {
-          params.parentId = values.parentId;
-        };
-        if (level == 3) {
-          params.parentId = values.parentId2;
-        };
-        if (level == 4) {
-          params.parentId = values.parentId3;
-        };
-        params.categoryName = values.categoryName;
-        params.status = values.status;
-        if (this.props.id) {
-          EditApi({ id: this.props.id, level, ...params }).then(res => {
-            if (res.httpCode == 200) {
-              message.success("编辑分类成功");
-              this.props.form.resetFields();
-              this.props.onOk();
-            }
-          });
-        } else { 
-          AddApi({ ...params, level }).then(res => {
-            if (res.httpCode == 200) {
-              message.success("添加分类成功");
-              this.props.form.resetFields();
-              this.props.onOk();
-            }
-          });
-        }
+        const params = this.formatValue(values);
+        this.sendRequest(params);
       }
     });
+  }, 500);
+  //格式化
+  formatValue = values => {
+    const { level } = this.props;
+    let params = {};
+    if (level == 2) {
+      params.parentId = values.parentId;
+    }
+    if (level == 3) {
+      params.parentId = values.parentId2;
+    }
+    if (level == 4) {
+      params.parentId = values.parentId3;
+    }
+    params.categoryName = values.categoryName;
+    params.status = values.status;
+    return params;
+  };
+  sendRequest = params => {
+    const { id, level } = this.props;
+    if (id) {
+      EditApi({ id, level, ...params }).then(res => {
+        if (res.httpCode == 200) {
+          message.success("编辑分类成功");
+          this.props.form.resetFields();
+          this.props.onOk();
+        }
+      });
+    } else {
+      AddApi({ ...params, level }).then(res => {
+        if (res.httpCode == 200) {
+          message.success("添加分类成功");
+          this.props.form.resetFields();
+          this.props.onOk();
+        }
+      });
+    }
   };
   renderForm() {
     const { level, id } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { catagoryList, catagoryList2, catagoryList3, infos } = this.state;
+    const { catagoryList1, catagoryList2, catagoryList3, infos } = this.state;
     switch (level) {
       case 1:
         return (
@@ -180,7 +181,7 @@ class AddModal extends React.Component {
                   placeholder="请选择状态"
                   className="select"
                 >
-                  <Option value={2}>禁用</Option>
+                  <Option value={0}>禁用</Option>
                   <Option value={1}>启用</Option>
                 </Select>
               )}
@@ -210,7 +211,7 @@ class AddModal extends React.Component {
                 initialValue: infos.categoryId
               })(
                 <Select placeholder="请选择">
-                  {catagoryList.map(item => (
+                  {catagoryList1.map(item => (
                     <Option value={item.id} key={item.id}>
                       {item.categoryName}
                     </Option>
@@ -232,7 +233,7 @@ class AddModal extends React.Component {
                   placeholder="请选择状态"
                   className="select"
                 >
-                  <Option value={2}>禁用</Option>
+                  <Option value={0}>禁用</Option>
                   <Option value={1}>启用</Option>
                 </Select>
               )}
@@ -263,8 +264,8 @@ class AddModal extends React.Component {
                 onChange: value => this.onChange(value, 1)
               })(
                 <Select placeholder="请选择">
-                  {catagoryList &&
-                    catagoryList.map(item => (
+                  {catagoryList1 &&
+                    catagoryList1.map(item => (
                       <Option value={item.id} key={item.id}>
                         {item.categoryName}
                       </Option>
@@ -308,7 +309,7 @@ class AddModal extends React.Component {
                   placeholder="请选择状态"
                   className="select"
                 >
-                  <Option value={2}>禁用</Option>
+                  <Option value={0}>禁用</Option>
                   <Option value={1}>启用</Option>
                 </Select>
               )}
@@ -339,7 +340,7 @@ class AddModal extends React.Component {
                 initialValue: infos.categoryId
               })(
                 <Select placeholder="请选择">
-                  {catagoryList.map(item => (
+                  {catagoryList1.map(item => (
                     <Option value={item.id} key={item.id}>
                       {item.categoryName}
                     </Option>
@@ -406,7 +407,7 @@ class AddModal extends React.Component {
                   placeholder="请选择状态"
                   className="select"
                 >
-                  <Option value={2}>禁用</Option>
+                  <Option value={0}>禁用</Option>
                   <Option value={1}>启用</Option>
                 </Select>
               )}

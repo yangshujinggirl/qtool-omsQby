@@ -1,6 +1,7 @@
 import { Form, Input, Select, Row, Col } from "antd";
 import { BaseFilter, Qbtn } from "common";
 const FormItem = Form.Item;
+const {Option} = Select;
 class Search extends BaseFilter {
   constructor(props) {
     super(props);
@@ -29,7 +30,7 @@ class Search extends BaseFilter {
               <FormItem label="仓库类型" {...this.formItemLayout}>
                 {getFieldDecorator("warehouseType")(
                   <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>大仓</Option>
+                    <Option value={1}>公司仓</Option>
                     <Option value={2}>门店仓</Option>
                     <Option value={3}>保税仓</Option>
                   </Select>
