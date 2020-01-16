@@ -5,6 +5,13 @@ import {
   GetSupplierApi
 } from "../../api/home/BaseGoods";
 
+//属性--商品
+function* getSpec(action){
+  yield put({
+    type: 'BASEGOODSADD_SPEC',
+    payload: action.payload
+  })
+}
 //图片
 function* getFileListState(action){
   yield put({
@@ -82,6 +89,7 @@ function* fetchCategory(action){
       isLevelTwo=false;
       isLevelThr=true;
       isLevelFour=true;
+      totalData.categoryCode = parentId;
       totalData.categoryCode2=undefined;
       totalData.categoryCode3=undefined;
       totalData.categoryCode4=undefined;
@@ -91,17 +99,19 @@ function* fetchCategory(action){
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=true;
+      totalData.categoryCode2 = parentId;
       totalData.categoryCode3=undefined;
       totalData.categoryCode4=undefined;
       break;
     case 4:
+      totalData.categoryCode3 = parentId;
       categoryLevelFour = result
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=false;
       break;
   }
-  console.log(totalData)
+  // console.log('action')
   yield put({
     type: 'BASEGOODSADD_TOTALDATA',
     payload: {totalData}
@@ -128,7 +138,7 @@ function* fetchAttribute(action){
   let { result } =res;
   result=result?result:[]
   result.length>0&&result.map((el)=>el.key =el.attributeId);
-  // console.log(result)
+  // console.log('action')
   yield put({
     type: 'BASEGOODSADD_ATTRUBTEARRAY',
     payload: {attributeArray:result}
@@ -197,4 +207,5 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
   yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
   yield takeEvery('baseGoodsAdd/getAttrubteList', getAttrubteState)
+  yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

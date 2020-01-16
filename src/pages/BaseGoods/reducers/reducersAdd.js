@@ -4,20 +4,25 @@ const index = (state = {
   totalData:{},
   supplierList:[],
   fileList:[],
-  goodsList:[],//商品数据
+  goodsList:[{key:'00'}],//商品数据
   attributeArray:[],//规格列表
-  sizeIdList:{//商品规格id
-    pdSkusSizeOne:null,
-    pdSkusSizeTwo:null
+  // sizeIdList:{//商品规格id
+  //   pdSkusSizeOne:null,
+  //   pdSkusSizeTwo:null
+  // },
+  specData:{
+    specOne:[],
+    specTwo:[],
   },
+  pdSkus:[{key:'00'}],
   categoryData:{
     categoryLevelOne:[],
     categoryLevelTwo:[],
     categoryLevelThr:[],
     categoryLevelFour:[],
-    isLevelTwo:false,
-    isLevelThr:false,
-    isLevelFour:false
+    isLevelTwo:true,
+    isLevelThr:true,
+    isLevelFour:true
   },
 }, action) => {
   switch (action.type) {
@@ -27,6 +32,8 @@ const index = (state = {
         loading: true
       };
     case "BASEGOODSADD_FILELIST":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_SPEC":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_ATTRUBTELIST":
       return { ...state,loading: false,...action.payload };

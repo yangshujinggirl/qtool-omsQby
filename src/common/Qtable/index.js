@@ -26,6 +26,7 @@ class QTable extends Component {
         bordered={true}
         dataSource={dataSource}
         columns = {this.props.columns}
+        scroll={this.props.scroll}
         rowKey={this.props.rowKey?this.props.rowKey:(record)=>record.key}
         rowSelection={select?this.props.rowSelection:null}/>
     )

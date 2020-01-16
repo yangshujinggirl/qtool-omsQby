@@ -8,6 +8,7 @@ import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
 import { columnsAdd } from './column';
 import { GetEditInfoApi, GetAddApi } from '../../api/home/BaseGoods';
 import UpLoadImgLimt from './components/UpLoadImgLimt';
+import Creatlabel from './components/Creatlabel';
 import './BaseGoodsAdd.less';
 
 let FormItem = Form.Item;
@@ -71,13 +72,14 @@ class BaseGoodsAdd extends React.Component {
     })
   }
   handleChangeLevel=(level,selected)=>{
+    // console.log('handleChangeLevel')
     level++;
     this.props.dispatch({
       type:'baseGoodsAdd/fetchCategory',
       payload:{level,parentId:selected }
     })
   }
-  handleAttribute=(selected)=>{
+  handleChangeLevel4=(selected)=>{
     this.props.dispatch({
       type:'baseGoodsAdd/fetchAttribute',
       payload:selected
@@ -99,75 +101,6 @@ class BaseGoodsAdd extends React.Component {
       payload:{brandAddress:item.brandCountry}
     })
   }
-  //规格
-  changeAttrubte(value,record,typeIndex) {
-    let { attrubteArray } =this.props;
-    let idx = attrubteArray.findIndex((el)=> el.attributeId==record.attributeId);
-    value =value.map((el,index)=> {
-      let item = {};
-      item.id =`${record.attributeId}${index}`;
-      item.key =item.id ;
-      item.attributeName =el;
-      return item;
-    })
-    if(idx == '-1') {
-      let item = {
-        attributeId:record.attributeId,
-        attributeVal:value
-      }
-      attrubteArray.push(item)
-    } else {
-      attrubteArray[idx].attributeVal = value
-    }
-    attrubteArray = attrubteArray.filter((el)=> el.attributeVal.length!=0);
-    let combineVal=attrubteArray.map((el)=> {return el.attributeVal});
-    let goodsList=this.handleCombine(combineVal);
-    this.props.dispatch({
-      type:'baseGoodsAdd/getAttrubteList',
-      payload:{goodsList,attrubteArray}
-    })
-  }
-  //n级规格排列组合
-  handleCombine=(arr)=> {
-    var len = arr.length;
-    if (len >= 2) {
-      //从前两个开始组合
-      var len1 = arr[0].length;
-      var len2 = arr[1].length;
-      var lenBoth = len1 * len2;
-      var items = new Array(lenBoth);
-      var index = 0;
-      //for循环构建两两组合后的数组
-      for (var i = 0; i < len1; i++) {
-        for (var j = 0; j < len2; j++) {
-          if (arr[0][i] instanceof Array) {
-            items[index] = {
-              attributeName:`${arr[0][i].attributeName}${arr[1][j].attributeName}`.concat(arr[1][j].attributeName),
-              id:`${arr[0][i].id}${arr[1][j].id}`.concat(arr[1][j].id),
-              key:`${arr[0][i].id}${arr[1][j].id}`.concat(arr[1][j].id),
-            };
-          } else {
-            items[index] = {
-              attributeName:`${arr[0][i].attributeName}/${arr[1][j].attributeName}`,
-              id:`${arr[0][i].id}/${arr[1][j].id}`,
-              key:`${arr[0][i].id}/${arr[1][j].id}`,
-            };
-          }
-          index++;
-        }
-      }
-      // 新组合的数组取代原来前两个数组
-      var newArr = new Array(len - 1);
-      for (var i = 2; i < arr.length; i++) {
-        newArr[i - 1] = arr[i];
-      }
-      newArr[0] = items;
-      // 再次组合前两个
-      return this.handleCombine(newArr);
-    } else {
-      return arr[0];
-    }
-  }
   submit=(e)=> {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -186,8 +119,122 @@ class BaseGoodsAdd extends React.Component {
       payload:fileList
     })
   }
-  handleChangeOne=()=> {
-
+  handleChangeType=(type,option)=> {
+    //重置商品规格id,商品属性
+    if(option==0&&type=='one') {
+      // this.props.form.setFieldsValue({
+      //   pdSkus:undefined
+      // })
+    }
+    this.props.dispatch({
+      type:'addGoods/changeTypesId',
+      payload:{
+        typeId:option,
+        type
+      }
+    })
+    let { sizeIdList } =this.props;
+  }
+  //删除商品属性
+  deleteGoodsLabel(tags,type) {
+    let forms = this.props.form;
+    //删除时要清掉form中的历史值，重置pdSkus
+    let currentDeleteObj = [];//当前被删项
+    if(type == 'one') {
+      this.props.addGoods.pdSkus.map((el,index) => {
+        if(el.pdType1ValId == tags.key) {
+          currentDeleteObj.push(el)
+        }
+      })
+    } else {
+      this.props.addGoods.pdSkus.map((el,index) => {
+        if(el.pdType2ValId == tags.key) {
+          currentDeleteObj.push(el)
+        }
+      })
+    }
+    let pdSkus = forms.getFieldsValue(['pdSkus']);
+    currentDeleteObj.map((el,index) => {
+      pdSkus.pdSkus.map((ee,idx) => {
+        if(el.name == ee.name) {
+          pdSkus.pdSkus.splice(idx,1);
+        }
+      })
+    })
+    forms.setFieldsValue({
+      pdSkus:pdSkus.pdSkus
+    });
+    this.props.dispatch({
+      type:'addGoods/deleteSpec',
+      payload:{
+        payloadVal:tags,
+        type
+      }
+    })
+  }
+  //新建商品属性
+  addGoodsLabel(inputValue,type) {
+    const { specData } =this.props;
+    let specOne;
+    let specTwo;
+    if(type == 'one') {
+      specOne = [...specData.specOne,...[{name:inputValue,key:inputValue}]];
+      specTwo = specData.specTwo;
+    } else {
+      specOne = specData.specOne;
+      specTwo = [...specData.specTwo,...[{name:inputValue,key:inputValue}]];
+    }
+    this.handleSpec(specOne,specTwo)
+  }
+  //属性组合
+  handleSpec(specOne, specTwo) {
+    let oldpdSkus=this.props.goodsList;
+    let newPdSkus=[];
+    let fixedRow = { key: '00'};
+    //处理新增属性数据;
+    if(specOne.length >0) {
+      if(specTwo.length >0) {
+        for(let i=0;i<specOne.length;i++) {
+          for(let j=0;j<specTwo.length;j++) {
+            let item = {...specOne[i],...fixedRow}
+            item.salesAttributeName = `${specOne[i].name}/${specTwo[j].name}`;
+            item.key = `${specOne[i].key}_${specTwo[j].key}`;
+            item.pdType1ValId = specOne[i].key;
+            item.pdType2ValId = specTwo[j].key;
+            newPdSkus.push(item);
+          }
+        }
+      }else {
+        for(let i=0;i<specOne.length;i++) {
+          let item = {...specOne[i],...fixedRow};
+          item.pdType1ValId = specOne[i].key;
+          item.key = specOne[i].key;
+          item.pdType1Va2Id = null;
+          newPdSkus.push(item);
+        }
+      }
+    } else {
+      newPdSkus.push(fixedRow);
+      specTwo=[]
+    }
+    //处理编辑数据,新旧数据进行合关去重
+    for(let m = 0;m<newPdSkus.length;m++) {
+      for(let n = 0; n<oldpdSkus.length; n++) {
+        if(newPdSkus[m].key == oldpdSkus[n].key) {
+          let items = {...newPdSkus[m],...oldpdSkus[n]};
+          newPdSkus[m] = items;
+        }
+      }
+    }
+    let goodsList = newPdSkus;
+    // console.log(pdSkus)
+    this.props.dispatch({
+      type:'baseGoodsAdd/getSpec',
+      payload:{
+        specData:{specOne,specTwo},
+        goodsList
+      }
+    })
   }
   render() {
     const { sizeIdList, attributeArray, categoryData,goodsList,
@@ -200,14 +247,14 @@ class BaseGoodsAdd extends React.Component {
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-            {
-              isEdit&&
-                <Form.Item label="spu编码">
-                  {match.params.id}
-                </Form.Item>
-            }
             <div className="part-wrap">
               <p className="title-wrap"><span className="title-name">基础信息</span></p>
+              {
+                isEdit&&
+                  <Form.Item label="spu编码">
+                    {match.params.id}
+                  </Form.Item>
+              }
               <Form.Item label="商品名称">
                 {getFieldDecorator('productName', {
                     initialValue:totalData.productName,
@@ -332,7 +379,7 @@ class BaseGoodsAdd extends React.Component {
                 {getFieldDecorator('categoryCode4', {
                   initialValue:totalData.categoryCode4,
                   rules: [{ required: true, message: '请选择四级类目'}],
-                  onChange:(select)=>this.handleAttribute(select)
+                  onChange:(select)=>this.handleChangeLevel4(select)
                 })(
                   <Select disabled={isEdit||categoryData.isLevelFour} placeholder="请选择四级类目">
                   {
@@ -379,17 +426,19 @@ class BaseGoodsAdd extends React.Component {
                   </Radio.Group>
                 )}
               </Form.Item>
-              <Form.Item label="代发时效">
-                {getFieldDecorator('distributionDays', {
-                  initialValue:totalData.distributionDays,
-                  rules: [
-                    { required: true, message: '请输入大于0的整数' },
-                    { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
-                  ],
-                })(
-                  <Input placeholder="请输入大于0的整数" autoComplete="off"/>
-                )}
-              </Form.Item>
+              {
+                !!totalData.saleRangeShow&&<Form.Item label="代发时效">
+                  {getFieldDecorator('distributionDays', {
+                    initialValue:totalData.distributionDays,
+                    rules: [
+                      { required: true, message: '请输入大于0的整数' },
+                      { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
+                    ],
+                  })(
+                    <Input placeholder="请输入大于0的整数" autoComplete="off"/>
+                  )}
+                </Form.Item>
+              }
             </div>
             <div className="part-wrap">
               <p className="title-wrap"><span className="title-name">仓管信息</span></p>
@@ -415,28 +464,33 @@ class BaseGoodsAdd extends React.Component {
                   </Radio.Group>
                 )}
               </Form.Item>
-              <Form.Item label="效期类型">
-                {getFieldDecorator('batchProcessingType',{
-                  initialValue:totalData.batchProcessingType,
-                  rules: [{ required: true, message: '请选择是否代发' }],
-                })(
-                  <Radio.Group>
-                    <Radio value={1} key={1}>生产日期</Radio>
-                    <Radio value={0} key={0}>到期日期</Radio>
-                  </Radio.Group>
-                )}
-              </Form.Item>
-              <Form.Item label="禁止入库天数">
-                {getFieldDecorator('lotLimitInDay', {
-                  initialValue:totalData.lotLimitInDay,
-                  rules: [
-                    { required: true, message: '请输入大于0的整数' },
-                    { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
-                  ],
-                })(
-                  <Input placeholder="请输入大于0的整数" autoComplete="off"/>
-                )}
-              </Form.Item>
+              {
+                totalData.batchProcessingStatus&&totalData.batchProcessingStatus==2&&
+                <div>
+                  <Form.Item label="效期类型">
+                    {getFieldDecorator('batchProcessingType',{
+                      initialValue:totalData.batchProcessingType,
+                      rules: [{ required: true, message: '请选择是否代发' }],
+                    })(
+                      <Radio.Group>
+                        <Radio value={1} key={1}>生产日期</Radio>
+                        <Radio value={0} key={0}>到期日期</Radio>
+                      </Radio.Group>
+                    )}
+                  </Form.Item>
+                  <Form.Item label="禁止入库天数">
+                    {getFieldDecorator('lotLimitInDay', {
+                      initialValue:totalData.lotLimitInDay,
+                      rules: [
+                        { required: true, message: '请输入大于0的整数' },
+                        { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
+                      ],
+                    })(
+                      <Input placeholder="请输入大于0的整数" autoComplete="off"/>
+                    )}
+                  </Form.Item>
+                </div>
+              }
             </div>
             {/*<Form.Item label="商品图片">
               <QupLoadImgLimt
@@ -449,8 +503,8 @@ class BaseGoodsAdd extends React.Component {
               <FormItem label='商品规格1'>
                  {
                    getFieldDecorator('pdType1Id',{
-                     initialValue:sizeIdList.pdSkusSizeOne,
-                     onChange:(selected)=>this.handleChangeOne('one',selected)
+                     initialValue:totalData.pdType1Id,
+                     onChange:(selected)=>this.handleChangeType('one',selected)
                    })(
                     <Select
                       placeholder="请选择商品分类"
@@ -467,12 +521,17 @@ class BaseGoodsAdd extends React.Component {
                     </Select>
                    )
                  }
+                 <Creatlabel
+                   disabled={totalData.pdType1Id?false:true}
+                   deleteGoodsLabel={this.deleteGoodsLabel.bind(this)}
+                   addGoodsLabel={this.addGoodsLabel.bind(this)}
+                   level="one"/>
               </FormItem>
               <FormItem label='商品规格2'>
                  {
                    getFieldDecorator('pdType2Id',{
-                     initialValue:sizeIdList.pdSkusSizeTwo,
-                     onChange:(selected)=>this.handleChangeOne('two',selected)
+                     initialValue:totalData.pdType2Id,
+                     onChange:(selected)=>this.handleChangeType('two',selected)
                    })(
                     <Select placeholder="商品规格2" autoComplete="off">
                       <Option value={0} key={0}>无</Option>
@@ -487,9 +546,15 @@ class BaseGoodsAdd extends React.Component {
                     </Select>
                    )
                  }
+                 <Creatlabel
+                   disabled={totalData.pdType2Id?false:true}
+                   deleteGoodsLabel={this.deleteGoodsLabel.bind(this)}
+                   addGoodsLabel={this.addGoodsLabel.bind(this)}
+                   level="two"/>
                </FormItem>
               <Form.Item label="商品信息" {...formItemLayoutBig}>
                 <Qtable
+                  scroll={{x:1400}}
                   dataSource={goodsList}
                   columns={columnsAdd(this.props.form)}/>
               </Form.Item>
@@ -515,26 +580,15 @@ function mapStateToProps(state) {
 const BaseGoodsAddF = Form.create({
   onValuesChange(props, changedFields, allFields) {
     const { totalData,goodsList }=props;
-    // console.log(changedFields);
+    // console.log('onValuesChange')
     let currentKey = Object.keys(changedFields)[0];
-    props.dispatch({
-      type:'baseGoodsAdd/getTotalState',
-      payload:changedFields
-    })
+    if(currentKey.indexOf('categoryCode')=='-1') {
+      props.dispatch({
+        type:'baseGoodsAdd/getTotalState',
+        payload:changedFields
+      })
+    }
   },
-  mapPropsToFields(props) {
-    // return {
-    //   pdCategory1Id: Form.createFormField(props.categoryIdList.pdCategory1Id),
-    //   pdCategory2Id: Form.createFormField(props.categoryIdList.pdCategory2Id),
-    //   pdCategory3Id: Form.createFormField(props.categoryIdList.pdCategory3Id),
-    //   pdCategory4Id: Form.createFormField(props.categoryIdList.pdCategory4Id),
-    //   spuList: Form.createFormField(props.goodsList),
-    //   day: Form.createFormField(props.totalData.day),
-    //   time: Form.createFormField(props.totalData.time),
-    //   ruleType: Form.createFormField(props.totalData.ruleType),
-    //   sortType:Form.createFormField(props.totalData.sortType),
-    // };
-  }
 })(BaseGoodsAdd);
 export default connect(mapStateToProps)(BaseGoodsAddF);
 // export default BaseGoodsAddF;
