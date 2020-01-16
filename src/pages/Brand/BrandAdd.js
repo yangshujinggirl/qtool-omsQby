@@ -14,6 +14,7 @@ import {
   UpdataBrandApi,
   BrandAddressApi
 } from "api/home/Brand";
+import {deBounce} from 'common/tools'
 import UploadLogo from "common/QupLoadImgLimt";
 import UploadIsSq from "common/QupLoadImgLimt";
 import { Qbtn } from "common";
@@ -43,78 +44,92 @@ class BrandAdd extends React.Component {
     };
   }
   componentDidMount() {
+    this.getInfos();
+  }
+  //获取详情
+  getInfos = () => {
     const { id } = this.props.match.params;
     if (id) {
-      this.setState({ id });
       GetInfoApi({ brandId: id }).then(res => {
-        // const fileList = [
-        //   {
-        //     uid: "-1",
-        //     name: "image.png",
-        //     status: "done",
-        //     url: res.result.logo
-        //   }
-        // ];
-        // let authList = [];
-        // if (res.result.isSq == 1) {
-        //   authList = [];
-        // }
-        // this.setState({
-        //   infos: res.result,
-        //   fileList,
-        //   authList
-        // });
+        let { logo, introduceImgList = [] } = res.result;
+        logo = [
+          {
+            uid: "-1",
+            name: "image.png",
+            status: "done",
+            url: res.result.logo
+          }
+        ];
+        let introduceImg = [];
+        introduceImgList.length > 0 &&
+          introduceImgList.map((item, index) => {
+            const obj = {
+              uid: index,
+              name: "image.png",
+              status: "done",
+              url: item
+            };
+            introduceImg.push(obj);
+          });
+        this.setState({
+          infos: res.result,
+          logo,
+          introduceImg,
+          isSq: res.result.isSq
+        });
       });
     }
-    this.getBrandAdress();
-  }
-  getBrandAdress = () => {};
-  handleSubmit = () => {
+  };
+  handleSubmit = deBounce(() => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        if (values.brandNameCn || values.brandNameEn) {//二者有一必填
-          const { id, introduceImg } = this.state;
-          const _values = this.formatValue(values)
-          if (id) {//修改
+      if (values.brandNameCn || values.brandNameEn) {
+        //二者有一必填
+        if (!err) {
+          const { id } = this.props.match.params;
+          const _values = this.formatValue(values);
+          if (id) {
+            //修改
             UpdataBrandApi({ id, ..._values }).then(res => {
               message.success("保存成功");
-              this.props.history.push("/account/brandManage");
+              this.props.history.push("/account/brand");
             });
-          } else {//新建
+          } else {
+            //新建
             AddBrandApi({ ..._values }).then(res => {
               message.success("保存成功");
-              this.props.history.push("/account/brandManage");
+              this.props.history.push("/account/brand");
             });
           }
-        } else {
-          this.props.form.setFields({
-            brandNameCn: {
-              value: "",
-              errors: [new Error("中文名称和英文名称至少必填一个")]
-            },
-            brandNameEn: { value: "", errors: [] }
-          });
-        };
+        }
+      } else {
+        this.props.form.setFields({
+          brandNameCn: {
+            value: "",
+            errors: [new Error("中文名称和英文名称至少必填一个")]
+          },
+          brandNameEn: { value: "", errors: [] }
+        });
       }
     });
-  };
-  formatValue = (values) => {
-    const { introduceImg,logo } = this.state;
+  },500);
+  //格式化数据
+  formatValue = values => {
+    const { introduceImg, logo } = this.state;
     const { time, ..._values } = values;
     if (time && time[0]) {
       _values.validityStart = moment(time[0]).format("YYYY-MM-DD");
       _values.validityEnd = moment(time[1]).format("YYYY-MM-DD");
-    };
+    }
     const imgs = [];
-    if(introduceImg[0]){
-      introduceImg.map(item=>{
-        imgs.push(item.response.result)
+    if (introduceImg[0]) {
+      introduceImg.map(item => {
+        imgs.push(item.response ? item.response.result : item.url);
       });
-    };
-    _values.introduceImg = imgs;
-    if(logo[0]){
-      _values.logo = logo[0].response.result;
-    };
+    }
+    _values.introduceImgList = imgs;
+    if (logo[0]) {
+      _values.logo = logo[0].response ? logo[0].response.result : logo[0].url;
+    }
     return _values;
   };
   upDateList = fileList => {
@@ -123,9 +138,6 @@ class BrandAdd extends React.Component {
   upAuthList = fileList => {
     this.setState({ introduceImg: fileList });
   };
-  goBack = () => {
-    this.props.history.push("/account/brandManage");
-  };
   //更改品牌授权
   changeIsSq = e => {
     const { value } = e.target;
@@ -133,21 +145,24 @@ class BrandAdd extends React.Component {
       isSq: value
     });
   };
-  onSearch = value => {
-    BrandAddressApi({ brandCountry: value }).then(res => {
-      if (res.httpCode == 200) {
-        this.setState({
-          addressList: res.result
-        });
-      }
-    });
-  };
+  //搜索品牌归属地
+  onSearch = deBounce((value) => {
+    if (/^[\u2E80-\u9FFF]+$/.test(value)) {
+      BrandAddressApi({ brandCountry: value }).then(res => {
+        if (res.httpCode == 200) {
+          this.setState({
+            addressList: res.result
+          });
+        }
+      });
+    }
+  },500);
   render() {
     const { infos, logo, isSq, introduceImg, addressList } = this.state;
-    console.log(introduceImg);
     const { getFieldDecorator } = this.props.form;
+    console.log(introduceImg);
     return (
-      <div className="oms-common-addEdit-pages">
+      <div className="oms-common-addEdit-pages add_brand">
         <Form>
           <Form.Item
             labelCol={{ span: 4 }}
@@ -155,7 +170,7 @@ class BrandAdd extends React.Component {
             style={{ marginBottom: 0 }}
             label="品牌中文名称"
           >
-            <Form.Item style={{ display: "inline-block" }}>
+            <Form.Item style={{ display: "inline-block", marginRight: "10px" }}>
               {getFieldDecorator("brandNameCn", {
                 initialValue: infos.brandNameCn
               })(
@@ -167,7 +182,6 @@ class BrandAdd extends React.Component {
                 />
               )}
             </Form.Item>
-            　
             <Form.Item style={{ display: "inline-block" }}>
               {getFieldDecorator("brandNameEn", {
                 initialValue: infos.brandNameEn
@@ -228,12 +242,11 @@ class BrandAdd extends React.Component {
               rules: [{ required: true, message: "请选择" }]
             })(
               <Radio.Group>
-                <Radio value={1}>有</Radio>
-                <Radio value={0}>无</Radio>
+                <Radio value={true}>有</Radio>
+                <Radio value={false}>无</Radio>
               </Radio.Group>
             )}
           </Form.Item>
-
           {isSq == 1 && (
             <React.Fragment>
               <Form.Item
@@ -263,6 +276,41 @@ class BrandAdd extends React.Component {
                     : null,
                   rules: [{ required: true, message: "请选择授权有效期" }]
                 })(<RangePicker format="YYYY-MM-DD" />)}
+              </Form.Item>
+              <Form.Item
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 6 }}
+                label="是否转授权"
+              >
+                {getFieldDecorator("isTransfer", {
+                  initialValue: infos.isTransfer
+                })(
+                  <Radio.Group>
+                    <Radio value={true}>是</Radio>
+                    <Radio value={false}>否</Radio>
+                  </Radio.Group>
+                )}
+              </Form.Item>
+              <Form.Item
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 6 }}
+                label="授权级别"
+              >
+                {getFieldDecorator("transLevel", {
+                  initialValue: infos.transLevel
+                })(
+                  <Select placeholder="请选择">
+                    <Option key={1} value={1}>
+                      1级授权
+                    </Option>
+                    <Option key={2} value={2}>
+                      2级授权
+                    </Option>
+                    <Option key={3} value={3}>
+                      3级授权
+                    </Option>
+                  </Select>
+                )}
               </Form.Item>
             </React.Fragment>
           )}
@@ -300,8 +348,9 @@ class BrandAdd extends React.Component {
             )}
           </Form.Item>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={this.goBack}>返回</Qbtn>
-            <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
+            <Qbtn onClick={this.handleSubmit}>
+              保存
+            </Qbtn>
           </div>
         </Form>
       </div>

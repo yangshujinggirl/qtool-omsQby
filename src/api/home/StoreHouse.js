@@ -23,7 +23,7 @@ export function GetShopListApi(values){
  */
 export function updataStoreApi(values){
     return Req.post('warehouse/modWarehouse',{
-        params:{...values}
+        ...values
     });
 }
 /**

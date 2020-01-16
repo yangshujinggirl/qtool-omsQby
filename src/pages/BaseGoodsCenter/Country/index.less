@@ -2,11 +2,18 @@
   width: 100px;
   height: 100px;
   text-align: center;
-  float:left;
-  margin-left:20px;
-  margin-bottom:20px;
+  display: "inline-block";
+  float: left;
+  margin-left: 20px;
+  margin-bottom: 20px;
   img {
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 100px;
+  }
+  p {
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

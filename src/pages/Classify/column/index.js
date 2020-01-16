@@ -14,22 +14,9 @@ const Columns1 = [
     )
   },
   {
-    title: "创建人",
-    dataIndex: "createTime",
-    key: "3",
-    render: (text, record, index) => (
-      <span>
-        {record.modifyBy}
-        <br />
-        {record.createTime &&
-          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
-      </span>
-    )
-  },
-  {
     title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "4",
+    key: "3",
     render: (text, record, index) => (
       <span>
         {record.modifyBy}
@@ -68,19 +55,6 @@ const Columns2 = [
     key: "3",
     render: (text, record, index) => (
       <span>{text && text == 1 ? "启用" : "禁用"}</span>
-    )
-  },
-  {
-    title: "创建人",
-    dataIndex: "createTime",
-    key: "4",
-    render: (text, record, index) => (
-      <span>
-        {record.modifyBy}
-        <br />
-        {record.createTime &&
-          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
-      </span>
     )
   },
   {
@@ -125,7 +99,7 @@ const Columns3 = [
     key: "3"
   },
   {
-    title: "四级类目状态",
+    title: "三级类目状态",
     dataIndex: "status",
     key: "4",
     render: (text, record, index) => (
@@ -133,22 +107,9 @@ const Columns3 = [
     )
   },
   {
-    title: "创建人",
-    dataIndex: "createTime",
-    key: "5",
-    render: (text, record, index) => (
-      <span>
-        {record.modifyBy}
-        <br />
-        {record.createTime &&
-          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
-      </span>
-    )
-  },
-  {
     title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "6",
+    key: "5",
     render: (text, record, index) => (
       <span>
         {record.modifyBy}
@@ -160,7 +121,7 @@ const Columns3 = [
   },
   {
     title: "操作",
-    key: "7",
+    key: "6",
     render: (text, record, index) => (
       <div>
         <a className="link-color" onClick={() => record.onOperateClick()}>
@@ -200,22 +161,9 @@ const Columns4 = [
     )
   },
   {
-    title: "创建人",
-    dataIndex: "categoryName",
-    key: "6",
-    render: (text, record, index) => (
-      <span>
-        {record.modifyBy}
-        <br />
-        {record.createTime &&
-          moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
-      </span>
-    )
-  },
-  {
     title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "7",
+    key: "6",
     render: (text, record, index) => (
       <span>
         {record.modifyBy}
@@ -227,7 +175,7 @@ const Columns4 = [
   },
   {
     title: "操作",
-    key: "8",
+    key: "7",
     render: (text, record, index) => (
       <div>
         <a className="link-color" onClick={() => record.onOperateClick()}>

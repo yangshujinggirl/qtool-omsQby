@@ -22,7 +22,7 @@ class Search extends BaseFilter {
     return (
       <React.Fragment>
         <Col {...this.colspans}>
-          <FormItem label="一级类目名称" {...this.formItemLayout}>
+          <FormItem label="一级类目" {...this.formItemLayout}>
             {getFieldDecorator("categoryName")(
               <Input placeholder="请输入一级类目名称" autoComplete="off" />
             )}
@@ -30,7 +30,7 @@ class Search extends BaseFilter {
         </Col>
         <Col {...this.colspans}>
           <FormItem
-            label="状态"
+            label="一级类目状态"
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 12 }}
           >
@@ -40,7 +40,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}
@@ -81,7 +81,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}
@@ -129,7 +129,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}
@@ -145,28 +145,28 @@ class Search extends BaseFilter {
     return (
       <React.Fragment>
         <Col {...this.colspans}>
-          <FormItem label="一级类目名称" {...this.formItemLayout}>
+          <FormItem label="一级类目" {...this.formItemLayout}>
             {getFieldDecorator("categoryName")(
               <Input placeholder="请输入一级类目名称" autoComplete="off" />
             )}
           </FormItem>
         </Col>
         <Col {...this.colspans}>
-          <FormItem label="二级类目名称" {...this.formItemLayout}>
+          <FormItem label="二级类目" {...this.formItemLayout}>
             {getFieldDecorator("categoryName2")(
               <Input placeholder="请输入二级类目名称" autoComplete="off" />
             )}
           </FormItem>
         </Col>
         <Col {...this.colspans}>
-          <FormItem label="三级类目名称" {...this.formItemLayout}>
+          <FormItem label="三级类目" {...this.formItemLayout}>
             {getFieldDecorator("categoryName3")(
               <Input placeholder="请输入三级类目名称" autoComplete="off" />
             )}
           </FormItem>
         </Col>
         <Col {...this.colspans}>
-          <FormItem label="四级类目名称" {...this.formItemLayout}>
+          <FormItem label="四级类目" {...this.formItemLayout}>
             {getFieldDecorator("categoryName4")(
               <Input placeholder="请输入四级类目名称" autoComplete="off" />
             )}
@@ -174,7 +174,7 @@ class Search extends BaseFilter {
         </Col>
         <Col {...this.colspans}>
           <FormItem
-            label="状态"
+            label="四级类目状态"
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 12 }}
           >
@@ -184,7 +184,7 @@ class Search extends BaseFilter {
                 placeholder="请选择状态"
                 className="select"
               >
-                <Option value={2}>禁用</Option>
+                <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
             )}

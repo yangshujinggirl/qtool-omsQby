@@ -8,24 +8,9 @@ const Columns = [
     render: (text, record, index) => <span>{text == 0 ? "禁用" : "启用"}</span>
   },
   {
-    title: "创建人",
-    dataIndex: "modifyBy",
-    key: "3",
-    render: (text, record, index) => (
-      <div>
-        <span>{record.modifyBy}</span>
-        <br />
-        <span>
-          {record.createTime &&
-            moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}
-        </span>
-      </div>
-    )
-  },
-  {
     title: "最后修改人",
     dataIndex: "modifyBy",
-    key: "4",
+    key: "3",
     render: (text, record, index) => (
       <div>
         <span>{record.modifyBy}</span>
@@ -39,7 +24,7 @@ const Columns = [
   },
   {
     title: "操作",
-    key: "action",
+    key: "5",
     render: (text, record, index) => (
       <div>
         <a className='theme-color' onClick={record.onOperateClick.bind(this)}>编辑</a>
