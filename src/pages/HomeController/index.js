@@ -56,7 +56,8 @@ class HomeController extends React.Component {
           }]
         }]
       }]
-      result = [...result,...ss];
+      // result = [...result,...ss];
+      result = [...result];
       this.setState({ menuList:result});
     })
   }

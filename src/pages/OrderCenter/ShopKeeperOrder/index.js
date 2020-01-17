@@ -9,7 +9,9 @@ class ShopKeeperOrder extends React.Component {
     super(props);
     this.state = {
       visible:false, 
-      inputValues: {},
+      inputValues: {
+        sourceCode:'QMANAGER'
+      },
       shopId:[]
     };
   }

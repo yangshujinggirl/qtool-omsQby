@@ -33,7 +33,6 @@ class AddSupplier extends React.Component {
     };
   }
   componentDidMount() {
-    console.log(this.props)
     const {id} = this.props.match.params;
     if(id){
       SupplierDetailApi({supplierId:id}).then(res=>{
@@ -98,7 +97,7 @@ class AddSupplier extends React.Component {
   return values
  }
   goBack = () => {
-    this.props.history.push("/account/supplierManage");
+    this.props.history.push("/account/supplier");
   };
   //账期类型变化的时候
   typeChange = e => {
@@ -216,7 +215,6 @@ class AddSupplier extends React.Component {
           </FormItem>
 
           <div className="handle-operate-save-action">
-            <Qbtn onClick={this.goBack}>返回</Qbtn>
             <Qbtn onClick={this.handleSubmit}>提交审核</Qbtn>
           </div>
         </Form>

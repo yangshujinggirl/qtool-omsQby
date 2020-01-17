@@ -53,13 +53,13 @@ class AddShop extends React.Component {
         delete values.businessHours;
         updataRuleApi({ id, ...values }).then(res => {
           message.success("保存成功");
-          this.props.history.push("/account/channelManage");
+          this.props.history.push("/account/channel");
         });
       }
     });
   };
   goBack = () => {
-    this.props.history.push("/account/channelManage");
+    this.props.history.push("/account/channel");
   };
   render() {
     const { infos } = this.state;
@@ -118,8 +118,8 @@ class AddShop extends React.Component {
             )}
           </Form.Item>
           <Form.Item label="C端App" {...formItemLayout}>
-            {getFieldDecorator("cappStatus", {
-              initialValue: infos.cappStatus,
+            {getFieldDecorator("customerAppStatus", {
+              initialValue: infos.customerAppStatus,
               rules: [{ required: true, message: "请选择" }]
             })(
               <Radio.Group>

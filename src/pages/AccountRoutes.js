@@ -29,11 +29,11 @@ import UnconfirmedOrder from "./OrderCenter/UnconfirmedOrder";
 import PurchaseOrder from "./OrderCenter/PurchaseOrder"; //采购单
 import PurchaseOrderAdd from "./OrderCenter/PurchaseOrder/PurchaseOrderAdd"; //采购单
 
-import Supplier from "./BaseGoodsCenter/Supplier";
+import Supplier from "./BaseGoodsCenter/Supplier";//供应商
 import SupplierAdd from "./BaseGoodsCenter/Supplier/SupplierAdd";
 import InvestmentManage from "./BaseGoodsCenter/InvestmentManage"; //招商管理
 import InvestmentManageInfo from "./BaseGoodsCenter/InvestmentManage/InvestmentManageInfo"; //招商信息
-import ShopManage from "./BaseGoodsCenter/ShopManage";
+import ShopManage from "./BaseGoodsCenter/ShopManage";//门店管理
 import AddShop from "./BaseGoodsCenter/ShopManage/AddShop";
 import SetShop from "./BaseGoodsCenter/ShopManage/SetShop";
 import SupplierManage from "./BaseGoodsCenter/SupplierManage";
@@ -51,7 +51,7 @@ class HomeRoutes extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/account/public" component={Public} />
+        {/* <Route exact path="/account/public" component={Public} /> */}
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
         <Route  path="/account/items_list" component={BaseGoods}/>
         <Route  path="/account/Bsite" component={Bgoods}/>
@@ -79,18 +79,18 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/orderBonded" component={TaxOrder}/>
         <Route  path="/account/productsIstation" component={Supplier}/>
         <Route  path="/account/supplierAdd/:id?" component={SupplierAdd}/>
-        <Route  path="/account/InvestmentManage" component={InvestmentManage}/>
+        <Route  path="/account/customer" component={InvestmentManage}/>
         <Route  path="/account/investmentInfo/:id" component={InvestmentManageInfo}/>
-        <Route  path="/account/channelManage" component={ShopManage}/>
+        <Route  path="/account/channel" component={ShopManage}/>
         <Route  path="/account/addShop/:id?" component={AddShop}/>
         <Route  path="/account/shopSet/:id?" component={SetShop}/>
-        <Route  path="/account/supplierManage" component={SupplierManage}/>
+        <Route  path="/account/supplier" component={SupplierManage}/>
         {/* <Route  path="/account/addSupplier/:id?" component={AddSupplier}/> */}
-        <Route  path="/account/addSupplier/" component={AddSupplier}/>
+        <Route  path="/account/addSupplier/:id?" component={AddSupplier}/>
         <Route  path="/account/purchaseOrder" component={PurchaseOrder}/>
         <Route  path="/account/purchaseAdd/:id?" component={PurchaseOrderAdd}/>
         <Route  path="/account/orderAgency" component={OrderAgency}/>
-        <Route path='/account/country_and_region' component={Country}/>
+        <Route exact path='/account/country_and_region' component={Country}/>
         <Route path='/account/items_examine' component={GoodsAudit}/>
         <Route component={NotFound}/>
       </Switch>

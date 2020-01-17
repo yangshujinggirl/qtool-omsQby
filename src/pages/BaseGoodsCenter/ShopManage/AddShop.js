@@ -39,21 +39,22 @@ class AddShop extends React.Component {
     if (id) {
       ShopInfosApi({ id }).then(res => {
         const { channelPic } = res.result;
-        const imgBox = channelPic&&channelPic.split(',');
+        const imgBox = channelPic && channelPic.split(",");
         const fileList = [];
-        imgBox&&imgBox.map(item=>{
-          const obj = {
-            uid: item,
-            name: "image.png",
-            status: "done",
-            url: item
-          };
-          fileList.push(obj)
-        });
+        imgBox &&
+          imgBox.map(item => {
+            const obj = {
+              uid: item,
+              name: "image.png",
+              status: "done",
+              url: item
+            };
+            fileList.push(obj);
+          });
         this.setState({
           infos: res.result,
           fileList,
-          checkValue:res.result.isSynchro
+          checkValue: res.result.isSynchro
         });
       });
     }
@@ -66,56 +67,55 @@ class AddShop extends React.Component {
       }
     });
   };
-  
-  formatValue=(values)=>{
-    const imgsBox = [];
-        this.state.fileList.map(item => {
-          if(item.response){
-            if (item.response.httpCode == "200") {
-              imgsBox.push(item.response.result);
-            };
-          }else{
-            imgsBox.push(item.url)
-          };
-        });
-        values.channelPic = imgsBox.join(",");
-        values.province = values.shopAddress[0];
-        values.city = values.shopAddress[1];
-        values.area = values.shopAddress[2];
-        if(this.state.checkValue){
-          values.shProvince = values.shopAddress[0];
-          values.shCity = values.shopAddress[1];
-          values.shArea = values.shopAddress[2];
-          values.shAddress = values.address;
-        }else{
-          values.shProvince = values.getGoodsAddress[0];
-          values.shCity = values.getGoodsAddress[1];
-          values.shAddress = values.getGoodsAddress[2];
-          delete values.getGoodsAddress
-        }
-        delete values.shopAddress
-  }
-  sendRequest=(values)=>{
-    const { id } = this.props.match.params;
-        if (!id) {
-          AddShopApi({ ...values }).then(res => {
-            message.success("保存成功");
-            this.props.history.push("/account/channelManage");
-          });
-        } else{
 
-          UpdateShopApi({ id, ...values }).then(res => {
-            message.success("保存成功");
-            this.props.history.push("/account/channelManage");
-          });
+  formatValue = values => {
+    const imgsBox = [];
+    this.state.fileList.map(item => {
+      if (item.response) {
+        if (item.response.httpCode == "200") {
+          imgsBox.push(item.response.result);
         }
-  }
+      } else {
+        imgsBox.push(item.url);
+      }
+    });
+    values.channelPic = imgsBox.join(",");
+    values.province = values.shopAddress[0];
+    values.city = values.shopAddress[1];
+    values.area = values.shopAddress[2];
+    if (this.state.checkValue) {
+      values.shProvince = values.shopAddress[0];
+      values.shCity = values.shopAddress[1];
+      values.shArea = values.shopAddress[2];
+      values.shAddress = values.address;
+    } else {
+      values.shProvince = values.getGoodsAddress[0];
+      values.shCity = values.getGoodsAddress[1];
+      values.shAddress = values.getGoodsAddress[2];
+      delete values.getGoodsAddress;
+    }
+    delete values.shopAddress;
+  };
+  sendRequest = values => {
+    const { id } = this.props.match.params;
+    if (!id) {
+      AddShopApi({ ...values }).then(res => {
+        message.success("保存成功");
+        this.props.history.push("/account/channel");
+      });
+    } else {
+      UpdateShopApi({ id, ...values }).then(res => {
+        message.success("保存成功");
+        this.props.history.push("/account/channel");
+      });
+    }
+  };
   updateFileList = fileList => {
     this.setState({ fileList });
   };
-  goBack = () => {
-    this.props.history.push("/account/channelManage");
-  };
+  // goBack = () => {
+  //   this.props.history.push("/account/channelManage");
+  // };
   onChange = e => {
     this.setState({
       checkValue: e.target.checked
@@ -144,21 +144,32 @@ class AddShop extends React.Component {
     return (
       <div className="oms-common-addEdit-pages">
         <Form {...formItemLayout}>
-          <Form.Item label="选择店主">
-            {getFieldDecorator("person", {
-              initialValue: infos.person,
-              rules: [{ required: true, message: "请选择" }]
-            })(
-              <Select disabled={Boolean(this.props.match.params.id)} placeholder="请选择" allowClear={true}>
-                {shopLists &&
-                  shopLists.map(item => (
-                    <Option key={item.id} value={item.id}>
-                      {item.name}
-                    </Option>
-                  ))}
-              </Select>
-            )}
-          </Form.Item>
+          {!this.props.match.params.id ? (
+            <Form.Item label="选择店主">
+              {getFieldDecorator("person", {
+                initialValue: infos.person,
+                rules: [{ required: true, message: "请选择" }]
+              })(
+                <Select
+                  disabled={Boolean(this.props.match.params.id)}
+                  placeholder="请选择"
+                  allowClear={true}
+                >
+                  {shopLists &&
+                    shopLists.map(item => (
+                      <Option key={item.id} value={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                </Select>
+              )}
+            </Form.Item>
+          ) : (
+            <Form.Item label="选择店主">
+              <Input value={infos.personName} disabled />
+            </Form.Item>
+          )}
+
           <Form.Item label="门店编码">
             {getFieldDecorator("channelCode", {
               initialValue: infos.channelCode,
@@ -254,7 +265,7 @@ class AddShop extends React.Component {
           </Form.Item>
           <Form.Item label="客服电话">
             {getFieldDecorator("servicePhone", {
-              initialValue: infos.servicePhone,
+              initialValue: infos.servicePhone
             })(<Input placeholder="请输入客服电话" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="门店备注">
@@ -266,22 +277,18 @@ class AddShop extends React.Component {
           <Form.Item label="经度">
             {getFieldDecorator("warp", {
               initialValue: infos.warp,
-              rules: [
-                { validator: this.validatorLat }
-              ]
+              rules: [{ validator: this.validatorLat }]
             })(<Input placeholder="请输入经度" autoComplete="off" />)}
           </Form.Item>
           <Form.Item label="纬度">
             {getFieldDecorator("weft", {
               initialValue: infos.weft,
-              rules: [
-                { validator: this.validatorLng }
-              ]
+              rules: [{ validator: this.validatorLng }]
             })(<Input placeholder="请输入纬度" autoComplete="off" />)}
           </Form.Item>
 
           <div className="handle-operate-save-action">
-            <Qbtn onClick={this.goBack}>返回</Qbtn>
+            {/* <Qbtn onClick={this.goBack}>返回</Qbtn> */}
             <Qbtn onClick={this.handleSubmit}>保存</Qbtn>
           </div>
         </Form>

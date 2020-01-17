@@ -35,8 +35,8 @@ const Columns = [
         <a onClick={()=>record.onOperateClick(1)}>审核</a>
       ) : record.cooperationStatus == 1 ? (
         <div>
-          {/* <Link to={`/account/addSupplier/${record.id}`}>修改</Link>　 */}
-          <Link to={`/account/addSupplier/search?id=${record.id}`}>修改</Link>　
+          <Link to={`/account/addSupplier/${record.id}`}>修改</Link>　
+          {/* <Link to={`/account/addSupplier/search?id=${record.id}`}>修改</Link>　 */}
           <a onClick={()=>record.onOperateClick(3)}>停止合作</a>
         </div>
       ) : (

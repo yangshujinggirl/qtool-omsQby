@@ -134,12 +134,12 @@ class Search extends BaseFilter {
   }
 }
 const SearchForm = Form.create({
-  mapPropsToFields(props) {
-    return {
-      channelCode: Form.createFormField({
-        value: props.shopId,
-      }),
-    };
-  },
+  // mapPropsToFields(props) {
+  //   return {
+  //     channelCode: Form.createFormField({
+  //       value: props.shopId,
+  //     }),
+  //   };
+  // },
 })(Search);
 export default SearchForm;

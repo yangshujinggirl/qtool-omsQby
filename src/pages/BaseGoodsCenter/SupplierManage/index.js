@@ -67,7 +67,7 @@ class SupplierManage  extends React.Component {
           </Link>
         </div>
         <Qtable columns={Columns} onOperateClick={this.handleOperation} dataSource={tableLists} />
-        <Qpagination data={this.props} onOperateClick={this.changePage} />
+        <Qpagination data={this.props} onChange={this.changePage} />
       </div>
     );
   }

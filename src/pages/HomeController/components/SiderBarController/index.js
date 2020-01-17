@@ -30,8 +30,8 @@ class SiderBarController extends React.Component {
           <img src={menuLogo}/>
         </div>
         <Menu
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          defaultSelectedKeys={['62b4f36e9e554357ac59172b0c89f2350']}
+          defaultOpenKeys={['0a4167e8a15a43c1ab9f11ea505f58bf','c280e4fa579d4fc4bdf5773ccbcacc1d0']}
           mode="inline"
           theme="dark"
           style={{ height: '100%', borderRight: 0 }}
@@ -54,6 +54,7 @@ class SiderBarController extends React.Component {
                       </Menu.Item>
                     } else {
                       return <SubMenu
+                        data-animal-type={`${item.id}${idx}`}
                         key={`${item.id}${idx}`}
                         title={item.name}>
                           {

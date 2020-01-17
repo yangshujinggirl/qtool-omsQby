@@ -22,7 +22,7 @@ class Login extends Component {
       // Sessions.set('name', urUser.name);
       // Sessions.set('adminType', urUser.adminType);
       // Sessions.set('wsName', urUser.wsName);
-      this.props.history.push('/account/public')
+      this.props.history.push('/account/country_and_region')
     },err=> {
       console.log(err)
     })

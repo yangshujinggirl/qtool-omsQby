@@ -26,11 +26,11 @@ class StoreAdd extends React.Component {
     };
   }
   componentDidMount() {
-    const warehouseCode = this.props.match.params.id;
-    if (warehouseCode) {
-      storeInfoApi({ warehouseCode }).then(res => {
+    const {id} = this.props.match.params;
+    if (id) {
+      storeInfoApi({ id }).then(res => {
         this.setState({
-          infos: res.result
+          infos: res.result||{}
         });
       });
     }
@@ -95,7 +95,7 @@ class StoreAdd extends React.Component {
               initialValue: infos.warehouseType
             })(
               <Radio.Group>
-                <Radio value={1}>大仓</Radio>
+                <Radio value={1}>公司仓</Radio>
                 <Radio value={2}>门店仓</Radio>
                 <Radio value={3}>保税仓</Radio>
               </Radio.Group>

@@ -37,23 +37,23 @@ const Columns = [
     title: "最后操作人",
     dataIndex: "modifyBy",
   },
-  {
-    title: "操作",
-    render: (text,record,index) => (
-      <div>
-        <Link
-          className="link-color action-left"
-          to={`/account/baseGoodsInfo/${record.spuCode}`}>
-          查看
-        </Link>
-        <Link
-          className="link-color"
-          to={`/account/baseGoodsAdd/${record.spuCode}`}>
-          编辑
-        </Link>
-      </div>
-    )
-  }
+  // {
+  //   title: "操作",
+  //   render: (text,record,index) => (
+  //     <div>
+  //       <Link
+  //         className="link-color action-left"
+  //         to={`/account/baseGoodsInfo/${record.spuCode}`}>
+  //         查看
+  //       </Link>
+  //       <Link
+  //         className="link-color"
+  //         to={`/account/baseGoodsAdd/${record.spuCode}`}>
+  //         编辑
+  //       </Link>
+  //     </div>
+  //   )
+  // }
 ];
 const columnsAdd=(form)=> {
   return [

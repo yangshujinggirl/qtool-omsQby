@@ -25,9 +25,9 @@ class Search extends BaseFilter {
               <FormItem label="营业状态" {...this.formItemLayout}>
                 {getFieldDecorator("channelStatus")(
                   <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>待开业</Option>
-                    <Option value={2}>营业中</Option>
-                    <Option value={3}>已关店</Option>
+                    <Option value={1}>开业中</Option>
+                    <Option value={2}>待开业</Option>
+                    <Option value={3}>关业中</Option>
                   </Select>
                 )}
               </FormItem>

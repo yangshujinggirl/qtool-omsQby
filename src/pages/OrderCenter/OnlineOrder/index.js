@@ -9,7 +9,9 @@ class OnlineOrder extends React.Component {
     super(props);
     this.state = {
       visible:false, 
-      inputValues: {},
+      inputValues: {
+        sourceCode:'QIOS,QANDROID,QWCHAT'
+      },
       shopId:[]
     };
   }

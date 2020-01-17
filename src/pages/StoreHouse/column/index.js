@@ -40,7 +40,7 @@ const Columns = [
     dataIndex: "",
     key: "6",
     render: (text, record, index) => {
-      return <Link to={`/account/storeAdd/${record.warehouseCode}`}>修改</Link>
+      return <Link to={`/account/storeAdd/${record.id}`}>修改</Link>
     }
   }
 ];

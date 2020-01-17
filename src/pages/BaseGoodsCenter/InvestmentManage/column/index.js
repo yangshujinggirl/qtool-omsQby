@@ -31,27 +31,27 @@ const columns = [
       }</div>
     }
   },
-  {
-    title: "操作",
-    dataIndex: "action",
-    render:(text,record,index)=>{
-      return <div className="handle-action">
-          {
-            (record.status!=4&&record.status!=7)&&
-            <span className="handle-btn-item" type="primary" onClick={()=>record.onOperateClick('upload')}>上传合同</span>
-          }
-          {
-            record.status!=7&&
-            <span className="handle-btn-item" type="primary" onClick={()=>record.onOperateClick('editRecord')}>添加记录</span>
-          }
-          <Link className="handle-btn-item" to={`/account/investmentInfo/${record.id}`}>查看</Link>
-          {
-            (record.status==3||record.status==6)&&
-            <span className="handle-btn-item" type="primary" onClick={()=>record.onOperateClick('audit')}>审核</span>
-          }
-        </div>
-    }
-  }
+  // {
+  //   title: "操作",
+  //   dataIndex: "action",
+  //   render:(text,record,index)=>{
+  //     return <div className="handle-action">
+  //         {
+  //           (record.status!=4&&record.status!=7)&&
+  //           <span className="handle-btn-item" type="primary" onClick={()=>record.onOperateClick('upload')}>上传合同</span>
+  //         }
+  //         {
+  //           record.status!=7&&
+  //           <span className="handle-btn-item" type="primary" onClick={()=>record.onOperateClick('editRecord')}>添加记录</span>
+  //         }
+  //         <Link className="handle-btn-item" to={`/account/investmentInfo/${record.id}`}>查看</Link>
+  //         {
+  //           (record.status==3||record.status==6)&&
+  //           <span className="handle-btn-item" type="primary" onClick={()=>record.onOperateClick('audit')}>审核</span>
+  //         }
+  //       </div>
+  //   }
+  // }
 ];
 const columnsInfo=[
   {
