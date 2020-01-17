@@ -6,6 +6,7 @@ import {
   storeInfoApi
 } from "api/home/StoreHouse";
 import { Qbtn } from "common";
+import {deBounce} from 'common/tools'
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -34,7 +35,7 @@ class StoreAdd extends React.Component {
       });
     }
   }
-  handleSubmit = () => {
+  handleSubmit =deBounce( () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       console.log(values)
       if (!err) {
@@ -52,14 +53,14 @@ class StoreAdd extends React.Component {
         }
       }
     });
-  };
-  onSearch = searchText => {
+  },500);
+  onSearch = deBounce(searchText => {
     GetShopListApi({ channelName: searchText }).then(res => {
       this.setState({
         dataSource: res.result || []
       });
     });
-  };
+  },500);
   onSelect = () => {};
   goBack = () => {
     this.props.history.push("/account/wareHouseManage");
@@ -100,7 +101,7 @@ class StoreAdd extends React.Component {
               </Radio.Group>
             )}
           </Form.Item>
-          <Form.Item label="门店">
+          {/* <Form.Item label="门店">
             {getFieldDecorator("channelCode", {
               rules: [{ required: true, message: "请选择门店" }],
               initialValue:"1"
@@ -114,7 +115,7 @@ class StoreAdd extends React.Component {
                 placeholder="搜索门店"
               />
             )}
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="仓库介绍">
             {getFieldDecorator("remark", {
               initialValue: infos.remark

@@ -1,15 +1,26 @@
 import { Form, Input, Select, Row, Col, DatePicker } from "antd";
 import { BaseFilter, Qbtn } from "common";
+import moment from 'moment'
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
 class Search extends BaseFilter {
   constructor(props) {
     super(props);
   }
+  handleSubmit=()=>{
+    this.props.form.validateFields((err,values)=>{
+      const {time,..._values} = values;
+      if(time&&time[0]){
+        _values.stime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
+        _values.etime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss')
+      };
+      this.props.onSubmit(_values)
+    })
+  }
   render() {
     const { shopId } = this.props;
-    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="qtoolOms-condition">

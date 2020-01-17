@@ -58,6 +58,8 @@ class index extends React.Component {
           visible={visible}
           onCancel={onCancel}
           onOk={this.onOK}
+          cancelText='取消'
+          okText='确定'
         >
           <FilterForm handleSubmit={this.handleSubmit} />
           <Qtable

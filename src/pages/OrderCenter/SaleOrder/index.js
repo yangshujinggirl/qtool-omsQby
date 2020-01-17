@@ -24,12 +24,7 @@ class SaleOrder extends React.Component {
   };
   //搜索列表
   searchData = values => {
-    const {time,..._values} = values;
-    if(time && time[0]){
-      _values.stime = moment(time[0].format('YYYY-MM-DD HH:mm:ss'));
-      _values.etime = moment(time[1].format('YYYY-MM-DD HH:mm:ss'));
-    };
-    const params = { ...this.state.inputValues, ..._values };
+    const params = { ...this.state.inputValues, ...values };
     this.props.dispatch({
       type: "saleOrder/fetchList",
       payload: params

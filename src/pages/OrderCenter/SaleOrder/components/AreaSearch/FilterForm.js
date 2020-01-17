@@ -48,7 +48,7 @@ class FilterForm extends Component {
             <Col span={6}>
               <Form.Item {...formLayout}>
                 {getFieldDecorator("provinceCode")(
-                  <Select placeholder="请选择">
+                  <Select allowClear={true} placeholder="请选择">
                     {areaList.map(item => (
                       <Select.Option key={item.pCode} value={item.pCode}>
                         {item.pName}

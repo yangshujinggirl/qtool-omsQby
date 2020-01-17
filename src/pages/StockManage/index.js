@@ -54,11 +54,11 @@ class StockManage extends React.Component {
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
-        <div className="handle-operate-btn-action">
+        {/* <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={this.export}>
             导出
           </Qbtn>
-        </div>
+        </div> */}
         <Qtable columns={Columns} dataSource={tableLists} />
         <Qpagination data={this.props} onChange={this.changePage} />
       </div>

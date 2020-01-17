@@ -126,6 +126,7 @@ const SearchForm = Form.create({
   mapPropsToFields(props) {
     return {
       channelCode: Form.createFormField({
+        ...props.shopId,
         value: props.shopId,
       }),
     };
