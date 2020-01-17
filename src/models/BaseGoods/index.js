@@ -4,11 +4,13 @@ import { GetGoodsApi } from "api/home/BaseGoods";
 //-----watcher saga
 function* getTabsList(action) {
   let params = action.payload;
+  if(!params.everyPage) {
+    params.everyPage = 15;
+  }
   const res= yield call(GetGoodsApi,params);
   let { resultList, everyPage, currentPage, totalCount } =res.result;
   resultList && resultList.map(item => {
     item.key = item.id;
-    item.list.map((subItem, index) => (subItem.key = index));
   })
   yield put({
     type: 'BASEGOODS_TABLELIST',

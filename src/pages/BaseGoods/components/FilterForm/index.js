@@ -48,13 +48,6 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="货主" {...this.formItemLayout}>
-                {getFieldDecorator("supplierName")(
-                  <Input placeholder="请输入货主" autoComplete="off" />
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
               <FormItem label="spu编码" {...this.formItemLayout}>
                 {getFieldDecorator("spuCode")(
                   <Input placeholder="请输入spu编码" autoComplete="off" />
@@ -108,43 +101,11 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="商品种类" {...this.formItemLayout}>
-                {getFieldDecorator("productNature")(
-                  <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>普通商品</Option>
-                    <Option value={2}>跨境商品</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
               <FormItem label="商品类型" {...this.formItemLayout}>
                 {getFieldDecorator("productType")(
                   <Select placeholder="请选择" allowClear={true}>
                     <Option value={1}>普通商品</Option>
                     <Option value={2}>赠品</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
-              <FormItem label="发货方式" {...this.formItemLayout}>
-                {getFieldDecorator("sendType")(
-                  <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>系统发货</Option>
-                    <Option value={2}>供应商发货</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
-              <FormItem label="审核状态" {...this.formItemLayout}>
-                {getFieldDecorator("status")(
-                  <Select placeholder="请选择" allowClear={true}>
-                    <Option value={0}>待提交</Option>
-                    <Option value={1}>待审核</Option>
-                    <Option value={2}>审核不通过</Option>
-                    <Option value={3}>审核通过</Option>
                   </Select>
                 )}
               </FormItem>

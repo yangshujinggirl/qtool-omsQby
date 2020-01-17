@@ -5,18 +5,18 @@ import {
   GetSupplierApi
 } from "../../api/home/BaseGoods";
 
+//属性--商品
+function* getSpec(action){
+  yield put({
+    type: 'BASEGOODSADD_SPEC',
+    payload: action.payload
+  })
+}
 //图片
 function* getFileListState(action){
   yield put({
     type: 'BASEGOODSADD_FILELIST',
     payload: {fileList:action.payload}
-  })
-}
-//详情
-function* getAttrubteState(action){
-  yield put({
-    type: 'BASEGOODSADD_ATTRUBTELIST',
-    payload: action.payload
   })
 }
 //详情
@@ -32,24 +32,23 @@ function* fetchTotal(action){
   let params = action.payload;
   const res = yield call(GetEditInfoApi,params);
   let { result } =res;
-  let { omsCategoryPropertyDto } =result;
-  result={ ...result, ...omsCategoryPropertyDto };
+  let { categoryDetail, list } =result;
+  result={ ...result, ...categoryDetail };
   yield call(getTotalState,{payload:result})
-  const [levelTwo,levelThr,levelFour,attributeList] = yield all([
-    call(GetCategoryApi,{level:'2',parentId:omsCategoryPropertyDto.categoryId}),
-    call(GetCategoryApi,{level:'3',parentId:omsCategoryPropertyDto.secondCategoryId}),
-    call(GetCategoryApi,{level:'4',parentId:omsCategoryPropertyDto.thirdCategoryId}),
+  const [levelTwo,levelThr,levelFour] = yield all([
+    call(GetCategoryApi,{level:'2',parentId:categoryDetail.categoryId}),
+    call(GetCategoryApi,{level:'3',parentId:categoryDetail.categoryId2}),
+    call(GetCategoryApi,{level:'4',parentId:categoryDetail.categoryId3}),
   ])
-  // yield call(fetchAttribute,{payload:omsCategoryPropertyDto.fourCategoryId})
   const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
   yield put({
     type: 'BASEGOODSADD_CATEGORY',
     payload: {
       categoryData:{
         categoryLevelOne:categoryData.categoryLevelOne,
-        categoryLevelTwo:levelTwo.result,
-        categoryLevelThr:levelThr.result,
-        categoryLevelFour:levelFour.result,
+        categoryLevelTwo:levelTwo.result?levelTwo.result:[],
+        categoryLevelThr:levelThr.result?levelThr.result:[],
+        categoryLevelFour:levelFour.result?levelFour.result:[],
         isLevelTwo:false,
         isLevelThr:false,
         isLevelFour:false
@@ -82,6 +81,7 @@ function* fetchCategory(action){
       isLevelTwo=false;
       isLevelThr=true;
       isLevelFour=true;
+      totalData.categoryCode = parentId;
       totalData.categoryCode2=undefined;
       totalData.categoryCode3=undefined;
       totalData.categoryCode4=undefined;
@@ -91,17 +91,19 @@ function* fetchCategory(action){
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=true;
+      totalData.categoryCode2 = parentId;
       totalData.categoryCode3=undefined;
       totalData.categoryCode4=undefined;
       break;
     case 4:
+      totalData.categoryCode3 = parentId;
       categoryLevelFour = result
       isLevelTwo=false;
       isLevelThr=false;
       isLevelFour=false;
       break;
   }
-  console.log(totalData)
+  // console.log('action')
   yield put({
     type: 'BASEGOODSADD_TOTALDATA',
     payload: {totalData}
@@ -128,7 +130,7 @@ function* fetchAttribute(action){
   let { result } =res;
   result=result?result:[]
   result.length>0&&result.map((el)=>el.key =el.attributeId);
-  // console.log(result)
+  // console.log('action')
   yield put({
     type: 'BASEGOODSADD_ATTRUBTEARRAY',
     payload: {attributeArray:result}
@@ -168,9 +170,12 @@ function* resetPages(action){
     brandDataSource:[],
     totalData:{},
     supplierList:[],
-    fileList:[],
     attrubteArray:[],//规格
-    attributeList:[],//规格
+    goodsList:[{key:'00'}],
+    specData:{
+      specOne:[],
+      specTwo:[],
+    },
     categoryData:{
       categoryLevelOne:[],
       categoryLevelTwo:[],
@@ -196,5 +201,5 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
   yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
-  yield takeEvery('baseGoodsAdd/getAttrubteList', getAttrubteState)
+  yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

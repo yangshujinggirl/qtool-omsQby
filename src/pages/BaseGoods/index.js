@@ -1,7 +1,7 @@
 import { Table, Spin, Button } from "antd";
 import { connect } from 'react-redux';
 import FilterForm from "./components/FilterForm";
-import { QsubTable, Qpagination, QbyConnect, Qbtn} from "common";
+import { QsubTable, Qpagination, QbyConnect, Qbtn, Qtable} from "common";
 import * as Actions from "./actions/actionsIndex";
 import { Columns, Columns1 } from "./column";
 import PassModal from "./components/PassModal";
@@ -30,7 +30,6 @@ class BaseGoods extends React.Component {
       type:'baseGoods/fetchList',
       payload:this.state.inputValues
     })
-    // this.props.actions.getGoodsList({ ...this.state.inputValues });
   };
   //审核取消
   onCancel = resetFields => {
@@ -66,7 +65,6 @@ class BaseGoods extends React.Component {
       ..._values
     } = values;
     const params = {productNature,productType,sendType,status,currentPage,..._values}
-    // this.props.actions.getGoodsList(params);
     this.props.dispatch({
       type:'baseGoods/fetchList',
       payload:params
@@ -74,11 +72,6 @@ class BaseGoods extends React.Component {
     this.setState({inputValues: params});
   };
   changePage = (currentPage, everyPage) => {
-    // this.props.actions.getGoodsList({
-    //   ...this.state.inputValues,
-    //   currentPage,
-    //   everyPage
-    // });
     this.props.dispatch({
       type:'baseGoods/fetchList',
       payload:{
@@ -89,11 +82,6 @@ class BaseGoods extends React.Component {
     })
   };
   onShowSizeChange = (currentPage, everyPage) => {
-    // this.props.actions.getGoodsList({
-    //   ...this.state.inputValues,
-    //   currentPage,
-    //   everyPage
-    // });
     this.props.dispatch({
       type:'baseGoods/fetchList',
       payload:{
@@ -141,11 +129,9 @@ class BaseGoods extends React.Component {
             <Qbtn size="free">新建跨境品</Qbtn>
             <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
           </div>
-          <QsubTable
-            parColumns={Columns}
-            subColumns={Columns1}
-            parList={goodLists}
-            subList="list"
+          <Qtable
+            columns={Columns}
+            dataSource={goodLists}
             onOperateClick={this.handleOperateClick}
           />
           <Qpagination
