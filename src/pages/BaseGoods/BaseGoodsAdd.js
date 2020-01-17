@@ -331,8 +331,8 @@ class BaseGoodsAdd extends React.Component {
                 )}
               </Form.Item>
               <Form.Item label="一级类目">
-                {getFieldDecorator('categoryCode', {
-                  initialValue:totalData.categoryCode,
+                {getFieldDecorator('categoryId', {
+                  initialValue:totalData.categoryId,
                   rules: [{ required: true, message: '请选择一级类目'}],
                   onChange:(select)=>this.handleChangeLevel(1,select)
                 })(
@@ -346,8 +346,8 @@ class BaseGoodsAdd extends React.Component {
                 )}
               </Form.Item>
               <Form.Item label="二级类目">
-                {getFieldDecorator('categoryCode2', {
-                  initialValue:totalData.categoryCode2,
+                {getFieldDecorator('categoryId2', {
+                  initialValue:totalData.categoryId2,
                   rules: [{ required: true, message: '请选择二级类目'}],
                   onChange:(select)=>this.handleChangeLevel(2,select)
                 })(
@@ -361,8 +361,8 @@ class BaseGoodsAdd extends React.Component {
                 )}
               </Form.Item>
               <Form.Item label="三级类目">
-                {getFieldDecorator('categoryCode3', {
-                  initialValue:totalData.categoryCode3,
+                {getFieldDecorator('categoryId3', {
+                  initialValue:totalData.categoryId3,
                   rules: [{ required: true, message: '请选择三级类目'}],
                   onChange:(select)=>this.handleChangeLevel(3,select)
                 })(
@@ -376,8 +376,8 @@ class BaseGoodsAdd extends React.Component {
                 )}
               </Form.Item>
               <Form.Item label="四级类目">
-                {getFieldDecorator('categoryCode4', {
-                  initialValue:totalData.categoryCode4,
+                {getFieldDecorator('categoryId4', {
+                  initialValue:totalData.categoryId4,
                   rules: [{ required: true, message: '请选择四级类目'}],
                   onChange:(select)=>this.handleChangeLevel4(select)
                 })(

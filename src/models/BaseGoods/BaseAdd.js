@@ -20,13 +20,6 @@ function* getFileListState(action){
   })
 }
 //详情
-function* getAttrubteState(action){
-  yield put({
-    type: 'BASEGOODSADD_ATTRUBTELIST',
-    payload: action.payload
-  })
-}
-//详情
 function* getTotalState(action){
   let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
   totalData={...totalData,...action.payload};
@@ -39,24 +32,23 @@ function* fetchTotal(action){
   let params = action.payload;
   const res = yield call(GetEditInfoApi,params);
   let { result } =res;
-  let { omsCategoryPropertyDto } =result;
-  result={ ...result, ...omsCategoryPropertyDto };
+  let { categoryDetail, list } =result;
+  result={ ...result, ...categoryDetail };
   yield call(getTotalState,{payload:result})
-  const [levelTwo,levelThr,levelFour,attributeList] = yield all([
-    call(GetCategoryApi,{level:'2',parentId:omsCategoryPropertyDto.categoryId}),
-    call(GetCategoryApi,{level:'3',parentId:omsCategoryPropertyDto.secondCategoryId}),
-    call(GetCategoryApi,{level:'4',parentId:omsCategoryPropertyDto.thirdCategoryId}),
+  const [levelTwo,levelThr,levelFour] = yield all([
+    call(GetCategoryApi,{level:'2',parentId:categoryDetail.categoryId}),
+    call(GetCategoryApi,{level:'3',parentId:categoryDetail.categoryId2}),
+    call(GetCategoryApi,{level:'4',parentId:categoryDetail.categoryId3}),
   ])
-  // yield call(fetchAttribute,{payload:omsCategoryPropertyDto.fourCategoryId})
   const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
   yield put({
     type: 'BASEGOODSADD_CATEGORY',
     payload: {
       categoryData:{
         categoryLevelOne:categoryData.categoryLevelOne,
-        categoryLevelTwo:levelTwo.result,
-        categoryLevelThr:levelThr.result,
-        categoryLevelFour:levelFour.result,
+        categoryLevelTwo:levelTwo.result?levelTwo.result:[],
+        categoryLevelThr:levelThr.result?levelThr.result:[],
+        categoryLevelFour:levelFour.result?levelFour.result:[],
         isLevelTwo:false,
         isLevelThr:false,
         isLevelFour:false
@@ -206,6 +198,5 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
   yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
-  yield takeEvery('baseGoodsAdd/getAttrubteList', getAttrubteState)
   yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

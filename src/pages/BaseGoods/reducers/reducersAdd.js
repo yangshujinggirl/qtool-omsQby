@@ -35,8 +35,6 @@ const index = (state = {
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_SPEC":
       return { ...state,loading: false,...action.payload };
-    case "BASEGOODSADD_ATTRUBTELIST":
-      return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_ATTRUBTEARRAY":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":
