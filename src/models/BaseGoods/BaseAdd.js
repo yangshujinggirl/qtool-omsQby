@@ -170,9 +170,12 @@ function* resetPages(action){
     brandDataSource:[],
     totalData:{},
     supplierList:[],
-    fileList:[],
     attrubteArray:[],//规格
-    attributeList:[],//规格
+    goodsList:[{key:'00'}],
+    specData:{
+      specOne:[],
+      specTwo:[],
+    },
     categoryData:{
       categoryLevelOne:[],
       categoryLevelTwo:[],

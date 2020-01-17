@@ -3,7 +3,6 @@ const index = (state = {
   brandDataSource:[],
   totalData:{},
   supplierList:[],
-  fileList:[],
   goodsList:[{key:'00'}],//商品数据
   attributeArray:[],//规格列表
   // sizeIdList:{//商品规格id
@@ -14,7 +13,6 @@ const index = (state = {
     specOne:[],
     specTwo:[],
   },
-  pdSkus:[{key:'00'}],
   categoryData:{
     categoryLevelOne:[],
     categoryLevelTwo:[],
@@ -31,8 +29,6 @@ const index = (state = {
         ...state,
         loading: true
       };
-    case "BASEGOODSADD_FILELIST":
-      return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_SPEC":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_ATTRUBTEARRAY":

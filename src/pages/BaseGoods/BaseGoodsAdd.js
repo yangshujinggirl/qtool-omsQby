@@ -236,6 +236,9 @@ class BaseGoodsAdd extends React.Component {
       }
     })
   }
+  goReturn=()=> {
+    this.props.history.push('/account/items_list')
+  }
   render() {
     const { sizeIdList, attributeArray, categoryData,goodsList,
       supplierList, attributeList, totalData, brandDataSource,
@@ -560,11 +563,14 @@ class BaseGoodsAdd extends React.Component {
               </Form.Item>
             </div>
             <div className="handle-operate-save-action">
-              <Qbtn>
+              <Qbtn onClick={this.goReturn}>
                 返回
               </Qbtn>
               <Qbtn onClick={this.submit}>
                 保存
+              </Qbtn>
+              <Qbtn size="free" onClick={this.submit}>
+                保存并提交审核
               </Qbtn>
             </div>
           </Form>
