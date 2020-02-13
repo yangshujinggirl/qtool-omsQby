@@ -56,7 +56,7 @@ class HomeRoutes extends React.Component {
       <Switch>
         {/* <Route exact path="/account/public" component={Public} /> */}
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
-        <Route  path="/account/items_list" component={BaseGoods}/>
+        <Route  path="/account/items_baseGoods" component={BaseGoods}/>
         <Route  path="/account/bGoods" component={Bgoods}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>

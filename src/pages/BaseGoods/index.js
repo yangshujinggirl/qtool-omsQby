@@ -124,11 +124,11 @@ class BaseGoods extends React.Component {
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
-          {/* <div className="handle-operate-btn-action">
+          <div className="handle-operate-btn-action">
             <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
             <Qbtn size="free">新建跨境品</Qbtn>
             <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
-          </div> */}
+          </div>
           <Qtable
             columns={Columns}
             dataSource={goodLists}

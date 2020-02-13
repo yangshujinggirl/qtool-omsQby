@@ -48,16 +48,23 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="spu编码" {...this.formItemLayout}>
+              <FormItem label="SPU编码" {...this.formItemLayout}>
                 {getFieldDecorator("spuCode")(
                   <Input placeholder="请输入spu编码" autoComplete="off" />
                 )}
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="sku编码" {...this.formItemLayout}>
+              <FormItem label="SKU编码" {...this.formItemLayout}>
                 {getFieldDecorator("skuCode")(
                   <Input placeholder="请输入sku编码" autoComplete="off" />
+                )}
+              </FormItem>
+            </Col>
+            <Col {...this.colspans}>
+              <FormItem label="商品条码" {...this.formItemLayout}>
+                {getFieldDecorator("productName")(
+                  <Input placeholder="请输入商品品牌" autoComplete="off" />
                 )}
               </FormItem>
             </Col>

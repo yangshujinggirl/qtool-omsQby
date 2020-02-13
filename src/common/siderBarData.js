@@ -48,6 +48,13 @@ const menu = [{
                     "action":"items_examine",
                     "cls":null,
                     "subActions":null
+                },
+                {
+                    "id":"6f9e38cdc4fa4d539b728147cc6fcbc2",
+                    "name":"基础商品",
+                    "action":"items_baseGoods",
+                    "cls":null,
+                    "subActions":null
                 }
             ]
         },{
