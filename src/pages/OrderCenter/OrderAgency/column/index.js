@@ -1,4 +1,3 @@
-
 const Columns = [
   {
     title: "渠道",
@@ -43,12 +42,12 @@ const Columns = [
   {
     title: "收货地址",
     dataIndex: "address",
-    key: "10",
+    key: "10"
   },
   {
     title: "商品单价",
     dataIndex: "price",
-    key: "11",
+    key: "11"
   },
   {
     title: "数量",
@@ -59,9 +58,11 @@ const Columns = [
     title: "操作",
     dataIndex: "createTime",
     key: "13",
-    render: text => {
-      return <a className='theme-color' onClick={()=>record.onOperateClick()}>发货</a>;
-    }
+    render: (text, record, index) => (
+      <a className="theme-color" onClick={() => record.onOperateClick()}>
+        发货
+      </a>
+    )
   }
 ];
 

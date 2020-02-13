@@ -15,10 +15,11 @@ import 'antd/dist/antd.less';
 import './common/common.less';//reset,公共样式 /
 import './common/commonOperation.less';//公共业务样式
 import { Sessions } from 'utils';
-
 import rootReducer from './reducers';
 import Login from './pages/Login';
 import HomeController from './pages/HomeController';
+import zhCN from 'antd/es/locale/zh_CN';
+import {ConfigProvider } from 'antd'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware=createSagaMiddleware();
@@ -29,6 +30,7 @@ const store = createStore(
 sagaMiddleware.run(helloSaga);
 // const store = createStore(rootReducer,applyMiddleware(thunkMiddleware,createLogger()));
 ReactDOM.render(
+  <ConfigProvider locale={zhCN}>
   <Provider store={store}>
     <Router>
       <Route path="/" render={({location})=>{
@@ -51,6 +53,8 @@ ReactDOM.render(
         }
       }}/>
     </Router>
-  </Provider>,
+  </Provider>
+  </ConfigProvider>
+  ,
   document.getElementById('root')
 );

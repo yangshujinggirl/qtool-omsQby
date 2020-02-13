@@ -1,8 +1,8 @@
 import { Qtable, Qpagination, Qbtn } from "common";
 import FilterForm from "./components/FilterForm";
-import { GetListApi } from "api/home/OrderCenter/OrderAgency";
+import { GetListApi,sendGoodsApi } from "api/home/OrderCenter/OrderAgency";
 import Columns from "./column";
-import ExportApi from "api/Export";
+// import ExportApi from "api/Export";
 import AgencyOrder from './components/AgencyOrder'
 class OrderAgency extends React.Component {
   constructor(props) {
@@ -76,6 +76,14 @@ class OrderAgency extends React.Component {
       visible:false
     })
   }
+  handleOperateClick=(record)=>{
+    const {orderDetailNo,carrier,trackingNumber,orderStatus,purchaseNo} = record;
+    sendGoodsApi({orderDetailNo,carrier,trackingNumber,orderStatus,purchaseNo}).then(res=>{
+      if(res.httpCode == 200){
+
+      }
+    })
+  }
   render() {
     const {
       tableList,
@@ -91,9 +99,9 @@ class OrderAgency extends React.Component {
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Qbtn size="free" onClick={this.export}>
+          {/* <Qbtn size="free" onClick={this.export}>
             全部导出
-          </Qbtn>
+          </Qbtn> */}
           <Qbtn size="free" onClick={this.getOrder}>
             生成代发采购单
           </Qbtn>
@@ -103,6 +111,7 @@ class OrderAgency extends React.Component {
           select={true}
           columns={Columns}
           dataSource={tableList}
+          onOperateClick={this.handleOperateClick}
         />
         <Qpagination data={PagesParams} onChange={this.changePage} />
         {

@@ -1,24 +1,32 @@
 import { Form, Input, Select, Row, Col, DatePicker } from "antd";
 import { BaseFilter, Qbtn } from "common";
-import moment from 'moment'
+import moment from "moment";
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+import _ from 'lodash'
 
 class Search extends BaseFilter {
   constructor(props) {
     super(props);
   }
-  handleSubmit=()=>{
-    this.props.form.validateFields((err,values)=>{
-      const {time,..._values} = values;
-      if(time&&time[0]){
-        _values.stime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
-        _values.etime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss')
-      };
-      this.props.onSubmit(_values)
-    })
-  }
+  componentWillReceiveProps = nextProps => {
+    if (!_.isEqual(nextProps.shopId, this.props.shopId)) {
+      this.props.form.setFieldsValue({
+        channelCode: nextProps.shopId
+      });
+    }
+  };
+  handleSubmit = () => {
+    this.props.form.validateFields((err, values) => {
+      const { time, ..._values } = values;
+      if (time && time[0]) {
+        _values.stime = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
+        _values.etime = moment(time[1]).format("YYYY-MM-DD HH:mm:ss");
+      }
+      this.props.onSubmit(_values);
+    });
+  };
   render() {
     const { shopId } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -95,7 +103,7 @@ class Search extends BaseFilter {
               >
                 {getFieldDecorator("channelCode", {
                   initialValue: shopId,
-                  onChange:this.props.shopIdChange
+                  onChange: this.props.shopIdChange
                 })(
                   <Select
                     maxTagTextLength={100}
@@ -133,13 +141,5 @@ class Search extends BaseFilter {
     );
   }
 }
-const SearchForm = Form.create({
-  // mapPropsToFields(props) {
-  //   return {
-  //     channelCode: Form.createFormField({
-  //       value: props.shopId,
-  //     }),
-  //   };
-  // },
-})(Search);
+const SearchForm = Form.create({})(Search);
 export default SearchForm;

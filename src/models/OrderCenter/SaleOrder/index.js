@@ -20,7 +20,7 @@ function* getShopList(action){
     const res = yield call(ShopListsApi,params);
     const {resultList,everyPage,totalCount,currentPage} = res.result;
     resultList&&resultList.map(item=>{
-        item.key = item.id
+        item.key = item.channelCode
     });
     yield put({
         type:'SHOP_TABLELIST',

@@ -4,7 +4,7 @@ import { Qtable, Qpagination, Qbtn } from "common";
 import moment from 'moment';
 import { Link } from "react-router-dom";
 import {Columns} from "./column";
-import { ExportApi } from "../../../api/Export";
+// import { ExportApi } from "../../../api/Export";
 import { GetOrderListApi } from '../../../api/home/OrderCenter/PurchaseOrder'
 
 class PurchaseOrder extends React.Component {

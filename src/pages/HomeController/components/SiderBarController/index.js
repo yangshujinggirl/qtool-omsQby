@@ -7,6 +7,7 @@ import { Menu, Icon, Button } from 'antd';
 import { GetMenuApi } from '../../../../api/home/Home';
 import './index.less';
 import menuLogo from '../../imgs/menu_logo.png';
+import menu from 'common/siderBarData'
 
 const { SubMenu } = Menu;
 
@@ -21,9 +22,9 @@ class SiderBarController extends React.Component {
     });
   };
   render(){
-    const { menuList } = this.props;
+    // const { menuList } = this.props;
+    const menuList = menu;
     console.log(menuList)
-    
     return(
       <div className="oms-sider-controller">
         <div className="slider-logo">

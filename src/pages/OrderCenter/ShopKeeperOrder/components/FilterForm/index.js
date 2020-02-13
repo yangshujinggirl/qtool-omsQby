@@ -7,6 +7,13 @@ class Search extends BaseFilter {
   constructor(props) {
     super(props);
   }
+  componentWillReceiveProps = nextProps => {
+    if (!_.isEqual(nextProps.shopId, this.props.shopId)) {
+      this.props.form.setFieldsValue({
+        channelCode: nextProps.shopId
+      });
+    }
+  };
   render() {
     const { shopId } = this.props;
     console.log(this.props)
@@ -122,13 +129,5 @@ class Search extends BaseFilter {
     );
   }
 }
-const SearchForm = Form.create({
-  mapPropsToFields(props) {
-    return {
-      channelCode: Form.createFormField({
-        value: props.shopId,
-      }),
-    };
-  },
-})(Search);
+const SearchForm = Form.create({})(Search);
 export default SearchForm;

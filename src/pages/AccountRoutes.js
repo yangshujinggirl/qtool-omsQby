@@ -5,10 +5,9 @@ import Protected from "./Protected";
 import BaseGoods from "./BaseGoods";
 import BaseGoodsAdd from "./BaseGoods/BaseGoodsAdd";
 import BaseGoodsInfo from "./BaseGoods/BaseGoodsInfo";
-import BgoodsAdd from "./Bgoods/BgoodsAdd";
-import BgoodsInfo from "./Bgoods/BgoodsInfo";
+
 import Cgoods from "./Cgoods";
-import Bgoods from "./Bgoods";
+
 import CgoodsAdd from "./Cgoods/CgoodsAdd";
 import CgoodsInfo from "./Cgoods/CgoodsInfo";
 
@@ -46,6 +45,10 @@ import GoodsAudit from "./BaseGoodsCenter/GoodsAudit"; //商品审核
 import Attributions from "./Attributions"; //规格管理
 import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理
+//B端商品
+import Bgoods from "./Bgoods";
+import BgoodsAdd from "./Bgoods/BgoodsAdd";//新增
+import BgoodsInfo from "./Bgoods/BgoodsInfo";//详情
 
 class HomeRoutes extends React.Component {
   render() {
@@ -54,7 +57,7 @@ class HomeRoutes extends React.Component {
         {/* <Route exact path="/account/public" component={Public} /> */}
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
         <Route  path="/account/items_list" component={BaseGoods}/>
-        <Route  path="/account/Bsite" component={Bgoods}/>
+        <Route  path="/account/bGoods" component={Bgoods}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
         <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
