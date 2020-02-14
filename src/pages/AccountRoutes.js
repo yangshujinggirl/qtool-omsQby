@@ -49,6 +49,8 @@ import Classify from "./Classify"; //后台类目管理
 import Bgoods from "./Bgoods";
 import BgoodsAdd from "./Bgoods/BgoodsAdd";//新增
 import BgoodsInfo from "./Bgoods/BgoodsInfo";//详情
+//C端描述属性管理
+import DescriptManage from "./DescriptManage";//详情
 
 class HomeRoutes extends React.Component {
   render() {
@@ -56,6 +58,7 @@ class HomeRoutes extends React.Component {
       <Switch>
         {/* <Route exact path="/account/public" component={Public} /> */}
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
+        <Route  path="/account/descriptManage" component={DescriptManage}/>
         <Route  path="/account/items_baseGoods" component={BaseGoods}/>
         <Route  path="/account/bGoods" component={Bgoods}/>
         <Route  path="/account/Csite" component={Cgoods}/>
