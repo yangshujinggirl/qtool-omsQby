@@ -77,15 +77,6 @@ class List extends React.Component {
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
-          <div className="handle-operate-btn-action">
-            <Qbtn size="free" onClick={this.addTrade}>
-              <Link
-                className="link-color action-left"
-                to="/account/descriptAdd">
-                新增属性
-              </Link>
-            </Qbtn>
-          </div>
           <Qtable
             columns={Columns}
             dataSource={goodLists}
