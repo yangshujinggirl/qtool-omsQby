@@ -14,6 +14,10 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
     withCredentials: true,
   })
   axiosinstance.interceptors.request.use((config) => {
+    if((config.data&&config.data.term == 'oms')||(config.params&&config.params.term == 'oms')){
+      config.baseURL = '/qtoolsOms'
+    };
+    console.log(config)
     return config;
   },error => {
     Promise.reject({

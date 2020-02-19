@@ -26,7 +26,6 @@ if(process.env.NODE_ENV === 'production'){
   sourceMap="source-map"
 }
 console.log(JSON.stringify(process.env.NODE_ENV))
-
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: './src/index.js',
@@ -34,6 +33,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash].bundle.js',
+    publicPath:'/'
   },
   module: {
     rules: [
@@ -90,6 +90,7 @@ module.exports = {
     alias:{
       'common':path.resolve(__dirname, 'src/common/'),
       'utils':path.resolve(__dirname, 'src/utils/'),
+      'Req':path.resolve(__dirname,'src/api/Req/'),
       // 'api':Path.resolve(__dirname, 'src/api/'),
     },
     extensions: [".js", ".json", ".jsx", ".css"],

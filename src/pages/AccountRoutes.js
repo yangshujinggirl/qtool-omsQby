@@ -46,11 +46,15 @@ import Attributions from "./Attributions"; //规格管理
 import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理
 //B端商品
-import Bgoods from "./Bgoods";
-import BgoodsAdd from "./Bgoods/BgoodsAdd";//新增
-import BgoodsInfo from "./Bgoods/BgoodsInfo";//详情
+import Bgoods from "./GoodsCenter/Bgoods/GoodsList";
+import BgoodsAdd from "./GoodsCenter/Bgoods/GoodsList/BgoodsAdd";//新增
+import BgoodsInfo from "./GoodsCenter/Bgoods/GoodsList/BgoodsInfo";//详情
 //C端描述属性管理
 import DescriptManage from "./DescriptManage";//详情
+//C端商品
+import Ctask from './GoodsCenter/Cgoods/Ctask'//批量任务
+import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//批量任务
+
 
 class HomeRoutes extends React.Component {
   render() {
@@ -98,6 +102,9 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/orderAgency" component={OrderAgency}/>
         <Route exact path='/account/country_and_region' component={Country}/>
         <Route path='/account/items_examine' component={GoodsAudit}/>
+        <Route path='/account/cTask' component={Ctask}/>
+        <Route path='/account/addTask' component={AddTask}/>
+
         <Route component={NotFound}/>
       </Switch>
     );
