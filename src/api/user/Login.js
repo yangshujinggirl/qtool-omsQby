@@ -15,7 +15,7 @@ export function GoLoginTApi({username,password}) {
   //   }
   // })
   return Req.post('/login', {
-    username,password
+    username,password,term:'oms'
   })
 }
 export function GoLoginOutTApi() {

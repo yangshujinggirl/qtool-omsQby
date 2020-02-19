@@ -60,8 +60,52 @@ const menu = [{
         },{
             "id":"1",
             "name":"B端商品",
-            "action":"bGoods",
+            "action":"bgood",
             "cls":null,
+            "subActions":[
+                {
+                    "id":"11",
+                    "name":"商品列表",
+                    "action":"bGoods",
+                    "cls":"fa",
+                    "subActions":null
+                },
+                {
+                    "id":"12",
+                    "name":"B端定时",
+                    "action":"Btimer",
+                    "cls":"fa",
+                    "subActions":null
+                },
+            ]
+        },{
+            "id":"2",
+            "name":"C端商品",
+            "action":"cgood",
+            "cls":null,
+            "subActions":[
+                {
+                    "id":"21",
+                    "name":"一般贸易商品",
+                    "action":"tradeGoods",
+                    "cls":"fa",
+                    "subActions":null
+                },
+                {
+                    "id":"22",
+                    "name":"跨境商品",
+                    "action":"crossBroad",
+                    "cls":"fa",
+                    "subActions":null
+                },
+                {
+                    "id":"23",
+                    "name":"c端批量任务",
+                    "action":"cTask",
+                    "cls":"fa",
+                    "subActions":null
+                },
+            ]
         }]
     },{
         "id":"e3193c89076a443fa694bb85901062a1",

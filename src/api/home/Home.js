@@ -8,5 +8,8 @@ import Req from '../Req';
 // }
 export function GetMenuApi(values) {
   values = JSON.stringify(values)
-  return Req.post('/sysMenu/getMenus')
+  return Req.post('/sysMenu/getMenus',{
+    term:'oms',
+    ...values
+  })
 }

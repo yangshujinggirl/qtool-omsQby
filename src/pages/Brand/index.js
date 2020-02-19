@@ -18,19 +18,11 @@ class Brand extends React.Component {
   }
   //初始化数据
   componentDidMount = () => {
-    // this.props.dispatch({
-    //   type: "brand/fetchList",
-    //   payload: {}
-    // });
     this.searchData({});
   };
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
-    // this.props.dispatch({
-    //   type: "brand/fetchList",
-    //   payload: params
-    // });
     GetListsApi(params).then(res => {
       if (res.httpCode == 200) {
         let { resultList, everyPage, currentPage, totalCount } = res.result;
@@ -46,15 +38,10 @@ class Brand extends React.Component {
         });
       }
     });
-
     this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    // this.props.dispatch({
-    //   type: "brand/fetchList",
-    //   payload: { ...this.state.inputValues, currentPage, everyPage }
-    // });
     const params = { currentPage, everyPage };
     this.searchData(params);
   };
@@ -63,10 +50,7 @@ class Brand extends React.Component {
     this.searchData(params);
   };
   render() {
-    console.log(this.props);
     const { brandLists, everyPage, currentPage, totalCount } = this.state;
-    console.log(this.state);
-
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
