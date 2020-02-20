@@ -51,11 +51,13 @@ import BgoodsAdd from "./GoodsCenter/Bgoods/GoodsList/BgoodsAdd";//新增
 import BgoodsInfo from "./GoodsCenter/Bgoods/GoodsList/BgoodsInfo";//详情
 //C端描述属性管理
 import DescriptManage from "./DescriptManage";//详情
+import DescriptAdd from "./DescriptManage/DescriptAdd";//详情
+//C端跨境商品
+import CrossBorderGoods from "./CrossBorderGoods";//
 //C端商品
 import Ctask from './GoodsCenter/Cgoods/Ctask'//批量任务
 import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//批量任务
 import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//批量任务
-
 
 class HomeRoutes extends React.Component {
   render() {
@@ -63,7 +65,9 @@ class HomeRoutes extends React.Component {
       <Switch>
         {/* <Route exact path="/account/public" component={Public} /> */}
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
+        <Route  path="/account/crossBorderGoods" component={CrossBorderGoods}/>
         <Route  path="/account/descriptManage" component={DescriptManage}/>
+        <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/items_baseGoods" component={BaseGoods}/>
         <Route  path="/account/bGoods" component={Bgoods}/>
         <Route  path="/account/Csite" component={Cgoods}/>

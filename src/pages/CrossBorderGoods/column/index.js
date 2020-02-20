@@ -4,15 +4,31 @@ import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 const Columns = [
   {
-    title: "属性名称",
+    title: "Spuid",
     dataIndex: "attributeName",
   },
   {
-    title: "最后修改时间",
+    title: "商品名称",
     dataIndex: "lastUpdateTime",
   },
   {
-    title: "最后修改人",
+    title: "商品类型",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "后台类目",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "sku数",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "是否新品",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "销量",
     dataIndex: "modifyBy"
   },
   {
@@ -28,6 +44,11 @@ const Columns = [
           className="link-color"
           to={`/account/baseGoodsAdd/${record.spuCode}`}>
           编辑
+        </Link>
+        <Link
+          className="link-color"
+          to={`/account/baseGoodsAdd/${record.spuCode}`}>
+          日志
         </Link>
       </div>
     )
