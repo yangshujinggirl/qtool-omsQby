@@ -1,4 +1,4 @@
-import { labelSearchApi } from "api/home/GoodsCenter/Cgoods/Ctask";
+import { getTaskInfoApi } from "api/home/GoodsCenter/Cgoods/Ctask";
 import { Columns1, Columns2, Columns3 } from "./column";
 import { Form, Input, Button, message, Radio, AutoComplete } from "antd";
 import moment from "moment";
@@ -16,7 +16,8 @@ class GoodEditForm extends React.Component {
     };
   }
   //初始化数据
-  componentWillMount() {}
+  componentWillMount() {
+  }
 
   //保存
   handleSubmit = e => {
@@ -105,20 +106,20 @@ class GoodEditForm extends React.Component {
         <FormItem
           label="定时名称"
           labelCol={{ span: 3, offset: 1 }}
-          wrapperCol={{ span: 6 }}
+          wrapperCol={{ span: 8 }}
         >
           {getFieldDecorator("taskName", {
             rules: [{ required: true, message: "请输入定时名称" }],
             initialValue: this.state.taskName
           })(
-            <Input placeholder="请输入定时名称，最多60个字符" maxLength="60" />
+            <Input placeholder="请输入定时名称，最多60个字符" maxLength="60" autoComplete='off' />
           )}
         </FormItem>
         {taskType == 1 && (
           <FormItem
             label="执行时间"
             labelCol={{ span: 3, offset: 1 }}
-            wrapperCol={{ span: 6 }}
+            wrapperCol={{ span: 8 }}
           >
             {getFieldDecorator("taskTime", {
               rules: [{ required: true, message: "请选择定时时间" }],
@@ -130,7 +131,7 @@ class GoodEditForm extends React.Component {
           <FormItem
             label="执行时间段"
             labelCol={{ span: 3, offset: 1 }}
-            wrapperCol={{ span: 6 }}
+            wrapperCol={{ span: 8 }}
           >
             {getFieldDecorator("rangerTimer", {
               rules: [{ required: true, message: "请选择时间" }],
@@ -142,7 +143,7 @@ class GoodEditForm extends React.Component {
           <FormItem
             label="状态调整"
             labelCol={{ span: 3, offset: 1 }}
-            wrapperCol={{ span: 6 }}
+            wrapperCol={{ span: 8 }}
           >
             {getFieldDecorator("extraField", {
               rules: [{ required: true, message: "请选择状态" }]
@@ -159,7 +160,7 @@ class GoodEditForm extends React.Component {
             <FormItem
               label="请选择标签"
               labelCol={{ span: 3, offset: 1 }}
-              wrapperCol={{ span: 6 }}
+              wrapperCol={{ span: 8 }}
             >
               {getFieldDecorator("extraField", {
                 rules: [{ required: true, message: "请选择状态" }]

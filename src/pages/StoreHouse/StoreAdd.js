@@ -6,7 +6,6 @@ import {
   storeInfoApi
 } from "api/home/StoreHouse";
 import { Qbtn } from "common";
-import {deBounce} from 'common/tools'
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },

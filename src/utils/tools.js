@@ -1,6 +1,6 @@
 import moment from "moment";
 //全局防抖
-export function deBounce(func, wait) {
+window.deBounce = (func, wait) => {
   let timer = null;
   return function(...args) {
     clearTimeout(timer);
@@ -8,10 +8,17 @@ export function deBounce(func, wait) {
       func(...args);
     }, wait);
   };
-}
+};
+
 //不可选日期
 export function disabledDate(current) {
-  return current && current < moment().endOf('day').subtract(1,'days');
+  return (
+    current &&
+    current <
+      moment()
+        .endOf("day")
+        .subtract(1, "days")
+  );
 }
 //不可选时分秒
 const range = (start, end) => {
@@ -21,29 +28,31 @@ const range = (start, end) => {
   }
   return result;
 };
-const formatHours = (date,type) => {
+const formatHours = (date, type) => {
   let hour = moment().hour();
   let disabledHours = [];
-  const chosedDate = type == "date" ? moment(date).date() : moment(date[0]).date();
+  const chosedDate =
+    type == "date" ? moment(date).date() : moment(date[0]).date();
   if (moment().date() == chosedDate) {
     disabledHours = range(0, 24).splice(0, hour);
-  };
+  }
   return disabledHours;
 };
-const formatMinutes = (date,type) => {
+const formatMinutes = (date, type) => {
   let minute = moment().minute();
   let disabledMinutes = [];
-  const chosedDate = type == "date" ? moment(date).date() : moment(date[0]).date();
+  const chosedDate =
+    type == "date" ? moment(date).date() : moment(date[0]).date();
   if (moment().date() == chosedDate) {
-    disabledMinutes = range(0, 60).splice(0, minute+1);
-  };
+    disabledMinutes = range(0, 60).splice(0, minute + 1);
+  }
   return disabledMinutes;
 };
 //DatePicker
 export function disabledDateTime(date) {
   return {
-    disabledHours: () => formatHours(date,'date'),
-    disabledMinutes: () => formatMinutes(date,'date'),
+    disabledHours: () => formatHours(date, "date"),
+    disabledMinutes: () => formatMinutes(date, "date"),
     disabledSeconds: () => []
   };
 }
@@ -51,10 +60,9 @@ export function disabledDateTime(date) {
 export function disabledRangeTime(date, type) {
   if (type === "start") {
     return {
-      disabledHours: () => formatHours(date,'range'),
-      disabledMinutes: () => formatMinutes(date,'range'),
+      disabledHours: () => formatHours(date, "range"),
+      disabledMinutes: () => formatMinutes(date, "range"),
       disabledSeconds: () => []
     };
   }
 }
-

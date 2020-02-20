@@ -1,7 +1,6 @@
 import { Modal, Form, Input, Select, message } from "antd";
 import { GetCategoryApi } from "api/home/BaseGoods";
 import { AddApi, EditApi, getClassInfo } from "api/home/Classify";
-import { deBounce } from "common/tools";
 const FormItem = Form.Item;
 const Option = Select.Option;
 

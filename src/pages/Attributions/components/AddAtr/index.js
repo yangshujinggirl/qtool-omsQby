@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { Modal, Form, Input, Select, message } from "antd";
 import { AddAtrApi, UpdataAtrApi } from "api/home/Attributions";
-import {deBounce} from 'common/tools'
 const FormItem = Form.Item;
 const Option = Select.Option;
 

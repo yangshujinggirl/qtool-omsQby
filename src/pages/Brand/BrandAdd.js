@@ -14,7 +14,6 @@ import {
   UpdataBrandApi,
   BrandAddressApi
 } from "api/home/Brand";
-import {deBounce} from 'common/tools'
 import UploadLogo from "common/QupLoadImgLimt";
 import UploadIsSq from "common/QupLoadImgLimt";
 import { Qbtn } from "common";

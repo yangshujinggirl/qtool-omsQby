@@ -12,7 +12,12 @@ class Ctask extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskList: [],
+      taskList: [
+        {
+          taskName: "mingzi",
+          taskId: 1
+        }
+      ],
       everyPage: 20,
       currentPage: 0,
       totalCount: 0,
@@ -61,23 +66,19 @@ class Ctask extends Component {
     });
   };
   //修改
-  handleOperateClick = record => {
-    const paneitem = {
-      title: "修改定时",
-      key: `${this.props.componkey}edit` + record.pdTaskTimeId,
-      componkey: `${this.props.componkey}edit`,
-      data: {
-        pdTaskTimeId: record.pdTaskTimeId,
-        type: record.proStatus
-      }
-    };
-    this.props.dispatch({
-      type: "tab/firstAddTab",
-      payload: paneitem
-    });
+  handleOperateClick = (record, type) => {
+    switch (type) {
+      case "info":
+        this.props.history.push(`/account/taskInfo/${record.taskId}`);
+        break;
+      case "edit":
+        this.edit(record);
+        break;
+      case "invalid":
+        this.confirmInvalid(record);
+    }
   };
   render() {
-    console.log(this.props);
     const { taskList, everyPage, currentPage, totalCount } = this.state;
     return (
       <div className="qtools-components-pages">
@@ -95,12 +96,18 @@ class Ctask extends Component {
                   </Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Link to={"/account/addtask?taskType=2"} style={{ color: "#35bab0" }}>
+                  <Link
+                    to={"/account/addtask?taskType=2"}
+                    style={{ color: "#35bab0" }}
+                  >
                     任务类型：商品提示
                   </Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Link to={"/account/addtask?taskType=3"} style={{ color: "#35bab0" }}>
+                  <Link
+                    to={"/account/addtask?taskType=3"}
+                    style={{ color: "#35bab0" }}
+                  >
                     任务类型：商品标签
                   </Link>
                 </Menu.Item>
@@ -114,7 +121,7 @@ class Ctask extends Component {
             </Button>
           </Dropdown>
         </div>
-        <Qtable columns={Columns} dataSource={taskList} />
+        <Qtable columns={Columns} dataSource={taskList} onOperateClick={this.handleOperateClick} />
         <Qpagination
           data={{ everyPage, currentPage, totalCount }}
           onChange={this.changePage}

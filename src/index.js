@@ -20,7 +20,7 @@ import Login from './pages/Login';
 import HomeController from './pages/HomeController';
 import zhCN from 'antd/es/locale/zh_CN';
 import {ConfigProvider } from 'antd'
-// import {deBounce} from 'common/tools'
+import 'utils/tools'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware=createSagaMiddleware();

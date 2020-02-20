@@ -31,7 +31,7 @@ const Columns = [
         <div>
           <a className="theme-color" onClick={()=>record.onOperateClick('info')}>
             查看
-          </a>
+          </a>　
           <a className="theme-color" onClick={()=>record.onOperateClick('edit')}>
             编辑
           </a>

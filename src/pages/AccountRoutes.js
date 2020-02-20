@@ -54,6 +54,7 @@ import DescriptManage from "./DescriptManage";//详情
 //C端商品
 import Ctask from './GoodsCenter/Cgoods/Ctask'//批量任务
 import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//批量任务
+import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//批量任务
 
 
 class HomeRoutes extends React.Component {
@@ -104,6 +105,7 @@ class HomeRoutes extends React.Component {
         <Route path='/account/items_examine' component={GoodsAudit}/>
         <Route path='/account/cTask' component={Ctask}/>
         <Route path='/account/addTask' component={AddTask}/>
+        <Route path='/account/taskInfo/:id?' component={TaskInfo}/>
 
         <Route component={NotFound}/>
       </Switch>
