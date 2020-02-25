@@ -24,7 +24,7 @@ class SiderBarController extends React.Component {
   render(){
     // const { menuList } = this.props;
     const menuList = menu;
-    console.log(menuList)
+    // console.log(menuList)
     return(
       <div className="oms-sider-controller">
         <div className="slider-logo">

@@ -5,7 +5,7 @@ import { Qpagination, Qbtn, Qtable} from "common";
 import { Columns, Columns1 } from "./column";
 import { Link } from 'react-router-dom';
 
-import { GetListApi } from "../../api/cTip/DescriptManage";
+import { GetListApi } from "api/cTip/DescriptManage";
 import moment from 'moment'
 
 class List extends React.Component {
@@ -77,6 +77,15 @@ class List extends React.Component {
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
+          <div className="handle-operate-btn-action">
+            <Qbtn size="free" onClick={this.addTrade}>
+              <Link
+                className="link-color action-left"
+                to="/account/descriptAdd">
+                新增属性
+              </Link>
+            </Qbtn>
+          </div>
           <Qtable
             columns={Columns}
             dataSource={goodLists}

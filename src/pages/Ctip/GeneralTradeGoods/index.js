@@ -1,11 +1,11 @@
 import { Table, Spin, Button } from "antd";
 import { connect } from 'react-redux';
 import FilterForm from "./components/FilterForm";
-import { Qpagination, Qbtn, Qtable} from "common";
-import { Columns, Columns1 } from "./column";
+import { Qpagination, Qbtn, Qtable, QsubTable} from "common";
+import { ColumnsPar, ColumnsSub } from "./column";
 import { Link } from 'react-router-dom';
 
-import { GetListApi } from "../../api/cTip/DescriptManage";
+import { GetListApi } from "api/cTip/GeneralTradeGoods";
 import moment from 'moment'
 
 class List extends React.Component {
@@ -37,11 +37,11 @@ class List extends React.Component {
       ...this.state.inputValues
     };
     if(values) {
-      params = {...params,values}
+      params = {...params,...values}
     }
     GetListApi(params)
     .then((res)=> {
-      console.log(res)
+
     })
   };
   changePage = (currentPage, everyPage) => {
@@ -69,35 +69,60 @@ class List extends React.Component {
       case 'info':
         //去查看
         break;
+      case 'sale':
+        //上下架
+        console.log(record)
+        break;
     }
   };
 
   render() {
-    const { goodLists } = this.state;
+    let { goodLists } = this.state;
+    goodLists = [{
+          spuCode:"2323",
+          key:"2323",
+          productName:"小红脸",
+          productType:"正常品",
+          categoryStr:"宝宝辅食/果泥/瓜类果泥/熟果泥食",
+          sku:"3",
+          isNewStr:"是",
+          saleAmount:"7897789",
+          subList:[{
+              skuCode:2323,
+              key:2323,
+              image:"商品图片",
+              salesAttributeName:"红/大",
+              customerPrice:"¥12.00",
+              saleAmount:"7829",
+              upperStatus:1,
+              upperStatusStr:"上架",
+            },{
+                skuCode:2333,
+                key:2333,
+                image:"图片",
+                salesAttributeName:"蓝/小",
+                customerPrice:"¥11.00",
+                saleAmount:"79",
+                upperStatus:0,
+                upperStatusStr:"下架",
+              }]
+        }]
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
-          <div className="handle-operate-btn-action">
-            <Qbtn size="free" onClick={this.addTrade}>
-              <Link
-                className="link-color action-left"
-                to="/account/descriptAdd">
-                新增属性
-              </Link>
-            </Qbtn>
-          </div>
-          <Qtable
-            columns={Columns}
+          <QsubTable
+            parColumns={ColumnsPar}
+            subColumns={ColumnsSub}
             dataSource={goodLists}
             onOperateClick={this.handleOperateClick}
           />
-          {
+          {/*
             goodLists.length>0&&
             <Qpagination
               data={this.props}
               onChange={this.changePage}
               onShowSizeChange={this.onShowSizeChange}/>
-          }
+          */}
       </div>
     );
   }
