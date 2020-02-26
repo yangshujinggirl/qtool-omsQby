@@ -1,14 +1,14 @@
 import {
   Form,Input,Icon,Spin,Upload,
   Select,Row,Col,Checkbox,
-  Button,Radio,AutoComplete,
+  Button,Radio,AutoComplete,Descriptions,
 } from 'antd';
 import { connect } from 'react-redux';
 import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
 import { GetEditInfoApi, GetAddApi } from 'api/home/BaseGoods';
 import EditTable from './components/EditTable';
 import GraphicInformation from './components/GraphicInformation';
-import './index.less';
+import './GeneralTradeEdit.less';
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -29,6 +29,28 @@ class GoodsEdit extends React.Component {
     this.state ={
       totalData:{},
       subList:[],
+      descriptAttributeList:[
+        {
+          attributeId:'1',
+          key:'1',
+          attributeName:'适用人群',
+          attributeValue:'老人'
+        },{
+          attributeId:'2',
+          key:'2',
+          attributeName:'产品容量',
+          attributeValue:'100'
+        },{
+          attributeId:'3',
+          key:'3',
+          attributeName:'安全等级',
+          attributeValue:'一级'
+        },{
+          attributeId:'4',
+          key:'4',
+          attributeName:'销售范围',
+          attributeValue:'线上'
+        }],
     }
   }
   componentDidMount() {
@@ -40,13 +62,22 @@ class GoodsEdit extends React.Component {
     //
     // }
   }
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  };
 
   render() {
     const { getFieldDecorator } =this.props.form;
-    const { totalData, subList } =this.state;
+    const { totalData, subList,descriptAttributeList } =this.state;
     return(
       <Spin tip="加载中..." spinning={false}>
-        <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
+        <div className="oms-common-addEdit-pages general-trade-edit-pages">
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
             <div className="part-wrap">
               <p className="title-wrap"><span className="title-name">基础信息</span></p>
@@ -91,12 +122,19 @@ class GoodsEdit extends React.Component {
                 )}
               </Form.Item>
               <Form.Item label="描述属性">
-                {getFieldDecorator('descriptAttributeList',{
-                  initialValue:totalData.descriptAttributeList,
-                  rules: [{ required: true, message: '请选择商品类型' }],
-                })(
-                  <Input autoComplete="off" placeholder="请输入C端商品名称"/>
-                )}
+                <Descriptions bordered column={2}>
+                {
+                  descriptAttributeList.map((el,index)=> (
+                    <Descriptions.Item label={el.attributeName} key={el.key}>
+                      {getFieldDecorator(`descriptAttributeList[${index}]attributeValue`,{
+                        initialValue:el.attributeValue,
+                      })(
+                        <Input autoComplete="off" placeholder="请输入描述属性" maxLength={60}/>
+                      )}
+                    </Descriptions.Item>
+                  ))
+                }
+                </Descriptions>
               </Form.Item>
               <Form.Item label="C端商品标签">
                 {getFieldDecorator('tabName', {
@@ -118,9 +156,9 @@ class GoodsEdit extends React.Component {
                     rules: [{ required: true, message: '请选择联营分成类别' }],
                   })(
                     <Radio.Group>
-                      <Radio value={2} key={2}>七天无理由退换货</Radio>
-                      <Radio value={1} key={1}>快速退货</Radio>
-                      <Radio value={1} key={1}>提供发票</Radio>
+                      <Radio value={1} key={1}>七天无理由退换货</Radio>
+                      <Radio value={2} key={2}>快速退货</Radio>
+                      <Radio value={3} key={3}>提供发票</Radio>
                     </Radio.Group>
                 )}
               </Form.Item>
@@ -150,14 +188,13 @@ class GoodsEdit extends React.Component {
 const GoodsEditF = Form.create({
   onValuesChange(props, changedFields, allFields) {
     const { totalData,goodsList }=props;
-    // console.log('onValuesChange')
     let currentKey = Object.keys(changedFields)[0];
-    if(currentKey.indexOf('categoryCode')=='-1') {
-      props.dispatch({
-        type:'baseGoodsAdd/getTotalState',
-        payload:changedFields
-      })
-    }
+    // if(currentKey.indexOf('categoryCode')=='-1') {
+    //   props.dispatch({
+    //     type:'baseGoodsAdd/getTotalState',
+    //     payload:changedFields
+    //   })
+    // }
   },
 })(GoodsEdit);
 // function mapStateToProps(state) {

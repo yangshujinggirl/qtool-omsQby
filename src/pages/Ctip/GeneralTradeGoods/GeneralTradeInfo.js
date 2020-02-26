@@ -1,12 +1,12 @@
 import {
   Form,Input,Icon,Spin,Upload,Table,
   Select,Row,Col,Checkbox,
-  Button,Radio,AutoComplete,
+  Button,Radio,AutoComplete,Descriptions,
 } from 'antd';
 import { Qtable, Qbtn } from 'common';
 import { GetEditInfoApi } from 'api/home/BaseGoods';
 import GraphicInformation from './components/GraphicInformation';
-import './index.less';
+
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -20,7 +20,8 @@ const formItemLayout = {
         sm: { span: 12 },
       },
     };
-const columns = [{
+const columns = [
+  {
     title: 'sku编码',
     dataIndex: 'skuCode',
   },{
@@ -48,21 +49,45 @@ class GoodsEdit extends React.Component {
     this.state ={
       totalData:{},
       subList:[],
+      descriptAttributeList:[
+        {
+          attributeId:'1',
+          key:'1',
+          attributeName:'适用人群',
+          attributeValue:'老人'
+        },{
+          attributeId:'2',
+          key:'2',
+          attributeName:'产品容量',
+          attributeValue:'100'
+        },{
+          attributeId:'3',
+          key:'3',
+          attributeName:'安全等级',
+          attributeValue:'一级'
+        },{
+          attributeId:'4',
+          key:'4',
+          attributeName:'销售范围',
+          attributeValue:'线上'
+        }]
     }
   }
   componentDidMount() {
     this.initPage()
   }
   initPage() {
-  
-  }
 
+  }
+  goReturn() {
+
+  }
   render() {
-    const { totalData, subList } =this.state;
+    const { totalData, subList, descriptAttributeList } =this.state;
     return(
       <Spin tip="加载中..." spinning={false}>
-        <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
-          <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <div className="oms-common-addEdit-pages general-trade-edit-pages">
+          <Form {...formItemLayout}>
             <div className="part-wrap">
               <p className="title-wrap"><span className="title-name">基础信息</span></p>
               <Form.Item label="spu编码">
@@ -96,7 +121,15 @@ class GoodsEdit extends React.Component {
                 {totalData.sellingPoint}
               </Form.Item>
               <Form.Item label="描述属性">
-                {totalData.descriptAttributeList}
+                <Descriptions bordered column={2}>
+                {
+                  descriptAttributeList&&descriptAttributeList.map((el,index)=> (
+                    <Descriptions.Item label={el.attributeName} key={el.key}>
+                      {el.attributeValue}
+                    </Descriptions.Item>
+                  ))
+                }
+                </Descriptions>
               </Form.Item>
               <Form.Item label="C端商品标签">
                 {totalData.tabName}

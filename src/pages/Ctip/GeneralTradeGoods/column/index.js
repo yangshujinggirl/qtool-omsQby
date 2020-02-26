@@ -48,7 +48,7 @@ const ColumnsPar = [
         </Link>
         <Link
           className="link-color"
-          to={`/account/baseGoodsAdd/${record.spuCode}`}>
+          to={`/account/generalTradeLog/${record.spuCode}`}>
           日志
         </Link>
       </div>
