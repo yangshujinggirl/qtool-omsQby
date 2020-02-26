@@ -29,15 +29,30 @@ const Columns = [
     render: (text, record) => {
       return (
         <div>
-          <a className="theme-color" onClick={()=>record.onOperateClick('info')}>
+          <a
+            className="theme-color"
+            onClick={() => record.onOperateClick("info")}
+          >
             查看
-          </a>　
-          <a className="theme-color" onClick={()=>record.onOperateClick('edit')}>
-            编辑
-          </a>　
-          <a className="theme-color" onClick={()=>record.onOperateClick('invalid')}>
-            强制无效
           </a>
+          {record.taskStatus == 0 && (
+            <div>
+              <a
+                className="theme-color"
+                onClick={() => record.onOperateClick("edit")}
+              >
+                编辑
+              </a>
+              　
+              <a
+                className="theme-color"
+                onClick={() => record.onOperateClick("invalid")}
+              >
+                强制无效
+              </a>
+            </div>
+          )}
+          　
         </div>
       );
     }

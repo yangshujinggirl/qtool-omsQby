@@ -28,3 +28,10 @@ export function labelSearchApi(values) {
     params: { ...values }
   });
 }
+//强制失效
+export function goInvalidApi(values){
+  const {taskId,..._values} = values;
+  return appAjax.put('/task/lose/'+taskId,{
+    ..._values
+  })
+}

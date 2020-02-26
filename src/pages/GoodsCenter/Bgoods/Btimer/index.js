@@ -1,31 +1,27 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button, message, Menu, Dropdown,Modal } from "antd";
+import { Button, message, Modal } from "antd";
 import {
-  GetTaskListsApi,
+  GetTimeListsApi,
   goInvalidApi
-} from "api/home/GoodsCenter/Cgoods/Ctask";
+} from "api/home/GoodsCenter/Bgoods/Btimer";
 import Columns from "./columns/index";
 import Qtable from "common/Qtable/index"; //表单
 import Qpagination from "common/Qpagination/index"; //分页
 import FilterForm from "./FilterForm/index";
-import { Sessions } from 'utils';
+import { Sessions } from "utils";
 import "./index.less";
 
-class Ctask extends Component {
+class Btimer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
       taskList: [
         {
           taskName: "mingzi",
-          taskId: 1,
-          taskStatus:0
+          pdTaskTimeId: 1
         }
       ],
-      taskId: "",
-      taskName: "",
       everyPage: 20,
       currentPage: 0,
       totalCount: 0,
@@ -35,12 +31,12 @@ class Ctask extends Component {
 
   //初始化数据
   componentDidMount = () => {
-    // this.searchData({});
+    this.searchData({});
   };
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
-    GetTaskListsApi(params).then(res => {
+    GetTimeListsApi(params).then(res => {
       if (res.httpCode == 200) {
         let { resultList, everyPage, currentPage, totalCount } = res.result;
         const brandLists = resultList.map(item => {
@@ -77,11 +73,11 @@ class Ctask extends Component {
   handleOperateClick = (record, type) => {
     switch (type) {
       case "info":
-        this.props.history.push(`/account/taskInfo/${record.taskId}`);
+        this.props.history.push(`/account/taskInfo/${record.pdTaskTimeId}`);
         break;
       case "edit":
         this.props.history.push(
-          `/account/addtask?taskType=1&taskId=${record.taskId}`
+          `/account/addtask?taskType=1&pdTaskTimeId=${record.pdTaskTimeId}`
         );
         break;
       case "invalid":
@@ -91,30 +87,32 @@ class Ctask extends Component {
   confirmInvalid = record => {
     this.setState({
       visible: true,
-      taskId: record.taskId,
+      pdTaskTimeId: record.pdTaskTimeId,
       taskName: record.taskName
     });
   };
   //强制失效
   onOk = () => {
     const userName = Sessions.get("name");
-    const { taskId, taskName } = this.state;
-    goInvalidApi({ taskId, taskName, taskOperateUser: userName }).then(res => {
-      if (res.httpCode == 200) {
-        message.success("强制失效完毕", 0.8);
+    const { pdTaskTimeId, taskName } = this.state;
+    goInvalidApi({ pdTaskTimeId, taskName, taskOperateUser: userName }).then(
+      res => {
+        if (res.httpCode == 200) {
+          message.success("强制失效完毕", 0.8);
+        }
+        this.setState({
+          visible: false,
+          pdTaskTimeId: "",
+          taskName: ""
+        });
       }
-      this.setState({
-        visible: false,
-        taskId: "",
-        taskName: ""
-      });
-    });
+    );
   };
   //取消
   onCancel = () => {
     this.setState({
       visible: false,
-      taskId: "",
+      pdTaskTimeId: "",
       taskName: ""
     });
   };
@@ -127,49 +125,16 @@ class Ctask extends Component {
       visible,
       taskName
     } = this.state;
-    taskList.map(item=>(
-      item.key = item.taskId
-    ))
+    taskList.map(item => (item.key = item.pdTaskTimeId));
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item>
-                  <Link
-                    to={"/account/addtask?taskType=1"}
-                    style={{ color: "#35bab0" }}
-                  >
-                    任务类型：商品状态
-                  </Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Link
-                    to={"/account/addtask?taskType=2"}
-                    style={{ color: "#35bab0" }}
-                  >
-                    任务类型：商品提示
-                  </Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Link
-                    to={"/account/addtask?taskType=3"}
-                    style={{ color: "#35bab0" }}
-                  >
-                    任务类型：商品标签
-                  </Link>
-                </Menu.Item>
-              </Menu>
-            }
-            placement="bottomCenter"
-            overlayClassName="set-time"
-          >
+          <Link to={"/account/addTimer"}>
             <Button type="primary" size="large">
               新增定时
             </Button>
-          </Dropdown>
+          </Link>
         </div>
         <Qtable
           columns={Columns}
@@ -182,7 +147,7 @@ class Ctask extends Component {
         />
         {visible && (
           <Modal
-            className='modal_center'
+            className="modal_center"
             title="强制失效"
             visible={visible}
             onOk={this.onOk}
@@ -195,4 +160,4 @@ class Ctask extends Component {
     );
   }
 }
-export default Ctask;
+export default Btimer;

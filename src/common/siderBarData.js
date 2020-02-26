@@ -73,7 +73,7 @@ const menu = [{
                 {
                     "id":"12",
                     "name":"B端定时",
-                    "action":"Btimer",
+                    "action":"bTimer",
                     "cls":"fa",
                     "subActions":null
                 },

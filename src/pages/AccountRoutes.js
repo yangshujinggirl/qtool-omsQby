@@ -64,7 +64,9 @@ import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//批量任务
 import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//批量任务
 import Parent from './GoodsCenter/Cgoods/Parent'//批量任务
 //B端商品
-
+import Btimer from './GoodsCenter/Bgoods/Btimer' //商品定时
+import AddTimer from './GoodsCenter/Bgoods/Btimer/AddTimer' //商品定时
+import TimerInfo from './GoodsCenter/Bgoods/Btimer/TimerInfo' //商品定时
 
 class HomeRoutes extends React.Component {
   render() {
@@ -121,6 +123,13 @@ class HomeRoutes extends React.Component {
         <Route path='/account/cTask' component={Ctask}/>
         <Route path='/account/addTask' component={AddTask}/>
         <Route path='/account/taskInfo/:id?' component={TaskInfo}/>
+        <Route path='/account/btimer' component={Btimer}/>
+        <Route path='/account/addTimer' component={AddTimer}/>
+        <Route path='/account/timerInfo/:id?' component={TimerInfo}/>
+
+
+
+
         <Route path='/account/test' component={Parent}/>
 
         <Route component={NotFound}/>
