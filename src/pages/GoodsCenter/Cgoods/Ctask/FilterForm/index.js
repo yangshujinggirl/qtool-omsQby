@@ -1,7 +1,6 @@
 import React from "react";
 import { BaseFilter, Qbtn } from "common";
 import { Form, Row, Col, Input, Select } from "antd";
-import { removeSpace } from "utils";
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -39,7 +38,7 @@ class NormalForm extends BaseFilter {
                 {getFieldDecorator("operateType")(
                   <Select
                     allowClear={true}
-                    placeholder="taskStatus"
+                    placeholder="请选择定时操作"
                     className="select"
                   >
                     <Option value="1">商品状态</Option>

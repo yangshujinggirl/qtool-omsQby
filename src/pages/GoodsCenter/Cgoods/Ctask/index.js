@@ -72,18 +72,22 @@ class Ctask extends Component {
         this.props.history.push(`/account/taskInfo/${record.taskId}`);
         break;
       case "edit":
-        this.edit(record);
+        this.props.history.push(`/account/addtask?taskType=1&taskId=${record.taskId}`);
         break;
       case "invalid":
         this.confirmInvalid(record);
     }
   };
+  //强制失效
+  confirmInvalid=()=>{
+
+  }
   render() {
     const { taskList, everyPage, currentPage, totalCount } = this.state;
     return (
-      <div className="qtools-components-pages">
+      <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
-        <div className="handel-btn-lists">
+        <div className="handle-operate-btn-action">
           <Dropdown
             overlay={
               <Menu>
@@ -131,3 +135,4 @@ class Ctask extends Component {
   }
 }
 export default Ctask;
+

@@ -1,7 +1,7 @@
 const Columns1 = [
   {
     title: "skuid",
-    dataIndex: "id"
+    dataIndex: "spuSkuId"
   },
   {
     title: "商品名称",
@@ -15,7 +15,7 @@ const Columns1 = [
 const Columns2 = [
   {
     title: "skuid",
-    dataIndex: "id"
+    dataIndex: "spuSkuId"
   },
   {
     title: "商品名称",
@@ -29,7 +29,7 @@ const Columns2 = [
 const Columns3 = [
   {
     title: "spuid",
-    dataIndex: "id"
+    dataIndex: "spuSkuId"
   },
   {
     title: "商品名称",

@@ -14,10 +14,6 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
     withCredentials: true,
   })
   axiosinstance.interceptors.request.use((config) => {
-    if((config.data&&config.data.term == 'oms')||(config.params&&config.params.term == 'oms')){
-      config.baseURL = '/qtoolsOms'
-    };
-    console.log(config)
     return config;
   },error => {
     Promise.reject({
@@ -49,9 +45,9 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
 const ajax = new request({baseURL:'/qtoolsOms'});
 export default ajax;
 
-// const omsAjax = new request({baseURL:'/qtoolsOms'});
-// const erpAjax = new request({baseURL:'/qtoolsErp'});
-// const appAjax = new request({baseURL:'/qtoolsApp'});
-// export {
-//   omsAjax,erpAjax,appAjax
-// }
+const omsAjax = new request({baseURL:'/qtoolsOms'});
+const erpAjax = new request({baseURL:'/qtoolsErp'});
+const appAjax = new request({baseURL:'/qtoolsApp'});
+export {
+  omsAjax,erpAjax,appAjax
+}

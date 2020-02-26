@@ -58,6 +58,9 @@ import CrossBorderGoods from "./CrossBorderGoods";//
 import Ctask from './GoodsCenter/Cgoods/Ctask'//批量任务
 import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//批量任务
 import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//批量任务
+import Parent from './GoodsCenter/Cgoods/Parent'//批量任务
+//B端商品
+
 
 class HomeRoutes extends React.Component {
   render() {
@@ -110,6 +113,7 @@ class HomeRoutes extends React.Component {
         <Route path='/account/cTask' component={Ctask}/>
         <Route path='/account/addTask' component={AddTask}/>
         <Route path='/account/taskInfo/:id?' component={TaskInfo}/>
+        <Route path='/account/test' component={Parent}/>
 
         <Route component={NotFound}/>
       </Switch>

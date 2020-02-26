@@ -1,10 +1,10 @@
-import Req from '../Req'
+import {omsAjax} from '../Req'
 /**
  * 
  * 获取品牌列表
  */
 export function GetListsApi(values){
-    return Req.get('/brand/searchBrand',{
+    return omsAjax.get('/brand/searchBrand',{
         params:{...values}
     })
 }
@@ -13,7 +13,7 @@ export function GetListsApi(values){
  * @param {*} values 
  */
 export function GetInfoApi(values){
-    return Req.get('/brand/viewBrand',{
+    return omsAjax.get('/brand/viewBrand',{
         params:{...values}
     })
 }
@@ -22,7 +22,7 @@ export function GetInfoApi(values){
  * @param {*} values 
  */
 export function AddBrandApi(values){
-    return Req.post('/brand/addBrand',{
+    return omsAjax.post('/brand/addBrand',{
         ...values
     })
 }
@@ -31,13 +31,13 @@ export function AddBrandApi(values){
  * @param {*} values 
  */
 export function UpdataBrandApi(values){
-    return Req.post('/brand/editBrand',{
+    return omsAjax.post('/brand/editBrand',{
         ...values
     })
 }
 //品牌归属地查询
 export function BrandAddressApi(values){
-    return Req.get('/brand/brandCountry',{
+    return omsAjax.get('/brand/brandCountry',{
         params:{...values}
     })
 }

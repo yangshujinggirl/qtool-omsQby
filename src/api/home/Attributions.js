@@ -1,10 +1,10 @@
-import Req from '../Req'
+import {omsAjax}  from '../Req'
 /**
  * 
  * 获取规格列表
  */
 export function GetListsApi(values){
-    return Req.get('attribute/searchByQbc',{
+    return omsAjax.get('attribute/searchByQbc',{
         params:{...values}
     })
 }
@@ -13,7 +13,7 @@ export function GetListsApi(values){
  * @param {*} values 
  */
 export function UpdataAtrApi(values){
-    return Req.post('attribute/updateAttribute',{
+    return omsAjax.post('attribute/updateAttribute',{
         ...values
     })
 }
@@ -22,7 +22,7 @@ export function UpdataAtrApi(values){
  * @param {*} values 
  */
 export function GetInfoApi(values){
-    return Req.get('attribute/detail',{
+    return omsAjax.get('attribute/detail',{
         params:{...values}
     })
 }
@@ -31,7 +31,7 @@ export function GetInfoApi(values){
  * @param {*} values 
  */
 export function AddAtrApi(values){
-    return Req.post('/attribute/addAttribute',{
+    return omsAjax.post('/attribute/addAttribute',{
         ...values
     })
 }
@@ -40,7 +40,7 @@ export function AddAtrApi(values){
  * @param {*} values 
  */
 export function AtrBindApi(values){
-    return Req.post('/attribute/relation',{
+    return omsAjax.post('/attribute/relation',{
         ...values
     })
 }

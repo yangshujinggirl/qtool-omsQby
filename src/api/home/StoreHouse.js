@@ -1,10 +1,10 @@
-import Req from '../Req'
+import {omsAjax} from '../Req'
 /**
  * 获取库存管理列表
  * @param {*} value 
  */
 export function GetListsApi(values){
-    return Req.get('warehouse/searchWarehouse',{
+    return omsAjax.get('warehouse/searchWarehouse',{
         params:{...values}
     })
 }
@@ -13,7 +13,7 @@ export function GetListsApi(values){
  * @param {\} values 
  */
 export function GetShopListApi(values){
-    return Req.get('warehouse/getChannel',{
+    return omsAjax.get('warehouse/getChannel',{
         params:values
     })
 }
@@ -22,7 +22,7 @@ export function GetShopListApi(values){
  * @param {*} values 
  */
 export function updataStoreApi(values){
-    return Req.post('warehouse/modWarehouse',{
+    return omsAjax.post('warehouse/modWarehouse',{
         ...values
     });
 }
@@ -30,14 +30,14 @@ export function updataStoreApi(values){
  * 新增库存
  */
 export function storeAddApi(values){
-    return Req.post('warehouse/addWarehouse',values)
+    return omsAjax.post('warehouse/addWarehouse',values)
 }
 /**
  * 详情
  * @param {*} values 
  */
 export function storeInfoApi(values){
-    return Req.get('warehouse/viewWarehouse',{
+    return omsAjax.get('warehouse/viewWarehouse',{
         params:values
     })
 }

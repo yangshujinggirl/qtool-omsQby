@@ -34,7 +34,7 @@ const Columns = [
           </a>　
           <a className="theme-color" onClick={()=>record.onOperateClick('edit')}>
             编辑
-          </a>
+          </a>　
           <a className="theme-color" onClick={()=>record.onOperateClick('invalid')}>
             强制无效
           </a>

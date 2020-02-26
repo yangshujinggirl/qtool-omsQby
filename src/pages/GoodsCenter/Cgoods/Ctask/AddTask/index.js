@@ -1,8 +1,17 @@
-import { getTaskInfoApi } from "api/home/GoodsCenter/Cgoods/Ctask";
+import { getTaskInfoApi, AddTaskApi } from "api/home/GoodsCenter/Cgoods/Ctask";
 import { Columns1, Columns2, Columns3 } from "./column";
-import { Form, Input, Button, message, Radio, AutoComplete } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  message,
+  Radio,
+  AutoComplete,
+  Select
+} from "antd";
 import moment from "moment";
 const RadioGroup = Radio.Group;
+const Option = Select.Option;
 import ImportBtn from "common/QupLoadFileList";
 const FormItem = Form.Item;
 import { DateTime, RangeTime } from "common/QdisabledDateTime";
@@ -12,39 +21,78 @@ class GoodEditForm extends React.Component {
     super(props);
     this.state = {
       labelList: [],
-      goodList: []
+      goodList: [],
+      taskId: "",
+      taskType: "",
+      infos: {}
     };
   }
   //初始化数据
   componentWillMount() {
+    const temp = this.props.history.location.search.substr(1);
+    const obj = {};
+    temp.split("&").map(item => {
+      obj[item.split("=")[0]] = item.split("=")[1];
+    });
+    const { taskId='', taskType } = obj;
+    if (taskId) {
+      // getTaskInfoApi({taskId}).then(res=>{
+      //   if(res.httpCode == 200){
+      //     this.setState({
+      //       infos:res,
+      //       goodList:res.skuList
+      //     });
+      //   }
+      // });
+      const res = {
+        taskName: "名字",
+        taskOperateStartTime: "2018-10-09",
+        taskOperateEndTime: "2018-10-10",
+        taskType: 2,
+        extraField: 0,
+        skuList: [{ id: 1, name: 1, extraInfo: "11" }]
+      };
+      this.setState({
+        infos: res,
+        goodList: res.skuList
+      });
+    }
+    this.setState({
+      taskId,
+      taskType
+    });
   }
-
   //保存
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.log(moment(values.rangerTimer[0]).format("YYYY-MM-DD HH:mm:ss"));
-      console.log(moment(values.rangerTimer[1]).format("YYYY-MM-DD HH:mm:ss"));
       if (!err) {
+        if (taskType == 1) {
+          values.taskOperateStartTime = moment(
+            values.taskTime,
+            "YYYY-MM-DD HH:mm:ss"
+          );
+        } else {
+          values.taskOperateStartTime = moment(
+            values.rangerTimer[0],
+            "YYYY-MM-DD HH:mm:ss"
+          );
+          values.taskOperateEndTime = moment(
+            values.rangerTimer[1],
+            "YYYY-MM-DD HH:mm:ss"
+          );
+        }
+        AddTaskApi(values).then(res => {
+          if (res.code == "200") {
+            message.success("保存成功", 0.8);
+          }
+        });
       }
     });
   };
   //取消
   hindCancel = () => {
     this.deleteTab();
-  };
-
-  handUse = () => {
-    const pdTaskTimeId = String(this.props.data.pdTaskTimeId);
-    invalidTimerApi({ pdTaskTimeId }).then(
-      res => {
-        if (res.code == "0") {
-          this.deleteTab();
-          message.success("强制无效成功", 0.8);
-        }
-      },
-      err => {}
-    );
   };
   //标签搜索
   onSearch = value => {
@@ -59,11 +107,11 @@ class GoodEditForm extends React.Component {
       labelList: [
         {
           tabId: 1,
-          tabName: 1
+          tabName: "姓名1"
         },
         {
           tabId: 2,
-          tabName: 2
+          tabName: "姓名2"
         }
       ]
     });
@@ -92,13 +140,15 @@ class GoodEditForm extends React.Component {
       window.open("src/static/goods_label.xlsx");
     }
   };
-  goback=()=>{
-    this.props.history.push('/account/cTask')
-  }
+  goback = () => {
+    this.props.history.push("/account/cTask");
+  };
+  renderOption = item => {
+    return <Option key={item.tabName}>{item.tabName}</Option>;
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
-    const taskType = this.props.location.search.substr(1).split("=")[1];
-    const { labelList = [], goodList = [] } = this.state;
+    const { labelList = [], goodList = [], infos, taskType } = this.state;
     const Columns =
       taskType == 1 ? Columns1 : taskType == 2 ? Columns2 : Columns3;
     return (
@@ -110,9 +160,13 @@ class GoodEditForm extends React.Component {
         >
           {getFieldDecorator("taskName", {
             rules: [{ required: true, message: "请输入定时名称" }],
-            initialValue: this.state.taskName
+            initialValue: infos.taskName
           })(
-            <Input placeholder="请输入定时名称，最多60个字符" maxLength="60" autoComplete='off' />
+            <Input
+              placeholder="请输入定时名称，最多60个字符"
+              maxLength={60}
+              autoComplete="off"
+            />
           )}
         </FormItem>
         {taskType == 1 && (
@@ -123,7 +177,7 @@ class GoodEditForm extends React.Component {
           >
             {getFieldDecorator("taskTime", {
               rules: [{ required: true, message: "请选择定时时间" }],
-              initialValue: moment()
+              initialValue: moment(infos.taskOperateStartTime)
             })(<DateTime />)}
           </FormItem>
         )}
@@ -163,10 +217,10 @@ class GoodEditForm extends React.Component {
               wrapperCol={{ span: 8 }}
             >
               {getFieldDecorator("extraField", {
-                rules: [{ required: true, message: "请选择状态" }]
+                rules: [{ required: true, message: "请选择标签" }]
               })(
                 <AutoComplete
-                  dataSource={labelList}
+                  dataSource={labelList.map(this.renderOption)}
                   style={{ width: 200 }}
                   onSearch={this.onSearch}
                   onSelect={this.onSelect}
@@ -188,16 +242,16 @@ class GoodEditForm extends React.Component {
             dataList={goodList}
           />
         </FormItem>
-        <Button className="mr30" onClick={this.goback}>
-          取消
-        </Button>
-        <Button
-          type="primary"
-          onClick={this.handleSubmit}
-          style={{ marginLeft: "30px" }}
+        <FormItem
+          wrapperCol={{push:4, span: 20 }}
         >
-          保存
-        </Button>
+          <Button className='edit_btn' size='large' onClick={this.goback}>
+            取消
+          </Button>　
+          <Button type="primary" size='large' onClick={this.handleSubmit}>
+            保存
+          </Button>
+        </FormItem>
       </Form>
     );
   }

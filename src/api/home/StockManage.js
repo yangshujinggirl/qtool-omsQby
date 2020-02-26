@@ -1,7 +1,7 @@
-import Req from '../Req'
+import {omsAjax} from '../Req'
 
 export function GetListsApi(values){
-    return Req.get('stock/searchStock',{
+    return omsAjax.get('stock/searchStock',{
         params:{...values}
     })
 }

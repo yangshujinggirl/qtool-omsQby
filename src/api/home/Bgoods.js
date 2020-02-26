@@ -1,10 +1,10 @@
-import Req from '../Req'
+import {omsAjax} from '../Req'
 /**
  * 
  * 获取B商品列表
  */
 export function GetListsApi(values){
-    return Req.get('items/searchProductListByQbc',{
+    return omsAjax.get('items/searchProductListByQbc',{
         params:{...values}
     })
 }
@@ -13,7 +13,7 @@ export function GetListsApi(values){
  * 获取B商品详情
  */
 export function GetGoodDetailApi(values){
-    return Req.get('items/searchSkuDetail',{
+    return omsAjax.get('items/searchSkuDetail',{
         params:{...values}
     })
 }
@@ -21,7 +21,7 @@ export function GetGoodDetailApi(values){
  * B端商品保存
  */
 export function saveGoodApi(values){
-    return Req.post('/items/updateSkuBC',{
+    return omsAjax.post('/items/updateSkuBC',{
         ...values
     })
 }
