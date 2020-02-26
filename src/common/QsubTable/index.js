@@ -13,7 +13,7 @@ class Index extends Component {
         item.onOperateClick = type => {
           this.props.onOperateClick(item, type);
         };
-        item[this.props.subList].map(subItem => {
+        item['subList']&&item['subList'].map(subItem => {
           subItem.onOperateClick = type => {
             this.props.onOperateClick(subItem, type);
           };
@@ -22,8 +22,8 @@ class Index extends Component {
     return data;
   }
   render() {
-    const { parColumns, subColumns, subList } = this.props;
-    const parList = this.processData(this.props.parList);
+    const { parColumns, subColumns } = this.props;
+    let dataSource = this.processData(this.props.dataSource);
     return (
       <Table
         className="tree-Table-wrap"
@@ -34,10 +34,10 @@ class Index extends Component {
             bordered
             pagination={false}
             columns={subColumns}
-            dataSource={record[subList]}
+            dataSource={record['subList']}
           />
         )}
-        dataSource={parList}
+        dataSource={dataSource}
         pagination={false}
       />
     );

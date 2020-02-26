@@ -1,4 +1,4 @@
-import { erpAjax } from '../Req'
+import { erpAjax } from '../Req';
 /**
  *
  * 获取列表

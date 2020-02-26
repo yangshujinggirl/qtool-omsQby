@@ -42,8 +42,8 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
     });
   return axiosinstance;
 }
-const ajax = new request({baseURL:'/qtoolsOms'});
-export default ajax;
+// const ajax = new request({baseURL:'/qtoolsOms'});
+// export default ajax;
 
 const omsAjax = new request({baseURL:'/qtoolsOms'});
 const erpAjax = new request({baseURL:'/qtoolsErp'});

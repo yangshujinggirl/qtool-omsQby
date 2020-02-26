@@ -1,10 +1,10 @@
-import Req from '../Req'
+import {omsAjax} from '../Req'
 /**
  *
  * 获取基础商品列表
  */
 export function GetGoodsApi(values){
-    return Req.get('/items/searchSpuList',{
+    return omsAjax.get('/items/searchSpuList',{
        params:{...values}
     })
 }
@@ -13,7 +13,7 @@ export function GetGoodsApi(values){
  * @param {*} values
  */
 export function GoAuditApi(values){
-    return Req.get('/items/examineSku',{
+    return omsAjax.get('/items/examineSku',{
        params:{...values}
     })
 }
@@ -22,7 +22,7 @@ export function GoAuditApi(values){
  * @param {*} values
  */
 export function GetCategoryApi(values){
-    return Req.get('/category/searchCategoryByPro',{
+    return omsAjax.get('/category/searchCategoryByPro',{
        params:{...values}
     })
 }
@@ -31,7 +31,7 @@ export function GetCategoryApi(values){
  * @param {*} values
  */
 export function GetAttributeApi(values){
-    return Req.get('/attribute/getAttributeList',{
+    return omsAjax.get('/attribute/getAttributeList',{
        params:{...values}
     })
 }
@@ -40,7 +40,7 @@ export function GetAttributeApi(values){
 //  * @param {*} values
 //  */
 // export function GetAttributeApi(values){
-//     return Req.get('/attribute/searchAttributeByCategoryId',{
+//     return omsAjax.get('/attribute/searchAttributeByCategoryId',{
 //        params:{...values}
 //     })
 // }
@@ -49,14 +49,14 @@ export function GetAttributeApi(values){
  * @param {*} values
  */
 export function GetEditInfoApi(values){
-    return Req.get('/items/searchItemsBySpuCode',{params:{...values}})
+    return omsAjax.get('/items/searchItemsBySpuCode',{params:{...values}})
 }
 /**
  * 查询品牌
  * @param {*} values
  */
 export function GetBrandApi(values){
-    return Req.get('/brand/searchByName',{params:{...values}})
+    return omsAjax.get('/brand/searchByName',{params:{...values}})
 }
 /**
  * 新建商品
@@ -64,33 +64,33 @@ export function GetBrandApi(values){
  */
 export function GetAddApi(values){
   console.log(values)
-    return Req.post('/items/addSpu',values)
+    return omsAjax.post('/items/addSpu',values)
 }
 /**
  * 修改商品
  * @param {*} values
  */
 export function GetEditApi(values){
-    return Req.post('/items/modSpu',{...values})
+    return omsAjax.post('/items/modSpu',{...values})
 }
 /**
  * 新增sku
  * @param {*} values
  */
 export function GetAddSkuApi(values){
-    return Req.post('/items/addSpuSku',{...values})
+    return omsAjax.post('/items/addSpuSku',{...values})
 }
 /**
  * 修改sku
  * @param {*} values
  */
 export function GetEditSkuApi(values){
-    return Req.post('/items/modSku',{...values})
+    return omsAjax.post('/items/modSku',{...values})
 }
 /**
  * 货主
  * @param {*} values
  */
 export function GetSupplierApi(values){
-    return Req.post('/supplier/supplierNames',{...values})
+    return omsAjax.post('/supplier/supplierNames',{...values})
 }

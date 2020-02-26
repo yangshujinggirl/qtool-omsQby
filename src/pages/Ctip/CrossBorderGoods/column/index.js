@@ -2,7 +2,7 @@ import moment from "moment";
 import { Input } from 'antd';
 
 import { Link } from 'react-router-dom';
-const Columns = [
+const ColumnsPar = [
   {
     title: "Spuid",
     dataIndex: "attributeName",
@@ -54,6 +54,40 @@ const Columns = [
     )
   }
 ];
+const ColumnsSub = [
+  {
+    title: "Sku编码",
+    dataIndex: "attributeName",
+  },
+  {
+    title: "商品图片",
+    dataIndex: "lastUpdateTime",
+  },
+  {
+    title: "规格",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "C端售价",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "销量",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "状态",
+    dataIndex: "modifyBy"
+  },
+  {
+    title: "操作",
+    render: (text,record,index) => (
+      <div>
+        立即下架
+      </div>
+    )
+  }
+];
 const ColumnsEdit = [
   {
     title: "后台一级类目",
@@ -73,4 +107,4 @@ const ColumnsEdit = [
   }
 ];
 
-export { Columns, ColumnsEdit };
+export { ColumnsPar, ColumnsSub, ColumnsEdit };
