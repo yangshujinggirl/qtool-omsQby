@@ -5,12 +5,6 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 class NormalForm extends BaseFilter {
-  //点击搜索
-  handleSubmit = e => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      this.props.submit && this.props.submit(values);
-    });
-  };
   //初始化
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -68,7 +62,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col span={24}>
               <FormItem className="oms-condition-operate">
-                <Qbtn type="primary" onClick={this.handleSubmit}>
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
                   搜索
                 </Qbtn>
               </FormItem>

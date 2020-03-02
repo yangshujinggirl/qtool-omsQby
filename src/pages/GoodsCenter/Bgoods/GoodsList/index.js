@@ -2,84 +2,72 @@ import { connect } from "react-redux";
 import FilterForm from "./components/FilterForm";
 import { Qtable, Qpagination, Qbtn } from "common";
 import { ExportApi } from "api/Export";
+import { GetListsApi } from "api/home/GoodsCenter/Bgoods/GoodList";
 import Columns from "./column";
 import moment from "moment";
+import QsubTable from "common/QsubTable";
+import { message } from "antd";
 
 class Bgoods extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValues: {
-        saleRange: "b",
-        upperStatus: 1
-      }
+      everyPage: 20,
+      currentPage: 0,
+      totalCount: 0,
+      goodLists: [],
+      inputValues: {}
     };
   }
   //初始化数据
   componentDidMount = () => {
-    this.props.dispatch({
-      type: "bgoods/fetchList",
-      payload: {
-        ...this.state.inputValues
-      }
-    });
+    this.searchData();
   };
   //搜索列表
   searchData = values => {
-    const { time, ..._values } = values;
-    if (time && time[0]) {
-      _values.stime = moment(time[0]).format("YYYY-MM-DD H:mm:ss");
-      _values.etime = moment(time[1]).format("YYYY-MM-DD H:mm:ss");
-    } else {
-      _values.stime = "";
-      _values.etime = "";
-    }
-    const params = { ...this.state.inputValues, ..._values };
-    this.props.dispatch({
-      type: "bgoods/fetchList",
-      payload: params
+    const params = { ...this.state.inputValues, ...values };
+    GetListsApi(params).then(res => {
+      if (res.httpCode == 200) {
+        const { result, everyPage, totalPage, currentPage } = res;
+        this.setState({
+          goodLists: result,
+          everyPage,
+          totalPage,
+          currentPage,
+          inputValues: params
+        });
+      }
     });
-    this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    this.props.dispatch({
-      type: "bgoods/fetchList",
-      payload: {
-        ...this.state.inputValues,
-        currentPage,
-        everyPage
-      }
-    });
+    this.searchData({ currentPage, everyPage, ...this.state.inputValues });
   };
   //搜索查询
   onSubmit = params => {
     this.searchData(params);
   };
-  //导出
-  export = () => {
-    ExportApi({ ...this.state.inputValues, type: 2 });
-  };
   render() {
-    console.log(this.props);
-    const { goodLists } = this.props;
+    const { goodLists, everyPage, totalCount, currentPage } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
-          <Qbtn size="free" onClick={this.export}>
-            商品导出
-          </Qbtn>
+          <Qbtn onClick={this.batchOperate}>批量上新</Qbtn>
+          <Qbtn onClick={this.batchOperate}>批量下新</Qbtn>
+          <Qbtn onClick={this.batchOperate}>批量上畅销</Qbtn>
+          <Qbtn onClick={this.batchOperate}>批量下畅销</Qbtn>
         </div>
-        <Qtable columns={Columns} dataSource={goodLists} />
-        <Qpagination data={this.props} onChange={this.changePage} />
+        {goodLists.length > 0 && (
+          <QsubTable columns={Columns} dataSource={goodLists} />
+        )}
+        <Qpagination
+          data={{ everyPage, currentPage, totalCount }}
+          onChange={this.changePage}
+        />
       </div>
     );
   }
 }
-function mapStateToProps(state) {
-  const { BgoodsReducers } = state;
-  return BgoodsReducers;
-}
 
-export default connect(mapStateToProps)(Bgoods);
+export default Bgoods;

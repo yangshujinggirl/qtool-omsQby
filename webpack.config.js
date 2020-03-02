@@ -128,11 +128,15 @@ module.exports = {
       '/qtoolsOms': {
         target:'http://192.168.2.37:8001',
         pathRewrite: {"^/qtoolsOms" : ""},
-        changeOrigin: true,
       },
       '/qtoolsErp': {
         target:'http://v6.oms.testin.qtoolsbaby.net:81',
         pathRewrite: {"^/qtoolsErp" : ""},
+        changeOrigin: true,
+      },
+      '/qtoolsApp': {
+        target:'http://v6.oms.testin.qtoolsbaby.net:81',
+        pathRewrite: {"^/qtoolsApp" : ""},
         changeOrigin: true,
       }
     }

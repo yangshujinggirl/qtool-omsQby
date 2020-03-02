@@ -2,7 +2,7 @@ import {omsAjax} from '../Req';
 
 export function GoLoginTApi({username,password}) {
   return omsAjax.post('/login', {
-    username,password,term:'oms'
+    username,password
   })
 }
 export function GoLoginOutTApi() {

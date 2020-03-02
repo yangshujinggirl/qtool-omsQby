@@ -34,7 +34,7 @@ class Index extends Component {
             bordered
             pagination={false}
             columns={subColumns}
-            dataSource={record['subList']}
+            dataSource={record['subList']?record['subList']:[]}
           />
         )}
         dataSource={dataSource}
