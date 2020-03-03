@@ -1,4 +1,5 @@
-import {Form} from 'antd'
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {Qtable} from 'common'
 import getColumns from './column'
 class index extends React.Component {

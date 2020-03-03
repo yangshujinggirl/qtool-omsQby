@@ -1,4 +1,6 @@
-import { Form, Input, Row, Col, Select } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Row, Col, Select } from "antd";
 import { BaseFilter, Qbtn } from "common";
 const FormItem = Form.Item;
 const { Option } = Select;

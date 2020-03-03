@@ -1,4 +1,6 @@
-import { Form, Input, Select, message, Cascader, Checkbox } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, message, Cascader, Checkbox } from "antd";
 import {
   AddShopApi,
   ShopInfosApi,

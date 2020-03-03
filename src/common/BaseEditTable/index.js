@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Input, Button, Form  } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Table, Input, Button } from 'antd';
 import { Qbtn } from 'common';
 
 class BaseEditTable extends Component {
@@ -74,5 +76,5 @@ class BaseEditTable extends Component {
       </Table>
     )
   }
-};
+}
 export default BaseEditTable;

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import FilterForm from "./FilterForm";
 import EditModal from "./components/Audit";
 import { GetListApi } from "api/home/BaseGoodsCenter/GoodsAudit";
-import { Popover, Icon } from "antd";
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Popover } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
 import "./index.less";
@@ -129,7 +130,7 @@ class TradeGoods extends Component {
         <div className="handle-operate-btn-action">
           <Qbtn onClick={this.audit}> 批量审核 </Qbtn>
           <Popover className="pop_over" title="说明" content={content}>
-            审核说明 <Icon type="question-circle" theme="filled" />
+            审核说明 <LegacyIcon type="question-circle" theme="filled" />
           </Popover>
         </div>
         <Qtable

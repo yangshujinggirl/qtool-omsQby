@@ -1,5 +1,7 @@
 import React ,{ Component } from 'react';
-import { Upload,Icon, Form, Modal, Button, message } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Upload, Modal, Button, message } from 'antd';
 import './index.less';
 
 const FormItem = Form.Item;
@@ -54,7 +56,7 @@ class UpLoadImg extends Component {
       const { previewVisible, previewImage } = this.state;
       const uploadButton = (
         <div>
-          <Icon type="plus" />
+          <LegacyIcon type="plus" />
           <div className="ant-upload-text">上传</div>
         </div>
       );

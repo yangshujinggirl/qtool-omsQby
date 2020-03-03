@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { Spin, Icon } from 'antd';
+import { Spin } from 'antd';
 import { QbyConnect, Qbtn } from 'common';
 import * as Actions from './actions';
 import HomeController from '../HomeController';

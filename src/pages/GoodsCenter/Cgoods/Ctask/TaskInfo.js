@@ -1,7 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import { getTaskInfoApi } from "api/home/GoodsCenter/Cgoods/Ctask";
 import { Columns1, Columns2, Columns3 } from "./AddTask/column";
-import { Form, Button } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button } from "antd";
 import Qtable from "common/Qtable/index"; //表单
 import moment from "moment";
 const FormItem = Form.Item;

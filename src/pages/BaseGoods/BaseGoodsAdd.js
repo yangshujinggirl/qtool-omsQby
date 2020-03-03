@@ -1,7 +1,16 @@
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {
-  Form,Input,Icon,Spin,Upload,
-  Select,Row,Col,Checkbox,
-  Button,Radio,AutoComplete,
+  Input,
+  Spin,
+  Upload,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  Radio,
+  AutoComplete,
 } from 'antd';
 import { connect } from 'react-redux';
 import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
@@ -246,7 +255,7 @@ class BaseGoodsAdd extends React.Component {
     const { getFieldDecorator } = this.props.form;
     let isEdit=match.params.id?true:false;
     console.log(this.props);
-    return(
+    return (
       <Spin tip="加载中..." spinning={this.props.loading}>
         <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -576,7 +585,7 @@ class BaseGoodsAdd extends React.Component {
           </Form>
         </div>
       </Spin>
-    )
+    );
   }
 }
 function mapStateToProps(state) {

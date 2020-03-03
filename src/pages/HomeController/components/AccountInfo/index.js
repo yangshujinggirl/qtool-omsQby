@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Menu, Dropdown } from 'antd';
 import { Sessions } from 'utils';
 import { GoLoginOutTApi } from '../../../../api/user/Login';
 import './index.less';
@@ -50,18 +51,18 @@ class AccountInfo extends Component {
       </Menu>
     );
     const userName = Sessions.get('name');
-    return(
+    return (
       <div className="oms-home-header-nav">
         <span className="download-center">下载中心</span>
         <span className="account-center">
           <Dropdown overlay={menu} trigger={['click']}>
             <a className="ant-dropdown-link" href="#">
-              Qtools | {userName} 1234<Icon type="down" />
+              Qtools | {userName} 1234<LegacyIcon type="down" />
             </a>
           </Dropdown>
         </span>
       </div>
-    )
+    );
   }
 }
 

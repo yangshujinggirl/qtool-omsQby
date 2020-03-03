@@ -1,4 +1,6 @@
-import { Form, Input, Radio, message } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Radio, message } from "antd";
 import { GetGoodDetailApi, saveGoodApi } from "api/home/Bgoods";
 import QupLoadImgLimt from "common/QupLoadImgLimt";
 import { Qbtn } from "common";

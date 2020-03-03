@@ -1,14 +1,8 @@
 import { getTimeInfoApi, AddTimeApi } from "api/home/GoodsCenter/Bgoods/Btimer";
 import Columns from "./column";
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Radio,
-  AutoComplete,
-  Select
-} from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, message, Radio, AutoComplete, Select } from "antd";
 import moment from "moment";
 const RadioGroup = Radio.Group;
 const Option = Select.Option;

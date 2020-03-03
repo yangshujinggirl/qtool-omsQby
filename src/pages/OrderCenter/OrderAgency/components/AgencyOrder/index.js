@@ -1,4 +1,6 @@
-import { Modal, Input, Select, Form, AutoComplete } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Input, Select, AutoComplete } from "antd";
 import { Qtable } from "common";
 const Option = Select.Option;
 const FormItem = Form.Item;

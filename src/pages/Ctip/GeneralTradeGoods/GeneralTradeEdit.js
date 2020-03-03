@@ -1,7 +1,17 @@
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {
-  Form,Input,Icon,Spin,Upload,
-  Select,Row,Col,Checkbox,
-  Button,Radio,AutoComplete,Descriptions,
+  Input,
+  Spin,
+  Upload,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  Radio,
+  AutoComplete,
+  Descriptions,
 } from 'antd';
 import { connect } from 'react-redux';
 import { Qtable, Qbtn, QupLoadImgLimt } from 'common';

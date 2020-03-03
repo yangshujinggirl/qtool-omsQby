@@ -1,10 +1,6 @@
-import {
-  Form,
-  Input,
-  Radio,
-  Select,
-  message,
-} from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Radio, Select, message } from "antd";
 import {
   SupplierDetailApi,
   UpdateSupplierInfoApi,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Tag, Input, Tooltip, Icon, message } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { Tag, Input, Tooltip, message } from 'antd';
 
 class Creatlabel extends Component {
   constructor(props) {
@@ -73,7 +74,7 @@ class Creatlabel extends Component {
     } else {
       tags = this.props.BaseGoodsAddReducers.specData.specTwo
     }
-    return(
+    return (
       <div>
         {
           tags.map((tag, index) => (
@@ -104,18 +105,18 @@ class Creatlabel extends Component {
             this.props.disabled?
             <Tag
               style={{ background: '#fff', borderStyle: 'dashed','cursor':'not-allowed' }}>
-              <Icon type="plus"/>新建属性
+              <LegacyIcon type="plus"/>新建属性
             </Tag>
             :
             <Tag
               onClick={this.showInput}
               style={{ background: '#fff', borderStyle: 'dashed',}}>
-              <Icon type="plus"/>新建属性
+              <LegacyIcon type="plus"/>新建属性
             </Tag>
           )
         }
       </div>
-    )
+    );
   }
 }
 

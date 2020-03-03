@@ -1,12 +1,6 @@
-import {
-  Form,
-  Input,
-  Select,
-  message,
-  Radio,
-  AutoComplete,
-  DatePicker
-} from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, message, Radio, AutoComplete, DatePicker } from "antd";
 const { RangePicker } = DatePicker;
 import {
   GetInfoApi,

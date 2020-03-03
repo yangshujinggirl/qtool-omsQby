@@ -1,14 +1,8 @@
 import { getTaskInfoApi, AddTaskApi } from "api/home/GoodsCenter/Cgoods/Ctask";
 import { Columns1, Columns2, Columns3 } from "./column";
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Radio,
-  AutoComplete,
-  Select
-} from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, message, Radio, AutoComplete, Select } from "antd";
 import moment from "moment";
 const RadioGroup = Radio.Group;
 const Option = Select.Option;

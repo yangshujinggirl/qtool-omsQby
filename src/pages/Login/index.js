@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Form, Icon, Input, Button, Checkbox,
-} from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, Checkbox } from 'antd';
 import { GoLoginApi, GoLoginTApi } from '../../api/user/Login';
 import { Sessions } from 'utils';
 import './index.less';

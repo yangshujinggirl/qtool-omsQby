@@ -1,4 +1,6 @@
-import { Button, Upload, Icon, Modal, Form } from 'antd';
+import { Form, Icon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Upload, Modal } from 'antd';
 import React, { Component } from 'react';
 import './index.less';
 
@@ -48,7 +50,7 @@ class QupLoadList extends Component {
   render() {
     const uploadButton = (
       <div>
-        <Icon type="plus" />
+        <LegacyIcon type="plus" />
         <div className="ant-upload-text">添加图片</div>
       </div>
     );

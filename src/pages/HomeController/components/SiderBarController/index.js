@@ -3,7 +3,8 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import { Menu, Icon, Button } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Menu, Button } from 'antd';
 import { GetMenuApi } from '../../../../api/home/Home';
 import './index.less';
 import menuLogo from '../../imgs/menu_logo.png';
@@ -25,7 +26,7 @@ class SiderBarController extends React.Component {
     // const { menuList } = this.props;
     const menuList = menu;
     // console.log(menuList)
-    return(
+    return (
       <div className="oms-sider-controller">
         <div className="slider-logo">
           <img src={menuLogo}/>
@@ -43,7 +44,7 @@ class SiderBarController extends React.Component {
                 key={el.id}
                 title={
                   <span className="diy-menu-title">
-                    <Icon type="mail" />
+                    <LegacyIcon type="mail" />
                     <span>{el.name}</span>
                   </span>
                 }>
@@ -74,7 +75,7 @@ class SiderBarController extends React.Component {
           }
         </Menu>
       </div>
-    )
+    );
   }
 }
 

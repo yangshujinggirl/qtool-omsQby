@@ -1,5 +1,7 @@
 import { Component } from "react";
-import { Modal, Form, Input, Select, message } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Input, Select, message } from "antd";
 import { AddAtrApi, UpdataAtrApi } from "api/home/Attributions";
 const FormItem = Form.Item;
 const Option = Select.Option;

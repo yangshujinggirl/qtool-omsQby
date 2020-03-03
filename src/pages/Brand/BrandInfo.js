@@ -1,4 +1,5 @@
-import { Form } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import { GetInfoApi } from "api/home/Brand";
 import moment from "moment";
 const formItemLayout = {

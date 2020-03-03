@@ -1,4 +1,6 @@
-import { Modal,Input,Form,Cascader,DatePicker,Radio } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Input, Cascader, DatePicker, Radio } from 'antd';
 import moment from 'moment';
 import { GetAddRecordApi } from '../../../../../api/home/BaseGoodsCenter/InvestmentManage';
 import { Qbtn, Qmessage, CascaderAddressOptions } from 'common';

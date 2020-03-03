@@ -179,7 +179,9 @@
 // const BgoodsAdds = Form.create({})(BgoodsAdd);
 // export default BgoodsAdds;
 import React, { Component } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, Checkbox } from "antd";
 
 class BgoodsAdd extends Component {
   onCheck=async()=>{

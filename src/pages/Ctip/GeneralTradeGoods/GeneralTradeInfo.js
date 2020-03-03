@@ -1,7 +1,18 @@
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {
-  Form,Input,Icon,Spin,Upload,Table,
-  Select,Row,Col,Checkbox,
-  Button,Radio,AutoComplete,Descriptions,
+  Input,
+  Spin,
+  Upload,
+  Table,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  Radio,
+  AutoComplete,
+  Descriptions,
 } from 'antd';
 import { Qtable, Qbtn } from 'common';
 import { GetEditInfoApi } from 'api/home/BaseGoods';

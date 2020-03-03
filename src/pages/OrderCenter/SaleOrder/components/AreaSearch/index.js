@@ -1,4 +1,6 @@
-import { Modal, Form } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal } from "antd";
 import { connect } from "react-redux";
 import { Qtable, Qpagination, Qbtn } from "common";
 import FilterForm from "./FilterForm";

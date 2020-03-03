@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Form, Modal, Input, Radio, message, Button, Icon } from "antd";
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Input, Radio, message, Button } from "antd";
 import {
   cancelAuditApi,
   goAuditApi
@@ -98,7 +100,7 @@ class Audit extends Component {
       >
         <Form {...formItemLayout}>
           <div>
-            <Icon
+            <LegacyIcon
               style={{ color: "red" }}
               theme="filled"
               type="exclamation-circle"

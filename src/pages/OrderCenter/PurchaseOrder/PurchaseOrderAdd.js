@@ -1,12 +1,6 @@
-import {
-  Form,
-  Input,
-  DatePicker,
-  message,
-  AutoComplete,
-  Button,
-  Modal
-} from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, DatePicker, message, AutoComplete, Button, Modal } from "antd";
 import {
   SupplierListApi,
   GetAddOrderApi,

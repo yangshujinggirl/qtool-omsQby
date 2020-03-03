@@ -1,13 +1,6 @@
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Select,
-  message,
-  Radio,
-  TimePicker
-} from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Row, Col, Select, message, Radio, TimePicker } from "antd";
 import {
   ShopInfosApi,
   updataRuleApi

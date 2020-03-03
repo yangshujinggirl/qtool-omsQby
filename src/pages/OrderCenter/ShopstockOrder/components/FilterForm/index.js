@@ -1,4 +1,6 @@
-import { Form, Input, Select, Row, Col, DatePicker } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, Row, Col, DatePicker } from "antd";
 import { BaseFilter, Qbtn } from "common";
 import { isRepliedOption } from "../../optionMap";
 const FormItem = Form.Item;

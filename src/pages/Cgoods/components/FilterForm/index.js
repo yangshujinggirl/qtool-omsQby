@@ -1,4 +1,6 @@
-import { Form, Input, Select, DatePicker, Row, Col } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, DatePicker, Row, Col } from "antd";
 import { moment } from "moment";
 import { BaseFilter, Qbtn } from "common";
 import { GetCategoryApi } from "api/home/BaseGoods";

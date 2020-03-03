@@ -1,6 +1,8 @@
 import React from "react";
 import { BaseFilter, Qbtn } from "common";
-import { Form, Row, Col, Input, Select } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Row, Col, Input, Select } from "antd";
 const FormItem = Form.Item;
 const Option = Select.Option;
 

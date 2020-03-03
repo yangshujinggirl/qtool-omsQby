@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-import {
-  Form,
-  Row,
-  Col,
-  Input,
-  Button,
-  Icon,
-  Select ,
-  DatePicker
-} from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Row, Col, Input, Button, Select, DatePicker } from 'antd';
 const FormItem = Form.Item;
 const Option =  Select.Option;
 
