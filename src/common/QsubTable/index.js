@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table } from "antd";
-import './index.less';
+import "./index.less";
 
 class Index extends Component {
   //绑定方法
@@ -10,14 +10,21 @@ class Index extends Component {
     }
     data &&
       data.map(item => {
+        item.key = item.id;
         item.onOperateClick = type => {
           this.props.onOperateClick(item, type);
         };
-        item['subList']&&item['subList'].map(subItem => {
-          subItem.onOperateClick = type => {
-            this.props.onOperateClick(subItem, type);
-          };
-        });
+        item["subList"] &&
+          item["subList"].map(subItem => {
+            subItem.key = subItem.id;
+            item.totalStockQty += Number(subItem.stockQty);
+            item.totalSaleQty += Number(subItem.saleQty);
+            subItem.onOperateClick = type => {
+              this.props.onOperateClick(subItem, type);
+            };
+            return subItem
+          });
+          return item
       });
     return data;
   }
@@ -26,19 +33,19 @@ class Index extends Component {
     let dataSource = this.processData(this.props.dataSource);
     return (
       <Table
-        className="tree-Table-wrap"
-        columns={parColumns}
-        expandedRowRender={record => (
-          <Table
-            className="sub-two-Table-wrap"
-            bordered
-            pagination={false}
-            columns={subColumns}
-            dataSource={record['subList']?record['subList']:[]}
-          />
-        )}
-        dataSource={dataSource}
         pagination={false}
+        bordered={true}
+        dataSource={dataSource}
+        columns={parColumns}
+        expandable={{
+          expandedRowRender: record => (
+            <Table
+              columns={subColumns}
+              dataSource={record["subList"]}
+              pagination={false}
+            />
+          )
+        }}
       />
     );
   }

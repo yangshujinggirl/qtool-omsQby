@@ -50,7 +50,7 @@ class QupLoadList extends Component {
   render() {
     const uploadButton = (
       <div>
-        <LegacyIcon type="plus" />
+        <Icon type="plus" />
         <div className="ant-upload-text">添加图片</div>
       </div>
     );

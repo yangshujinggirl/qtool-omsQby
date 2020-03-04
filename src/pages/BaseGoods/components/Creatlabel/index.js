@@ -105,13 +105,13 @@ class Creatlabel extends Component {
             this.props.disabled?
             <Tag
               style={{ background: '#fff', borderStyle: 'dashed','cursor':'not-allowed' }}>
-              <LegacyIcon type="plus"/>新建属性
+              <Icon type="plus"/>新建属性
             </Tag>
             :
             <Tag
               onClick={this.showInput}
               style={{ background: '#fff', borderStyle: 'dashed',}}>
-              <LegacyIcon type="plus"/>新建属性
+              <Icon type="plus"/>新建属性
             </Tag>
           )
         }

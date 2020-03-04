@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Button } from 'antd';
 import './index.less';
 
 class BaseFilter extends Component {
   constructor(props) {
     super(props);
     this.placeholder = ['开始日期', '结束日期']
-    this.formatType = 'YYYY-MM-DD H:mm:ss';
+    this.formatType = 'YYYY-MM-DD HH:mm:ss';
     // 表单的FormItem的布局比例
     this.formItemLayout = {
       labelCol: {
@@ -46,6 +43,14 @@ class BaseFilter extends Component {
       }
       this.props.onSubmit && this.props.onSubmit(value);
     });
+  }
+  removeSpace=(value)=>{
+    for (let i in value) {
+      // 替换搜索条件中字符串的前后空格
+      if (typeof value[i] == 'string') {
+        value[i] = value[i].trim()
+      };
+    }
   }
 }
 export default BaseFilter;

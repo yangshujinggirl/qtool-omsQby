@@ -1,7 +1,7 @@
 import moment from "moment";
-const eventEmitter = require('events').EventEmitter;
+const eventEmitter = require("events").EventEmitter;
 const eventBus = new eventEmitter();
-  export default eventBus
+export default eventBus;
 //全局防抖
 window.deBounce = (func, wait) => {
   let timer = null;
@@ -12,7 +12,15 @@ window.deBounce = (func, wait) => {
     }, wait);
   };
 };
- //不可选日期
+//所有input前后去空格
+window.removeSpace=(values)=>{
+  for (let i in value) {
+    if (typeof value[i] == "string") {
+      value[i] = value[i].trim();
+    }
+  }
+}
+//不可选日期
 export function disabledDate(current) {
   return (
     current &&

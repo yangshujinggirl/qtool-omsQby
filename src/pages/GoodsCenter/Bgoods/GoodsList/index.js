@@ -1,12 +1,13 @@
 import { connect } from "react-redux";
-import FilterForm from "./components/FilterForm";
+// import FilterForm from "./components/FilterForm";
 import { Qtable, Qpagination, Qbtn } from "common";
 import { ExportApi } from "api/Export";
 import { GetListsApi } from "api/home/GoodsCenter/Bgoods/GoodList";
-import Columns from "./column";
+import {parColumns,subColumns} from "./column";
 import moment from "moment";
 import QsubTable from "common/QsubTable";
 import { message } from "antd";
+import NormalLoginForm from './components/FilterForm'
 
 class Bgoods extends React.Component {
   constructor(props) {
@@ -28,11 +29,11 @@ class Bgoods extends React.Component {
     const params = { ...this.state.inputValues, ...values };
     GetListsApi(params).then(res => {
       if (res.httpCode == 200) {
-        const { result, everyPage, totalPage, currentPage } = res;
+        const { result, everyPage, total, currentPage } = res.result;
         this.setState({
           goodLists: result,
           everyPage,
-          totalPage,
+          totalCount:total,
           currentPage,
           inputValues: params
         });
@@ -41,7 +42,7 @@ class Bgoods extends React.Component {
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    this.searchData({ currentPage, everyPage, ...this.state.inputValues });
+    this.searchData({ ...this.state.inputValues,currentPage, everyPage });
   };
   //搜索查询
   onSubmit = params => {
@@ -49,9 +50,11 @@ class Bgoods extends React.Component {
   };
   render() {
     const { goodLists, everyPage, totalCount, currentPage } = this.state;
+    console.log(goodLists)
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.onSubmit} />
+        {/* <FilterForm onSubmit={this.onSubmit} /> */}
+        <NormalLoginForm/>
         <div className="handle-operate-btn-action">
           <Qbtn onClick={this.batchOperate}>批量上新</Qbtn>
           <Qbtn onClick={this.batchOperate}>批量下新</Qbtn>
@@ -59,7 +62,7 @@ class Bgoods extends React.Component {
           <Qbtn onClick={this.batchOperate}>批量下畅销</Qbtn>
         </div>
         {goodLists.length > 0 && (
-          <QsubTable columns={Columns} dataSource={goodLists} />
+          <QsubTable subColumns={subColumns} parColumns={parColumns}  dataSource={goodLists} />
         )}
         <Qpagination
           data={{ everyPage, currentPage, totalCount }}

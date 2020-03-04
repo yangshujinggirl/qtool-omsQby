@@ -105,7 +105,7 @@ class UpLoadImg extends Component {
     const { previewVisible, previewImage } = this.state;
     const uploadButton = (
       <div>
-        <LegacyIcon type="plus" />
+        <Icon type="plus" />
         <div className="ant-upload-text">上传</div>
       </div>
     );

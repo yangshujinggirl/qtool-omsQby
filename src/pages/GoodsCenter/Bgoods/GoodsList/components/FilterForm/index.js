@@ -1,179 +1,254 @@
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Input, Select, DatePicker, Row, Col } from "antd";
+import React,{useState,useEffect} from 'react'
+import { Form,Input, Select, DatePicker, Row, Col, Button } from "antd";
 import { moment } from "moment";
-import { BaseFilter, Qbtn } from "common";
 import { GetCategoryApi } from "api/home/BaseGoods";
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-
-class Search extends BaseFilter {
-  constructor(props) {
-    super(props);
-    this.state = {
-      catagoryList: [],
-      catagoryList2: []
-    };
+const colspans = {
+  xs: 24,
+  md:12,
+  xl: 7,
+  xxl: 6,
+};
+const formItemLayout = {
+  labelCol: {
+    span: 10
+  },
+  wrapperCol: {
+    span: 12
   }
-  componentDidMount = () => {
-    this.initPage();
-  };
-  initPage = () => {
+};
+
+const SearchForm=(props)=> {
+  const [form] = Form.useForm();
+  const [catagoryList,setCatagoryList] = useState([])
+  const [catagoryList2,setCatagoryList2] = useState([])
+  useEffect (()=>{
     GetCategoryApi({ level: 1, parentId: "" }).then(res => {
-      this.setState({
-        catagoryList: res.result
-      });
+      setCatagoryList(res.result)
     });
-  };
-  onChange = value => {
-    this.props.form.resetFields(["categoryCode2"]);
-    this.setState({ catagoryList2: [] });
+  },[]);
+  const onChange = value => {
+    form.resetFields(["categoryCode2"]);
+    setCatagoryList2(res.result)
     if (value) {
       GetCategoryApi({ level: -1, parentId: value }).then(res => {
-        this.setState({
-          catagoryList2: res.result || []
-        });
+        setCatagoryList2(res.result)
       });
     }
   };
-  handleSubmit=()=>{
-    this.props.form.validateFields((err,values)=>{
-      if(!err){
-        const {time,..._values} = values;
-        if (time && time[0]) {
-          _values.lastUpperShelvesTimeStart = moment(time[0], "YYYY-MM-DD H:mm:ss");
-          _values.lastUpperShelvesTimeEnd = moment(time[1], "YYYY-MM-DD H:mm:ss");
-        };
-        this.props.onSubmit(_values)
-      };
-    })
-  }
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    const { catagoryList, catagoryList2 } = this.state;
-    return ( 
+  const onFinish = values => {
+    const { time, ..._values } = values;
+    if (time && time[0]) {
+      _values.lastUpperShelvesTimeStart = moment(time[0], this.formatType);
+      _values.lastUpperShelvesTimeEnd = moment(time[1], this.formatType);
+    }
+    props.onSubmit(removeSpace(_values));
+  };
+    return (
       <div className="qtoolOms-condition">
-        <Form className="serach-common-form">
+        <Form className="serach-common-form" onFinish={onFinish}>
           <Row gutter={24}>
-            <Col {...this.colspans}>
-              <FormItem label="spu编码" {...this.formItemLayout}>
-                {getFieldDecorator("spuCode")(
-                  <Input placeholder="请输入spu编码" autoComplete="off" />
-                )}
+            <Col {...colspans}>
+              <FormItem {...formItemLayout} name="spuCode" label="spu编码">
+                <Input placeholder="请输入spu编码" autoComplete="off" />
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="sku编码" {...this.formItemLayout}>
-                {getFieldDecorator("skuCode")(
-                  <Input placeholder="请输入sku编码" autoComplete="off" />
-                )}
+            <Col {...colspans}>
+              <FormItem name="skuCode" label="sku编码" {...formItemLayout}>
+                <Input placeholder="请输入sku编码" autoComplete="off" />
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="商品名称" {...this.formItemLayout}>
-                {getFieldDecorator("productName")(
-                  <Input placeholder="请输入商品名称" autoComplete="off" />
-                )}
+            <Col {...colspans}>
+              <FormItem
+                name="productName"
+                label="商品名称"
+                {...formItemLayout}
+              >
+                <Input placeholder="请输入商品名称" autoComplete="off" />
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="商品品牌" {...this.formItemLayout}>
-                {getFieldDecorator("brandName")(
-                  <Input placeholder="请输入商品品牌" autoComplete="off" />
-                )}
+            <Col {...colspans}>
+              <FormItem
+                name="brandName"
+                label="商品品牌"
+                {...formItemLayout}
+              >
+                <Input placeholder="请输入商品品牌" autoComplete="off" />
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="一级类目" {...this.formItemLayout}>
-                {getFieldDecorator("pdCategory1Id", {
-                  onChange: this.onChange
-                })(
-                  <Select placeholder="请选择" allowClear={true}>
-                    {catagoryList.map(item => (
-                      <Option value={item.id} key={item.id}>
-                        {item.categoryName}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
+            <Col {...colspans}>
+              <FormItem
+                name="pdCategory1Id"
+                label="一级类目"
+                {...formItemLayout}
+              >
+                <Select
+                  onChange={onChange}
+                  placeholder="请选择"
+                  allowClear={true}
+                >
+                  {catagoryList.map(item => (
+                    <Option value={item.id} key={item.id}>
+                      {item.categoryName}
+                    </Option>
+                  ))}
+                </Select>
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="二级类目" {...this.formItemLayout}>
-                {getFieldDecorator("pdCategory2Id")(
-                  <Select
-                    placeholder="请选择"
-                    disabled={!catagoryList2.length > 0}
-                    allowClear={true}
-                  >
-                    {catagoryList2.map(item => (
-                      <Option value={item.id} key={item.id}>
-                        {item.categoryName}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
+            <Col {...colspans}>
+              <FormItem
+                name="pdCategory2Id"
+                label="二级类目"
+                {...formItemLayout}
+              >
+                <Select
+                  placeholder="请选择"
+                  disabled={!catagoryList2.length > 0}
+                  allowClear={true}
+                >
+                  {catagoryList2.map(item => (
+                    <Option value={item.id} key={item.id}>
+                      {item.categoryName}
+                    </Option>
+                  ))}
+                </Select>
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="商品类型" {...this.formItemLayout}>
-                {getFieldDecorator("productType")(
-                  <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>正常销售品</Option>
-                    <Option value={2}>赠品</Option>
-                  </Select>
-                )}
+            <Col {...colspans}>
+              <FormItem
+                name="productType"
+                label="商品类型"
+                {...formItemLayout}
+              >
+                <Select placeholder="请选择" allowClear={true}>
+                  <Option value={1}>正常销售品</Option>
+                  <Option value={2}>赠品</Option>
+                </Select>
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="商品标签" {...this.formItemLayout}>
-                {getFieldDecorator("productTag")(
-                  <Select placeholder="请选择" allowClear={true}>
-                    <Option value={1}>新品</Option>
-                    <Option value={2}>畅销</Option>
-                    <Option value={3}>预售</Option>
-                    <Option value={4}>多规格</Option>
-                    <Option value={5}>缺图文</Option>
-                  </Select>
-                )}
+            <Col {...colspans}>
+              <FormItem
+                nmae="productTag"
+                label="商品标签"
+                {...formItemLayout}
+              >
+                <Select placeholder="请选择" allowClear={true}>
+                  <Option value={1}>新品</Option>
+                  <Option value={2}>畅销</Option>
+                  <Option value={3}>预售</Option>
+                  <Option value={4}>多规格</Option>
+                  <Option value={5}>缺图文</Option>
+                </Select>
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="商品状态" {...this.formItemLayout}>
-                {getFieldDecorator("bStatus")(
-                  <Select placeholder="请选择" allowClear={true}>
-                    <Option value={0}>待引用</Option>
-                    <Option value={1}>上架中</Option>
-                    <Option value={2}>已下架</Option>
-                  </Select>
-                )}
+            <Col {...colspans}>
+              <FormItem
+                name="bStatus"
+                label="商品状态"
+                {...formItemLayout}
+              >
+                <Select placeholder="请选择" allowClear={true}>
+                  <Option value={0}>待引用</Option>
+                  <Option value={1}>上架中</Option>
+                  <Option value={2}>已下架</Option>
+                </Select>
               </FormItem>
             </Col>
-
-            <Col {...this.colspans}>
-              <FormItem label="创建时间" {...this.formItemLayout}>
-                {getFieldDecorator("time")(
-                  <RangePicker
-                    placeholder={this.placeholder}
-                    format={this.formatType}
-                    showTime
-                  />
-                )}
+            <Col {...colspans}>
+              <FormItem name="time" label="创建时间" {...formItemLayout}>
+                <RangePicker
+                  format='YYYY-MM-DD HH:mm:ss'
+                  showTime
+                />
               </FormItem>
             </Col>
             <Col span={24}>
               <FormItem className="oms-condition-operate">
-                <Qbtn type="primary" onClick={this.handleSubmit}>
+                <Button type="primary" htmlType="submit">
                   搜索
-                </Qbtn>
+                </Button>
               </FormItem>
             </Col>
           </Row>
         </Form>
       </div>
     );
-  }
 }
-const SearchForm = Form.create({})(Search);
 export default SearchForm;
+// import React, { useState, useEffect } from 'react';
+// import { Form, Input, Button, Checkbox } from 'antd';
+
+// const formItemLayout = {
+//   labelCol: { span: 4 },
+//   wrapperCol: { span: 8 },
+// };
+// const formTailLayout = {
+//   labelCol: { span: 4 },
+//   wrapperCol: { span: 8, offset: 4 },
+// };
+
+// const NormalLoginForm = () => {
+//   const [form] = Form.useForm();
+//   const [checkNick, setCheckNick] = useState(false);
+
+//   useEffect(() => {
+//     form.validateFields(['nickname']);
+//   }, [checkNick]);
+
+//   const onCheckboxChange = e => {
+//     setCheckNick(e.target.checked);
+//   };
+
+//   const onCheck = async () => {
+//     try {
+//       const values = await form.validateFields();
+//       console.log('Success:', values);
+//     } catch (errorInfo) {
+//       console.log('Failed:', errorInfo);
+//     }
+//   };
+
+//   return (
+//     <Form form={form} name="dynamic_rule">
+//       <Form.Item
+//         {...formItemLayout}
+//         name="username"
+//         label="Name"
+//         rules={[
+//           {
+//             required: true,
+//             message: 'Please input your name',
+//           },
+//         ]}
+//       >
+//         <Input placeholder="Please input your name" />
+//       </Form.Item>
+//       <Form.Item
+//         {...formItemLayout}
+//         name="nickname"
+//         label="Nickname"
+//         rules={[
+//           {
+//             required: checkNick,
+//             message: 'Please input your nickname',
+//           },
+//         ]}
+//       >
+//         <Input placeholder="Please input your nickname" />
+//       </Form.Item>
+//       <Form.Item {...formTailLayout}>
+//         <Checkbox checked={checkNick} onChange={onCheckboxChange}>
+//           Nickname is required
+//         </Checkbox>
+//       </Form.Item>
+//       <Form.Item {...formTailLayout}>
+//         <Button type="primary" onClick={onCheck}>
+//           Check
+//         </Button>
+//       </Form.Item>
+//     </Form>
+//   );
+// };
+// export default NormalLoginForm

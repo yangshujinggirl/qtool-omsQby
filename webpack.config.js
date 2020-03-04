@@ -131,12 +131,10 @@ module.exports = {
       },
       '/qtoolsErp': {
         target:'http://v6.oms.testin.qtoolsbaby.net:81',
-        pathRewrite: {"^/qtoolsErp" : ""},
         changeOrigin: true,
       },
       '/qtoolsApp': {
         target:'http://v6.oms.testin.qtoolsbaby.net:81',
-        pathRewrite: {"^/qtoolsApp" : ""},
         changeOrigin: true,
       }
     }
