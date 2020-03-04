@@ -38,14 +38,6 @@ class AddTimer extends React.Component {
           });
         }
       });
-      // const res = {
-      //   taskName: "名字",
-      //   taskOperateStartTime: "2018-10-09",
-      //   taskOperateEndTime: "2018-10-10",
-      //   taskType: 2,
-      //   extraField: 0,
-      //   skuList: [{ id: 1, name: 1, extraInfo: "11" }]
-      // };
       this.setState({
         infos: res,
         goodList: res.skuList
@@ -76,40 +68,40 @@ class AddTimer extends React.Component {
   };
   //标签搜索
   onSearch = value => {
-    // labelSearchApi({tabName:value}).then(res => {
-    //   if (res.httpCode == 200) {
-    //     this.setState({
-    //       labelList: res.result.result
-    //     });
-    //   }
-    // });
-    this.setState({
-      labelList: [
-        {
-          tabId: 1,
-          tabName: "姓名1"
-        },
-        {
-          tabId: 2,
-          tabName: "姓名2"
-        }
-      ]
+    labelSearchApi({tabName:value}).then(res => {
+      if (res.httpCode == 200) {
+        this.setState({
+          labelList: res.result.result
+        });
+      }
     });
+    // this.setState({
+    //   labelList: [
+    //     {
+    //       tabId: 1,
+    //       tabName: "姓名1"
+    //     },
+    //     {
+    //       tabId: 2,
+    //       tabName: "姓名2"
+    //     }
+    //   ]
+    // });
   };
   //修改上传数据
   changeDataList = dataList => {
-    //  this.setState({
-    //    goodList:dataList
-    //  })
-    this.setState({
-      goodList: [
-        {
-          id: 1,
-          name: "商品名称",
-          extraInfo: "xinxi"
-        }
-      ]
-    });
+     this.setState({
+       goodList:dataList
+     })
+    // this.setState({
+    //   goodList: [
+    //     {
+    //       id: 1,
+    //       name: "商品名称",
+    //       extraInfo: "xinxi"
+    //     }
+    //   ]
+    // });
   };
   //下载模板
   downLoadTemp = () => {

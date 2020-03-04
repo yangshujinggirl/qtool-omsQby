@@ -41,7 +41,7 @@ class Index extends Component {
           expandedRowRender: record => (
             <Table
               columns={subColumns}
-              dataSource={record["subList"]}
+              dataSource={record["subList"]?record["subList"]:[]}
               pagination={false}
             />
           )

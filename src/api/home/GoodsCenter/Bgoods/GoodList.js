@@ -13,9 +13,7 @@ export function GetListsApi(values){
  * 获取B商品详情
  */
 export function GetGoodDetailApi(values){
-    return erpAjax.get('spu',{
-        params:{...values}
-    })
+    return erpAjax.get('spu/'+values.id)
 }
 /**
  * B端商品保存
