@@ -12,6 +12,13 @@ function* getSpec(action){
     payload: action.payload
   })
 }
+//列表--商品
+function* getListState(action){
+  yield put({
+    type: 'BASEGOODSADD_GOODSLIST',
+    payload: action.payload
+  })
+}
 //图片
 function* getFileListState(action){
   yield put({
@@ -32,9 +39,28 @@ function* fetchTotal(action){
   let params = action.payload;
   const res = yield call(GetEditInfoApi,params);
   let { result } =res;
-  let { categoryDetail, list } =result;
-  result={ ...result, ...categoryDetail };
-  yield call(getTotalState,{payload:result})
+  let { categoryDetail, attrList, list, ...pdSpu } =result;
+  pdSpu={ ...pdSpu, ...categoryDetail };
+  let specData ={ specOne:[], specTwo:[] };
+  if(attrList) {
+    attrList.map((el) =>{
+      el.attributeValueList = el.attributeValueList&&el.attributeValueList.map((item,index)=>{
+        let stem = {};
+        stem.key=index;
+        stem.disabled=true;
+        stem.name=item;
+        return stem;
+      })
+    })
+    specData.specOne = attrList[0].attributeValueList
+    specData.specTwo = attrList[1]?attrList[1].attributeValueList:[]
+    pdSpu.pdType1Id = attrList[0].attributeName;
+    pdSpu.pdType2Id = attrList[1]?attrList[1].attributeName:'';
+    yield call(getSpec,{payload:{specData}})
+  }
+  list&&list.map((el)=>el.key=el.skuCode)
+  yield call(getTotalState,{payload:pdSpu})
+  yield call(getListState,{payload:{goodsList:list}});
   const [levelTwo,levelThr,levelFour] = yield all([
     call(GetCategoryApi,{level:'2',parentId:categoryDetail.categoryId}),
     call(GetCategoryApi,{level:'3',parentId:categoryDetail.categoryId2}),

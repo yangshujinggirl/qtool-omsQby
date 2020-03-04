@@ -31,6 +31,8 @@ const index = (state = {
       };
     case "BASEGOODSADD_SPEC":
       return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_GOODSLIST":
+      return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_ATTRUBTEARRAY":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":

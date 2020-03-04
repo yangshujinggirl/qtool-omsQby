@@ -37,23 +37,23 @@ const Columns = [
     title: "最后操作人",
     dataIndex: "modifyBy",
   },
-  // {
-  //   title: "操作",
-  //   render: (text,record,index) => (
-  //     <div>
-  //       <Link
-  //         className="link-color action-left"
-  //         to={`/account/baseGoodsInfo/${record.spuCode}`}>
-  //         查看
-  //       </Link>
-  //       <Link
-  //         className="link-color"
-  //         to={`/account/baseGoodsAdd/${record.spuCode}`}>
-  //         编辑
-  //       </Link>
-  //     </div>
-  //   )
-  // }
+  {
+    title: "操作",
+    render: (text,record,index) => (
+      <div>
+        <Link
+          className="link-color action-left"
+          to={`/account/baseGoodsInfo/${record.spuCode}`}>
+          查看
+        </Link>
+        <Link
+          className="link-color"
+          to={`/account/baseGoodsAdd/${record.spuCode}`}>
+          编辑
+        </Link>
+      </div>
+    )
+  }
 ];
 const columnsAdd=(form)=> {
   return [
@@ -84,7 +84,7 @@ const columnsAdd=(form)=> {
       width: 100,
       textWrap: 'word-break',
       render:(text,record,index)=> {
-        return record.attributeName
+        return <span>{record.skuCode?record.status:'-'}</span>
       }
     },{
       title: "商品标签",
@@ -121,7 +121,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].purchasePrice`,{
                     initialValue:record.purchasePrice
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>
@@ -137,7 +137,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].businessPrice`,{
                     initialValue:record.businessPrice
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>
@@ -153,7 +153,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].customerPrice`,{
                     initialValue:record.customerPrice
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>
@@ -169,7 +169,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].proposalPrice`,{
                     initialValue:record.proposalPrice
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>
@@ -185,7 +185,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].bonusRate`,{
                     initialValue:record.bonusRate
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>
@@ -201,7 +201,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].taxRate`,{
                     initialValue:record.taxRate
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>
@@ -217,7 +217,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].shelfLife`,{
                     initialValue:record.shelfLife
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>
@@ -233,7 +233,7 @@ const columnsAdd=(form)=> {
                   form.getFieldDecorator(`skuList[${index}].weight`,{
                     initialValue:record.weight
                   })(
-                    <Input  disabled className="goods-name" key={index}/>
+                    <Input  disabled={record.isExamine} className="goods-name" key={index}/>
                   )
                 }
               </div>

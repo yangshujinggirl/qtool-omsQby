@@ -68,11 +68,12 @@ class Creatlabel extends Component {
 
   render() {
     const { inputVisible, inputValue } = this.state;
+    const { totalData, specData }= this.props.BaseGoodsAddReducers;
     let tags;
     if(this.props.level=='one') {
-      tags = this.props.BaseGoodsAddReducers.specData.specOne
+      tags = specData.specOne
     } else {
-      tags = this.props.BaseGoodsAddReducers.specData.specTwo
+      tags = specData.specTwo
     }
     return (
       <div>
@@ -80,7 +81,7 @@ class Creatlabel extends Component {
           tags.map((tag, index) => (
             <Tag
               key={tag.key}
-              closable={true}
+              closable={!tag.disabled}
               onClose={() => this.handleClose(tag)}>
               {tag.name}
             </Tag>
