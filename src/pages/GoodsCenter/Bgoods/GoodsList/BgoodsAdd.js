@@ -7,69 +7,18 @@ import {
   Input,
   Radio,
   message,
-  Table,
   Checkbox,
   Card
 } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 import {
   GetGoodDetailApi,
   saveGoodApi
 } from "api/home/GoodsCenter/Bgoods/GoodList";
-import { Qtable } from "common";
 import "./index.less";
 import Editable from "./components/Editable";
+import { editColumns as Columns } from "./column";
 
-const Columns = [
-  {
-    title: "SKU编码",
-    dataIndex: "skuCode",
-   
-  },
-  {
-    title: "商品条码",
-    dataIndex: "barCode"
-  },
-  {
-    title: "规格",
-    dataIndex: "salesAttributeName"
-  },
-  {
-    title: "SKU图片",
-    dataIndex: "img"
-  },
-  {
-    title: "掌柜售价(元)",
-    dataIndex: "businessPrice"
-  },
-  {
-    title: "POS零售价(元)",
-    dataIndex: "proposalPrice"
-  },
-  {
-    title: "在售库存",
-    dataIndex: "stockQty"
-  },
-  {
-    title: "销售数量",
-    dataIndex: "saleQty"
-  },
-  {
-    title: "商品提示",
-    dataIndex: "skuTips",
-    editable: true
-  },
-  {
-    title: "商品状态",
-    dataIndex: "upperStatus",
-    render: (text, record) => {
-      record.upperStatus == 0
-        ? "下架"
-        : record.upperStatus == 1
-        ? "上架"
-        : "待引用";
-    }
-  }
-];
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: {
@@ -79,39 +28,79 @@ const formItemLayout = {
 const BgoodsAdd = props => {
   const [form] = Form.useForm();
   const [infos, setInfos] = useState({});
+  const [tipStatus, setTipStatus] = useState(0);
   const [goodList, setGoodList] = useState([]);
+  const batchTips = useRef();
   //请求详情
   useEffect(() => {
     const { id } = props.match.params;
     GetGoodDetailApi({ id }).then(res => {
       if (res.httpCode == "200") {
         const { result } = res;
-        let goodList = [];
-        if (result.subList.length > 0) {
-          goodList = result.subList.map(item => {
-            item.key = item.id;
-            return item;
-          });
-        }
-        setInfos(result);
-        setGoodList(goodList);
-      }
+        formatValue(result);
+        form.setFieldsValue({
+          productBname: result.productBname,
+          isBeforeSales: result.isBeforeSales,
+          label: result.label
+        });
+      };
     });
   }, []);
-  const changeDataSource=(newData)=>{
-    console.log(111)
-    setGoodList(newData)
-  }
+  //得到数据后处理
+  const formatValue = result => {
+    let goodList = [];
+    const {subList} = result
+    if (subList.length > 0) {
+      goodList = result.subList.map(item => {
+        item.key = item.id;
+        return item;
+      });
+    }
+    const label = [];
+    if (result.isHot) {
+      label.push("畅销");
+    }
+    if (result.isNew) {
+      label.push("上新");
+    }
+    result.label = label;
+    setInfos(result);
+    setGoodList(goodList);
+  };
+  const changeDataSource = newData => {
+    setGoodList(newData);
+  };
   //保存
-  const onFinish = async () => {
-    console.log();
-    saveGoodApi({ values }).then(res => {
-      message.success("保存成功");
-      props.history.push("/account/Bsite");
+  const onFinish = values => {
+    const { label, ..._values } = values;
+    _values.isNew = label.some(item => item == "上新") ? 1 : 0;
+    _values.isHot = label.some(item => item == "畅销") ? 1 : 0;
+    const listSkus = [];
+    goodList.map(item => {
+      listSkus.push({ id: item.id, skuTips: item.skuTips });
+    });
+    _values.listSkus = listSkus;
+    _values.id = props.match.params.id;
+    saveGoodApi(_values).then(res => {
+      message.success("保存成功", 0.8);
+      props.history.push("/account/bGoods");
     });
   };
   const goBack = () => {
-    props.history.push("/account/Bsite");
+    props.history.push("/account/bGoods");
+  };
+  const changeStatus = () => {
+    setTipStatus(1);
+  };
+  //批量操作
+  const batchOperate = () => {
+    const { value } = batchTips.current.state;
+    const newData = goodList.map(item => {
+      item.skuTips = value;
+      return item;
+    });
+    setGoodList([...newData]);
+    setTipStatus(0);
   };
   return (
     <div className="oms-common-addEdit-pages bgood_add">
@@ -162,8 +151,10 @@ const BgoodsAdd = props => {
                 }
               >
                 <Input
+                  defaultValue={infos.productBname}
                   style={{ width: "250px" }}
                   placeholder="请输入内容，54字符以内"
+                  autoComplete="off"
                 />
               </Form.Item>
             </Col>
@@ -205,9 +196,32 @@ const BgoodsAdd = props => {
           </Row>
         </Card>
         <Card title="SKU信息">
-          <Editable changeDataSource={changeDataSource} Columns={Columns} dataSource={goodList} />
+          {goodList.length > 0 && (
+            <Editable
+              changeDataSource={changeDataSource}
+              Columns={Columns}
+              dataSource={goodList}
+            />
+          )}
           <div className="batch_operate">
-            批量操作:　<a>商品提示</a>
+            批量操作:　
+            <div className="sub_content">
+              {tipStatus == 1 ? (
+                <span>
+                  <Input
+                    ref={batchTips}
+                    placeholder="该内容会显示在掌柜，请谨慎填写"
+                    style={{ width: "180px", margin: "0 8px" }}
+                  />
+                  <CheckOutlined
+                    onClick={batchOperate}
+                    style={{ fontSize: "12px", color: "#35bab0" }}
+                  />
+                </span>
+              ) : (
+                <a onClick={changeStatus}>商品提示</a>
+              )}
+            </div>
           </div>
         </Card>
         <Card title="图文信息">

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  Component
-} from "react";
+import React, { useContext, Component, useEffect } from "react";
 import { Table, Input, Form } from "antd";
 import "./index.less";
 
@@ -20,7 +14,6 @@ const EditableRow = ({ index, ...props }) => {
     </Form>
   );
 };
-
 /*------------------td单元格---------------*/
 const EditableCell = ({
   title,
@@ -31,26 +24,18 @@ const EditableCell = ({
   handleSave,
   ...resetProps
 }) => {
-  // const [editing, setEditing] = useState(false);
-  // const inputRef = useRef();
   const form = useContext(EditableContext);
-  // useEffect(() => {
-  //   if (editing) {
-  //     inputRef.current.focus();
-  //   }
-  // }, [editing]);
-
-  // const toggleEdit = () => {
-  //   setEditing(!editing);
-  //   form.setFieldsValue({
-  //     [dataIndex]: record[dataIndex]
-  //   });
-  // };
+  useEffect(() => {
+    if (editable) {
+      form.setFieldsValue({
+        [dataIndex]: record[dataIndex]
+      });
+    }
+  });
   const save = async e => {
     try {
       const values = await form.validateFields();
       handleSave({ ...record, ...values });
-      // toggleEdit();
     } catch (error) {
       console.log(error);
     }
@@ -58,10 +43,13 @@ const EditableCell = ({
   let childNode = children;
   if (editable) {
     childNode = (
-      <Form.Item name={dataIndex}>
+      <Form.Item
+        name={dataIndex}
+      >
         <Input
           placeholder="30字以内，将展示在B端请谨慎填写"
           onBlur={save}
+          autoComplete="off"
         />
       </Form.Item>
     );
@@ -70,17 +58,6 @@ const EditableCell = ({
 };
 /*------------------主体---------------------*/
 class EditTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: props.dataSource
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      dataSource: nextProps.dataSource
-    });
-  }
   //保存td数据
   handleSave = record => {
     let newData = [...this.props.dataSource];
@@ -90,8 +67,7 @@ class EditTable extends Component {
     this.props.changeDataSource(newData);
   };
   render() {
-    const { Columns } = this.props;
-    const { dataSource } = this.state;
+    const { Columns, dataSource } = this.props;
     const components = {
       body: {
         row: EditableRow,
@@ -113,14 +89,12 @@ class EditTable extends Component {
         })
       };
     });
-    console.log(dataSource);
     return (
       <Table
         className="edit_table"
         bordered
-        rowClassName={() => "editable-row"}
         components={components}
-        dataSource={this.props.dataSource}
+        dataSource={dataSource}
         columns={editableColumns}
         pagination={false}
       />
