@@ -116,7 +116,7 @@ const subColumns = [
   },
   {
     title: "操作",
-    key: "action",
+    key: "9",
     dataIndex: "",
     render: (text, record, index) => (
       <div>
@@ -133,5 +133,55 @@ const subColumns = [
     )
   }
 ];
+const editColumns = [
+  {
+    title: "SKU编码",
+    dataIndex: "skuCode"
+  },
+  {
+    title: "商品条码",
+    dataIndex: "barCode"
+  },
+  {
+    title: "规格",
+    dataIndex: "salesAttributeName"
+  },
+  {
+    title: "SKU图片",
+    dataIndex: "img"
+  },
+  {
+    title: "掌柜售价(元)",
+    dataIndex: "businessPrice"
+  },
+  {
+    title: "POS零售价(元)",
+    dataIndex: "proposalPrice"
+  },
+  {
+    title: "在售库存",
+    dataIndex: "stockQty"
+  },
+  {
+    title: "销售数量",
+    dataIndex: "saleQty"
+  },
+  {
+    title: "商品提示",
+    dataIndex: "skuTips",
+    editable: true
+  },
+  {
+    title: "商品状态",
+    dataIndex: "upperStatus",
+    render: (text, record) => {
+      record.upperStatus == 0
+        ? "下架"
+        : record.upperStatus == 1
+        ? "上架"
+        : "待引用";
+    }
+  }
+];
 
-export {parColumns,subColumns};
+export {parColumns,subColumns,editColumns};

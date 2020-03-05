@@ -16,12 +16,7 @@ class Btimer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskList: [
-        {
-          taskName: "mingzi",
-          pdTaskTimeId: 1
-        }
-      ],
+      taskList: [],
       everyPage: 20,
       currentPage: 0,
       totalCount: 0,
