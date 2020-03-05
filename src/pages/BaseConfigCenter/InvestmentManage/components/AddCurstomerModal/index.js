@@ -1,7 +1,7 @@
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import { Modal, Input, Cascader } from 'antd';
-import { GetAddCurstomerApi } from '../../../../../api/home/BaseGoodsCenter/InvestmentManage';
+import { GetAddCurstomerApi } from '../../../../../api/home/BaseConfigCenter/InvestmentManage';
 import { Qbtn, Qmessage, CascaderAddressOptions } from 'common';
 import './index.less';
 

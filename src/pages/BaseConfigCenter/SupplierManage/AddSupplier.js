@@ -5,7 +5,7 @@ import {
   SupplierDetailApi,
   UpdateSupplierInfoApi,
   AddSupplierApi,
-} from "api/home/BaseGoodsCenter/SupplierManage";
+} from "api/home/BaseConfigCenter/SupplierManage";
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 import { Qbtn } from "common";

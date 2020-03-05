@@ -6,7 +6,7 @@ import {
   ShopInfosApi,
   UpdateShopApi,
   ShopListsApi
-} from "api/home/BaseGoodsCenter/ShopManage";
+} from "api/home/BaseConfigCenter/ShopManage";
 import QupLoadImgLimt from "common/QupLoadImgLimt";
 import { Qbtn, CascaderAddressOptions } from "common";
 let FormItem = Form.Item;

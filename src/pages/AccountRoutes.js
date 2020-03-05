@@ -28,20 +28,20 @@ import UnconfirmedOrder from "./OrderCenter/UnconfirmedOrder";
 import PurchaseOrder from "./OrderCenter/PurchaseOrder"; //采购单
 import PurchaseOrderAdd from "./OrderCenter/PurchaseOrder/PurchaseOrderAdd"; //采购单
 
-import Supplier from "./BaseGoodsCenter/Supplier";//供应商
-import SupplierAdd from "./BaseGoodsCenter/Supplier/SupplierAdd";
-import InvestmentManage from "./BaseGoodsCenter/InvestmentManage"; //招商管理
-import InvestmentManageInfo from "./BaseGoodsCenter/InvestmentManage/InvestmentManageInfo"; //招商信息
-import ShopManage from "./BaseGoodsCenter/ShopManage";//门店管理
-import AddShop from "./BaseGoodsCenter/ShopManage/AddShop";
-import SetShop from "./BaseGoodsCenter/ShopManage/SetShop";
-import SupplierManage from "./BaseGoodsCenter/SupplierManage";
-import AddSupplier from "./BaseGoodsCenter/SupplierManage/AddSupplier";
+import Supplier from "./BaseConfigCenter/Supplier";//供应商
+import SupplierAdd from "./BaseConfigCenter/Supplier/SupplierAdd";
+import InvestmentManage from "./BaseConfigCenter/InvestmentManage"; //招商管理
+import InvestmentManageInfo from "./BaseConfigCenter/InvestmentManage/InvestmentManageInfo"; //招商信息
+import ShopManage from "./BaseConfigCenter/ShopManage";//门店管理
+import AddShop from "./BaseConfigCenter/ShopManage/AddShop";
+import SetShop from "./BaseConfigCenter/ShopManage/SetShop";
+import SupplierManage from "./BaseConfigCenter/SupplierManage";
+import AddSupplier from "./BaseConfigCenter/SupplierManage/AddSupplier";
 import OrderAgency from "./OrderCenter/OrderAgency";
 /************************************  商品管理  ********************************************/
 //基础配置
-import Country from "./BaseGoodsCenter/Country"; //国家地区管理
-import GoodsAudit from "./BaseGoodsCenter/GoodsAudit"; //商品审核
+import Country from "./BaseConfigCenter/Country"; //国家地区管理
+import GoodsAudit from "./BaseConfigCenter/GoodsAudit"; //商品审核
 import Attributions from "./Attributions"; //规格管理
 import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理

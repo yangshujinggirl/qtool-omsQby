@@ -7,7 +7,7 @@ import {
   SupplierAddApi,
   SupplierUpdateApi,
   SupplierInfoApi
-} from "api/home/BaseGoodsCenter/Supplier";
+} from "api/home/BaseConfigCenter/Supplier";
 import { Qbtn } from "common";
 const formItemLayout = {
   labelCol: {

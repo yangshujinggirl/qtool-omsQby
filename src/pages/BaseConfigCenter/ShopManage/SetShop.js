@@ -4,7 +4,7 @@ import { Input, Row, Col, Select, message, Radio, TimePicker } from "antd";
 import {
   ShopInfosApi,
   updataRuleApi
-} from "api/home/BaseGoodsCenter/ShopManage";
+} from "api/home/BaseConfigCenter/ShopManage";
 import moment from "moment";
 import { Qbtn } from "common";
 let FormItem = Form.Item;

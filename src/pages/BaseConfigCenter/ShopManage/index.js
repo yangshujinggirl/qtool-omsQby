@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import FilterForm from "./components/FilterForm";
 import { Link } from "react-router-dom";
-import { ChannelShopStatuApi } from "api/home/BaseGoodsCenter/ShopManage";
+import { ChannelShopStatuApi } from "api/home/BaseConfigCenter/ShopManage";
 import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
 

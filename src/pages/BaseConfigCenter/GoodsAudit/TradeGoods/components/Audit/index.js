@@ -5,7 +5,7 @@ import { Modal, Input, Radio, message, Button } from "antd";
 import {
   cancelAuditApi,
   goAuditApi
-} from "api/home/BaseGoodsCenter/GoodsAudit";
+} from "api/home/BaseConfigCenter/GoodsAudit";
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const formItemLayout = {

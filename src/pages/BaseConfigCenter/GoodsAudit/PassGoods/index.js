@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import FilterForm from "./FilterForm";
-import { GetListApi } from "api/home/BaseGoodsCenter/GoodsAudit";
+import { GetListApi } from "api/home/BaseConfigCenter/GoodsAudit";
 import { Qtable, Qpagination } from "common";
 import Columns from "./column";
 

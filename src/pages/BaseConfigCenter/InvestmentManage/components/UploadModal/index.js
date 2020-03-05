@@ -1,7 +1,7 @@
 import { Modal } from 'antd';
 import moment from 'moment';
 import { Qbtn, QupLoadImgLimt } from 'common';
-import { GetSaveImgApi } from '../../../../../api/home/BaseGoodsCenter/InvestmentManage';
+import { GetSaveImgApi } from '../../../../../api/home/BaseConfigCenter/InvestmentManage';
 import './index.less';
 
 class UploadModal extends React.Component {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import FilterForm from "./FilterForm";
 import EditModal from "./components/Audit";
-import { GetListApi } from "api/home/BaseGoodsCenter/GoodsAudit";
+import { GetListApi } from "api/home/BaseConfigCenter/GoodsAudit";
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Popover } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common";

@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import FilterForm from "./components/FilterForm";
 import { Qtable, Qpagination, Qbtn } from "common";
 import {Link} from 'react-router-dom'
-import {AuditApi} from 'api/home/BaseGoodsCenter/SupplierManage'
+import {AuditApi} from 'api/home/BaseConfigCenter/SupplierManage'
 import Columns from "./column";
 
 class SupplierManage  extends React.Component {

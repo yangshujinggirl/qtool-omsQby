@@ -1,5 +1,5 @@
 import {call,put,takeEvery} from 'redux-saga/effects'
-import {GetListApi} from 'api/home/BaseGoodsCenter/SupplierManage'
+import {GetListApi} from 'api/home/BaseConfigCenter/SupplierManage'
 
 function* getTableList(action){
     const params = action.payload;
