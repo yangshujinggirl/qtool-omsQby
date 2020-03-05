@@ -1,13 +1,14 @@
-import { connect } from "react-redux";
 import { Qpagination, Qbtn } from "common";
 import {
   GetListsApi,
-  changeStatusApi
+  changeStatusApi,
+  upStatusApi,
+  downStatusApi
 } from "api/home/GoodsCenter/Bgoods/GoodList";
 import { parColumns, subColumns } from "./column";
 import QsubTable from "common/QsubTable";
 import FilterForm from "./components/FilterForm";
-import { message } from "antd";
+import { message, Modal } from "antd";
 
 const tipsText = {
   1: "操作后商品将在Q掌柜-每日上新栏目展示售卖，是否确认操作？",
@@ -24,8 +25,9 @@ class Bgoods extends React.Component {
       totalCount: 0,
       goodLists: [],
       visible: false,
-      type: "",
-      inputValues: {}
+      attr: "",
+      inputValues: {},
+      selectedRowKeys: []
     };
   }
   //初始化数据
@@ -53,35 +55,70 @@ class Bgoods extends React.Component {
     this.searchData({ ...this.state.inputValues, currentPage, everyPage });
   };
   //搜索查询
-  onSubmit = params => {
-    console.log(params)
-    this.searchData(params);
+  onSubmit = values => {
+    this.searchData(values);
   };
   //批量操作
-  batchOperate = type => {
+  batchOperate = attr => {
+    if (!this.state.selectedRowKeys.length) {
+      message.error("请选择批量操作的对象", 0.8);
+      return;
+    }
     this.setState({
       visible: true,
-      type
+      attr
     });
   };
   //批量操作弹窗确认
-  onOk = () => {};
+  onOk = () => {
+    const { attr, selectedRowKeys } = this.state;
+    let type;
+    if (attr == 1 || attr == 2) {//上新&下新
+      type = "-100";
+    }
+    if (attr == 3 || attr == 4) {//上畅销&下畅销
+      type = "-200";
+    }
+    if (attr == 1 || attr == 3) {//上的
+      upStatusApi({ type, codes: selectedRowKeys }).then(res => {
+        if (res.httpCode == 200) {
+          this.searchData();
+          this.onCancel();
+        }
+      });
+    }
+    if (attr == 2 || attr == 4) {//下的
+      downStatusApi({ type, codes: selectedRowKeys }).then(res => {
+        if (res.httpCode == 200) {
+          this.searchData();
+          this.onCancel();
+        }
+      });
+    }
+  };
+  //取消
+  onCancel = () => {
+    this.setState({
+      visible: false,
+      attr: ""
+    });
+  };
   //上下架操作
-  handleOperateClick = (record, type) => {
-    //type(1:'上架' 0:下架)
+  handleOperateClick = (record, attr) => {
+    //attr(1:'上架' 0:下架)
     const { id } = record;
-    changeStatusApi({ id, upperStatus: type }).then(res => {
+    changeStatusApi({ id, upperStatus: attr }).then(res => {
       if (res.httpCode == 200) {
-        const text = type == 1 ? "上架成功" : "下架成功";
+        const text = attr == 1 ? "上架成功" : "下架成功";
         message.success(text, 0.8);
-        this.searchData()
-      };
+        this.searchData();
+      }
     });
   };
   formatList = data => {
     data &&
       data.map(item => {
-        item.key = item.id;
+        item.key = item.spuCode;
         item["subList"] &&
           item["subList"].map(subItem => {
             subItem.key = subItem.id;
@@ -96,17 +133,28 @@ class Bgoods extends React.Component {
       });
     return data;
   };
+  //表格多选框
+  onChange = selectedRowKeys => {
+    console.log(selectedRowKeys);
+    this.setState({
+      selectedRowKeys
+    });
+  };
   render() {
     const {
       goodLists,
       everyPage,
       totalCount,
       currentPage,
-      type,
-      visible
+      attr,
+      visible,
+      selectedRowKeys
     } = this.state;
     const dataSource = this.formatList(goodLists);
-    console.log(dataSource);
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onChange
+    };
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
@@ -122,6 +170,7 @@ class Bgoods extends React.Component {
             parColumns={parColumns}
             dataSource={dataSource}
             onOperateClick={this.handleOperateClick}
+            rowSelection={rowSelection}
           />
         )}
         <Qpagination
@@ -130,13 +179,14 @@ class Bgoods extends React.Component {
         />
         {visible && (
           <Modal
+            className="modal_center"
             visible={visible}
-            onOK={this.onOk}
+            onOk={this.onOk}
             onCancel={this.onCancel}
             okText="确认"
-            onCancel="取消"
+            cancelText="取消"
           >
-            <div className="tips"> {tipsText[type]} </div>
+            <div className="tips"> {tipsText[attr]} </div>
           </Modal>
         )}
       </div>

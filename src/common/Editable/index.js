@@ -22,6 +22,7 @@ const EditableCell = ({
   dataIndex,
   record,
   handleSave,
+  placeholder,
   ...resetProps
 }) => {
   const form = useContext(EditableContext);
@@ -47,7 +48,7 @@ const EditableCell = ({
         name={dataIndex}
       >
         <Input
-          placeholder="30字以内，将展示在B端请谨慎填写"
+          placeholder={placeholder}
           onBlur={save}
           autoComplete="off"
         />
@@ -83,6 +84,7 @@ class EditTable extends Component {
         onCell: record => ({
           record,
           editable: col.editable,
+          placeholder:col.placeholder,
           dataIndex: col.dataIndex,
           title: col.title,
           handleSave: this.handleSave

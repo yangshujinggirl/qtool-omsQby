@@ -10,15 +10,11 @@ class Index extends Component {
     }
     data &&
       data.map(item => {
-        item.key = item.id;
         item.onOperateClick = type => {
           this.props.onOperateClick(item, type);
         };
         item["subList"] &&
           item["subList"].map(subItem => {
-            subItem.key = subItem.id;
-            item.totalStockQty += Number(subItem.stockQty);
-            item.totalSaleQty += Number(subItem.saleQty);
             subItem.onOperateClick = type => {
               this.props.onOperateClick(subItem, type);
             };
@@ -29,7 +25,7 @@ class Index extends Component {
     return data;
   }
   render() {
-    const { parColumns, subColumns } = this.props;
+    const { parColumns, subColumns,rowSelection } = this.props;
     let dataSource = this.processData(this.props.dataSource);
     return (
       <Table
@@ -37,6 +33,7 @@ class Index extends Component {
         bordered={true}
         dataSource={dataSource}
         columns={parColumns}
+        rowSelection={rowSelection?rowSelection:null}
         expandable={{
           expandedRowRender: record => (
             <Table
@@ -46,6 +43,7 @@ class Index extends Component {
             />
           )
         }}
+        
       />
     );
   }

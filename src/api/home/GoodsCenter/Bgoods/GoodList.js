@@ -13,7 +13,7 @@ export function GetListsApi(values){
  * 获取B商品详情
  */
 export function GetGoodDetailApi(values){
-    return erpAjax.get('spu/'+values.id)
+    return erpAjax.get(`spu/${values.id}`)
 }
 /**
  * B端商品保存
@@ -29,5 +29,23 @@ export function saveGoodApi(values){
 export function changeStatusApi(values){
     return erpAjax.post('sku/update',{
         ...values
+    })
+}
+/**
+ * 批量上新/上畅销操作
+ */
+export function upStatusApi(values){
+    const {type,..._values} = values;
+    return erpAjax.post(`event/${type}/modify`,{
+        ..._values
+    })
+}
+/**
+ * 批量下新/上畅销操作
+ */
+export function downStatusApi(values){
+    const {type,..._values} = values;
+    return erpAjax.post(`event/${type}/delete`,{
+        ..._values
     })
 }

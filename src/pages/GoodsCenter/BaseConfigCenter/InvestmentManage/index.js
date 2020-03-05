@@ -4,8 +4,8 @@ import { Qtable, Qpagination, Qbtn } from "common";
 import moment from 'moment';
 import { Link } from "react-router-dom";
 import {columns} from "./column";
-import { ExportApi } from "../../../api/Export";
-import {GetListsApi } from '../../../api/home/BaseConfigCenter/InvestmentManage';
+import { ExportApi } from "api/Export";
+import {GetListsApi } from 'api/home/BaseConfigCenter/InvestmentManage';
 import UploadModal from './components/UploadModal'
 import AddCurstomerModal from './components/AddCurstomerModal';
 import AddRecordModal from './components/AddRecordModal';

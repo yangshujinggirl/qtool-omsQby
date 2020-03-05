@@ -1,6 +1,6 @@
 import { Collapse, Row, Col, } from 'antd';
 import moment from 'moment';
-import { GetRecordListApi,GetInfoApi } from '../../../api/home/BaseConfigCenter/InvestmentManage';
+import { GetRecordListApi,GetInfoApi } from 'api/home/BaseConfigCenter/InvestmentManage';
 import { Qbtn,Qtable,QenlargeImg } from 'common';
 import { statusOption } from './optionMap';
 import { columnsInfo } from './column';
