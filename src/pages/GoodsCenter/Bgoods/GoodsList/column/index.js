@@ -137,7 +137,9 @@ const subColumns = [
 const editColumns = [
   {
     title: "SKU编码",
-    dataIndex: "skuCode"
+    dataIndex: "skuCode",
+    editable: true,
+    placeholder:"30字以内，端请谨慎填写"
   },
   {
     title: "商品条码",
@@ -170,7 +172,8 @@ const editColumns = [
   {
     title: "商品提示",
     dataIndex: "skuTips",
-    editable: true
+    editable: true,
+    placeholder:"30字以内，将展示在B端请谨慎填写"
   },
   {
     title: "商品状态",

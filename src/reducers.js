@@ -14,9 +14,9 @@ import PosReducers from './pages/OrderCenter/PosOrder/reducers/reducersIndex';
 import ShopKeeperReducers from './pages/OrderCenter/ShopKeeperOrder/reducers/reducersIndex';
 import OnlineReducers from './pages/OrderCenter/OnlineOrder/reducers/reducersIndex';
 import TaxOrderReducers from './pages/OrderCenter/TaxOrder/reducers/reducersIndex';
-import ShopManageReducers from './pages/BaseConfigCenter/ShopManage/reducers/reducersIndex';
-import SupplierReducers from './pages/BaseConfigCenter/Supplier/reducers/reducersIndex';
-import SupplierManageReducers from './pages/BaseConfigCenter/SupplierManage/reducers/reducersIndex';
+import ShopManageReducers from './pages/GoodsCenter/BaseConfigCenter/ShopManage/reducers/reducersIndex';
+import SupplierReducers from './pages/GoodsCenter/BaseConfigCenter/Supplier/reducers/reducersIndex';
+import SupplierManageReducers from './pages/GoodsCenter/BaseConfigCenter/SupplierManage/reducers/reducersIndex';
 
 export default combineReducers({
   PublicReducers,

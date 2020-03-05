@@ -28,45 +28,42 @@ import UnconfirmedOrder from "./OrderCenter/UnconfirmedOrder";
 import PurchaseOrder from "./OrderCenter/PurchaseOrder"; //采购单
 import PurchaseOrderAdd from "./OrderCenter/PurchaseOrder/PurchaseOrderAdd"; //采购单
 
-import Supplier from "./BaseConfigCenter/Supplier";//供应商
-import SupplierAdd from "./BaseConfigCenter/Supplier/SupplierAdd";
-import InvestmentManage from "./BaseConfigCenter/InvestmentManage"; //招商管理
-import InvestmentManageInfo from "./BaseConfigCenter/InvestmentManage/InvestmentManageInfo"; //招商信息
-import ShopManage from "./BaseConfigCenter/ShopManage";//门店管理
-import AddShop from "./BaseConfigCenter/ShopManage/AddShop";
-import SetShop from "./BaseConfigCenter/ShopManage/SetShop";
-import SupplierManage from "./BaseConfigCenter/SupplierManage";
-import AddSupplier from "./BaseConfigCenter/SupplierManage/AddSupplier";
+import Supplier from "./GoodsCenter/BaseConfigCenter/Supplier";//供应商
+import SupplierAdd from "./GoodsCenter/BaseConfigCenter/Supplier/SupplierAdd";
+import InvestmentManage from "./GoodsCenter/BaseConfigCenter/InvestmentManage"; //招商管理
+import InvestmentManageInfo from "./GoodsCenter/BaseConfigCenter/InvestmentManage/InvestmentManageInfo"; //招商信息
+import ShopManage from "./GoodsCenter/BaseConfigCenter/ShopManage";//门店管理
+import AddShop from "./GoodsCenter/BaseConfigCenter/ShopManage/AddShop";
+import SetShop from "./GoodsCenter/BaseConfigCenter/ShopManage/SetShop";
+import SupplierManage from "./GoodsCenter/BaseConfigCenter/SupplierManage";
+import AddSupplier from "./GoodsCenter/BaseConfigCenter/SupplierManage/AddSupplier";
 import OrderAgency from "./OrderCenter/OrderAgency";
-/************************************  商品管理  ********************************************/
-//基础配置
-import Country from "./BaseConfigCenter/Country"; //国家地区管理
-import GoodsAudit from "./BaseConfigCenter/GoodsAudit"; //商品审核
+/************************************  商品中心  ********************************************/
+//基础配置-----------------------------------//////
+import Country from "./GoodsCenter/BaseConfigCenter/Country"; //国家地区管理
+import GoodsAudit from "./GoodsCenter/BaseConfigCenter/GoodsAudit"; //商品审核
 import Attributions from "./Attributions"; //规格管理
 import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理
-//B端商品
-import Bgoods from "./GoodsCenter/Bgoods/GoodsList";
-import BgoodsAdd from "./GoodsCenter/Bgoods/GoodsList/BgoodsAdd";//新增
-import BgoodsInfo from "./GoodsCenter/Bgoods/GoodsList/BgoodsInfo";//详情
-//C端-----------------------------------//////
+//C端---------------------------------------//////
 import DescriptManage from "./Ctip/DescriptManage";//描述属性管理
 import DescriptAdd from "./Ctip/DescriptManage/DescriptAdd";//
-
 import CrossBorderGoods from "./Ctip/CrossBorderGoods";//C端跨境商品
 import GeneralTradeGoods from "./Ctip/GeneralTradeGoods";//C端一般贸易商品
 import GeneralTradeEdit from "./Ctip/GeneralTradeGoods/GeneralTradeEdit";//C端一般贸易商品
 import GeneralTradeInfo from "./Ctip/GeneralTradeGoods/GeneralTradeInfo";//C端一般贸易商品
 import GeneralTradeLog from "./Ctip/GeneralTradeGoods/GeneralTradeLog";//C端一般贸易商品
-
-import Ctask from './GoodsCenter/Cgoods/Ctask'//批量任务
-import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//批量任务
-import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//批量任务
-import Parent from './GoodsCenter/Cgoods/Parent'//批量任务
-//B端商品
-import Btimer from './GoodsCenter/Bgoods/Btimer' //商品定时
+import Ctask from './GoodsCenter/Cgoods/Ctask'//C端批量任务
+import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//C端批量任务
+import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//C端批量任务
+//B端商品-----------------------------------//////
+import Bgoods from "./GoodsCenter/Bgoods/GoodsList";//商品列表
+import BgoodsAdd from "./GoodsCenter/Bgoods/GoodsList/BgoodsAdd";//新增
+import BgoodsInfo from "./GoodsCenter/Bgoods/GoodsList/BgoodsInfo";//详情
+import Btimer from './GoodsCenter/Bgoods/Btimer' //B端定时
 import AddTimer from './GoodsCenter/Bgoods/Btimer/AddTimer' //商品定时
 import TimerInfo from './GoodsCenter/Bgoods/Btimer/TimerInfo' //商品定时
+
 
 class HomeRoutes extends React.Component {
   render() {
@@ -74,6 +71,15 @@ class HomeRoutes extends React.Component {
       <Switch>
         {/* <Route exact path="/account/public" component={Public} /> */}
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
+
+        {/* ----------------------------商品中心---------------------------------*/}
+          {/* B端商品 */}
+          <Route  path="/account/commodities_list" component={Bgoods}/>
+          <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
+          <Route path='/account/b_timing' component={Btimer}/>
+          <Route path='/account/addTimer' component={AddTimer}/>
+          <Route path='/account/timerInfo/:id?' component={TimerInfo}/>
+          {/* C端商品 */}
         <Route  path="/account/generalTradeLog/:id" component={GeneralTradeLog}/>
         <Route  path="/account/generalTradeInfo/:id" component={GeneralTradeInfo}/>
         <Route  path="/account/generalTradeEdit/:id" component={GeneralTradeEdit}/>
@@ -82,9 +88,8 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/descriptManage" component={DescriptManage}/>
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/items_list" component={BaseGoods}/>
-        <Route  path="/account/business_product" component={Bgoods}/>
+        
         <Route  path="/account/Csite" component={Cgoods}/>
-        <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
         <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
         <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
@@ -120,17 +125,14 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/orderAgency" component={OrderAgency}/>
         <Route exact path='/account/country_and_region' component={Country}/>
         <Route path='/account/items_examine' component={GoodsAudit}/>
-        <Route path='/account/cTask' component={Ctask}/>
+        <Route path='/account/c_batch_task' component={Ctask}/>
         <Route path='/account/addTask' component={AddTask}/>
         <Route path='/account/taskInfo/:id?' component={TaskInfo}/>
-        <Route path='/account/btimer' component={Btimer}/>
-        <Route path='/account/addTimer' component={AddTimer}/>
-        <Route path='/account/timerInfo/:id?' component={TimerInfo}/>
+        
 
 
 
 
-        <Route path='/account/test' component={Parent}/>
 
         <Route component={NotFound}/>
       </Switch>

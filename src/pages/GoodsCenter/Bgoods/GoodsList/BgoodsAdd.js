@@ -16,7 +16,7 @@ import {
   saveGoodApi
 } from "api/home/GoodsCenter/Bgoods/GoodList";
 import "./index.less";
-import Editable from "./components/Editable";
+import Editable from "common/Editable";
 import { editColumns as Columns } from "./column";
 
 const formItemLayout = {
@@ -74,7 +74,7 @@ const BgoodsAdd = props => {
   //保存
   const onFinish = async () => {
     try {
-      const values = form.validateFields();
+      const values = await form.validateFields();
       const { label, ..._values } = values;
       _values.isNew = label.some(item => item == "上新") ? 1 : 0;
       _values.isHot = label.some(item => item == "畅销") ? 1 : 0;
@@ -86,7 +86,7 @@ const BgoodsAdd = props => {
       _values.id = props.match.params.id;
       saveGoodApi(_values).then(res => {
         message.success("保存成功", 0.8);
-        props.history.push("/account/bGoods");
+        props.history.push("/account/commodities_list");
       });
     } catch (error) {
       console.log(error);
@@ -94,7 +94,7 @@ const BgoodsAdd = props => {
   };
   //返回
   const goBack = () => {
-    props.history.push("/account/bGoods");
+    props.history.push("/account/commodities_list");
   };
   //批量操作显示
   const changeStatus = () => {
@@ -198,7 +198,7 @@ const BgoodsAdd = props => {
             />
           )}
           <div className="batch_operate">
-            批量操作:　
+            批量操作:
             <div className="sub_content">
               {tipStatus == 1 ? (
                 <span>
@@ -226,8 +226,7 @@ const BgoodsAdd = props => {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item label="图文描述">
-              </Form.Item>
+              <Form.Item label="图文描述"></Form.Item>
             </Col>
           </Row>
         </Card>
