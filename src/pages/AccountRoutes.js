@@ -2,9 +2,9 @@ import { Switch, Route, Link } from "react-router-dom";
 import NotFound from "./NotFound";
 import Public from "./Public";
 import Protected from "./Protected";
-import BaseGoods from "./BaseGoods";
-import BaseGoodsAdd from "./BaseGoods/BaseGoodsAdd";
-import BaseGoodsInfo from "./BaseGoods/BaseGoodsInfo";
+import BaseGoods from "./BaseGoodsCenter/BaseGeneralTradeGoods";
+import BaseGoodsAdd from "./BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeAdd";
+import BaseGoodsInfo from "./BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeInfo";
 
 import Cgoods from "./Cgoods";
 
