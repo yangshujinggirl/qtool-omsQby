@@ -1,7 +1,6 @@
 import React , { Component } from 'react';
-import { Table, Input, Button, Popconfirm } from 'antd';
-import { CheckOutlined } from '@ant-design/icons';
-import { connect } from 'react-redux';
+import { Table, Input, Icon, Button, Popconfirm } from 'antd';
+import { connect } from 'dva';
 import './index.less';
 
 class EditableCell extends Component {
@@ -49,7 +48,8 @@ class EditableCell extends Component {
                       onPressEnter={this.check}
                       onBlur={this.onChangeBlur}
                   />
-                  <CheckOutlined
+                  <Icon
+                      type="check"
                       className="editable-cell-icon-check"
                       onClick={this.setValues}
                   />
@@ -67,7 +67,7 @@ class EditableCell extends Component {
 }
 
 function mapStateToProps(state) {
-	const { BaseGoodsAddReducers } = state;
-	return {BaseGoodsAddReducers};
+	const { addGoods } = state;
+	return {addGoods};
 }
 export default connect(mapStateToProps)(EditableCell);

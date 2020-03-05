@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Icon } from '@ant-design/compatible';
+import { PlusOutlined } from '@ant-design/icons';
 import { Tag, Input, Tooltip, message } from 'antd';
 
 class Creatlabel extends Component {
@@ -106,13 +106,13 @@ class Creatlabel extends Component {
             this.props.disabled?
             <Tag
               style={{ background: '#fff', borderStyle: 'dashed','cursor':'not-allowed' }}>
-              <Icon type="plus"/>新建属性
+              <PlusOutlined/>新建属性
             </Tag>
             :
             <Tag
               onClick={this.showInput}
               style={{ background: '#fff', borderStyle: 'dashed',}}>
-              <Icon type="plus"/>新建属性
+              <PlusOutlined/>新建属性
             </Tag>
           )
         }

@@ -282,7 +282,7 @@ class BaseGoodsAdd extends React.Component {
                    })(
                      <AutoComplete
                       autoComplete="off"
-                      dataSource={brandDataSource}
+                      options={brandDataSource}
                       onSearch={this.handleSearch}
                       onSelect={(value, option)=>this.autoSelect(value, option)}
                       placeholder="请选择商品品牌"/>

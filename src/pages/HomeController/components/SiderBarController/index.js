@@ -3,7 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+// import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Menu, Button } from 'antd';
 import { GetMenuApi } from '../../../../api/home/Home';
 import './index.less';
@@ -23,8 +23,8 @@ class SiderBarController extends React.Component {
     });
   };
   render(){
-    // const { menuList } = this.props;
-    const menuList = menu;
+    const { menuList } = this.props;
+    // const menuList = menu;
     // console.log(menuList)
     return (
       <div className="oms-sider-controller">
@@ -44,7 +44,7 @@ class SiderBarController extends React.Component {
                 key={el.id}
                 title={
                   <span className="diy-menu-title">
-                    <LegacyIcon type="mail" />
+                    {/*<LegacyIcon type="mail" />*/}
                     <span>{el.name}</span>
                   </span>
                 }>

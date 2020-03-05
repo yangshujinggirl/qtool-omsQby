@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { DownOutlined } from '@ant-design/icons';
 import { Menu, Dropdown } from 'antd';
 import { Sessions } from 'utils';
 import { GoLoginOutTApi } from '../../../../api/user/Login';
@@ -57,7 +57,7 @@ class AccountInfo extends Component {
         <span className="account-center">
           <Dropdown overlay={menu} trigger={['click']}>
             <a className="ant-dropdown-link" href="#">
-              Qtools | {userName} 1234<LegacyIcon type="down" />
+              Qtools | {userName} 1234<DownOutlined />
             </a>
           </Dropdown>
         </span>

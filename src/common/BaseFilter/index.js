@@ -32,18 +32,33 @@ class BaseFilter extends Component {
       xxl: 6,
     };
   }
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.form.validateFields((err, value) => {
-      for (let i in value) {
-        // 替换搜索条件中字符串的前后空格
-        if (typeof value[i] == 'string') {
-          value[i] = value[i].replace(/^\s+|\s+$/gm, '');
-        }
-      }
-      this.props.onSubmit && this.props.onSubmit(value);
-    });
-  }
+  // handleSubmit(e) {
+  //   e.preventDefault();
+  //   this.props.form.validateFields((err, value) => {
+  //     for (let i in value) {
+  //       // 替换搜索条件中字符串的前后空格
+  //       if (typeof value[i] == 'string') {
+  //         value[i] = value[i].replace(/^\s+|\s+$/gm, '');
+  //       }
+  //     }
+  //     this.props.onSubmit && this.props.onSubmit(value);
+  //   });
+  // }
+  handleSubmit = async () => {
+     try {
+       const values = await this.formRef.current.validateFields();
+       for (let i in values) {
+         // 替换搜索条件中字符串的前后空格
+         if (typeof values[i] == 'string') {
+           values[i] = values[i].replace(/^\s+|\s+$/gm, '');
+         }
+       }
+       // console.log('Success:', values);
+       this.props.onSubmit && this.props.onSubmit(values);
+     } catch (errorInfo) {
+       console.log('Failed:', errorInfo);
+     }
+   }
   removeSpace=(value)=>{
     for (let i in value) {
       // 替换搜索条件中字符串的前后空格
