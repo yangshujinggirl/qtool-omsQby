@@ -1,16 +1,11 @@
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import {
-  Input,
-  Spin,
-  Upload,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  Radio,
-  AutoComplete,
+  Input,Spin,
+  Upload,Select,
+  Row,Col,
+  Checkbox,Button,
+  Radio,AutoComplete,
 } from 'antd';
 import { connect } from 'react-redux';
 import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
@@ -18,6 +13,7 @@ import { columnsAdd } from './column';
 import { GetEditInfoApi, GetAddApi } from '../../api/home/BaseGoods';
 import UpLoadImgLimt from './components/UpLoadImgLimt';
 import Creatlabel from './components/Creatlabel';
+import EditableCell from './components/EditableCell';
 import './BaseGoodsAdd.less';
 
 let FormItem = Form.Item;
@@ -248,6 +244,9 @@ class BaseGoodsAdd extends React.Component {
   goReturn=()=> {
     this.props.history.push('/account/items_list')
   }
+  goReset=()=> {
+
+  }
   render() {
     const { sizeIdList, attributeArray, categoryData,goodsList,
       supplierList, attributeList, totalData, brandDataSource,
@@ -283,7 +282,7 @@ class BaseGoodsAdd extends React.Component {
                    })(
                      <AutoComplete
                       autoComplete="off"
-                      dataSource={brandDataSource}
+                      options={brandDataSource}
                       onSearch={this.handleSearch}
                       onSelect={(value, option)=>this.autoSelect(value, option)}
                       placeholder="请选择商品品牌"/>
@@ -519,15 +518,16 @@ class BaseGoodsAdd extends React.Component {
                      onChange:(selected)=>this.handleChangeType('one',selected)
                    })(
                     <Select
-                      placeholder="请选择商品分类"
+                      disabled={totalData.spuCode?true:false}
+                      placeholder="请选择商品规格1"
                       autoComplete="off">
                       <Option value={0} key={0}>无</Option>
                       {
                         attributeArray.length>0 &&
                         attributeArray.map((ele,index) => (
                           <Option
-                            value={ele.attributeId}
-                            key={ele.attributeId}>{ele.attributeName}</Option>
+                            value={ele.attributeName}
+                            key={ele.attributeName}>{ele.attributeName}</Option>
                         ))
                       }
                     </Select>
@@ -545,7 +545,9 @@ class BaseGoodsAdd extends React.Component {
                      initialValue:totalData.pdType2Id,
                      onChange:(selected)=>this.handleChangeType('two',selected)
                    })(
-                    <Select placeholder="商品规格2" autoComplete="off">
+                    <Select
+                    disabled={totalData.spuCode?true:false}
+                    placeholder="商品规格2" autoComplete="off">
                       <Option value={0} key={0}>无</Option>
                       {
                         attributeArray.length>0 &&
@@ -569,6 +571,23 @@ class BaseGoodsAdd extends React.Component {
                   scroll={{x:1400}}
                   dataSource={goodsList}
                   columns={columnsAdd(this.props.form)}/>
+              </Form.Item>
+              <div>
+                <Qbtn size="free" onClick={this.goReset}>
+                恢复被删除的SKU
+                </Qbtn>
+              </div>
+              <Form.Item label="批量设置">
+                <div style={{display:'flex',textAlign:'center'}}>
+                  <EditableCell text='采购价格' title='purchasePrice'/>
+                  <EditableCell text='B端售价' title='salePrice'/>
+                  <EditableCell text='C端售价' title='receivePrice'/>
+                  <EditableCell text='建议零售价' title='deliveryPrice'/>
+                  <EditableCell text='直邮服务费' title='salePrice'/>
+                  <EditableCell text='税率' title='receivePrice'/>
+                  <EditableCell text='保质期' title='deliveryPrice'/>
+                  <EditableCell text='毛重' title='deliveryPrice'/>
+                </div>
               </Form.Item>
             </div>
             <div className="handle-operate-save-action">
@@ -606,4 +625,3 @@ const BaseGoodsAddF = Form.create({
   },
 })(BaseGoodsAdd);
 export default connect(mapStateToProps)(BaseGoodsAddF);
-// export default BaseGoodsAddF;

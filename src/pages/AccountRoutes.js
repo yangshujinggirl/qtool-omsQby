@@ -77,12 +77,12 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/generalTradeLog/:id" component={GeneralTradeLog}/>
         <Route  path="/account/generalTradeInfo/:id" component={GeneralTradeInfo}/>
         <Route  path="/account/generalTradeEdit/:id" component={GeneralTradeEdit}/>
-        <Route  path="/account/generalTradeGoods" component={GeneralTradeGoods}/>
+        <Route  path="/account/customer_product" component={GeneralTradeGoods}/>
         <Route  path="/account/crossBorderGoods" component={CrossBorderGoods}/>
         <Route  path="/account/descriptManage" component={DescriptManage}/>
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
-        <Route  path="/account/items_baseGoods" component={BaseGoods}/>
-        <Route  path="/account/bGoods" component={Bgoods}/>
+        <Route  path="/account/items_list" component={BaseGoods}/>
+        <Route  path="/account/business_product" component={Bgoods}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
         <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>

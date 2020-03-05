@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Icon } from '@ant-design/compatible';
+import { PlusOutlined } from '@ant-design/icons';
 import { Tag, Input, Tooltip, message } from 'antd';
 
 class Creatlabel extends Component {
@@ -68,11 +68,12 @@ class Creatlabel extends Component {
 
   render() {
     const { inputVisible, inputValue } = this.state;
+    const { totalData, specData }= this.props.BaseGoodsAddReducers;
     let tags;
     if(this.props.level=='one') {
-      tags = this.props.BaseGoodsAddReducers.specData.specOne
+      tags = specData.specOne
     } else {
-      tags = this.props.BaseGoodsAddReducers.specData.specTwo
+      tags = specData.specTwo
     }
     return (
       <div>
@@ -80,7 +81,7 @@ class Creatlabel extends Component {
           tags.map((tag, index) => (
             <Tag
               key={tag.key}
-              closable={true}
+              closable={!tag.disabled}
               onClose={() => this.handleClose(tag)}>
               {tag.name}
             </Tag>
@@ -105,13 +106,13 @@ class Creatlabel extends Component {
             this.props.disabled?
             <Tag
               style={{ background: '#fff', borderStyle: 'dashed','cursor':'not-allowed' }}>
-              <Icon type="plus"/>新建属性
+              <PlusOutlined/>新建属性
             </Tag>
             :
             <Tag
               onClick={this.showInput}
               style={{ background: '#fff', borderStyle: 'dashed',}}>
-              <Icon type="plus"/>新建属性
+              <PlusOutlined/>新建属性
             </Tag>
           )
         }

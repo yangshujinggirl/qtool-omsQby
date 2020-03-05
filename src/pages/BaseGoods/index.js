@@ -15,12 +15,17 @@ class BaseGoods extends React.Component {
     this.state = {
       visible: false,
       status: 0,
+      everyPage:15,
+      currentPage: 1,
       inputValues: {
-        productNature: -1,
-        productType: -1,
-        sendType: -1,
-        status: -1,
-        currentPage: 1
+        productName:null,
+        spuCode:null,
+        skuCode:null,
+        brandId:null,
+        categoryCode1:null,
+        categoryCode2:null,
+        productType:null,
+        time:[moment('2015/01/01', this.formatType), moment('2015/01/01', this.formatType)],
       }
     };
   }
@@ -28,7 +33,10 @@ class BaseGoods extends React.Component {
   componentDidMount (){
     this.props.dispatch({
       type:'baseGoods/fetchList',
-      payload:this.state.inputValues
+      payload:{
+        everyPage:15,
+        currentPage: 1,
+      }
     })
   };
   //审核取消
@@ -53,23 +61,16 @@ class BaseGoods extends React.Component {
   searchData = values => {
     const {time,..._value} = values;
     if(time){
-      _values.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
-      _values.etime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+      _value.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
+      _value.etime = moment(time[1]).format('YYYY-MM-DD H:mm:ss');
     };
-    const {
-      productNature = -1,
-      productType = -1,
-      sendType = -1,
-      status = -1,
-      currentPage = 1,
-      ..._values
-    } = values;
-    const params = {productNature,productType,sendType,status,currentPage,..._values}
+    const { currentPage,everyPage } = this.state;
+    const params = { everyPage, currentPage,..._value}
     this.props.dispatch({
       type:'baseGoods/fetchList',
       payload:params
     })
-    this.setState({inputValues: params});
+    this.setState({inputValues: values});
   };
   changePage = (currentPage, everyPage) => {
     this.props.dispatch({
@@ -92,11 +93,6 @@ class BaseGoods extends React.Component {
     })
   };
   onSubmit = params => {
-    const {time,..._values} = params;
-    if(time){
-      params.stime = moment(time[0]).format('YYYY-MM-DD H:mm:ss');
-      params.etime = moment(time[1]).format('YYYY-MM-DD H:mm:ss');
-    };
     this.searchData(params);
   };
   handleOperateClick = (record,type) => {
@@ -120,10 +116,10 @@ class BaseGoods extends React.Component {
   render() {
     const { visible, status } = this.state;
     const { goodLists } = this.props;
-    console.log(this.props)
+
     return (
         <div className="oms-common-index-pages-wrap">
-          <FilterForm onSubmit={this.onSubmit} />
+          <FilterForm onSubmit={this.onSubmit} inputValues={this.state.inputValues}/>
           <div className="handle-operate-btn-action">
             <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
             <Qbtn size="free">新建跨境品</Qbtn>
