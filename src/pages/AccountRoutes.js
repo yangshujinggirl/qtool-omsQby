@@ -2,9 +2,9 @@ import { Switch, Route, Link } from "react-router-dom";
 import NotFound from "./NotFound";
 import Public from "./Public";
 import Protected from "./Protected";
-import BaseGoods from "./BaseGoodsCenter/BaseGeneralTradeGoods";
-import BaseGoodsAdd from "./BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeAdd";
-import BaseGoodsInfo from "./BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeInfo";
+import BaseGoods from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods";
+import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeAdd";
+import BaseGoodsInfo from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeInfo";
 
 import Cgoods from "./Cgoods";
 
@@ -27,6 +27,9 @@ import TaxOrder from "./OrderCenter/TaxOrder";
 import UnconfirmedOrder from "./OrderCenter/UnconfirmedOrder";
 import PurchaseOrder from "./OrderCenter/PurchaseOrder"; //采购单
 import PurchaseOrderAdd from "./OrderCenter/PurchaseOrder/PurchaseOrderAdd"; //采购单
+import ShopOrder from './OrderCenter/ShopOrder';//门店订单
+import SupplierManage from './SupplierManage';//供应商管理
+import SupplierManageAdd from './SupplierManage/SupplierManageAdd';//供应商管理
 
 import Supplier from "./GoodsCenter/BaseConfigCenter/Supplier";//供应商
 import SupplierAdd from "./GoodsCenter/BaseConfigCenter/Supplier/SupplierAdd";
@@ -35,7 +38,7 @@ import InvestmentManageInfo from "./GoodsCenter/BaseConfigCenter/InvestmentManag
 import ShopManage from "./GoodsCenter/BaseConfigCenter/ShopManage";//门店管理
 import AddShop from "./GoodsCenter/BaseConfigCenter/ShopManage/AddShop";
 import SetShop from "./GoodsCenter/BaseConfigCenter/ShopManage/SetShop";
-import SupplierManage from "./GoodsCenter/BaseConfigCenter/SupplierManage";
+// import SupplierManage from "./GoodsCenter/BaseConfigCenter/SupplierManage";
 import AddSupplier from "./GoodsCenter/BaseConfigCenter/SupplierManage/AddSupplier";
 import OrderAgency from "./OrderCenter/OrderAgency";
 /************************************  商品中心  ********************************************/
@@ -69,6 +72,10 @@ class HomeRoutes extends React.Component {
   render() {
     return (
       <Switch>
+
+        <Route  path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
+        <Route  path="/account/supplierManage" component={SupplierManage}/>
+        <Route  path="/account/channel_orders" component={ShopOrder}/>
         {/* <Route exact path="/account/public" component={Public} /> */}
         {/*<Route  path="/account/basicCommodityManage" component={BaseGoods}/>*/}
 
@@ -88,7 +95,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/descriptManage" component={DescriptManage}/>
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/items_list" component={BaseGoods}/>
-        
+
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
         <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
@@ -117,7 +124,7 @@ class HomeRoutes extends React.Component {
         <Route  path="/account/channel" component={ShopManage}/>
         <Route  path="/account/addShop/:id?" component={AddShop}/>
         <Route  path="/account/shopSet/:id?" component={SetShop}/>
-        <Route  path="/account/supplier" component={SupplierManage}/>
+        // <Route  path="/account/supplier" component={SupplierManage}/>
         {/* <Route  path="/account/addSupplier/:id?" component={AddSupplier}/> */}
         <Route  path="/account/addSupplier/:id?" component={AddSupplier}/>
         <Route  path="/account/purchaseOrder" component={PurchaseOrder}/>
@@ -128,7 +135,7 @@ class HomeRoutes extends React.Component {
         <Route path='/account/c_batch_task' component={Ctask}/>
         <Route path='/account/addTask' component={AddTask}/>
         <Route path='/account/taskInfo/:id?' component={TaskInfo}/>
-        
+
 
 
 
