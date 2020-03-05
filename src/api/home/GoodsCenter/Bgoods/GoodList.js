@@ -23,3 +23,11 @@ export function saveGoodApi(values){
         ...values
     })
 }
+/**
+ * 立即上下架
+ */
+export function changeStatusApi(values){
+    return erpAjax.post('sku/update',{
+        ...values
+    })
+}

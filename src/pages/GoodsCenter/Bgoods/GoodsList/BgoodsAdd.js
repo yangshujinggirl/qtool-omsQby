@@ -43,13 +43,13 @@ const BgoodsAdd = props => {
           isBeforeSales: result.isBeforeSales,
           label: result.label
         });
-      };
+      }
     });
   }, []);
   //得到数据后处理
   const formatValue = result => {
     let goodList = [];
-    const {subList} = result
+    const { subList } = result;
     if (subList.length > 0) {
       goodList = result.subList.map(item => {
         item.key = item.id;
@@ -67,28 +67,36 @@ const BgoodsAdd = props => {
     setInfos(result);
     setGoodList(goodList);
   };
+  //更新table数据
   const changeDataSource = newData => {
     setGoodList(newData);
   };
   //保存
-  const onFinish = values => {
-    const { label, ..._values } = values;
-    _values.isNew = label.some(item => item == "上新") ? 1 : 0;
-    _values.isHot = label.some(item => item == "畅销") ? 1 : 0;
-    const listSkus = [];
-    goodList.map(item => {
-      listSkus.push({ id: item.id, skuTips: item.skuTips });
-    });
-    _values.listSkus = listSkus;
-    _values.id = props.match.params.id;
-    saveGoodApi(_values).then(res => {
-      message.success("保存成功", 0.8);
-      props.history.push("/account/bGoods");
-    });
+  const onFinish = async () => {
+    try {
+      const values = form.validateFields();
+      const { label, ..._values } = values;
+      _values.isNew = label.some(item => item == "上新") ? 1 : 0;
+      _values.isHot = label.some(item => item == "畅销") ? 1 : 0;
+      const listSkus = [];
+      goodList.map(item => {
+        listSkus.push({ id: item.id, skuTips: item.skuTips });
+      });
+      _values.listSkus = listSkus;
+      _values.id = props.match.params.id;
+      saveGoodApi(_values).then(res => {
+        message.success("保存成功", 0.8);
+        props.history.push("/account/bGoods");
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
+  //返回
   const goBack = () => {
     props.history.push("/account/bGoods");
   };
+  //批量操作显示
   const changeStatus = () => {
     setTipStatus(1);
   };
@@ -104,17 +112,7 @@ const BgoodsAdd = props => {
   };
   return (
     <div className="oms-common-addEdit-pages bgood_add">
-      <Form
-        initialValues={{
-          productBname: infos.productBname,
-          isBeforeSales: infos.isBeforeSales,
-          label: infos.label
-        }}
-        form={form}
-        onFinish={onFinish}
-        name="search_form"
-        {...formItemLayout}
-      >
+      <Form form={form} name="search_form" {...formItemLayout}>
         <Card title="基础信息">
           <Row>
             <Col span={12}>
@@ -146,12 +144,8 @@ const BgoodsAdd = props => {
                 label="B端商品名称"
                 name="productBname"
                 rules={[{ required: true, message: "请输入B端商品名称" }]}
-                shouldUpdate={(preValues, currentValues) =>
-                  preValues !== currentValues
-                }
               >
                 <Input
-                  defaultValue={infos.productBname}
                   style={{ width: "250px" }}
                   placeholder="请输入内容，54字符以内"
                   autoComplete="off"
@@ -211,7 +205,7 @@ const BgoodsAdd = props => {
                   <Input
                     ref={batchTips}
                     placeholder="该内容会显示在掌柜，请谨慎填写"
-                    style={{ width: "180px", margin: "0 8px" }}
+                    style={{ width: "250px", margin: "0 8px" }}
                   />
                   <CheckOutlined
                     onClick={batchOperate}
@@ -232,13 +226,14 @@ const BgoodsAdd = props => {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item label="图文描述"></Form.Item>
+              <Form.Item label="图文描述">
+              </Form.Item>
             </Col>
           </Row>
         </Card>
         <div className="handle-operate-save-action">
           <Button onClick={goBack}>返回</Button>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" onClick={onFinish}>
             保存
           </Button>
         </div>

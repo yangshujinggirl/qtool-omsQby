@@ -13,12 +13,13 @@ window.deBounce = (func, wait) => {
   };
 };
 //所有input前后去空格
-window.removeSpace=(values)=>{
+window.removeSpace=(value)=>{
   for (let i in value) {
     if (typeof value[i] == "string") {
       value[i] = value[i].trim();
     }
   }
+  return value;
 }
 //不可选日期
 export function disabledDate(current) {

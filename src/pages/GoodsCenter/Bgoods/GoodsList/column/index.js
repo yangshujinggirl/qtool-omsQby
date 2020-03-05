@@ -15,39 +15,37 @@ const parColumns = [
     title: "商品类型",
     dataIndex: "productType",
     key: "4",
-    render:(text)=>(
-    <span>{text==1?'正常销售品':'赠品'}</span>
-    )
+    render: text => <span>{text == 1 ? "正常销售品" : "赠品"}</span>
   },
   {
     title: "商品标签",
     dataIndex: "label",
     key: "5",
-    render: (text,record) => (
+    render: (text, record) => (
       <span>
-        {record.isNew ? "新/":''}
-        {record.isHot ?  "畅/":''}
-        {record.isBeforeSales ?  "预/":''}
-        {record.isMultipleSpec ?  "新/":''}
-        {record.isComplete ?  "缺/":''}
+        {record.isNew ? "新/" : ""}
+        {record.isHot ? "畅/" : ""}
+        {record.isBeforeSales ? "预/" : ""}
+        {record.isMultipleSpec ? "新/" : ""}
+        {record.isComplete ? "缺/" : ""}
       </span>
     )
   },
   {
     title: "在售库存",
-    dataIndex: "stockQty",
+    dataIndex: "totalStockQty",
     key: "6"
   },
   {
     title: "销售数量",
-    dataIndex: "saleQty",
+    dataIndex: "totalSaleQty",
     key: "7"
   },
   {
     title: "sku数",
     dataIndex: "skuNum",
     key: "8",
-    render: (text,record) => {
+    render: (text, record) => {
       <span>{record.subList && record.subList.length}</span>;
     }
   },
@@ -105,9 +103,12 @@ const subColumns = [
     title: "商品状态",
     dataIndex: "upperStatus",
     key: "7",
-    render:(text,record)=>{
-      record.upperStatus==0?'下架':(record.upperStatus==1?'上架':'待引用')
-    }
+    render: (text, record) =>
+      record.upperStatus == 0
+        ?<span>下架中<br/><a style={{'color':'red'}}>(即将上架)</a></span> 
+        : record.upperStatus == 1
+        ? <span>上架中<br/><a style={{'color':'red'}}>(即将下架)</a></span> 
+        : <span>待引用<br/><a style={{'color':'red'}}>(即将上架)</a></span> 
   },
   {
     title: "最近上架时间",
@@ -120,12 +121,12 @@ const subColumns = [
     dataIndex: "",
     render: (text, record, index) => (
       <div>
-        {record.bStatus == 0 || record.bStatus == 1 ? (
-          <a className="link-color" onClick={record.onOperateClick}>
+        {record.upperStatus == 0 || record.upperStatus == 1 ? (
+          <a className="link-color" onClick={() => record.onOperateClick(1)}>
             立即上架
           </a>
         ) : (
-          <a className="link-color" onClick={record.onOperateClick}>
+          <a className="link-color" onClick={() => record.onOperateClick(0)}>
             立即下架
           </a>
         )}
@@ -174,14 +175,13 @@ const editColumns = [
   {
     title: "商品状态",
     dataIndex: "upperStatus",
-    render: (text, record) => {
+    render: (text, record) =>
       record.upperStatus == 0
         ? "下架"
         : record.upperStatus == 1
         ? "上架"
-        : "待引用";
-    }
+        : "待引用"
   }
 ];
 
-export {parColumns,subColumns,editColumns};
+export { parColumns, subColumns, editColumns };
