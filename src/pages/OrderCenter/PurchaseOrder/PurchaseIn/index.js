@@ -1,11 +1,14 @@
 import React from "react";
 import FilterForm from "./components/FilterForm";
-import {connect} from "react-redux";
-import {Qbtn, Qpagination} from "common/index";
+import {Qbtn, Qmessage, Qpagination} from "common/index";
 import Columns from "./column";
 import Qtable from "common/Qtable";
-import {GetPurchaseInOrderListApi} from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
-import QsubTable from "common/QsubTable";
+import {
+    GetPurchaseInOrderListApi, NET_REQUEST_SUCCESS_CODE,
+    PushPurchaseInOrderForceComplete
+} from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
+import ConfirmModal from "common/ConfirmModal";
+import {Modal} from "antd";
 
 /**
  * 功能作用：采购订单列表界面
@@ -19,6 +22,27 @@ import QsubTable from "common/QsubTable";
  */
 export default class PurchaseInOrderList extends React.Component {
     /**
+     * 强制完成key
+     * @type {number}
+     */
+    tipsTextKeyForceComplete = 1;
+    /**
+     * 批量审核
+     * @type {number}
+     */
+    tipsTextKeyBatchReview = 2;
+    /**
+     * 打印采购单
+     * @type {number}
+     */
+    tipsTextKeyPrintPurchaseOrder = 3;
+    /**
+     * 导出数据
+     * @type {number}
+     */
+    tipsTextKeyExportData = 4;
+
+    /**
      * 初始化
      */
     constructor() {
@@ -29,7 +53,23 @@ export default class PurchaseInOrderList extends React.Component {
             currentPage: 0,
             totalCount: 0,
             inputValues: {},
-            selectedRowKeys: []
+            selectedRowKeys: [],
+            /**
+             * 是否显示Modal弹窗
+             */
+            showModal: false,
+            /**
+             * 显示modal弹窗key
+             */
+            showModalKey: "",
+            /**
+             * 是否显示加载中
+             */
+            showLoading: false,
+            /**
+             * 强制完成失败数据
+             */
+            forceCompleteHaveFail: []
         }
     }
 
@@ -43,9 +83,8 @@ export default class PurchaseInOrderList extends React.Component {
     /**
      * 选择改变回调
      * @param selectedRowKeys
-     * @param selectedRows
      */
-    rowSelectChange = (selectedRowKeys, selectedRows) => {
+    rowSelectChange = (selectedRowKeys) => {
         this.setState({
             selectedRowKeys
         });
@@ -63,19 +102,128 @@ export default class PurchaseInOrderList extends React.Component {
      * @param values 搜索数据
      */
     searchDataList = (values) => {
+        this.showLoading();
         const params = {...this.state.inputValues, ...values};
         GetPurchaseInOrderListApi(params).then(res => {
-            if (res.httpCode === 200) {
+            this.hideLoading();
+            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
                 const {resultList, everyPage, totalCount, currentPage} = res.result;
+                let dataList = [];
+                //必须要有key，否则无法进行选择
+                resultList.map((item) => {
+                    dataList.push({
+                        key: item["stockingCode"],
+                        ...item
+                    })
+                });
                 this.setState({
-                    dataList: resultList,
+                    dataList: dataList,
                     everyPage,
                     totalCount: totalCount,
                     currentPage,
-                    inputValues: params
+                    inputValues: params,
+                    selectedRowKeys: []
                 });
             }
+        }).catch(() => {
+            this.hideLoading();
         });
+    };
+    /**
+     * 显示弹窗
+     * @param key 弹窗显示的key值
+     */
+    showModalClick = (key) => {
+        //判断是否有选择
+        if (this.state.selectedRowKeys.length === 0) {
+            Qmessage.warn("请至少选择一个采购单")
+        } else {
+            this.setState({
+                showModal: true,
+                showModalKey: key
+            });
+        }
+    };
+    /**
+     * 弹窗确定点击
+     */
+    onModalConfirmClick = () => {
+        switch (this.state.showModalKey) {
+            case this.tipsTextKeyForceComplete:
+                this.showLoading();
+                //强制完成请求
+                PushPurchaseInOrderForceComplete(this.state.selectedRowKeys)
+                    .then(rep => {
+                        if (rep.httpCode === NET_REQUEST_SUCCESS_CODE) {
+                            //隐藏弹窗同时隐藏加载中
+                            this.onModalCancelClick();
+                            //刷新数据
+                            let currentPage = this.state.currentPage;
+                            let everyPage = this.state.everyPage;
+                            this.searchDataList({
+                                ...this.state.inputValues,
+                                currentPage,
+                                everyPage
+                            });
+                            if (rep.result != null) {
+                                let resultData = JSON.parse(rep.result);
+                                console.log("ccc", resultData["failList"]);
+                                if (resultData != null && resultData["failList"].length > 0) {
+                                    //存在失败数据，显示失败弹窗
+                                    Modal.info({
+                                        title: '提示',
+                                        content: (
+                                            <div>
+                                                <span>以下采购单强制完成失败，失败原因：采购单未审核通过或已收货</span>
+                                                <br/><br/>
+                                                {
+                                                    resultData["failList"].map((item) => (
+                                                        <span>{item}</span>
+                                                    ))
+                                                }
+
+                                            </div>
+                                        ),
+                                    });
+                                }
+                            }
+                        }
+                    }).catch((e) => {
+                    Qmessage.warn(e.message != null ? e.message : "")
+                });
+                break;
+            case this.tipsTextKeyBatchReview:
+                break;
+            case this.tipsTextKeyExportData:
+                break;
+            default:
+                break;
+        }
+    };
+    /**
+     * 弹窗取消按钮点击
+     */
+    onModalCancelClick = () => {
+        this.setState({
+            showModal: false,
+            showModalKey: ""
+        });
+    };
+    /**
+     * 显示加载中
+     */
+    showLoading = () => {
+        this.setState({
+            showLoading: true
+        })
+    };
+    /**
+     * 隐藏加载中
+     */
+    hideLoading = () => {
+        this.setState({
+            showLoading: false
+        })
     };
 
     /**
@@ -83,29 +231,47 @@ export default class PurchaseInOrderList extends React.Component {
      * @return {*}
      */
     render() {
-        const {selectedRowKeys, dataList, everyPage, currentPage, totalCount} = this.state;
+        const {
+            selectedRowKeys, dataList, everyPage, currentPage,
+            totalCount, showModal, showModalKey, showLoading
+        } = this.state;
         return (
             <div className="oms-common-index-pages-wrap">
                 <FilterForm onSubmit={this.searchDataList}/>
                 <div className="handle-operate-btn-action">
                     <Qbtn size="free">新建采购单</Qbtn>
-                    <Qbtn size="free">强制完成</Qbtn>
-                    <Qbtn size="free">批量审核</Qbtn>
+                    <Qbtn size="free"
+                          onClick={() => this.showModalClick(this.tipsTextKeyForceComplete)}>强制完成</Qbtn>
+                    <Qbtn size="free"
+                          onClick={() => this.showModalClick(this.tipsTextKeyBatchReview)}>批量审核</Qbtn>
                     <Qbtn size="free">打印采购单</Qbtn>
-                    <Qbtn size="free">导出数据</Qbtn>
+                    <Qbtn size="free"
+                          onClick={() => this.showModalClick(this.tipsTextKeyExportData)}>导出数据</Qbtn>
                 </div>
                 <Qtable
                     columns={Columns}
                     select={true}
                     dataSource={dataList}
                     rowSelection={{
+                        selectedRowKeys,
                         onChange: this.rowSelectChange,
-                        selectedRowKeys
                     }}/>
                 <Qpagination
                     data={{everyPage, currentPage, totalCount}}
                     onChange={this.changePage}
                 />
+                {showModal && showModalKey === this.tipsTextKeyForceComplete && (
+                    <ConfirmModal
+                        visible={showModal}
+                        title="强制完成"
+                        onOk={this.onModalConfirmClick}
+                        onCancel={this.onModalCancelClick}
+                        confirmLoading={showLoading}
+                        okText="确认"
+                        cancelText="取消">
+                        <div className="tips"> 强制完成后，所选采购单状态将变更成“已收货”，是否确定强制完成？</div>
+                    </ConfirmModal>
+                )}
             </div>
         );
     }
