@@ -1,18 +1,18 @@
-import Req from "../../Req";
+import {omsAjax} from "../../Req";
 
 //列表
 export function GetListApi(values) {
-  return Req.get("examine/searchExamineBasicsSku", {
+  return omsAjax.get("examine/searchExamineBasicsSku", {
     params: values
   });
 }
 //审核
 export function goAuditApi(values) {
-  return Req.post("items/examineSku", values);
+  return omsAjax.post("items/examineSku", values);
 }
 //撤销审核
 export function cancelAuditApi(values) {
-  return Req.get("items/examineCannel", {
+  return omsAjax.get("items/examineCannel", {
     params: values
   });
 }
