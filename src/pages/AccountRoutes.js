@@ -47,6 +47,8 @@ import GoodsAudit from "./GoodsCenter/BaseConfigCenter/GoodsAudit"; //商品审�
 //C端---------------------------------------//////
 import DescriptManage from "./Ctip/DescriptManage";//描述属性管理
 import DescriptAdd from "./Ctip/DescriptManage/DescriptAdd";//描述属性
+import CrossBorderInfo from "./Ctip/CrossBorderGoods/CrossBorderInfo";//C端跨境商品
+import CrossBorderEdit from "./Ctip/CrossBorderGoods/CrossBorderEdit";//C端跨境商品
 import CrossBorderGoods from "./Ctip/CrossBorderGoods";//C端跨境商品
 import GeneralTradeGoods from "./Ctip/GeneralTradeGoods";//C端一般贸易商品
 import GeneralTradeEdit from "./Ctip/GeneralTradeGoods/GeneralTradeEdit";//C端一般贸易商品
@@ -101,13 +103,15 @@ class HomeRoutes extends React.Component {
           <Route path='/account/c_batch_task' component={Ctask}/>
           <Route path='/account/addTask' component={AddTask}/>
           <Route path='/account/taskInfo/:id?' component={TaskInfo}/>
-          <Route  path="/account/descriptManage" component={DescriptManage}/>
+          <Route  path="/account/descriptive_attribute" component={DescriptManage}/>
           <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
-          <Route  path="/account/crossBorderGoods" component={CrossBorderGoods}/>
-          <Route  path="/account/generalTradeLog/:id" component={GeneralTradeLog}/>
-          <Route  path="/account/generalTradeInfo/:id" component={GeneralTradeInfo}/>
-          <Route  path="/account/generalTradeEdit/:id" component={GeneralTradeEdit}/>
-          <Route  path="/account/customer_product" component={GeneralTradeGoods}/>
+          <Route  path="/account/cross_border_product" component={CrossBorderGoods}/>
+          <Route  path="/account/CrossBorder/edit/:id" component={CrossBorderEdit}/>
+          <Route  path="/account/CrossBorder/info/:id" component={CrossBorderEdit}/>
+          <Route  path="/account/generalTrade/log/:id" component={GeneralTradeLog}/>
+          <Route  path="/account/generalTrade/info/:id" component={GeneralTradeInfo}/>
+          <Route  path="/account/generalTrade/edit/:id" component={GeneralTradeEdit}/>
+          <Route  path="/account/general_trade_product" component={GeneralTradeGoods}/>
 {/* ----------------------------------  订单中心   ---------------------------------------*/}
         <Route path='/account/purchaseOrder' component={PurchaseIn}/>
         <Route path='/account/purchaseRefundOrder' component={PurchaseOut}/>
@@ -128,12 +132,12 @@ class HomeRoutes extends React.Component {
 
 
         {/*
-       
-        
+
+
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
-        
+
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/wareHouseManage" component={StoreHouse}/>
         <Route  path="/account/stockManage" component={StockManage}/>

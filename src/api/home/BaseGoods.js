@@ -59,20 +59,20 @@ export function GetBrandApi(values){
     return omsAjax.get('/brand/searchByName',{params:{...values}})
 }
 /**
- * 新建商品
+ * 编辑新增商品
  * @param {*} values
  */
 export function GetAddApi(values){
   console.log(values)
-    return omsAjax.post('/items/addSpu',values)
+    return omsAjax.post('/items/addAndAppendSku',values)
 }
-/**
- * 修改商品
- * @param {*} values
- */
-export function GetEditApi(values){
-    return omsAjax.post('/items/modSpu',{...values})
-}
+// /**
+//  * 修改商品
+//  * @param {*} values
+//  */
+// export function GetEditApi(values){
+//     return omsAjax.post('/items/modSpu',{...values})
+// }
 /**
  * 新增sku
  * @param {*} values

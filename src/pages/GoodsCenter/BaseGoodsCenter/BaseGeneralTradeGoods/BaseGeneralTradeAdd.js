@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
 import { columnsAdd } from './column';
-import { GetEditInfoApi, GetAddApi } from 'api/home/BaseGoods';
+import { GetAddApi } from 'api/home/BaseGoods';
 import Creatlabel from '../components/Creatlabel';
 import EditableCell from '../components/EditableCell';
+// import GoodsTable from './components/GoodsTable0';
 import './BaseGeneralTradeAdd.less';
 
 let FormItem = Form.Item;
@@ -238,17 +239,15 @@ const BaseGoodsAdd =({...props})=> {
   }
   useEffect(()=>{ initPage()},[])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
-  useEffect(()=>{ form.setFieldsValue(goodsList) },[goodsList])
+  useEffect(()=>{ form.setFieldsValue({skuList:goodsList}) },[goodsList])
 
   let isEdit=match.params.id?true:false;
-  console.log(totalData)
   return (
     <Spin tip="加载中..." spinning={props.loading}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
         <Form
           form={form}
-          {...formItemLayout}
-          initialValues={{...totalData}}>
+          {...formItemLayout}>
           <div className="part-wrap">
             <p className="title-wrap"><span className="title-name">基础信息</span></p>
             {
@@ -479,7 +478,7 @@ const BaseGoodsAdd =({...props})=> {
               <Qtable
                 scroll={{x:1400}}
                 dataSource={goodsList}
-                columns={columnsAdd(FormItem)}/>
+                columns={columnsAdd()}/>
             </Form.Item>
             <div>
               <Qbtn size="free" onClick={goReset}>
