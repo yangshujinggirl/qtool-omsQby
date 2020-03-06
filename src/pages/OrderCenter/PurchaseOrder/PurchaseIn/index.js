@@ -8,11 +8,13 @@ import {
     PushPurchaseInOrderForceComplete
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import ConfirmModal from "common/ConfirmModal";
-import {Col, Form, Modal, Row} from "antd";
 import './index.less'
+import {Modal} from "antd";
 import BatchReviewModalForm from "./components/BatchReviewModalForm";
+import {ExclamationCircleOutlined} from '@ant-design/icons';
+import {ExportApi, getExportData} from "../../../../api/Export";
+import moment from "moment";
 
-const FormItem = Form.Item;
 /**
  * 功能作用：采购订单列表界面
  * 初始注释时间： 2020/3/5 18:08
@@ -49,6 +51,11 @@ export default class PurchaseInOrderList extends React.Component {
      * @type {null}
      */
     batchReviewSelectStatus = null;
+    /**
+     * 时间格式化字符串
+     * @type {string}
+     */
+    timeFormatStr = "YYYY-MM-DD";
 
     /**
      * 初始化
@@ -60,8 +67,20 @@ export default class PurchaseInOrderList extends React.Component {
             everyPage: 20,
             currentPage: 0,
             totalCount: 0,
-            inputValues: {},
+            inputValues: {
+                stime: moment(new Date(new Date() - 2592000000)).format(this.timeFormatStr),
+                etime: moment(new Date()).format(this.timeFormatStr)
+            },
+            stime: null,
+            etime: null,
+            /**
+             * 选中的数据key列表
+             */
             selectedRowKeys: [],
+            /**
+             * 选中的数据实体列表
+             */
+            selectedRows: [],
             /**
              * 是否显示Modal弹窗
              */
@@ -91,10 +110,12 @@ export default class PurchaseInOrderList extends React.Component {
     /**
      * 选择改变回调
      * @param selectedRowKeys
+     * @param selectedRows
      */
-    rowSelectChange = (selectedRowKeys) => {
+    rowSelectChange = (selectedRowKeys, selectedRows) => {
         this.setState({
-            selectedRowKeys
+            selectedRowKeys,
+            selectedRows
         });
     };
 
@@ -112,6 +133,15 @@ export default class PurchaseInOrderList extends React.Component {
      * @param values 搜索数据
      */
     searchDataList = (values) => {
+        let {stime, etime} = this.state.inputValues;
+        if (values != null && values.times != null) {
+            stime = values.times[0].format(this.timeFormatStr);
+            etime = values.times[1].format(this.timeFormatStr);
+            values.times = null
+        }
+        this.setState({
+            stime, etime
+        });
         this.showLoading();
         const params = {...this.state.inputValues, ...values};
         GetPurchaseInOrderListApi(params).then(res => {
@@ -167,10 +197,17 @@ export default class PurchaseInOrderList extends React.Component {
         if (this.state.selectedRowKeys.length === 0) {
             Qmessage.warn("请至少选择一个采购单")
         } else {
-            this.setState({
-                showModal: true,
-                showModalKey: key
-            });
+            if (key === this.tipsTextKeyForceComplete || key === this.tipsTextKeyBatchReview) {
+                this.setState({
+                    showModal: true,
+                    showModalKey: key
+                });
+            } else {
+                if (key === this.tipsTextKeyExportData) {
+                    // //导出数据
+                    // ExportApi(getExportData(this.state.inputValues.));
+                }
+            }
         }
     };
 
@@ -259,8 +296,6 @@ export default class PurchaseInOrderList extends React.Component {
                         });
                 }
                 break;
-            case this.tipsTextKeyExportData:
-                break;
             default:
                 break;
         }
@@ -312,7 +347,9 @@ export default class PurchaseInOrderList extends React.Component {
         } = this.state;
         return (
             <div className="oms-common-index-pages-wrap">
-                <FilterForm onSubmit={this.searchDataList}/>
+                <FilterForm onSubmit={this.searchDataList}
+                            stime={this.state.inputValues.stime}
+                            etime={this.state.inputValues.etime}/>
                 <div className="handle-operate-btn-action">
                     <Qbtn size="free">新建采购单</Qbtn>
                     <Qbtn size="free"

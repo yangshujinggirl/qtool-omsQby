@@ -14,16 +14,15 @@ const {RangePicker} = DatePicker;
 export default class SearchForm extends BaseFilter {
     formRef = React.createRef();
 
-    constructor(props) {
-        super(props);
+    /**
+     * 第一次渲染之后调用数据
+     */
+    componentDidMount = () => {
         let date = new Date();
-        this.state = {
-            /**
-             *当前时间范围
-             */
-            nowSelectTime: [moment(new Date(date - 2592000000)), moment(date)]
-        };
-    }
+        this.formRef.current.setFieldsValue({
+            times: [moment(this.props.stime), moment(this.props.etime)]
+        })
+    };
 
     render() {
         return (
@@ -69,9 +68,8 @@ export default class SearchForm extends BaseFilter {
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
-                            <FormItem label="下单时间" name="time" rul {...this.formItemLayout}>
+                            <FormItem label="下单时间" name="times" rul {...this.formItemLayout}>
                                 <RangePicker
-                                    defaultValue={this.state.nowSelectTime}
                                     placeholder={this.placeholder}
                                     format={this.formatType}
                                     showTime
