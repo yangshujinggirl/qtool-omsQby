@@ -12,7 +12,7 @@ import './index.less'
 import {Modal} from "antd";
 import BatchReviewModalForm from "./components/BatchReviewModalForm";
 import {ExclamationCircleOutlined} from '@ant-design/icons';
-import {ExportApi, getExportData} from "../../../../api/Export";
+import {EXPORT_TYPE_PURCHASE_ORDER_IN, ExportApi, getExportData} from "../../../../api/Export";
 import moment from "moment";
 
 /**
@@ -193,22 +193,24 @@ export default class PurchaseInOrderList extends React.Component {
     showModalClick = (key) => {
         //每次显示弹窗时都会清空
         this.batchReviewSelectStatus = null;
-        //判断是否有选择
-        if (this.state.selectedRowKeys.length === 0) {
-            Qmessage.warn("请至少选择一个采购单")
-        } else {
-            if (key === this.tipsTextKeyForceComplete || key === this.tipsTextKeyBatchReview) {
+        if (key === this.tipsTextKeyForceComplete || key === this.tipsTextKeyBatchReview) {
+            //判断是否有选择
+            if (this.state.selectedRowKeys.length === 0) {
+                Qmessage.warn("请至少选择一个采购单")
+            } else {
                 this.setState({
                     showModal: true,
                     showModalKey: key
                 });
-            } else {
-                if (key === this.tipsTextKeyExportData) {
-                    // //导出数据
-                    // ExportApi(getExportData(this.state.inputValues.));
-                }
+            }
+        } else {
+            if (key === this.tipsTextKeyExportData) {
+                //导出数据
+                ExportApi(getExportData(this.state.inputValues.stime, this.state.inputValues.etime,
+                    EXPORT_TYPE_PURCHASE_ORDER_IN, this.state.inputValues));
             }
         }
+
     };
 
     /**
