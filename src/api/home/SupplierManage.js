@@ -17,3 +17,17 @@ export function GetDetailApi(values){
        params:{...values}
     })
 }
+/**
+ *
+ * 新增
+ */
+export function GetAddApi(values){
+    return omsAjax.post('/supplier/addSupplier',{...values})
+}
+/**
+ *
+ * 编辑
+ */
+export function GetEditApi(values){
+    return omsAjax.post('/supplier/updateSupplierInfo',{...values})
+}
