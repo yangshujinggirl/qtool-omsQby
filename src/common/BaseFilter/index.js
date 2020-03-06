@@ -42,19 +42,19 @@ class BaseFilter extends Component {
           values[i] = values[i].replace(/^\s+|\s+$/gm, "");
         }
       }
-      const { time, ..._values } = values;
-      if (time && time[0]) {
-        _values.lastUpperShelvesTimeStart = moment(time[0]).format(
-          "YYYY-MM-DD HH:mm:ss"
-        );
-        _values.lastUpperShelvesTimeEnd = moment(time[1]).format(
-          "YYYY-MM-DD HH:mm:ss"
-        );
-      } else {
-        _values.lastUpperShelvesTimeStart = "";
-        _values.lastUpperShelvesTimeEnd = "";
-      }
-      this.props.onSubmit && this.props.onSubmit(_values);
+      // const { time, ..._values } = values;
+      // if (time && time[0]) {
+      //   _values.lastUpperShelvesTimeStart = moment(time[0]).format(
+      //     "YYYY-MM-DD HH:mm:ss"
+      //   );
+      //   _values.lastUpperShelvesTimeEnd = moment(time[1]).format(
+      //     "YYYY-MM-DD HH:mm:ss"
+      //   );
+      // } else {
+      //   _values.lastUpperShelvesTimeStart = "";
+      //   _values.lastUpperShelvesTimeEnd = "";
+      // }
+      this.props.onSubmit && this.props.onSubmit(values);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
     }

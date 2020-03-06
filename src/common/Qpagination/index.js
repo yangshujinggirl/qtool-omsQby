@@ -23,18 +23,16 @@ class Qpagination extends Component {
 
   render() {
     let { totalCount, everyPage, currentPage } = this.props.data;
-    console
     return(
       <div className="common-pagination-components">
         <Pagination
           showTotal={totalCount => `共${totalCount}条`}
-          // showSizeChanger
           total={totalCount}
           pageSize={1}
           current={currentPage}
           pageSizeOptions={this.initPageSize()}
-          onChange={this.props.onChange}/>
-          {/* onShowSizeChange={this.onShowSizeChange.bind(this)}/> */}
+          onChange={this.props.onChange}
+          onShowSizeChange={this.onShowSizeChange.bind(this)}/>
       </div>
     )
   }
