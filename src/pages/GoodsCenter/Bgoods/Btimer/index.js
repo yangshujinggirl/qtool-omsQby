@@ -33,13 +33,13 @@ class Btimer extends Component {
     const params = { ...this.state.inputValues, ...values };
     GetTimeListsApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { resultList, everyPage, currentPage, totalCount } = res.result;
-        const brandLists = resultList.map(item => {
+        let { result, everyPage, currentPage, totalCount } = res.result;
+        const taskList = result.map(item => {
           item.key = item.id;
           return item;
         });
         this.setState({
-          brandLists,
+          taskList,
           everyPage,
           currentPage,
           totalCount

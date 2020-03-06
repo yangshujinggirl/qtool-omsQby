@@ -38,7 +38,7 @@ class Search extends BaseFilter {
   };
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { catagoryList, catagoryList2 } = this.state;
+    const { catagoryList=[], catagoryList2=[] } = this.state;
     return (
       <div className="qtoolOms-condition">
         <Form className="serach-common-form">
@@ -70,7 +70,7 @@ class Search extends BaseFilter {
                   onChange: this.onChange
                 })(
                   <Select placeholder="请选择" allowClear={true}>
-                    {catagoryList.map(item => (
+                    {catagoryList.length>0&&catagoryList.map(item => (
                       <Option value={item.id} key={item.id}>
                         {item.categoryName}
                       </Option>
@@ -87,7 +87,7 @@ class Search extends BaseFilter {
                     disabled={!catagoryList2.length > 0}
                     allowClear={true}
                   >
-                    {catagoryList2.map(item => (
+                    {catagoryList2.length>0&&catagoryList2.map(item => (
                       <Option value={item.id} key={item.id}>
                         {item.categoryName}
                       </Option>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import FilterForm from "./FilterForm";
 import EditModal from "./components/Audit";
 import { GetListApi } from "api/home/BaseConfigCenter/GoodsAudit";
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon } from "@ant-design/compatible";
 import { Popover } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
@@ -40,10 +40,13 @@ class TradeGoods extends Component {
           currentPage,
           totalCount
         } = res.result;
-        const tableLists = resultList.map(item => {
-          item.key = item.id;
-          return item;
-        });
+        let tableLists = [];
+        if (resultList.length > 0) {
+          resultList.map(item => {
+            item.key = item.id;
+            return item;
+          });
+        }
         this.setState({
           tableLists,
           everyPage,
@@ -130,7 +133,7 @@ class TradeGoods extends Component {
         <div className="handle-operate-btn-action">
           <Qbtn onClick={this.audit}> 批量审核 </Qbtn>
           <Popover className="pop_over" title="说明" content={content}>
-            审核说明 <LegacyIcon type="question-circle" theme="filled" />
+            审核说明 <Icon type="question-circle" theme="filled" />
           </Popover>
         </div>
         <Qtable

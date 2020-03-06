@@ -35,7 +35,7 @@ class Ctask extends Component {
 
   //初始化数据
   componentDidMount = () => {
-    // this.searchData({});
+    this.searchData({});
   };
   //搜索列表
   searchData = values => {
@@ -65,13 +65,6 @@ class Ctask extends Component {
   //搜索查询
   onSubmit = params => {
     this.searchData(params);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    this.props.dispatch({
-      type: "cTimer/fetchList",
-      payload: { currentPage, limit, ...this.state.inputValues }
-    });
   };
   //修改
   handleOperateClick = (record, type) => {
