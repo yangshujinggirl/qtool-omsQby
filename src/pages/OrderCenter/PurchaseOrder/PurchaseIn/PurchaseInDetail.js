@@ -5,7 +5,7 @@ import {
     GetPurchaseInOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import {Card, Col, Form, Row} from "antd";
-import {Qtable} from "common/index";
+import {Qtable,QdetailBaseInfo} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "./column/OrderLogs";
 import {
@@ -19,7 +19,6 @@ import {
     LOGISTICS_EXPENSE_MODE_ZERO
 } from "./config";
 import moment from "moment";
-import DetailBaseInfo from "common/QdetailBaseInfo";
 
 /**
  * 功能作用：采购订单详情页面
@@ -74,7 +73,7 @@ const PurchaseInDetail = (props) => {
     return (
         <div className="oms-common-addEdit-pages bgood_add">
             <Card title="采购单信息">
-                <DetailBaseInfo showData={
+                <QdetailBaseInfo showData={
                     ["采购单号", dataInfo.stockingCode,
                         "采购主体", dataInfo.procurementTarget,
                         "供应商名称", dataInfo.suppliersName,
@@ -90,7 +89,7 @@ const PurchaseInDetail = (props) => {
                         "物流费用", dataInfo.logisticsType === LOGISTICS_EXPENSE_MODE_ZERO ? "包邮" :
                         (dataInfo.logisticsType === LOGISTICS_EXPENSE_MODE_RECIPIENT_PAY ? "到付" + dataInfo.postage + "元" : ""),
                         "订单创建人", dataInfo.user,
-                        "创建时间", moment(dataInfo.createTime).format("YYYY-MM-DD H:mm:ss"),
+                        "创建时间", moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss"),
                         "订单备注", dataInfo.remarkes,]
                 }/>
             </Card>

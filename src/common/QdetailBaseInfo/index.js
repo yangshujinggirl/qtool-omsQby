@@ -18,12 +18,16 @@ import './index.less'
 export default class DetailBaseInfo extends Component {
     render() {
         const show = [];
-        this.props.showData.slice(0, this.props.showData.length / 2).forEach((item, index) => {
+        let length = this.props.showData.length;
+        //遍历数据显示
+        for (let i = 0; i < length; i = i + 2) {
+            let la = this.props.showData[i];
+            let value = this.props.showData[i + 1];
             show.push(<Col>
                 <Form.Item
-                    label={this.props.showData[index * 2]}>{this.props.showData[index * 2 + 1]}</Form.Item>
+                    label={la}>{value}</Form.Item>
             </Col>)
-        });
+        }
         return (
             <Row gutter={50} className="detail-base-info-container">{show}</Row>
         );
