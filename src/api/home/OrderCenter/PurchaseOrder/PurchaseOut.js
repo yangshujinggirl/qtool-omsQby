@@ -19,3 +19,27 @@ export function PushPurchaseOutOrderBatchReview(values, status) {
     })
 }
 
+/**
+ * 获取采退订单详情
+ * @constructor
+ */
+export function GetPurchaseOutOrderDetailApi(stockingReCode) {
+    return omsAjax.get('/thinkStockingRefund/getStockRefundDetail', {
+        params: {
+            stockingReCode: stockingReCode
+        }
+    })
+}
+
+/**
+ * 获取采退订单操作日志
+ * @constructor
+ */
+export function GetPurchaseOutOrderOptionsLogsApi(stockingCode) {
+    return omsAjax.get('/thinkStockingRefund/getStockingReLog', {
+        params: {
+            stockingReCode: stockingReCode
+        }
+    })
+}
+

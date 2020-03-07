@@ -11,11 +11,9 @@ const Columns = [
     dataIndex: "stockingReCode",
     key: "1",
     render: (text, record) => (
-        <div>
-          <a className="link-color" onClick={() => record.onOperateClick()}>
+        <Link className="link-color" to={`/account/purchaseRefundOrderOutDetail/${record.stockingReCode}`}>
             {text}
-          </a>
-        </div>
+        </Link>
     )
   },
   {
@@ -23,11 +21,9 @@ const Columns = [
     dataIndex: "stockingCode",
     key: "2",
     render: (text, record) => (
-        <div>
-          <a className="link-color" onClick={() => record.onOperateClick()}>
+        <Link className="link-color" to={`/account/purchaseOrderInDetail/${record.stockingCode}`}>
             {text}
-          </a>
-        </div>
+        </Link>
     )
   },
   {title: "供应商名称", dataIndex: "suppliersName", key: "3"},
