@@ -28,7 +28,7 @@ class Qpagination extends Component {
         <Pagination
           showTotal={totalCount => `共${totalCount}条`}
           total={totalCount}
-          pageSize={1}
+          pageSize={everyPage}
           current={currentPage}
           pageSizeOptions={this.initPageSize()}
           onChange={this.props.onChange}

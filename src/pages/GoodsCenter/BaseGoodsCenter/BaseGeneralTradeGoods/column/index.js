@@ -2,7 +2,7 @@ import moment from "moment";
 import { Input,Form } from 'antd';
 
 import { Link } from 'react-router-dom';
-// let FormItem = Form.Item;
+let FormItem = Form.Item;
 
 const Columns = [
   {
@@ -57,8 +57,8 @@ const Columns = [
     )
   }
 ];
-const columnsAdd=(FormItem)=> {
-  // console.log(FormItem)
+const columnsAdd=()=> {
+
   return [
     {
       title: "操作",
@@ -103,9 +103,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       width: 100,
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'barCode']} noStyle>
+        return  <Form.Item name={['skuList',index,'barCode']}>
                   <Input className="goods-name" key={index}/>
-                </FormItem>
+                </Form.Item>
       }
     },{
       title: "*采购价",
@@ -113,9 +113,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       dataIndex: "purchasePrice",
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'purchasePrice']} noStyle>
+        return  <Form.Item name={['skuList',index,'purchasePrice']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.purchasePrice}/>
-                </FormItem>
+                </Form.Item>
       }
     },{
       title: "*B端售价",
@@ -123,9 +123,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       dataIndex: "businessPrice",
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'businessPrice']} noStyle>
+        return  <Form.Item name={['skuList',index,'businessPrice']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.businessPrice}/>
-                </FormItem>
+                </Form.Item>
 
       }
     },{
@@ -134,9 +134,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       dataIndex: "customerPrice",
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'customerPrice']} noStyle>
+        return  <Form.Item name={['skuList',index,'customerPrice']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.customerPrice}/>
-                </FormItem>
+                </Form.Item>
 
       }
     },{
@@ -145,9 +145,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       dataIndex: "proposalPrice",
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'proposalPrice']} noStyle>
+        return  <Form.Item name={['skuList',index,'proposalPrice']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.proposalPrice}/>
-                </FormItem>
+                </Form.Item>
 
        }
     },{
@@ -156,9 +156,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       dataIndex: "bonusRate",
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'bonusRate']} noStyle>
+        return  <Form.Item name={['skuList',index,'bonusRate']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.bonusRate}/>
-                </FormItem>
+                </Form.Item>
 
        }
     },{
@@ -167,9 +167,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       dataIndex: "taxRate",
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'taxRate']} noStyle>
+        return  <Form.Item name={['skuList',index,'taxRate']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.taxRate}/>
-                </FormItem>
+                </Form.Item>
 
       }
     },{
@@ -178,9 +178,9 @@ const columnsAdd=(FormItem)=> {
       textWrap: 'word-break',
       dataIndex: "shelfLife",
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'shelfLife']} noStyle>
+        return  <Form.Item name={['skuList',index,'shelfLife']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.shelfLife}/>
-                </FormItem>
+                </Form.Item>
 
       }
     },{
@@ -189,9 +189,9 @@ const columnsAdd=(FormItem)=> {
       width: 100,
       textWrap: 'word-break',
       render:(text,record,index)=> {
-        return  <FormItem name={['skuList',index,'weight']} noStyle>
+        return  <Form.Item name={['skuList',index,'weight']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.weight}/>
-                </FormItem>
+                </Form.Item>
 
       }
     }]
