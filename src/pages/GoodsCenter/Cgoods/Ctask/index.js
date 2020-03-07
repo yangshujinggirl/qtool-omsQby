@@ -17,17 +17,11 @@ class Ctask extends Component {
     super(props);
     this.state = {
       visible: false,
-      taskList: [
-        {
-          taskName: "mingzi",
-          taskId: 1,
-          taskStatus:0
-        }
-      ],
+      taskList: [],
       taskId: "",
       taskName: "",
       everyPage: 20,
-      currentPage: 0,
+      currentPage: 1,
       totalCount: 0,
       inputValues: {}
     };
@@ -39,16 +33,12 @@ class Ctask extends Component {
   };
   //搜索列表
   searchData = values => {
-    const params = { ...this.state.inputValues, ...values };
+    const params = { ...this.state.inputValues, ...values};
     GetTaskListsApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { resultList, everyPage, currentPage, totalCount } = res.result;
-        const brandLists = resultList.map(item => {
-          item.key = item.id;
-          return item;
-        });
+        let { result, everyPage, currentPage, totalCount } = res.result;
         this.setState({
-          brandLists,
+          taskList:result,
           everyPage,
           currentPage,
           totalCount
@@ -138,7 +128,7 @@ class Ctask extends Component {
                     任务类型：商品状态
                   </Link>
                 </Menu.Item>
-                <Menu.Item>
+                {/* <Menu.Item>
                   <Link
                     to={"/account/addtask?taskType=2"}
                     style={{ color: "#35bab0" }}
@@ -153,7 +143,7 @@ class Ctask extends Component {
                   >
                     任务类型：商品标签
                   </Link>
-                </Menu.Item>
+                </Menu.Item> */}
               </Menu>
             }
             placement="bottomCenter"

@@ -25,8 +25,9 @@ export function editTimeApi(values) {
 }
 //查询定时
 export function getTimeInfoApi(values) {
-  return erpAjax.get("/taskTime", {
-    params: { ...values }
+  const {pdTaskTimeId,..._values} = values;
+  return erpAjax.get(`/taskTime/${pdTaskTimeId}`, {
+    params: { ..._values }
   });
 }
 //强制失效

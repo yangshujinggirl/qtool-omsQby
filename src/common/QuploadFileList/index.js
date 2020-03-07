@@ -3,28 +3,28 @@ import Qtable from "common/Qtable/index"; //表单
 import "./index.less";
 
 const UpLoadFile = props => {
-  const handleChange = file => {
-    // let file = info.file;{
-    // const {response} = file;}
-    // if(file.status == 'done'){
-    //   if(response&&response.code == '200'){
-    //     const {goodList} = response.result;
-    //     props.changeDataList()
-    //   }
-    // };
-    props.changeDataList();
+  const handleChange = info => {
+    let file = info.file;
+    if (file.status == "done") {
+      if (file.response && file.response.httpCode == "200") {
+        const { list } = file.response.result;
+        props.changeDataList(list);
+        // props.changeDataList(file.response.result);
+      }
+    }
   };
   const downLoadTemp = () => {
     props.downLoadTemp();
   };
-  const { Columns, dataList } = props;
-  const params = JSON.stringify({
-    type: 1
-  });
+  const { Columns, dataList, action, data } = props;
+  let params = null;
+  if (data) {
+    params = JSON.stringify(data);
+  }
   const Props = {
     accept: ".xlsx,.xls",
     name: "mfile",
-    action: "/erpWebRest/webrest.htm?code=qerp.web.promotion.activity.import",
+    action: action,
     onChange: handleChange,
     data: { data: params },
     showUploadList: false

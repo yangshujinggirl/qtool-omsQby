@@ -96,7 +96,7 @@ class HomeRoutes extends React.Component {
           <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
           <Route  path="/account/bgoodsInfo/:id?" component={BgoodsInfo}/>
           <Route path='/account/b_timing' component={Btimer}/>
-          <Route path='/account/addTimer' component={AddTimer}/>
+          <Route path='/account/addTimer/:id?' component={AddTimer}/>
           <Route path='/account/timerInfo/:id?' component={TimerInfo}/>
           <Route path='/account/c_batch_task' component={Ctask}/>
           <Route path='/account/addTask' component={AddTask}/>
@@ -128,12 +128,9 @@ class HomeRoutes extends React.Component {
 
 
         {/*
-       
-        
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
-        
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/wareHouseManage" component={StoreHouse}/>
         <Route  path="/account/stockManage" component={StockManage}/>

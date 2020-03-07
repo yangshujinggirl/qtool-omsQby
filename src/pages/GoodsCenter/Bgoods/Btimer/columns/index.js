@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom'
 const Columns = [
   {
     title: "定时名称",
@@ -25,13 +26,13 @@ const Columns = [
     render: (text, record) => {
       return (
         <div>
-          <a className="theme-color" onClick={()=>record.onOperateClick('info')}>
+          <Link className="theme-color" to={`/account/taskInfo/${record.pdTaskTimeId}`}>
             查看
-          </a>　
-          <a className="theme-color" onClick={()=>record.onOperateClick('edit')}>
+          </Link>　
+          <Link className="theme-color" to={`/account/addTimer/${record.pdTaskTimeId}`}>
             编辑
-          </a>　
-          <a className="theme-color" onClick={()=>record.onOperateClick('invalid')}>
+          </Link>　
+          <a className="theme-color" onClick={()=>record.onOperateClick()}>
             强制无效
           </a>
         </div>
