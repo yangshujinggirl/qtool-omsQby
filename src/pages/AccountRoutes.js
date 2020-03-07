@@ -67,6 +67,7 @@ import TimerInfo from './GoodsCenter/Bgoods/Btimer/TimerInfo' //商品定时
 
 /************************************  订单中心  ********************************************/
 import PurchaseIn from './OrderCenter/PurchaseOrder/PurchaseIn' //采购
+import PurchaseInDetail from "./OrderCenter/PurchaseOrder/PurchaseIn/PurchaseInDetail";//采购订单详情
 import PurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut' //采退
 import shopOrder from './OrderCenter/Border/ShopOrder' //门店订单
 import shopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退单
@@ -74,7 +75,7 @@ import shopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退�
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
 import SupplierManageAdd from './SupplierManage/SupplierManageAdd';//供应商管理
-import shopManage from './CooperateCenter/ShopManage' //门店管理
+import shopManage from './CooperateCenter/ShopManage'//门店管理
 
 
 
@@ -114,6 +115,7 @@ class HomeRoutes extends React.Component {
           <Route  path="/account/general_trade_product" component={GeneralTradeGoods}/>
 {/* ----------------------------------  订单中心   ---------------------------------------*/}
         <Route path='/account/purchaseOrder' component={PurchaseIn}/>
+        <Route path="/account/purchaseOrderInDetail/:id" component={PurchaseInDetail}/>
         <Route path='/account/purchaseRefundOrder' component={PurchaseOut}/>
         <Route path='/account/c_batch_task' component={shopOrder}/>
         <Route path='/account/c_batch_task' component={shopReturnOrder}/>
