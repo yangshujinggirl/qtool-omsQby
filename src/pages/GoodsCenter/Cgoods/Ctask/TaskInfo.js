@@ -1,41 +1,32 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from "react";
 import { getTaskInfoApi } from "api/home/GoodsCenter/Cgoods/Ctask";
 import { Columns1, Columns2, Columns3 } from "./AddTask/column";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from "@ant-design/compatible";
+import "@ant-design/compatible/assets/index.css";
 import { Button } from "antd";
 import Qtable from "common/Qtable/index"; //表单
 import moment from "moment";
 const FormItem = Form.Item;
 
-const TaskInfo =(props)=> {
-  const [infos,setInfos] = useState({});
-  const [goodList,setGoodList] = useState([])
+const TaskInfo = props => {
+  const [infos, setInfos] = useState({});
+  const [goodList, setGoodList] = useState([]);
   //初始化数据
-  useEffect(()=>{
-    // const {id} = props.match.params
-    // getTaskInfoApi({taskId:id}).then(res=>{
-    // setInfos(res)
-    // setGoodList(res.skuList)
-    // });
-    
-    const res = {
-      taskName: "名字",
-      taskOperateStartTime: "2018-10-09",
-      taskOperateEndTime: "2018-10-10",
-      taskType: 2,
-      extraField: 0,
-      skuList: [{ id: 1, name: 1, extraInfo: "11" }]
-    };
-    setInfos(res);
-    setGoodList(res.skuList);
-    console.log(111)
-  },[]);
+  useEffect(() => {
+    const { id } = props.match.params;
+    getTaskInfoApi({ taskId: id }).then(res => {
+      const {skuList,...infos} = res.result;
+      const goodList = skuList.map((item,index)=>{item.key = index;return item})
+      setInfos(infos);
+      setGoodList(goodList);
+    });
+  }, []);
   const goback = () => {
-    props.history.push("/account/cTask");
+    props.history.push("/account/c_batch_task");
   };
   const { taskType } = infos;
-  const Columns = taskType == 1 ? Columns1 : taskType == 2 ? Columns2 : Columns3;
+  const Columns =
+    taskType == 1 ? Columns1 : taskType == 2 ? Columns2 : Columns3;
   return (
     <Form className="addUser-form addcg-form">
       <FormItem
@@ -51,7 +42,7 @@ const TaskInfo =(props)=> {
           labelCol={{ span: 3, offset: 1 }}
           wrapperCol={{ span: 8 }}
         >
-          <span>{infos.taskOperateStartTime}</span>
+          <span>{moment(infos.taskOperateStartTime).format('YYYY-MM-DD HH:mm:ss')}</span>
         </FormItem>
       )}
       {(taskType == 2 || taskType == 3) && (
@@ -93,10 +84,11 @@ const TaskInfo =(props)=> {
         <Qtable dataSource={goodList} columns={Columns} />
       </FormItem>
       <div className="btn_center">
-        <Button type='primary' size='large' onClick={goback}>返回</Button>
+        <Button type="primary" size="large" onClick={goback}>
+          返回
+        </Button>
       </div>
     </Form>
   );
-}
+};
 export default TaskInfo;
-

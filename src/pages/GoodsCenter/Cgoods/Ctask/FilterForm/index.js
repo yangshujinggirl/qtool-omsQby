@@ -40,8 +40,8 @@ class FilterForm extends BaseFilter {
                   placeholder="请选择定时操作"
                   className="select"
                 >
-                  <Option value="11">上架</Option>
-                  <Option value="12">下架</Option>
+                  <Option value="10">上架</Option>
+                  <Option value="11">下架</Option>
                 </Select>
               </FormItem>
             </Col>
