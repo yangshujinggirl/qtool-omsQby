@@ -1,8 +1,6 @@
 import React from "react";
 import { BaseFilter, Qbtn } from "common";
-import { Form } from "@ant-design/compatible";
-import "@ant-design/compatible/assets/index.css";
-import { Row, Col, Input, Select } from "antd";
+import {Form, Row, Col, Input, Select } from "antd";
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -42,9 +40,8 @@ class FilterForm extends BaseFilter {
                   placeholder="请选择定时操作"
                   className="select"
                 >
-                  <Option value="1">商品状态</Option>
-                  <Option value="2">商品提示</Option>
-                  <Option value="3">商品标签</Option>
+                  <Option value="11">上架</Option>
+                  <Option value="12">下架</Option>
                 </Select>
               </FormItem>
             </Col>

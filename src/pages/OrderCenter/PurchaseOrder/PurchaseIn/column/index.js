@@ -1,21 +1,17 @@
 import moment from "moment";
 import {Link} from "react-router-dom";
-import {
-    AUDIT_STATUS_NO_PASS, AUDIT_STATUS_PASS, AUDIT_STATUS_WAIT,
-    ORDER_STATUS_LOADING, ORDER_STATUS_RECEIVED, ORDER_STATUS_WAIT
-} from "../config";
+import {AUDIT_STATUS_NO_PASS} from "../config";
+import React from "react";
 
 const Columns = [
     {
         title: "采购单号",
         dataIndex: "stockingCode",
         key: "1",
-        render: (text, record, index) => (
-            <div>
-                <a className="link-color" onClick={() => record.onOperateClick()}>
-                    {text}
-                </a>
-            </div>
+        render: (text, record) => (
+            <Link className="link-color" to={`/account/purchaseOrderInDetail/${record.stockingCode}`}>
+                {text}
+            </Link>
         )
     },
     {title: "供应商名称", dataIndex: "suppliersName", key: "2"},

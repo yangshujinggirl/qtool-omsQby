@@ -15,6 +15,7 @@ import _BaseConstant from './BaseConstant';
 import _QsubTable from './QsubTable';
 import _QupLoadImgLimt from './QupLoadImgLimt';
 import _CascaderAddressOptions from './CascaderAddressOptions';
+import _QdetailBaseInfo from './QdetailBaseInfo';
 
 
 export const QbyConnect = _QbyConnect;
@@ -33,3 +34,4 @@ export const QupLoadList = _QupLoadList;
 export const QsubTable = _QsubTable;
 export const QupLoadImgLimt = _QupLoadImgLimt;
 export const CascaderAddressOptions = _CascaderAddressOptions;
+export const QdetailBaseInfo = _QdetailBaseInfo;

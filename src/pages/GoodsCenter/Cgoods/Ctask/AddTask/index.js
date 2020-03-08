@@ -1,7 +1,7 @@
 import { getTaskInfoApi, AddTaskApi } from "api/home/GoodsCenter/Cgoods/Ctask";
 import { Columns1, Columns2, Columns3 } from "./column";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from "@ant-design/compatible";
+import "@ant-design/compatible/assets/index.css";
 import { Input, Button, message, Radio, AutoComplete, Select } from "antd";
 import moment from "moment";
 const RadioGroup = Radio.Group;
@@ -9,6 +9,7 @@ const Option = Select.Option;
 import ImportBtn from "common/QupLoadFileList";
 const FormItem = Form.Item;
 import { DateTime, RangeTime } from "common/QdisabledDateTime";
+
 
 class GoodEditForm extends React.Component {
   constructor(props) {
@@ -28,27 +29,15 @@ class GoodEditForm extends React.Component {
     temp.split("&").map(item => {
       obj[item.split("=")[0]] = item.split("=")[1];
     });
-    const { taskId='', taskType } = obj;
+    const { taskId = "", taskType } = obj;
     if (taskId) {
-      // getTaskInfoApi({taskId}).then(res=>{
-      //   if(res.httpCode == 200){
-      //     this.setState({
-      //       infos:res,
-      //       goodList:res.skuList
-      //     });
-      //   }
-      // });
-      const res = {
-        taskName: "名字",
-        taskOperateStartTime: "2018-10-09",
-        taskOperateEndTime: "2018-10-10",
-        taskType: 2,
-        extraField: 0,
-        skuList: [{ id: 1, name: 1, extraInfo: "11" }]
-      };
-      this.setState({
-        infos: res,
-        goodList: res.skuList
+      getTaskInfoApi({taskId}).then(res=>{
+        if(res.httpCode == 200){
+          this.setState({
+            infos:res,
+            goodList:res.skuList
+          });
+        }
       });
     }
     this.setState({
@@ -61,25 +50,30 @@ class GoodEditForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const { taskTime, ..._values } = values;
+        const {goodList,taskType} = this.state;
+        _values.skuList = goodList;
+        _values.taskType = 1;
+        _values.taskOperateUser = 1;
         if (taskType == 1) {
-          values.taskOperateStartTime = moment(
-            values.taskTime,
-            "YYYY-MM-DD HH:mm:ss"
-          );
-        } else {
-          values.taskOperateStartTime = moment(
-            values.rangerTimer[0],
-            "YYYY-MM-DD HH:mm:ss"
-          );
-          values.taskOperateEndTime = moment(
-            values.rangerTimer[1],
+          _values.taskOperateStartTime = moment(taskTime).format(
             "YYYY-MM-DD HH:mm:ss"
           );
         }
-        AddTaskApi(values).then(res => {
+        //  else {
+        //   values.taskOperateStartTime = moment(values.rangerTimer[0]).format(
+        //     "YYYY-MM-DD HH:mm:ss"
+        //   );
+        //   values.taskOperateEndTime = moment(
+        //     values.rangerTimer[1],
+        //     "YYYY-MM-DD HH:mm:ss"
+        //   );
+        // }
+        AddTaskApi({editDto:_values}).then(res => {
           if (res.code == "200") {
             message.success("保存成功", 0.8);
-          }
+            this.goback()
+          };
         });
       }
     });
@@ -89,53 +83,34 @@ class GoodEditForm extends React.Component {
     this.deleteTab();
   };
   //标签搜索
-  onSearch = value => {
-    // labelSearchApi({tabName:value}).then(res => {
-    //   if (res.httpCode == 200) {
-    //     this.setState({
-    //       labelList: res.result.result
-    //     });
-    //   }
-    // });
-    this.setState({
-      labelList: [
-        {
-          tabId: 1,
-          tabName: "姓名1"
-        },
-        {
-          tabId: 2,
-          tabName: "姓名2"
-        }
-      ]
-    });
-  };
+  // onSearch = value => {
+  //   labelSearchApi({ tabName: value }).then(res => {
+  //     if (res.httpCode == 200) {
+  //       this.setState({
+  //         labelList: res.result.result
+  //       });
+  //     }
+  //   });
+  // };
   //修改上传数据
   changeDataList = dataList => {
-    //  this.setState({
-    //    goodList:dataList
-    //  })
+    console.log(dataList);
     this.setState({
-      goodList: [
-        {
-          id: 1,
-          name: "商品名称",
-          extraInfo: "xinxi"
-        }
-      ]
+      goodList: dataList
     });
   };
   //下载模板
   downLoadTemp = () => {
-    const taskType = this.props.location.search.substr(1).split("=")[1];
-    if (taskType == 1 || taskType == 2) {
-      window.open("src/static/goods_tips.xlsx");
-    } else {
-      window.open("src/static/goods_label.xlsx");
-    }
+    // const taskType = this.props.location.search.substr(1).split("=")[1];
+    // if (taskType == 1 || taskType == 2) {
+    //   window.open("src/static/goods_tips.xlsx");
+    // } else {
+    //   window.open("src/static/goods_label.xlsx");
+    // }
+    window.open("src/static/batchTask.xlsx");
   };
   goback = () => {
-    this.props.history.push("/account/cTask");
+    this.props.history.push("/account/c_batch_task");
   };
   renderOption = item => {
     return <Option key={item.tabName}>{item.tabName}</Option>;
@@ -230,19 +205,18 @@ class GoodEditForm extends React.Component {
           wrapperCol={{ span: 20 }}
         >
           <ImportBtn
+            action="/qtoolsApp/task/importSku/1"
             changeDataList={this.changeDataList}
             downLoadTemp={this.downLoadTemp}
             Columns={Columns}
             dataList={goodList}
           />
         </FormItem>
-        <FormItem
-          wrapperCol={{push:4, span: 20 }}
-        >
-          <Button className='edit_btn' size='large' onClick={this.goback}>
+        <FormItem wrapperCol={{ push: 4, span: 20 }}>
+          <Button className="edit_btn" size="large" onClick={this.goback}>
             取消
-          </Button>　
-          <Button type="primary" size='large' onClick={this.handleSubmit}>
+          </Button>
+          <Button type="primary" size="large" onClick={this.handleSubmit}>
             保存
           </Button>
         </FormItem>

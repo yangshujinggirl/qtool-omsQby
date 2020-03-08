@@ -34,3 +34,26 @@ export function PushPurchaseInOrderBatchReview(values, status) {
     })
 }
 
+/**
+ * 获取采购订单详情
+ * @constructor
+ */
+export function GetPurchaseInOrderDetailApi(stockingCode) {
+    return omsAjax.get('/thinkStocking/getThinkStockingDetail', {
+        params: {
+            stockingCode: stockingCode
+        }
+    })
+}
+
+/**
+ * 获取采购订单操作日志
+ * @constructor
+ */
+export function GetPurchaseInOrderOptionsLogsApi(stockingCode) {
+    return omsAjax.get('/thinkStocking/getStockingLog', {
+        params: {
+            stockingCode: stockingCode
+        }
+    })
+}

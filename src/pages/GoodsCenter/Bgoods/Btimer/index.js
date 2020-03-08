@@ -65,21 +65,7 @@ class Btimer extends Component {
     });
   };
   //修改
-  handleOperateClick = (record, type) => {
-    switch (type) {
-      case "info":
-        this.props.history.push(`/account/taskInfo/${record.pdTaskTimeId}`);
-        break;
-      case "edit":
-        this.props.history.push(
-          `/account/addtask?taskType=1&pdTaskTimeId=${record.pdTaskTimeId}`
-        );
-        break;
-      case "invalid":
-        this.confirmInvalid(record);
-    }
-  };
-  confirmInvalid = record => {
+  handleOperateClick = (record) => {
     this.setState({
       visible: true,
       pdTaskTimeId: record.pdTaskTimeId,

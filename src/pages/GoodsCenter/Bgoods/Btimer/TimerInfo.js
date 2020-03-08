@@ -31,9 +31,8 @@ const TimerInfo = props => {
     // console.log(111)
   }, []);
   const goback = () => {
-    props.history.push("/account/cTask");
+    props.history.push("/account/b_timing");
   };
-  const { taskType } = infos;
   return (
     <Form className="addUser-form addcg-form">
       <FormItem

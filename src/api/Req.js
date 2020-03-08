@@ -54,3 +54,8 @@ const appAjax = new request({baseURL:'/qtoolsApp'});
 export {
   omsAjax,erpAjax,appAjax
 }
+/**
+ * 网络请求成功code
+ * @type {number}
+ */
+export const NET_REQUEST_SUCCESS_CODE = 200;
