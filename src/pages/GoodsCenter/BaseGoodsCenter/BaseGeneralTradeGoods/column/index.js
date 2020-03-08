@@ -209,4 +209,70 @@ const columnsAdd=()=> {
       }
     }]
 }
-export { Columns, columnsAdd };
+const columnsinfo=[{
+      title: "sku编码",
+      dataIndex: "skuCode",
+      width: 100,
+      textWrap: 'word-break',
+    },{
+      title: "规格",
+      dataIndex: "salesAttributeName",
+      width: 100,
+      textWrap: 'word-break',
+    },{
+      title: "审核状态",
+      dataIndex: "status",
+      width: 100,
+      textWrap: 'word-break',
+    },{
+      title: "商品标签",
+      dataIndex: "oldStatus",
+      width: 120,
+      textWrap: 'word-break',
+    },{
+      title: "*商品条码",
+      dataIndex: "barCode",
+      textWrap: 'word-break',
+      width: 100,
+    },{
+      title: "*采购价",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "purchasePrice",
+    },{
+      title: "*B端售价",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "businessPrice",
+    },{
+      title: "*C端售价",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "customerPrice",
+    },{
+      title: "*建议零售价",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "proposalPrice",
+    },{
+      title: "*直邮服务费（%）",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "bonusRate",
+    },{
+      title: "*税率（%）",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "taxRate",
+    },{
+      title: "*保质期（天）",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "shelfLife",
+    },{
+      title: "*毛重（g）",
+      dataIndex: "weight",
+      width: 100,
+      textWrap: 'word-break'
+    }]
+export { Columns, columnsAdd, columnsinfo };

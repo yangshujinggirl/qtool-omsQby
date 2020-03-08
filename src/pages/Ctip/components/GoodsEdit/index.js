@@ -141,7 +141,7 @@ function withSubscription(WrappedComponent,productNature) {
         let { descriptAttributeList, subList,...pdSpu} =res.result;
         let serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo;
         pdSpu.serviceInfo = serviceInfo==""?[]:serviceInfo.split('-');
-        descriptAttributeList&&descriptAttributeList.map((el) =>el.key=el.descriptAttributeId)
+        descriptAttributeList&&descriptAttributeList.map((el,idx) =>el.key=`${el.descriptAttributeId}${idx}`)
         subList&&subList.map((el)=>el.key=el.pdSkuId);
         setTotal(pdSpu)
         setGoodsList(subList)
