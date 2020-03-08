@@ -10,7 +10,7 @@ class BaseGoods extends GoodsListExtends {
   constructor(props) {
     super(props);
     this.state = {
-      productNature:1,
+      productNature:2,
       goodLists:[],
       everyPage:15,
       currentPage: 1,
@@ -34,7 +34,6 @@ class BaseGoods extends GoodsListExtends {
   addTrade=()=> {
     this.props.history.push('/account/baseGoodsAdd')
   }
-
   render() {
     const { goodLists,everyPage, currentPage, totalCount } = this.state;
 
@@ -44,7 +43,7 @@ class BaseGoods extends GoodsListExtends {
             onSubmit={this.onSubmit}
             inputValues={this.state.inputValues}/>
           <div className="handle-operate-btn-action">
-            <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
+            <Qbtn size="free" onClick={this.addTrade}>新建跨境商品</Qbtn>
             <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
           </div>
           <Qtable

@@ -3,7 +3,7 @@ import { Table,Input,Form } from 'antd';
 
 class EditTable extends React.Component {
   renderSkuTips=(text,record,index)=> {
-    return <Form.Item name={['subList',index,'customerPrice']}>
+    return <Form.Item name={['subList',index,'skuTips']}>
                <Input autoComplete="off" placeholder="30字以内，C端展示"/>
             </Form.Item>
   }

@@ -1,10 +1,10 @@
 import { Table, Spin, Button } from "antd";
 import { connect } from 'react-redux';
 import FilterForm from "./components/FilterForm";
-import { Qpagination, Qbtn, Qtable, QsubTable} from "common";
+import { Qpagination, Qmessage, Qbtn, Qtable, QsubTable} from "common";
 import { ColumnsPar, ColumnsSub } from "../column";
 import { Link } from 'react-router-dom';
-import { GetListApi } from "api/cTip/GeneralTradeGoods";
+import { GetListApi, GetUpDownApi } from "api/cTip/GeneralTradeGoods";
 import moment from 'moment';
 
 
@@ -69,6 +69,7 @@ function withSubscription(WrappedComponent,productNature) {
         result.map((el)=>{
           el.key=el.spuCode;
           el.productNature=productNature;
+          el.subList&&el.subList.map((item,idx)=>item.key = idx);
           return el;
         });
         this.setState({ goodLists:result,total, currentPage, everyPage })
@@ -97,15 +98,15 @@ function withSubscription(WrappedComponent,productNature) {
     };
     handleOperateClick = (record,type) => {
       switch(type) {
-        case 'edit':
-          //去编辑
-          break;
-        case 'info':
-          //去查看
-          break;
         case 'sale':
-          //上下架
-          console.log(record)
+        let opType = record.upperStatusStr=='上架'?'2':'1';
+          let params = { opType, operateUser:'yj'}
+          GetUpDownApi(params,record.skuCode)
+          .then((res) => {
+            Qmessage.success(`${record.upperStatusStr}成功`)
+          },err=> {
+            console.log(err)
+          })
           break;
       }
     };

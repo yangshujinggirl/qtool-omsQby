@@ -45,7 +45,6 @@ class Search extends BaseFilter {
       <div className="qtoolOms-condition">
         <Form
           ref={this.formRef}
-          onFinish={this.onFinish}
           initialValues={{...initialValues}}
           className="serach-common-form">
           <Row gutter={24}>

@@ -1,17 +1,18 @@
 import '@ant-design/compatible/assets/index.css';
 import {
   Input,Spin,Upload,
-  Select,Row,Col,
+  Select,Col,
   Checkbox,Button,Radio,
   AutoComplete,Descriptions,Form
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ColumnsAdd } from '../column';
-import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
-import { GetDetailApi, GetEditApi } from 'api/cTip/GeneralTradeGoods';
+import { Qtable, Qbtn, Qmessage, QupLoadImgLimt } from 'common';
+import { GetDetailApi, GetEditApi,GetLabelApi } from 'api/cTip/GeneralTradeGoods';
 import EditTable from './components/EditTable';
 import GraphicInformation from './components/GraphicInformation';
+import { serviceOption } from '../optionMap';
 import './index.less';
 
 let FormItem = Form.Item;
@@ -28,7 +29,7 @@ const formItemLayout = {
     };
 
 const MainComponent=({...props})=> {
-  const { goodsList,totalData, descriptAttributeList,
+  let { goodsList,totalData, descList,labelList,
           form,goReturn,onSubmit } =props;
   return(
     <Spin tip="加载中..." spinning={false}>
@@ -63,17 +64,17 @@ const MainComponent=({...props})=> {
             <FormItem label='C端商品名称' name="productCname" rules={[{ required: true, message: '请输入C端商品名称'}]}>
                <Input autoComplete="off" placeholder="请输入C端商品名称"/>
             </FormItem>
-            <Form.Item label="C端商品卖点" name="sellingPoint" rules={[{ required: true, message: '请选择商品类型' }]}>
+            <Form.Item label="C端商品卖点" name="sellingPoint">
               <Input autoComplete="off" placeholder="请输入C端商品名称"/>
             </Form.Item>
             {
-              descriptAttributeList.length>0&&
+              descList.length>0&&
               <Form.Item label="描述属性">
                 <Descriptions bordered column={2}>
                 {
-                  descriptAttributeList.map((el,index)=> (
-                    <Descriptions.Item label={el.attributeName} key={el.key}>
-                      <Form.Item name={`descriptAttributeList[${index}]attributeValue`} noStyle>
+                  descList.map((el,idx)=> (
+                    <Descriptions.Item  label={el.attributeName} key={el.key}>
+                      <Form.Item name={['descriptAttributeList',idx,'attributeValue']} noStyle>
                         <Input autoComplete="off" placeholder="请输入描述属性" maxLength={60}/>
                       </Form.Item>
                     </Descriptions.Item>
@@ -82,10 +83,13 @@ const MainComponent=({...props})=> {
                 </Descriptions>
               </Form.Item>
             }
-            <Form.Item label="C端商品标签" name="tabId" rules={[{ required: true, message: '请选择C端商品标签'}]}>
+            <Form.Item label="C端商品标签" name="tabId">
               <Select placeholder="请选择C端商品标签">
-                <Option value={1} key={1}>淮安</Option>
-                <Option value={2} key={2}>苏州蔻兔</Option>
+                {
+                  labelList.map((el) => (
+                    <Option value={el.tabId} key={el.tabId}>{el.tabName}</Option>
+                  ))
+                }
               </Select>
             </Form.Item>
           </div>
@@ -93,9 +97,11 @@ const MainComponent=({...props})=> {
             <p className="title-wrap"><span className="title-name">服务信息</span></p>
             <Form.Item label="服务" name="serviceInfo" rules={[{ required: true, message: '请选择服务' }]}>
               <Checkbox.Group>
-                <Checkbox value='1' key='1'>七天无理由退换货</Checkbox>
-                <Checkbox value='2' key='2'>快速退货</Checkbox>
-                <Checkbox value='3' key='3'>提供发票</Checkbox>
+                {
+                  serviceOption.map((el)=> (
+                    <Checkbox value={el.key} key={el.key}>{el.value}</Checkbox>
+                  ))
+                }
               </Checkbox.Group>
             </Form.Item>
           </div>
@@ -103,7 +109,7 @@ const MainComponent=({...props})=> {
             <p className="title-wrap"><span className="title-name">SKU信息</span></p>
             <EditTable dataSource={goodsList}/>
           </div>
-          <GraphicInformation formItemLayout={formItemLayout} data={totalData}/>
+          <GraphicInformation formItemLayout={formItemLayout} {...totalData}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={goReturn}>
               返回
@@ -119,12 +125,13 @@ const MainComponent=({...props})=> {
 }
 
 function withSubscription(WrappedComponent,productNature) {
-  console.log('edit',productNature)
+  // console.log('edit',productNature)
   return ({...props})=> {
     const [form] = Form.useForm();
     let [totalData, setTotal] = useState({});
     let [goodsList, setGoodsList] = useState([]);
-    let [descriptAttributeList, setDescList] = useState([]);
+    let [descList, setDescList] = useState([]);
+    let [labelList, setLabelList] = useState([]);
     let spuCode = props.match.params.id;
     /*商品信息*/
     const initPage=()=> {
@@ -132,22 +139,39 @@ function withSubscription(WrappedComponent,productNature) {
       GetDetailApi(params.id)
       .then((res) => {
         let { descriptAttributeList, subList,...pdSpu} =res.result;
-        pdSpu.serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo.split('-');
-        descriptAttributeList=descriptAttributeList?descriptAttributeList:[];
+        let serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo;
+        pdSpu.serviceInfo = serviceInfo==""?[]:serviceInfo.split('-');
+        descriptAttributeList&&descriptAttributeList.map((el) =>el.key=el.descriptAttributeId)
         subList&&subList.map((el)=>el.key=el.pdSkuId);
         setTotal(pdSpu)
         setGoodsList(subList)
+        setDescList(descriptAttributeList)
+      })
+      GetLabelApi()
+      .then((res) => {
+        let { result } =res;
+        result=result?result:[];
+        result.map((el)=>el.key=el.tabId);
+        setLabelList(result);
       })
     }
     const goReturn=()=> {
-
+      let link = productNature == 1?'general_trade_product':'cross_border_product';
+      props.history.push(`/account/${link}`)
     }
     const onSubmit=async ()=> {
       try {
         let  values = await form.validateFields();
         values.serviceInfo = values.serviceInfo&&values.serviceInfo.join('-');
-        values = {...values,spuCode,operateUser:'' }
-        console.log(values)
+        values.subList = values.subList&&values.subList.map((el,index)=> {
+          goodsList.map((item,idx) => {
+            if(index == idx) {
+              el.skuCode=item.skuCode;
+            }
+          })
+          return el;
+        })
+        values = {...values,spuCode,operateUser:'yj' }
         GetEditApi(values)
         .then((res)=> {
           Qmessage.success('保存成功')
@@ -164,13 +188,14 @@ function withSubscription(WrappedComponent,productNature) {
       form.setFieldsValue(totalData);
     },[totalData])
     useEffect(()=>{
-      form.setFieldsValue(descriptAttributeList);
-    },[descriptAttributeList])
+      form.setFieldsValue({descriptAttributeList:descList});
+    },[descList])
     useEffect(()=>{
       form.setFieldsValue({subList:goodsList});
     },[goodsList])
     let params = {
-      form,onSubmit,goReturn,goodsList,descriptAttributeList,totalData
+      labelList,form,onSubmit,goReturn,
+      goodsList,descList,totalData
     }
     return(
       <WrappedComponent {...props} {...params}/>

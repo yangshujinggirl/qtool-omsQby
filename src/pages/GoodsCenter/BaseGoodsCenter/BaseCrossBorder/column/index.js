@@ -27,6 +27,10 @@ const Columns = [
     dataIndex: "categoryInfo",
   },
   {
+    title: "保税仓",
+    dataIndex: "bondedWarehouseName",
+  },
+  {
     title: "商品类型",
     dataIndex: "productType",
     render: text => (text == 1 ? "普通商品" : "赠品")
@@ -89,25 +93,13 @@ const columnsAdd=()=> {
         return record.salesAttributeName
       }
     },{
-      title: "审核状态",
-      dataIndex: "status",
-      width: 100,
-      textWrap: 'word-break',
-      render:(text,record,index)=> {
-        return <span>{record.skuCode?record.status:'-'}</span>
-      }
-    },{
-      title: "商品标签",
-      dataIndex: "oldStatus",
+      title: "第三方商品编码",
+      dataIndex: "outerProductCode",
       width: 120,
       textWrap: 'word-break',
       render:(text,record,index)=> {
-        return  <Form.Item name={['list',index,'oldStatus']}>
-                  <Select disabled={record.isExamine}>
-                    <Option value={3}>正常商品</Option>
-                    <Option value={4}>正常商品</Option>
-                    <Option value={5}>正常商品</Option>
-                  </Select>
+        return  <Form.Item name={['list',index,'outerProductCode']}>
+                  <Input disabled={record.isExamine} className="goods-name" key={index}/>
                 </Form.Item>
       }
     },{
@@ -131,13 +123,24 @@ const columnsAdd=()=> {
                 </Form.Item>
       }
     },{
-      title: "*B端售价",
+      title: "*到货价",
       width: 100,
       textWrap: 'word-break',
-      dataIndex: "businessPrice",
+      dataIndex: "dhPrice",
       render:(text,record,index)=> {
-        return  <Form.Item name={['list',index,'businessPrice']}>
+        return  <Form.Item name={['list',index,'dhPrice']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.businessPrice}/>
+                </Form.Item>
+
+      }
+    },{
+      title: "*出库价",
+      width: 100,
+      textWrap: 'word-break',
+      dataIndex: "ckPrice",
+      render:(text,record,index)=> {
+        return  <Form.Item name={['list',index,'ckPrice']}>
+                  <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.customerPrice}/>
                 </Form.Item>
 
       }
@@ -153,56 +156,23 @@ const columnsAdd=()=> {
 
       }
     },{
-      title: "*建议零售价",
-      width: 100,
-      textWrap: 'word-break',
-      dataIndex: "proposalPrice",
-      render:(text,record,index)=> {
-        return  <Form.Item name={['list',index,'proposalPrice']}>
-                  <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.proposalPrice}/>
-                </Form.Item>
-
-       }
-    },{
-      title: "*直邮服务费（%）",
+      title: "*分成比例（%）",
       width: 100,
       textWrap: 'word-break',
       dataIndex: "bonusRate",
       render:(text,record,index)=> {
         return  <Form.Item name={['list',index,'bonusRate']}>
-                  <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.bonusRate}/>
-                </Form.Item>
-
-       }
-    },{
-      title: "*税率（%）",
-      width: 100,
-      textWrap: 'word-break',
-      dataIndex: "taxRate",
-      render:(text,record,index)=> {
-        return  <Form.Item name={['list',index,'taxRate']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.taxRate}/>
                 </Form.Item>
 
       }
     },{
-      title: "*保质期（天）",
-      width: 100,
-      textWrap: 'word-break',
-      dataIndex: "shelfLife",
-      render:(text,record,index)=> {
-        return  <Form.Item name={['list',index,'shelfLife']}>
-                  <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.shelfLife}/>
-                </Form.Item>
-
-      }
-    },{
-      title: "*毛重（g）",
-      dataIndex: "weight",
+      title: "*跨境综合税（%）",
+      dataIndex: "taxRate",
       width: 100,
       textWrap: 'word-break',
       render:(text,record,index)=> {
-        return  <Form.Item name={['list',index,'weight']}>
+        return  <Form.Item name={['list',index,'taxRate']}>
                   <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.weight}/>
                 </Form.Item>
 
