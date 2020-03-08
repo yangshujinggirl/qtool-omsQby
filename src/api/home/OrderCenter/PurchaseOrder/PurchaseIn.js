@@ -36,7 +36,7 @@ export function PushPurchaseInOrderBatchReview(values, status) {
 /**
  * 新建、修改
  */
-export function addPurchasein(values) {
+export function addPurchaseinApi(values) {
   return omsAjax.post("/thinkStocking/createAndUpdateThinkStockingRe", {
     ...values
   });
@@ -44,15 +44,23 @@ export function addPurchasein(values) {
 /**
  * 搜索供应商
  */
-export function searchSupplier(values) {
+export function searchSupplierApi(values) {
   return omsAjax.get("/supplier/rummageSupplier", {
     params: { ...values }
   });
 }
 /**
- * 搜索供应商
+ * 供应商名搜索账期
  */
-export function searchStore(values) {
+export function getPayTypeApi(values) {
+  return omsAjax.get("/items/skuSimpleInfoByCode", {
+    params: { ...values }
+  });
+}
+/**
+ * 搜索仓库
+ */
+export function searchStoreApi(values) {
   return omsAjax.get("/warehouse/usableWarehouse", {
     params: { ...values }
   });
@@ -60,8 +68,32 @@ export function searchStore(values) {
 /**
  * 查询采购价
  */
-export function searchPrice(values) {
-    return omsAjax.get("/items/skuSimpleInfoByCode", {
-      params: { ...values }
-    });
-  }
+export function searchPriceApi(values) {
+  return omsAjax.get("/items/skuSimpleInfoByCode", {
+    params: { ...values }
+  });
+}
+
+/**
+ * 获取采购订单详情
+ * @constructor
+ */
+export function GetPurchaseInOrderDetailApi(stockingCode) {
+  return omsAjax.get("/thinkStocking/getThinkStockingDetail", {
+    params: {
+      stockingCode: stockingCode
+    }
+  });
+}
+
+/**
+ * 获取采购订单操作日志
+ * @constructor
+ */
+export function GetPurchaseInOrderOptionsLogsApi(stockingCode) {
+  return omsAjax.get("/thinkStocking/getStockingLog", {
+    params: {
+      stockingCode: stockingCode
+    }
+  });
+}

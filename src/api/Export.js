@@ -44,3 +44,8 @@ export  function getExportData(startTime, endTime, exportType, thinkStockingExpo
  * @type {number}
  */
 export const EXPORT_TYPE_PURCHASE_ORDER_IN = 5;
+/**
+ * 采退订单数据导出类型
+ * @type {number}
+ */
+export const EXPORT_TYPE_PURCHASE_ORDER_OUT = 7;

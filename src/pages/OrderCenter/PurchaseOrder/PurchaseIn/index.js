@@ -354,7 +354,7 @@ export default class PurchaseInOrderList extends React.Component {
                             stime={this.state.inputValues.stime}
                             etime={this.state.inputValues.etime}/>
                 <div className="handle-operate-btn-action">
-                    <Link to='account/add_purchasein'><Qbtn size="free">新建采购单</Qbtn></Link>
+                    <Link to='/account/add_purchasein'><Qbtn size="free">新建采购单</Qbtn></Link>
                     <Qbtn size="free"
                           onClick={() => this.showModalClick(this.tipsTextKeyForceComplete)}>强制完成</Qbtn>
                     <Qbtn size="free"
