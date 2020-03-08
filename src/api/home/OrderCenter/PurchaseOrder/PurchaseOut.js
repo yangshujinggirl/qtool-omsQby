@@ -42,4 +42,29 @@ export function GetPurchaseOutOrderOptionsLogsApi(stockingCode) {
         }
     })
 }
+/**
+ * 新建、修改
+ */
+export function addPurchaseOutApi(values) {
+    return omsAjax.post("thinkStockingRefund/createAndUpdateThinkStockingRe", {
+      ...values
+    });
+  }
+  /**
+   * 采购单搜索详情
+   */
+  export function getPriceApi(values) {
+    return omsAjax.get("thinkStockingRefund/getStockRefundDetail", {
+      params: { ...values }
+    });
+  }
+  /**
+   * 搜索仓库
+   */
+  export function searchStoreApi(values) {
+    return omsAjax.get("/warehouse/usableWarehouse", {
+      params: { ...values }
+    });
+  }
+  
 

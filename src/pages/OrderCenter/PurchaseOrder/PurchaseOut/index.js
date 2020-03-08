@@ -1,6 +1,7 @@
 import React from "react";
 import FilterForm from "./components/FilterForm";
 import {Qbtn, Qmessage, Qpagination} from "common/index";
+import {Link} from 'react-router-dom'
 import Columns from "./column";
 import Qtable from "common/Qtable";
 import {
@@ -276,7 +277,7 @@ export default class PurchaseOutOrderList extends React.Component {
                             stime={this.state.inputValues.stime}
                             etime={this.state.inputValues.etime}/>
                 <div className="handle-operate-btn-action">
-                    <Qbtn size="free">新建采退单</Qbtn>
+                    <Link to='/account/add_purchaseOut'><Qbtn size="free">新建采退单</Qbtn></Link>
                     <Qbtn size="free" onClick={() => this.showModalClick}>批量审核</Qbtn>
                     <Qbtn size="free"
                           onClick={() => ExportApi(getExportData(this.state.inputValues.stime, this.state.inputValues.etime,

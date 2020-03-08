@@ -18,9 +18,7 @@ export function AddTaskApi(values) {
 }
 //查询任务
 export function getTaskInfoApi(values) {
-  return appAjax.get("/task", {
-    params: { ...values }
-  });
+  return appAjax.get(`/task/${values.taskId}`,);
 }
 //标签搜索
 export function labelSearchApi(values) {

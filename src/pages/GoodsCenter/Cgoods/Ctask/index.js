@@ -80,9 +80,9 @@ class Ctask extends Component {
   };
   //强制失效
   onOk = () => {
-    const userName = Sessions.get("name");
-    const { taskId, taskName } = this.state;
-    goInvalidApi({ taskId, taskName, taskOperateUser: userName }).then(res => {
+    const userName = Sessions.get('name')||1234;
+    const { taskId } = this.state;
+    goInvalidApi({ taskId,taskOperateUser: userName }).then(res => {
       if (res.httpCode == 200) {
         message.success("强制失效完毕", 0.8);
       }

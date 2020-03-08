@@ -1,5 +1,6 @@
 import React from "react";
 import FilterForm from "./components/FilterForm";
+import {Link} from 'react-router-dom'
 import {Qbtn, Qmessage, Qpagination} from "common/index";
 import Columns from "./column";
 import Qtable from "common/Qtable";
@@ -353,7 +354,7 @@ export default class PurchaseInOrderList extends React.Component {
                             stime={this.state.inputValues.stime}
                             etime={this.state.inputValues.etime}/>
                 <div className="handle-operate-btn-action">
-                    <Qbtn size="free">新建采购单</Qbtn>
+                    <Link to='/account/add_purchasein'><Qbtn size="free">新建采购单</Qbtn></Link>
                     <Qbtn size="free"
                           onClick={() => this.showModalClick(this.tipsTextKeyForceComplete)}>强制完成</Qbtn>
                     <Qbtn size="free"

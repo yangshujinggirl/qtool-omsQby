@@ -117,8 +117,9 @@ textarea {
   margin-bottom: 16px;
 }
 
-.ant-table thead > tr > th,td{
-  text-align:center
+.ant-table thead > tr > th,
+td {
+  text-align: center;
 }
 //文字做input显示使用
 .label-show-input {
@@ -152,14 +153,26 @@ textarea {
   }
 }
 //頂部tab切换
-.ant-tabs-nav-wrap{
+.ant-tabs-nav-wrap {
   .ant-tabs-nav {
-    .ant-tabs-tab{
-      padding:12px;
+    .ant-tabs-tab {
+      padding: 12px;
     }
   }
 }
 //input ranger时间
-.ant-picker-range{
-  width:180px
+.ant-picker-range {
+  width: 180px;
+}
+
+.item_required {
+  .ant-form-item-label::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: #ff4d4f;
+    font-size: 12px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: "*";
+  }
 }
