@@ -38,7 +38,7 @@ export function GetPurchaseOutOrderDetailApi(stockingReCode) {
 export function GetPurchaseOutOrderOptionsLogsApi(stockingCode) {
     return omsAjax.get('/thinkStockingRefund/getStockingReLog', {
         params: {
-            stockingReCode: stockingReCode
+            orderCode: stockingReCode
         }
     })
 }
@@ -66,5 +66,5 @@ export function addPurchaseOutApi(values) {
       params: { ...values }
     });
   }
-  
+
 

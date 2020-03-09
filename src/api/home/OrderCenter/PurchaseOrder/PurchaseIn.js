@@ -85,7 +85,7 @@ export function GetPurchaseInOrderDetailApi(stockingCode) {
 export function GetPurchaseInOrderOptionsLogsApi(stockingCode) {
   return omsAjax.get("/thinkStocking/getStockingLog", {
     params: {
-      stockingCode: stockingCode
+      orderCode: stockingCode
     }
   });
 }
