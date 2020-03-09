@@ -171,6 +171,15 @@ function withSubscription(WrappedComponent,productNature) {
           })
           return el;
         })
+        values.descriptAttributeList = values.descriptAttributeList&&values.descriptAttributeList.map((el,index) => {
+          descList.map((item,idx) => {
+            if(index==idx) {
+              el.attributeId = item.attributeId;
+              el.attributeName = item.attributeName;
+            }
+          })
+          return el;
+        })
         values = {...values,spuCode,operateUser:'yj' }
         GetEditApi(values)
         .then((res)=> {
