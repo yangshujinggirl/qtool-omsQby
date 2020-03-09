@@ -174,6 +174,7 @@ export default class PurchaseInOrderList extends BaseDataShowList {
         this.setState({
             searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime,
             searchCriteriaList: {
+                ...values,
                 stime: searchCriteriaDefaultStartTime,
                 etime: searchCriteriaDefaultEndTime
             }

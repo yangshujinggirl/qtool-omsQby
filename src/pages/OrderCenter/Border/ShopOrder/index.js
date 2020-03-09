@@ -38,6 +38,7 @@ export default class ShopOrderList extends BaseDataShowList {
         this.setState({
             searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime,
             searchCriteriaList: {
+                ...values,
                 stime: searchCriteriaDefaultStartTime,
                 etime: searchCriteriaDefaultEndTime
             }

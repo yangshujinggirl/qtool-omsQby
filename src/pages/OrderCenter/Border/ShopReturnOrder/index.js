@@ -118,6 +118,7 @@ export default class ShopReturnOrder extends BaseDataShowList {
         this.setState({
             searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime,
             searchCriteriaList: {
+                ...values,
                 stime: searchCriteriaDefaultStartTime,
                 etime: searchCriteriaDefaultEndTime
             }
