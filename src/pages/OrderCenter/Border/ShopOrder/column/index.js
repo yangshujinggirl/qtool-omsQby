@@ -10,10 +10,8 @@ const Columns = [
         render: (text, record) => (
             <Link
                 className="link-color"
-                to={`/account/purchaseOrderInDetail/${record.stockingCode}`}
-            >
-                {text}
-            </Link>
+                to={`/account/border/shopOrderDetail/${record.stockingCode}`}
+            >{text}</Link>
         )
     },
     {title: "下单门店", dataIndex: "suppliersName", key: "2"},
