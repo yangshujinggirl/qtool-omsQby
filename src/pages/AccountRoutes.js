@@ -43,6 +43,7 @@ import Classify from "./Classify"; //后台类目管理
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
 import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeAdd";//基础商品
 import BaseGoodsInfo from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeInfo";//基础商品
+import BaseGeneralTradeEditImg from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeEditImg";//基础商品
 import GoodsAudit from "./GoodsCenter/BaseConfigCenter/GoodsAudit"; //商品审核
 //C端---------------------------------------//////
 import DescriptManage from "./Ctip/DescriptManage";//描述属性管理
@@ -101,6 +102,7 @@ class HomeRoutes extends React.Component {
           <Route  path="/account/items_list" component={BaseGoods}/>
           <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
           <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
+          <Route  path="/account/baseGoodsEditImg/:id?" component={BaseGeneralTradeEditImg}/>
           <Route path='/account/items_examine' component={GoodsAudit}/>
           <Route  path="/account/commodities_list" component={Bgoods}/>
           <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>

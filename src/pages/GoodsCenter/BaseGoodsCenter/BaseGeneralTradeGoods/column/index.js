@@ -1,5 +1,6 @@
 import moment from "moment";
 import { Input,Form,Select } from 'antd';
+import { QupLoadImgLimt } from 'common';
 
 import { Link } from 'react-router-dom';
 let FormItem = Form.Item;
@@ -13,6 +14,13 @@ const Columns = [
   {
     title: "商品名称",
     dataIndex: "productName",
+    render:(text,record,index)=> {
+      return <Link
+              className="link-color action-left"
+              to={`/account/baseGoodsInfo/${record.spuCode}`}>
+              {record.productName}
+            </Link>
+    }
   },
   {
     title: "商品品牌",
@@ -44,14 +52,14 @@ const Columns = [
     render: (text,record,index) => (
       <div>
         <Link
-          className="link-color action-left"
-          to={`/account/baseGoodsInfo/${record.spuCode}`}>
-          查看
+          className="link-color"
+          to={`/account/baseGoodsAdd/${record.spuCode}`}>
+          编辑商品
         </Link>
         <Link
           className="link-color"
-          to={`/account/baseGoodsAdd/${record.spuCode}`}>
-          编辑
+          to={`/account/baseGoodsEditImg/${record.spuCode}`}>
+          编辑图文
         </Link>
       </div>
     )
@@ -209,7 +217,38 @@ const columnsAdd=()=> {
       }
     }]
 }
-const columnsinfo=[{
+const columnsEditImg=[{
+    title: "sku编码",
+    dataIndex: "skuCode",
+    width: 100,
+    textWrap: 'word-break',
+  },{
+    title: "规格",
+    dataIndex: "salesAttributeName",
+    width: 100,
+    textWrap: 'word-break',
+    render:(text,record,index)=> {
+      return record.salesAttributeName
+    }
+  },{
+    title: "商品标签",
+    dataIndex: "label",
+    width: 120,
+    textWrap: 'word-break',
+  },{
+    title: "*SKU图片",
+    dataIndex: "skuImg",
+    textWrap: 'word-break',
+    width: 100,
+    render:(text,record,index)=> {
+      return  <Form.Item name={['list',index,'skuImg']}>
+                <QupLoadImgLimt
+                  fileList={[record.skuImg]}/>
+              </Form.Item>
+    }
+  }]
+const columnsinfo=[
+  {
       title: "sku编码",
       dataIndex: "skuCode",
       width: 100,
@@ -275,4 +314,4 @@ const columnsinfo=[{
       width: 100,
       textWrap: 'word-break'
     }]
-export { Columns, columnsAdd, columnsinfo };
+export { Columns, columnsAdd, columnsinfo, columnsEditImg };

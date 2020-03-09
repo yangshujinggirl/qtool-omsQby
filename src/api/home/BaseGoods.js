@@ -54,3 +54,10 @@ export function GetEditApi(values){
 export function GetSupplierApi(values){
     return omsAjax.get('/supplier/supplierNames')
 }
+/**
+ * 货主
+ * @param {*} values
+ */
+export function GetImgInfoApi(values){
+    return omsAjax.get('/items/viewProductImageText',{params:{...values}})
+}
