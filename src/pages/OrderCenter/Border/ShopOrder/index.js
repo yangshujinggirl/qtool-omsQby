@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
-import moment from "moment";
 import FilterForm from "./components/FilterForm";
-import {NET_REQUEST_SUCCESS_CODE} from "../../../../api/Req";
 import {GetShopOrderListApi} from "../../../../api/home/OrderCenter/Border/ShopOrder";
-import {Qbtn, Qpagination, Qtable} from "common/index";
+import {Qbtn} from "common/index";
 import Columns from "./column";
 import {Link} from "react-router-dom";
 import {EXPORT_TYPE_PURCHASE_ORDER_OUT, ExportApi, getExportData} from "../../../../api/Export";
+import {BaseDataShowList} from "common/QbaseDataShowList";
+import React from "react";
 
 /**
  * 功能作用：门店订单列表页面
@@ -18,164 +17,65 @@ import {EXPORT_TYPE_PURCHASE_ORDER_OUT, ExportApi, getExportData} from "../../..
  * 修改时间：
  * 备注：
  */
-export default class ShopOrderList extends Component {
-    /**
-     * 时间格式化字符串
-     * @type {string}
-     */
-    timeFormatStr = "YYYY-MM-DD";
-
-    /**
-     * 初始化
-     */
+export default class ShopOrderList extends BaseDataShowList {
     constructor() {
         super();
-        this.state = {
-            dataList: [],
-            everyPage: 20,
-            currentPage: 0,
-            totalCount: 0,
-            inputValues: {
-                stime: moment(new Date(new Date() - 2592000000)).format(this.timeFormatStr),
-                etime: moment(new Date()).format(this.timeFormatStr)
-            },
-            /**
-             * 选中的数据key列表
-             */
-            selectedRowKeys: [],
-            /**
-             * 选中的数据实体列表
-             */
-            selectedRows: [],
-            /**
-             * 是否显示加载中
-             */
-            showLoading: false,
-        }
+        this.tableShowColumns = Columns
     }
 
     /**
-     * 第一次渲染之后调用数据
+     * 格式化搜索条件
+     * @param values
+     * @return {{}}
      */
-    componentDidMount = () => {
-        this.searchDataList();
-    };
-
-    /**
-     * 搜索数据列表
-     * @param values 搜索数据
-     */
-    searchDataList = (values) => {
-        let {stime, etime} = this.state.inputValues;
+    formatSearchCriteriaList(values) {
+        let {searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime} = this.state;
         if (values != null && values.orderTimes != null) {
-            stime = values.orderTimes[0].format(this.timeFormatStr);
-            etime = values.orderTimes[1].format(this.timeFormatStr);
-            values.orderTimes = null
+            searchCriteriaDefaultStartTime = values.orderTimes[0].format(this.timeFormatYMDStr);
+            searchCriteriaDefaultEndTime = values.orderTimes[1].format(this.timeFormatYMDStr);
+            values.times = null
         }
         this.setState({
-            stime, etime
-        });
-        this.showLoading();
-        const params = {...this.state.inputValues, ...values};
-        GetShopOrderListApi(params).then(res => {
-            this.hideLoading();
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                const {resultList, everyPage, totalCount, currentPage} = res.result;
-                let dataList = [];
-                //必须要有key，否则无法进行选择
-                resultList.map((item) => {
-                    dataList.push({
-                        key: item["stockingCode"],
-                        ...item
-                    })
-                });
-                this.setState({
-                    dataList: dataList,
-                    everyPage,
-                    totalCount: totalCount,
-                    currentPage,
-                    inputValues: params,
-                    selectedRowKeys: []
-                });
+            searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime,
+            searchCriteriaList: {
+                stime: searchCriteriaDefaultStartTime,
+                etime: searchCriteriaDefaultEndTime
             }
-        }).catch(() => {
-            this.hideLoading();
         });
-    };
+        return this.state.searchCriteriaList;
+    }
 
     /**
-     * 选择改变回调
-     * @param selectedRowKeys
-     * @param selectedRows
-     */
-    rowSelectChange = (selectedRowKeys, selectedRows) => {
-        this.setState({
-            selectedRowKeys,
-            selectedRows
-        });
-    };
-
-    /**
-     * 更改分页
-     * @param currentPage 目标页面
-     * @param everyPage 每页数量
-     */
-    changePage = (currentPage, everyPage) => {
-        this.searchDataList({...this.state.inputValues, currentPage, everyPage});
-    };
-
-    /**
-     * 显示加载中
-     */
-    showLoading = () => {
-        this.setState({
-            showLoading: true
-        })
-    };
-
-    /**
-     * 隐藏加载中
-     */
-    hideLoading = () => {
-        this.setState({
-            showLoading: false
-        })
-    };
-
-    /**
-     * 绘制渲染部分
+     * 获取数据列表请求
+     * @param params 参数
      * @return {*}
      */
-    render() {
-        const {
-            selectedRowKeys, dataList, everyPage, currentPage,
-            totalCount
-        } = this.state;
-        return (
-            <div className="oms-common-index-pages-wrap">
-                <FilterForm onSubmit={this.searchDataList}
-                            stime={this.state.inputValues.stime}
-                            etime={this.state.inputValues.etime}/>
-                <div className="handle-operate-btn-action">
-                    <Link to='/account/add_purchasein'><Qbtn size="free">新建门店订单</Qbtn></Link>
-                    <Link to='/account/add_purchasein'><Qbtn size="free">新建赠品单</Qbtn></Link>
-                    <Qbtn size="free"
-                          onClick={() => ExportApi(getExportData(this.state.inputValues.stime, this.state.inputValues.etime,
-                              EXPORT_TYPE_PURCHASE_ORDER_OUT, this.state.inputValues))}>导出数据</Qbtn>
-                </div>
-                <Qtable
-                    columns={Columns}
-                    select={true}
-                    dataSource={dataList}
-                    rowSelection={{
-                        selectedRowKeys,
-                        onChange: this.rowSelectChange,
-                    }}/>
-                <Qpagination
-                    data={{everyPage, currentPage, totalCount}}
-                    onChange={this.changePage}
-                />
-            </div>
-        );
+    getDataListRequest(params) {
+        return GetShopOrderListApi(params)
     }
+
+    /**
+     * 获取搜索筛选渲染部分
+     * @return {*}
+     */
+    getRenderFilterForm() {
+        return <FilterForm onSubmit={this.searchDataList}
+                           stime={this.state.searchCriteriaDefaultStartTime}
+                           etime={this.state.searchCriteriaDefaultEndTime}/>
+    }
+
+    /**
+     * 获取操作按钮列表
+     * @param defaultContainerClsName 默认容器样式类名
+     */
+    getRenderOperateBtnAction(defaultContainerClsName) {
+        return <div className={defaultContainerClsName}>
+            <Link to='/account/add_purchasein'><Qbtn size="free">新建门店订单</Qbtn></Link>
+            <Link to='/account/add_purchasein'><Qbtn size="free">新建赠品单</Qbtn></Link>
+            <Qbtn size="free"
+                  onClick={() => ExportApi(getExportData(this.state.searchCriteriaList.stime, this.state.searchCriteriaList.etime,
+                      EXPORT_TYPE_PURCHASE_ORDER_OUT, this.state.searchCriteriaList))}>导出数据</Qbtn>
+        </div>
+    }
+
 }

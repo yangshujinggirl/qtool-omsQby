@@ -1,12 +1,7 @@
 import React from "react";
 import FilterForm from "./components/FilterForm";
-import {Qbtn, Qmessage, Qpagination} from "common/index";
+import {Qbtn, Qmessage} from "common/index";
 import {Link} from 'react-router-dom'
-import Columns from "./column";
-import Qtable from "common/Qtable";
-import {
-    NET_REQUEST_SUCCESS_CODE
-} from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import ConfirmModal from "common/ConfirmModal";
 import './index.less'
 import {Modal} from "antd";
@@ -16,11 +11,13 @@ import {
     ExportApi,
     getExportData
 } from "../../../../api/Export";
-import moment from "moment";
 import {
     GetPurchaseOutOrderListApi,
     PushPurchaseOutOrderBatchReview
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseOut";
+import {BaseDataShowList} from "common/QbaseDataShowList";
+import Columns from "./column";
+import {NET_REQUEST_SUCCESS_CODE} from "../../../../api/Req";
 
 /**
  * 功能作用：采退订单列表界面
@@ -32,138 +29,22 @@ import {
  * 修改时间：
  * 备注：
  */
-export default class PurchaseOutOrderList extends React.Component {
+export default class PurchaseOutOrderList extends BaseDataShowList {
     /**
      * 批量审核选择状态， 每次显示弹窗时都会清空
      * @type {null}
      */
     batchReviewSelectStatus = null;
-    /**
-     * 时间格式化字符串
-     * @type {string}
-     */
-    timeFormatStr = "YYYY-MM-DD";
 
-    /**
-     * 初始化
-     */
     constructor() {
         super();
-        this.state = {
-            dataList: [],
-            everyPage: 20,
-            currentPage: 0,
-            totalCount: 0,
-            inputValues: {
-                stime: moment(new Date(new Date() - 2592000000)).format(this.timeFormatStr),
-                etime: moment(new Date()).format(this.timeFormatStr)
-            },
-            stime: null,
-            etime: null,
-            /**
-             * 选中的数据key列表
-             */
-            selectedRowKeys: [],
-            /**
-             * 选中的数据实体列表
-             */
-            selectedRows: [],
-            /**
-             * 是否显示Modal弹窗
-             */
-            showModal: false,
-            /**
-             * 是否显示加载中
-             */
-            showLoading: false,
-        }
+        //设置列表操作key字段
+        this.dataListOptionsKey = "stockingCode";
+        //显示行操作
+        this.isShowTableRowSelection = true;
+        //表格字段
+        this.tableShowColumns = Columns
     }
-
-    /**
-     * 第一次渲染之后调用数据
-     */
-    componentDidMount = () => {
-        // this.searchDataList();
-    };
-
-    /**
-     * 选择改变回调
-     * @param selectedRowKeys
-     * @param selectedRows
-     */
-    rowSelectChange = (selectedRowKeys, selectedRows) => {
-        this.setState({
-            selectedRowKeys,
-            selectedRows
-        });
-    };
-
-    /**
-     * 更改分页
-     * @param currentPage 目标页面
-     * @param everyPage 每页数量
-     */
-    changePage = (currentPage, everyPage) => {
-        this.searchDataList({...this.state.inputValues, currentPage, everyPage});
-    };
-
-    /**
-     * 搜索数据列表
-     * @param values 搜索数据
-     */
-    searchDataList = (values) => {
-        let {stime, etime} = this.state.inputValues;
-        if (values != null && values.times != null) {
-            stime = values.times[0].format(this.timeFormatStr);
-            etime = values.times[1].format(this.timeFormatStr);
-            values.times = null
-        }
-        this.setState({
-            stime, etime
-        });
-        this.showLoading();
-        const params = {...this.state.inputValues, ...values};
-        GetPurchaseOutOrderListApi(params).then(res => {
-            this.hideLoading();
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                const {resultList, everyPage, totalCount, currentPage} = res.result;
-                let dataList = [];
-                //必须要有key，否则无法进行选择
-                resultList.map((item) => {
-                    dataList.push({
-                        key: item["stockingCode"],
-                        ...item
-                    })
-                });
-                this.setState({
-                    dataList: dataList,
-                    everyPage,
-                    totalCount: totalCount,
-                    currentPage,
-                    inputValues: params,
-                    selectedRowKeys: []
-                });
-            }
-        }).catch(() => {
-            this.hideLoading();
-        });
-    };
-
-    /**
-     * 刷新数据列表，同时隐藏各个弹窗
-     */
-    refreshDataList = () => {
-        //隐藏弹窗同时隐藏加载中
-        this.onModalCancelClick();
-        //刷新数据
-        let currentPage = this.state.currentPage;
-        let everyPage = this.state.everyPage;
-        this.searchDataList({
-            ...this.state.inputValues,
-            currentPage,
-            everyPage
-        });
-    };
 
     /**
      * 显示弹窗
@@ -229,33 +110,6 @@ export default class PurchaseOutOrderList extends React.Component {
     };
 
     /**
-     * 弹窗取消按钮点击
-     */
-    onModalCancelClick = () => {
-        this.setState({
-            showModal: false,
-        });
-    };
-
-    /**
-     * 显示加载中
-     */
-    showLoading = () => {
-        this.setState({
-            showLoading: true
-        })
-    };
-
-    /**
-     * 隐藏加载中
-     */
-    hideLoading = () => {
-        this.setState({
-            showLoading: false
-        })
-    };
-
-    /**
      * 批量审核选择状态变更
      */
     onBatchReviewSelectStatusChange = (e) => {
@@ -263,53 +117,78 @@ export default class PurchaseOutOrderList extends React.Component {
     };
 
     /**
-     * 绘制渲染部分
-     * @return {*}
+     * 格式化搜索条件并返回格式化后数据
+     * @param values 搜索数据
      */
-    render() {
+    formatSearchCriteriaList(values) {
+        let {searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime} = this.state;
+        if (values != null && values.times != null) {
+            searchCriteriaDefaultStartTime = values.times[0].format(this.timeFormatYMDStr);
+            searchCriteriaDefaultEndTime = values.times[1].format(this.timeFormatYMDStr);
+            values.times = null
+        }
+        this.setState({
+            searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime,
+            searchCriteriaList: {
+                stime: searchCriteriaDefaultStartTime,
+                etime: searchCriteriaDefaultEndTime
+            }
+        });
+        return this.state.searchCriteriaList;
+    }
+
+    /**
+     * 获取数据列表请求，返回的为Promise<R>
+     */
+    getDataListRequest(params) {
+        return GetPurchaseOutOrderListApi(params);
+    }
+
+    /**
+     * 获取搜索条件筛选
+     * @return {null}
+     */
+    getRenderFilterForm() {
+        return <FilterForm onSubmit={this.searchDataList}
+                           stime={this.state.searchCriteriaDefaultStartTime}
+                           etime={this.state.searchCriteriaDefaultEndTime}/>
+    }
+
+    /**
+     * 获取操作按钮列表
+     * @param defaultContainerClsName 默认容器样式类名
+     */
+    getRenderOperateBtnAction(defaultContainerClsName) {
+        return <div className={defaultContainerClsName}>
+            <Link to='/account/add_purchaseOut'><Qbtn size="free">新建采退单</Qbtn></Link>
+            <Qbtn size="free" onClick={this.showModalClick}>批量审核</Qbtn>
+            <Qbtn size="free"
+                  onClick={() => ExportApi(getExportData(this.state.searchCriteriaList.stime, this.state.searchCriteriaList.etime,
+                      EXPORT_TYPE_PURCHASE_ORDER_OUT, this.state.searchCriteriaList))}>导出数据</Qbtn>
+        </div>;
+    }
+
+    /**
+     * 获取其他部分数据
+     */
+    getRenderOther() {
         const {
-            selectedRowKeys, dataList, everyPage, currentPage,
-            totalCount, showModal, showLoading
+            selectedRowKeys, showModal, showLoading
         } = this.state;
-        return (
-            <div className="oms-common-index-pages-wrap">
-                <FilterForm onSubmit={this.searchDataList}
-                            stime={this.state.inputValues.stime}
-                            etime={this.state.inputValues.etime}/>
-                <div className="handle-operate-btn-action">
-                    <Link to='/account/add_purchaseOut'><Qbtn size="free">新建采退单</Qbtn></Link>
-                    <Qbtn size="free" onClick={() => this.showModalClick}>批量审核</Qbtn>
-                    <Qbtn size="free"
-                          onClick={() => ExportApi(getExportData(this.state.inputValues.stime, this.state.inputValues.etime,
-                              EXPORT_TYPE_PURCHASE_ORDER_OUT, this.state.inputValues))}>导出数据</Qbtn>
-                </div>
-                <Qtable
-                    columns={Columns}
-                    select={true}
-                    dataSource={dataList}
-                    rowSelection={{
-                        selectedRowKeys,
-                        onChange: this.rowSelectChange,
-                    }}/>
-                <Qpagination
-                    data={{everyPage, currentPage, totalCount}}
-                    onChange={this.changePage}
-                />
-                {showModal && (
-                    <ConfirmModal
-                        visible={showModal}
-                        title="批量审核"
-                        onOk={this.onModalConfirmClick}
-                        onCancel={this.onModalCancelClick}
-                        confirmLoading={showLoading}
-                        okText="提交"
-                        cancelText="取消">
-                        <BatchReviewModalForm
-                            selectedRowKeys={selectedRowKeys}
-                            onValuesChange={this.onBatchReviewSelectStatusChange}/>
-                    </ConfirmModal>
-                )}
-            </div>
+        return showModal && (
+            <ConfirmModal
+                visible={showModal}
+                title="批量审核"
+                onOk={this.onModalConfirmClick}
+                onCancel={this.onModalCancelClick}
+                confirmLoading={showLoading}
+                okText="提交"
+                cancelText="取消">
+                <BatchReviewModalForm
+                    selectedRowKeys={selectedRowKeys}
+                    onValuesChange={this.onBatchReviewSelectStatusChange}/>
+            </ConfirmModal>
         );
     }
+
 }
