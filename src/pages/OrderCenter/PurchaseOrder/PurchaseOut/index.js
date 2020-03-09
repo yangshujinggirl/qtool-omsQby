@@ -83,7 +83,7 @@ export default class PurchaseOutOrderList extends React.Component {
      * 第一次渲染之后调用数据
      */
     componentDidMount = () => {
-        this.searchDataList();
+        // this.searchDataList();
     };
 
     /**

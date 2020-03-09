@@ -1,146 +1,84 @@
 import React, { useState, useEffect } from "react";
+import { Form, Input, message, Select, Cascader, Spin } from "antd";
 import {
-  Form,
-  Input,
-  DatePicker,
-  message,
-  AutoComplete,
-  Select,
-  Radio,
-  Button,
-  Modal,
-  Cascader
-} from "antd";
-import {
+  GetPurchaseOutOrderDetailApi,
   addPurchaseOutApi,
-  getPriceApi,
-  searchStoreApi,
+  getOrderInfoApi,
+  searchStoreApi
 } from "api/home/orderCenter/PurchaseOrder/PurchaseOut";
-import "./index.less";
-import { Qbtn } from "common";
+import { Qbtn, CascaderAddressOptions } from "common";
 import moment from "moment";
-const { Option } = AutoComplete;
+import Editable from "./components/Editable";
+import NP from "number-precision";
+import "./index.less";
+
 const TextArea = Input.TextArea;
-import Editable from "common/Editable";
-import Columns from "./components/GoodsTable/column";
-import { CascaderAddressOptions } from "common";
 const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 12 }
 };
-const AddPurchaseIn = props => {
+
+const AddPurchaseOut = props => {
   const [form] = Form.useForm();
   const [storeList, setStoreList] = useState([]);
-  const [goodList, setGoodList] = useState([{ itemCode: "", key: 1 }]);
-  const [supplierList, setSupplierList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0.00);
+  const [goodList, setGoodList] = useState([]);
+  const [suppliersName, setSuppliersName] = useState("");
   useEffect(() => {
     getStoreList();
     initPage();
   }, []);
-  //初始化
+  /**
+   * 初始化
+   */
   const initPage = () => {
     const { id } = props.match.params;
     if (id) {
-      // GetPurchaseInOrderDetailApi({ stockingCode: id }).then(res => {
-      //   if (res.httpCode == 200) {
-      //     const { data, ...infos } = res.result;
-      //     form.setFieldsValue(infos);
-      //     setGoodList(data);
-      //   }
-      // });
-      const res = {
-        suppliersName: "qtools",
-        documentType: 1,
-        predictCtimeStr: "2020-08-08",
-        warehouseCode: 200,
-        logisticsType: 1,
-        postage: 10,
-        paymentMode: "账期",
-        remarkes: "备注",
-        data: [
-          {
-            id: 0,
-            productNature: 1,
-            procurementTarget: 2,
-            itemCode: "12122",
-            productName: "商品名",
-            salesAttributeName: "红色",
-            price: "10.00",
-            amount: 100,
-            createTime: "23234"
+      setLoading(false);
+      GetPurchaseOutOrderDetailApi({ stockingCode: id }).then(res => {
+        setLoading(false);
+        if (res.httpCode == 200) {
+          const { detailList, ...infos } = res.result;
+          let totalPrice = 0;
+          if (detailList.length > 0) {
+            detailList.map(item => {
+              item.key = item.id;
+              item.total = NP.times(Number(item.amount) * item.price).toFixed(
+                2
+              );
+              totalPrice += Number(item.total);
+            });
           }
-        ]
-      };
-      const { data, ...infos } = res;
-      infos.predictCtimeStr = moment(infos.predictCtimeStr);
-      setLogisticsType(infos.logisticsType);
-      form.setFieldsValue(infos);
-      data.map(item => {
-        item.key = item.id;
+          form.setFieldsValue({ goodList: detailList, ...infos });
+          setGoodList(data);
+          setTotalPrice(totalPrice);
+        }
       });
-      setGoodList(data);
     }
   };
-  //获取仓库列表
+  /**
+   * 获取仓库列表
+   */
   const getStoreList = () => {
-    // searchStoreApi().then(res=>{
-    //   if(res.httpCode == 200){
-    //     setStoreList(res.result)
-    //   }
-    // })
-    const storeList = [
-      {
-        id: 1,
-        warehouseCode: 200,
-        warehouseName: "大仓"
+    searchStoreApi().then(res => {
+      if (res.httpCode == 200) {
+        setStoreList(res.result);
       }
-    ];
-    setStoreList(storeList);
+    });
   };
-  //根据名称搜索供应商
+  /**
+   * 根据名称搜索供应商
+   * @param {*} value
+   */
   const onSearch = value => {
-    // searchSupplierApi({ sname: value }).then(res => {
-    //   setSupplierList(res.result)
-    // });
-    const list = [
-      {
-        id: 1,
-        name: "供应商名1"
-      },
-      {
-        id: 2,
-        name: "供应商名2"
-      }
-    ];
-    setSupplierList(list);
+    searchSupplierApi({ sname: value }).then(res => {
+      setSupplierList(res.result);
+    });
   };
-  //根据供应商名称搜索账期
-  const onSelect = value => {
-    // const sname = value.split('/')[0];
-    // getPayTypeApi({ sname }).then(res => {
-    //   if (res.httpCode == 200) {
-    //     const { accountsType, accountsDay } = res.result;
-    //     const str =
-    //       accountsType == 1
-    //         ? "现结"
-    //         : accountsType == 2
-    //         ? `货到${accountsDay}天`
-    //         : `票到${accountsDay}天`;
-    //     form.setFieldsValue({paymentMode:str})
-    //   }
-    // });
-    const res = { accountsType: 2, accountsDay: 10 };
-    const { accountsType, accountsDay } = res;
-    const str =
-      accountsType == 1
-        ? "现结"
-        : accountsType == 2
-        ? `货到${accountsDay}天`
-        : `票到${accountsDay}天`;
-    form.setFieldsValue({ paymentMode: str });
-  };
-
-  //提交
+  /**
+   * 提交
+   */
   const handleSubmit = async () => {
     const values = await form.validateFields();
     const { provinces, ..._values } = values;
@@ -163,93 +101,133 @@ const AddPurchaseIn = props => {
   const goBack = () => {
     this.props.history.push("/account/purchaseRefundOrder");
   };
+  /**
+   *根据采购编码查询采购商品
+   */
+  const searchInfo = e => {
+    const value = e.target;
+    if (value) {
+      getOrderInfoApi({ stockingCode: value.trim() }).then(res => {
+        if (res.code == 200) {
+          const { data, suppliersName } = res.result;
+          setSuppliersName(suppliersName);
+          form.setFieldsValue({ goodList: data });
+        }
+      });
+    }
+  };
+  /**
+   * 更改goodList
+   */
+  const changeDataSource = goodList => {
+    setGoodList(goodList);
+    const totalPrice = 0;
+    goodList.map(item => {
+      totalPrice += Number(item.total);
+    });
+    setTotalPrice(totalPrice);
+  };
   return (
-    <div className="oms-common-addEdit-pages add_supplier_info">
-      <Form form={form} {...formItemLayout}>
-        <Form.Item
-          name="stockingCode"
-          label="采购单号"
-          rules={[{ required: true, message: "请填写供应商名称" }]}
-        >
-          <AutoComplete
-            onSearch={onSearch}
-            onSelect={onSelect}
-            placeholder="请选择供应商"
-          >
-            {supplierList.map(item => (
-              <Option key={item.id} value={item.name}>
-                {item.name}
-              </Option>
-            ))}
-          </AutoComplete>
-        </Form.Item>
-        <Form.Item
-          label="采退原因"
-          name="reRemark"
-          rules={[{ required: true, message: " 请输入采退原因" }]}
-        >
-          <Input placeholder="请输入采退原因" />
-        </Form.Item>
-        <Form.Item label="采退商品">
-          <Editable
-            Columns={Columns}
-            dataSource={goodList}
-          />
-        </Form.Item>
-        <Form.Item
-          name="warehouseCode"
-          label="发货仓库"
-          rules={[{ required: true, message: "请选择发货仓库" }]}
-        >
-          <Select placeholder="请选择发货仓库">
-            {storeList.map(item => (
-              <Select.Option value={item.warehouseCode} key={item.id}>
-                {item.warehouseName}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="请输入收货人"
-          name="consignee"
-          rules={[{ required: true, message: " 请输入收货人" }]}
-        >
-          <Input placeholder="请输入电话或手机号" />
-        </Form.Item>
-        <Form.Item
-          label="联系电话"
-          name="phone"
-          rules={[{ required: true, message: "请输入电话或手机号" }]}
-        >
-          <Input placeholder="请输入电话或手机号" />
-        </Form.Item>
-        <Form.Item label="收货地址" className="item_required">
+    <Spin spinning={loading}>
+      <div className="oms-common-addEdit-pages add_purchase">
+        <Form form={form} {...formItemLayout}>
+          <Form.Item className="item_required" label="采购单号">
+            <Form.Item
+              noStyle
+              name="stockingCode"
+              rules={[{ required: true, message: "请填写采购单号" }]}
+            >
+              <Input
+                placeholder="请输入采购单号"
+                onBlur={searchInfo}
+                onPressEnter={searchInfo}
+              />
+            </Form.Item>
+            <span>{suppliersName}</span>
+          </Form.Item>
           <Form.Item
-            name="provinces"
-            noStyle
-            label="省市区"
-            rules={[{ required: true, message: "请选择省市区" }]}
+            label="采退原因"
+            name="reRemark"
+            rules={[{ required: true, message: " 请输入采退原因" }]}
           >
-            <Cascader
-              options={CascaderAddressOptions}
-              placeholder="请选择地区"
-              style={{'width':'200px'}}
+            <Input placeholder="请输入采退原因" autoComplete="off" />
+          </Form.Item>
+          <Form.Item label="采退商品">
+            <Editable
+              dataSource={goodList}
+              changeDataSource={changeDataSource}
             />
           </Form.Item>
-          <Form.Item name="address" noStyle>
-            <Input style={{width:'300px'}} placeholder="请输入详细地址" />
+          <Form.Item
+            name="warehouseCode"
+            label="发货仓库"
+            rules={[{ required: true, message: "请选择发货仓库" }]}
+          >
+            <Select placeholder="请选择发货仓库">
+              {storeList.map(item => (
+                <Select.Option value={item.warehouseCode} key={item.id}>
+                  {item.warehouseName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
+          <Form.Item
+            label="请输入收货人"
+            name="consignee"
+            rules={[{ required: true, message: " 请输入收货人" }]}
+          >
+            <Input placeholder="请输入电话或手机号" autoComplete="off" />
+          </Form.Item>
+          <Form.Item
+            label="联系电话"
+            name="phone"
+            rules={[{ required: true, message: "请输入电话或手机号" }]}
+          >
+            <Input placeholder="请输入电话或手机号" autoComplete="off" />
+          </Form.Item>
+          <Form.Item label="收货地址" className="item_required">
+            <Form.Item
+              name="provinces"
+              noStyle
+              label="省市区"
+              rules={[{ required: true, message: "请选择省市区" }]}
+            >
+              <Cascader
+                options={CascaderAddressOptions}
+                placeholder="请选择地区"
+                style={{ width: "200px" }}
+              />
+            </Form.Item>
+            <Form.Item name="address" noStyle rules={[{ required: true, message: "请输入详细地址" }]}>
+              <Input
+                maxLength='50'
+                style={{ width: "300px" }}
+                placeholder="请输入详细地址"
+                autoComplete="off"
+              />
+            </Form.Item>
+          </Form.Item>
+          <Form.Item name="remarkes" label="订单备注">
+            <TextArea rows={7} placeholder="请输入订单备注，100字以内" />
+          </Form.Item>
+        </Form>
+        <Form.Item wrapperCol={{offset:4}}>
+          <div>
+            <Qbtn onClick={handleSubmit}>保存</Qbtn>
+            <div className="return_price">
+              <span>
+                商品数量：
+                <span className="return_price_color">{goodList.length}</span>，
+              </span>
+              <span>
+                共计：<span className="return_price_color">{totalPrice}</span>元
+              </span>
+            </div>
+          </div>
         </Form.Item>
-        <Form.Item name="remarkes" label="订单备注">
-          <TextArea rows={7} placeholder="请输入订单备注，100字以内" />
-        </Form.Item>
-      </Form>
-      <div className="handle-operate-save-action">
-        <Qbtn onClick={goBack}>返回</Qbtn>
-        <Qbtn onClick={handleSubmit}>提交审核</Qbtn>
       </div>
-    </div>
+    </Spin>
   );
 };
 
-export default AddPurchaseIn;
+export default AddPurchaseOut;

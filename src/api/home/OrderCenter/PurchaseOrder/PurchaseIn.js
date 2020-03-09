@@ -45,15 +45,7 @@ export function addPurchaseinApi(values) {
  * 搜索供应商
  */
 export function searchSupplierApi(values) {
-  return omsAjax.get("/supplier/rummageSupplier", {
-    params: { ...values }
-  });
-}
-/**
- * 供应商名搜索账期
- */
-export function getPayTypeApi(values) {
-  return omsAjax.get("/items/skuSimpleInfoByCode", {
+  return omsAjax.get("/supplier/rummageSupplierInfo", {
     params: { ...values }
   });
 }
