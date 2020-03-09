@@ -21,12 +21,12 @@ const Columns = [
       <div>
         <Link
           className="link-color action-left"
-          to={`/account/baseGoodsInfo/${record.spuCode}`}>
+          to={`/account/descriptInfo/${record.attributeId}`}>
           查看
         </Link>
         <Link
           className="link-color"
-          to={`/account/baseGoodsAdd/${record.spuCode}`}>
+          to={`/account/descriptAdd/${record.attributeId}`}>
           编辑
         </Link>
       </div>

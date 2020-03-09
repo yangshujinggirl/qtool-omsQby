@@ -13,15 +13,16 @@ class List extends React.Component {
     super(props);
     this.state = {
       goodLists:[],
+      total:0,
       currentPage:0,
       everyPage:15,
       inputValues: {
-        attributeName: '',
-        categoryCode1: '',
-        categoryCode2: '',
-        categoryCode3: '',
-        categoryCode4: 1,
-        modifyBy:''
+        attributeName: null,
+        categoryCode1: null,
+        categoryCode2: null,
+        categoryCode3: null,
+        categoryCode4: null,
+        modifyBy:null
       }
     };
   }
@@ -30,50 +31,41 @@ class List extends React.Component {
     this.getList()
   };
   //搜索列表
-  getList = values => {
+  getList = () => {
     let params = {
       currentPage:this.state.currentPage,
       everyPage:this.state.everyPage,
       ...this.state.inputValues
     };
-    if(values) {
-      params = {...params,values}
-    }
     GetListApi(params)
     .then((res)=> {
-      console.log(res)
+      const { result,currentPage, everyPage, total } =res.result;
+      result&&result.map((el,index) => el.key = index);
+      this.setState({ goodLists:result, currentPage, everyPage, total})
     })
   };
   changePage = (currentPage, everyPage) => {
     this.setState({
       currentPage, everyPage
     },()=> {
-      this.getList(currentPage, everyPage)
+      this.getList()
     })
   };
   onShowSizeChange = (currentPage, everyPage) => {
     this.setState({
       currentPage, everyPage
     },()=> {
-      this.getList(currentPage, everyPage)
+      this.getList()
     })
   };
   onSubmit = params => {
-    this.getList(params);
-  };
-  handleOperateClick = (record,type) => {
-    switch(type) {
-      case 'edit':
-        //去编辑
-        break;
-      case 'info':
-        //去查看
-        break;
-    }
+    this.setState({ inputValues:params },()=> {
+      this.getList()
+    })
   };
 
   render() {
-    const { goodLists } = this.state;
+    const { goodLists,currentPage, everyPage, total } = this.state;
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit} />
@@ -89,12 +81,11 @@ class List extends React.Component {
           <Qtable
             columns={Columns}
             dataSource={goodLists}
-            onOperateClick={this.handleOperateClick}
           />
           {
             goodLists.length>0&&
             <Qpagination
-              data={this.props}
+              data={{currentPage, everyPage, totalCount:total}}
               onChange={this.changePage}
               onShowSizeChange={this.onShowSizeChange}/>
           }

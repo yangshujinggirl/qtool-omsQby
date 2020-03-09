@@ -40,13 +40,16 @@ import Attributions from "./Attributions"; //规格管理
 import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理
 //基础商品-----------------------------------//////
-import BaseGoods from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods";//基础商品
+import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
 import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeAdd";//基础商品
 import BaseGoodsInfo from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeInfo";//基础商品
+import BaseGeneralTradeEditImg from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeEditImg";//基础商品
 import GoodsAudit from "./GoodsCenter/BaseConfigCenter/GoodsAudit"; //商品审核
 //C端---------------------------------------//////
 import DescriptManage from "./Ctip/DescriptManage";//描述属性管理
 import DescriptAdd from "./Ctip/DescriptManage/DescriptAdd";//描述属性
+import DescriptInfo from "./Ctip/DescriptManage/DescriptInfo";//描述属性
+import CrossBorderLog from "./Ctip/CrossBorderGoods/CrossBorderLog";//C端跨境商品
 import CrossBorderInfo from "./Ctip/CrossBorderGoods/CrossBorderInfo";//C端跨境商品
 import CrossBorderEdit from "./Ctip/CrossBorderGoods/CrossBorderEdit";//C端跨境商品
 import CrossBorderGoods from "./Ctip/CrossBorderGoods";//C端跨境商品
@@ -99,6 +102,7 @@ class HomeRoutes extends React.Component {
           <Route  path="/account/items_list" component={BaseGoods}/>
           <Route  path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
           <Route  path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
+          <Route  path="/account/baseGoodsEditImg/:id?" component={BaseGeneralTradeEditImg}/>
           <Route path='/account/items_examine' component={GoodsAudit}/>
           <Route  path="/account/commodities_list" component={Bgoods}/>
           <Route  path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
@@ -111,9 +115,11 @@ class HomeRoutes extends React.Component {
           <Route path='/account/taskInfo/:id?' component={TaskInfo}/>
           <Route  path="/account/descriptive_attribute" component={DescriptManage}/>
           <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
+          <Route  path="/account/descriptInfo/:id?" component={DescriptInfo}/>
           <Route  path="/account/cross_border_product" component={CrossBorderGoods}/>
+          <Route  path="/account/CrossBorder/log/:id" component={CrossBorderLog}/>
           <Route  path="/account/CrossBorder/edit/:id" component={CrossBorderEdit}/>
-          <Route  path="/account/CrossBorder/info/:id" component={CrossBorderEdit}/>
+          <Route  path="/account/CrossBorder/info/:id" component={CrossBorderInfo}/>
           <Route  path="/account/generalTrade/log/:id" component={GeneralTradeLog}/>
           <Route  path="/account/generalTrade/info/:id" component={GeneralTradeInfo}/>
           <Route  path="/account/generalTrade/edit/:id" component={GeneralTradeEdit}/>

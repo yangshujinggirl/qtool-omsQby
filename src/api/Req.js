@@ -37,8 +37,11 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
     }, error => {
       // window.location.href= '/';
       sessionStorage.clear();
+      Qmessage.error('服务异常');
+      setTimeout(()=> {
+        // window.location.href= '/';
+      },4000)
       return Promise.reject({message:'服务异常'});
-      // Qmessage.error(error);
     });
   return axiosinstance;
 }

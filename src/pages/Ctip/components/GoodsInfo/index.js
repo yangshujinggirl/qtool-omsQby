@@ -14,8 +14,8 @@ import {
 } from 'antd';
 import { Qtable, Qbtn } from 'common';
 import { GetDetailApi, GetEditApi } from 'api/cTip/GeneralTradeGoods';
-
-import GraphicInformation from './components/GraphicInformation';
+import { serviceOption } from '../optionMap';
+import GraphicInformation from '../GoodsEdit/components/GraphicInformation';
 
 
 let FormItem = Form.Item;
@@ -70,18 +70,20 @@ class GoodsInfo extends React.Component {
     GetDetailApi(params.id)
     .then((res) => {
       let { descriptAttributeList, subList,...pdSpu} =res.result;
-      pdSpu.serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo.split('-');
+      let serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo;
+      pdSpu.serviceInfo = serviceInfo==""?[]:serviceInfo.split('-');
       descriptAttributeList=descriptAttributeList?descriptAttributeList:[];
       subList&&subList.map((el)=>el.key=el.pdSkuId);
       this.setState({ totalData:pdSpu, subList, descriptAttributeList })
     })
   }
-  goReturn() {
+  goReturn=()=> {
     let link = this.props.productNature == 1?'general_trade_product':'cross_border_product';
     this.props.history.push(`/account/${link}`)
   }
   render() {
     const { totalData, subList, descriptAttributeList } =this.state;
+    console.log(totalData)
     return(
       <Spin tip="加载中..." spinning={false}>
         <div className="oms-common-addEdit-pages general-trade-edit-pages">
@@ -136,7 +138,11 @@ class GoodsInfo extends React.Component {
             <div className="part-wrap">
               <p className="title-wrap"><span className="title-name">服务信息</span></p>
               <Form.Item label="服务">
-                {totalData.serviceInfo}
+                {totalData.serviceInfo&&totalData.serviceInfo.map((el)=>{
+                    return serviceOption.map((item,index)=> (
+                      <span key={item.key}>{el==item.key&&item.value},</span>
+                    ))
+                })}
               </Form.Item>
             </div>
             <div className="part-wrap">
@@ -145,7 +151,7 @@ class GoodsInfo extends React.Component {
                 columns={columns}
                 dataSource={subList}/>
             </div>
-            <GraphicInformation data={totalData} formItemLayout={formItemLayout}/>
+            <GraphicInformation {...totalData} formItemLayout={formItemLayout}/>
             <div className="handle-operate-save-action">
               <Qbtn onClick={this.goReturn}>
                 返回
