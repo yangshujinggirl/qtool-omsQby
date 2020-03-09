@@ -1,0 +1,23 @@
+import Upload from "common/QuploadFile";
+import GoodList from "./components/GoodList";
+const Editable = (props) => {
+  const { dataSource, changeDataSource, getPrice } = props;
+  const downLoadTemp = () => {
+    window.open("src/static/purchase_in.xlsx");
+  };
+  return (
+    <div>
+      <Upload
+        changeDataSource={changeDataSource}
+        downLoadTemp={downLoadTemp}
+        action="/qtoolsOms/upload/file_excel_return_list"
+      />
+      <GoodList
+        dataSource={dataSource}
+        changeDataSource={changeDataSource}
+        getPrice={getPrice}
+      />
+    </div>
+  );
+};
+export default Editable
