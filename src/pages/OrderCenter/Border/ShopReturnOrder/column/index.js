@@ -2,6 +2,7 @@ import moment from "moment";
 import {Link} from "react-router-dom";
 import React from "react";
 import {AUDIT_STATUS_NO_PASS} from "../../../PurchaseOrder/PurchaseIn/config";
+import {Popover} from "antd";
 
 const Columns = [
     {
@@ -28,9 +29,31 @@ const Columns = [
     },
     {title: "退货门店", dataIndex: "suppliersName", key: "2"},
     {title: "申请数量", dataIndex: "itemCount", key: "3"},
-    {title: "申请总金额", dataIndex: "priceTotal", key: "4"},
+    {
+        title: "申请总金额", dataIndex: "priceTotal", key: "4",
+        render: ((text, record) => (
+            <Popover placement={text} title={text} content={
+                <div>
+                    测试
+                </div>
+            } trigger="click">
+                <span>{text}</span>
+            </Popover>
+        ))
+    },
     {title: "到货数量", dataIndex: "receiveCount", key: "5"},
-    {title: "实退金额", dataIndex: "receivePrice", key: "6"},
+    {
+        title: "实退金额", dataIndex: "receivePrice", key: "6",
+        render: ((text, record) => (
+            <Popover placement={text} title={text} content={
+                <div>
+                    测试
+                </div>
+            } trigger="click">
+                <span>{text}</span>
+            </Popover>
+        ))
+    },
     {title: "退单类型", dataIndex: "statusStr", key: "7"},
     {title: "订单状态", dataIndex: "stepStr", key: "8"},
     {
