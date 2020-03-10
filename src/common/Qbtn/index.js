@@ -13,7 +13,6 @@ class Qbtn extends Component {
     const { type, disabled, onClick, loading } =this.props;
     return (
       <Button
-        htmlType="submit"
         type={type}
         className={btnClass}
         disabled={disabled}

@@ -23,13 +23,13 @@ class EditableCell extends Component {
     });
   }
   setPdSkusData() {
-    let { pdSkus }=this.props.addGoods;
-    for(var i=0;i<pdSkus.length;i++){
-        pdSkus[i][this.props.title]=this.state.value
+    let { goodsList }=this.props.BaseGoodsAddReducers;
+    for(var i=0;i<goodsList.length;i++){
+        goodsList[i][this.props.title]=this.state.value
     }
     this.props.dispatch({
-      type:'addGoods/batchSet',
-      payload:pdSkus
+      type:'baseGoodsAdd/getListState',
+      payload:goodsList
     })
     this.setState({value:''})
   }

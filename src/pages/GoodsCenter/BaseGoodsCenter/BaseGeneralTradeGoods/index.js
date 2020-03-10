@@ -44,8 +44,8 @@ class BaseGoods extends GoodsListExtends {
             onSubmit={this.onSubmit}
             inputValues={this.state.inputValues}/>
           <div className="handle-operate-btn-action">
-            <Qbtn size="free" onClick={this.addTrade}>新建一般贸易品</Qbtn>
-            <Qbtn size="free" onClick={this.export}>商品导出</Qbtn>
+            <Qbtn size="free" onClick={this.addTrade}>新增商品</Qbtn>
+            <Qbtn size="free" onClick={this.export}>导出商品</Qbtn>
           </div>
           <Qtable
             columns={Columns}

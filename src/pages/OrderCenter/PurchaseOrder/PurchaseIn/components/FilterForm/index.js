@@ -6,6 +6,7 @@ import {
     AUDIT_STATUS_NO_PASS, AUDIT_STATUS_PASS, AUDIT_STATUS_WAIT,
     ORDER_STATUS_LOADING, ORDER_STATUS_RECEIVED, ORDER_STATUS_WAIT
 } from "../../config";
+import {FilterSearchRangeTime} from "common/QdisabledDateTime";
 
 const FormItem = Form.Item;
 const {Option} = Select;
@@ -13,16 +14,6 @@ const {RangePicker} = DatePicker;
 
 export default class SearchForm extends BaseFilter {
     formRef = React.createRef();
-
-    /**
-     * 第一次渲染之后调用数据
-     */
-    componentDidMount = () => {
-        let date = new Date();
-        this.formRef.current.setFieldsValue({
-            times: [moment(this.props.stime), moment(this.props.etime)]
-        })
-    };
 
     render() {
         return (

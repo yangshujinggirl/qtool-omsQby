@@ -99,11 +99,12 @@ function withSubscription(WrappedComponent,productNature) {
     handleOperateClick = (record,type) => {
       switch(type) {
         case 'sale':
-        let opType = record.upperStatusStr=='上架'?'2':'1';
+        let opType = record.upperStatusStr=='上架'?2:1;
+        let message = record.upperStatusStr=='上架'?"下架":"上架"
           let params = { opType, operateUser:'yj'}
           GetUpDownApi(params,record.skuCode)
           .then((res) => {
-            Qmessage.success(`${record.upperStatusStr}成功`)
+            Qmessage.success(`${message}成功`)
           },err=> {
             console.log(err)
           })

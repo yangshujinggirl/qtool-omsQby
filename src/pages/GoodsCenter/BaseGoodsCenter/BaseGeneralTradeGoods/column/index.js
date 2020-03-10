@@ -113,8 +113,7 @@ const columnsAdd=()=> {
         return  <Form.Item name={['list',index,'oldStatus']}>
                   <Select disabled={record.isExamine}>
                     <Option value={3}>正常商品</Option>
-                    <Option value={4}>正常商品</Option>
-                    <Option value={5}>正常商品</Option>
+                    <Option value={5}>淘汰商品</Option>
                   </Select>
                 </Form.Item>
       }
@@ -243,7 +242,7 @@ const columnsEditImg=[{
     render:(text,record,index)=> {
       return  <Form.Item name={['list',index,'skuImg']}>
                 <QupLoadImgLimt
-                  fileList={[record.skuImg]}/>
+                  fileList={[record.skuImg?record.skuImg:'']}/>
               </Form.Item>
     }
   }]
