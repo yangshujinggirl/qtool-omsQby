@@ -104,29 +104,6 @@ export default class ShopReturnOrder extends BaseDataShowList {
     };
 
     /**
-     * 格式化搜索条件
-     * @param values
-     * @return {{}}
-     */
-    formatSearchCriteriaList(values) {
-        let {searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime} = this.state;
-        if (values != null && values.orderTimes != null) {
-            searchCriteriaDefaultStartTime = values.orderTimes[0].format(this.timeFormatYMDStr);
-            searchCriteriaDefaultEndTime = values.orderTimes[1].format(this.timeFormatYMDStr);
-            values.times = null
-        }
-        this.setState({
-            searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime,
-            searchCriteriaList: {
-                ...values,
-                stime: searchCriteriaDefaultStartTime,
-                etime: searchCriteriaDefaultEndTime
-            }
-        });
-        return this.state.searchCriteriaList;
-    }
-
-    /**
      * 获取数据列表请求
      * @param params 参数
      * @return {*}
@@ -140,9 +117,7 @@ export default class ShopReturnOrder extends BaseDataShowList {
      * @return {*}
      */
     getRenderFilterForm() {
-        return <FilterForm onSubmit={this.searchDataList}
-                           stime={this.state.searchCriteriaDefaultStartTime}
-                           etime={this.state.searchCriteriaDefaultEndTime}/>
+        return <FilterForm onSubmit={this.searchDataList} selectTimeChange={this.selectTimeChange}/>
     }
 
     /**

@@ -72,14 +72,6 @@ export class BaseDataShowList extends React.Component {
              */
             searchCriteriaList: {},
             /**
-             * 搜索条件默认起始时间
-             */
-            searchCriteriaDefaultStartTime: moment(new Date(new Date() - 2592000000)).format(this.timeFormatYMDStr),
-            /**
-             * 搜索条件默认结束时间
-             */
-            searchCriteriaDefaultEndTime: moment(new Date()).format(this.timeFormatYMDStr),
-            /**
              * 选中的数据key列表
              */
             selectedRowKeys: [],
@@ -193,6 +185,19 @@ export class BaseDataShowList extends React.Component {
             currentPage,
             everyPage
         });
+    };
+
+    /**
+     * 选择的时间改变
+     * @param values 改变值
+     */
+    selectTimeChange = (values) => {
+        this.setState({
+            searchCriteriaList: {
+                ...this.state.searchCriteriaList,
+                ...values
+            }
+        })
     };
 
     /**
