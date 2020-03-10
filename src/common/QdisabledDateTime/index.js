@@ -58,6 +58,20 @@ class RangeTime extends Component {
  * 备注：
  */
 class FilterSearchRangeTime extends Component {
+    /**
+     * 第一次渲染结束回调
+     */
+    componentDidMount(){
+        //渲染结束，判断时间是否有默认，有默认则回调时间
+        if(this.props.defaultValue){
+            let endDate = this.props.defaultValue[1].format("YYYY-MM-DD HH:mm:ss");
+            let startDate = this.props.defaultValue[0].format("YYYY-MM-DD HH:mm:ss");
+            const orderTimes = {};
+            orderTimes[this.props.startTimeName] = startDate;
+            orderTimes[this.props.endTimeName] = endDate;
+            this.props.selectTimeChange(orderTimes,true)
+        }
+    }
 
     /**
      * 时间变动回调
@@ -70,7 +84,7 @@ class FilterSearchRangeTime extends Component {
             const orderTimes = {};
             orderTimes[this.props.startTimeName] = startDate;
             orderTimes[this.props.endTimeName] = endDate;
-            this.props.selectTimeChange(orderTimes)
+            this.props.selectTimeChange(orderTimes,false)
         }
     };
 
