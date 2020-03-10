@@ -68,7 +68,7 @@ export default class SearchForm extends BaseFilter {
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
-                            <FormItem label="下单时间" name="times" rul {...this.formItemLayout}>
+                            <FormItem label="下单时间" name="times" {...this.formItemLayout}>
                                 <RangePicker
                                     placeholder={this.placeholder}
                                     format={this.formatType}

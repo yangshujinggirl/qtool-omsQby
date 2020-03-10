@@ -37,7 +37,7 @@ export function PushPurchaseInOrderBatchReview(values, status) {
  * 新建、修改
  */
 export function addPurchaseinApi(values) {
-  return omsAjax.post("/thinkStocking/createAndUpdateThinkStockingRe", {
+  return omsAjax.post("/thinkStocking/createAndUpdateThinkStocking", {
     ...values
   });
 }
@@ -70,10 +70,10 @@ export function searchPriceApi(values) {
  * 获取采购订单详情
  * @constructor
  */
-export function GetPurchaseInOrderDetailApi(stockingCode) {
+export function GetPurchaseInOrderDetailApi(values) {
   return omsAjax.get("/thinkStocking/getThinkStockingDetail", {
     params: {
-      stockingCode: stockingCode
+      ...values
     }
   });
 }

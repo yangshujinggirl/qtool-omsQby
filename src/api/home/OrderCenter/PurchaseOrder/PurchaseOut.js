@@ -53,8 +53,8 @@ export function addPurchaseOutApi(values) {
   /**
    * 采购单搜索详情
    */
-  export function getPriceApi(values) {
-    return omsAjax.get("thinkStockingRefund/getStockRefundDetail", {
+  export function getOrderInfoApi(values) {
+    return omsAjax.get("thinkStocking/gainStockingDetail", {
       params: { ...values }
     });
   }
