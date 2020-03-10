@@ -11,7 +11,7 @@ const Columns = [
         render: (text, record) => (
             <Link
                 className="link-color"
-                to={`/account/border/shopOrderDetail/${record.stockingCode}`}
+                to={`/account/channel_orders/detail/${record.stockingCode}`}
             >{text}</Link>
         )
     },
