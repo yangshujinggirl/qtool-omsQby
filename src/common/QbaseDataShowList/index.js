@@ -42,7 +42,7 @@ export class BaseDataShowList extends React.Component {
      * 表格展示字段
      * @type {{}}
      */
-    tableShowColumns = {};
+    tableShowColumns = [];
 
     /**
      * 初始化
@@ -74,11 +74,11 @@ export class BaseDataShowList extends React.Component {
             /**
              * 搜索条件默认起始时间
              */
-            searchCriteriaDefaultStartTime: moment(new Date(new Date() - 2592000000)).format(this.timeFormatStr),
+            searchCriteriaDefaultStartTime: moment(new Date(new Date() - 2592000000)).format(this.timeFormatYMDStr),
             /**
              * 搜索条件默认结束时间
              */
-            searchCriteriaDefaultEndTime: moment(new Date()).format(this.timeFormatStr),
+            searchCriteriaDefaultEndTime: moment(new Date()).format(this.timeFormatYMDStr),
             /**
              * 选中的数据key列表
              */
