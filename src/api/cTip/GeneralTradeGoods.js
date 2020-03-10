@@ -31,5 +31,5 @@ export function GetLogApi(spuCode){
 上下架
  */
 export function GetUpDownApi(values,spuCode){
-    return appAjax.put(`/toC/product/${spuCode}`,{params:{...values}})
+    return appAjax.put(`/toC/product/${spuCode}`,{...values})
 }

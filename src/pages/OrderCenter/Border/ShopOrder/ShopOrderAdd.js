@@ -7,7 +7,7 @@ import {
   Radio,AutoComplete,Table,
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { Qtable, Qbtn, Qmessage, CascaderAddressOptions } from 'common';
+import { Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
 // import { GetDetailApi,GetAddApi,GetEditApi} from 'api/home/SupplierManage';
 import './ShopOrderAdd.less';
 import { columnsAdd } from './column';
@@ -35,71 +35,22 @@ const formItemLayoutBig = {
       },
     };
 
-const BaseEditTable=({...props})=> {
-  let { dataSource, columns } =props;
-  let newDataSource = [...dataSource];
-  let key = newDataSource.length;
-  // let [newDataSource,setDataSource] = useState(dataSource);
-  // let [key,setKey] = useState(newDataSource.length);
-  const handleAdd=()=> {
-    // key++;
-    console.log(key)
-    // newDataSource.push({ key });
-    // props.upDateList(newDataSource)
-    // setKey(key)
-  }
-  //删除
-  const handleDelete=(index)=> {
-    newDataSource.splice(index,1);
-    // setDataSource(newDataSource)
-    // props.upDateList(newDataSource)
-  }
-  //初始化删除columns
-  const initColumns=()=> {
-    // let columns = columns;
-    let index = columns.findIndex((value,index) => {
-      return value.key == 'delete';
-    })
-    if(newDataSource.length>1) {
-      if(index == -1) {
-        columns.push({
-          title:'操作',
-          key:'delete',
-          width:'10%',
-          align:'center',
-          render:(text,record,index)=> {
-            return <span
-                    className="brandColor handle-delete"
-                    onClick={()=>handleDelete(index)}>
-                      删除
-                   </span>
-          }
-        })
-      }
-    } else if(index !== -1){
-      columns.splice(index,1);
-    }
-    return columns;
-  }
-  console.log(newDataSource)
-  return <Table
-          className="edit-table-component"
-          footer={()=><Qbtn type="default" onClick={()=>handleAdd()}>+{props.btnText}</Qbtn>}
-          bordered
-          pagination={false}
-          columns={initColumns()}
-          dataSource={newDataSource}/>
-}
-
 const ShopOrderAdd=({...props})=> {
   const [form] = Form.useForm();
+  const [totalData, setTotal] = useState({});
+  const [goodsList, setGoodsList] = useState([{key:0}]);
+  //查询商品
+  const onBlur=(event,index)=> {
+    event.persist()
+    let vlaue = event.target.value;
+    // reqApi(vlaue)
+    // .then((res)=> {
+    //   console.log(res)
+    // })
+    console.log(vlaue,index)
+  }
   const goReturn=()=> {
     props.history.push('/account/supplierManage')
-  }
-  const [totalData, setTotal] = useState({});
-  const [goodsList, setGoodsList] = useState([]);
-  const onBlur=(e)=> {
-    console.log(e)
   }
   const onSubmit = async () => {
     try {
@@ -116,18 +67,17 @@ const ShopOrderAdd=({...props})=> {
   const upDateList=(arrVal)=> {
     setGoodsList(arrVal)
   }
+  const goAdd=(arrVal)=> {
+    // setGoodsList(arrVal)
+  }
   useEffect(()=>{
     form.setFieldsValue(totalData);
   },[totalData])
-
+  console.log('goodsList',goodsList)
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages shopOrder-addEdit-pages">
-        <Form
-          className="common-addEdit-form"
-          form={form}
-          {...formItemLayout}
-          initialValues={{...totalData}}>
+        <Form className="common-addEdit-form" form={form} {...formItemLayout}>
           <div className="part-wrap">
             <p className="title-wrap"><span className="title-name">基础信息</span></p>
             <Form.Item label="门店名称" name="name" rules={[{ required: true, message: '请输入门店名称'}]}>
@@ -171,7 +121,7 @@ const ShopOrderAdd=({...props})=> {
             <Qbtn onClick={goReturn}>
               返回
             </Qbtn>
-            <Qbtn onClick={onSubmit}>
+            <Qbtn onClick={()=>onSubmit()}>
               保存
             </Qbtn>
           </div>

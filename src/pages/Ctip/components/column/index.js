@@ -85,9 +85,9 @@ const ColumnsSub = [
       <span>
       {
         record.upperStatus?
-        <span className="pointerSty" onClick={()=>record.onOperateClick('sale')}>立即下架</span>
+        <span className="pointerSty" onClick={()=>record.onOperateClick('sale')}>立即{record.upperStatusStr=='下架'?"上架":'下架'}</span>
         :
-        <span className="pointerSty" onClick={()=>record.onOperateClick('sale')}>立即上架</span>
+        <span className="pointerSty" onClick={()=>record.onOperateClick('sale')}>立即{record.upperStatusStr=='下架'?"上架":'下架'}</span>
       }
 
       </span>

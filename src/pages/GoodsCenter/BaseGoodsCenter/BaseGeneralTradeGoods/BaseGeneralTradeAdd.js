@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
 import { columnsAdd } from './column';
-import { GetEditApi } from 'api/home/BaseGoods';
+import { GetAttributeApi, GetEditApi, GetBrandApi, GetSupplierApi } from 'api/home/BaseGoods';
 import Creatlabel from '../components/Creatlabel';
 import EditableCell from '../components/EditableCell';
 import './BaseGeneralTradeAdd.less';
@@ -38,15 +38,24 @@ const formItemLayoutBig = {
 const BaseGoodsAdd =({...props})=> {
   console.log(props)
   const [form] = Form.useForm();
-  let { sizeIdList, attributeArray, specData, categoryData,goodsList,
-        supplierList, attributeList, totalData, brandDataSource, fileList } =props;
+  let { sizeIdList, specData, categoryData,goodsList,
+        attributeList, totalData, fileList } =props;
   let spuCode = props.match.params.id;
   let isEdit = props.match.params.id?true:false;
+  const [brandList,setBrandlIst] =useState([])
+  const [supplierList,setSupplierList] =useState([])
+  const [attributeArray,setAttributeArray] =useState([])
   const initPage=()=> {
     const  { params } =props.match;
     props.dispatch({
       type:'baseGoodsAdd/resetPage',
       payload:{}
+    })
+    fetchSupplier();
+    fetchAttribute();
+    props.dispatch({
+      type:'baseGoodsAdd/fetchCategory',
+      payload:{level:1,parentId:''}
     })
     if(params.id) {
       props.dispatch({
@@ -54,19 +63,26 @@ const BaseGoodsAdd =({...props})=> {
         payload:{spuCode:params.id}
       })
     }
-    props.dispatch({
-      type:'baseGoodsAdd/fetchCategory',
-      payload:{level:1,parentId:''}
-    })
-    props.dispatch({
-      type:'baseGoodsAdd/fetchSupplier',
-      payload:{}
-    })
-    props.dispatch({
-      type:'baseGoodsAdd/fetchAttribute',
-      payload:{}
-    })
   }
+  //获取规格
+  const fetchAttribute=()=>{
+    GetAttributeApi()
+    .then((res) => {
+      let { result } =res;
+      result=result?result:[]
+      result.map((el)=>el.key =el.attributeId);
+      setAttributeArray(result);
+    })
+  };
+  //获取供应商
+  const fetchSupplier=()=>{
+    GetSupplierApi()
+    .then((res)=> {
+      const { result } =res;
+      result.map((el)=>el.key=el.id);
+      setSupplierList(result)
+    })
+  };
   const handleChangeLevel=(level,selected)=>{
     level++;
     props.dispatch({
@@ -82,55 +98,30 @@ const BaseGoodsAdd =({...props})=> {
   }
   //品牌搜索
   const handleSearch=(value)=> {
-    props.dispatch({
-      type:'baseGoodsAdd/fetchbrandList',
-      payload:{brandName:value}
+    GetBrandApi({brandName:value})
+    .then((res)=> {
+      let { result } =res;
+      result=result?result:[];
+      result = result.map((el)=>{
+        let item={}
+        item.key =el.id;
+        item.value =el.id;
+        item.brandCountry =el.brandCountry;
+        item.text =el.brandNameCn;
+        return item;
+      })
+      setBrandlIst(result);
     })
   }
   //品牌，国家选中事件
   const autoSelect=(value, option)=> {
-    let { brandDataSource,totalData } =props;
-    let item = brandDataSource.find((el)=> el.value== value);
+    let item = brandList.find((el)=> el.value== value);
     props.dispatch({
       type:'baseGoodsAdd/getTotalState',
       payload:{brandAddress:item.brandCountry}
     })
   }
-  //提交
-  const submit = async (saveType) => {
-    try {
-      const values = await form.validateFields();
-      let { pdType1Id, pdType2Id, list, ...paramsVal} = values;
-      list = list&&list.map((el,index)=> {
-        goodsList.map((item,idx) => {
-          if(index == idx) {
-            el.salesAttributeName = item.salesAttributeName;
-            el.skuCode = item.skuCode;
-          }
-        })
-        return el;
-      })
-      paramsVal = {
-        ...paramsVal,
-        saveType,
-        list,
-        attrList: [{
-          attributeName:pdType1Id,
-          attributeValueList:specData.specOne
-        },{
-          attributeName:pdType2Id,
-          attributeValueList:specData.specTwo
-        }]
-      }
-      if(spuCode) { paramsVal = {...paramsVal,spuCode} }
-      GetEditApi(paramsVal)
-      .then((res)=> {
-        console.log(res)
-      })
-    } catch (errorInfo) {
-      console.log('Failed:', errorInfo);
-    }
-  }
+
   //商品规格change
   const handleChangeType=(type,option)=> {
     //重置商品规格id,商品属性
@@ -217,6 +208,7 @@ const BaseGoodsAdd =({...props})=> {
       }else {
         for(let i = 0;i < specOne.length; i++) {
           let item = {...specOne[i],...fixedRow};
+          item.salesAttributeName = `${specOne[i].name}`;
           item.pdType1ValId = specOne[i].key;
           item.key = specOne[i].key;
           item.pdType1Va2Id = null;
@@ -251,15 +243,65 @@ const BaseGoodsAdd =({...props})=> {
   const goReset=()=> {
 
   }
+  //提交
+  const submit = async (saveType) => {
+    try {
+      const values = await form.validateFields();
+      let { categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      list = list&&list.map((el,index)=> {
+        goodsList.map((item,idx) => {
+          if(index == idx) {
+            el.salesAttributeName = item.salesAttributeName;
+            el.skuCode = item.skuCode;
+          }
+        })
+        return el;
+      })
+      let listOne = specData.specOne.map((el)=> el.name);
+      let listTwo = specData.specTwo.map((el)=> el.name);
+      paramsVal = {
+        ...paramsVal,
+        categoryId:categoryId4,
+        productNature:1,
+        saveType,
+        list,
+        attrList: [{
+          attributeName:pdType1Id,
+          attributeValueList:listOne
+        },{
+          attributeName:pdType2Id,
+          attributeValueList:listTwo
+        }]
+      }
+      if(spuCode) { paramsVal = {...paramsVal,spuCode} }
+      GetEditApi(paramsVal)
+      .then((res)=> {
+        Qmessage.success('保存成功');
+        goReturn();
+      })
+    } catch (errorInfo) {
+      console.log('Failed:', errorInfo);
+    }
+  }
+  const onValuesChange=(changedValues, allValues)=> {
+    let currentKey = Object.keys(changedValues)[0];
+    if(currentKey!='list') {
+      props.dispatch({
+        type:'baseGoodsAdd/getTotalState',
+        payload:changedValues
+      })
+    }
+  }
   useEffect(()=>{ initPage()},[])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList])
 
-  console.log(specData)
+  console.log(goodsList,specData)
   return (
     <Spin tip="加载中..." spinning={props.loading}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
         <Form
+          onValuesChange={onValuesChange}
           className="common-addEdit-form"
           form={form}
           {...formItemLayout}>
@@ -286,7 +328,7 @@ const BaseGoodsAdd =({...props})=> {
               }>
               <AutoComplete
                autoComplete="off"
-               options={brandDataSource}
+               options={brandList}
                onSearch={handleSearch}
                onSelect={(value, option)=>autoSelect(value, option)}
                placeholder="请选择商品品牌"/>
@@ -472,8 +514,8 @@ const BaseGoodsAdd =({...props})=> {
               </Form.Item>
               <Creatlabel
                 disabled={totalData.pdType1Id?false:true}
-                deleteGoodsLabel={()=>deleteGoodsLabel()}
-                addGoodsLabel={()=>addGoodsLabel()}
+                deleteGoodsLabel={deleteGoodsLabel}
+                addGoodsLabel={addGoodsLabel}
                 level="one"/>
             </Form.Item>
             <Form.Item label='商品规格2'>
@@ -495,8 +537,8 @@ const BaseGoodsAdd =({...props})=> {
               </Form.Item>
               <Creatlabel
                  disabled={totalData.pdType2Id?false:true}
-                 deleteGoodsLabel={()=>deleteGoodsLabel()}
-                 addGoodsLabel={()=>addGoodsLabel()}
+                 deleteGoodsLabel={deleteGoodsLabel}
+                 addGoodsLabel={addGoodsLabel}
                  level="two"/>
             </Form.Item>
             <Form.Item label="商品信息" {...formItemLayoutBig} className="table-wrap-fomItem">

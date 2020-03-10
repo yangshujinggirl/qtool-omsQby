@@ -45,7 +45,7 @@ const columnsAdd=(onBlur)=>{
   return [{
             title: "sku编码",
             dataIndex: "skuCode",
-            textWrap: 'word-break',
+            width:140,
             render:(text,record,index)=> {
               return  <Form.Item name={['list',index,'barCode']}>
                         <Input
@@ -56,16 +56,16 @@ const columnsAdd=(onBlur)=>{
             }
           },{
             title: "订购数量",
-            dataIndex: "salesAttributeName",
-            textWrap: 'word-break',
+            dataIndex: "qty",
+            width:140,
             render:(text,record,index)=> {
-              return  <Form.Item name={['list',index,'barCode']}>
+              return  <Form.Item name={['list',index,'qty']}>
                         <Input disabled={record.isExamine} className="goods-name" key={index}/>
                       </Form.Item>
             }
           },{
             title: "商品名称",
-            dataIndex: "salesAttributeName",
+            dataIndex: "productName",
             textWrap: 'word-break',
           },{
             title: "商品规格",

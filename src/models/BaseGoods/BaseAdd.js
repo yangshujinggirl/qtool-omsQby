@@ -14,18 +14,19 @@ function* getSpec(action){
 }
 //列表--商品
 function* getListState(action){
+  let oldState = yield select(state => state.BaseGoodsAddReducers);
   yield put({
     type: 'BASEGOODSADD_GOODSLIST',
-    payload: action.payload
+    payload: {...oldState,...action.payload}
   })
 }
-//图片
-function* getFileListState(action){
-  yield put({
-    type: 'BASEGOODSADD_FILELIST',
-    payload: {fileList:action.payload}
-  })
-}
+// //图片
+// function* getFileListState(action){
+//   yield put({
+//     type: 'BASEGOODSADD_FILELIST',
+//     payload: {fileList:action.payload}
+//   })
+// }
 //详情
 function* getTotalState(action){
   let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
@@ -150,53 +151,53 @@ function* fetchCategory(action){
   })
 };
 //查询规格
-function* fetchAttribute(action){
-  let params = action.payload;
-  const res = yield call(GetAttributeApi);
-  let { result } =res;
-  result=result?result:[]
-  result.length>0&&result.map((el)=>el.key =el.attributeId);
-  // console.log('action')
-  yield put({
-    type: 'BASEGOODSADD_ATTRUBTEARRAY',
-    payload: {attributeArray:result}
-  })
-};
-function* fetchbrandList(action) {
-  let params = action.payload;
-  const res = yield call(GetBrandApi,params);
-  let { result } =res;
-  result=result?result:[]
-  let brandDataSource = result.map((el)=>{
-    let item={}
-    item.key =el.id;
-    item.value =el.id;
-    item.brandCountry =el.brandCountry;
-    item.text =el.brandNameCn;
-    return item;
-  })
-  yield put({
-    type: 'BASEGOODSADD_BRANDLIST',
-    payload: {brandDataSource}
-  })
-};
-function* fetchSupplier(action){
-  let params = action.payload;
-  const res = yield call(GetSupplierApi,params);
-  const { result } =res;
-  result.map((el)=>el.key=el.id);
-  yield put({
-    type: 'BASEGOODSADD_SUPPLIERLIST',
-    payload: {supplierList:result}
-  })
-};
+// function* fetchAttribute(action){
+//   let params = action.payload;
+//   const res = yield call(GetAttributeApi);
+//   let { result } =res;
+//   result=result?result:[]
+//   result.length>0&&result.map((el)=>el.key =el.attributeId);
+//   // console.log('action')
+//   yield put({
+//     type: 'BASEGOODSADD_ATTRUBTEARRAY',
+//     payload: {attributeArray:result}
+//   })
+// };
+// function* fetchbrandList(action) {
+//   let params = action.payload;
+//   const res = yield call(GetBrandApi,params);
+//   let { result } =res;
+//   result=result?result:[]
+//   let brandDataSource = result.map((el)=>{
+//     let item={}
+//     item.key =el.id;
+//     item.value =el.id;
+//     item.brandCountry =el.brandCountry;
+//     item.text =el.brandNameCn;
+//     return item;
+//   })
+//   yield put({
+//     type: 'BASEGOODSADD_BRANDLIST',
+//     payload: {brandDataSource}
+//   })
+// };
+// function* fetchSupplier(action){
+//   let params = action.payload;
+//   const res = yield call(GetSupplierApi,params);
+//   const { result } =res;
+//   result.map((el)=>el.key=el.id);
+//   yield put({
+//     type: 'BASEGOODSADD_SUPPLIERLIST',
+//     payload: {supplierList:result}
+//   })
+// };
 function* resetPages(action){
   let data = {
     loading: false,
-    brandDataSource:[],
+    // brandDataSource:[],
     totalData:{},
-    supplierList:[],
-    attrubteArray:[],//规格
+    // supplierList:[],
+    // attrubteArray:[],//规格
     goodsList:[{key:'00'}],
     specData:{
       specOne:[],
@@ -222,10 +223,10 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchTotal', fetchTotal)
   yield takeEvery('baseGoodsAdd/getTotalState', getTotalState)
   yield takeEvery('baseGoodsAdd/fetchCategory', fetchCategory)
-  yield takeEvery('baseGoodsAdd/fetchSupplier', fetchSupplier)
-  yield takeEvery('baseGoodsAdd/fetchbrandList', fetchbrandList)
-  yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
+  // yield takeEvery('baseGoodsAdd/fetchSupplier', fetchSupplier)
+  // yield takeEvery('baseGoodsAdd/fetchbrandList', fetchbrandList)
+  // yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
-  yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
+  // yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
   yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

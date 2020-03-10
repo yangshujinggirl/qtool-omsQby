@@ -1,46 +1,29 @@
-import React, { Component } from 'react';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Table, Input, Button } from 'antd';
+import { Table } from 'antd';
+import { useState } from 'react';
 import { Qbtn } from 'common';
+import './index.less';
 
-class BaseEditTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource:this.props.dataSource,
-      key:this.props.dataSource.length,
-    }
-  }
-  //接收异步数据
-  componentWillReceiveProps(props) {
-    this.setState({
-      dataSource:props.dataSource,
-    })
-  }
-  //新增
-  handleAdd=()=> {
-    let { dataSource,key } =this.state;
+const BaseEditTable=({...props})=> {
+  let { dataSource, columns } =props;
+  let newDataSource = [...dataSource];
+  let [key,setKey] = useState(newDataSource.length);
+  const handleAdd=()=> {
     key++;
-    dataSource.push({
-      key,
-    });
-    this.setState({ dataSource, key });
+    setKey(key)
+    newDataSource.push({ key });
+    props.upDateList(newDataSource)
   }
   //删除
-  handleDelete=(index)=> {
-    let { dataSource } =this.state;
-    dataSource.splice(index,1);
-    this.setState({ dataSource });
-    this.props.resetForm&&this.props.resetForm(index,dataSource)
+  const handleDelete=(index)=> {
+    newDataSource.splice(index,1);
+    props.upDateList(newDataSource)
   }
   //初始化删除columns
-  initColumns=()=> {
-    let columns = this.props.columns;
+  const initColumns=()=> {
     let index = columns.findIndex((value,index) => {
       return value.key == 'delete';
     })
-    if(this.state.dataSource.length>1) {
+    if(newDataSource.length>1) {
       if(index == -1) {
         columns.push({
           title:'操作',
@@ -50,7 +33,7 @@ class BaseEditTable extends Component {
           render:(text,record,index)=> {
             return <span
                     className="brandColor handle-delete"
-                    onClick={()=>this.handleDelete(index)}>
+                    onClick={()=>handleDelete(index)}>
                       删除
                    </span>
           }
@@ -61,20 +44,13 @@ class BaseEditTable extends Component {
     }
     return columns;
   }
-  render() {
-    const { dataSource } =this.state;
-    const { btnText } =this.props;
-
-    return (
-      <Table
-        className="edit-table-component"
-        footer={()=><Qbtn type="default" onClick={this.handleAdd}>+{btnText}</Qbtn>}
-        bordered
-        pagination={false}
-        columns={this.initColumns()}
-        dataSource={dataSource}>
-      </Table>
-    )
-  }
+  return <Table
+          className="edit-table-component"
+          footer={()=><Qbtn type="default" onClick={()=>handleAdd()}>+{props.btnText}</Qbtn>}
+          bordered
+          pagination={false}
+          columns={initColumns()}
+          dataSource={newDataSource}/>
 }
+
 export default BaseEditTable;
