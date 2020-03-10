@@ -16,27 +16,27 @@ import {NET_REQUEST_SUCCESS_CODE} from "../../api/Req";
 export class BaseDataShowList extends React.Component {
     /**
      * 时间格式化字符串，年月日
-     * @type {string}
      */
     timeFormatYMDStr = "YYYY-MM-DD";
 
     /**
      * 时间格式化字符串，年月日时分秒
-     * @type {string}
      */
     timeFormatYMDHMSStr = "YYYY-MM-DD HH:mm:ss";
 
     /**
      * 数据列表操作时要读取的key值，为空时取inde值
-     * @type {string}
      */
     dataListOptionsKey = "";
 
     /**
      * 是否显示多选
-     * @type {boolean}
      */
     isShowTableRowSelection = false;
+    /**
+     * 是否在第一次渲染完成是请求数据
+     */
+    isComponentDidMountRequestData = false;
 
     /**
      * 表格展示字段
@@ -72,13 +72,9 @@ export class BaseDataShowList extends React.Component {
              */
             searchCriteriaList: {},
             /**
-             * 搜索条件默认起始时间
+             * 仅记录的搜索条件列表,仅记录使用，在搜索时候做合并使用，但是在其他接口中不做任何处理
              */
-            searchCriteriaDefaultStartTime: moment(new Date(new Date() - 2592000000)).format(this.timeFormatYMDStr),
-            /**
-             * 搜索条件默认结束时间
-             */
-            searchCriteriaDefaultEndTime: moment(new Date()).format(this.timeFormatYMDStr),
+            recordSearchCriteriaList: {},
             /**
              * 选中的数据key列表
              */
@@ -110,7 +106,9 @@ export class BaseDataShowList extends React.Component {
      * 第一次渲染之后调用数据
      */
     componentDidMount = () => {
-        this.searchDataList();
+        if (this.isComponentDidMountRequestData) {
+            this.searchDataList();
+        }
     };
 
     /**
@@ -152,7 +150,9 @@ export class BaseDataShowList extends React.Component {
      */
     searchDataList = (values) => {
         this.showLoading();
-        const params = {...this.state.searchCriteriaList, ...this.formatSearchCriteriaList(values)};
+        //先合并记录数据
+        let params = {...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList};
+        params = {...params, ...this.formatSearchCriteriaList(values)};
         this.getDataListRequest(params).then(res => {
             this.hideLoading();
             if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
@@ -193,6 +193,19 @@ export class BaseDataShowList extends React.Component {
             currentPage,
             everyPage
         });
+    };
+
+    /**
+     * 选择的时间改变
+     * @param values 改变值
+     * @param isDefaultInitFinish 默认值初始化完成
+     */
+    selectTimeChange = (values,isDefaultInitFinish) => {
+        const params = {...this.state.searchCriteriaList, ...values};
+        this.setState({recordSearchCriteriaList: params});
+        if(isDefaultInitFinish){
+            this.searchDataList(params)
+        }
     };
 
     /**

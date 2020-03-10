@@ -15,6 +15,7 @@ import {
     PRE_SELL_STATUS_YES
 } from "../../config";
 import {BaseFilter} from "common/index";
+import {FilterSearchRangeTime} from "common/QdisabledDateTime";
 
 const FormItem = Form.Item;
 const {Option} = Select;
@@ -22,15 +23,6 @@ const {RangePicker} = DatePicker;
 
 export default class SearchForm extends BaseFilter {
     formRef = React.createRef();
-
-    /**
-     * 第一次渲染之后调用数据
-     */
-    componentDidMount = () => {
-        this.formRef.current.setFieldsValue({
-            orderTimes: [moment(this.props.stime), moment(this.props.etime)]
-        })
-    };
 
     render() {
         return (
@@ -106,22 +98,17 @@ export default class SearchForm extends BaseFilter {
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
-                            <FormItem label="下单时间" name="orderTimes" rul {...this.formItemLayout}>
-                                <RangePicker
-                                    placeholder={this.placeholder}
-                                    format={this.formatType}
-                                    showTime
-                                />
-                            </FormItem>
+                            <FilterSearchRangeTime
+                                selectTimeChange={this.props.selectTimeChange}
+                                defaultValue={[moment(this.searchCriteriaDefaultStartTime), moment(this.searchCriteriaDefaultEndTime)]}
+                                startTimeName="stime" endTimeName="etime" label="下单时间"
+                                itemLayout={this.formItemLayout}/>
                         </Col>
                         <Col {...this.colspans}>
-                            <FormItem label="发货时间" name="times" rul {...this.formItemLayout}>
-                                <RangePicker
-                                    placeholder={this.placeholder}
-                                    format={this.formatType}
-                                    showTime
-                                />
-                            </FormItem>
+                            <FilterSearchRangeTime
+                                selectTimeChange={this.props.selectTimeChange}
+                                startTimeName="stime" endTimeName="etime" label="发货时间"
+                                itemLayout={this.formItemLayout}/>
                         </Col>
 
                     </Row>

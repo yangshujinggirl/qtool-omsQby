@@ -76,8 +76,10 @@ import PurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut' //采退
 import PurchaseOutDetail from "./OrderCenter/PurchaseOrder/PurchaseOut/PurchaseOutDetail";//采退订单详情
 import AddPurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut/AddPurchaseOut' //新增采退
 import ShopOrder from './OrderCenter/Border/ShopOrder' //门店订单
+import ShopOrderDetail from './OrderCenter/Border/ShopOrder/ShopOrderDetail' //门店订单详情
 import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //门店订单
 import ShopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退单
+import ShopReturnOrderDetail from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderDetail' //门店退单
 import ShopReturnAdd from './OrderCenter/Border/ShopReturnOrder/ShopReturnAdd' //门店退单
 
 /************************************  合作中心  ********************************************/
@@ -133,9 +135,11 @@ class HomeRoutes extends React.Component {
           <Route exact path='/account/purchaseRefundOrder' component={PurchaseOut}/>
           <Route exact path="/account/purchaseRefundOrderOutDetail/:id" component={PurchaseOutDetail}/>
           <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
-          <Route exact path='/account/shopOrder' component={ShopOrder}/>
+          <Route exact path='/account/channel_orders' component={ShopOrder}/>
+          <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
           <Route exact exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
-          <Route exact path='/account/shopReturn' component={ShopReturnOrder}/>
+          <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
+          <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
           <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 

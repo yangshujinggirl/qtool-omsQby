@@ -41,28 +41,6 @@ export default class PurchaseOutOrderList extends BaseDataShowList {
     }
 
     /**
-     * 格式化搜索条件并返回格式化后数据
-     * @param values 搜索数据
-     */
-    formatSearchCriteriaList(values) {
-        let {searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime} = this.state;
-        if (values != null && values.times != null) {
-            searchCriteriaDefaultStartTime = values.times[0].format(this.timeFormatYMDStr);
-            searchCriteriaDefaultEndTime = values.times[1].format(this.timeFormatYMDStr);
-            values.times = null
-        }
-        this.setState({
-            searchCriteriaDefaultStartTime, searchCriteriaDefaultEndTime,
-            searchCriteriaList: {
-                ...values,
-                stime: searchCriteriaDefaultStartTime,
-                etime: searchCriteriaDefaultEndTime
-            }
-        });
-        return this.state.searchCriteriaList;
-    }
-
-    /**
      * 获取数据列表请求，返回的为Promise<R>
      */
     getDataListRequest(params) {
@@ -74,9 +52,7 @@ export default class PurchaseOutOrderList extends BaseDataShowList {
      * @return {null}
      */
     getRenderFilterForm() {
-        return <FilterForm onSubmit={this.searchDataList}
-                           stime={this.state.searchCriteriaDefaultStartTime}
-                           etime={this.state.searchCriteriaDefaultEndTime}/>
+        return <FilterForm onSubmit={this.searchDataList} selectTimeChange={this.selectTimeChange}/>
     }
 
     /**
