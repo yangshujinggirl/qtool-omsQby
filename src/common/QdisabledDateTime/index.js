@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { DatePicker } from "antd";
+import {DatePicker, Form} from "antd";
 import { disabledDate, disabledRangeTime, disabledDateTime } from "utils/tools";
 const { RangePicker } = DatePicker;
+const FormItem = Form.Item;
 class DateTime extends Component {
   constructor(props) {
     super(props);
@@ -74,13 +75,11 @@ class FilterSearchRangeTime extends Component {
     };
 
     render() {
-        const show = [];
-        show.push(<FormItem label={this.props.label} {...this.props.itemLayout}>
+        return <FormItem label={this.props.label} {...this.props.itemLayout}>
             <RangePicker format="YYYY-MM-DD HH:mm:ss"
                          defaultValue={this.props.defaultValue != null ? this.props.defaultValue : []}
                          onChange={this.onChange}/>
-        </FormItem>);
-        return show;
+        </FormItem>;
     }
 }
 
