@@ -92,11 +92,13 @@ class Attributions extends React.Component {
           dataSource={atrLists}
         />
         <Qpagination data={this.props} onChange={this.changePage} />
-        <AddAtrModal
-          {...{ visible, attributeId, attributeName, attributeState }}
-          onOk={this.onOk}
-          onCancel={this.onCancel}
-        />
+        {visible && (
+          <AddAtrModal
+            {...{ visible, attributeId, attributeName, attributeState }}
+            onOk={this.onOk}
+            onCancel={this.onCancel}
+          />
+        )}
       </div>
     );
   }

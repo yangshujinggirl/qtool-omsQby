@@ -117,7 +117,7 @@ const AddPurchaseOut = props => {
   };
   //取消
   const goBack = () => {
-    this.props.history.push("/account/purchaseRefundOrder");
+    props.history.push("/account/purchaseRefundOrder");
   };
   /**
    *根据采购编码查询采购商品

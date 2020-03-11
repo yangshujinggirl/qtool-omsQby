@@ -33,7 +33,7 @@ const AddTimer = props => {
             taskDetails.map(item => (item.key = item.pdTaskTimeId));
           }
           setGoodList(goodList);
-          taskTime = moment(taskTime).format("YYYY-MM-DD HH:mm:ss");
+          taskTime = moment(taskTime)
           form.setFieldsValue({
             taskName,
             taskTime,

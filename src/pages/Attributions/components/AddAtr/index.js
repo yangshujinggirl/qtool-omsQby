@@ -1,91 +1,107 @@
-import { Component } from "react";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Modal, Input, Select, message } from "antd";
+import { useState, useEffect } from "react";
+import { Modal, Input, Select, message, Form } from "antd";
 import { AddAtrApi, UpdataAtrApi } from "api/home/Attributions";
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-class AddAtr extends Component {
-  constructor(props) {
-    super(props);
-  }
-  clearForm = () => {
-    this.props.form.resetFields();
+const AddAtr = props => {
+  const [form] = Form.useForm();
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  /**
+   * 初始化
+   */
+  useEffect(() => {
+    form.setFieldsValue(props);
+  }, []);
+  /**
+   * 清除表单
+   */
+  const clearForm = () => {
+    form.resetFields();
   };
-  onOk = deBounce(() => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        const { attributeId } = this.props;
-        if (attributeId) {//修改
-          UpdataAtrApi({ id: attributeId, ...values }).then(res => {
-            if (res.httpCode == 200) {
-              message.success("保存成功");
-              this.props.onOk(this.clearForm);
-            }
-          });
-        } else {//新增
-          AddAtrApi(values).then(res => {
-            if (res.httpCode == 200) {
-              message.success("保存成功");
-              this.props.onOk(this.clearForm);
-            }
-          });
-        }
-      }
-    });
-  },500);
-  onCancel = () => {
-    this.props.onCancel(this.clearForm);
+  /**
+   * 确认
+   */
+  const onOk = async () => {
+    const values = await form.validateFields();
+    setConfirmLoading(true);
+    const { attributeId } = props;
+    if (attributeId) {
+      //修改
+      UpdataAtrApi({ id: attributeId, ...values })
+        .then(res => {
+          if (res.httpCode == 200) {
+            message.success("保存成功", 0.8);
+            props.onOk(clearForm);
+          }
+          setConfirmLoading(false);
+        })
+        .catch(error => {
+          setConfirmLoading(false);
+        });
+    } else {
+      //新增
+      AddAtrApi(values)
+        .then(res => {
+          if (res.httpCode == 200) {
+            message.success("保存成功", 0.8);
+            props.onOk(clearForm);
+          }
+          setConfirmLoading(false);
+        })
+        .catch(error => {
+          setConfirmLoading(false);
+        });
+    }
   };
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    const { attributeId, visible, attributeName, attributeState } = this.props;
-    return (
-      <div>
-        <Modal
-          title={attributeId ? "编辑规格" : "新增规格"}
-          visible={visible}
-          onOk={this.onOk}
-          onCancel={this.onCancel}
-          okText="确定"
-          cancelText="取消"
-        >
-          <Form>
-            <FormItem
-              label="规格名称"
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 12 }}
+  /**
+   * 取消
+   */
+  const onCancel = () => {
+    props.onCancel(clearForm);
+  };
+  const { attributeId, visible } = props;
+  console.log(attributeId);
+  return (
+    <div>
+      <Modal
+        title={attributeId ? "编辑规格" : "新增规格"}
+        confirmLoading={confirmLoading}
+        visible={visible}
+        onOk={onOk}
+        onCancel={onCancel}
+        okText="确定"
+        cancelText="取消"
+      >
+        <Form form={form}>
+          <FormItem
+            label="规格名称"
+            name="attributeName"
+            rules={[{ required: true, message: "请输入规格名称" }]}
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 12 }}
+          >
+            <Input placeholder="请输入规格名称" autoComplete="off" />
+          </FormItem>
+          <FormItem
+            label="状态"
+            name="attributeState"
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 12 }}
+            rules={[{ required: true, message: "请选择状态" }]}
+          >
+            <Select
+              allowClear={true}
+              placeholder="请选择状态"
+              className="select"
             >
-              {getFieldDecorator("attributeName", {
-                rules: [{ required: true, message: "请输入规格名称" }],
-                initialValue: attributeName
-              })(<Input placeholder="请输入规格名称" autoComplete="off" />)}
-            </FormItem>
-            <FormItem
-              label="状态"
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 12 }}
-            >
-              {getFieldDecorator("attributeState", {
-                rules: [{ required: true, message: "请选择状态" }],
-                initialValue: attributeState
-              })(
-                <Select
-                  allowClear={true}
-                  placeholder="请选择状态"
-                  className="select"
-                >
-                  <Option value={0}>禁用</Option>
-                  <Option value={1}>启用</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Form>
-        </Modal>
-      </div>
-    );
-  }
-}
-const AddAtrs = Form.create({})(AddAtr);
-export default AddAtrs;
+              <Option value={0}>禁用</Option>
+              <Option value={1}>启用</Option>
+            </Select>
+          </FormItem>
+        </Form>
+      </Modal>
+    </div>
+  );
+};
+export default AddAtr;

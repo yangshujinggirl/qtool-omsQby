@@ -1,34 +1,13 @@
-import { useState } from "react";
 import { Upload, Button, Modal } from "antd";
 import Qtable from "common/Qtable/index"; //表单
 import "./index.less";
 
-/**
- *
- * @param
- * result: {
- *    list:[]
- *    message: null
- * }
- *
- */
 const UpLoadFile = props => {
-  const [visible, setVisible] = useState(false);
-  const [message, setMessage] = useState();
-  const [list, setList] = useState([]);
   const handleChange = info => {
     let file = info.file;
     if (file.status == "done") {
       if (file.response && file.response.httpCode == "200") {
         props.changeDataList(file.response.result)
-        const { list,message } = file.response.result; //后端数据格式需保持一致
-        // list.map((list,index)=>list.key = index)
-        // if(message){
-        //   setVisible(true)
-        // };
-        // setMessage(message);
-        // setList(list);
-        // props.changeDataList(list);
       }
     }
   };
@@ -41,6 +20,10 @@ const UpLoadFile = props => {
   if (data) {
     params = JSON.stringify(data);
   }
+  //modal消失
+  const onCancel=()=>{
+    setVisible(false)
+  }
   const Props = {
     accept: ".xlsx,.xls",
     name: "mfile",
@@ -49,10 +32,6 @@ const UpLoadFile = props => {
     data: { data: params },
     showUploadList: false
   };
-  //modal消失
-  const onCancel=()=>{
-    setVisible(false)
-  }
   return (
     <div>
       <div className="add_task_upload">
