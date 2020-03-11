@@ -64,13 +64,11 @@ export default class SearchForm extends BaseFilter {
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
-                            <FormItem label="下单时间" name="times"  {...this.formItemLayout}>
-                                <RangePicker
-                                    placeholder={this.placeholder}
-                                    format={this.formatType}
-                                    showTime
-                                />
-                            </FormItem>
+                            <FilterSearchRangeTime
+                                selectTimeChange={this.props.selectTimeChange}
+                                defaultValue={[moment(this.searchCriteriaDefaultStartTime), moment(this.searchCriteriaDefaultEndTime)]}
+                                startTimeName="stime" endTimeName="etime" label="下单时间"
+                                itemLayout={this.formItemLayout}/>
                         </Col>
                     </Row>
                 </Form>
