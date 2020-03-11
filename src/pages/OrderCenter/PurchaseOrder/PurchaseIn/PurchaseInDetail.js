@@ -5,7 +5,7 @@ import {
     GetPurchaseInOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import {Card, Col, Form, Row} from "antd";
-import {Qtable,QdetailBaseInfo} from "common/index";
+import {Qtable, QdetailBaseInfo} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "./column/OrderLogs";
 import {
@@ -41,7 +41,7 @@ const PurchaseInDetail = (props) => {
         const {id} = props.match.params;
         showLoading();
         //获取详情数据
-        new GetPurchaseInOrderDetailApi(id).then(res => {
+        new GetPurchaseInOrderDetailApi({stockingCode: id}).then(res => {
             if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
                 hideLoading();
                 //设置普通数据
