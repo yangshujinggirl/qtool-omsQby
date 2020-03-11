@@ -23,7 +23,7 @@ export default class DetailBaseInfo extends Component {
         for (let i = 0; i < length; i = i + 2) {
             let la = this.props.showData[i];
             let value = this.props.showData[i + 1];
-            show.push(<Col>
+            show.push(<Col key={la}>
                 <Form.Item
                     label={la}>{value}</Form.Item>
             </Col>)

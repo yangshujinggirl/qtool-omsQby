@@ -10,6 +10,7 @@ import {QdetailBaseInfo, Qtable} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "../PurchaseIn/column/OrderLogs";
 import ShippingInformationColumns from "./column/ShippingInformation";
+import TableDataListUtil from "utils/TableDataListUtil";
 
 /**
  * 功能作用：采退单详情数据
@@ -24,7 +25,7 @@ import ShippingInformationColumns from "./column/ShippingInformation";
 const PurchaseOutDetail = (props) => {
     const [orderLogs, setOrderLogs] = useState([]);
     const [outList, setOutList] = useState([]);
-    const [detailList, setDetailList] = useState({});
+    const [detailList, setDetailList] = useState([]);
     const [dataInfo, setDataInfo] = useState({});
     /**
      * 请求详情数据
@@ -39,16 +40,16 @@ const PurchaseOutDetail = (props) => {
                 //设置普通数据
                 setDataInfo(res.result);
                 //设置发货信息
-                setOutList(res.result.outList);
+                setOutList(TableDataListUtil.addKeyAndResultList(res.result.outList,null));
                 //设置采退商品信息
-                setDetailList(res.result.detailList);
+                setDetailList(TableDataListUtil.addKeyAndResultList(res.result.detailList,null));
             }
         });
         //获取操作日志
         new GetPurchaseOutOrderOptionsLogsApi(id).then(res => {
             hideLoading();
             if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                setOrderLogs(res.result);
+                setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result,null));
             }
         });
     }, []);

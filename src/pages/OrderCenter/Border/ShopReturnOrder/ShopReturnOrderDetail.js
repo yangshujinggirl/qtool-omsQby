@@ -20,23 +20,23 @@ const ShopReturnOrderDetail = (props) => {
     useEffect(() => {
         const {id} = props.match.params;
         showLoading();
-        //获取详情数据
-        new GetPurchaseInOrderDetailApi(id).then(res => {
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                hideLoading();
-                //设置普通数据
-                setDataInfo(res.result);
-                //设置商品列表数据
-                setGoodsList(res.result.data);
-            }
-        });
-        //获取操作日志
-        new GetPurchaseInOrderOptionsLogsApi(id).then(res => {
-            hideLoading();
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                setOrderLogs(res.result);
-            }
-        });
+        // //获取详情数据
+        // new GetPurchaseInOrderDetailApi(id).then(res => {
+        //     if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
+        //         hideLoading();
+        //         //设置普通数据
+        //         setDataInfo(res.result);
+        //         //设置商品列表数据
+        //         setGoodsList(res.result.data);
+        //     }
+        // });
+        // //获取操作日志
+        // new GetPurchaseInOrderOptionsLogsApi(id).then(res => {
+        //     hideLoading();
+        //     if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
+        //         setOrderLogs(res.result);
+        //     }
+        // });
     }, []);
     /**
      * 显示加载中

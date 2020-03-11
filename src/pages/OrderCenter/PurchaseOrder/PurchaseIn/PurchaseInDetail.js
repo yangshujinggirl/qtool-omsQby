@@ -19,6 +19,7 @@ import {
     LOGISTICS_EXPENSE_MODE_ZERO
 } from "./config";
 import moment from "moment";
+import TableDataListUtil from "utils/TableDataListUtil";
 
 /**
  * 功能作用：采购订单详情页面
@@ -47,14 +48,14 @@ const PurchaseInDetail = (props) => {
                 //设置普通数据
                 setDataInfo(res.result);
                 //设置商品列表数据
-                setGoodsList(res.result.data);
+                setGoodsList(TableDataListUtil.addKeyAndResultList(res.result.data));
             }
         });
         //获取操作日志
         new GetPurchaseInOrderOptionsLogsApi(id).then(res => {
             hideLoading();
             if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                setOrderLogs(res.result);
+                setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result));
             }
         });
     }, []);
