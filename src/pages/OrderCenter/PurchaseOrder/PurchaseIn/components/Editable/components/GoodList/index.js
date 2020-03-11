@@ -95,7 +95,7 @@ const EditTable = props => {
         dataIndex="procurementTarget"
         render={renderTarget}
       />
-      <Table.Column width={100} title="商品名称" dataIndex="productName" />
+      <Table.Column width={100} title="商品名称" dataIndex="itemName" />
       <Table.Column
         width={100}
         title="商品规格"

@@ -70,7 +70,6 @@ export default class SearchForm extends BaseFilter {
                                 startTimeName="stime" endTimeName="etime" label="下单时间"
                                 itemLayout={this.formItemLayout}/>
                         </Col>
-
                     </Row>
                 </Form>
                 <Col offset={21}>

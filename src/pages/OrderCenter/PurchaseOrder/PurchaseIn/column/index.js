@@ -49,7 +49,7 @@ const Columns = [
       <div>
         {record.status === AUDIT_STATUS_NO_PASS ? (
           <Link
-            to={`/account/add_purchasein/${record.id}`}
+            to={`/account/add_purchasein/${record.stockingCode}`}
             className="link-color action-left"
           >
             修改

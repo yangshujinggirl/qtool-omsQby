@@ -15,14 +15,14 @@ import "./index.less";
 const TextArea = Input.TextArea;
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 12 }
+  wrapperCol: { span: 20 }
 };
 
 const AddPurchaseOut = props => {
   const [form] = Form.useForm();
   const [storeList, setStoreList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(0.00);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [goodList, setGoodList] = useState([]);
   const [suppliersName, setSuppliersName] = useState("");
   useEffect(() => {
@@ -40,23 +40,28 @@ const AddPurchaseOut = props => {
         setLoading(false);
         if (res.httpCode == 200) {
           const { detailList, ...infos } = res.result;
-          let totalPrice = 0;
-          if (detailList.length > 0) {
-            detailList.map(item => {
-              item.key = item.id;
-              item.total = NP.times(Number(item.amount) * item.price).toFixed(
-                2
-              );
-              totalPrice += Number(item.total);
-            });
-          }
+          countPrice(detailList);
           form.setFieldsValue({ goodList: detailList, ...infos });
-          setGoodList(data);
-          setTotalPrice(totalPrice);
+          
         }
       });
     }
   };
+  /**
+   * 计算总价
+   */
+  const countPrice=(list)=>{
+    let totalPrice = 0;
+    if (list.length > 0) {
+      list.map(item => {
+        item.key = item.id;
+        item.total = (NP.times(Number(item.amount),Number(item.price))).toFixed(2)
+        totalPrice += Number(item.total);
+      });
+    }
+    setGoodList(list);
+    setTotalPrice(totalPrice);
+  }
   /**
    * 获取仓库列表
    */
@@ -81,37 +86,51 @@ const AddPurchaseOut = props => {
    */
   const handleSubmit = async () => {
     const values = await form.validateFields();
-    const { provinces, ..._values } = values;
+    const { provinces,goodList:data, ..._values } = values;
     if (provinces) {
       _values.province = provinces[0];
       _values.city = provinces[1];
       _values.area = provinces[2];
     }
-    _values.predictCtimeStr = moment(predictCtimeStr).format("YYYY-MM-DD");
-    _values.data = goodList;
-    _values.id = props.match.params.id;
-    console.log(_values);
-    // addPurchaseInApi(_values).then(res => {
-    //   if (res.httpCode == 200) {
-    //     goBack();
-    //   };
-    // });
+    if(props.match.params.id){
+      goodList.map(item=>{
+        data.map(subItem=>{
+          subItem.id = item.id;
+          subItem.thinkCode = item.thinkCode;
+          subItem.itemCode = item.itemCode;
+        })
+      });
+    }
+    goodList.map(item=>{
+      data.map(subItem=>{
+        subItem.thinkCode = item.thinkCode;
+        subItem.itemCode = item.itemCode;
+      })
+    });
+    _values.detailList = data;
+    _values.stockingReCode = props.match.params.id;
+    addPurchaseOutApi(_values).then(res => {
+      if (res.httpCode == 200) {
+        goBack();
+      };
+    });
   };
   //取消
   const goBack = () => {
-    this.props.history.push("/account/purchaseRefundOrder");
+    props.history.push("/account/purchaseRefundOrder");
   };
   /**
    *根据采购编码查询采购商品
    */
   const searchInfo = e => {
-    const value = e.target;
-    if (value) {
+    const { value } = e.target;
+    if (value.trim()) {
       getOrderInfoApi({ stockingCode: value.trim() }).then(res => {
-        if (res.code == 200) {
-          const { data, suppliersName } = res.result;
+        if (res.httpCode == 200) {
+          const { data, suppliersName,...infos } = res.result;
           setSuppliersName(suppliersName);
-          form.setFieldsValue({ goodList: data });
+          countPrice(data)
+          form.setFieldsValue({ goodList: data,infos });
         }
       });
     }
@@ -120,8 +139,8 @@ const AddPurchaseOut = props => {
    * 更改goodList
    */
   const changeDataSource = goodList => {
-    setGoodList(goodList);
-    const totalPrice = 0;
+    setGoodList([...goodList]);
+    let totalPrice = 0;
     goodList.map(item => {
       totalPrice += Number(item.total);
     });
@@ -130,7 +149,7 @@ const AddPurchaseOut = props => {
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_purchase">
-        <Form form={form} {...formItemLayout}>
+        <Form className='common-addEdit-form' form={form} {...formItemLayout}>
           <Form.Item className="item_required" label="采购单号">
             <Form.Item
               noStyle
@@ -141,6 +160,7 @@ const AddPurchaseOut = props => {
                 placeholder="请输入采购单号"
                 onBlur={searchInfo}
                 onPressEnter={searchInfo}
+                autoComplete='off'
               />
             </Form.Item>
             <span>{suppliersName}</span>
@@ -195,12 +215,15 @@ const AddPurchaseOut = props => {
               <Cascader
                 options={CascaderAddressOptions}
                 placeholder="请选择地区"
-                style={{ width: "200px" }}
               />
             </Form.Item>
-            <Form.Item name="address" noStyle rules={[{ required: true, message: "请输入详细地址" }]}>
+            <Form.Item
+              name="address"
+              noStyle
+              rules={[{ required: true, message: "请输入详细地址" }]}
+            >
               <Input
-                maxLength='50'
+                maxLength="50"
                 style={{ width: "300px" }}
                 placeholder="请输入详细地址"
                 autoComplete="off"
@@ -211,7 +234,7 @@ const AddPurchaseOut = props => {
             <TextArea rows={7} placeholder="请输入订单备注，100字以内" />
           </Form.Item>
         </Form>
-        <Form.Item wrapperCol={{offset:4}}>
+        <Form.Item wrapperCol={{ offset: 4 }}>
           <div>
             <Qbtn onClick={handleSubmit}>保存</Qbtn>
             <div className="return_price">
@@ -220,7 +243,7 @@ const AddPurchaseOut = props => {
                 <span className="return_price_color">{goodList.length}</span>，
               </span>
               <span>
-                共计：<span className="return_price_color">{totalPrice}</span>元
+                共计：<span className="return_price_color">{totalPrice.toFixed(2)}</span>元
               </span>
             </div>
           </div>

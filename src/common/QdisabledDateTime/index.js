@@ -61,15 +61,16 @@ class FilterSearchRangeTime extends Component {
     /**
      * 第一次渲染结束回调
      */
-    componentDidMount(){
+    componentDidMount() {
         //渲染结束，判断时间是否有默认，有默认则回调时间
-        if(this.props.defaultValue){
-            let endDate = this.props.defaultValue[1].format("YYYY-MM-DD HH:mm:ss");
-            let startDate = this.props.defaultValue[0].format("YYYY-MM-DD HH:mm:ss");
+        if (this.props.defaultValue) {
+            let defaultValue = this.props.defaultValue;
+            let endDate = defaultValue != null && defaultValue.length >= 2 ? defaultValue[1].format("YYYY-MM-DD HH:mm:ss") : null;
+            let startDate = defaultValue != null && defaultValue.length >= 1 ? defaultValue[0].format("YYYY-MM-DD HH:mm:ss") : null;
             const orderTimes = {};
             orderTimes[this.props.startTimeName] = startDate;
             orderTimes[this.props.endTimeName] = endDate;
-            this.props.selectTimeChange(orderTimes,true)
+            this.props.selectTimeChange(orderTimes, true)
         }
     }
 
@@ -79,12 +80,12 @@ class FilterSearchRangeTime extends Component {
      */
     onChange = (values) => {
         if (this.props != null && this.props.selectTimeChange != null) {
-            let endDate = values[1].format("YYYY-MM-DD HH:mm:ss");
-            let startDate = values[0].format("YYYY-MM-DD HH:mm:ss");
+            let endDate = values != null && values.length >= 2 ? values[1].format("YYYY-MM-DD HH:mm:ss") : null;
+            let startDate = values != null && values.length >= 1 ? values[0].format("YYYY-MM-DD HH:mm:ss") : null;
             const orderTimes = {};
             orderTimes[this.props.startTimeName] = startDate;
             orderTimes[this.props.endTimeName] = endDate;
-            this.props.selectTimeChange(orderTimes,false)
+            this.props.selectTimeChange(orderTimes, false)
         }
     };
 

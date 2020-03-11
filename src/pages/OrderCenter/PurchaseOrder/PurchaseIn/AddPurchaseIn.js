@@ -7,14 +7,13 @@ import {
   Select,
   Radio,
   Spin,
-  message,
+  message
 } from "antd";
 import {
-  addPurchaseInApi,
+  addPurchaseinApi,
   searchSupplierApi,
   searchStoreApi,
   searchPriceApi,
-  getPayTypeApi,
   GetPurchaseInOrderDetailApi
 } from "api/home/orderCenter/PurchaseOrder/PurchaseIn";
 import "./index.less";
@@ -32,16 +31,19 @@ const AddPurchaseIn = props => {
   const [form] = Form.useForm();
   const [storeList, setStoreList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [supplierCode, setSupplierCode] = useState("");
+  const [suppliersCode, setsuppliersCode] = useState("");
   const [goodList, setGoodList] = useState([{ itemCode: "", key: 0 }]);
   const [logisticsType, setLogisticsType] = useState(false); //物流费用
   const [supplierList, setSupplierList] = useState([]);
+  /**
+   * 页面初始化
+   */
   useEffect(() => {
     getStoreList();
     initPage();
   }, []);
   /**
-   * 初始化
+   *请求页面详情数据
    */
   const initPage = () => {
     const { id } = props.match.params;
@@ -50,27 +52,31 @@ const AddPurchaseIn = props => {
       GetPurchaseInOrderDetailApi({ stockingCode: id })
         .then(res => {
           setLoading(false);
-          if (res.httpCode == 200) {
-            const { data, ...infos } = res;
-            infos.predictCtimeStr = moment(infos.predictCtimeStr);
-            setLogisticsType(infos.logisticsType);
-            data.map(item => {
-              item.key = item.id;
-            });
-            setGoodList(data);
-            form.setFieldsValue({ ...infos, goodList: data });
-          }
+          getValueFormat(res);
         })
         .catch(err => {
           setLoading(false);
         });
     }
   };
+  const getValueFormat = res => {
+    if (res.httpCode == 200) {
+      const { data,suppliersCode, ...infos } = res.result;
+      infos.predictCtimeStr = moment(infos.predictCtimeStr);
+      setLogisticsType(infos.logisticsType);
+      data.map(item => {
+        item.key = item.id;
+      });
+      setGoodList(data);
+      setsuppliersCode(suppliersCode);
+      form.setFieldsValue({ ...infos, goodList: data });
+    }
+  };
   /**
    * 获取仓库列表
    */
   const getStoreList = () => {
-    searchStoreApi().then(res => {
+    searchStoreApi({ wname: 1 }).then(res => {
       if (res.httpCode == 200) {
         setStoreList(res.result);
       }
@@ -78,7 +84,7 @@ const AddPurchaseIn = props => {
   };
   /**
    * 根据名称搜索供应商
-   * @param {string} value 
+   * @param {string} value
    */
   const onSearch = value => {
     searchSupplierApi({ sname: value }).then(res => {
@@ -87,12 +93,12 @@ const AddPurchaseIn = props => {
   };
   /**
    * 根据供应商名称搜索账期
-   * @param {string} value 
-   * @param {Object} options 
+   * @param {string} value
+   * @param {Object} options
    */
   const onSelect = (value, options) => {
-    const { supplierCode, accountsType, accountsDay } = options.item;
-    setSupplierCode(supplierCode);
+    const { suppliersCode, accountsType, accountsDay } = options.item;
+    setsuppliersCode(suppliersCode);
     const str =
       accountsType == 1
         ? "现结"
@@ -103,7 +109,7 @@ const AddPurchaseIn = props => {
   };
   /**
    * 物流费用发生改变
-   * @param {*} e 
+   * @param {*} e
    */
   const onRadioChange = e => {
     setLogisticsType(e.target.value);
@@ -113,16 +119,36 @@ const AddPurchaseIn = props => {
    */
   const handleSubmit = async () => {
     const values = await form.validateFields();
-    const { predictCtimeStr, ..._values } = values;
-    _values.predictCtimeStr = moment(predictCtimeStr).format("YYYY-MM-DD");
-    _values.data = goodList;
-    _values.id = props.match.params.id;
+    const _values = formatValues(values);
     setLoading(true);
-    addPurchaseInApi(_values).then(res => {
-      if (res.httpCode == 200) {
-        goBack();
-      }
-    });
+    addPurchaseinApi(_values)
+      .then(res => {
+        setLoading(false);
+        if (res.httpCode == 200) {
+          goBack();
+        }
+      })
+      .catch(err => {
+        setLoading(false);
+      });
+  };
+  /**
+   * 数据处理
+   */
+  const formatValues = values => {
+    const { predictCtimeStr, goodList: data, ..._values } = values;
+    _values.predictCtimeStr = moment(predictCtimeStr).format("YYYY-MM-DD");
+    if(props.match.params.id){//修改
+      goodList.map(item => {
+        data.map(subItem => {
+          subItem.id = item.id;
+        });
+      });
+    };
+    _values.data = data;
+    _values.stockingCode = props.match.params.id;
+    _values.suppliersCode = suppliersCode;
+    return _values;
   };
   /**
    * 取消
@@ -132,16 +158,16 @@ const AddPurchaseIn = props => {
   };
   /**
    * 更改商品信息
-   * @param {[{}]} goodList 
+   * @param {[{}]} goodList
    */
   const changeDataSource = goodList => {
     setGoodList(goodList);
-    form.setFieldsValue({goodList});
+    form.setFieldsValue({ goodList });
   };
   /**
    * 根据sku搜索采购价
-   * @param {*} e 
-   * @param {*} record 
+   * @param {*} e
+   * @param {*} record
    */
   const getPrice = (e, record) => {
     if (e.target.value) {
@@ -153,15 +179,11 @@ const AddPurchaseIn = props => {
           const itemIndex = newData.findIndex(item => item.key == record.key);
           newData.splice(itemIndex, 1, obj);
           setGoodList(newData);
-          console.log(newData);
           form.setFieldsValue({ goodList: newData });
-          return;
         }
       });
     }
   };
-  console.log(goodList);
-  console.log(form.getFieldsValue());
   const radioStyle = {
     display: "block",
     height: "30px",
@@ -170,7 +192,7 @@ const AddPurchaseIn = props => {
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_supplier_info">
-        <Form form={form} {...formItemLayout}>
+        <Form className='common-addEdit-form' form={form} {...formItemLayout}>
           <Form.Item
             name="suppliersName"
             label="供应商名称"
@@ -239,18 +261,19 @@ const AddPurchaseIn = props => {
               </Radio.Group>
             </Form.Item>
             {logisticsType == 2 && (
+              <div style={{display:'inline-block'}}>
               <Form.Item
                 name="postage"
                 noStyle
                 rules={[
                   {
                     required: true,
-                    message: "请选择物流费用"
+                    message: "请填写物流费用"
                   },
-                  {
-                    pattern: /^[0-9]*$/,
-                    message: "请输入数字"
-                  }
+                  // {
+                  //   pattern: /^[0-9]*$/,
+                  //   message: "请输入数字"
+                  // }
                 ]}
               >
                 <Input
@@ -258,8 +281,7 @@ const AddPurchaseIn = props => {
                   placeholder="到付金额"
                   autoComplete="off"
                 />
-                元
-              </Form.Item>
+              </Form.Item>元</div>
             )}
           </Form.Item>
           <Form.Item label="账期类型" name="paymentMode">

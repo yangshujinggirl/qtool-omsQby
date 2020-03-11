@@ -13,8 +13,8 @@ import moment from "moment";
  */
 const ShippingInformationColumns = [
     {title: "物流/快递单号", dataIndex: "trackingNumber", key: "1"},
-    {title: "物流/快递公司", dataIndex: "carrier", key: "3"},
-    {title: "运费", dataIndex: "freightPrice", key: "4"},
-    {title: "状态 ", dataIndex: "status", key: "5"},
+    {title: "物流/快递公司", dataIndex: "carrier", key: "2"},
+    {title: "运费", dataIndex: "freightPrice", key: "3"},
+    {title: "状态 ", dataIndex: "status", key: "4"},
 ];
 export default ShippingInformationColumns;

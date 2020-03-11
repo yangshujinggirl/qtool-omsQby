@@ -5,7 +5,7 @@ import {
     GetPurchaseInOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import {Card, Col, Form, Row} from "antd";
-import {Qtable,QdetailBaseInfo} from "common/index";
+import {Qtable, QdetailBaseInfo} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "./column/OrderLogs";
 import {
@@ -19,6 +19,7 @@ import {
     LOGISTICS_EXPENSE_MODE_ZERO
 } from "./config";
 import moment from "moment";
+import TableDataListUtil from "utils/TableDataListUtil";
 
 /**
  * 功能作用：采购订单详情页面
@@ -41,20 +42,20 @@ const PurchaseInDetail = (props) => {
         const {id} = props.match.params;
         showLoading();
         //获取详情数据
-        new GetPurchaseInOrderDetailApi(id).then(res => {
+        new GetPurchaseInOrderDetailApi({stockingCode: id}).then(res => {
             if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
                 hideLoading();
                 //设置普通数据
                 setDataInfo(res.result);
                 //设置商品列表数据
-                setGoodsList(res.result.data);
+                setGoodsList(TableDataListUtil.addKeyAndResultList(res.result.data));
             }
         });
         //获取操作日志
         new GetPurchaseInOrderOptionsLogsApi(id).then(res => {
             hideLoading();
             if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                setOrderLogs(res.result);
+                setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result));
             }
         });
     }, []);
