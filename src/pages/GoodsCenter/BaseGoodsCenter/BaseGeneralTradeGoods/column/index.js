@@ -1,6 +1,7 @@
 import moment from "moment";
 import { Input,Form,Select } from 'antd';
-import { QupLoadImgLimt } from 'common';
+// import { QupLoadImgLimt } from 'common';
+import QupLoadImgLimt from '../components/QupLoadImgLimt';
 
 import { Link } from 'react-router-dom';
 let FormItem = Form.Item;
@@ -216,7 +217,8 @@ const columnsAdd=()=> {
       }
     }]
 }
-const columnsEditImg=[{
+const columnsEditImg=(upDateSkuList)=>{
+  return [{
     title: "sku编码",
     dataIndex: "skuCode",
     width: 100,
@@ -240,12 +242,20 @@ const columnsEditImg=[{
     textWrap: 'word-break',
     width: 100,
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'skuImg']}>
-                <QupLoadImgLimt
-                  fileList={[record.skuImg?record.skuImg:'']}/>
-              </Form.Item>
+      // return  <Form.Item name={['list',index,'skuImg']}>
+      // return <QupLoadImgUrl
+      //         upDateFile={(fileList)=>upDateSkuList(fileList,index)}
+      //         imageUrl={record.skuImg}/>
+              // </Form.Item>
+              let fileList = record.skuImg?record.skuImg:[];
+      return  <QupLoadImgLimt
+                rules={[{ required: true, message: '请上传图片' } ]}
+                name={['skuImgList',index,'skuImg']}
+                fileList={fileList}
+                limit="1"
+                upDateList={(fileList)=>upDateSkuList(fileList,index)}/>
     }
-  }]
+  }]}
 const columnsinfo=[
   {
       title: "sku编码",
