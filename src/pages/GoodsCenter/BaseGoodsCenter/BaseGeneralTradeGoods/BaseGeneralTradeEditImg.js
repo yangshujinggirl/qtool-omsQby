@@ -4,14 +4,13 @@ import {
   Checkbox,Button,Radio,
   AutoComplete,Descriptions,Form
 } from 'antd';
-// import { DownOutlined,UpOutlined, CloseOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import { GetImgInfoApi, GetEditImgApi } from 'api/home/BaseGoods';
-import { Qtable, Qbtn } from 'common';
+import { Qmessage, Qtable, Qbtn } from 'common';
 import ImageTextEdit from './components/ImageTextEdit';
 import QupLoadImgLimt from './components/QupLoadImgLimt';
 
-import { columnsEditImg } from './column';
+import { ColumnsEditImg } from './column';
 import './BaseGeneralTradeEditImg.less';
 
 let FormItem = Form.Item;
@@ -57,6 +56,7 @@ function EditImg({...props}) {
               uid: index,
               name: 'image.png',
               status: 'done',
+              path:el,
               url:`${fileDomain}${el}`
             }
         return item;
@@ -66,6 +66,7 @@ function EditImg({...props}) {
               uid: index,
               name: 'image.png',
               status: 'done',
+              path:el.skuImg,
               url:`${fileDomain}${el.skuImg}`
             }
         el.skuImg = el.skuImg?[item]:[];
@@ -78,6 +79,7 @@ function EditImg({...props}) {
                 uid: index,
                 name: 'image.png',
                 status: 'done',
+                path:el.content,
                 url:`${fileDomain}${el.content}`
               }
           el.content = el.content?[item]:[];
@@ -91,12 +93,16 @@ function EditImg({...props}) {
     })
   }
   const goReturn=()=> {
-
+    props.history.push('/account/items_list')
   }
   const formatList=(arr)=> {
     arr = arr.map((el,index) => {
-      if(el.response.httpCode=='200') {
-        return el.response.result;
+      if(el.status=='done') {
+        if(el.response&&el.response.httpCode=='200') {
+          return el.response.result;
+        } else {
+          return el.path;
+        }
       }
     })
     return arr;
@@ -108,9 +114,10 @@ function EditImg({...props}) {
       spuImgList = formatList(spuImgList);
       skuImgList = skuImgList.map((el,index) => {
         el.skuImg = formatList(el.skuImg);
+        el.skuImg = el.skuImg[0];
         skuList.map((item,idx)=> {
           if(index==idx) {
-            el = {...item,...el }
+            el = {skuCode:item.skuCode,...el }
           }
         })
         return el;
@@ -119,30 +126,23 @@ function EditImg({...props}) {
         detailImg.map((item,idx)=> {
           if(index==idx) {
             el.type = item.type;
-            el.content = el.type==2&&formatList(el.content);
+            if(el.type==2) {
+              el.content = formatList(el.content);
+              el.content = el.content[0];
+            }
           }
         })
         return el;
       })
-      console.log(values)
+      let params={ spuCode, spuImgList, skuImgList, productDetailImgList}
+      GetEditImgApi(params)
+      .then((res)=> {
+        Qmessage.success('保存成功');
+        goReturn()
+      })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
-    // let spuImgList=fileList.map((el)=> {
-    //   if(el.response.httpCode=='200') {
-    //     return el.response.result;
-    //   }
-    // })
-    // let params={
-    //   spuCode,
-    //   spuImgList,
-    //   skuImgList:skuList,
-    //   productDetailImgList:detailImg
-    // }
-    // GetEditImgApi(params)
-    // .then((res)=> {
-    //   console.log(res);
-    // })
   }
   const upDateSkuList=(imageUrl,index)=> {
     skuList[index] = {...skuList[index],skuImg:imageUrl };
@@ -150,17 +150,18 @@ function EditImg({...props}) {
     setSkuList(skuList);
   }
   const upDateDetailImg=(list)=> {
-    setDetailImg(list)
+    setDetailImg(list);
+    form.setFieldsValue({productDetailImgList:list})
   }
   const upDateGoodsList=(list)=> {
     setFileList(list);
   }
 
   useEffect(()=>{ getInfo()},[])
-  useEffect(()=>{ form.setFieldsValue(spuImgList) },[fileList])
+  useEffect(()=>{ form.setFieldsValue({spuImgList:fileList}) },[fileList])
   useEffect(()=>{ form.setFieldsValue({skuImgList:skuList}) },[skuList])
-  useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg])
-  console.log(skuList)
+  useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg]);
+
   return <Spin tip="加载中..." spinning={false}>
     <div className="oms-common-addEdit-pages baseGeneralTrade-editImg-pages">
       <Form {...formItemLayout} form={form}>
@@ -180,7 +181,7 @@ function EditImg({...props}) {
         <Form.Item label="SKU图片">
           <Qtable
             dataSource={skuList}
-            columns={columnsEditImg(upDateSkuList)}/>
+            columns={ColumnsEditImg(upDateSkuList)}/>
         </Form.Item>
         <Form.Item label="商品详情" {...formItemLayoutBig}>
           <ImageTextEdit detailImg={detailImg} upDateList={upDateDetailImg}/>

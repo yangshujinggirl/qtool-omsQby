@@ -39,17 +39,6 @@ const ImageTextEdit=({...props})=> {
     newArray.splice(hoverIndex,0,item);
     upDateList(newArray);
   }
-  const beforeUpload=(file)=> {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-  }
   const handleChange = (e,index) => {
     let value = e.target.value;
     newArray[index] = {...newArray[index],content: value };
@@ -72,36 +61,29 @@ const ImageTextEdit=({...props})=> {
             <p className="tit-par">预览区</p>
             <div className="content-par">
               {
-                newArray.map((el,idx) => {
-                  return el.type==1?
-                  <div className="par-item text-item" key={idx}>
-                    <div className="wrap-item">
-                      <Form.Item name={['productDetailImgList',idx,'content']} rules={[{ required: true, message: '请输入文本' } ]}>
-                        <Input.TextArea/>
-                      </Form.Item>
-                      <div className="btns-action">
-                        <span className="icon-wrap" onClick={()=>handleDown(idx)}><DownOutlined /></span>
-                        <span className="icon-wrap" onClick={()=>handleUp(idx)}><UpOutlined /></span>
-                        <span className="icon-wrap" onClick={()=>handleDelete(idx)}><CloseOutlined /></span>
-                      </div>
-                    </div>
-                  </div>
-                  :
-                  <div className="par-item img-item" key={idx}>
-                    <div className="wrap-item">
-                    <QupLoadImgLimt
-                      name={['productDetailImgList',idx,'content']}
-                      fileList={el.content}
-                      limit="1"
-                      upDateList={(fileList)=>handleChangeFile(fileList,idx)}
-                      rules={[{ required: true, message: '请上传图片' } ]}/>
-                    <div className="btns-action">
-                      <span className="icon-wrap" onClick={()=>handleDown(idx)}><DownOutlined /></span>
-                      <span className="icon-wrap" onClick={()=>handleUp(idx)}><UpOutlined /></span>
-                      <span className="icon-wrap" onClick={()=>handleDelete(idx)}><CloseOutlined /></span>
-                    </div>
-                    </div>
-                  </div>
+                newArray.length>0&&newArray.map((el,idx) => {
+                  return <div className="par-item text-item" key={idx}>
+                          <div className="wrap-item">
+                            {
+                              el.type==1?
+                              <Form.Item name={['productDetailImgList',idx,'content']} rules={[{ required: true, message: '请输入文本' } ]}>
+                                <Input.TextArea/>
+                              </Form.Item>
+                              :
+                              <QupLoadImgLimt
+                                name={['productDetailImgList',idx,'content']}
+                                fileList={el.content}
+                                limit="1"
+                                upDateList={(fileList)=>handleChangeFile(fileList,idx)}
+                                rules={[{ required: true, message: '请上传图片' } ]}/>
+                            }
+                            <div className="btns-action">
+                              <span className="icon-wrap" onClick={()=>handleDown(idx)}><DownOutlined /></span>
+                              <span className="icon-wrap" onClick={()=>handleUp(idx)}><UpOutlined /></span>
+                              <span className="icon-wrap" onClick={()=>handleDelete(idx)}><CloseOutlined /></span>
+                            </div>
+                          </div>
+                        </div>
                 })
               }
             </div>

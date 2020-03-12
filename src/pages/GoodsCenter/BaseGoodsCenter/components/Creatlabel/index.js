@@ -23,16 +23,14 @@ class Creatlabel extends Component {
   handleClose = (removedTag) => {
     const judgeTags = this.state.judgeTags.filter(judgeTags => judgeTags !== removedTag.name);
     this.setState({ judgeTags });
-    this.props.deleteGoodsLabel&&this.props.deleteGoodsLabel(removedTag,this.props.level);
+    this.props.deleteGoodsLabel&&this.props.deleteGoodsLabel(removedTag,judgeTags,this.props.level);
   }
   //新建
   handleInputConfirm = (e) => {
     const { inputValue } = this.state;
     let { judgeTags } = this.state;
     if(inputValue == '') {
-      this.setState({
-        inputVisible:false
-      })
+      this.setState({ inputVisible:false })
       return
     }
     if (inputValue && judgeTags.indexOf(inputValue) === -1) {
@@ -41,11 +39,7 @@ class Creatlabel extends Component {
       message.error('此属性已存在',3);
       return
     }
-    this.setState({
-      judgeTags,
-      inputVisible: false,
-      inputValue: '',
-    });
+    this.setState({ judgeTags, inputVisible: false, inputValue: '' });
   }
   isHasTag=(values)=> {
     let tags;

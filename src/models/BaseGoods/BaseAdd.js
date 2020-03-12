@@ -6,27 +6,20 @@ import {
 } from "../../api/home/BaseGoods";
 
 //属性--商品
-function* getSpec(action){
+function* getSpec({payload:{ specData }}){
   yield put({
     type: 'BASEGOODSADD_SPEC',
-    payload: action.payload
+    payload: { specData }
   })
 }
 //列表--商品
-function* getListState(action){
-  let oldState = yield select(state => state.BaseGoodsAddReducers);
+function* getListState({payload:{ goodsList }}){
   yield put({
     type: 'BASEGOODSADD_GOODSLIST',
-    payload: {...oldState,...action.payload}
+    payload: { goodsList }
   })
 }
-// //图片
-// function* getFileListState(action){
-//   yield put({
-//     type: 'BASEGOODSADD_FILELIST',
-//     payload: {fileList:action.payload}
-//   })
-// }
+
 //详情
 function* getTotalState(action){
   let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
@@ -36,13 +29,13 @@ function* getTotalState(action){
     payload: {totalData}
   })
 }
+//fetch 详情
 function* fetchTotal(action){
   let params = action.payload;
   const res = yield call(GetEditInfoApi,params);
   let { result } =res;
   let { categoryDetail, attrList, list, ...pdSpu } =result;
   pdSpu={ ...pdSpu, ...categoryDetail };
-  let specData ={ specOne:[], specTwo:[] };
   if(attrList) {
     attrList.map((el) =>{
       el.attributeValueList = el.attributeValueList&&el.attributeValueList.map((item,index)=>{
@@ -53,11 +46,11 @@ function* fetchTotal(action){
         return stem;
       })
     })
-    specData.specOne = attrList[0].attributeValueList
-    specData.specTwo = attrList[1]?attrList[1].attributeValueList:[]
+    let specOne = attrList[0].attributeValueList
+    let specTwo = attrList[1]?attrList[1].attributeValueList:[];
     pdSpu.pdType1Id = attrList[0].attributeName;
     pdSpu.pdType2Id = attrList[1]?attrList[1].attributeName:'';
-    yield call(getSpec,{payload:{specData}})
+    yield call(getSpec,{payload:{specData:{ specOne, specTwo }}})
   }
   list&&list.map((el)=>el.key=el.skuCode)
   yield call(getTotalState,{payload:pdSpu})
@@ -222,6 +215,7 @@ function* resetPages(action){
 export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchTotal', fetchTotal)
   yield takeEvery('baseGoodsAdd/getTotalState', getTotalState)
+  yield takeEvery('baseGoodsAdd/getListState', getListState)
   yield takeEvery('baseGoodsAdd/fetchCategory', fetchCategory)
   // yield takeEvery('baseGoodsAdd/fetchSupplier', fetchSupplier)
   // yield takeEvery('baseGoodsAdd/fetchbrandList', fetchbrandList)

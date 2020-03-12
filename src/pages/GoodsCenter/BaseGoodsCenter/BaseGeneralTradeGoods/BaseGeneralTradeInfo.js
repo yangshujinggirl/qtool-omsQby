@@ -12,7 +12,7 @@ import {
   AutoComplete,
   Descriptions,
 } from 'antd';
-import { columnsinfo } from './column';
+import { ColumnsInfo } from './column';
 import { Qtable, Qbtn } from 'common';
 import { GetEditInfoApi } from 'api/home/BaseGoods';
 
@@ -156,7 +156,7 @@ class GoodsInfo extends React.Component {
               <Qtable
                 scroll={{x:'100%'}}
                 dataSource={goodsList}
-                columns={columnsinfo}/>
+                columns={ColumnsInfo}/>
             </div>
             <div className="handle-operate-save-action">
               <Qbtn onClick={this.goReturn}>

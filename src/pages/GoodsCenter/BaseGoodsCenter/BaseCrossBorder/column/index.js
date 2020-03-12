@@ -13,6 +13,13 @@ const Columns = [
   {
     title: "商品名称",
     dataIndex: "productName",
+    render:(text,record,index)=> {
+      return <Link
+              className="link-color action-left"
+              to={`/account/baseGoodsInfo/${record.spuCode}`}>
+              {record.productName}
+            </Link>
+    }
   },
   {
     title: "商品品牌",
@@ -47,16 +54,16 @@ const Columns = [
     title: "操作",
     render: (text,record,index) => (
       <div>
-        <Link
-          className="link-color action-left"
-          to={`/account/baseGoodsInfo/${record.spuCode}`}>
-          查看
-        </Link>
-        <Link
-          className="link-color"
-          to={`/account/baseGoodsAdd/${record.spuCode}`}>
-          编辑
-        </Link>
+      <Link
+        className="link-color"
+        to={`/account/baseGoodsAdd/2/${record.spuCode}`}>
+        编辑商品
+      </Link>
+      <Link
+        className="link-color"
+        to={`/account/baseGoodsEditImg/${record.spuCode}`}>
+        编辑图文
+      </Link>
       </div>
     )
   }

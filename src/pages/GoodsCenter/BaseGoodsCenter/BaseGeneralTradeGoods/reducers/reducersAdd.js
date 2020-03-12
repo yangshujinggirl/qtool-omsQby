@@ -1,8 +1,9 @@
 const index = (state = {
   loading: false,
   brandDataSource:[],
-  totalData:{},
+  totalData:{isSave:true},
   supplierList:[],
+  allGoods:[],
   goodsList:[{key:'00'}],//商品数据
   attributeArray:[],//规格列表
   // sizeIdList:{//商品规格id
