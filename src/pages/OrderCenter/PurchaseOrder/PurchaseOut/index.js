@@ -85,9 +85,7 @@ const PurchaseOutOrderList = DataShowList((_this) => {
                     onChange={_this.changePage}/>
             </div>
         );
-    }, (params) => {
-        return GetPurchaseOutOrderListApi(params);
-    },
+    }, GetPurchaseOutOrderListApi,
     false, "stockingCode", null,
     null, null);
 export default PurchaseOutOrderList;
