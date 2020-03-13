@@ -55,9 +55,12 @@ export function GetSupplierApi(values){
     return omsAjax.get('/supplier/supplierNames')
 }
 /**
- * 货主
+ * 图文信息
  * @param {*} values
  */
 export function GetImgInfoApi(values){
     return omsAjax.get('/items/viewProductImageText',{params:{...values}})
+}
+export function GetEditImgApi(values){
+    return omsAjax.post('/items/saveProductImageText',{...values})
 }

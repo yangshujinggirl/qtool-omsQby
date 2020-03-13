@@ -4,12 +4,13 @@ import {
   Checkbox,Button,Radio,
   AutoComplete,Descriptions,Form
 } from 'antd';
-import { DownOutlined,UpOutlined, CloseOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
-import { GetImgInfoApi } from 'api/home/BaseGoods';
-import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
+import { GetImgInfoApi, GetEditImgApi } from 'api/home/BaseGoods';
+import { Qmessage, Qtable, Qbtn } from 'common';
+import ImageTextEdit from './components/ImageTextEdit';
+import QupLoadImgLimt from './components/QupLoadImgLimt';
 
-import { columnsEditImg } from './column';
+import { ColumnsEditImg } from './column';
 import './BaseGeneralTradeEditImg.less';
 
 let FormItem = Form.Item;
@@ -34,6 +35,7 @@ const formItemLayoutBig = {
         sm: { span: 20 },
       },
     };
+
 function EditImg({...props}) {
   const [form] = Form.useForm();
   let [totalData, setTotal] = useState({});
@@ -41,14 +43,49 @@ function EditImg({...props}) {
   let [skuList, setSkuList] = useState([]);
   let [detailImg, setDetailImg] = useState([]);
   let spuCode = props.match.params.id;
+  let fileDomain="https://qtltestfiles.oss-cn-shanghai.aliyuncs.com/";
   const getInfo=()=> {
     GetImgInfoApi({spuCode})
     .then((res) => {
       let { spuImgList, productDetailImgList, skuList,...pdSpu } =res.result;
       spuImgList =spuImgList?spuImgList:[]
-      productDetailImgList =productDetailImgList?productDetailImgList:[]
-      skuList =skuList?skuList:[]
-
+      productDetailImgList =productDetailImgList?productDetailImgList:[{key:0,type:2}]
+      skuList =skuList?skuList:[];
+      spuImgList = spuImgList.map((el,index)=> {
+        let item = {
+              uid: index,
+              name: 'image.png',
+              status: 'done',
+              path:el,
+              url:`${fileDomain}${el}`
+            }
+        return item;
+      })
+      skuList = skuList.map((el,index)=> {
+        let item = {
+              uid: index,
+              name: 'image.png',
+              status: 'done',
+              path:el.skuImg,
+              url:`${fileDomain}${el.skuImg}`
+            }
+        el.skuImg = el.skuImg?[item]:[];
+        el.key = index;
+        return el;
+      })
+      productDetailImgList = productDetailImgList.map((el,index)=> {
+        if(el.type==2) {
+          let item = {
+                uid: index,
+                name: 'image.png',
+                status: 'done',
+                path:el.content,
+                url:`${fileDomain}${el.content}`
+              }
+          el.content = el.content?[item]:[];
+        }
+        return el;
+      })
       setTotal(pdSpu);
       setFileList(spuImgList);
       setSkuList(skuList);
@@ -56,15 +93,74 @@ function EditImg({...props}) {
     })
   }
   const goReturn=()=> {
+    props.history.push('/account/items_list')
+  }
+  const formatList=(arr)=> {
+    arr = arr.map((el,index) => {
+      if(el.status=='done') {
+        if(el.response&&el.response.httpCode=='200') {
+          return el.response.result;
+        } else {
+          return el.path;
+        }
+      }
+    })
+    return arr;
+  }
+  const onSubmit=async()=> {
+    try {
+      const values = await form.validateFields();
+      let { spuImgList, skuImgList, productDetailImgList } =values;
+      spuImgList = formatList(spuImgList);
+      skuImgList = skuImgList.map((el,index) => {
+        el.skuImg = formatList(el.skuImg);
+        el.skuImg = el.skuImg[0];
+        skuList.map((item,idx)=> {
+          if(index==idx) {
+            el = {skuCode:item.skuCode,...el }
+          }
+        })
+        return el;
+      })
+      productDetailImgList = productDetailImgList.map((el,index) => {
+        detailImg.map((item,idx)=> {
+          if(index==idx) {
+            el.type = item.type;
+            if(el.type==2) {
+              el.content = formatList(el.content);
+              el.content = el.content[0];
+            }
+          }
+        })
+        return el;
+      })
+      let params={ spuCode, spuImgList, skuImgList, productDetailImgList}
+      GetEditImgApi(params)
+      .then((res)=> {
+        Qmessage.success('保存成功');
+        goReturn()
+      })
+    } catch (errorInfo) {
+      console.log('Failed:', errorInfo);
+    }
+  }
+  const upDateSkuList=(imageUrl,index)=> {
+    skuList[index] = {...skuList[index],skuImg:imageUrl };
+    skuList=[...skuList];
+    setSkuList(skuList);
+  }
+  const upDateDetailImg=(list)=> {
+    setDetailImg(list);
+    form.setFieldsValue({productDetailImgList:list})
+  }
+  const upDateGoodsList=(list)=> {
+    setFileList(list);
+  }
 
-  }
-  const onSubmit=()=> {
-
-  }
-  const upDateList=(list)=> {
-    console.log(list)
-  }
   useEffect(()=>{ getInfo()},[])
+  useEffect(()=>{ form.setFieldsValue({spuImgList:fileList}) },[fileList])
+  useEffect(()=>{ form.setFieldsValue({skuImgList:skuList}) },[skuList])
+  useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg]);
 
   return <Spin tip="加载中..." spinning={false}>
     <div className="oms-common-addEdit-pages baseGeneralTrade-editImg-pages">
@@ -75,57 +171,20 @@ function EditImg({...props}) {
         <Form.Item label="商品名称">
           {totalData.productName}
         </Form.Item>
-        <Form.Item label='商品图片'>
-          {totalData.brandAddress}
-          <QupLoadImgLimt
-            fileList={fileList}
-            limit="5"
-            upDateList={upDateList}/>
-        </Form.Item>
+        <QupLoadImgLimt
+          label="商品图片"
+          rules={[{ required: true, message: '请上传图片' } ]}
+          name="spuImgList"
+          fileList={fileList}
+          limit="5"
+          upDateList={upDateGoodsList}/>
         <Form.Item label="SKU图片">
           <Qtable
             dataSource={skuList}
-            columns={columnsEditImg}/>
+            columns={ColumnsEditImg(upDateSkuList)}/>
         </Form.Item>
         <Form.Item label="商品详情" {...formItemLayoutBig}>
-          <div className="function-are">
-            <div className="left-are">
-              <p className="tit-par">功能组件</p>
-              <div className="content-par">
-                <p className="fuc-btn">新增图片</p>
-                <p className="fuc-btn">新增文本</p>
-              </div>
-            </div>
-            <div className="middle-are">
-              <p className="tit-par">预览区</p>
-              <div className="content-par">
-                <div className="par-item img-item">
-                  <div className="wrap-item">
-                    <QupLoadImgLimt fileList={[]}/>
-                    <div className="btns-action">
-                      <span className="icon-wrap"><DownOutlined /></span>
-                      <span className="icon-wrap"><UpOutlined /></span>
-                      <span className="icon-wrap"><CloseOutlined /></span>
-                    </div>
-                  </div>
-                </div>
-                <div className="par-item text-item">
-                  <div className="wrap-item">
-                    <Input.TextArea />
-                    <div className="btns-action">
-                      <span className="icon-wrap"><DownOutlined /></span>
-                      <span className="icon-wrap"><UpOutlined /></span>
-                      <span className="icon-wrap"><CloseOutlined /></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/*<div className="right-are">
-              <p className="tit-par">配置编辑区</p>
-              <p className="content-par">功能组件</p>
-            </div>*/}
-          </div>
+          <ImageTextEdit detailImg={detailImg} upDateList={upDateDetailImg}/>
         </Form.Item>
         <div className="handle-operate-save-action">
           <Qbtn onClick={goReturn}>

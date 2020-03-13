@@ -111,7 +111,7 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/category" component={Classify}/>
           <Route exact path="/account/standards" component={Attributions}/>
           <Route exact path="/account/items_list" component={BaseGoods}/>
-          <Route exact path="/account/baseGoodsAdd/:id?" component={BaseGoodsAdd}/>
+          <Route exact path="/account/baseGoodsAdd/:type/:id?" component={BaseGoodsAdd}/>
           <Route exact path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
           <Route exact path="/account/baseGoodsEditImg/:id?" component={BaseGeneralTradeEditImg}/>
           <Route exact path='/account/items_examine' component={GoodsAudit}/>

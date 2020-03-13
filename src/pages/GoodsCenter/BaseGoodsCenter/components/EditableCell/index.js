@@ -22,15 +22,8 @@ class EditableCell extends Component {
         this.setPdSkusData()
     });
   }
-  setPdSkusData() {
-    let { goodsList }=this.props.BaseGoodsAddReducers;
-    for(var i=0;i<goodsList.length;i++){
-        goodsList[i][this.props.title]=this.state.value
-    }
-    this.props.dispatch({
-      type:'baseGoodsAdd/getListState',
-      payload:goodsList
-    })
+  setPdSkusData=()=> {
+    this.props.upDateList(this.state.value)
     this.setState({value:''})
   }
   edit = () => {

@@ -32,7 +32,7 @@ class BaseGoods extends GoodsListExtends {
     this.getList()
   };
   addTrade=()=> {
-    this.props.history.push('/account/baseGoodsAdd')
+    this.props.history.push('/account/baseGoodsAdd/2')
   }
   render() {
     const { goodLists,everyPage, currentPage, totalCount } = this.state;
