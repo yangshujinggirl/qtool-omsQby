@@ -1,20 +1,22 @@
 import React from "react";
 import FilterForm from "./components/FilterForm";
 import {Link} from 'react-router-dom'
-import {Qbtn, Qmessage, Qpagination} from "common/index";
+import {Qbtn, Qmessage} from "common/index";
 import Columns from "./column";
-import Qtable from "common/Qtable";
 import {
-    GetPurchaseInOrderListApi, PushPurchaseInOrderBatchReview,
-    PushPurchaseInOrderForceComplete
+    GetPurchaseInOrderListApi, PushPurchaseInOrderForceComplete
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import ConfirmModal from "common/ConfirmModal";
 import './index.less'
 import {Modal} from "antd";
-import BatchReviewModalForm from "./components/BatchReviewModalForm";
-import {EXPORT_TYPE_PURCHASE_ORDER_IN, ExportApi, getExportData} from "../../../../api/Export";
-import moment from "moment";
+import {
+    EXPORT_TYPE_PURCHASE_ORDER_IN,
+    ExportApi,
+    getExportData, OmsExportApi,
+    omsExportApi
+} from "../../../../api/Export";
 import {BaseDataShowList} from "common/QbaseDataShowList";
+import {omsEmptyInterceptorsAjax} from "../../../../api/Req";
 
 /**
  * 功能作用：采购订单列表界面
@@ -79,7 +81,7 @@ export default class PurchaseInOrderList extends BaseDataShowList {
         } else {
             if (key === this.tipsTextKeyExportData) {
                 //导出数据
-                ExportApi(getExportData(this.state.searchCriteriaList.stime, this.state.searchCriteriaList.etime,
+                OmsExportApi(getExportData(this.state.searchCriteriaList.stime, this.state.searchCriteriaList.etime,
                     EXPORT_TYPE_PURCHASE_ORDER_IN, this.state.searchCriteriaList));
             }
         }
@@ -94,31 +96,29 @@ export default class PurchaseInOrderList extends BaseDataShowList {
             this.showLoading();
             PushPurchaseInOrderForceComplete(this.state.selectedRowKeys)
                 .then(rep => {
-                    if (rep.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                        this.refreshDataList();
-                        if (rep.result != null) {
-                            let resultData = JSON.parse(rep.result);
-                            if (resultData != null && resultData["failList"].length > 0) {
-                                //存在失败数据，显示失败弹窗
-                                Modal.info({
-                                    title: '提示',
-                                    content: (
-                                        <div>
-                                            <span>以下采购单强制完成失败，失败原因：采购单未审核通过或已收货</span>
-                                            <br/><br/>
-                                            {
-                                                resultData["failList"].map((item) => (
-                                                    <span>{item}</span>
-                                                ))
-                                            }
+                    this.refreshDataList();
+                    if (rep.result != null) {
+                        let resultData = JSON.parse(rep.result);
+                        if (resultData != null && resultData["failList"].length > 0) {
+                            //存在失败数据，显示失败弹窗
+                            Modal.info({
+                                title: '提示',
+                                content: (
+                                    <div>
+                                        <span>以下采购单强制完成失败，失败原因：采购单未审核通过或已收货</span>
+                                        <br/><br/>
+                                        {
+                                            resultData["failList"].map((item) => (
+                                                <span>{item}</span>
+                                            ))
+                                        }
 
-                                        </div>
-                                    ),
-                                });
-                            }
-                        } else {
-                            Qmessage.success("所选采购单已强制完成")
+                                    </div>
+                                ),
+                            });
                         }
+                    } else {
+                        Qmessage.success("所选采购单已强制完成")
                     }
                     this.hideLoading();
                 })
