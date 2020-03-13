@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import {NET_REQUEST_SUCCESS_CODE} from "../../../../api/Req";
 import {Card, Col} from "antd";
 import {Qbtn, QdetailBaseInfo, Qtable} from "common/index";
 import moment from "moment";

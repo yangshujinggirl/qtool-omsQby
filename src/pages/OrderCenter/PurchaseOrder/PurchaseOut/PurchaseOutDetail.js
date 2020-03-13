@@ -3,7 +3,6 @@ import {
     GetPurchaseOutOrderDetailApi,
     GetPurchaseOutOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseOut";
-import {NET_REQUEST_SUCCESS_CODE} from "../../../../api/Req";
 import {Card} from "antd";
 import moment from "moment";
 import {QdetailBaseInfo, Qtable} from "common/index";
@@ -35,22 +34,18 @@ const PurchaseOutDetail = (props) => {
         showLoading();
         //获取详情数据
         new GetPurchaseOutOrderDetailApi(id).then(res => {
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                hideLoading();
-                //设置普通数据
-                setDataInfo(res.result);
-                //设置发货信息
-                setOutList(TableDataListUtil.addKeyAndResultList(res.result.outList,null));
-                //设置采退商品信息
-                setDetailList(TableDataListUtil.addKeyAndResultList(res.result.detailList,null));
-            }
+            hideLoading();
+            //设置普通数据
+            setDataInfo(res.result);
+            //设置发货信息
+            setOutList(TableDataListUtil.addKeyAndResultList(res.result.outList,null));
+            //设置采退商品信息
+            setDetailList(TableDataListUtil.addKeyAndResultList(res.result.detailList,null));
         });
         //获取操作日志
         new GetPurchaseOutOrderOptionsLogsApi(id).then(res => {
             hideLoading();
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result,null));
-            }
+            setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result,null));
         });
     }, []);
     /**

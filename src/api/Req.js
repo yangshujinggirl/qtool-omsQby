@@ -59,8 +59,3 @@ const appEmptyInterceptorsAjax = new request({baseURL:'/qtoolsApp',isInterceptor
 export {
   omsAjax,erpAjax,appAjax,omsEmptyInterceptorsAjax,erpEmptyInterceptorsAjax,appEmptyInterceptorsAjax
 }
-/**
- * 网络请求成功code
- * @type {number}
- */
-export const NET_REQUEST_SUCCESS_CODE = 200;

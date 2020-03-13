@@ -1,7 +1,6 @@
 import React from 'react'
 import moment from "moment";
 import {Qtable, Qpagination} from "common/index";
-import {NET_REQUEST_SUCCESS_CODE} from "../../api/Req";
 
 /**
  * 功能作用：数据展示基础列表组件，例如采购、采退列表页面
@@ -155,29 +154,27 @@ export class BaseDataShowList extends React.Component {
         params = {...params, ...this.formatSearchCriteriaList(values)};
         this.getDataListRequest(params).then(res => {
             this.hideLoading();
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                const {resultList, result, everyPage, totalCount, currentPage} = res.result;
-                let dataList = [];
-                let optionsList = resultList != null ? resultList : [];
-                if (result != null) {
-                    optionsList = result;
-                }
-                //必须要有key，否则无法进行选择
-                optionsList.map((item, index) => {
-                    dataList.push({
-                        key: item[(this.dataListOptionsKey == null || this.dataListOptionsKey === "") ? index : this.dataListOptionsKey],
-                        ...item
-                    })
-                });
-                this.setState({
-                    dataList: dataList,
-                    everyPage,
-                    totalCount: totalCount,
-                    currentPage,
-                    searchCriteriaList: params,
-                    selectedRowKeys: []
-                });
+            const {resultList, result, everyPage, totalCount, currentPage} = res.result;
+            let dataList = [];
+            let optionsList = resultList != null ? resultList : [];
+            if (result != null) {
+                optionsList = result;
             }
+            //必须要有key，否则无法进行选择
+            optionsList.map((item, index) => {
+                dataList.push({
+                    key: item[(this.dataListOptionsKey == null || this.dataListOptionsKey === "") ? index : this.dataListOptionsKey],
+                    ...item
+                })
+            });
+            this.setState({
+                dataList: dataList,
+                everyPage,
+                totalCount: totalCount,
+                currentPage,
+                searchCriteriaList: params,
+                selectedRowKeys: []
+            });
         }).catch(() => {
             this.hideLoading();
         });

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import {NET_REQUEST_SUCCESS_CODE} from "../../../../api/Req";
 import {
     GetPurchaseInOrderDetailApi,
     GetPurchaseInOrderOptionsLogsApi
@@ -43,20 +42,16 @@ const PurchaseInDetail = (props) => {
         showLoading();
         //获取详情数据
         new GetPurchaseInOrderDetailApi({stockingCode: id}).then(res => {
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                hideLoading();
-                //设置普通数据
-                setDataInfo(res.result);
-                //设置商品列表数据
-                setGoodsList(TableDataListUtil.addKeyAndResultList(res.result.data));
-            }
+            hideLoading();
+            //设置普通数据
+            setDataInfo(res.result);
+            //设置商品列表数据
+            setGoodsList(TableDataListUtil.addKeyAndResultList(res.result.data));
         });
         //获取操作日志
         new GetPurchaseInOrderOptionsLogsApi(id).then(res => {
             hideLoading();
-            if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result));
-            }
+            setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result));
         });
     }, []);
     /**
