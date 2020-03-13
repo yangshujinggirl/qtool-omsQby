@@ -13,14 +13,14 @@ window.deBounce = (func, wait) => {
   };
 };
 //所有input前后去空格
-window.removeSpace=(value)=>{
+window.removeSpace = value => {
   for (let i in value) {
     if (typeof value[i] == "string") {
       value[i] = value[i].trim();
     }
   }
   return value;
-}
+};
 //不可选日期
 export function disabledDate(current) {
   return (
@@ -39,21 +39,19 @@ const range = (start, end) => {
   }
   return result;
 };
-const formatHours = (date, type) => {
+const formatHours = date => {
   let hour = moment().hour();
   let disabledHours = [];
-  const chosedDate =
-    type == "date" ? moment(date).date() : moment(date[0]).date();
+  const chosedDate = moment(date).date();
   if (moment().date() == chosedDate) {
     disabledHours = range(0, 24).splice(0, hour);
   }
   return disabledHours;
 };
-const formatMinutes = (date, type) => {
+const formatMinutes = date => {
   let minute = moment().minute();
   let disabledMinutes = [];
-  const chosedDate =
-    type == "date" ? moment(date).date() : moment(date[0]).date();
+  const chosedDate = moment(date).date();
   if (moment().date() == chosedDate) {
     disabledMinutes = range(0, 60).splice(0, minute + 1);
   }
@@ -62,18 +60,8 @@ const formatMinutes = (date, type) => {
 //DatePicker
 export function disabledDateTime(date) {
   return {
-    disabledHours: () => formatHours(date, "date"),
-    disabledMinutes: () => formatMinutes(date, "date"),
+    disabledHours: () => formatHours(date),
+    disabledMinutes: () => formatMinutes(date),
     disabledSeconds: () => []
   };
-}
-//RangePicker
-export function disabledRangeTime(date, type) {
-  if (type === "start") {
-    return {
-      disabledHours: () => formatHours(date, "range"),
-      disabledMinutes: () => formatMinutes(date, "range"),
-      disabledSeconds: () => []
-    };
-  }
 }

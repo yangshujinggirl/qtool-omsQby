@@ -68,13 +68,7 @@ export default class SearchForm extends BaseFilter {
 
                     </Row>
                 </Form>
-                <Col offset={21}>
-                    <FormItem className="oms-condition-operate">
-                        <Qbtn type="primary" onClick={this.handleSubmit}>
-                            搜索
-                        </Qbtn>
-                    </FormItem>
-                </Col>
+                
             </div>
         );
     }

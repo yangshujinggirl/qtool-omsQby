@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Upload, Button, Modal } from "antd";
 import Qtable from "common/Qtable/index"; //表单
 import "./index.less";
@@ -7,7 +8,7 @@ const UpLoadFile = props => {
     let file = info.file;
     if (file.status == "done") {
       if (file.response && file.response.httpCode == "200") {
-        props.changeDataList(file.response.result)
+        props.changeDataList(file.response.result);
       }
     }
   };
@@ -15,15 +16,12 @@ const UpLoadFile = props => {
   const downLoadTemp = () => {
     props.downLoadTemp();
   };
-  const { Columns, dataList, action, data,errMessage } = props;
+  const { Columns, dataList, action, data } = props;
   let params = null;
   if (data) {
     params = JSON.stringify(data);
   }
-  //modal消失
-  const onCancel=()=>{
-    setVisible(false)
-  }
+
   const Props = {
     accept: ".xlsx,.xls",
     name: "mfile",
@@ -47,12 +45,7 @@ const UpLoadFile = props => {
       {dataList.length > 0 && (
         <Qtable columns={Columns} dataSource={dataList} />
       )}
-      <Modal title="导入商品结果" visible={Boolean(errMessage)} footer={null} onCancel={onCancel}>
-        <div>
-          <p style={{color:'#35bab0'}}>共成功导入商品{dataList.length}</p>
-          {errMessage && <p>{errMessage}</p>}
-        </div>
-      </Modal>
+      {props.children}
     </div>
   );
 };

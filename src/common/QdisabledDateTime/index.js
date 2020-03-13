@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {DatePicker, Form} from "antd";
-import { disabledDate, disabledRangeTime, disabledDateTime } from "utils/tools";
+import { disabledDate, disabledDateTime } from "utils/tools";
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 class DateTime extends Component {
@@ -41,7 +41,8 @@ class RangeTime extends Component {
         format="YYYY-MM-DD HH:mm:ss"
         showTime={{ hideDisabledOptions: true }}
         disabledDate={disabledDate}
-        disabledTime={disabledRangeTime}
+        disabledTime={disabledDateTime}
+        {...this.props}
       />
     );
   }

@@ -88,7 +88,14 @@ import SupplierManageAdd from './SupplierManage/SupplierManageAdd';//供应商�
 import shopManage from './CooperateCenter/ShopManage'
 
 //门店管理
+/************************************  营销中心  ********************************************/
+import PromotionAct from './MarketCenter/PromotionAct'
+import PosAct from './MarketCenter/PromotionAct/PosAct'
+import AddPosAct from './MarketCenter/PromotionAct/PosAct/AddAct'
+import PosActInfo from './MarketCenter/PromotionAct/PosAct/PosActInfo'
 
+
+import QshopKeeperAct from './MarketCenter/PromotionAct/QshopKeeperAct'
 
 
 class HomeRoutes extends React.Component {
@@ -147,14 +154,12 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
           <Route exact path="/account/supplierManage" component={SupplierManage}/>
           <Route exact path='/account/channel' component={shopManage}/>
-
-
-
-
-
-
-
-
+{/* ----------------------------------  营销中心   ---------------------------------------*/}
+          <Route  path="/account/pos_preferential_promotion" component={PromotionAct}/>   
+          <Route  path="/account/pos_act" component={PosAct}/>   
+          <Route  path='/account/add_pos_act/:id?' component={AddPosAct}/>
+          <Route  path='account/pos_act_info/:id' component={PosActInfo}/>
+          {/* <Route  path="/account/shop_keeper_act" component={QshopKeeperAct}/>    */}
         {/*
 
 

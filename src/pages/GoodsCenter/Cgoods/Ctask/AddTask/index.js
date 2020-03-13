@@ -6,13 +6,14 @@ import {
   message,
   Radio,
   AutoComplete,
-  Select
+  Select,
+  Modal
 } from "antd";
 import { getTaskInfoApi, AddTaskApi } from "api/home/GoodsCenter/Cgoods/Ctask";
 import ImportBtn from "common/QupLoadFileList";
 import { DateTime, RangeTime } from "common/QdisabledDateTime";
 import { Columns1, Columns2, Columns3 } from "./column";
-import { Sessions } from 'utils';
+import { Sessions } from "utils";
 import moment from "moment";
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
@@ -28,6 +29,8 @@ const GoodEditForm = function(props) {
   const [goodList, setGoodList] = useState([]);
   const [taskId, setTaskId] = useState(null);
   const [taskType, setTaskType] = useState("");
+  const [errMessage, setErrMessage] = useState("");
+  const [visible, setVisible] = useState(false);
   //初始化数据
   useEffect(() => {
     const temp = props.history.location.search.substr(1);
@@ -57,7 +60,7 @@ const GoodEditForm = function(props) {
     const { taskTime, ..._values } = values;
     _values.skuList = goodList;
     _values.taskType = taskType;
-    _values.taskOperateUser = Sessions.get('name');;
+    _values.taskOperateUser = Sessions.get("name");
     _values.taskId = taskId;
     if (taskType == 1) {
       _values.taskOperateStartTime = moment(taskTime).format(
@@ -91,8 +94,11 @@ const GoodEditForm = function(props) {
   //   });
   // };
   //修改上传数据
-  const changeDataList = dataList => {
-    setGoodList(dataList);
+  const changeDataList = res => {
+    const { message, list } = res;
+    setGoodList(list);
+    setErrMessage(message);
+    setVisible(Boolean(message));
   };
   //下载模板
   const downLoadTemp = () => {
@@ -121,6 +127,10 @@ const GoodEditForm = function(props) {
       });
     }
     return dataSource;
+  };
+  //modal消失
+  const onCancel = () => {
+    setVisible(false);
   };
   return (
     <Form
@@ -197,7 +207,23 @@ const GoodEditForm = function(props) {
           downLoadTemp={downLoadTemp}
           Columns={Columns}
           dataList={goodList}
-        />
+        >
+          {visible && (
+            <Modal
+              title="导入商品结果"
+              visible={visible}
+              footer={null}
+              onCancel={onCancel}
+            >
+              <div>
+                <p style={{ color: "#35bab0" }}>
+                  共成功导入商品{goodList.length}
+                </p>
+                {errMessage && <p>{errMessage}</p>}
+              </div>
+            </Modal>
+          )}
+        </ImportBtn>
       </FormItem>
       <FormItem wrapperCol={{ push: 4, span: 20 }}>
         <Button className="edit_btn" size="large" onClick={goback}>
