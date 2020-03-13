@@ -1,5 +1,5 @@
 import React from 'react';
-import {BaseDataShowList} from "common/QbaseDataShowList";
+// import {BaseDataShowList} from "common/QbaseDataShowList";
 import FilterForm from "./components/FilterForm";
 import Columns from "./column";
 import {GetShopOrderListApi} from "../../../../api/home/OrderCenter/Border/ShopOrder";

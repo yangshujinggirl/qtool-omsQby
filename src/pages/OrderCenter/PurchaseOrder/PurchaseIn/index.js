@@ -15,7 +15,7 @@ import {
     getExportData, OmsExportApi,
     omsExportApi
 } from "../../../../api/Export";
-import {BaseDataShowList} from "common/QbaseDataShowList";
+// import {BaseDataShowList} from "common/QbaseDataShowList";
 import {omsEmptyInterceptorsAjax} from "../../../../api/Req";
 
 /**

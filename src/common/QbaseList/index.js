@@ -10,7 +10,7 @@ import React from 'react'
  * @param formatSearchCriteriaList 请求参数格式化
  * @param onModalCancelClick modal取消弹窗点击
  */
-function DataShowList(ChildComponent, apiRequest, isComponentDidMountRequestData,
+function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                       dataListOptionsKey, childStateParams, formatSearchCriteriaList,
                       onModalCancelClick) {
     return class extends React.Component {
@@ -205,4 +205,4 @@ function DataShowList(ChildComponent, apiRequest, isComponentDidMountRequestData
     }
 }
 
-export {DataShowList}
+export {QbaseList}
