@@ -1,9 +1,14 @@
 import FilterForm from "./components/FilterForm";
 import {GetShopOrderListApi} from "../../../../api/home/OrderCenter/Border/ShopOrder";
 import {Qbtn} from "common/index";
-import Columns from "./column";
+import {Columns} from "./column";
 import {Link} from "react-router-dom";
-import {EXPORT_TYPE_PURCHASE_ORDER_OUT, ExportApi, getExportData} from "../../../../api/Export";
+import {
+    ErpExportApi,
+    EXPORT_TYPE_PURCHASE_ORDER_OUT,
+    ExportApi,
+    getExportData
+} from "../../../../api/Export";
 import {BaseDataShowList} from "common/QbaseDataShowList";
 import React from "react";
 
@@ -49,8 +54,12 @@ export default class ShopOrderList extends BaseDataShowList {
             <Link to='/account/add_purchasein'><Qbtn size="free">新建门店订单</Qbtn></Link>
             <Link to='/account/add_purchasein'><Qbtn size="free">新建赠品单</Qbtn></Link>
             <Qbtn size="free"
-                  onClick={() => ExportApi(getExportData(this.state.searchCriteriaList.stime, this.state.searchCriteriaList.etime,
-                      EXPORT_TYPE_PURCHASE_ORDER_OUT, this.state.searchCriteriaList))}>导出数据</Qbtn>
+                  onClick={() => new ErpExportApi({
+                      "dateStart": "",
+                      "dateEnd": "",
+                      "deliveryTimeST": "",
+                      "deliveryTimeET": ""
+                  },"/export/spOrders")}>导出数据</Qbtn>
         </div>
     }
 

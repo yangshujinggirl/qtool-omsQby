@@ -1,11 +1,11 @@
-import { omsAjax } from "../../../Req";
+import { erpAjax } from "../../../Req";
 
 
 /**
  * 获取采购订单列表
  */
 export function GetShopOrderListApi(values) {
-    return omsAjax.get("/thinkStocking/searchByQbc", {
+    return erpAjax.get("/spOrder/list", {
         params: { ...values }
     });
 }

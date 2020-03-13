@@ -156,10 +156,14 @@ export class BaseDataShowList extends React.Component {
         this.getDataListRequest(params).then(res => {
             this.hideLoading();
             if (res.httpCode === NET_REQUEST_SUCCESS_CODE) {
-                const {resultList, everyPage, totalCount, currentPage} = res.result;
+                const {resultList, result, everyPage, totalCount, currentPage} = res.result;
                 let dataList = [];
+                let optionsList = resultList != null ? resultList : [];
+                if (result != null) {
+                    optionsList = result;
+                }
                 //必须要有key，否则无法进行选择
-                resultList.map((item, index) => {
+                optionsList.map((item, index) => {
                     dataList.push({
                         key: item[(this.dataListOptionsKey == null || this.dataListOptionsKey === "") ? index : this.dataListOptionsKey],
                         ...item
@@ -200,10 +204,10 @@ export class BaseDataShowList extends React.Component {
      * @param values 改变值
      * @param isDefaultInitFinish 默认值初始化完成
      */
-    selectTimeChange = (values,isDefaultInitFinish) => {
+    selectTimeChange = (values, isDefaultInitFinish) => {
         const params = {...this.state.searchCriteriaList, ...values};
         this.setState({recordSearchCriteriaList: params});
-        if(isDefaultInitFinish){
+        if (isDefaultInitFinish) {
             this.searchDataList(params)
         }
     };
