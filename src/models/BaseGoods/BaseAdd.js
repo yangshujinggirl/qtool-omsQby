@@ -1,9 +1,9 @@
 import { all,call, put, take, takeEvery, fork, select } from 'redux-saga/effects'
 import {
-  GetBrandApi, GetEditInfoApi,
-  GetCategoryApi, GetAttributeApi,
-  GetSupplierApi
-} from "../../api/home/BaseGoods";
+  GetEditInfoApi,
+  GetCategoryApi,
+} from "api/home/BaseGoods";
+import { CommonUtils } from 'utils';
 
 //属性--商品
 function* getSpec({payload:{ specData }}){
@@ -52,7 +52,8 @@ function* fetchTotal(action){
     pdSpu.pdType2Id = attrList[1]?attrList[1].attributeName:'';
     yield call(getSpec,{payload:{specData:{ specOne, specTwo }}})
   }
-  list&&list.map((el)=>el.key=el.skuCode)
+  list&&list.map((el)=>el.key=el.skuCode);
+  pdSpu = CommonUtils.clearEmptyObj(pdSpu);
   yield call(getTotalState,{payload:pdSpu})
   yield call(getListState,{payload:{goodsList:list}});
   const [levelTwo,levelThr,levelFour] = yield all([
@@ -143,55 +144,11 @@ function* fetchCategory(action){
     }
   })
 };
-//查询规格
-// function* fetchAttribute(action){
-//   let params = action.payload;
-//   const res = yield call(GetAttributeApi);
-//   let { result } =res;
-//   result=result?result:[]
-//   result.length>0&&result.map((el)=>el.key =el.attributeId);
-//   // console.log('action')
-//   yield put({
-//     type: 'BASEGOODSADD_ATTRUBTEARRAY',
-//     payload: {attributeArray:result}
-//   })
-// };
-// function* fetchbrandList(action) {
-//   let params = action.payload;
-//   const res = yield call(GetBrandApi,params);
-//   let { result } =res;
-//   result=result?result:[]
-//   let brandDataSource = result.map((el)=>{
-//     let item={}
-//     item.key =el.id;
-//     item.value =el.id;
-//     item.brandCountry =el.brandCountry;
-//     item.text =el.brandNameCn;
-//     return item;
-//   })
-//   yield put({
-//     type: 'BASEGOODSADD_BRANDLIST',
-//     payload: {brandDataSource}
-//   })
-// };
-// function* fetchSupplier(action){
-//   let params = action.payload;
-//   const res = yield call(GetSupplierApi,params);
-//   const { result } =res;
-//   result.map((el)=>el.key=el.id);
-//   yield put({
-//     type: 'BASEGOODSADD_SUPPLIERLIST',
-//     payload: {supplierList:result}
-//   })
-// };
 function* resetPages(action){
   let data = {
     loading: false,
-    // brandDataSource:[],
-    totalData:{},
-    // supplierList:[],
-    // attrubteArray:[],//规格
-    goodsList:[{key:'00'}],
+    totalData:{isSave:true},
+    goodsList:[],
     specData:{
       specOne:[],
       specTwo:[],
@@ -217,10 +174,6 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/getTotalState', getTotalState)
   yield takeEvery('baseGoodsAdd/getListState', getListState)
   yield takeEvery('baseGoodsAdd/fetchCategory', fetchCategory)
-  // yield takeEvery('baseGoodsAdd/fetchSupplier', fetchSupplier)
-  // yield takeEvery('baseGoodsAdd/fetchbrandList', fetchbrandList)
-  // yield takeEvery('baseGoodsAdd/fetchAttribute', fetchAttribute)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
-  // yield takeEvery('baseGoodsAdd/getFileList', getFileListState)
   yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

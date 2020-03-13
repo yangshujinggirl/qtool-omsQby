@@ -41,6 +41,13 @@ export function GetBrandApi(values){
     return omsAjax.get('/brand/searchByName',{params:{...values}})
 }
 /**
+ * 查询产地
+ * @param {*} values
+ */
+export function GetOriginApi(values){
+    return omsAjax.get('/country/getListByName',{params:{...values}})
+}
+/**
  * 编辑新增商品
  * @param {*} values
  */
@@ -61,6 +68,9 @@ export function GetSupplierApi(values){
 export function GetImgInfoApi(values){
     return omsAjax.get('/items/viewProductImageText',{params:{...values}})
 }
+/*
+图文信息编辑
+ */
 export function GetEditImgApi(values){
     return omsAjax.post('/items/saveProductImageText',{...values})
 }

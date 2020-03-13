@@ -28,15 +28,15 @@ const StandardsMod=({...props})=> {
     }
   }
   //删除商品属性
-  const deleteGoodsLabel=(removedTags,judgeTags,type)=> {
-    const { specData,goodsList } =props;
-    let newArray = goodsList.filter((value)=>{return value.name.indexOf(removedTags.name)=='-1'});
-    console.log(tags,type)
-    console.log(newArray)
+  const deleteGoodsLabel=(removedTags,type)=> {
+    let { specData,goodsList } =props;
+    let newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
     if(type == 'one') {
-      specData={...specData,specOne:judgeTags };
+      let specOne = specData.specOne.filter(judgeTags => judgeTags.name !== removedTags.name);
+      specData={...specData,specOne };
     } else {
-      specData={...specData,specTwo:judgeTags };
+      let specTwo = specData.specTwo.filter(judgeTags => judgeTags.name !== removedTags.name);
+      specData={...specData,specTwo };
     }
     props.dispatch({
       type:'baseGoodsAdd/getSpec',
@@ -44,13 +44,13 @@ const StandardsMod=({...props})=> {
     })
     props.dispatch({
       type:'baseGoodsAdd/getListState',
-      payload:{ goodsList }
+      payload:{ goodsList:newArray }
     })
-    console.log(specData)
   }
   //增加商品属性
   const addGoodsLabel=(inputValue,type)=> {
     let { specData, goodsList } =props;
+    let newGoodsList = [...goodsList];
     let newArr = []
     if(type == 'one') {
       let specOne = [...specData.specOne,...[{name:inputValue,key:inputValue}]];
@@ -59,6 +59,8 @@ const StandardsMod=({...props})=> {
           let item = {...el,salesAttributeName:`${inputValue}/${el.name}`};
           newArr.push(item);
         })
+      } else {
+        newArr.push({salesAttributeName:inputValue,key:inputValue});
       }
       specData={ ...specData, specOne }
     } else {
@@ -71,21 +73,29 @@ const StandardsMod=({...props})=> {
       }
       specData={ ...specData, specTwo }
     }
-    goodsList = [...goodsList,...newArr];
+    //去重
+    newArr.map((el)=> {
+      newGoodsList.map((item,index) => {
+        if(el.salesAttributeName.indexOf(item.salesAttributeName)!='-1') {
+          newGoodsList.splice(index,1);
+        }
+      })
+    })
+    newGoodsList = [...newGoodsList,...newArr];
     props.dispatch({
       type:'baseGoodsAdd/getSpec',
       payload:{ specData }
     })
     props.dispatch({
       type:'baseGoodsAdd/getListState',
-      payload:{ goodsList }
+      payload:{ goodsList:newGoodsList }
     })
   }
 
   useEffect(()=>{ fetchAttribute()},[])
   return <div>
           <Form.Item label='商品规格1'>
-            <Form.Item name="pdType1Id" noStyle>
+            <Form.Item name="pdType1Id" rules={ [{ required: true, message: '请选择'}]}>
               <Select
                 disabled={totalData.spuCode?true:false}
                 placeholder="请选择商品规格1"
@@ -109,7 +119,7 @@ const StandardsMod=({...props})=> {
               level="one"/>
           </Form.Item>
           <Form.Item label='商品规格2'>
-            <Form.Item name="pdType2Id" noStyle>
+            <Form.Item name="pdType2Id" rules={ [{ required: true, message: '请选择'}]}>
               <Select
                 disabled={totalData.spuCode?true:false}
                 placeholder="商品规格2" autoComplete="off"

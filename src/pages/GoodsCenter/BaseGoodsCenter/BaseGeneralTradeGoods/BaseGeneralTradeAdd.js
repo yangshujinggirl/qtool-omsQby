@@ -5,12 +5,13 @@ import {
 } from 'antd';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Qtable, Qbtn, QupLoadImgLimt } from 'common';
+import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
 import { ColumnsAdd } from './column';
-import { GetAttributeApi, GetEditApi, GetBrandApi } from 'api/home/BaseGoods';
+import { GetOriginApi, GetAttributeApi, GetEditApi, GetBrandApi } from 'api/home/BaseGoods';
 import Creatlabel from '../components/Creatlabel';
 import EditableCell from '../components/EditableCell';
 import StandardsMod from '../components/StandardsMod';
+import ResetModal from '../components/ResetModal';
 import './BaseGeneralTradeAdd.less';
 
 let FormItem = Form.Item;
@@ -37,12 +38,15 @@ const formItemLayoutBig = {
     };
 
 const BaseGoodsAdd =({...props})=> {
-  let { params } =props.match;
   const [form] = Form.useForm();
-  let { specData, categoryData, goodsList, totalData, fileList } =props;
+  let { params } =props.match;
+  let { specData, categoryData, goodsList, totalData } =props;
   let spuCode = params.id;
   let isEdit = params.id?true:false;
+  const [visible,setVisible] =useState(false)
+  const [deletedList,setDeletedList] =useState([])
   const [brandList,setBrandlIst] =useState([])
+  const [originList,setOriginList] =useState([])
   //初始化
   const initPage=()=> {
     props.dispatch({
@@ -98,6 +102,28 @@ const BaseGoodsAdd =({...props})=> {
       setBrandlIst(result);
     })
   }
+  //产地搜索
+  const handleOriginSearch=(value)=> {
+    GetOriginApi({countryName:value})
+    .then((res)=> {
+      let { result } =res;
+      result=result?result:[];
+      result = result.map((el)=>{
+        let item={}
+        item.key =el.countryCode;
+        item.value =el.countryName;
+        return item;
+      })
+      setOriginList(result);
+    })
+  }
+  //产地选中事件
+  const autoOriginSelect=(value,option)=> {
+    props.dispatch({
+      type:'baseGoodsAdd/getTotalState',
+      payload:{countryCode:option.key}
+    })
+  }
   //品牌，国家选中事件
   const autoSelect=(value, option)=> {
     let item = brandList.find((el)=> el.value== value);
@@ -120,8 +146,8 @@ const BaseGoodsAdd =({...props})=> {
   }
   //恢复
   const goReset=()=> {
-    const { specOne, specTwo } =specData;
-    let deletedList=[];
+    let { specOne, specTwo } =specData;
+    let newGoodsLIst = [...goodsList];
     if(specOne.length>0&&specTwo.length>0) {
       specOne.map((el)=> {
         specTwo.map((item) => {
@@ -134,21 +160,51 @@ const BaseGoodsAdd =({...props})=> {
         deletedList.push(el);
       })
     }
-    let newGoodsLIst = [...goodsList];
     newGoodsLIst.map((el,index)=> {
       deletedList.map((item,idx)=> {
-        if(item.name == el.salesAttributeName) {
+        if(el.salesAttributeName == item.name) {
           deletedList.splice(idx,1);
         }
       });
     })
-    console.log(deletedList)
+    if(deletedList.length==0) {
+      Qmessage.error('暂无删除SKU');
+      return;
+    }
+    setDeletedList(deletedList);
+    setVisible(true);
+  }
+  const onCancel=()=> {
+    setVisible(false);
+  }
+  //确认恢复
+  const onOk=(selectVal)=> {
+    let resetList = selectVal.map((el)=> {
+      let item ={};
+      item.salesAttributeName=el;
+      item.key=el;
+      return item;
+    })
+    goodsList = [...goodsList,...resetList];
+    props.dispatch({
+      type:'baseGoodsAdd/getListState',
+      payload:{ goodsList }
+    })
+    selectVal.map((el)=> {
+      deletedList.map((item,index)=> {
+        if(el == item.name) {
+          deletedList.splice(index,1);
+        }
+      })
+    })
+    setDeletedList(deletedList);
+    setVisible(false);
   }
   //提交
   const submit = async (saveType) => {
     try {
       const values = await form.validateFields();
-      let { categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      let { country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
       list = list&&list.map((el,index)=> {
         goodsList.map((item,idx) => {
           if(index == idx) {
@@ -162,6 +218,7 @@ const BaseGoodsAdd =({...props})=> {
       let listTwo = specData.specTwo.map((el)=> el.name);
       paramsVal = {
         ...paramsVal,
+        country:totalData.countryCode,
         categoryId:categoryId4,
         productNature:params.type,
         saveType,
@@ -184,6 +241,7 @@ const BaseGoodsAdd =({...props})=> {
       console.log('Failed:', errorInfo);
     }
   }
+  //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
     if(currentKey!='list') {
@@ -197,8 +255,6 @@ const BaseGoodsAdd =({...props})=> {
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList])
 
-  console.log('specData',specData)
-  console.log('goodsList',goodsList)
   return (
     <Spin tip="加载中..." spinning={props.loading}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
@@ -237,9 +293,16 @@ const BaseGoodsAdd =({...props})=> {
               rules={[{ required: true, message: '请选择商品品牌'}]}>
               <Input disabled autoComplete="off" placeholder="请输入品牌归属地"/>
             </Form.Item>
-            <FormItem label='产地' {...formItemLayout} name="country" rules={[{ required: true, message: '请选择产地'}]}>
-               <Input autoComplete="off" placeholder="请输入产地"/>
-            </FormItem>
+            <Form.Item
+              label='产地'
+              name="country">
+              <AutoComplete
+               autoComplete="off"
+               options={originList}
+               onSearch={handleOriginSearch}
+               onSelect={(value, option)=>autoOriginSelect(value, option)}
+               placeholder="请输入产地"/>
+            </Form.Item>
             <Form.Item label="商品类型" name="productType" rules={[{ required: true, message: '请选择商品类型' }]}>
               <Radio.Group>
                 <Radio value={1}>普通商品</Radio>
@@ -388,7 +451,11 @@ const BaseGoodsAdd =({...props})=> {
                 columns={ColumnsAdd}
                 onOperateClick={onOperateClick}/>
             </Form.Item>
-            <div><Qbtn size="free" onClick={goReset}>恢复被删除的SKU</Qbtn></div>
+            <Row >
+              <Col offset={4}>
+                <Qbtn size="free" onClick={goReset}>恢复被删除的SKU</Qbtn>
+              </Col>
+            </Row>
             <Form.Item label="批量设置">
               <div style={{display:'flex',textAlign:'center'}}>
                 <EditableCell text='采购价格' upDateList={(value)=>upDateGoodsList('purchasePrice',value)}/>
@@ -411,6 +478,11 @@ const BaseGoodsAdd =({...props})=> {
           </div>
         </Form>
       </div>
+      <ResetModal
+        options={deletedList}
+        visible={visible}
+        onOk={onOk}
+        onCancel={onCancel}/>
     </Spin>
   );
 }
