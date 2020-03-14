@@ -11,8 +11,8 @@ import React from 'react'
  * @param onModalCancelClick modal取消弹窗点击
  */
 function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
-                      dataListOptionsKey, childStateParams, formatSearchCriteriaList,
-                      onModalCancelClick) {
+                   dataListOptionsKey, childStateParams, formatSearchCriteriaList,
+                   onModalCancelClick) {
     return class extends React.Component {
 
         /**
@@ -64,7 +64,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 /**
                  * 是否显示加载中
                  */
-                showLoading: false,
+                showLoadingStatus: false,
                 /**
                  * 子类变量数据参数
                  */
@@ -123,6 +123,8 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
             let params = {...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList};
             if (formatSearchCriteriaList != null) {
                 params = {...params, ...formatSearchCriteriaList(values)};
+            } else {
+                params = {...params, ...values};
             }
             apiRequest(params).then(res => {
                 this.hideLoading();
@@ -157,7 +159,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
          */
         refreshDataList = () => {
             //隐藏弹窗同时隐藏加载中
-            onModalCancelClick != null ? onModalCancelClick() : this.setState({showModal: false,});
+            onModalCancelClick != null ? onModalCancelClick(this) : this.setState({showModal: false,});
             //刷新数据
             let currentPage = this.state.currentPage;
             let everyPage = this.state.everyPage;
@@ -186,7 +188,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
          */
         showLoading() {
             this.setState({
-                showLoading: true
+                showLoadingStatus: true
             })
         };
 
@@ -195,7 +197,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
          */
         hideLoading() {
             this.setState({
-                showLoading: false
+                showLoadingStatus: false
             })
         };
 
