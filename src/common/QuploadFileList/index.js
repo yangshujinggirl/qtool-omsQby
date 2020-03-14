@@ -1,13 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Upload, Button, Modal } from "antd";
-import Qtable from "common/Qtable/index"; //表单
+import React, { useState } from "react";
+import { Upload, Button, Modal, Table, message } from "antd";
 import "./index.less";
 
-const UpLoadFile = props => {
+let keyIndex = 100;
+/**
+ *
+ * @param {Columns:[]} 列表字段
+ * @param {dataSource:[]} 列表数据
+ * @param {action:String} 导入的url
+ * @param {data:{}} 如果存在post导入，参数
+ * @param {del:Boolean} 列表是否可以删除
+ * @param {footer:Boolean} 列表底部是否可以添加
+ * @param {changeDataSource:function} 更改父组件的列表数据函数
+ *
+ */
+
+const UpLoadFile = ({
+  Columns,
+  dataSource = [],
+  action,
+  data,
+  del,
+  footer,
+  changeDataSource,
+}) => {
   const [errorMsg, setErrMsg] = useState("");
   const [visible, setVisible] = useState("");
   /**
-   *
+   *上传change
    * @param {*} info
    */
   const handleChange = info => {
@@ -21,23 +41,36 @@ const UpLoadFile = props => {
               setErrMsg(result[msg]);
               setVisible(true);
             }
-            props.changeDataList(result["result"]);
+            result.result.map((item, index) => {
+              item.key = index;
+            });
+            changeDataSource(result["result"]);
             return;
           }
           if (result["message"]) {
             setErrMsg(result["message"]);
             setVisible(true);
           }
-          props.changeDataList(result["list"]);
+          result.list.map((item, index) => {
+            item.key = index;
+          });
+          changeDataSource(result["list"]);
           return;
         }
-        props.changeDataList(result);
+        result.map((item, index) => {
+          item.key = index;
+        });
+        changeDataSource(result);
+      } else {
+        message.error(file.response.msg, 0.8);
       }
     }
   };
-  //下载模板
+  /**
+   * 下载模板
+   */
   const downLoadTemp = () => {
-    props.downLoadTemp();
+    downLoadTemp();
   };
   /**
    * 弹窗消失
@@ -45,11 +78,50 @@ const UpLoadFile = props => {
   const onCancel = () => {
     setVisible(false);
   };
-  const { Columns, dataList = [], action, data } = props;
+  /**
+   * 新增
+   */
+  const add = () => {
+    keyIndex++;
+    const newData = [...dataSource, { key: keyIndex }];
+    changeDataSource(newData);
+  };
+  /**
+   * 删除
+   * @param {*} record
+   */
+  const delet = record => {
+    let newData = [...dataSource];
+    const index = newData.findIndex(item => record.key == item.key);
+    newData.splice(index, 1);
+    changeDataSource(newData);
+  };
+/**
+ * Columns二次加工--->是否存在删除
+ */
+  const EditColumns = del
+    ? [
+        ...Columns,
+        {
+          title: "操作",
+          render: (text, record, index) => {
+            return (
+              dataSource.length > 1 && <a onClick={() => delet(record)}>删除</a>
+            );
+          }
+        }
+      ]
+    : Columns;
+/**
+ * 请求参数
+ */
   let params = null;
   if (data) {
     params = JSON.stringify(data);
   }
+  /**
+   * upload  参数
+   */
   const Props = {
     accept: ".xlsx,.xls",
     name: "mfile",
@@ -58,6 +130,7 @@ const UpLoadFile = props => {
     data: { data: params },
     showUploadList: false
   };
+
   return (
     <div>
       <div className="add_task_upload">
@@ -70,8 +143,15 @@ const UpLoadFile = props => {
           下载导入模板
         </a>
       </div>
-      {dataList.length > 0 && (
-        <Qtable columns={Columns} dataSource={dataList} />
+      {dataSource.length > 0 && (
+        <Table
+          dataSource={dataSource}
+          columns={EditColumns}
+          pagination={false}
+          bordered={true}
+          rowKey={record => record.key}
+          footer={footer ? () => <Button onClick={add}>+商品</Button> : null}
+        />
       )}
       {visible && (
         <Modal
@@ -81,7 +161,9 @@ const UpLoadFile = props => {
           onCancel={onCancel}
         >
           <div>
-            <p style={{ color: "#35bab0" }}>共成功导入商品{dataList.length}</p>
+            <p style={{ color: "#35bab0" }}>
+              共成功导入商品{dataSource.length}
+            </p>
             {errorMsg && <p>{errorMsg}</p>}
           </div>
         </Modal>

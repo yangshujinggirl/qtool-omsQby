@@ -94,7 +94,7 @@ const GoodEditForm = function(props) {
   //   });
   // };
   //修改上传数据
-  const changeDataList = list => {
+  const changeDataSource = list => {
     setGoodList(list);
   };
   //下载模板
@@ -197,10 +197,10 @@ const GoodEditForm = function(props) {
       >
         <ImportBtn
           action="/qtoolsApp/task/importSku/1"
-          changeDataList={changeDataList}
+          changeDataSource={changeDataSource}
           downLoadTemp={downLoadTemp}
           Columns={Columns}
-          dataList={goodList}
+          dataSource={goodList}
         />
       </FormItem>
       <FormItem wrapperCol={{ push: 4, span: 20 }}>

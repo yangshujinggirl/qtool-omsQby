@@ -1,16 +1,16 @@
 import { Form, Table, Button, Input } from "antd";
-import moment from 'moment'
-let keyIndex = 1
-
+import moment from "moment";
+let keyIndex = 100;
 
 const EditTable = props => {
   const { dataSource } = props;
   //新增
   const add = () => {
     keyIndex++;
-    const newData = [...dataSource, {key:keyIndex}];
+    const newData = [...dataSource, { key: keyIndex }];
     props.changeDataSource(newData);
   };
+  
   //删除
   const del = record => {
     let newData = [...dataSource];
@@ -24,7 +24,11 @@ const EditTable = props => {
         name={["goodList", index, "itemCode"]}
         rules={[{ required: true, message: "请输入SKU编码" }]}
       >
-        <Input onBlur={(e)=>props.getPrice(e,record)} autoComplete="off" placeholder="30字以内，C端展示" />
+        <Input
+          onBlur={e => props.getPrice(e, record)}
+          autoComplete="off"
+          placeholder="30字以内，C端展示"
+        />
       </Form.Item>
     );
   };

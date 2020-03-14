@@ -160,7 +160,7 @@ const AddPurchaseIn = props => {
    * 更改商品信息
    * @param {[{}]} goodList
    */
-  const changeDataSource = goodList => {
+  const changeDataSource = (goodList,type) => {
     setGoodList(goodList);
     form.setFieldsValue({ goodList });
   };
@@ -174,9 +174,9 @@ const AddPurchaseIn = props => {
       searchPriceApi({ skuCode: e.target.value }).then(res => {
         if (res.httpCode == 200) {
           const { purchasePrice, ...reset } = res.result;
-          const obj = { price: purchasePrice, ...reset };
           const newData = [...goodList];
           const itemIndex = newData.findIndex(item => item.key == record.key);
+          const obj = { price: purchasePrice, ...reset,key:record.key };
           newData.splice(itemIndex, 1, obj);
           setGoodList(newData);
           form.setFieldsValue({ goodList: newData });

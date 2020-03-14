@@ -70,12 +70,8 @@ const AddTimer = props => {
    * 修改上传数据
    * @param {*} res
    */
-  const changeDataList = res => {
-    const { result, msg } = res;
-    result.map((list, index) => (list.key = index));
-    setGoodList(result);
-    setErrMessage(msg);
-    setVisible(Boolean(msg));
+  const changeDataSource = goodList => {
+    setGoodList(goodList);
   };
 
   /**
@@ -141,10 +137,10 @@ const AddTimer = props => {
         </Form.Item>
         <Form.Item label="请选择要修改的sku">
           <ImportBtn
-            changeDataList={changeDataList}
+            changeDataSource={changeDataSource}
             downLoadTemp={downLoadTemp}
             Columns={Columns}
-            dataList={goodList}
+            dataSource={dataSource}
             action="/qtoolsErp/inputcode/taskTime"
           >
             {visible && (
