@@ -1,5 +1,6 @@
-import Upload from "common/QuploadFile";
+import Upload from "common/QuploadFileList";
 import GoodList from "./components/GoodList";
+import React from "react";
 const Editable = (props) => {
   const { dataSource, changeDataSource, getPrice } = props;
   const downLoadTemp = () => {

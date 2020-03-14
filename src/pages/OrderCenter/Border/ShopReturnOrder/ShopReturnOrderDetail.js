@@ -8,7 +8,6 @@ import {
     GetPurchaseInOrderDetailApi,
     GetPurchaseInOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
-import {NET_REQUEST_SUCCESS_CODE} from "../../../../api/Req";
 
 const ShopReturnOrderDetail = (props) => {
     const [orderLogs, setOrderLogs] = useState([]);

@@ -1,15 +1,8 @@
 const index = (state = {
   loading: false,
-  brandDataSource:[],
   totalData:{isSave:true},
-  supplierList:[],
   allGoods:[],
   goodsList:[{key:'00'}],//商品数据
-  attributeArray:[],//规格列表
-  // sizeIdList:{//商品规格id
-  //   pdSkusSizeOne:null,
-  //   pdSkusSizeTwo:null
-  // },
   specData:{
     specOne:[],
     specTwo:[],
@@ -34,19 +27,11 @@ const index = (state = {
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_GOODSLIST":
       return { ...state,loading: false,...action.payload };
-    case "BASEGOODSADD_ATTRUBTEARRAY":
-      return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_CATEGORY":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_RESETPAGE":
-      return { ...state,loading: false,...action.payload };
-    case "BASEGOODSADD_SUPPLIERLIST":
-      return { ...state,loading: false,...action.payload };
-    case "BASEGOODSADD_BRANDLIST":
-      return { ...state,loading: false,...action.payload };
-    case "BASEGOODSADD_ATTRIBUTE":
       return { ...state,loading: false,...action.payload };
     case "T.FETCH_SUCCESS":
       return { ...state,loading: false,...action };

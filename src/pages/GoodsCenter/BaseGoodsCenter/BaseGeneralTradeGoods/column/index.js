@@ -98,19 +98,19 @@ const ColumnsAdd=[
     }
   },{
     title: "审核状态",
-    dataIndex: "status",
+    dataIndex: "statusStr",
     width: 100,
     textWrap: 'word-break',
     render:(text,record,index)=> {
-      return <span>{record.skuCode?record.status:'-'}</span>
+      return <span>{record.statusStr?record.statusStr:'-'}</span>
     }
   },{
-    title: "商品标签",
+    title: "*商品标签",
     dataIndex: "oldStatus",
     width: 120,
     textWrap: 'word-break',
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'oldStatus']}>
+      return  <Form.Item name={['list',index,'oldStatus']} rules={ [{ required: true, message: '请选择'}]}>
                 <Select disabled={record.isExamine}>
                   <Option value={3}>正常商品</Option>
                   <Option value={5}>淘汰商品</Option>
@@ -123,7 +123,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     width: 100,
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'barCode']}>
+      return  <Form.Item name={['list',index,'barCode']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input disabled={record.isExamine} className="goods-name" key={index}/>
               </Form.Item>
     }
@@ -133,7 +133,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     dataIndex: "purchasePrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'purchasePrice']}>
+      return  <Form.Item name={['list',index,'purchasePrice']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.purchasePrice}/>
               </Form.Item>
     }
@@ -143,7 +143,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     dataIndex: "businessPrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'businessPrice']}>
+      return  <Form.Item name={['list',index,'businessPrice']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.businessPrice}/>
               </Form.Item>
 
@@ -154,7 +154,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     dataIndex: "customerPrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'customerPrice']}>
+      return  <Form.Item name={['list',index,'customerPrice']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.customerPrice}/>
               </Form.Item>
 
@@ -165,7 +165,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     dataIndex: "proposalPrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'proposalPrice']}>
+      return  <Form.Item name={['list',index,'proposalPrice']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.proposalPrice}/>
               </Form.Item>
 
@@ -176,7 +176,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     dataIndex: "bonusRate",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'bonusRate']}>
+      return  <Form.Item name={['list',index,'bonusRate']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.bonusRate}/>
               </Form.Item>
 
@@ -187,7 +187,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     dataIndex: "taxRate",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'taxRate']}>
+      return  <Form.Item name={['list',index,'taxRate']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.taxRate}/>
               </Form.Item>
 
@@ -198,7 +198,7 @@ const ColumnsAdd=[
     textWrap: 'word-break',
     dataIndex: "shelfLife",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'shelfLife']}>
+      return  <Form.Item name={['list',index,'shelfLife']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.shelfLife}/>
               </Form.Item>
 
@@ -209,7 +209,7 @@ const ColumnsAdd=[
     width: 100,
     textWrap: 'word-break',
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'weight']}>
+      return  <Form.Item name={['list',index,'weight']} rules={ [{ required: true, message: '请输入'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.weight}/>
               </Form.Item>
 
