@@ -4,11 +4,34 @@ import Qtable from "common/Qtable/index"; //表单
 import "./index.less";
 
 const UpLoadFile = props => {
+  const [errorMsg, setErrMsg] = useState("");
+  const [visible, setVisible] = useState("");
+  /**
+   *
+   * @param {*} info
+   */
   const handleChange = info => {
     let file = info.file;
     if (file.status == "done") {
       if (file.response && file.response.httpCode == "200") {
-        props.changeDataList(file.response.result);
+        const { result } = file.response;
+        if (result.constructor == Object) {
+          if (result.hasOwnProperty("msg")) {
+            if (result[msg]) {
+              setErrMsg(result[msg]);
+              setVisible(true);
+            }
+            props.changeDataList(result["result"]);
+            return;
+          }
+          if (result["message"]) {
+            setErrMsg(result["message"]);
+            setVisible(true);
+          }
+          props.changeDataList(result["list"]);
+          return;
+        }
+        props.changeDataList(result);
       }
     }
   };
@@ -16,12 +39,17 @@ const UpLoadFile = props => {
   const downLoadTemp = () => {
     props.downLoadTemp();
   };
-  const { Columns, dataList, action, data } = props;
+  /**
+   * 弹窗消失
+   */
+  const onCancel = () => {
+    setVisible(false);
+  };
+  const { Columns, dataList = [], action, data } = props;
   let params = null;
   if (data) {
     params = JSON.stringify(data);
   }
-
   const Props = {
     accept: ".xlsx,.xls",
     name: "mfile",
@@ -45,7 +73,19 @@ const UpLoadFile = props => {
       {dataList.length > 0 && (
         <Qtable columns={Columns} dataSource={dataList} />
       )}
-      {props.children}
+      {visible && (
+        <Modal
+          title="导入商品结果"
+          visible={visible}
+          footer={null}
+          onCancel={onCancel}
+        >
+          <div>
+            <p style={{ color: "#35bab0" }}>共成功导入商品{dataList.length}</p>
+            {errorMsg && <p>{errorMsg}</p>}
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

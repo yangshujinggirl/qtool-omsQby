@@ -205,4 +205,4 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
     }
 }
 
-export {QbaseList}
+export default QbaseList

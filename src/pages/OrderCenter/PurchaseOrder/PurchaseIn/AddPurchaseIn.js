@@ -270,10 +270,10 @@ const AddPurchaseIn = props => {
                     required: true,
                     message: "请填写物流费用"
                   },
-                  // {
-                  //   pattern: /^[0-9]*$/,
-                  //   message: "请输入数字"
-                  // }
+                  {
+                    pattern: /^[0-9]*$/,
+                    message: "请输入数字"
+                  }
                 ]}
               >
                 <Input

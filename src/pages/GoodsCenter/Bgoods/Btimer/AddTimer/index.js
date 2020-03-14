@@ -11,10 +11,12 @@ const formLayout = {
 };
 
 const AddTimer = props => {
+
   const [form] = Form.useForm();
   const [goodList, setGoodList] = useState([]);
   const [visible, setVisible] = useState(false);
   const [errMessage, setErrMessage] = useState("");
+
   //初始化数据
   useEffect(() => {
     const { id } = props.match.params;
@@ -25,23 +27,20 @@ const AddTimer = props => {
           if (taskDetails.length) {
             taskDetails.map(item => (item.key = item.pdTaskTimeId));
           }
-          setGoodList(taskDetails);
           infos.taskTime = moment(infos.taskTime);
+          setGoodList(taskDetails);
           form.setFieldsValue(infos);
         }
       });
     }
   }, []);
+
   /**
    * 保存
    * @param {*} e
    */
   const handleSubmit = async e => {
-    const { salestatus, statusnew, statushot } = form.getFieldsValue([
-      "salestatus",
-      "statusnew",
-      "statushot"
-    ]);
+    const { salestatus, statusnew, statushot } = form.getFieldsValue(["salestatus", "statusnew", "statushot"]);
     if (!(salestatus || statusnew || statushot)) {
       form.setFields([{ name: ["salestatus"], errors: ["请选择调整状态"] }]);
     };
@@ -58,6 +57,7 @@ const AddTimer = props => {
       });
     }
   };
+
   /**
    *
    * @param {*}
@@ -65,6 +65,7 @@ const AddTimer = props => {
   const onChange = () => {
     form.setFields([{ name: ["salestatus"], errors: [""] }]);
   };
+
   /**
    * 修改上传数据
    * @param {*} res
@@ -76,18 +77,21 @@ const AddTimer = props => {
     setErrMessage(msg);
     setVisible(Boolean(msg));
   };
+
   /**
    * 下载模板
    */
   const downLoadTemp = () => {
     window.open("src/static/timing.xlsx");
   };
+  
   /**
    * 返回
    */
   const goback = () => {
     props.history.push("/account/cTask");
   };
+
   /**
    * modal消失
    */
@@ -141,7 +145,7 @@ const AddTimer = props => {
             downLoadTemp={downLoadTemp}
             Columns={Columns}
             dataList={goodList}
-            action="/qtoolsErp/taskTime/inputcode"
+            action="/qtoolsErp/inputcode/taskTime"
           >
             {visible && (
               <Modal

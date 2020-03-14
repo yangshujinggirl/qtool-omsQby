@@ -16,7 +16,7 @@ import {
   saveGoodApi
 } from "api/home/GoodsCenter/Bgoods/GoodList";
 import "./index.less";
-import Editable from "common/Editable";
+import Editable from "./components/Editable";
 import { editColumns as Columns } from "./column";
 
 const formItemLayout = {
@@ -34,6 +34,7 @@ const BgoodsAdd = props => {
   //请求详情
   useEffect(() => {
     const { id } = props.match.params;
+    console.log(typeof(id))
     GetGoodDetailApi({ id }).then(res => {
       if (res.httpCode == "200") {
         const { result } = res;
