@@ -1,16 +1,10 @@
-import FilterForm from "./components/FilterForm";
-import {GetShopOrderListApi} from "../../../../api/home/OrderCenter/Border/ShopOrder";
-import {Qbtn} from "common/index";
-import {Columns} from "./column";
-import {Link} from "react-router-dom";
-import {
-    ErpExportApi,
-    EXPORT_TYPE_PURCHASE_ORDER_OUT,
-    ExportApi,
-    getExportData
-} from "../../../../api/Export";
-// import {QbaseList} from "common/QbaseDataShowList";
 import React from "react";
+import {Link} from "react-router-dom";
+import {QbaseList, Qbtn, Qpagination, Qtable} from "common/index";
+import FilterForm from "./components/FilterForm";
+import {Columns} from "./column";
+import {GetShopOrderListApi} from "../../../../api/home/OrderCenter/Border/ShopOrder";
+import {ErpExportApi} from "../../../../api/Export";
 
 /**
  * 功能作用：门店订单列表页面
@@ -22,48 +16,29 @@ import React from "react";
  * 修改时间：
  * 备注：
  */
-export default class ShopOrderList  extends React.Component {
-    render(){
-        return null;
-    }
-    // constructor() {
-    //     super();
-    //     this.tableShowColumns = Columns
-    // }
-    //
-    // /**
-    //  * 获取数据列表请求
-    //  * @param params 参数
-    //  * @return {*}
-    //  */
-    // getDataListRequest(params) {
-    //     return GetShopOrderListApi(params)
-    // }
-    //
-    // /**
-    //  * 获取搜索筛选渲染部分
-    //  * @return {*}
-    //  */
-    // getRenderFilterForm() {
-    //     return <FilterForm onSubmit={this.searchDataList} selectTimeChange={this.selectTimeChange}/>
-    // }
-    //
-    // /**
-    //  * 获取操作按钮列表
-    //  * @param defaultContainerClsName 默认容器样式类名
-    //  */
-    // getRenderOperateBtnAction(defaultContainerClsName) {
-    //     return <div className={defaultContainerClsName}>
-    //         <Link to='/account/add_purchasein'><Qbtn size="free">新建门店订单</Qbtn></Link>
-    //         <Link to='/account/add_purchasein'><Qbtn size="free">新建赠品单</Qbtn></Link>
-    //         <Qbtn size="free"
-    //               onClick={() => new ErpExportApi({
-    //                   "dateStart": "",
-    //                   "dateEnd": "",
-    //                   "deliveryTimeST": "",
-    //                   "deliveryTimeET": ""
-    //               },"/export/spOrders")}>导出数据</Qbtn>
-    //     </div>
-    // }
-
-}
+const ShopOrderList = QbaseList((_this) => {
+        const {
+            dataList, everyPage, currentPage, totalCount, searchCriteriaList
+        } = _this.state;
+        return (
+            <div className="oms-common-index-pages-wrap">
+                <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
+                <div className="handle-operate-btn-action">
+                    <Link to='/account/add_purchasein'><Qbtn size="free">新建门店订单</Qbtn></Link>
+                    <Link to='/account/add_purchasein'><Qbtn size="free">新建赠品单</Qbtn></Link>
+                    <Qbtn size="free"
+                          onClick={() => new ErpExportApi(searchCriteriaList, "/export/spOrders")}>导出数据</Qbtn>
+                </div>
+                <Qtable
+                    columns={Columns}
+                    select={true}
+                    dataSource={dataList}/>
+                <Qpagination
+                    data={{everyPage, currentPage, totalCount}}
+                    onChange={_this.changePage}/>
+            </div>
+        );
+    }, GetShopOrderListApi,
+    false, null, null,
+    null, null);
+export default ShopOrderList
