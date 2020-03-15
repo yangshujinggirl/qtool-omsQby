@@ -95,6 +95,10 @@ import shopManage from './CooperateCenter/ShopManage'
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'
 
+/************************************   运营中心   *******************************************/
+import Bpush from './OperateCenter/Boperate/Bpush'
+import AddBPush from './OperateCenter/Boperate/Bpush/AddPush'
+import BpushInfos from './OperateCenter/Boperate/Bpush/BpushDetail'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -143,7 +147,7 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
           <Route exact path='/account/channel_orders' component={ShopOrder}/>
           <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
-          <Route exact exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
+          <Route exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
           <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
           <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
           <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
@@ -159,6 +163,10 @@ class HomeRoutes extends React.Component {
 
 {/* ----------------------------------  数据中心   ---------------------------------------*/}
             <Route exact path='/account/product_data' component={GoodsData}/>
+{/* ----------------------------------  运营中心   ---------------------------------------*/}
+            <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
+            <Route exact path='/account/b_push' component={Bpush}/>
+            <Route exact path='/account/bpush_infos' component={BpushInfos}/>
 
         {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
