@@ -5,7 +5,7 @@ import './index.css'
 import {GetGoodsAnalysis} from "../../../../../api/home/DataCenter/BaseData/GoodsData";
 import CommonUtils from "utils/CommonUtils";
 import {QcardList, Qcards} from "common/index";
-import GoodsDataAnalysisCharts from "../Charts/GoodsDataAnalysisCharts";
+import GoodsDataAnalysisCharts from "../components/Charts/GoodsDataAnalysisCharts";
 
 /**
  * 功能作用：商品分析
