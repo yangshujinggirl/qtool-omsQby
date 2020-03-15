@@ -47,6 +47,8 @@
     "antd": "^4.0.0",
     "axios": "^0.19.0",
     "china-division": "^2.2.0",
+    "echarts": "^4.0.2",
+    "echarts-for-react": "^2.0.5",
     "eslint-plugin-react-hooks": "^2.5.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
