@@ -92,7 +92,8 @@ import shopManage from './CooperateCenter/ShopManage'
 /************************************  营销中心  ********************************************/
 
 
-
+/************************************   数据中心   *******************************************/
+import GoodsData from './DataCenter/BaseData/GoodsData'
 
 
 class HomeRoutes extends React.Component {
@@ -153,7 +154,12 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/supplierManage" component={SupplierManage}/>
           <Route exact path='/account/channel' component={shopManage}/>
 {/* ----------------------------------  营销中心   ---------------------------------------*/}
-        
+
+
+
+{/* ----------------------------------  数据中心   ---------------------------------------*/}
+            <Route exact path='/account/product_data' component={GoodsData}/>
+
         {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/Csite" component={Cgoods}/>
