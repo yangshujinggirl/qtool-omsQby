@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.css'
-import {Col, Input} from "antd";
-import {GetGoodsAnalysisChartData} from "../../../../../../api/home/DataCenter/BaseData/GoodsData";
+import {Input} from "antd";
+import {GetGoodsAnalysisChartData} from "../../../../../../../api/home/DataCenter/BaseData/GoodsData";
 import moment from "moment";
 import {FilterSearchRangeTime} from "common/QdisabledDateTime";
 // 引入 ECharts 主模块
@@ -36,7 +36,6 @@ export default class GoodsDataAnalysisCharts extends React.Component {
      * @param values 搜索条件
      */
     getDataList(values) {
-        console.log("xxx", "发起请求")
         const result = new GetGoodsAnalysisChartData();
         if (result.code === '0') {
             const analysis = result.analysis;
