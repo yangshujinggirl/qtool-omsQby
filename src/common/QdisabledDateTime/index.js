@@ -91,11 +91,17 @@ class FilterSearchRangeTime extends Component {
     };
 
     render() {
-        return <FormItem label={this.props.label} {...this.props.itemLayout}>
+        return this.props.label != null && this.props.label !== "" ?
+            <FormItem label={this.props.label} {...this.props.itemLayout}>
+                <RangePicker format="YYYY-MM-DD HH:mm:ss"
+                             defaultValue={this.props.defaultValue != null ? this.props.defaultValue : []}
+                             onChange={this.onChange}
+                             {...this.props}/>
+            </FormItem> :
             <RangePicker format="YYYY-MM-DD HH:mm:ss"
                          defaultValue={this.props.defaultValue != null ? this.props.defaultValue : []}
-                         onChange={this.onChange}/>
-        </FormItem>;
+                         onChange={this.onChange}
+                         {...this.props}/>
     }
 }
 
