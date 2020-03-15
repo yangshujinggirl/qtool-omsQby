@@ -6,6 +6,7 @@ import {GetGoodsAnalysis} from "../../../../../api/home/DataCenter/BaseData/Good
 import CommonUtils from "utils/CommonUtils";
 import {QcardList, Qcards} from "common/index";
 import GoodsDataAnalysisCharts from "../components/Charts/GoodsDataAnalysisCharts";
+import TopTitleDesHeader from "../../../components/TopTitleDesHeader";
 
 /**
  * 功能作用：商品分析
@@ -124,12 +125,8 @@ export default class GoodsAnalysis extends React.Component {
 
     render() {
         return <div>
-            <div className='top-title-container'>
-                <p className="top-title-time">数据更新于:{this.state.updateTime}</p>
-                <p className='top-title-des' onClick={this.desInfo.bind(this)}>数据定义说明
-                    <QuestionCircleOutlined style={{color: "#ED6531", marginLeft: "4px"}}/>
-                </p>
-            </div>
+            <TopTitleDesHeader updateTime={this.state.updateTime}
+                               desInfoClick={this.desInfo.bind(this)}/>
             <Qcards data={this.state.data}/>
             <QcardList data={this.state.listData}/>
             <div style={{border: '1px solid #e8e8e8', padding: '20px', marginTop: '30px'}}>
