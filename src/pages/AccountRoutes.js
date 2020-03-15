@@ -39,6 +39,7 @@ import Country from "./GoodsCenter/BaseConfigCenter/Country"; //国家地区管�
 import Attributions from "./Attributions"; //规格管理
 import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理
+import CgoodsExplain from "./GoodsCenter/BaseConfigCenter/CgoodsExplain"; //后台类目管理
 //基础商品-----------------------------------//////
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
 import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeAdd";//基础商品
@@ -131,6 +132,7 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/generalTrade/info/:id" component={GeneralTradeInfo}/>
           <Route exact path="/account/generalTrade/edit/:id" component={GeneralTradeEdit}/>
           <Route exact path="/account/general_trade_product" component={GeneralTradeGoods}/>
+          <Route exact path="/account/c_product_title" component={CgoodsExplain}/>
 {/* ----------------------------------  订单中心   ---------------------------------------*/}
           <Route exact path='/account/purchaseOrder' component={PurchaseIn}/>
           <Route exact path='/account/add_purchasein/:id?' component={AddPurchaseIn}/>
