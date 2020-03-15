@@ -1,9 +1,9 @@
 import React from 'react'
-import './index.css'
 import {Input} from "antd";
 import {GetGoodsAnalysisChartData} from "../../../../../../../api/home/DataCenter/BaseData/GoodsData";
 import moment from "moment";
 import {FilterSearchRangeTime} from "common/QdisabledDateTime";
+import '../index.css'
 // 引入 ECharts 主模块
 const echarts = require('echarts');
 /**
