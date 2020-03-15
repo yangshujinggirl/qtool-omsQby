@@ -17,6 +17,8 @@ import _QupLoadImgLimt from './QupLoadImgLimt';
 import _CascaderAddressOptions from './CascaderAddressOptions';
 import _QdetailBaseInfo from './QdetailBaseInfo';
 import _QtabShow from './QtabShow';
+import _Qcards from './Qcards';
+import _QcardList from './QcardList';
 
 
 export const QbyConnect = _QbyConnect;
@@ -37,3 +39,5 @@ export const QupLoadImgLimt = _QupLoadImgLimt;
 export const CascaderAddressOptions = _CascaderAddressOptions;
 export const QdetailBaseInfo = _QdetailBaseInfo;
 export const QtabShow = _QtabShow;
+export const Qcards = _Qcards;
+export const QcardList = _QcardList;

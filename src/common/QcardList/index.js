@@ -1,6 +1,4 @@
 import React from 'react'
-import {Card} from 'antd';
-import {CaretDownOutlined, CaretUpOutlined} from '@ant-design/icons';
 import './index.css'
 import {Link} from "react-router-dom";
 
