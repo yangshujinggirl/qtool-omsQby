@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 const Columns = [
     {title: '反馈编号', dataIndex: 'feedbackNo'},
-    {title: '反馈问题', dataIndex: 'remark'},
+    {title: '反馈问题', dataIndex: 'remark', ellipsis: true},
     {title: '反馈类型', dataIndex: 'typeStr'},
     {title: '反馈状态', dataIndex: 'statusStr'},
     {title: '反馈门店', dataIndex: 'spShopName'},
@@ -19,7 +19,8 @@ const Columns = [
         title: '操作', width: '10%', dataIndex: 'opation',
         render: (text, record) => {
             return (
-                <Link className="link-color" to={`/account/brandInfo/${record.id}`}>
+                <Link className="link-color"
+                      to={`/account/channel_feedback/detail/${record.spFeedbackId}`}>
                     处理
                 </Link>
             );

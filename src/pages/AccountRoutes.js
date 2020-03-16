@@ -102,7 +102,14 @@ import BpushInfos from './OperateCenter/Boperate/Bpush/BpushDetail'
 
 
 /************************************   客服中心   *******************************************/
+/**
+ * 门店反馈页面
+ */
 import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'
+/**
+ * 门店反馈详情页面
+ */
+import StoreFeedbackDetail from './CustomerServiceCenter/FromB/StoreFeedback/StoreFeedbackDetail'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -174,6 +181,7 @@ class HomeRoutes extends React.Component {
 
 {/* ----------------------------------  客服中心   ---------------------------------------*/}
             <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
+            <Route exact path='/account/channel_feedback/detail/:id?' component={StoreFeedbackDetail}/>
 
 
         {/*
