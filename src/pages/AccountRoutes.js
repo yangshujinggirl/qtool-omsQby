@@ -100,6 +100,10 @@ import Bpush from './OperateCenter/Boperate/Bpush'
 import AddBPush from './OperateCenter/Boperate/Bpush/AddPush'
 import BpushInfos from './OperateCenter/Boperate/Bpush/BpushDetail'
 
+
+/************************************   客服中心   *******************************************/
+import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'
+
 class HomeRoutes extends React.Component {
   render() {
     return (
@@ -167,6 +171,10 @@ class HomeRoutes extends React.Component {
             <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
             <Route exact path='/account/b_push' component={Bpush}/>
             <Route exact path='/account/bpush_infos' component={BpushInfos}/>
+
+{/* ----------------------------------  客服中心   ---------------------------------------*/}
+            <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
+
 
         {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
