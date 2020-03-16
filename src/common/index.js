@@ -16,8 +16,10 @@ import _QsubTable from './QsubTable';
 import _QupLoadImgLimt from './QupLoadImgLimt';
 import _CascaderAddressOptions from './CascaderAddressOptions';
 import _QdetailBaseInfo from './QdetailBaseInfo';
+import _QbaseListNew from './QbaseListNew';
 
 
+export const QbaseListNew = _QbaseListNew;
 export const QbyConnect = _QbyConnect;
 export const Qtable = _Qtable;
 export const Qpagination = _Qpagination;

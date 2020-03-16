@@ -12,6 +12,13 @@ function* getSpec({payload:{ specData }}){
     payload: { specData }
   })
 }
+//loading
+function* getLoad({payload: loading }){
+  yield put({
+    type: 'SET_LOADING',
+    payload: {loading}
+  })
+}
 //列表--商品
 function* getListState({payload:{ goodsList }}){
   yield put({
@@ -32,6 +39,7 @@ function* getTotalState(action){
 //fetch 详情
 function* fetchTotal(action){
   let params = action.payload;
+  yield call(getLoad,{payload:true})
   const res = yield call(GetEditInfoApi,params);
   let { result } =res;
   let { categoryDetail, attrList, list, ...pdSpu } =result;
@@ -50,7 +58,8 @@ function* fetchTotal(action){
     let specTwo = attrList[1]?attrList[1].attributeValueList:[];
     pdSpu.pdType1Id = attrList[0].attributeName;
     pdSpu.pdType2Id = attrList[1]?attrList[1].attributeName:'';
-    yield call(getSpec,{payload:{specData:{ specOne, specTwo }}})
+    yield call(getSpec,{payload:{specData:{ specOne, specTwo }}});
+    yield call(getLoad,{payload:false})
   }
   list&&list.map((el)=>el.key=el.skuCode);
   pdSpu = CommonUtils.clearEmptyObj(pdSpu);

@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
-import BaseGeneralTradeGoods from './BaseGeneralTradeGoods';
-import BaseCrossBorder from './BaseCrossBorder';
+import BaseGeneralTradeGoods from './BaseGeneralTradeGoods.js';
+import BaseCrossBorder from './BaseCrossBorder.js';
 import { useState, useEffect } from 'react';
 
 const { TabPane } = Tabs;

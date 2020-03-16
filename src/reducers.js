@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import PublicReducers from './pages/Public/reducers.js';
 // import BaseGoodsReducers from './pages/GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/reducers/reducersIndex';
-import BaseGoodsAddReducers from './pages/GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/reducers/reducersAdd';
+import BaseGoodsAddReducers from './pages/GoodsCenter/BaseGoodsCenter/reducers/reducersAdd';
 import BgoodsReducers from './pages/GoodsCenter/Bgoods/GoodsList/reducers/reducersIndex';
 import CgoodsReducers from './pages/Cgoods/reducers/reducersIndex';
 import ClassifyReducers from './pages/Classify/reducers/reducersIndex';

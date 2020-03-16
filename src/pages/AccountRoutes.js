@@ -41,9 +41,9 @@ import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理
 //基础商品-----------------------------------//////
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
-import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeAdd";//基础商品
-import BaseGoodsInfo from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeInfo";//基础商品
-import BaseGeneralTradeEditImg from "./GoodsCenter/BaseGoodsCenter/BaseGeneralTradeGoods/BaseGeneralTradeEditImg";//基础商品
+import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGoodsAdd";//基础商品
+import BaseGoodsInfo from "./GoodsCenter/BaseGoodsCenter/BaseGoodsInfo";//基础商品
+import BaseGoodsEditImg from "./GoodsCenter/BaseGoodsCenter/BaseGoodsEditImg";//基础商品
 import GoodsAudit from "./GoodsCenter/BaseConfigCenter/GoodsAudit"; //商品审核
 //C端---------------------------------------//////
 import DescriptManage from "./Ctip/DescriptManage";//描述属性管理
@@ -89,7 +89,8 @@ import shopManage from './CooperateCenter/ShopManage'
 
 //门店管理
 /************************************  营销中心  ********************************************/
-
+import CtipActivity from './MarketCenter/PromotionActivity/CtipActivity';//c端营销活动
+import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAdd';//c端营销活动
 
 
 
@@ -108,8 +109,8 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/standards" component={Attributions}/>
           <Route exact path="/account/items_list" component={BaseGoods}/>
           <Route exact path="/account/baseGoodsAdd/:type/:id?" component={BaseGoodsAdd}/>
-          <Route exact path="/account/baseGoodsInfo/:id?" component={BaseGoodsInfo}/>
-          <Route exact path="/account/baseGoodsEditImg/:id?" component={BaseGeneralTradeEditImg}/>
+          <Route exact path="/account/baseGoodsInfo/:type/:id?" component={BaseGoodsInfo}/>
+          <Route exact path="/account/baseGoodsEditImg/:id?" component={BaseGoodsEditImg}/>
           <Route exact path='/account/items_examine' component={GoodsAudit}/>
           <Route exact path="/account/commodities_list" component={Bgoods}/>
           <Route exact path="/account/bgoodsAdd/:id?" component={BgoodsAdd}/>
@@ -151,7 +152,8 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/supplierManage" component={SupplierManage}/>
           <Route exact path='/account/channel' component={shopManage}/>
 {/* ----------------------------------  营销中心   ---------------------------------------*/}
-        
+          <Route exact path="/account/ctipActivity" component={CtipActivity}/>
+          <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
         {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/Csite" component={Cgoods}/>

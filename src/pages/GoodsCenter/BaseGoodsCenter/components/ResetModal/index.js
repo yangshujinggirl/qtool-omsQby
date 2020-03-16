@@ -15,6 +15,11 @@ const ResetModal=({...props})=> {
   const onCancel=()=> {
     props.onCancel()
   }
+  useEffect(() => {
+    if (!visible) {
+      setSelectVal([])
+    }
+  }, [visible]);
   return (
       <Modal
         title="恢复被删除的SKU"
@@ -22,6 +27,7 @@ const ResetModal=({...props})=> {
         onOk={onOk}
         onCancel={onCancel}
         okText="确定"
+        destroyOnClose
         cancelText="取消">
         <Form.Item label="请选择规格">
           <Checkbox.Group  onChange={onChange}>
