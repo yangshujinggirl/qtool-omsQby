@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom'
 const Columns = [{
      title: '问答标题',
      dataIndex: 'title',
@@ -29,12 +30,10 @@ const Columns = [{
        return(
          <div>
          {
-           <a
-             href="javascript:;"
-             className="theme-color"
-             onClick={record.onOperateClick.bind(this)}>
+           <Link
+             to={`/account/add_b_answer/${record.pdAnswerId}`}>
              修改
-           </a>
+           </Link>
          }
          </div>
        )

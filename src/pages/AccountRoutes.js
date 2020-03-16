@@ -106,6 +106,8 @@ import AddCPush from './OperateCenter/Coperate/Cpush/AddPush'
 import CpushInfos from './OperateCenter/Coperate/Cpush/CpushDetail'
 import ThemeAct from './OperateCenter/Coperate/ThemeAct'
 import AddTheme from './OperateCenter/Coperate/ThemeAct/AddTheme'
+import Banswer from './OperateCenter/Boperate/Banswer'
+import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 
 
 /************************************   客服中心   *******************************************/
@@ -192,6 +194,8 @@ class HomeRoutes extends React.Component {
             <Route exact path='/account/add_cpush/:id?' component={AddCPush}/>
             <Route exact path='/account/c_push' component={Cpush}/>
             <Route exact path='/account/cpush_infos' component={CpushInfos}/>
+            <Route exact path='/account/b_question' component={Banswer}/>
+            <Route exact path='/account/add_b_answer' component={AddBanswer}/>
 
 {/* ----------------------------------  客服中心   ---------------------------------------*/}
             <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
