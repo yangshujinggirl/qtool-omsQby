@@ -1,4 +1,5 @@
 import React from 'react'
+import TableDataListUtil from "utils/TableDataListUtil";
 
 /**
  *
@@ -129,20 +130,12 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
             apiRequest(params).then(res => {
                 this.hideLoading();
                 const {resultList, result, everyPage, totalCount, currentPage} = res.result;
-                let dataList = [];
                 let optionsList = resultList != null ? resultList : [];
                 if (result != null) {
                     optionsList = result;
                 }
-                //必须要有key，否则无法进行选择
-                optionsList.map((item, index) => {
-                    dataList.push({
-                        key: item[(this.dataListOptionsKey == null || this.dataListOptionsKey === "") ? index : this.dataListOptionsKey],
-                        ...item
-                    })
-                });
                 this.setState({
-                    dataList: dataList,
+                    dataList: TableDataListUtil.addKeyAndResultList(optionsList, dataListOptionsKey),
                     everyPage,
                     totalCount: totalCount,
                     currentPage,
