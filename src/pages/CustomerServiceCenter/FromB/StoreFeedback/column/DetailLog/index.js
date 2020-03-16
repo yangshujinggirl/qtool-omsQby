@@ -1,6 +1,7 @@
 import moment from "moment";
 import {Link} from "react-router-dom";
 import React from "react";
+import {TableItemShowTime} from "common/QdisabledDateTime";
 
 const Columns = [
     {title: '反馈类型', dataIndex: 'feedbackTypeStr', key: "1"},
@@ -9,8 +10,6 @@ const Columns = [
     {title: '处理人', dataIndex: 'operator', key: "4"},
     {
         title: '处理时间', dataIndex: 'createTime', key: "5",
-        render: (text) => (
-            <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
-        )
+        render: (text) => (<TableItemShowTime showTime={text}/>)
     }];
 export default Columns;
