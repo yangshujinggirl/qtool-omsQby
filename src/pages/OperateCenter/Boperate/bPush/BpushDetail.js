@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getInfosApi } from "api/home/OperateCenter/Boperate/Bpush";//请求方法
-import "./index.css";
 
 const CouponDetail = props => {
   const [infos, setInfos] = useState({});

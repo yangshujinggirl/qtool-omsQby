@@ -1,6 +1,6 @@
 
-import { Table, Input, Icon, Button ,Upload, message} from 'antd';
-import { connect } from 'dva';
+import { Table, Input, Icon, Button ,Upload, message} from './node_modules/antd';
+import { connect } from './node_modules/dva';
 
 import UpLoadFile from './UpLoadFile.js';
 import './index.less';

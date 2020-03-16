@@ -1,7 +1,7 @@
-import React,{ Component } from 'react';
-import { Form, Select, Input, Button, message, Row, Col} from 'antd';
-import { connect } from 'dva'
-import moment from 'moment';
+import React,{ Component } from './node_modules/react';
+import { Form, Select, Input, Button, message, Row, Col} from './node_modules/antd';
+import { connect } from './node_modules/dva'
+import moment from './node_modules/moment';
 import EditAction from './components/EditAction/index.js';
 import { getDetailApi, getSaveApi } from '../../../services/operate/bAnswer';
 
