@@ -107,6 +107,17 @@ import CpushInfos from './OperateCenter/Coperate/Cpush/CpushDetail'
 import ThemeAct from './OperateCenter/Coperate/ThemeAct'
 import AddTheme from './OperateCenter/Coperate/ThemeAct/AddTheme'
 
+
+/************************************   客服中心   *******************************************/
+/**
+ * 门店反馈页面
+ */
+import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'
+/**
+ * 门店反馈详情页面
+ */
+import StoreFeedbackDetail from './CustomerServiceCenter/FromB/StoreFeedback/StoreFeedbackDetail'
+
 class HomeRoutes extends React.Component {
   render() {
     return (
@@ -181,6 +192,11 @@ class HomeRoutes extends React.Component {
             <Route exact path='/account/add_cpush/:id?' component={AddCPush}/>
             <Route exact path='/account/c_push' component={Cpush}/>
             <Route exact path='/account/cpush_infos' component={CpushInfos}/>
+
+{/* ----------------------------------  客服中心   ---------------------------------------*/}
+            <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
+            <Route exact path='/account/channel_feedback/detail/:id?' component={StoreFeedbackDetail}/>
+
 
         {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>

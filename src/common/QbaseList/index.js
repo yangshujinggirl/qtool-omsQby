@@ -11,8 +11,8 @@ import React from 'react'
  * @param onModalCancelClick modal取消弹窗点击
  */
 function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
-                   dataListOptionsKey, childStateParams, formatSearchCriteriaList,
-                   onModalCancelClick) {
+                   dataListOptionsKey = null, childStateParams = null, formatSearchCriteriaList = null,
+                   onModalCancelClick = null) {
     return class extends React.Component {
 
         /**
