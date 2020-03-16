@@ -119,6 +119,14 @@ import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'
  * 门店反馈详情页面
  */
 import StoreFeedbackDetail from './CustomerServiceCenter/FromB/StoreFeedback/StoreFeedbackDetail'
+/**
+ * 用户反馈页面
+ */
+import UserFeedback from './CustomerServiceCenter/FromC/UserFeedback'
+/**
+ * 用户意见反馈详情页面
+ */
+import UserFeedbackDetail from './CustomerServiceCenter/FromC/UserFeedback/UserFeedbackDetail'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -200,6 +208,8 @@ class HomeRoutes extends React.Component {
 {/* ----------------------------------  客服中心   ---------------------------------------*/}
             <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
             <Route exact path='/account/channel_feedback/detail/:id?' component={StoreFeedbackDetail}/>
+            <Route exact path='/account/user_feedback' component={UserFeedback}/>
+            <Route exact path='/account/user_feedback/detail/:id?' component={UserFeedbackDetail}/>
 
 
         {/*
