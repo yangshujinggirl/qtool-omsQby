@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom'
+import moment from 'moment'
 const Columns = [{
      title: '问答标题',
      dataIndex: 'title',
@@ -22,7 +23,10 @@ const Columns = [{
      dataIndex: 'userName'
    },{
      title: '最后修改时间',
-     dataIndex: 'updateTime'
+     dataIndex: 'updateTime',
+     render:(text)=>(
+       <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
+     )
    },{
      title: '操作',
      dataIndex: 'name',

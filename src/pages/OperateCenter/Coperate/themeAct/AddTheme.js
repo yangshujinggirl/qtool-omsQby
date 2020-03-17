@@ -30,7 +30,7 @@ const Bpush = props => {
               uid: "-1",
               name: "image.png",
               status: "done",
-              url: sessionStorage.getItem("oms__fileDomain") + url
+              url: sessionStorage.getItem("oms_fileDomain") + url
             }
           ];
           setFileList(fileList);

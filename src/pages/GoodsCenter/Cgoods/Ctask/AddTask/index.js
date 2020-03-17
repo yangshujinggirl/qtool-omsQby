@@ -60,7 +60,7 @@ const GoodEditForm = function(props) {
     const { taskTime, ..._values } = values;
     _values.skuList = goodList;
     _values.taskType = taskType;
-    _values.taskOperateUser = Sessions.get("name");
+    _values.taskOperateUser = sessionStorage.getItem("oms_userName")
     _values.taskId = taskId;
     if (taskType == 1) {
       _values.taskOperateStartTime = moment(taskTime).format(

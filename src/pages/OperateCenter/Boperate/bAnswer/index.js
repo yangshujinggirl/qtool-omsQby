@@ -4,7 +4,7 @@ import { Modal, message } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import { getListApi, saveApi } from "api/home/OperateCenter/Boperate/Banswer";
 import FilterForm from "./components/FilterForm/index";
-import Columns from "./Columns";
+import {Columns} from "./Columns";
 
 class Banner extends Component {
   constructor(props) {
@@ -54,7 +54,9 @@ class Banner extends Component {
       currentPage,
       totalCount,
     } = this.state;
+    console.log(dataList)
     dataList.map(item => (item.key = item.pdAnswerId));
+    console.log(dataList)
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />

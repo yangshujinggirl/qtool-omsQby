@@ -112,6 +112,9 @@ import Banswer from './OperateCenter/Boperate/Banswer'
 import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 
 
+/************************************   财务中心   *******************************************/
+import ShoperRecharge from './FinancialCenter/Recharge'
+import Withdraw from './FinancialCenter/Withdraw'
 /************************************   客服中心   *******************************************/
 /**
  * 门店反馈页面
@@ -129,6 +132,22 @@ import UserFeedback from './CustomerServiceCenter/FromC/UserFeedback'
  * 用户意见反馈详情页面
  */
 import UserFeedbackDetail from './CustomerServiceCenter/FromC/UserFeedback/UserFeedbackDetail'
+/**
+ * C端客服工单
+ */
+import WorkOrderC from './CustomerServiceCenter/FromC/WorkOrderC'
+/**
+ * C端客服工单详情
+ */
+import WorkOrderCDetail from "./CustomerServiceCenter/FromC/WorkOrderC/WorkOrderCDetail";
+/**
+ * 客服工单
+ */
+import WorkOrder from "./CustomerServiceCenter/FromC/WorkOrder";
+/**
+ * 客服工单详情页面
+ */
+import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDetail";
 
 class HomeRoutes extends React.Component {
   render() {
@@ -208,13 +227,21 @@ class HomeRoutes extends React.Component {
             <Route exact path='/account/c_push' component={Cpush}/>
             <Route exact path='/account/cpush_infos' component={CpushInfos}/>
             <Route exact path='/account/b_question' component={Banswer}/>
-            <Route exact path='/account/add_b_answer' component={AddBanswer}/>
+            <Route exact path='/account/add_b_answer/:id?' component={AddBanswer}/>
 
 {/* ----------------------------------  客服中心   ---------------------------------------*/}
             <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
             <Route exact path='/account/channel_feedback/detail/:id?' component={StoreFeedbackDetail}/>
             <Route exact path='/account/user_feedback' component={UserFeedback}/>
             <Route exact path='/account/user_feedback/detail/:id?' component={UserFeedbackDetail}/>
+{/* ----------------------------------  财务中心   ---------------------------------------*/}
+            <Route exact path='/account/treasurer_recharge' component={ShoperRecharge}/>
+            <Route exact path='/account/cash_withdrawal' component={Withdraw}/>
+{/* ----------------------------------  用户中心   ---------------------------------------*/}
+            <Route exact path='/account/c_work_order' component={WorkOrderC}/>
+            <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
+            <Route exact path='/account/work_order' component={WorkOrder}/>
+            <Route exact path='/account/work_order/detail/:id?' component={WorkOrderDetail}/>
 
 
         {/*

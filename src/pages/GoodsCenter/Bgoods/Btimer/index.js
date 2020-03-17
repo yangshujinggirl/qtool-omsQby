@@ -74,7 +74,7 @@ class Btimer extends Component {
   };
   //强制失效
   onOk = () => {
-    const userName = Sessions.get("name");
+    const userName = sessionStorage.getItem("oms_userName")
     const { pdTaskTimeId, taskName } = this.state;
     goInvalidApi({ pdTaskTimeId, taskName, taskOperateUser: userName }).then(
       res => {

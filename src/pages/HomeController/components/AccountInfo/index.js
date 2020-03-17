@@ -50,7 +50,7 @@ class AccountInfo extends Component {
         </Menu.Item>
       </Menu>
     );
-    const userName = Sessions.get('name');
+    const userName = sessionStorage.getItem("oms_userName")
     return (
       <div className="oms-home-header-nav">
         <span className="download-center">下载中心</span>

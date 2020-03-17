@@ -7,10 +7,10 @@ class BaseFilter extends Component {
     super(props);
     this.placeholder = ["开始日期", "结束日期"];
     this.formatType = "YYYY-MM-DD HH:mm:ss";
-    //搜索条件默认起始时间
-    this.searchCriteriaDefaultStartTime =  moment().subtract(30, 'days');
     //搜索条件默认结束时间
-    this.searchCriteriaDefaultEndTime =  moment();
+    this.searchCriteriaDefaultEndTime =  moment(moment().format("YYYY-MM-DD 23:59:59"));
+    //搜索条件默认起始时间,要算上当天
+    this.searchCriteriaDefaultStartTime =  moment(moment().subtract(29, 'days').format("YYYY-MM-DD 00:00:00"));
     // 表单的FormItem的布局比例
     this.formItemLayout = {
       labelCol: {
