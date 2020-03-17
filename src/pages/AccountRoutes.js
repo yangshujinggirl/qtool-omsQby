@@ -149,6 +149,12 @@ import WorkOrder from "./CustomerServiceCenter/FromC/WorkOrder";
  */
 import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDetail";
 
+/************************************   会员中心   *******************************************/
+/**
+ * 成长值任务
+ */
+import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue";
+
 class HomeRoutes extends React.Component {
   render() {
     return (
@@ -242,6 +248,9 @@ class HomeRoutes extends React.Component {
             <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
             <Route exact path='/account/work_order' component={WorkOrder}/>
             <Route exact path='/account/work_order/detail/:id?' component={WorkOrderDetail}/>
+
+{/* ----------------------------------  会员中心   ---------------------------------------*/}
+           <Route exact path='/account/growth_task_configuration' component={TaskGrowthValue}/>
 
 
         {/*
