@@ -260,7 +260,7 @@ class BrandAdd extends React.Component {
                 <UploadIsSq
                   upDateList={this.upAuthList}
                   fileList={introduceImg}
-                  limit={3}
+                  limit={1}
                 />
                 <div className="brand_desc">
                   <p>　1、该图片可能展示在前端，请尽量保证图片美观；</p>

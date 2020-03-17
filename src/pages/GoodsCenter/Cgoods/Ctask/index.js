@@ -80,7 +80,7 @@ class Ctask extends Component {
   };
   //强制失效
   onOk = () => {
-    const userName = Sessions.get('name')||1234;
+    const userName = Sessions.get('oms_userName')||1234;
     const { taskId } = this.state;
     goInvalidApi({ taskId,taskOperateUser: userName }).then(res => {
       if (res.httpCode == 200) {

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Select, Radio, Button } from "antd";
-import Upload from "common/QuploadImgLimt";
-import { Qbtn } from "common";
-import { saveApi, getInfosApi } from "api/home/OperateCenter/Boperate/Banner";
+import { Form, Input, Select, Button } from "antd";
+import { QimageTextEdit } from "common";
+import { saveApi, getInfosApi } from "api/home/OperateCenter/Boperate/Banswer";
 import "./index.less";
-const RadioGroup = Radio.Group;
 const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
@@ -12,30 +10,51 @@ const formItemLayout = {
 const Bpush = props => {
   const [form] = Form.useForm();
   const { id } = props.match.params;
-  //修改时初始化数据
+  const [detailImg, setDetailImg] = useState([]);
+  const [pdAnswerConfigId, setPdAnswerConfigId] = useState('');
+  /**
+   * 修改时初始化数据
+   */
   useEffect(() => {
     const { id } = props.match.params;
     if (id) {
       getInfosApi(id).then(res => {
         if (res.httpCode == 200) {
-          const { url, ...infos } = res.result;
-          const fileList = [
-            {
-              uid: "-1",
-              name: "image.png",
-              status: "done",
-              url: sessionStorage.getItem("oms__fileDomain") + url
+          const { pdAnswerConfig, ...infos } = res.result;
+          const list = JSON.parse(pdAnswerConfig.content);
+          const fileDomin = sessionStorage.getItem("oms_fileDomain");
+          list.map(item => {
+            if (item.type == 2) {
+              item.img = item.content;
+              item.content = [
+                {
+                  uid: "-1",
+                  name: "image.png",
+                  status: "done",
+                  url: sessionStorage.getItem("oms_fileDomain") + item.content
+                }
+              ];
             }
-          ];
-          setFileList(fileList);
-          setImgUrl(url);
-          form.setFieldsValue(infos);
+          });
+          setDetailImg(list);
+          setPdAnswerConfigId(pdAnswerConfig.pdAnswerConfigId);
+          form.setFieldsValue({ ...infos, productDetailImgList: list });
         }
       });
     }
   }, []);
-
-  //保存
+  /**
+   *
+   * 配置发生变化
+   */
+  const upDateDetailImg = list => {
+    setDetailImg(list);
+    form.setFieldsValue({ productDetailImgList: list });
+  };
+  /**
+   *
+   *提交保存
+   */
   const handleSubmit = async e => {
     const values = await form.validateFields();
     const params = formatValue(values);
@@ -45,28 +64,38 @@ const Bpush = props => {
       }
     });
   };
-  //请求数据格式化
+  /**
+   * 请求数据格式化
+   */
   const formatValue = values => {
-    values.url = imgUrl;
-    values.type = 10;
+    const { productDetailImgList, ..._values } = values;
+    let content = [];
+    detailImg.map(item => {
+      const obj = {type:item.type};
+      if (item.type == 2) {
+        obj.content = item.content[0].response
+          ? item.content[0].response.result
+          : item.img;
+      } else {
+        obj.content = item.content;
+      }
+      content.push(obj);
+    });
+    _values.pdAnswerConfig = {content:JSON.stringify(content),pdAnswerConfigId:id?pdAnswerConfigId:null};
     if (id) {
-      values.pdBannerId = id;
+      _values.pdAnswerId = id;
     }
-    return values;
+    return _values;
   };
   /**
    * 取消
    */
   const goBack = () => {
-    props.history.push("/account/b_banner");
+    props.history.push("/account/b_question");
   };
   return (
     <div className="oms-common-addEdit-pages">
-      <Form
-        form={form}
-        {...formItemLayout}
-        className="common-addEdit-form"
-      >
+      <Form form={form} {...formItemLayout} className="common-addEdit-form">
         <Form.Item
           label="问题类型"
           name="type"
@@ -113,6 +142,9 @@ const Bpush = props => {
             maxLength="30"
             autoComplete="off"
           />
+        </Form.Item>
+        <Form.Item label="配置">
+          <QimageTextEdit detailImg={detailImg} upDateList={upDateDetailImg} />
         </Form.Item>
         <div className="handle-operate-save-action">
           <Button onClick={goBack} size="large">
