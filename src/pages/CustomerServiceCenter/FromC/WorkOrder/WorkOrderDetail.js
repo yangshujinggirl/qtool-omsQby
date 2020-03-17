@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Card, Input, Select} from "antd";
-import {QdetailBaseInfo, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QdetailBaseInfo, Qmessage, Qtable} from "common/index";
 import Columns from "../UserFeedback/column/DetailLog";
 import {TableItemShowTime} from "common/QdisabledDateTime";
 import {WORK_ORDER_STATUS_END, WORK_ORDER_STATUS_IN_HAND, WORK_ORDER_STATUS_WAIT} from "./config";
@@ -30,24 +30,6 @@ const WorkOrderDetail = (props) => {
     const [content, setContent] = useState({});
     const [imgList, setImgList] = useState([]);
     const [contentRemark, setContentRemark] = useState("");
-
-    /**
-     * 请求数据
-     */
-    useEffect(() => {
-        showLoading();
-        const {id} = props.match.params;
-        new GetWorkOrderDetail(id).then(rep => {
-            const {feedbackInfos, feedbackDetail, handelFeedBack, feedbackLogs} = rep.result;
-            setDataInfo({...feedbackInfos, feedbackId: id});
-            setContent(feedbackDetail);
-            if (feedbackDetail != null && feedbackDetail.remarkPic != null) {
-                setImgList(feedbackDetail.remarkPic);
-            }
-            setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
-            hideLoading();
-        })
-    }, []);
 
     /**
      * 反馈状态选择改变
@@ -102,21 +84,7 @@ const WorkOrderDetail = (props) => {
         setImgList(fileList)
     };
 
-    /**
-     * 显示加载中
-     */
-    const showLoading = () => {
-
-    };
-
-    /**
-     * 隐藏加载中
-     */
-    const hideLoading = () => {
-
-    };
-
-    return <div className="oms-common-addEdit-pages bgood_add">
+    return QbaseDetail(<div className="oms-common-addEdit-pages bgood_add">
         <Card title="反馈信息">
             <QdetailBaseInfo showData={
                 ["客服单号", dataInfo.customServiceNo,
@@ -167,6 +135,18 @@ const WorkOrderDetail = (props) => {
             <Button htmlType="submit" type="primary"
                     onClick={optionsConfirm}>确定</Button>
         </div>
-    </div>
+    </div>, (showLoading, hideLoading) => {
+        const {id} = props.match.params;
+        new GetWorkOrderDetail(id).then(rep => {
+            const {feedbackInfos, feedbackDetail, handelFeedBack, feedbackLogs} = rep.result;
+            setDataInfo({...feedbackInfos, feedbackId: id});
+            setContent(feedbackDetail);
+            if (feedbackDetail != null && feedbackDetail.remarkPic != null) {
+                setImgList(feedbackDetail.remarkPic);
+            }
+            setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
+            hideLoading();
+        })
+    })
 };
 export default WorkOrderDetail;

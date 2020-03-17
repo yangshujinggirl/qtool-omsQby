@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Card, Select, Input, Button} from "antd";
 import moment from "moment";
-import {QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
     EditStoreFeedbackDta,
     GetStoreFeedbackDetail
@@ -34,20 +34,6 @@ const StoreFeedbackDetail = (props) => {
     const [dataInfo, setDataInfo] = useState({});
     const [picList, setPicList] = useState([]);
     const [logList, setLogList] = useState([]);
-    /**
-     * 请求数据
-     */
-    useEffect(() => {
-        showLoading();
-        const {id} = props.match.params;
-        new GetStoreFeedbackDetail(id).then(rep => {
-            const {feedback, feedbackPics, feedbackLogs} = rep.result;
-            setDataInfo(feedback);
-            setPicList(feedbackPics);
-            setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
-            hideLoading();
-        })
-    }, []);
 
     /**
      * 反馈类型选择改变
@@ -103,21 +89,7 @@ const StoreFeedbackDetail = (props) => {
         })
     };
 
-    /**
-     * 显示加载中
-     */
-    const showLoading = () => {
-
-    };
-
-    /**
-     * 隐藏加载中
-     */
-    const hideLoading = () => {
-
-    };
-
-    return (
+    return QbaseDetail(
         <div className="oms-common-addEdit-pages bgood_add">
             <Card title="反馈信息">
                 <QdetailBaseInfo showData={
@@ -182,7 +154,17 @@ const StoreFeedbackDetail = (props) => {
                 <Button htmlType="submit" type="primary"
                         onClick={optionsConfirm}>确定</Button>
             </div>
-        </div>
+        </div>,
+        (showLoading, hideLoading) => {
+            const {id} = props.match.params;
+            new GetStoreFeedbackDetail(id).then(rep => {
+                const {feedback, feedbackPics, feedbackLogs} = rep.result;
+                setDataInfo(feedback);
+                setPicList(feedbackPics);
+                setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
+                hideLoading();
+            })
+        }
     )
 };
 export default StoreFeedbackDetail;
