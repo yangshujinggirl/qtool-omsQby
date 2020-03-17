@@ -34,9 +34,9 @@ function withSubscription(FilterFormMod,productNature){
       this.setState({loading:true})
       GetGoodsApi(_values)
       .then((res)=> {
-        let { resultList, everyPage, currentPage, totalCount } =res.result;
-        resultList && resultList.map(item =>item.key = item.spuId)
-        this.setState({goodLists:resultList,everyPage, currentPage, totalCount, loading:false})
+        let { result, everyPage, currentPage, totalCount } =res.result;
+        result && result.map(item =>item.key = item.spuId)
+        this.setState({goodLists:result,everyPage, currentPage, totalCount, loading:false})
       })
     };
     changePage = (currentPage, everyPage) => {

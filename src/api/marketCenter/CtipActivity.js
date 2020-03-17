@@ -38,11 +38,8 @@ export function GetBaseInfoApi(promotionId) {
   return appAjax.get(`/promotions/${promotionId}`)
 }
 //搜索不可用优惠券
-export function GetValidCoupon(values) {
-  return appAjax.post("/webrest.htm", {
-    code: "qerp.web.promotion.activity.noUserCoupon",
-    data: values
-  });
+export function GetValidCoupon(couponCode) {
+  return appAjax.get(`/promotions/coupon/noUse/${couponCode}`);
 }
 // //c端活动优惠信息+商品信息
 // //查询c端商品设置

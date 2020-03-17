@@ -20,8 +20,10 @@ import _QtabShow from './QtabShow';
 import _Qcards from './Qcards';
 import _QcardList from './QcardList';
 import _QbaseListNew from './QbaseListNew';
+import _QimageTextEdit from './QimageTextEdit';
 
 
+export const QimageTextEdit = _QimageTextEdit;
 export const QbaseListNew = _QbaseListNew;
 export const QbyConnect = _QbyConnect;
 export const Qtable = _Qtable;

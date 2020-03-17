@@ -6,8 +6,7 @@ import {
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { GetImgInfoApi, GetEditImgApi } from 'api/home/BaseGoods';
-import { Qmessage, Qtable, Qbtn } from 'common';
-import ImageTextEdit from './components/ImageTextEdit';
+import { Qmessage, QimageTextEdit, Qtable, Qbtn } from 'common';
 import QupLoadImgLimt from './components/QupLoadImgLimt';
 
 import { ColumnsEditImgGeneral } from './columns';
@@ -189,7 +188,7 @@ function EditImg({...props}) {
             columns={ColumnsEditImgGeneral(upDateSkuList)}/>
         </Form.Item>
         <Form.Item label="商品详情" {...formItemLayoutBig}>
-          <ImageTextEdit detailImg={detailImg} upDateList={upDateDetailImg}/>
+          <QimageTextEdit detailImg={detailImg} upDateList={upDateDetailImg}/>
         </Form.Item>
         <div className="handle-operate-save-action">
           <Qbtn onClick={goReturn}>
