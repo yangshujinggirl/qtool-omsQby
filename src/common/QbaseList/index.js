@@ -1,5 +1,6 @@
 import React from 'react'
 import TableDataListUtil from "utils/TableDataListUtil";
+import {Spin} from "antd";
 
 /**
  *
@@ -195,7 +196,9 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
         };
 
         render() {
-            return ChildComponent(this)
+            return <Spin spinning={this.state.showLoadingStatus}>
+                {ChildComponent(this)}
+            </Spin>
         }
     }
 }
