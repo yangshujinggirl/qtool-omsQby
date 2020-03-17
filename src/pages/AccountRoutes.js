@@ -92,6 +92,7 @@ import shopManage from './CooperateCenter/ShopManage'
 /************************************  营销中心  ********************************************/
 import CtipActivity from './MarketCenter/PromotionActivity/CtipActivity';//c端营销活动
 import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAdd';//c端营销活动
+import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAddTwo';//c端营销活动
 
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'
@@ -189,6 +190,7 @@ class HomeRoutes extends React.Component {
 {/* ----------------------------------  营销中心   ---------------------------------------*/}
           <Route exact path="/account/ctipActivity" component={CtipActivity}/>
           <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
+          <Route exact path="/account/ctipActivity/addTwo/:id" component={CtipActivityAdd}/>
 
 
 
