@@ -131,6 +131,22 @@ import UserFeedback from './CustomerServiceCenter/FromC/UserFeedback'
  * 用户意见反馈详情页面
  */
 import UserFeedbackDetail from './CustomerServiceCenter/FromC/UserFeedback/UserFeedbackDetail'
+/**
+ * C端客服工单
+ */
+import WorkOrderC from './CustomerServiceCenter/FromC/WorkOrderC'
+/**
+ * C端客服工单详情
+ */
+import WorkOrderCDetail from "./CustomerServiceCenter/FromC/WorkOrderC/WorkOrderCDetail";
+/**
+ * 客服工单
+ */
+import WorkOrder from "./CustomerServiceCenter/FromC/WorkOrder";
+/**
+ * 客服工单详情页面
+ */
+import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDetail";
 
 class HomeRoutes extends React.Component {
   render() {
@@ -220,6 +236,11 @@ class HomeRoutes extends React.Component {
             <Route exact path='/account/treasurer_recharge' component={ShoperRecharge}/>
             <Route exact path='/account/cash_withdrawal' component={Withdraw}/>
 {/* ----------------------------------  用户中心   ---------------------------------------*/}
+            <Route exact path='/account/c_work_order' component={WorkOrderC}/>
+            <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
+            <Route exact path='/account/work_order' component={WorkOrder}/>
+            <Route exact path='/account/work_order/detail/:id?' component={WorkOrderDetail}/>
+
 
         {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>

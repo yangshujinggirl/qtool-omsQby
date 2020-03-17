@@ -3,7 +3,7 @@ import {Button, Card, Input, Select} from "antd";
 import moment from "moment";
 import {
     GetUserFeedbackDetail,
-    EditUserFeedbackDta
+    EditUserFeedbackData
 } from "../../../../api/home/CustomerServiceCenter/FromC";
 import {QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
@@ -80,10 +80,11 @@ const UserFeedbackDetail = (props) => {
      * 操作确定
      */
     const optionsConfirm = () => {
-        new EditUserFeedbackDta(dataInfo.feedbackId, {
+        new EditUserFeedbackData(dataInfo.feedbackId, {
             feedbackId: dataInfo.feedbackId,
             status: dataInfo.status,
-            remark: dataInfo.editRemark
+            remark: dataInfo.editRemark,
+            operator: sessionStorage.getItem("oms_userName") != null ? sessionStorage.getItem("oms_userName") : ""
         }).then(rep => {
             Qmessage.success("更新成功");
         })
@@ -123,7 +124,7 @@ const UserFeedbackDetail = (props) => {
                             "反馈图片", picList.map((item, index) => {
                             return (
                                 <QenlargeImg
-                                    url={sessionStorage.getItem("oms__fileDomain") + item.imgPath}
+                                    url={sessionStorage.getItem("oms_fileDomain") + item.imgPath}
                                     key={index} placement="inline"/>
                             )
                         })]
