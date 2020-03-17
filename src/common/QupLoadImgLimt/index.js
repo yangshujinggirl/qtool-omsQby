@@ -93,8 +93,9 @@ class UpLoadImg extends Component {
   };
   handleCancel = () => this.setState({ previewVisible: false });
   handlePreview = file => {
+    debugger
     if (!file.url && !file.preview) {
-      file.preview = file.response.result;
+      file.preview = file.response.fileDomain+file.response.result;
     }
     this.setState({
       previewImage: file.url || file.preview,

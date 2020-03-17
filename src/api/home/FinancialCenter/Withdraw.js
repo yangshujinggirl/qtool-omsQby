@@ -1,7 +1,7 @@
-import { erpAjax } from "../../../Req";
+import { erpAjax } from "../../Req";
 //列表
 export function getListApi(values) {
-  return erpAjax.get("/answer", {
+  return erpAjax.get("/spCarryCash/query", {
     params: values
   });
 }
