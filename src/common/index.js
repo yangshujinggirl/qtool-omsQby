@@ -16,6 +16,9 @@ import _QsubTable from './QsubTable';
 import _QupLoadImgLimt from './QupLoadImgLimt';
 import _CascaderAddressOptions from './CascaderAddressOptions';
 import _QdetailBaseInfo from './QdetailBaseInfo';
+import _QtabShow from './QtabShow';
+import _Qcards from './Qcards';
+import _QcardList from './QcardList';
 import _QbaseListNew from './QbaseListNew';
 
 
@@ -37,3 +40,6 @@ export const QsubTable = _QsubTable;
 export const QupLoadImgLimt = _QupLoadImgLimt;
 export const CascaderAddressOptions = _CascaderAddressOptions;
 export const QdetailBaseInfo = _QdetailBaseInfo;
+export const QtabShow = _QtabShow;
+export const Qcards = _Qcards;
+export const QcardList = QbaseListNew;

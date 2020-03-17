@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {DatePicker, Form} from "antd";
 import { disabledDate, disabledDateTime } from "utils/tools";
+import moment from "moment";
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 class DateTime extends Component {
@@ -91,12 +92,34 @@ class FilterSearchRangeTime extends Component {
     };
 
     render() {
-        return <FormItem label={this.props.label} {...this.props.itemLayout}>
+        return this.props.label != null && this.props.label !== "" ?
+            <FormItem label={this.props.label} {...this.props.itemLayout}>
+                <RangePicker format="YYYY-MM-DD HH:mm:ss"
+                             defaultValue={this.props.defaultValue != null ? this.props.defaultValue : []}
+                             onChange={this.onChange}
+                             {...this.props}/>
+            </FormItem> :
             <RangePicker format="YYYY-MM-DD HH:mm:ss"
                          defaultValue={this.props.defaultValue != null ? this.props.defaultValue : []}
-                         onChange={this.onChange}/>
-        </FormItem>;
+                         onChange={this.onChange}
+                         {...this.props}/>
     }
 }
 
-export {DateTime, RangeTime, FilterSearchRangeTime};
+/**
+ * 功能作用：表格中的单项item时间显示
+ * 初始注释时间： 2020/3/16 16:34
+ * 注释创建人：LorenWang（王亮）
+ * 方法介绍：
+ * 思路：
+ * 修改人：
+ * 修改时间：
+ * 备注：
+ */
+class TableItemShowTime extends Component {
+    render() {
+        return <span>{this.props.showTime && moment(this.props.showTime).format("YYYY-MM-DD H:mm:ss")}</span>
+    }
+}
+
+export {DateTime, RangeTime, FilterSearchRangeTime, TableItemShowTime};

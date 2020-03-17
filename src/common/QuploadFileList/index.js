@@ -4,14 +4,14 @@ import "./index.less";
 
 let keyIndex = 100;
 /**
- *
- * @param {Columns:[]} 列表字段
- * @param {dataSource:[]} 列表数据
- * @param {action:String} 导入的url
+ *                                  是否必传
+ * @param {Columns:[]} 列表字段       true
+ * @param {dataSource:[]} 列表数据    true
+ * @param {action:String} 导入的url   true
  * @param {data:{}} 如果存在post导入，参数
- * @param {del:Boolean} 列表是否可以删除
- * @param {footer:Boolean} 列表底部是否可以添加
- * @param {changeDataSource:function} 更改父组件的列表数据函数
+ * @param {del:Boolean} 列表是否可以删除 false
+ * @param {footer:Boolean} 列表底部是否可以添加 false
+ * @param {changeDataSource:function} 更改父组件的列表数据函数 true
  *
  */
 

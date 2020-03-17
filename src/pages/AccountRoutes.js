@@ -39,6 +39,7 @@ import Country from "./GoodsCenter/BaseConfigCenter/Country"; //国家地区管�
 import Attributions from "./Attributions"; //规格管理
 import Brand from "./Brand"; //品牌管理
 import Classify from "./Classify"; //后台类目管理
+import CgoodsExplain from "./GoodsCenter/BaseConfigCenter/CgoodsExplain"; //后台类目管理
 //基础商品-----------------------------------//////
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
 import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGoodsAdd";//基础商品
@@ -92,8 +93,24 @@ import shopManage from './CooperateCenter/ShopManage'
 import CtipActivity from './MarketCenter/PromotionActivity/CtipActivity';//c端营销活动
 import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAdd';//c端营销活动
 
+/************************************   数据中心   *******************************************/
+import GoodsData from './DataCenter/BaseData/GoodsData'
+
+/************************************   运营中心   *******************************************/
+import Bpush from './OperateCenter/Boperate/Bpush'
+import AddBPush from './OperateCenter/Boperate/Bpush/AddPush'
+import BpushInfos from './OperateCenter/Boperate/Bpush/BpushDetail'
 
 
+/************************************   客服中心   *******************************************/
+/**
+ * 门店反馈页面
+ */
+import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'
+/**
+ * 门店反馈详情页面
+ */
+import StoreFeedbackDetail from './CustomerServiceCenter/FromB/StoreFeedback/StoreFeedbackDetail'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -132,6 +149,7 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/generalTrade/info/:id" component={GeneralTradeInfo}/>
           <Route exact path="/account/generalTrade/edit/:id" component={GeneralTradeEdit}/>
           <Route exact path="/account/general_trade_product" component={GeneralTradeGoods}/>
+          <Route exact path="/account/c_product_title" component={CgoodsExplain}/>
 {/* ----------------------------------  订单中心   ---------------------------------------*/}
           <Route exact path='/account/purchaseOrder' component={PurchaseIn}/>
           <Route exact path='/account/add_purchasein/:id?' component={AddPurchaseIn}/>
@@ -141,7 +159,7 @@ class HomeRoutes extends React.Component {
           <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
           <Route exact path='/account/channel_orders' component={ShopOrder}/>
           <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
-          <Route exact exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
+          <Route exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
           <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
           <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
           <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
@@ -154,6 +172,21 @@ class HomeRoutes extends React.Component {
 {/* ----------------------------------  营销中心   ---------------------------------------*/}
           <Route exact path="/account/ctipActivity" component={CtipActivity}/>
           <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
+
+
+
+{/* ----------------------------------  数据中心   ---------------------------------------*/}
+            <Route exact path='/account/product_data' component={GoodsData}/>
+{/* ----------------------------------  运营中心   ---------------------------------------*/}
+            <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
+            <Route exact path='/account/b_push' component={Bpush}/>
+            <Route exact path='/account/bpush_infos' component={BpushInfos}/>
+
+{/* ----------------------------------  客服中心   ---------------------------------------*/}
+            <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
+            <Route exact path='/account/channel_feedback/detail/:id?' component={StoreFeedbackDetail}/>
+
+
         {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/Csite" component={Cgoods}/>
