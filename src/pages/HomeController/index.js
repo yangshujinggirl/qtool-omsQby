@@ -11,7 +11,7 @@ import AccountInfo from './components/AccountInfo';
 import AccountRoutes from '../AccountRoutes';
 import { GetMenuApi } from '../../api/home/Home';
 import './index.less';
-
+import { Sessions } from 'utils';
 const { Header, Footer, Sider, Content } = Layout;
 
 class HomeController extends React.Component {
@@ -24,7 +24,8 @@ class HomeController extends React.Component {
   getMenuList() {
     GetMenuApi()
     .then((res) => {
-      let { result } =res;
+      let { result,fileDomain } = res;
+      Sessions.set('fileDomain',fileDomain)
       let ss = [{
         id: "4cf5f4486d164352b85db8cf405e7079",
         action: "/public",

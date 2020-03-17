@@ -39,16 +39,26 @@ const Bpush = props => {
             pushPerson
           } = res.result;
           let content = {};
-          if (alertType == 10) content.bannerIdNum = alertTypeContent;
-          if (alertType == 20) content.code = alertTypeContent;
-          if (alertType == 30) content.H5Url = alertTypeContent;
-          if (alertType == 40) content.textInfo = alertTypeContent;
+          switch (alertType) {
+            case 10:
+              content.bannerIdNum = alertTypeContent;
+              break;
+            case 20:
+              content.code = alertTypeContent;
+              break;
+            case 30:
+              content.H5Url = alertTypeContent;
+              break;
+            case 40:
+              content.textInfo = alertTypeContent;
+              break;
+          };
           setPushNow(pushNow);
           setAlertType(alertType);
           setStatus(status);
           form.setFieldsValue({
             ...res.result,
-            pushPerson:pushPerson.split('-'),
+            pushPerson: pushPerson.split("-"),
             alertTypeContent: content,
             pushTime: pushNow == 0 ? moment(pushTime) : undefined
           });
@@ -74,6 +84,7 @@ const Bpush = props => {
       form.resetFields(["alertTypeContent"]);
       setAlertType(alertType);
     }
+   
   };
   //保存
   const handleSubmit = async e => {
@@ -81,7 +92,7 @@ const Bpush = props => {
     const params = formatValue(values);
     savePushApi(params).then(res => {
       if (res.httpCode == 200) {
-        goback();
+        goBack();
       }
     });
   };
@@ -107,14 +118,17 @@ const Bpush = props => {
     console.log(_values);
     return _values;
   };
-
-  const goback = () => {
+  /**
+   * 取消
+   */
+  const goBack = () => {
     props.history.push("/account/b_push");
   };
   const radioStyle = {
     display: "block",
     height: "30px",
-    lineHeight: "30px"
+    lineHeight: "30px",
+    marginBottom: "20px"
   };
   return (
     <div className="oms-common-addEdit-pages">
@@ -141,9 +155,13 @@ const Bpush = props => {
             noStyle
             rules={[{ required: true, message: "请选择推送时间" }]}
           >
-            <RadioGroup style={radioStyle}>
-              <Radio value={1}>立即推送</Radio>
-              <Radio value={0}>定时推送</Radio>
+            <RadioGroup>
+              <Radio style={radioStyle} value={1}>
+                立即推送
+              </Radio>
+              <Radio style={radioStyle} value={0}>
+                定时推送
+              </Radio>
             </RadioGroup>
           </Form.Item>
           <Form.Item
@@ -190,6 +208,7 @@ const Bpush = props => {
         </Form.Item>
         <Form.Item label="推送类型">
           <Form.Item
+            noStyle
             name="alertType"
             rules={[{ required: true, message: "请选择推送类型" }]}
           >
@@ -208,14 +227,14 @@ const Bpush = props => {
               </Radio>
             </RadioGroup>
           </Form.Item>
-          <Form.Item noStyle>
+          <div style={{ display: "inline-block", verticalAlign: "top" }}>
             <Form.Item
               name={["alertTypeContent", "bannerIdNum"]}
               rules={[{ required: alertType == 10, message: "请输入bannerid" }]}
             >
               <Input disabled={alertType !== 10} autoComplete="off" />
             </Form.Item>
-            <Form.Item
+           <Form.Item
               name={["alertTypeContent", "code"]}
               rules={[{ required: alertType == 20, message: "请输入商品编码" }]}
             >
@@ -241,7 +260,7 @@ const Bpush = props => {
                 rows={6}
               />
             </Form.Item>
-          </Form.Item>
+          </div>
         </Form.Item>
         <Form.Item
           label="推送人群"
@@ -251,8 +270,10 @@ const Bpush = props => {
           <CheckboxGroup options={options} />
         </Form.Item>
         <div className="handle-operate-save-action">
-          <Qbtn onClick={goback}>取消</Qbtn>
-          <Qbtn onClick={handleSubmit}>保存</Qbtn>
+          <Button onClick={goBack} size='large'>返回</Button>
+          <Button type="primary" size='large' onClick={handleSubmit}>
+            保存
+          </Button>
         </div>
       </Form>
     </div>

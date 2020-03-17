@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+const columns =(AddUrl,InfoUrl)=>{
+
+
 const Columns = [
   {
     title: "推送标题",
@@ -7,7 +10,7 @@ const Columns = [
       return (
         <div>
           <Link
-            to={`/account/bpush_infos/${record.bsPushId}`}
+            to={`${Info.Url}${record.bsPushId}`}
             className="theme-color"
           >
             <a>{text}</a>
@@ -44,7 +47,7 @@ const Columns = [
         <div>
           {record.status == 10 ? (
             <Link
-              to={`/account/add_bpush/${record.bsPushId}`}
+              to={`${AddUrl}${record.bsPushId}`}
               className="theme-color"
             >
               <span>修改</span>
@@ -55,5 +58,7 @@ const Columns = [
     }
   }
 ];
+return Columns
+}
 
-export default Columns;
+export default columns;

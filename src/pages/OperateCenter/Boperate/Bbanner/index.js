@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Modal, message } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
-import { getListApi, saveApi } from "api/home/OperateCenter/Boperate/Banswer";
+import { getListApi, saveApi } from "api/home/OperateCenter/Boperate/Banner";
 import FilterForm from "./components/FilterForm/index";
 import Columns from "./Columns";
 
@@ -54,13 +54,13 @@ class Banner extends Component {
       currentPage,
       totalCount,
     } = this.state;
-    dataList.map(item => (item.key = item.pdAnswerId));
+    dataList.map(item => (item.key = item.pdBannerId));
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <div className="handle-operate-btn-action">
-          <Link to='/account/add_b_answer'>
-            <Qbtn>新增问答</Qbtn>
+          <Link to='/account/add_banner'>
+            <Qbtn onClick={this.addPush}>新增banner</Qbtn>
           </Link>
         </div>
         <Qtable

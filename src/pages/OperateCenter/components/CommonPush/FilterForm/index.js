@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Qbtn, BaseFilter } from "common";
 import { Form, Row, Col, Input, Button, Select, DatePicker } from "antd";
-import "../index.css";
-import moment from "moment";
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
 

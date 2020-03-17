@@ -100,6 +100,15 @@ import GoodsData from './DataCenter/BaseData/GoodsData'
 import Bpush from './OperateCenter/Boperate/Bpush'
 import AddBPush from './OperateCenter/Boperate/Bpush/AddPush'
 import BpushInfos from './OperateCenter/Boperate/Bpush/BpushDetail'
+import Bbanner from './OperateCenter/Boperate/Bbanner'
+import AddBbanner from './OperateCenter/Boperate/Bbanner/AddBanner'
+import Cpush from './OperateCenter/Coperate/Cpush'
+import AddCPush from './OperateCenter/Coperate/Cpush/AddPush'
+import CpushInfos from './OperateCenter/Coperate/Cpush/CpushDetail'
+import ThemeAct from './OperateCenter/Coperate/ThemeAct'
+import AddTheme from './OperateCenter/Coperate/ThemeAct/AddTheme'
+import Banswer from './OperateCenter/Boperate/Banswer'
+import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 
 
 /************************************   客服中心   *******************************************/
@@ -111,6 +120,14 @@ import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'
  * 门店反馈详情页面
  */
 import StoreFeedbackDetail from './CustomerServiceCenter/FromB/StoreFeedback/StoreFeedbackDetail'
+/**
+ * 用户反馈页面
+ */
+import UserFeedback from './CustomerServiceCenter/FromC/UserFeedback'
+/**
+ * 用户意见反馈详情页面
+ */
+import UserFeedbackDetail from './CustomerServiceCenter/FromC/UserFeedback/UserFeedbackDetail'
 
 class HomeRoutes extends React.Component {
   render() {
@@ -180,11 +197,22 @@ class HomeRoutes extends React.Component {
 {/* ----------------------------------  运营中心   ---------------------------------------*/}
             <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
             <Route exact path='/account/b_push' component={Bpush}/>
+            <Route exact path='/account/b_banner' component={Bbanner}/>
+            <Route exact path='/account/add_banner/:id?' component={AddBbanner}/>
+            <Route exact path='/account/themati_activities' component={ThemeAct}/>
+            <Route exact path='/account/add_theme/:id?' component={AddTheme}/>
             <Route exact path='/account/bpush_infos' component={BpushInfos}/>
+            <Route exact path='/account/add_cpush/:id?' component={AddCPush}/>
+            <Route exact path='/account/c_push' component={Cpush}/>
+            <Route exact path='/account/cpush_infos' component={CpushInfos}/>
+            <Route exact path='/account/b_question' component={Banswer}/>
+            <Route exact path='/account/add_b_answer' component={AddBanswer}/>
 
 {/* ----------------------------------  客服中心   ---------------------------------------*/}
             <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
             <Route exact path='/account/channel_feedback/detail/:id?' component={StoreFeedbackDetail}/>
+            <Route exact path='/account/user_feedback' component={UserFeedback}/>
+            <Route exact path='/account/user_feedback/detail/:id?' component={UserFeedbackDetail}/>
 
 
         {/*

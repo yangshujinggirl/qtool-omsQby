@@ -1,86 +1,70 @@
-import React, { Component } from 'react'
-import {connect} from 'dva'
-import {
-  Form,
-  Row,
-  Col,
-  Input,
-  Button,
-  Select,
-  DatePicker
-}from 'antd'
-import {removeSpace} from '../../../../../utils/meth';
-import moment from 'moment';
-const FormItem = Form.Item;
+import React, { Component } from "react";
+import { Qbtn, BaseFilter } from "common";
+import { Form, Row, Col, Input, Button, Select, DatePicker } from "antd";
 const Option = Select.Option;
-const RangePicker = DatePicker.RangePicker
 
-class NormalForm extends Component{
-  //点击搜索
-  handleSubmit = (e) => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      removeSpace(values);
-      this.props.submit && this.props.submit(values);
-    })
-  }
+class NormalForm extends BaseFilter {
+  formRef = React.createRef();
   //初始化
-  render(){
-    const { getFieldDecorator }= this.props.form;
-    return(
-      <div>
-        <Form className="qtools-condition-form">
-          <div className='search-form-outwrap'>
-            <div className="search-form-wrap">
-                <FormItem label='问答标题'>
-                  {getFieldDecorator('title')(
-                      <Input placeholder='请输入问答标题' autoComplete="off"/>
-                  )}
-                </FormItem>
-                <FormItem label='最后修改人'>
-                  {getFieldDecorator('userName')(
-                    <Input placeholder='请输入最后修改人' autoComplete="off"/>
-                  )}
-                </FormItem>
-                <FormItem label='问题类型'>
-                    {getFieldDecorator('type')(
-                    <Select allowClear={true} placeholder="请选择问题类型" className='select'>
-                        <Option value={20}>运营问题 </Option>
-                        <Option value={30}>商品问题</Option>
-                        <Option value={40}>设计问题</Option>
-                        <Option value={50}>招商问题 </Option>
-                        <Option value={60}>系统类型 </Option>
-                        <Option value={70}>其他 </Option>
-                    </Select>
-                    )}
-                </FormItem>
-                <FormItem label='问答状态'>
-                    {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择问答状态" className='select'>
-                        <Option value={1}>上线</Option>
-                        <Option value={0}>下线</Option>
-                    </Select>
-                    )}
-                </FormItem>
-            </div>
-          </div>
-          <div className="search-submit-btn">
-              <Button
-                htmlType="submit"
-                type="primary"
-                size='large'
-                onClick={()=>this.handleSubmit()}>
-                  搜索
-              </Button>
-          </div>
+  render() {
+    return (
+      <div className="qtoolOms-condition">
+        <Form
+          ref={this.formRef}
+          className="serach-common-form"
+          {...this.formItemLayout}
+        >
+          <Row>
+            <Col {...this.colspan}>
+              <Form.Item name="title" label="问答标题">
+                <Input placeholder="请输入问答标题" autoComplete="off" />
+              </Form.Item>
+            </Col>
+            <Col {...this.colspan}>
+              <Form.Item name="userName" label="最后修改人">
+                <Input placeholder="请输入最后修改人" autoComplete="off" />
+              </Form.Item>
+            </Col>
+            <Col {...this.colspan}>
+              <Form.Item name="type" label="问题类型">
+                <Select
+                  allowClear={true}
+                  placeholder="请选择问题类型"
+                  className="select"
+                >
+                  <Option value={20}>运营问题 </Option>
+                  <Option value={30}>商品问题</Option>
+                  <Option value={40}>设计问题</Option>
+                  <Option value={50}>招商问题 </Option>
+                  <Option value={60}>系统类型 </Option>
+                  <Option value={70}>其他 </Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col {...this.colspan}>
+              <Form.Item name="status" label="问答状态">
+                <Select
+                  allowClear={true}
+                  placeholder="请选择问答状态"
+                  className="select"
+                >
+                  <Option value={1}>上线</Option>
+                  <Option value={0}>下线</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
+        <Col span={24}>
+          <Form.Item className="oms-condition-operate">
+            <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
+              搜索
+            </Qbtn>
+          </Form.Item>
+        </Col>
       </div>
-    )
+    );
   }
 }
 
-const FilterForm = Form.create({})(NormalForm)
-function mapStateToProps(state){
-  const { bAnswer } = state;
-  return { bAnswer }
-}
-export default connect(mapStateToProps)(FilterForm)
+export default NormalForm;

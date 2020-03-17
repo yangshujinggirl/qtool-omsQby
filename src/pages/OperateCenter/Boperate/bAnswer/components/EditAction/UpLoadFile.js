@@ -1,6 +1,6 @@
-import React ,{ Component } from 'react';
-import { connect } from 'dva';
-import { Upload,Icon, Modal, Button,message } from 'antd';
+import React ,{ Component } from './node_modules/react';
+import { connect } from './node_modules/dva';
+import { Upload,Icon, Modal, Button,message } from './node_modules/antd';
 
 
 class UpLoadFile extends Component {

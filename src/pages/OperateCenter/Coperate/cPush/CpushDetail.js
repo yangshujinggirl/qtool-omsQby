@@ -1,19 +1,25 @@
-import React,{ Component } from 'react';
-import './index.css'
+import React, { useEffect, useState } from "react";
+import { getInfosApi } from "api/home/OperateCenter/Boperate/Bpush";//请求方法
 
-class CpushDetail extends Component{
-render(){
-    const {title,pushTime,msgContent,alertTypeStr,pushMan, pushContent} = this.props.data;
-    return(
-      <div className='couponDetail'>
-        <p className='tail'>推送主题：　　{title}</p>
-        <p className='tail'>推送时间：　　{pushTime}</p>
-        <p className='tail'>推送内容：　　{msgContent}</p>
-        <p className='tail'>推送类型：　　{alertTypeStr}</p>
-        <p className='tail'>推送详情：　　{pushContent}</p>
-        <p className='tail'>推送人群：　　{pushMan}</p>
-      </div>
-    );
-  }
-}
-export default CpushDetail
+const CouponDetail = props => {
+  const [infos, setInfos] = useState({});
+  useEffect(() => {
+    const { id } = props.match.params;
+    getInfosApi(id).then(res => {
+      if (res.httpCode == 200) {
+        setInfos(res.result);
+      }
+    });
+  },[]);
+  return (
+    <div className="couponDetail">
+      <p className="tail">推送主题：　　{infos.title}</p>
+      <p className="tail">推送时间：　　{infos.pushTime}</p>
+      <p className="tail">推送内容：　　{infos.msgContent}</p>
+      <p className="tail">推送类型：　　{infos.alertTypeStr}</p>
+      <p className="tail">推送详情：　　{infos.pushContent}</p>
+      <p className="tail">推送人群：　　{infos.pushMan}</p>
+    </div>
+  );
+};
+export default CouponDetail;
