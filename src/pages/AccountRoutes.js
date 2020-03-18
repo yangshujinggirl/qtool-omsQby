@@ -114,6 +114,7 @@ import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 /************************************   财务中心   *******************************************/
 import ShoperRecharge from './FinancialCenter/Recharge'
 import Withdraw from './FinancialCenter/Withdraw'
+import WithdrawInfo from './FinancialCenter/Withdraw/WithdrawInfo'
 /************************************   客服中心   *******************************************/
 /**
  * 门店反馈页面
@@ -235,6 +236,7 @@ class HomeRoutes extends React.Component {
 {/* ----------------------------------  财务中心   ---------------------------------------*/}
             <Route exact path='/account/treasurer_recharge' component={ShoperRecharge}/>
             <Route exact path='/account/cash_withdrawal' component={Withdraw}/>
+            <Route exact path='/account/withdraw_infos' component={WithdrawInfo}/>
 {/* ----------------------------------  用户中心   ---------------------------------------*/}
             <Route exact path='/account/c_work_order' component={WorkOrderC}/>
             <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
