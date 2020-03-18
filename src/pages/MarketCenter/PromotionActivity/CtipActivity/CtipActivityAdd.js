@@ -90,15 +90,17 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
     try {
       let values = await form.validateFields();
       values = formatParams(values);
-      console.log(values)
       GetSaveActivApi(values)
       .then((res)=> {
-        const { promotionId, promotionType } =res;
+        const { promotionId, promotionType } =res.result;
         Qmessage.success('保存成功');
-        props.history.push({
-          pathname:`/account/ctipActivity/addTwo/${promotionId}`,
-          state:{promotionType}
-        })
+        let datas={
+          beginTime:values.beginTime,
+          endTime:values.endTime,
+          pdKind:values.pdKind,
+          promotionId:values.promotionId
+        }
+        props.history.push({pathname:`/account/ctipActivity/addTwo/${promotionId}`,state:datas})
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
