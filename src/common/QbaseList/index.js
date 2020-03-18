@@ -78,6 +78,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
          * 第一次渲染之后调用数据
          */
         componentDidMount = () => {
+            console.log('xxx',this.props)
             if (isComponentDidMountRequestData) {
                 this.searchDataList();
             }
@@ -122,7 +123,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
         searchDataList = (values) => {
             this.showLoading();
             //先合并记录数据
-            let params = {...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList};
+            let params = {...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList,currentComponent:this};
             if (formatSearchCriteriaList != null) {
                 params = {...params, ...formatSearchCriteriaList(values)};
             } else {
