@@ -18,14 +18,7 @@ export function GetApprovalsApi(values) {
 export function GetEnableApi(values) {
   return appAjax.put('/promotions/prohibit',{...values})
 }
-// //c端活动保存活动
-// export function getSaveActivApi(values) {
-//   values = JSON.stringify(values)
-//   return ajax.post('/webrest.htm',{
-//     code:'qerp.web.promotion.activity.modify',
-//     data:values
-//   })
-// }
+
 //c端查询供应商
 export function GetSuppliApi(values) {
   return appAjax.post('/webrest.htm',{
@@ -40,6 +33,10 @@ export function GetBaseInfoApi(promotionId) {
 //搜索不可用优惠券
 export function GetValidCoupon(couponCode) {
   return appAjax.get(`/promotions/coupon/noUse/${couponCode}`);
+}
+//c端活动保存活动
+export function GetSaveActivApi(values) {
+  return appAjax.post('/promotions/save',{...values})
 }
 // //c端活动优惠信息+商品信息
 // //查询c端商品设置

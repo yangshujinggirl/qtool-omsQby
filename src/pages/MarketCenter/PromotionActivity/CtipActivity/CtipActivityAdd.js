@@ -3,15 +3,16 @@ import {
   Input,Spin,Form,Upload,Select,Table,Card,
   Row,Col,Checkbox,Button,Radio,AutoComplete,
 } from 'antd';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
 import { ColumnsAddGeneral,ColumnsAddCross } from './columns';
-import { GetBaseInfoApi } from 'api/marketCenter/CtipActivity';
+import { GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/CtipActivity';
 import StepMod from './components/StepMod';
 import InfoSet from './components/InfoSet';
-// import WebSet from './components/WebSet';
-// import ShareSet from './components/ShareSet';
+import WebSet from './components/WebSet';
+import ShareSet from './components/ShareSet';
 import './CtipActivityAdd.less';
 
 let FormItem = Form.Item;
@@ -38,8 +39,9 @@ const formItemLayoutBig = {
     };
 
 const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨境商品
+  console.log(props)
   const [form] = Form.useForm();
-  let [activityInfo, setTotalData] =useState({});
+  let [activityInfo, setTotalData] =useState({websiteBanner:{}});
   let [ratioList, setRatioList] =useState([]);
   let [tagsList, setTagsList] =useState([]);
   let promotionId = props.match.params.id;
@@ -53,13 +55,11 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
 
   }
   const updateRatioList=(array)=> {
-    console.log(array);
     setRatioList(array)
   }
   const getBaseInfo=()=> {
     GetBaseInfoApi(promotionId)
     .then((res)=> {
-      console.log(res);
       let { costApportions, promtionShare } =res.result;
       let resData = {...res.result,...promtionShare};
       if(costApportions) {
@@ -73,14 +73,12 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
           return el;
         });
       }
-      resData.time=[resData.beginTime,resData.endTime];
+      resData.time=[moment(resData.beginTime),moment(resData.endTime)];
+      resData.bannerBeginTime=resData.bannerBeginTime?moment(resData.bannerBeginTime):null;
+      resData.logoBeginTime=resData.logoBeginTime?moment(resData.logoBeginTime):null;
       if(resData.budget) {
-        costApportions.map((el) =>el.budget = costApportions.budget)
+        costApportions.map((el) =>el.budget = resData.budget)
       }
-      let budgetItem = ratioList.find((el)=>el.budget);
-      budgetItem = budgetItem?budgetItem:{};
-      costApportions.map((el) =>el.budget = budgetItem.budget)
-      costApportions=[...costApportions]
       let tagsArray = costApportions.filter(el => el.bearerType=='C');
       setTotalData(resData);
       setRatioList(costApportions);
@@ -90,47 +88,77 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
   //提交
   const submit = async (saveType) => {
     try {
-      const values = await form.validateFields();
-      let { country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
-      list = list&&list.map((el,index)=> {
-        goodsList.map((item,idx) => {
-          if(index == idx) {
-            el.salesAttributeName = item.salesAttributeName;
-            el.skuCode = item.skuCode;
-          }
-        })
-        return el;
-      })
-      let listOne = specData.specOne.map((el)=> el.name);
-      let listTwo = specData.specTwo.map((el)=> el.name);
-      paramsVal = {
-        ...paramsVal,
-        country:totalData.countryCode,
-        categoryId:categoryId4,
-        productNature,
-        saveType,
-        list,
-        attrList: [{
-          attributeName:pdType1Id,
-          attributeValueList:listOne
-        },{
-          attributeName:pdType2Id,
-          attributeValueList:listTwo
-        }]
-      }
-      if(spuCode) { paramsVal = {...paramsVal,spuCode} }
-      GetEditApi(paramsVal)
+      let values = await form.validateFields();
+      values = formatParams(values);
+      console.log(values)
+      GetSaveActivApi(values)
       .then((res)=> {
+        const { promotionId, promotionType } =res;
         Qmessage.success('保存成功');
-        goReturn();
+        props.history.push({
+          pathname:`/account/ctipActivity/addTwo/${promotionId}`,
+          state:{promotionType}
+        })
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
   }
+  const formatParams=(values)=> {
+    let { time, warmUpBeginTime, bannerBeginTime, logoBeginTime, costApportion, autoComplete, bearers, ...paramsVal} =values;
+    // const { activityInfo, ratioList, data,tagsCouponList} =this.props;
+    if(time&&time.length>0) {
+      paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+      paramsVal.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
+    };
+    if(warmUpBeginTime) {
+      paramsVal.warmUpBeginTime = moment(warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss');
+    }
+    if(bannerBeginTime) {
+      paramsVal.bannerBeginTime = moment(bannerBeginTime).format('YYYY-MM-DD HH:mm:ss');
+    }
+    if(logoBeginTime) {
+      paramsVal.logoBeginTime = moment(logoBeginTime).format('YYYY-MM-DD HH:mm:ss');
+    }
+    if(ratioList.length>0) {
+      paramsVal.bearers = ratioList.map((el) => {
+        let item={};
+        item.bearer = el.bearer;
+        item.proportion = el.proportion;
+        item.remark = el.remark;
+        return item;
+      });
+      if(ratioList[0].budget) {
+        paramsVal.budget = ratioList[0].budget;
+      }
+    }
+    let activityNotUseCoupons = [];
+    // tagsCouponList.map(item=>{
+    //   activityNotUseCoupons.push(item.couponId)
+    // });
+    paramsVal = {
+      ...paramsVal,
+      platformType:2,
+      pdDetailBannerPic: activityInfo.pdDetailBannerPic,
+      logoPic: activityInfo.logoPic,
+      websiteBanner: activityInfo.websiteBanner,
+      shareWechatPic: activityInfo.shareWechatPic,
+      shareWechatCfPic: activityInfo.shareWechatCfPic,
+      activityNotUseCoupons:activityNotUseCoupons
+    }
+    if(promotionId) {
+      paramsVal = {...paramsVal, promotionId};
+    }
+    return paramsVal;
+  }
   //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
+    let { bearers=[], pdDetailBannerPic, logoPic, websiteBanner, shareWechatCfPic, shareWechatPic, ...valFileds } = allValues;
+    if(currentKey == 'bearers') {
+      let newArray = [...allValues['bearers']];
+      setRatioList(newArray);
+    }
     if(currentKey=='list') {
       return;
     }
@@ -152,6 +180,41 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
     if(currentKey == 'time') {
       allValues.warmUpBeginTime=null;
     }
+    if(pdDetailBannerPic) {
+      if(pdDetailBannerPic.status == 'done') {
+        if(pdDetailBannerPic.response.httpCode == '200') {
+          allValues.pdDetailBannerPic = pdDetailBannerPic.response.result;
+        }
+      }
+    }
+    if(logoPic) {
+      if(logoPic.status == 'done') {
+        if(logoPic.response.httpCode == '200') {
+          allValues.logoPic = logoPic.response.result;
+        }
+      }
+    }
+    if(websiteBanner) {
+      if(websiteBanner.status == 'done') {
+        if(websiteBanner.response.httpCode == '200') {
+          allValues.websiteBanner = websiteBanner.response.result;
+        }
+      }
+    }
+    if(shareWechatPic) {
+      if(shareWechatPic.status == 'done') {
+        if(shareWechatPic.response.httpCode == '200') {
+          allValues.shareWechatPic = shareWechatPic.response.result;
+        }
+      }
+    }
+    if(shareWechatCfPic) {
+      if(shareWechatCfPic.status == 'done') {
+        if(shareWechatCfPic.response.httpCode == '200') {
+          allValues.shareWechatCfPic = shareWechatCfPic.response.result;
+        }
+      }
+    }
     activityInfo = {...activityInfo,...allValues};
     setTotalData(activityInfo)
   }
@@ -160,8 +223,7 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
     initPage();
   },[promotionId])
   useEffect(()=>{ form.setFieldsValue(activityInfo) },[activityInfo])
-  useEffect(()=>{ form.setFieldsValue({bearers:ratioList}) },[ratioList])
-  console.log(activityInfo)
+  useEffect(()=>{ form.setFieldsValue({bearers:ratioList}) },[ratioList]);
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
@@ -171,230 +233,14 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
           className="common-addEdit-form"
           form={form}
           {...formItemLayout}>
-          <InfoSet
-            upDateList={updateRatioList}
-            tagsList={tagsList}
-            ratioList={ratioList}
-            form={form}
-            activityInfo={activityInfo}/>
-          {/*<WebSet form={form}/>
-          <ShareSet form={form}/>*/}
-          {/*<Card title="基础信息">
-            {
-              isEdit&&
-                <Form.Item label="spu编码">
-                  {totalData.spuCode}
-                </Form.Item>
-            }
-            <Form.Item
-              label="商品名称"
-              name="productName"
-              rules={ [{ required: true, message: '请输入商品名称'}]}>
-              <Input placeholder="请输入商品名称，60字以内" autoComplete="off" maxLength={60}/>
-            </Form.Item>
-            <FormItem label='品牌' {...formItemLayout}
-              name="brandId"
-              rules={[{ required: true, message: '请选择商品品牌'}]}>
-              <AutoComplete
-               autoComplete="off"
-               options={brandList}
-               onSearch={handleSearch}
-               onSelect={(value, option)=>autoSelect(value, option)}
-               placeholder="请选择商品品牌"/>
-            </FormItem>
-            <Form.Item
-              label="品牌归属地"
-              name="brandAddress"
-              rules={[{ required: true, message: '请选择商品品牌'}]}>
-              <Input disabled autoComplete="off" placeholder="请输入品牌归属地"/>
-            </Form.Item>
-            <Form.Item
-              label='产地'
-              name="country">
-              <AutoComplete
-               autoComplete="off"
-               options={originList}
-               onSearch={handleOriginSearch}
-               onSelect={(value, option)=>autoOriginSelect(value, option)}
-               placeholder="请输入产地"/>
-            </Form.Item>
-            {
-              productNature==1?
-              <div>
-                <Form.Item label="商品类型" name="productType" rules={[{ required: true, message: '请选择商品类型' }]}>
-                  <Radio.Group>
-                    <Radio value={1}>普通商品</Radio>
-                    <Radio value={2}>赠品</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item label="采购主体" name="procurementTarget" rules={[{ required: true, message: '请选择采购主体'}]}>
-                  <Select placeholder="请选择后台一级类目" disabled={isEdit}>
-                    <Option value={1} key={1}>淮安</Option>
-                    <Option value={2} key={2}>苏州蔻兔</Option>
-                  </Select>
-                </Form.Item>
-              </div>
-              :
-              <Form.Item label="保税仓" name="bondedWarehouseId" rules={[{ required: true, message: '请选择保税仓'}]}>
-                <Select placeholder="请选择后台一级类目" disabled={isEdit}>
-                  <Option value={1} key={1}>淮安</Option>
-                  <Option value={2} key={2}>苏州蔻兔</Option>
-                </Select>
-              </Form.Item>
-            }
-            <Form.Item label="一级类目" name="categoryId" rules={[{ required: true, message: '请选择一级类目'}]}>
-              <Select placeholder="请选择后台一级类目" disabled={isEdit} onChange={(select)=>handleChangeLevel(1,select)}>
-              {
-                categoryData.categoryLevelOne.map((el) => (
-                  <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                ))
-              }
-              </Select>
-            </Form.Item>
-            <Form.Item label="二级类目" name="categoryId2" rules={[{ required: true, message: '请选择二级类目'}]}>
-              <Select
-                disabled={isEdit||categoryData.isLevelTwo}
-                placeholder="请选择二级类目"
-                onChange={(select)=>handleChangeLevel(2,select)}>
-                {
-                  categoryData.categoryLevelTwo.map((el) => (
-                    <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                  ))
-                }
-              </Select>
-            </Form.Item>
-            <Form.Item label="三级类目" name="categoryId3" rules={[{ required: true, message: '请选择三级类目'}]}>
-              <Select
-              disabled={isEdit||categoryData.isLevelThr}
-              placeholder="请选择三级类目"
-              onChange={(select)=>handleChangeLevel(3,select)}>
-              {
-                categoryData.categoryLevelThr.map((el) => (
-                  <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                ))
-              }
-              </Select>
-            </Form.Item>
-            <Form.Item label="四级类目" name="categoryId4" rules={[{ required: true, message: '请选择四级类目'}]}>
-              <Select
-              disabled={isEdit||categoryData.isLevelFour} placeholder="请选择四级类目">
-              {
-                categoryData.categoryLevelFour.map((el) => (
-                  <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                ))
-              }
-              </Select>
-            </Form.Item>
-          </Card>
-          {
-            productNature==1&&
-            <div>
-              <Card title="销售信息">
-                <Form.Item label="联营分成类别" name="profits" rules={[{ required: true, message: '请选择联营分成类别' }]}>
-                  <Radio.Group>
-                    <Radio value={2} key={2}>食品类</Radio>
-                    <Radio value={1} key={1}>非食品类</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item
-                label="B端销售箱规"
-                name="minBoxSpecification"
-                rules={[
-                  { required: true, message: '请输入大于1的整数' },
-                  { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
-                ]}>
-                  <Input placeholder="请输入大于1的整数" autoComplete="off"/>
-                </Form.Item>
-                <Form.Item label="是否代发" name="sendType" rules={[{ required: true, message: '请选择是否代发' }]}>
-                  <Radio.Group>
-                    <Radio value={1} key={1}>是</Radio>
-                    <Radio value={0} key={0}>否</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item
-                  noStyle
-                  shouldUpdate={(prevValues, currentValues) => prevValues.sendType !== currentValues.sendType}>
-                  {({ getFieldValue }) => {
-                    return getFieldValue('sendType') == 1&&
-                    <Form.Item  label="代发时效">
-                      <Form.Item
-                        noStyle
-                        name="distributionDays"
-                        rules={[
-                          { required: true, message: '请输入大于0的整数' },
-                          { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
-                        ]}>
-                          <Input placeholder="请输入大于0的整数" className="short-input" autoComplete="off"/>
-                      </Form.Item>
-                      <span>个工作日内发货</span>
-                    </Form.Item>
-                  }}
-                </Form.Item>
-              </Card>
-              <Card title="仓管信息">
-                <Form.Item
-                  label="基础箱规"
-                  name="basicsBoxSpecification"
-                  rules={[
-                    { required: true, message: '请输入大于1的整数' },
-                    { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
-                  ]}>
-                  <Input placeholder="请输入大于1的整数" autoComplete="off"/>
-                </Form.Item>
-                <Form.Item label="效期管理" name="batchProcessingStatus" rules={[{ required: true, message: '请选择效期管理' }]}>
-                  <Radio.Group>
-                    <Radio value={2} key={2}>是</Radio>
-                    <Radio value={1} key={1}>否</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item
-                  noStyle
-                  shouldUpdate={(prevValues, currentValues) => prevValues.batchProcessingStatus !== currentValues.batchProcessingStatus}>
-                  {({ getFieldValue }) => {
-                    return getFieldValue('batchProcessingStatus') == 2&&
-                    <div>
-                      <Form.Item label="效期类型" name="batchProcessingType" rules={[{ required: true, message: '请选择效期类型' }]}>
-                        <Radio.Group>
-                          <Radio value={1} key={1}>生产日期</Radio>
-                          <Radio value={0} key={0}>到期日期</Radio>
-                        </Radio.Group>
-                      </Form.Item>
-                      <Form.Item label="禁止入库天数" name="lotLimitInDay" rules={[
-                        { required: true, message: '请输入大于0的整数' },
-                        { pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字' },
-                      ]}>
-                        <Input placeholder="请输入大于0的整数" autoComplete="off"/>
-                      </Form.Item>
-                    </div>
-                  }}
-                </Form.Item>
-              </Card>
-            </div>
-          }
-          <Card title="SKU信息">
-            <StandardsMod {...props}/>
-            <Form.Item label="商品信息" {...formItemLayoutBig} className="table-wrap-fomItem">
-              <Qtable
-                scroll={{x:'100%'}}
-                dataSource={goodsList}
-                columns={columnsAdd}
-                onOperateClick={onOperateClick}/>
-            </Form.Item>
-            <Row >
-              <Col offset={4}>
-                <Qbtn size="free" onClick={goReset}>恢复被删除的SKU</Qbtn>
-              </Col>
-            </Row>
-            <Form.Item label="批量设置">
-              <div style={{display:'flex',textAlign:'center'}}>
-                {
-                  batchList.map((el,index) => (
-                    <EditableCell key={index} text={el.value} upDateList={(value)=>upDateGoodsList(el.key,value)}/>
-                  ))
-                }
-              </div>
-            </Form.Item>
-          </Card>*/}
+            <InfoSet
+              upDateList={updateRatioList}
+              tagsList={tagsList}
+              ratioList={ratioList}
+              form={form}
+              activityInfo={activityInfo}/>
+            <WebSet form={form} activityInfo={activityInfo}/>
+            <ShareSet form={form} activityInfo={activityInfo}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={goReturn}> 返回 </Qbtn>
             <Qbtn size="free" onClick={()=>submit(1)}>保存并继续</Qbtn>
@@ -404,10 +250,5 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
     </Spin>
   );
 }
-// function mapStateToProps(state) {
-//   const { BaseGoodsAddReducers } =state;
-//   return BaseGoodsAddReducers;
-// }
 
-// export default connect(mapStateToProps)(BaseGoodsAdd);
 export default CtipActivityAdd;

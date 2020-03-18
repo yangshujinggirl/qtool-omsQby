@@ -96,7 +96,7 @@ const Columns=[
       )
     }
   },];
-const ColumnsCreat =(validator,changeProportion,dataSource)=>{
+const ColumnsCreat =(validator,dataSource)=>{
   return [{
       title: '活动预算',
       dataIndex: 'budget',
@@ -132,11 +132,10 @@ const ColumnsCreat =(validator,changeProportion,dataSource)=>{
         return <Form.Item
                 name={['bearers',index,'proportion']}
                 rules={[{ required: true, message: '请输入承担比例'},
-                        { pattern:/^\d+$/,message:'请输入正整数'},{
-                          validator:validator
-                        }]}>
+                        { pattern:/^\d+$/,message:'请输入正整数' },
+                        { validator:validator }
+                      ]}>
                   <Input
-                    onChange={changeProportion}
                     suffix="%"
                     maxLength='15'
                     placeholder="请输入承担比例"

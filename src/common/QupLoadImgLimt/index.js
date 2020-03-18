@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Form, Icon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Upload, Modal, Button, message } from "antd";
+import { Upload, Modal, Button, message, Form } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import "./index.less";
 
-const FormItem = Form.Item;
 class UpLoadImg extends Component {
   constructor(props) {
     super(props);
@@ -14,10 +12,6 @@ class UpLoadImg extends Component {
       previewImage: ""
     };
   }
-  static defaultProps = {
-    limit: 1,
-    action:'/qtoolsOms/upload/img'
-  };
   checkImg = file => {
     let regExp = /image\/(jpeg|jpg|gif|png)/gi;
     let isImg = new Promise((resolve, reject) => {
@@ -102,8 +96,14 @@ class UpLoadImg extends Component {
       previewVisible: true
     });
   };
+  normFile = e => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
   render() {
-    let { fileList, limit, action } = this.props;
+    let { fileList, label, limit, name, rules } = this.props;
     const { previewVisible, previewImage } = this.state;
     const uploadButton = (
       <div>
@@ -112,25 +112,30 @@ class UpLoadImg extends Component {
       </div>
     );
     return (
-      <div>
-        <Upload
-          action={action}
-          listType="picture-card"
-          fileList={fileList}
-          beforeUpload={this.beforeUpload}
-          onPreview={this.handlePreview}
-          onChange={this.handleChange}
-        >
-          {fileList.length >= limit ? null : uploadButton}
-        </Upload>
+      <Form.Item label={label}>
+        <Form.Item
+          valuePropName="fileList"
+          getValueFromEvent={this.normFile}
+          name={name}
+          rules={rules}
+          noStyle>
+          <Upload
+            action='/qtoolsOms/upload/img'
+            listType="picture-card"
+            beforeUpload={this.beforeUpload}
+            onPreview={this.handlePreview}
+            onChange={this.handleChange}
+          >
+            {fileList.length >= limit ? null : uploadButton}
+          </Upload>
+        </Form.Item>
         <Modal
           visible={previewVisible}
           footer={null}
-          onCancel={this.handleCancel}
-        >
+          onCancel={this.handleCancel}>
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
-      </div>
+      </Form.Item>
     );
   }
 }

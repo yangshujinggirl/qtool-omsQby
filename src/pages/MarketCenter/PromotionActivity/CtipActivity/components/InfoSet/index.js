@@ -37,25 +37,19 @@ class InfoSet extends Component {
     }
   }
   //分成校验
-  validatorRatio=(rule, value, callback)=> {
-    let { activityInfo, ratioList } =this.props;
-    let { bearers } =this.props.form.getFieldsValue(['bearers']);
+  validatorRatio=(rule, value)=> {
+    let { activityInfo, ratioList, form } =this.props;
+    let { bearers } =form.getFieldsValue(['bearers']);
     let total =0;
     bearers.forEach((el)=> {
-      if(!el.proportion) {
-        el.proportion=0;
+      if(el.proportion) {
+        total+=Number(el.proportion);
       }
-      total+=Number(el.proportion);
     })
-    if(total>100) {
-      callback('承担比例总和不能超过100%');
-    }else {
-      callback();
+    if (total <= 100) {
+      return Promise.resolve();
     }
-  }
-  //分成change
-  changeProportion=(rule, value, callback)=> {
-    this.props.form.resetFields(['bearers'])
+    return Promise.reject('承担比例总和不能超过100');
   }
   //供应商
   handleSearch=(value)=> {
@@ -89,16 +83,16 @@ class InfoSet extends Component {
     this.props.form.resetFields(['bearers'])
   }
   changeRange=(value)=>{
-    this.props.form.resetFields(['logoBg'])
+    // this.props.form.resetFields(['logoBg'])
   }
   changePromotion=(e)=>{
-    this.props.form.resetFields(['pdScope','pdKind','bannerSubtitle','bannerTitle'])
+    // this.props.form.resetFields(['pdScope','pdKind','bannerSubtitle','bannerTitle'])
   }
   changeTime=(e)=>{
-    this.props.form.resetFields(['warmUpBeginTime'])
+    // this.props.form.resetFields(['warmUpBeginTime'])
   }
   changePromotionScope=(e)=>{
-    this.props.form.resetFields(['promotionScope'])
+    // this.props.form.resetFields(['promotionScope'])
   }
   changeBearActi=(value)=>{
     let { ratioList } =this.props;
@@ -133,64 +127,30 @@ class InfoSet extends Component {
     this.props.upDateList(ratioList);
     this.props.form.resetFields(['bearers'])
   }
-  formatOption = () => {
-    const { activityInfo } = this.props;
-    let option;
-    if (activityInfo.promotionScope == 1) {
-      if (activityInfo.promotionType == "11") {
-        option = prefShareOption;
-      } else {
-        option = prefectureOption;
-      }
-    } else {
-      if (
-        activityInfo.promotionType == "20" ||
-        activityInfo.promotionType == "21"
-      ) {
-        option = singleShareOption;
-      } else {
-        option = singleOption;
-      }
-    }
-    return option;
-  };
   //搜索不可用优惠券
   handleCouponSearch = e => {
     if (e.target.value) {
       const value = e.target.value.trim();
-      const { tagsCouponList } = this.props;
+      let { tagsCouponList } = this.state;
       let isRepeat = -1;
       if (tagsCouponList.length > 0) {
         //如果列表中有--->拒绝重复请求
         isRepeat = tagsCouponList.findIndex(item => item.couponCode == value);
       }
       if (isRepeat == -1) {
-        GetValidCoupon({ couponCode: value })
+        GetValidCoupon(value)
         .then(res => {
-          if (res.code == "0") {
-            isRepeat = -1;
-            const notUseCoupons = res.activityNotUseCoupons;
-            const arr = [...tagsCouponList];
-            arr.push(notUseCoupons);
-            this.props.dispatch({
-              type: "ctipActivityAddOne/getTagCouponList",
-              payload: { tagsCouponList: arr }
-            });
-          }
+          let { result } =res;
+          tagsCouponList = result.couponId?[...tagsCouponList,...[result]]:tagsCouponList;
+          this.setState({ tagsCouponList });
         });
       }
     }
   };
   //不可用优惠券发生变化
-  notUseChange = e => {
-    this.setState({
-      activityCouponStatus: e.target.value
-    });
+  handleNotUse = e => {
     if (e.target.value == 2) {
-      this.props.dispatch({
-        type: "ctipActivityAddOne/getTagCouponList",
-        payload: { tagsCouponList:[] }
-      });
+      this.setState({ tagsCouponList:[] });
     };
   };
   //关闭
@@ -198,24 +158,21 @@ class InfoSet extends Component {
     const tagsCouponList = this.props.tagsCouponList.filter(
       item => item.couponId !== removedTag.couponId
     );
-    this.props.dispatch({
-      type: "ctipActivityAddOne/getTagCouponList",
-      payload: { tagsCouponList }
-    });
+    this.setState({ tagsCouponList });
   };
   render() {
-    let { activityInfo, ratioList, tagsList, promotionId } =this.props;
-    const { supplierList } =this.state;
-    let blColumns = ColumnsCreat(this.validatorRatio,this.changeProportion,ratioList);
+    let { activityInfo, ratioList, tagsList } =this.props;
+    const { supplierList,tagsCouponList } =this.state;
+    let blColumns = ColumnsCreat(this.validatorRatio,ratioList);
     let providerIndex = activityInfo.costApportion&&activityInfo.costApportion.findIndex((el)=>el == 'C');
     let isJoinZq=activityInfo.platform&&activityInfo.platform.includes('2');
     let rangeOption = activityInfo.promotionScope==1?(isJoinZq?singleShareOption:singleOption):prefectureOption;
-    let isEdit =promotionId?true:false;
-    console.log(this.props)
+    let isEdit =activityInfo.promotionId?true:false;
+    console.log(activityInfo)
     return(
         <Card title="活动信息">
           {
-          promotionId&&
+          activityInfo.promotionId&&
             <div>
               <FormItem label='活动ID'>
                {activityInfo.promotionId}
@@ -231,17 +188,33 @@ class InfoSet extends Component {
              className="ant-input-fixed"
              placeholder="请输入活动名称" maxLength='30' autoComplete="off"/>
           </FormItem>
-          <FormItem label='活动时间' name="time" rules={[{ required: true, message: '请选择活动时间'}]}>
-            <RangePicker
-              disabled={isEdit}
-              className="ant-input-fixed"
-              format={format}
-              disabledDate={disabledDate}
-              disabledTime={disabledDateTimeRange}
-              showTime={{
-                hideDisabledOptions: true,
-                defaultValue: moment('00:00', 'HH:mm'),
-              }}/>
+          <FormItem label='C端活动名称'>
+            <FormItem name="cname" rules={[{ required: true, message: '请输入C端活动名称'}]}>
+             <Input
+               disabled={isEdit}
+               className="ant-input-fixed"
+               placeholder="请输入活动名称" maxLength='30' autoComplete="off"/>
+            </FormItem>
+            <span className="suffix_tips">
+              如展示活动商品横幅条则会出现在C端活动预告中，请谨慎填写
+            </span>
+          </FormItem>
+          <FormItem label='活动时间'>
+            <FormItem name="time" rules={[{ required: true, message: '请选择活动时间'}]}>
+              <RangePicker
+                disabled={isEdit}
+                className="ant-input-fixed"
+                format={format}
+                disabledDate={disabledDate}
+                disabledTime={disabledDateTimeRange}
+                showTime={{
+                  hideDisabledOptions: true,
+                  defaultValue: moment('00:00', 'HH:mm'),
+                }}/>
+            </FormItem>
+            <span className="suffix_tips">
+              活动时间一旦选定将无法更改，请谨慎填写
+            </span>
           </FormItem>
           <FormItem label='活动目的' name="purposeTypes" rules={[{ required: true, message: '请选择活动目的'}]}>
             <Checkbox.Group style={{ width: '100%' }}>
@@ -361,7 +334,7 @@ class InfoSet extends Component {
             </FormItem>
           }
           <FormItem label="请选择不可使用的优惠券" name="activityCouponStatus">
-            <Radio.Group onChange={this.notUseChange}>
+            <Radio.Group onChange={this.handleNotUse}>
               <Radio value={3}>全部优惠券不可用</Radio>
               <Radio value={1}>全部优惠券均可用</Radio>
               <Radio value={2}>部分优惠券不可用</Radio>
@@ -372,13 +345,28 @@ class InfoSet extends Component {
             shouldUpdate={(prevValues, currentValues) => prevValues.activityCouponStatus !== currentValues.activityCouponStatus}>
             {({ getFieldValue }) => {
               return getFieldValue('activityCouponStatus')=='2'&&
-              <FormItem label='请选择不可使用的优惠券' name="tagsCouponList" rules={[{ required: true, message: '请选择促销级别'}]}>
-                <Input
-                  style={{ width: "200px" }}
-                  placeholder="请输入优惠券批次号"
-                  onBlur={this.handleCouponSearch}
-                  onPressEnter={this.handleCouponSearch}/>
-               </FormItem>
+              <Form.Item label='请选择不可使用的优惠券'>
+                <Form.Item name="tagsCouponList" rules={[{ required: true, message: '请选择促销级别'}]}>
+                  <Input
+                    autoComplete="off"
+                    style={{ width: "200px" }}
+                    placeholder="请输入优惠券批次号"
+                    onBlur={this.handleCouponSearch}
+                    onPressEnter={this.handleCouponSearch}/>
+                </Form.Item>
+                <Form.Item>
+                   {tagsCouponList.length > 0 &&
+                     tagsCouponList.map(el => (
+                       <Tag
+                         closable
+                         key={el.couponId}
+                         onClose={() => this.handleCloseCoupon(el)}
+                       >
+                         {el.couponCode}
+                       </Tag>
+                     ))}
+                </Form.Item>
+               </Form.Item>
             }}
           </Form.Item>
           {
