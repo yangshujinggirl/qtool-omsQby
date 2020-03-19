@@ -20,7 +20,24 @@ const TaskGrowthValueDetail = (props) => {
     const [dataInfo, setDataInfo] = useState({});
     const [subTitleBox, setSubTitleBox] = useState([]);
     const [logList, setLogList] = useState([]);
-    return QbaseDetail(<div className="oms-common-addEdit-pages bgood_add">
+    /**
+     * 页面渲染完成
+     */
+    const baseDetailComponentCallback = (_this) => {
+        const {id} = props.match.params;
+        new GetDataDetail(id).then(rep => {
+            const {growthTaskDetail, taskLogList} = rep.result;
+            setDataInfo(growthTaskDetail);
+            const {subTitleField1, subTitleField2, subTitleField3} = growthTaskDetail;
+            //有一个不为空才可以设置
+            if (subTitleField1 != null || subTitleField2 != null || subTitleField3 != null) {
+                setSubTitleBox([{subTitleField1, subTitleField2, subTitleField3}]);
+            }
+            setLogList(TableDataListUtil.addKeyAndResultList(taskLogList));
+            _this.hideLoading();
+        })
+    };
+    return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="工单基础信息">
             <QdetailBaseInfo
                 isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 20}}}
@@ -38,19 +55,7 @@ const TaskGrowthValueDetail = (props) => {
         <Card title="日志">
             <Qtable columns={LogColumns} dataSource={logList}/>
         </Card>
-    </div>, (showLoading, hideLoading) => {
-        const {id} = props.match.params;
-        new GetDataDetail(id).then(rep => {
-            const {growthTaskDetail, taskLogList} = rep.result;
-            setDataInfo(growthTaskDetail);
-            const {subTitleField1, subTitleField2, subTitleField3} = growthTaskDetail;
-            //有一个不为空才可以设置
-            if (subTitleField1 != null || subTitleField2 != null || subTitleField3 != null) {
-                setSubTitleBox([{subTitleField1, subTitleField2, subTitleField3}]);
-            }
-            setLogList(TableDataListUtil.addKeyAndResultList(taskLogList));
-            hideLoading();
-        })
-    })
+    </div>}
+                        baseDetailComponentCallback={baseDetailComponentCallback}/>
 };
 export default TaskGrowthValueDetail;

@@ -33,7 +33,22 @@ const CommonUtils = {
             }
         }
         return rate
+    },
+
+    /**
+     * 格式化Form表单数据操作,并返回格式化后数据
+     * @param formRef 表单Form的ref参数
+     */
+    async paramsFormValues(formRef) {
+        const values = await formRef.current.validateFields();
+        for (let i in values) {
+            // 替换搜索条件中字符串的前后空格
+            if (typeof values[i] == "string") {
+                values[i] = values[i].replace(/^\s+|\s+$/gm, "");
+            }
+        }
+        return values;
     }
-}
+};
 
 export default CommonUtils;

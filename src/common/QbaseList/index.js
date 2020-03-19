@@ -122,13 +122,15 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
         searchDataList = (values) => {
             this.showLoading();
             //先合并记录数据
-            let params = {...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList};
+            let params = {
+                ...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList
+            };
             if (formatSearchCriteriaList != null) {
                 params = {...params, ...formatSearchCriteriaList(values)};
             } else {
                 params = {...params, ...values};
             }
-            apiRequest(params).then(res => {
+            apiRequest(params, this).then(res => {
                 this.hideLoading();
                 const {resultList, result, everyPage, total, currentPage} = res.result;
                 let optionsList = resultList != null ? resultList : [];
