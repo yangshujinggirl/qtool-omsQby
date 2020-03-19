@@ -27,5 +27,5 @@ const ShopkeeperInOut = QbaseList((_this) => {
             select={true}
             dataSource={dataList}/>
     </div>
-}, getListApi, true);
+}, getListApi, false);
 export default ShopkeeperInOut
