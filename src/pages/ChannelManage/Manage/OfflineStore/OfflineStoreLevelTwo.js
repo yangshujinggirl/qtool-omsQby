@@ -5,7 +5,6 @@ import {
     QbaseList,
     Qbtn,
     QdetailBaseInfo,
-    Qmessage,
     Qpagination,
     Qtable
 } from "common/index";
@@ -16,20 +15,6 @@ import {
 } from "../../../../api/home/ChannelManage/Manager/OfflineStore";
 import {AppExportApi} from "../../../../api/Export";
 
-/**
- * 下载全部渠道
- */
-const downLoadAll = (id) => {
-    Qmessage.info("点击了下载全部渠道" + id)
-};
-/**
- * 下载渠道
- * @param _this 单纯的表格所属组件的实例
- * @param record
- */
-const handleOperateClick = (_this, record) => {
-    Qmessage.info("点击了下载渠道编码" + _this.props.requestId)
-};
 /**
  * 表格显示组件
  */
@@ -92,13 +77,14 @@ const OfflineStoreLevelTwo = (props) => {
         </Card>
         <Card title="二级渠道">
             <div style={{textAlign: "left", margin: " 10px 20px 20px"}}>
-                <Qbtn type="primary" size="free" onClick={() => downLoadAll(id)}>
+                <Qbtn type="primary" size="free"
+                      onClick={() => new AppExportApi(null, "/channelPopularize/allSecond/" + id + "/1")}>
                     下载全部渠道
                 </Qbtn>
             </div>
             <TableListShow requestId={id}/>
         </Card>
     </div>}
-                      baseDetailComponentCallback={baseDetailComponentCallback}/>
+                        baseDetailComponentCallback={baseDetailComponentCallback}/>
 };
 export default OfflineStoreLevelTwo;
