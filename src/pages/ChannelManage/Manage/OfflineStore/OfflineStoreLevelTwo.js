@@ -14,12 +14,12 @@ import {
     GetOfflineStoreLevelTwoChannelInfo,
     GetOfflineStoreLevelTwoChannelList
 } from "../../../../api/home/ChannelManage/Manager/OfflineStore";
+import {AppExportApi} from "../../../../api/Export";
 
 /**
  * 下载全部渠道
  */
 const downLoadAll = (id) => {
-    console.log("xxx", id)
     Qmessage.info("点击了下载全部渠道" + id)
 };
 /**
@@ -41,15 +41,19 @@ const TableListShow = QbaseList((_this) => {
         <div className="oms-common-index-pages-wrap">
             <Qtable
                 columns={Columns}
-                onOperateClick={(record) => handleOperateClick(_this, record)}
+                onOperateClick={(record) => new AppExportApi({
+                    channelPopularizeId: record.channelPopularizeId,
+                    type: 1,
+                    channelCodeType: 1
+                }, "/channelPopularize/download")}
                 dataSource={dataList}/>
             <Qpagination
                 data={{everyPage, currentPage, totalCount}}
                 onChange={_this.changePage}/>
         </div>
     )
-}, (params) => {
-    return new GetOfflineStoreLevelTwoChannelList(params.currentComponent.props.requestId)
+}, (params, _this) => {
+    return new GetOfflineStoreLevelTwoChannelList(_this.props.requestId)
 }, true);
 
 /**
