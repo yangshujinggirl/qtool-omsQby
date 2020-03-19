@@ -6,6 +6,7 @@ import {CreateWorkOrder, GetWorkOrder} from "../../../../api/home/CustomerServic
 import {Link} from "react-router-dom";
 import {ErpExportApi} from "../../../../api/Export";
 import {Form, Input, Modal} from "antd";
+import {CommonUtils} from "utils/index";
 
 const {TextArea} = Input;
 const formRef = React.createRef();
@@ -23,15 +24,8 @@ function showCreateWorkOrder(_this) {
  * 创建订单确认
  */
 async function createWorkOrderConfirm(_this) {
-    const values = await formRef.current.validateFields();
-    for (let index in values) {
-        // 替换搜索条件中字符串的前后空格
-        if (typeof values[index] == "string") {
-            values[index] = values[index].replace(/^\s+|\s+$/gm, "");
-        }
-    }
     _this.showLoading();
-    new CreateWorkOrder(values).then(rep => {
+    new CreateWorkOrder(CommonUtils.paramsFormValues(formRef)).then(rep => {
         createWorkOrderCancel(_this);
         //刷新数据
         _this.refreshDataList();
