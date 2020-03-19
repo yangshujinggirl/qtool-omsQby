@@ -69,7 +69,17 @@ const TableListShow = QbaseList((_this) => {
 const OfflineStoreLevelTwo = (props) => {
     const {id} = props.match.params;
     const [dataInfo, setDataInfo] = useState({});
-    return QbaseDetail(<div className="oms-common-addEdit-pages bgood_add">
+    /**
+     * 初始化完成回调
+     * @param _this
+     */
+    const baseDetailComponentCallback = (_this) => {
+        new GetOfflineStoreLevelTwoChannelInfo(id).then(rep => {
+            setDataInfo(rep.result);
+            _this.hideLoading()
+        });
+    };
+    return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="一级渠道基础信息">
             <QdetailBaseInfo
                 showData={
@@ -88,12 +98,7 @@ const OfflineStoreLevelTwo = (props) => {
             </div>
             <TableListShow requestId={id}/>
         </Card>
-    </div>, (showLoading, hideLoading) => {
-        //put数据请求
-        new GetOfflineStoreLevelTwoChannelInfo(id).then(rep => {
-            setDataInfo(rep.result);
-            hideLoading()
-        });
-    });
+    </div>}
+                      baseDetailComponentCallback={baseDetailComponentCallback}/>
 };
 export default OfflineStoreLevelTwo;

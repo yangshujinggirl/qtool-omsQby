@@ -31,6 +31,10 @@ const UserFeedbackDetail = (props) => {
     const [picList, setPicList] = useState([]);
     const [contentRemark, setContentRemark] = useState("");
     const [logList, setLogList] = useState([]);
+    /**
+     * 基础渲染组件
+     */
+    const [baseDetailComponent, setBaseDetailComponent] = useState(null);
 
     /**
      * 反馈状态选择改变
@@ -65,82 +69,89 @@ const UserFeedbackDetail = (props) => {
      * 操作确定
      */
     const optionsConfirm = () => {
+        baseDetailComponent.showLoading();
         new EditUserFeedbackData(dataInfo.feedbackId, {
             feedbackId: dataInfo.feedbackId,
             status: dataInfo.status,
             remark: dataInfo.editRemark,
             operator: sessionStorage.getItem("oms_userName") != null ? sessionStorage.getItem("oms_userName") : ""
         }).then(rep => {
+            baseDetailComponent.hideLoading();
             Qmessage.success("更新成功");
         })
     };
 
-    return QbaseDetail(
-        <div className="oms-common-addEdit-pages bgood_add">
-            <Card title="反馈信息">
-                <QdetailBaseInfo showData={
-                    ["反馈编号", dataInfo.feedbackNo,
-                        "反馈用户", dataInfo.nickName,
-                        "用户电话", dataInfo.userTel,
-                        "反馈状态", dataInfo.statusStr,
-                        "处理时长", dataInfo.handleTime + 'h',
-                        "反馈时间", dataInfo.createTime != null && moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")]
+    /**
+     * 页面渲染完成
+     */
+    const baseDetailComponentCallback = (_this) => {
+        setBaseDetailComponent(_this);
+        const {id} = props.match.params;
+        new GetUserFeedbackDetail(id).then(rep => {
+            const {feedbackInfos, feedbackDetail, feedbackLogs} = rep.result;
+            setDataInfo({...feedbackInfos, feedbackId: id});
+            setPicList(feedbackDetail.remarkUrl);
+            setContentRemark(feedbackDetail.remark);
+            setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
+            _this.hideLoading();
+        })
+    };
+
+    return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
+        <Card title="反馈信息">
+            <QdetailBaseInfo showData={
+                ["反馈编号", dataInfo.feedbackNo,
+                    "反馈用户", dataInfo.nickName,
+                    "用户电话", dataInfo.userTel,
+                    "反馈状态", dataInfo.statusStr,
+                    "处理时长", dataInfo.handleTime + 'h',
+                    "反馈时间", dataInfo.createTime != null && moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")]
+            }/>
+        </Card>
+        <Card title="反馈内容">
+            <QdetailBaseInfo
+                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                showData={
+                    ["反馈内容", contentRemark,
+                        "反馈图片", picList.map((item, index) => {
+                        return (
+                            <QenlargeImg
+                                url={sessionStorage.getItem("oms_fileDomain") + item.imgPath}
+                                key={index} placement="inline"/>
+                        )
+                    })]
                 }/>
-            </Card>
-            <Card title="反馈内容">
-                <QdetailBaseInfo
-                    isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                    showData={
-                        ["反馈内容", contentRemark,
-                            "反馈图片", picList.map((item, index) => {
-                            return (
-                                <QenlargeImg
-                                    url={sessionStorage.getItem("oms_fileDomain") + item.imgPath}
-                                    key={index} placement="inline"/>
-                            )
-                        })]
-                    }/>
-            </Card>
-            <Card title="反馈处理">
-                <QdetailBaseInfo
-                    isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                    showData={
-                        [
-                            "反馈状态", <Select
-                            onChange={handleStatusSelectChange}
-                            style={{width: '200px'}}
-                            value={dataInfo.status}>
-                            <Option value={FEEDBACK_STATUS_WAIT}>待处理</Option>
-                            <Option value={FEEDBACK_STATUS_IN_HAND}>处理中</Option>
-                            <Option value={FEEDBACK_STATUS_END}>已处理</Option>
-                        </Select>,
-                            "处理备注", <TextArea rows={4} value={dataInfo.editRemark}
-                                              onChange={editRemarkInfo}
-                                              placeholder='备注信息，最多200字，方便其他人了解，非必填'
-                                              maxLength='200'/>
-                        ]
-                    }/>
-            </Card>
-            <Card title="处理日志">
-                <Qtable columns={Columns} dataSource={logList}/>
-            </Card>
-            <div style={{marginBottom: 0, textAlign: "center"}}>
-                <Button style={{marginRight: '30px'}}
-                        onClick={optionsCancel}>取消</Button>
-                <Button htmlType="submit" type="primary"
-                        onClick={optionsConfirm}>确定</Button>
-            </div>
-        </div>, (showLoading, hideLoading) => {
-            const {id} = props.match.params;
-            new GetUserFeedbackDetail(id).then(rep => {
-                const {feedbackInfos, feedbackDetail, feedbackLogs} = rep.result;
-                setDataInfo({...feedbackInfos, feedbackId: id});
-                setPicList(feedbackDetail.remarkUrl);
-                setContentRemark(feedbackDetail.remark);
-                setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
-                hideLoading();
-            })
-        }
-    )
+        </Card>
+        <Card title="反馈处理">
+            <QdetailBaseInfo
+                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                showData={
+                    [
+                        "反馈状态", <Select
+                        onChange={handleStatusSelectChange}
+                        style={{width: '200px'}}
+                        value={dataInfo.status}>
+                        <Option value={FEEDBACK_STATUS_WAIT}>待处理</Option>
+                        <Option value={FEEDBACK_STATUS_IN_HAND}>处理中</Option>
+                        <Option value={FEEDBACK_STATUS_END}>已处理</Option>
+                    </Select>,
+                        "处理备注", <TextArea rows={4} value={dataInfo.editRemark}
+                                          onChange={editRemarkInfo}
+                                          placeholder='备注信息，最多200字，方便其他人了解，非必填'
+                                          maxLength='200'/>
+                    ]
+                }/>
+        </Card>
+        <Card title="处理日志">
+            <Qtable columns={Columns} dataSource={logList}/>
+        </Card>
+        <div style={{marginBottom: 0, textAlign: "center"}}>
+            <Button style={{marginRight: '30px'}}
+                    onClick={optionsCancel}>取消</Button>
+            <Button htmlType="submit" type="primary"
+                    onClick={optionsConfirm}>确定</Button>
+        </div>
+    </div>}
+                        baseDetailComponentCallback={baseDetailComponentCallback}/>
 };
 export default UserFeedbackDetail;

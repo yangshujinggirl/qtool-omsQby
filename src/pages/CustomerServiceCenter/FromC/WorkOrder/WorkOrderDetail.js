@@ -30,6 +30,10 @@ const WorkOrderDetail = (props) => {
     const [content, setContent] = useState({});
     const [imgList, setImgList] = useState([]);
     const [contentRemark, setContentRemark] = useState("");
+    /**
+     * 基础渲染组件
+     */
+    const [baseDetailComponent, setBaseDetailComponent] = useState(null);
 
     /**
      * 反馈状态选择改变
@@ -61,6 +65,7 @@ const WorkOrderDetail = (props) => {
      * 操作确定
      */
     const optionsConfirm = () => {
+        baseDetailComponent.showLoading();
         const uploadImgList = [];
         imgList.map((item, index) => {
             if (item.status === 'done') {
@@ -73,6 +78,7 @@ const WorkOrderDetail = (props) => {
             imgList: uploadImgList,
             operator: sessionStorage.getItem("oms_userName") != null ? sessionStorage.getItem("oms_userName") : "测试"
         }).then(rep => {
+            baseDetailComponent.hideLoading();
             Qmessage.success("更新成功");
         })
     };
@@ -84,7 +90,25 @@ const WorkOrderDetail = (props) => {
         setImgList(fileList)
     };
 
-    return QbaseDetail(<div className="oms-common-addEdit-pages bgood_add">
+    /**
+     * 页面渲染完成
+     */
+    const baseDetailComponentCallback = (_this) => {
+        setBaseDetailComponent(_this);
+        const {id} = props.match.params;
+        new GetWorkOrderDetail(id).then(rep => {
+            const {feedbackInfos, feedbackDetail, handelFeedBack, feedbackLogs} = rep.result;
+            setDataInfo({...feedbackInfos, feedbackId: id});
+            setContent(feedbackDetail);
+            if (feedbackDetail != null && feedbackDetail.remarkPic != null) {
+                setImgList(feedbackDetail.remarkPic);
+            }
+            setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
+            _this.hideLoading();
+        })
+    };
+
+    return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="反馈信息">
             <QdetailBaseInfo showData={
                 ["客服单号", dataInfo.customServiceNo,
@@ -135,18 +159,7 @@ const WorkOrderDetail = (props) => {
             <Button htmlType="submit" type="primary"
                     onClick={optionsConfirm}>确定</Button>
         </div>
-    </div>, (showLoading, hideLoading) => {
-        const {id} = props.match.params;
-        new GetWorkOrderDetail(id).then(rep => {
-            const {feedbackInfos, feedbackDetail, handelFeedBack, feedbackLogs} = rep.result;
-            setDataInfo({...feedbackInfos, feedbackId: id});
-            setContent(feedbackDetail);
-            if (feedbackDetail != null && feedbackDetail.remarkPic != null) {
-                setImgList(feedbackDetail.remarkPic);
-            }
-            setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
-            hideLoading();
-        })
-    })
+    </div>}
+                        baseDetailComponentCallback={baseDetailComponentCallback}/>
 };
 export default WorkOrderDetail;

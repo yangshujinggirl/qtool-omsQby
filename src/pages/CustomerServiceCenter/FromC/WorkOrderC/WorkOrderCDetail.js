@@ -20,7 +20,21 @@ import TableDataListUtil from "utils/TableDataListUtil";
 const WorkOrderCDetail = (props) => {
     const [dataInfo, setDataInfo] = useState({});
     const [logList, setLogList] = useState([]);
-    return QbaseDetail(<div className="oms-common-addEdit-pages bgood_add">
+
+    /**
+     * 页面渲染完成
+     */
+    const baseDetailComponentCallback = (_this) => {
+        const {id} = props.match.params;
+        new GetWorkOrderCDetail(id).then(rep => {
+            const {udeskTicketVo, replys} = rep.result;
+            setDataInfo(udeskTicketVo);
+            setLogList(TableDataListUtil.addKeyAndResultList(replys));
+            _this.hideLoading();
+        })
+    };
+
+    return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="工单基础信息">
             <QdetailBaseInfo showData={
                 ["工单id", dataInfo.udeskTicketId,
@@ -63,14 +77,7 @@ const WorkOrderCDetail = (props) => {
         <Card title="回复信息">
             <Qtable columns={Columns} dataSource={logList}/>
         </Card>
-    </div>, (showLoading, hideLoading) => {
-        const {id} = props.match.params;
-        new GetWorkOrderCDetail(id).then(rep => {
-            const {udeskTicketVo, replys} = rep.result;
-            setDataInfo(udeskTicketVo);
-            setLogList(TableDataListUtil.addKeyAndResultList(replys));
-            hideLoading();
-        })
-    });
+    </div>}
+                        baseDetailComponentCallback={baseDetailComponentCallback}/>
 };
 export default WorkOrderCDetail;

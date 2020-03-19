@@ -11,26 +11,40 @@ import {Spin} from "antd";
  * 修改时间：
  * 备注：
  */
-export default function QbaseDetail(ChildComponent, dataOptions) {
-    const [showLoadingStatus, setShowLoadingStatus] = useState([]);
+export default class QbaseDetail extends React.Component {
+    state = {
+        showLoadingStatus: false,
+    };
 
-    useEffect(() => {
-        showLoading();
-        dataOptions(showLoading,hideLoading);
-    }, []);
+    componentDidMount() {
+        //判断是否要返回当前实例
+        if (this.props.baseDetailComponentCallback != null) {
+            this.props.baseDetailComponentCallback(this)
+        }
+    }
+
     /**
      * 显示加载中
      */
-    const showLoading = () => {
-        setShowLoadingStatus(true);
-    };
+    showLoading() {
+        this.setState({
+            showLoadingStatus: true
+        })
+    }
 
     /**
      * 隐藏加载中
      */
-    const hideLoading = () => {
-        setShowLoadingStatus(false);
-    };
+    hideLoading() {
+        this.setState({
+            showLoadingStatus: false
+        })
+    }
 
-    return (<Spin spinning={showLoadingStatus}> {ChildComponent}</Spin>);
+
+    render() {
+        return <Spin
+            spinning={this.state.showLoadingStatus}> {this.props.childComponent != null ? this.props.childComponent : null}</Spin>
+    }
 }
+
