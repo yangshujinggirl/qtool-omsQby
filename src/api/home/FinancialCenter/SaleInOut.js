@@ -1,17 +1,11 @@
-import { erpAjax } from "../../../Req";
-//列表
+import {erpAjax} from "./../../Req";
+
+/**
+ *销售收支明细列表
+ * @param values 搜索筛选条件
+ */
 export function getListApi(values) {
-  return erpAjax.get("/answer", {
-    params: values
-  });
-}
-//详情
-export function getInfosApi(id) {
-  return erpAjax.get(`/answer/${id}/get`);
-}
-//保存
-export function saveApi(values) {
-  return erpAjax.post("/answer/modify", {
-    ...values
-  });
+    return erpAjax.get("/appMoney/list", {
+        params: values
+    });
 }
