@@ -5,7 +5,7 @@ import {
     GetUserFeedbackDetail,
     EditUserFeedbackData
 } from "../../../../api/home/CustomerServiceCenter/FromC";
-import {QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
     FEEDBACK_STATUS_END,
     FEEDBACK_STATUS_IN_HAND,
@@ -31,21 +31,6 @@ const UserFeedbackDetail = (props) => {
     const [picList, setPicList] = useState([]);
     const [contentRemark, setContentRemark] = useState("");
     const [logList, setLogList] = useState([]);
-    /**
-     * 请求数据
-     */
-    useEffect(() => {
-        showLoading();
-        const {id} = props.match.params;
-        new GetUserFeedbackDetail(id).then(rep => {
-            const {feedbackInfos, feedbackDetail, feedbackLogs} = rep.result;
-            setDataInfo({...feedbackInfos, feedbackId: id});
-            setPicList(feedbackDetail.remarkUrl);
-            setContentRemark(feedbackDetail.remark);
-            setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
-            hideLoading();
-        })
-    }, []);
 
     /**
      * 反馈状态选择改变
@@ -90,21 +75,7 @@ const UserFeedbackDetail = (props) => {
         })
     };
 
-    /**
-     * 显示加载中
-     */
-    const showLoading = () => {
-
-    };
-
-    /**
-     * 隐藏加载中
-     */
-    const hideLoading = () => {
-
-    };
-
-    return (
+    return QbaseDetail(
         <div className="oms-common-addEdit-pages bgood_add">
             <Card title="反馈信息">
                 <QdetailBaseInfo showData={
@@ -159,7 +130,17 @@ const UserFeedbackDetail = (props) => {
                 <Button htmlType="submit" type="primary"
                         onClick={optionsConfirm}>确定</Button>
             </div>
-        </div>
+        </div>, (showLoading, hideLoading) => {
+            const {id} = props.match.params;
+            new GetUserFeedbackDetail(id).then(rep => {
+                const {feedbackInfos, feedbackDetail, feedbackLogs} = rep.result;
+                setDataInfo({...feedbackInfos, feedbackId: id});
+                setPicList(feedbackDetail.remarkUrl);
+                setContentRemark(feedbackDetail.remark);
+                setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
+                hideLoading();
+            })
+        }
     )
 };
 export default UserFeedbackDetail;

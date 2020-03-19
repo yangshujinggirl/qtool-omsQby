@@ -3,82 +3,65 @@ import { Form, Modal, Input } from "antd";
 import "../index.less";
 const FormItem = Form.Item;
 class EditModal extends Component {
-  resetFields = () => {
-    this.props.form.resetFields();
-  };
   handleCancel = () => {
-    this.props.handleCancel(this.resetFields);
+    this.props.handleCancel();
   };
-  handleOk = () => {
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.props.handleOk(values, this.resetFields);
-      }
-    });
+  handleOk = async() => {
+    try {
+      let values = await this.props.form.validateFields(['pdCode','max']);
+      this.props.handleOk(values);
+    } catch (errorInfo) {
+      console.log('Failed:', errorInfo);
+    }
   };
 
   render() {
-    const { visible, editType, pdCode, max } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { visible, editType, pdCode, max, record } = this.props;
     return (
       <div>
-        <Modal  
+        <Modal
+          destroyOnClose={true}
           width={600}
           title={editType == "edit" ? "编辑赠品" : "新增赠品"}
           visible={visible}
           onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-          <Form>
-            {editType == "edit" && (
+          onCancel={this.handleCancel}>
+          <div>
+            {record.pdCode?
               <FormItem
                 labelCol={{ span: 7 }}
                 wrapperCol={{ span: 16 }}
-                label="赠品编码"
-              >
-                <span>{pdCode}</span>
+                label="赠品编码">
+                <span>{record.pdCode}</span>
               </FormItem>
-            )}
-            {editType == "add" && (
+              :
               <FormItem
                 labelCol={{ span: 7 }}
                 wrapperCol={{ span: 16 }}
                 label="赠品编码"
-              >
-                {getFieldDecorator("pdCode", {
-                  rules: [{ required: true, message: "请填写赠品编码" }]
-                })(
+                name="pdCode"
+                rules={[{ required: true, message: "请填写赠品编码" }]}>
                   <Input
                     autoComplete="off"
                     style={{ width: "120px" }}
-                    placeholder="请输入赠品编码"
-                  />
-                )}
+                    placeholder="请输入赠品编码"/>
               </FormItem>
-            )}
+            }
             <FormItem
               labelCol={{ span: 7 }}
               wrapperCol={{ span: 16 }}
-              label="最多可参与活动的赠品数:"
-            >
-              {getFieldDecorator("max", {
-                initialValue: editType == "edit" ? max : ""
-              })(
-                <Input
-                  autoComplete="off"
-                  style={{ width: "120px" }}
-                  placeholder="请输入赠品数"
-                />
-              )}
+              label="最多可参与活动的赠品数">
+              <FormItem name="max" noStyle>
+                <Input autoComplete="off" style={{ width: "120px" }} placeholder="请输入赠品数"/>
+              </FormItem>
               <span className="suffix_tips">
                 如不填写视为赠品的所有库存均参与活动
               </span>
             </FormItem>
-          </Form>
+          </div>
         </Modal>
       </div>
     );
   }
 }
-const EditModals = Form.create({})(EditModal);
-export default EditModals;
+export default EditModal;

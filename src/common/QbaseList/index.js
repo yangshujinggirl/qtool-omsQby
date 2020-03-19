@@ -130,7 +130,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
             }
             apiRequest(params).then(res => {
                 this.hideLoading();
-                const {resultList, result, everyPage, totalCount, currentPage} = res.result;
+                const {resultList, result, everyPage, total, currentPage} = res.result;
                 let optionsList = resultList != null ? resultList : [];
                 if (result != null) {
                     optionsList = result;
@@ -138,7 +138,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 this.setState({
                     dataList: TableDataListUtil.addKeyAndResultList(optionsList, dataListOptionsKey),
                     everyPage,
-                    totalCount: totalCount,
+                    totalCount: total,
                     currentPage,
                     searchCriteriaList: params,
                     selectedRowKeys: []

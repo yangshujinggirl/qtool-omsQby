@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Upload, Button, message, Modal } from "antd";
-import { connect } from "dva";
 import "./index.less";
 class index extends Component {
   constructor(props) {
@@ -185,8 +184,8 @@ class index extends Component {
     );
   }
 }
-function mapStateToProps(state) {
-  const { ctipActivityAddTwo } = state;
-  return ctipActivityAddTwo;
-}
-export default connect(mapStateToProps)(index);
+// function mapStateToProps(state) {
+//   const { ctipActivityAddTwo } = state;
+//   return ctipActivityAddTwo;
+// }
+export default index;

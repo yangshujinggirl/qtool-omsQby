@@ -98,7 +98,9 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
           beginTime:values.beginTime,
           endTime:values.endTime,
           pdKind:values.pdKind,
-          promotionId:values.promotionId
+          pdScope:values.pdScope,
+          promotionId:values.promotionId,
+          promotionType
         }
         props.history.push({pathname:`/account/ctipActivity/addTwo/${promotionId}`,state:datas})
       })

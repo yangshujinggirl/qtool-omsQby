@@ -1,28 +1,27 @@
-import { Spin, Form } from 'antd';
+import { Spin, Card, Form } from 'antd';
 import { useEffect, useState } from 'react';
 import StepMod from './components/StepMod';
 import { Qbtn } from 'common';
 import { Sessions } from 'utils';
 import { GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
 import SetTitle from './components/SetGoods/Title';
-import ExportFile from "./components/SetGood/ExportFile";
-import SetGoods from "./components/SetGood/GoodsTable";
-import DiscountOne from "./components/SetGood/DiscountOne";
-import DiscountTwo from "./components/SetGood/DiscountTwo";
+import ExportFile from "./components/SetGoods/ExportFile";
+// import SetGoods from "./components/SetGoods/GoodsTable";
+import DiscountOne from "./components/SetGoods/DiscountOne";
+import DiscountTwo from "./components/SetGoods/DiscountTwo";
 
 const CtipActivityAddTwo=({...props})=> {
-  console.log(props)
   const [form] = Form.useForm();
-  let [proType,setType] = useState('');
   let [proRules,setRules] = useState([]);
   let [products,setProducts] = useState([]);
   let [currentdata,setCurrentdata] = useState({});
   let promotionId = props.match.params.id;
 
-
   const staticPar =()=> {
     let { state } = props.location;
-    Sessions.set("currentdata",JSON.stringify(state));
+    if(state) {
+      Sessions.set("currentdata",JSON.stringify(state));
+    }
   }
   const initPage=()=>{
     GetDiscountInfoApi(promotionId)
@@ -74,7 +73,7 @@ const CtipActivityAddTwo=({...props})=> {
                 rate = ''
               };
               let obj = {color:'#000000a6'}
-              if(rate<0){
+              if(rate< 0){
                 obj={color:'red'}
               };
               arr1.push({price,...obj});
@@ -107,7 +106,7 @@ const CtipActivityAddTwo=({...props})=> {
                 rate = Number(item.shareRatio);
               };
               let obj = {color:'#000000a6'}
-              if(rate<0){
+              if(rate< 0){
                 obj={color:'red'}
               };
               arr1.push({price,...obj});
@@ -122,7 +121,6 @@ const CtipActivityAddTwo=({...props})=> {
       promotionRules && promotionRules.map((item,index)=>item.key = index);
       promotionProducts &&promotionProducts.map((item,index)=>item.key = index);
       setCurrentdata(JSON.parse(Sessions.get("currentdata")))
-      setType(promotionType);
       setRules(promotionRules);
       setProducts(promotionProducts);
     })
@@ -179,54 +177,67 @@ const CtipActivityAddTwo=({...props})=> {
       };
     });
   };
+  //更新规则
+  const upDateRuleList=(array)=> {
+    console.log(array);
+    setRules(array)
+  }
   useEffect(()=>{ initPage() },[promotionId]);
   useEffect(()=>{
     staticPar();
     return ()=>{ Sessions.remove('currentdata') }
   },[]);
 
-  const { promotionType, beginTime, endTime, pdKind } = currentdata;
+  const { pdScope, promotionType, beginTime, endTime, pdKind } = currentdata;
+
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
         <StepMod step={1}/>
-        {!(proType == 10 || proType == 11) && (
-          <div>
-            <div className="title">优惠内容</div>
-            <div className="set_title">
-              <SetTitle type={proType} />
-            </div>
-            {proType == 20 || proType == 21 ?
-              <DiscountOne form={form} pdKind={pdKind} promotionType={promotionType}/>
-              :
-              (
-                (proType == 22 || proType == 23) && <DiscountTwo promotionType={promotionType} form={form}/>
-              )
-            }
-          </div>
-        )}
-        <div className="act_goods_index">
-          <div className="title">选择商品</div>
-          {pdScope == 1 ? (
-            <div className='all_field'>
-              您选择的促销级别为全场级，全部商品都参与活动，此处无需添加商品
-            </div>
-          ) : (
-            <div>
-              <div className="set_title">
-                {(promotionType == 11) && (
-                  <SetTitle type={proType}/>
-                )}
-              </div>
-              <ExportFile
-                beginTime={beginTime}
-                endTime={endTime}
-                pdKind={pdKind}
-                promotionId={promotionId}/>
-              {/*<SetGoods/>*/}
-            </div>
+        <Form form={form}>
+          {promotionType != 10&&promotionType != 11&& (
+            <Card title="优惠内容">
+                <div className="set_title">
+                  <SetTitle type={promotionType} />
+                </div>
+                {(promotionType == 20 || promotionType == 21) ?
+                  <DiscountOne
+                    upDateList={upDateRuleList}
+                    dataSource={proRules}
+                    form={form}
+                    currentdata={currentdata}/>
+                  :
+                  <DiscountTwo
+                    upDateList={upDateRuleList}
+                    currentdata={currentdata}
+                    dataSource={proRules}
+                    form={form}/>
+                }
+              </Card>
           )}
-        </div>
+          <Card title="选择商品">
+            {
+              pdScope == 1 ?
+              <div className='all_field'>
+                您选择的促销级别为全场级，全部商品都参与活动，此处无需添加商品
+              </div>
+              :
+              <div>
+                <div className="set_title">
+                  {(promotionType == 11) && (
+                    <SetTitle type={proType}/>
+                  )}
+                </div>
+                <ExportFile
+                  beginTime={beginTime}
+                  endTime={endTime}
+                  pdKind={pdKind}
+                  promotionId={promotionId}/>
+                {/*<SetGoods/>*/}
+              </div>
+             }
+          </Card>
+        </Form>
         <div className="btn_box">
           <Qbtn onClick={goback}> 上一步 </Qbtn>
           <Qbtn size="free" onClick={()=>handSubmit('save')}>保存并预览</Qbtn>

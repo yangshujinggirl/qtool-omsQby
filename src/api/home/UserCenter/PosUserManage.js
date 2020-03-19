@@ -1,13 +1,13 @@
-import { erpAjax } from "../../Req";
+import { erpAjax } from "../../../Req";
 //列表
 export function getListApi(values) {
-  return erpAjax.get("/spCarryCash/query", {
+  return erpAjax.get("/answer", {
     params: values
   });
 }
 //详情
 export function getInfosApi(id) {
-  return erpAjax.get(`spCarryCash/${id}/detail`);
+  return erpAjax.get(`/answer/${id}/get`);
 }
 //保存
 export function saveApi(values) {
