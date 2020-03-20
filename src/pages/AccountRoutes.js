@@ -80,11 +80,13 @@ import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //门店�
 import ShopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退单
 import ShopReturnOrderDetail from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderDetail' //门店退单
 import ShopReturnAdd from './OrderCenter/Border/ShopReturnOrder/ShopReturnAdd' //门店退单
+import UserReturn from './OrderCenter/Corder/UserReturn' //用户退单
 
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
 import SupplierManageAdd from './SupplierManage/SupplierManageAdd';//供应商管理
-import shopManage from './CooperateCenter/ShopManage'
+import ShopManage from './CooperateCenter/ShopManage'
+import AddShopManage from './CooperateCenter/ShopManage/AddShopManage'
 
 //门店管理
 /************************************  营销中心  ********************************************/
@@ -94,6 +96,10 @@ import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/Ct
 
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'
+
+/************************************   渠道管理   *******************************************/
+import ChannelStatistic from './ChannelManage/Statistics'
+import ChannelStatisticInfos from './ChannelManage/Statistics/StatisticInfo'
 
 /************************************   运营中心   *******************************************/
 import Bpush from './OperateCenter/Boperate/Bpush'
@@ -109,6 +115,8 @@ import AddTheme from './OperateCenter/Coperate/ThemeAct/AddTheme'
 import Banswer from './OperateCenter/Boperate/Banswer'
 import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 
+/************************************   用户中心   *******************************************/
+import PosUserOrder from './UserCenter/PosUserManage'
 
 /************************************   财务中心   *******************************************/
 import ShoperRecharge from './FinancialCenter/Recharge'
@@ -206,19 +214,19 @@ class HomeRoutes extends React.Component {
                        component={PurchaseOutDetail}/>
                 <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
                 <Route exact path='/account/channel_orders' component={ShopOrder}/>
-                <Route exact path='/account/channel_orders/detail/:id?'
-                       component={ShopOrderDetail}/>
+                <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
                 <Route exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
                 <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
-                <Route exact path='/account/channel_refund_orders/detail/:id?'
-                       component={ShopReturnOrderDetail}/>
+                <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
                 <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
+                <Route exact path='/account/subscriber_refund_orders' component={UserReturn}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}
                 <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
                 <Route exact path="/account/supplierManage" component={SupplierManage}/>
-                <Route exact path='/account/channel' component={shopManage}/>
+                <Route exact path='/account/channel' component={ShopManage}/>
+                <Route exact path='/account/shopManage_edit/:id?' component={AddShopManage}/>
                 {/* ----------------------------------  营销中心   ---------------------------------------*/}
                 <Route exact path="/account/ctipActivity" component={CtipActivity}/>
                 <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
@@ -240,6 +248,10 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/cpush_infos' component={CpushInfos}/>
                 <Route exact path='/account/b_question' component={Banswer}/>
                 <Route exact path='/account/add_b_answer/:id?' component={AddBanswer}/>
+                {/* ----------------------------------  渠道管理   ---------------------------------------*/}
+                <Route exact path='/account/bridge_statistics' component={ChannelStatistic}/>
+                <Route exact path='/account/bridge_statistics_infos' component={ChannelStatisticInfos}/>
+
 
                 {/* ----------------------------------  客服中心   ---------------------------------------*/}
                 <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
@@ -256,6 +268,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
                 <Route exact path='/account/work_order' component={WorkOrder}/>
                 <Route exact path='/account/work_order/detail/:id?' component={WorkOrderDetail}/>
+                <Route exact path='/account/pos_user' component={PosUserOrder}/>
 
                 {/* ----------------------------------  会员中心   ---------------------------------------*/}
                 <Route exact path='/account/growth_task_configuration' component={TaskGrowthValue}/>

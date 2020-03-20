@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Tabs } from "antd";
-import MarketStatistic from "./Market";
-import OffLineStatistic from "./OffLine";
-
+import AllReturn from "./AllReturn";
+import AuditReturn from "./AuditReturn";
 const { TabPane } = Tabs;
 
-class ChangelStatictic extends Component {
+class UserOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,11 +21,11 @@ class ChangelStatictic extends Component {
     return (
       <div>
         <Tabs activeKey={level} onChange={this.callback}>
-          <TabPane tab="线下店" key="1">
-            {level == "1" && <OffLineStatistic/>}
+          <TabPane tab="待审核" key="1">
+            {level == "1" && <AllReturn/>}
           </TabPane>
-          <TabPane tab="市场推广" key="2">
-            {level == "2" && <MarketStatistic/>}
+          <TabPane tab="全部退单" key="2">
+            {level == "2" && <AuditReturn/>}
           </TabPane>
         </Tabs>
       </div>
@@ -34,5 +33,5 @@ class ChangelStatictic extends Component {
   }
 }
 
-export default ChangelStatictic;
+export default UserOrder;
  

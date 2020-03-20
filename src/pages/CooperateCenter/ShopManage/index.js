@@ -1,13 +1,78 @@
-import React, { Component } from 'react';
+import {Link} from 'react-router-dom'
+import React, { Component } from "react";
+import { Qbtn, Qpagination, Qtable } from "common/index";
+import FilterForm from "./components/FilterForm";
+import Columns from "./columns";
+import { getListApi } from "api/home/CooperateCenter/ShopManage";
 
-class index extends Component {
-    render() {
-        return (
-            <div>
-                11
-            </div>
-        );
-    }
+/**
+ * 功能作用：商品说明订单列表界面
+ * 注释创建人：周虹烨
+ */
+class ShopManage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataList: [],
+      everyPage: "",
+      totalCount: "",
+      currentPage: "",
+      inputValues: {}
+    };
+  }
+  //初始化数据
+  componentDidMount = () => {
+    this.searchData({});
+  };
+  //搜索列表
+  searchData = values => {
+    const params = { ...this.state.inputValues, ...values };
+    getListApi(params).then(res => {
+      if (res.httpCode == 200) {
+        let { result, everyPage, currentPage, totalCount } = res.result;
+        result.map(item => {
+          item.key = item.pdExplainId;
+        });
+        this.setState({
+          dataList: result,
+          everyPage,
+          currentPage,
+          totalCount
+        });
+      }
+    });
+    this.setState({ inputValues: params });
+  };
+  //更改分页
+  changePage = (currentPage, everyPage) => {
+    const params = { currentPage, everyPage };
+    this.searchData(params);
+  };
+  //搜索查询
+  onSubmit = params => {
+    this.searchData(params);
+  };
+
+  render() {
+    const { dataList, everyPage, currentPage, totalCount } = this.state;
+    return (
+      <div className="oms-common-index-pages-wrap">
+        <FilterForm onSubmit={this.onSubmit} />
+        <div className="handle-operate-btn-action">
+          <Link to="/account/shopManage_edit">
+            <Qbtn>新增门店</Qbtn>
+          </Link>
+        </div>
+        <Qtable
+          columns={Columns}
+          dataSource={dataList}
+        />
+        <Qpagination
+          data={{ everyPage, currentPage, totalCount }}
+          onChange={this.changePage}
+        />
+      </div>
+    );
+  }
 }
-
-export default index;
+export default ShopManage;

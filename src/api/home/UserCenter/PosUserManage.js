@@ -1,17 +1,19 @@
-import { erpAjax } from "../../../Req";
+import { erpAjax } from "../../Req";
 //列表
 export function getListApi(values) {
-  return erpAjax.get("/answer", {
+  return erpAjax.get("/qposUser/list", {
     params: values
   });
 }
 //详情
-export function getInfosApi(id) {
-  return erpAjax.get(`/answer/${id}/get`);
+export function getInfosApi(values) {
+  return erpAjax.get(`/qposUser/info`,{
+    params:values
+  });
 }
-//保存
-export function saveApi(values) {
-  return erpAjax.post("/answer/modify", {
-    ...values
+//日志
+export function getLogsApi(values) {
+  return erpAjax.post("/qposUser/detail", {
+    params:values
   });
 }
