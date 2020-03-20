@@ -121,6 +121,10 @@ import ShopkeeperInOut from './FinancialCenter/ShopkeeperInOut'
  * 销售收支明细
  */
 import SaleInOut from "./FinancialCenter/SaleInOut";
+/**
+ * 分润管理页面
+ */
+import ShareInProfitManager from "./FinancialCenter/ShareInProfitManager";
 
 /************************************   客服中心   *******************************************/
 /**
@@ -239,14 +243,15 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
-{/* ----------------------------------  合作中心   ---------------------------------------*/}
-          <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
-          <Route exact path="/account/supplierManage" component={SupplierManage}/>
-          <Route exact path='/account/channel' component={shopManage}/>
-{/* ----------------------------------  营销中心   ---------------------------------------*/}
-          <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
-          <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
-          <Route exact path="/account/ctipActivity/addTwo/:id" component={CtipActivityAddTwo}/>
+                {/* ----------------------------------  合作中心   ---------------------------------------*/}
+                <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
+                <Route exact path="/account/supplierManage" component={SupplierManage}/>
+                <Route exact path='/account/channel' component={shopManage}/>
+                {/* ----------------------------------  营销中心   ---------------------------------------*/}
+                <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
+                <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
+                <Route exact path="/account/ctipActivity/addTwo/:id"
+                       component={CtipActivityAddTwo}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
@@ -277,6 +282,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/cash_withdrawal' component={Withdraw}/>
                 <Route exact path='/account/treasurer_definite' component={ShopkeeperInOut}/>
                 <Route exact path='/account/sale_definite' component={SaleInOut}/>
+                <Route exact path='/account/profit_manager' component={ShareInProfitManager}/>
                 {/* ----------------------------------  用户中心   ---------------------------------------*/}
                 <Route exact path='/account/c_work_order' component={WorkOrderC}/>
                 <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
