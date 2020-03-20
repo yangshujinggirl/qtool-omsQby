@@ -113,6 +113,15 @@ import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 /************************************   财务中心   *******************************************/
 import ShoperRecharge from './FinancialCenter/Recharge'
 import Withdraw from './FinancialCenter/Withdraw'
+/**
+ * 掌柜收支明细
+ */
+import ShopkeeperInOut from './FinancialCenter/ShopkeeperInOut'
+/**
+ * 销售收支明细
+ */
+import SaleInOut from "./FinancialCenter/SaleInOut";
+
 /************************************   客服中心   *******************************************/
 /**
  * 门店反馈页面
@@ -157,6 +166,21 @@ import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue";
  */
 import TaskGrowthValueDetail
     from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail";
+
+/************************************   渠道管理   *******************************************/
+/**
+ * 渠道管理
+ */
+import ChannelManage from "./ChannelManage/Manage";
+/**
+ * 线下门店二级渠道管理
+ */
+import OfflineStoreLevelTwo from "./ChannelManage/Manage/OfflineStore/OfflineStoreLevelTwo";
+/**
+ * 市场推广二级渠道管理
+ */
+import MarketPromotionLevelTwo
+    from "./ChannelManage/Manage/MarketPromotion/MarketPromotionLevelTwo";
 
 class HomeRoutes extends React.Component {
     render() {
@@ -251,6 +275,8 @@ class HomeRoutes extends React.Component {
                 {/* ----------------------------------  财务中心   ---------------------------------------*/}
                 <Route exact path='/account/treasurer_recharge' component={ShoperRecharge}/>
                 <Route exact path='/account/cash_withdrawal' component={Withdraw}/>
+                <Route exact path='/account/treasurer_definite' component={ShopkeeperInOut}/>
+                <Route exact path='/account/sale_definite' component={SaleInOut}/>
                 {/* ----------------------------------  用户中心   ---------------------------------------*/}
                 <Route exact path='/account/c_work_order' component={WorkOrderC}/>
                 <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
@@ -261,6 +287,13 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/growth_task_configuration' component={TaskGrowthValue}/>
                 <Route exact path='/account/growth_task_configuration/detail/:id?'
                        component={TaskGrowthValueDetail}/>
+
+                {/* ----------------------------------  渠道管理   ---------------------------------------*/}
+                <Route exact path='/account/bridge_manager_control' component={ChannelManage}/>
+                <Route exact path='/account/bridge_manager_control/offline_store/level_2/:id?'
+                       component={OfflineStoreLevelTwo}/>
+                <Route exact path='/account/bridge_manager_control/market_promotion/level_2/:id?'
+                       component={MarketPromotionLevelTwo}/>
 
 
                 {/*
