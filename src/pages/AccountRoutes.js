@@ -93,7 +93,14 @@ import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipA
 import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAddTwo';//c端营销活动
 
 /************************************   数据中心   *******************************************/
+/**
+ * 商品数据
+ */
 import GoodsData from './DataCenter/BaseData/GoodsData'
+/**
+ * 订单数据
+ */
+import OrderData from "./DataCenter/BaseData/OrderData";
 
 /************************************   运营中心   *******************************************/
 import Bpush from './OperateCenter/Boperate/Bpush'
@@ -256,6 +263,7 @@ class HomeRoutes extends React.Component {
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
                 <Route exact path='/account/product_data' component={GoodsData}/>
+                <Route exact path='/account/order_data' component={OrderData}/>
                 {/* ----------------------------------  运营中心   ---------------------------------------*/}
                 <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
                 <Route exact path='/account/b_push' component={Bpush}/>
