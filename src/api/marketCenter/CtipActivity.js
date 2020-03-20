@@ -38,23 +38,14 @@ export function GetValidCoupon(couponCode) {
 export function GetSaveActivApi(values) {
   return appAjax.post('/promotions/save',{...values})
 }
-// //c端活动优惠信息+商品信息
-// //查询c端商品设置
-// export function getDiscountInfoApi(values) {
-//   values = JSON.stringify(values)
-//   return ajax.post('/webrest.htm',{
-//       code:'qerp.web.promotion.query',
-//       data:values
-//   })
-// }
+//查询c端商品设置
+export function GetDiscountInfoApi(promotionId) {
+  return appAjax.get(`/promotions/promotionRules/${promotionId}`)
+}
 // //优惠内容新增赠品根据编码查询单条数据
-// export function getComplimentaryApi(values) {
-//   values = JSON.stringify(values)
-//   return ajax.post('/webrest.htm',{
-//       code:'qerp.web.promotion.pdcode.query',
-//       data:values
-//   })
-// }
+export function GetComplimentaryApi(values) {
+  return appAjax.get('/promotions/pdcode',{params:{...values}});
+}
 // //商品设置页面的保存
 // export function saveGoodsetApi(values) {
 //   values = JSON.stringify(values)

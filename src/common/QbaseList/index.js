@@ -38,7 +38,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 /**
                  * 总数
                  */
-                totalCount: 0,
+                total: 0,
                 /**
                  * 搜索条件列表
                  */
@@ -122,13 +122,15 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
         searchDataList = (values) => {
             this.showLoading();
             //先合并记录数据
-            let params = {...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList};
+            let params = {
+                ...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList
+            };
             if (formatSearchCriteriaList != null) {
                 params = {...params, ...formatSearchCriteriaList(values)};
             } else {
                 params = {...params, ...values};
             }
-            apiRequest(params).then(res => {
+            apiRequest(params, this).then(res => {
                 this.hideLoading();
                 const {resultList, result, everyPage, total, currentPage} = res.result;
                 let optionsList = resultList != null ? resultList : [];
@@ -138,7 +140,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 this.setState({
                     dataList: TableDataListUtil.addKeyAndResultList(optionsList, dataListOptionsKey),
                     everyPage,
-                    totalCount: total,
+                    total: total,
                     currentPage,
                     searchCriteriaList: params,
                     selectedRowKeys: []

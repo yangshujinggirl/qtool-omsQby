@@ -95,7 +95,14 @@ import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipA
 import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAddTwo';//c端营销活动
 
 /************************************   数据中心   *******************************************/
+/**
+ * 商品数据
+ */
 import GoodsData from './DataCenter/BaseData/GoodsData'
+/**
+ * 订单数据
+ */
+import OrderData from "./DataCenter/BaseData/OrderData";
 
 /************************************   渠道管理   *******************************************/
 import ChannelStatistic from './ChannelManage/Statistics'
@@ -121,6 +128,19 @@ import PosUserOrder from './UserCenter/PosUserManage'
 /************************************   财务中心   *******************************************/
 import ShoperRecharge from './FinancialCenter/Recharge'
 import Withdraw from './FinancialCenter/Withdraw'
+/**
+ * 掌柜收支明细
+ */
+import ShopkeeperInOut from './FinancialCenter/ShopkeeperInOut'
+/**
+ * 销售收支明细
+ */
+import SaleInOut from "./FinancialCenter/SaleInOut";
+/**
+ * 分润管理页面
+ */
+import ShareInProfitManager from "./FinancialCenter/ShareInProfitManager";
+
 /************************************   客服中心   *******************************************/
 /**
  * 门店反馈页面
@@ -165,6 +185,21 @@ import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue";
  */
 import TaskGrowthValueDetail
     from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail";
+
+/************************************   渠道管理   *******************************************/
+/**
+ * 渠道管理
+ */
+import ChannelManage from "./ChannelManage/Manage";
+/**
+ * 线下门店二级渠道管理
+ */
+import OfflineStoreLevelTwo from "./ChannelManage/Manage/OfflineStore/OfflineStoreLevelTwo";
+/**
+ * 市场推广二级渠道管理
+ */
+import MarketPromotionLevelTwo
+    from "./ChannelManage/Manage/MarketPromotion/MarketPromotionLevelTwo";
 
 class HomeRoutes extends React.Component {
     render() {
@@ -228,13 +263,15 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/channel' component={ShopManage}/>
                 <Route exact path='/account/shopManage_edit/:id?' component={AddShopManage}/>
                 {/* ----------------------------------  营销中心   ---------------------------------------*/}
-                <Route exact path="/account/ctipActivity" component={CtipActivity}/>
+                <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
                 <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
-                <Route exact path="/account/ctipActivity/addTwo/:id" component={CtipActivityAdd}/>
+                <Route exact path="/account/ctipActivity/addTwo/:id"
+                       component={CtipActivityAddTwo}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
                 <Route exact path='/account/product_data' component={GoodsData}/>
+                <Route exact path='/account/order_data' component={OrderData}/>
                 {/* ----------------------------------  运营中心   ---------------------------------------*/}
                 <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
                 <Route exact path='/account/b_push' component={Bpush}/>
@@ -263,6 +300,9 @@ class HomeRoutes extends React.Component {
                 {/* ----------------------------------  财务中心   ---------------------------------------*/}
                 <Route exact path='/account/treasurer_recharge' component={ShoperRecharge}/>
                 <Route exact path='/account/cash_withdrawal' component={Withdraw}/>
+                <Route exact path='/account/treasurer_definite' component={ShopkeeperInOut}/>
+                <Route exact path='/account/sale_definite' component={SaleInOut}/>
+                <Route exact path='/account/profit_manager' component={ShareInProfitManager}/>
                 {/* ----------------------------------  用户中心   ---------------------------------------*/}
                 <Route exact path='/account/c_work_order' component={WorkOrderC}/>
                 <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
@@ -274,6 +314,13 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/growth_task_configuration' component={TaskGrowthValue}/>
                 <Route exact path='/account/growth_task_configuration/detail/:id?'
                        component={TaskGrowthValueDetail}/>
+
+                {/* ----------------------------------  渠道管理   ---------------------------------------*/}
+                <Route exact path='/account/bridge_manager_control' component={ChannelManage}/>
+                <Route exact path='/account/bridge_manager_control/offline_store/level_2/:id?'
+                       component={OfflineStoreLevelTwo}/>
+                <Route exact path='/account/bridge_manager_control/market_promotion/level_2/:id?'
+                       component={MarketPromotionLevelTwo}/>
 
 
                 {/*

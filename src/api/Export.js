@@ -55,7 +55,7 @@ function ExportApi(data, url, request) {
                 const link = document.createElement('a');
                 link.style.display = 'none';
                 link.href = URL.createObjectURL(response.data);
-                link.setAttribute('download', filenames);
+                link.setAttribute('download', decodeURIComponent(filenames));
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
