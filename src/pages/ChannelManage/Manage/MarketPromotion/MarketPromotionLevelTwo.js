@@ -22,7 +22,7 @@ const tableShowList = React.createRef();
  */
 const TableShowList = QbaseList((_this) => {
     const {
-        dataList, everyPage, currentPage, totalCount
+        dataList, everyPage, currentPage, total
     } = _this.state;
     return (
         <div className="oms-common-index-pages-wrap">
@@ -31,7 +31,7 @@ const TableShowList = QbaseList((_this) => {
                 onOperateClick={_this.props.onOperateClick}
                 dataSource={dataList}/>
             <Qpagination
-                data={{everyPage, currentPage, totalCount}}
+                data={{everyPage, currentPage, total}}
                 onChange={_this.changePage}/>
         </div>
     )

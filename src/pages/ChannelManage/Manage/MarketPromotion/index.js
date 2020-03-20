@@ -97,7 +97,7 @@ function onOperateClick(_this, record, value) {
  */
 const MarketPromotion = QbaseList((_this) => {
     const {
-        dataList, everyPage, currentPage, totalCount, optionsChannelInfo
+        dataList, everyPage, currentPage, total, optionsChannelInfo
     } = _this.state;
     return (
         <div className="oms-common-index-pages-wrap">
@@ -111,7 +111,7 @@ const MarketPromotion = QbaseList((_this) => {
                 dataSource={dataList}
                 onOperateClick={(recode, value) => onOperateClick(_this, recode, value)}/>
             <Qpagination
-                data={{everyPage, currentPage, totalCount}}
+                data={{everyPage, currentPage, total}}
                 onChange={_this.changePage}/>
             {
                 _this.state.showModal && <Modal

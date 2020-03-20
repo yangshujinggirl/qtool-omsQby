@@ -9,7 +9,7 @@ import {GetMarketPromotionLogList} from "../../../../../../api/home/ChannelManag
  */
 const LogModal = QbaseList((logThis) => {
     const {
-        dataList, everyPage, currentPage, totalCount
+        dataList, everyPage, currentPage, total
     } = logThis.state;
     return (
         <div className="oms-common-index-pages-wrap cm-market-promotion-log-modal">
@@ -18,7 +18,7 @@ const LogModal = QbaseList((logThis) => {
                 select={true}
                 dataSource={dataList}/>
             <Qpagination
-                data={{everyPage, currentPage, totalCount}}
+                data={{everyPage, currentPage, total}}
                 onChange={logThis.changePage}/>
         </div>
     )

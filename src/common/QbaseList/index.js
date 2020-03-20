@@ -38,7 +38,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 /**
                  * 总数
                  */
-                totalCount: 0,
+                total: 0,
                 /**
                  * 搜索条件列表
                  */
@@ -140,7 +140,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 this.setState({
                     dataList: TableDataListUtil.addKeyAndResultList(optionsList, dataListOptionsKey),
                     everyPage,
-                    totalCount: total,
+                    total: total,
                     currentPage,
                     searchCriteriaList: params,
                     selectedRowKeys: []

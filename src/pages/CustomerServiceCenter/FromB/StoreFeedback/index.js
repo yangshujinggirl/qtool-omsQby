@@ -16,7 +16,7 @@ import Columns from "./column";
  */
 const StoreFeedback = QbaseList((_this) => {
     const {
-        dataList, everyPage, currentPage, totalCount
+        dataList, everyPage, currentPage, total
     } = _this.state;
     return (
         <div className="oms-common-index-pages-wrap">
@@ -26,7 +26,7 @@ const StoreFeedback = QbaseList((_this) => {
                 select={true}
                 dataSource={dataList}/>
             <Qpagination
-                data={{everyPage, currentPage, totalCount}}
+                data={{everyPage, currentPage, total}}
                 onChange={_this.changePage}/>
         </div>
     )

@@ -85,7 +85,7 @@ function showModalClick(_this, key) {
  */
 const ShopReturnOrder = QbaseList((_this) => {
         const {
-            dataList, everyPage, currentPage, totalCount, searchCriteriaList
+            dataList, everyPage, currentPage, total, searchCriteriaList
         } = _this.state;
         return (
             <div className="oms-common-index-pages-wrap">
@@ -107,7 +107,7 @@ const ShopReturnOrder = QbaseList((_this) => {
                     dataSource={dataList}
                     rowSelection={_this.getTableRowSelection()}/>
                 <Qpagination
-                    data={{everyPage, currentPage, totalCount}}
+                    data={{everyPage, currentPage, total}}
                     onChange={_this.changePage}/>
             </div>
         );
