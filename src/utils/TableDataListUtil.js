@@ -15,7 +15,7 @@ const TableDataListUtil = {
      * @param keyStr key字段值为item中该keyStr对应的字段值
      * @return 返回处理后的数据列表
      */
-    addKeyAndResultList(list, keyStr) {
+    addKeyAndResultList(list, keyStr = null) {
         //返回数据
         const resultList = [];
         //开始遍历
