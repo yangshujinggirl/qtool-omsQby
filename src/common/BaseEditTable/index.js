@@ -1,11 +1,12 @@
 import { Table } from 'antd';
 import { useState } from 'react';
 import { Qbtn } from 'common';
+import lodash from 'lodash';
 import './index.less';
 
 const BaseEditTable=({...props})=> {
   let { dataSource, columns } =props;
-  let newDataSource = [...dataSource];
+  let newDataSource = lodash.cloneDeep(dataSource);
   let [key,setKey] = useState(newDataSource.length);
   const handleAdd=()=> {
     key++;

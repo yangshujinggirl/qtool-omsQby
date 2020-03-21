@@ -6,7 +6,7 @@ import { Sessions } from 'utils';
 import { GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
 import SetTitle from './components/SetGoods/Title';
 import ExportFile from "./components/SetGoods/ExportFile";
-// import SetGoods from "./components/SetGoods/GoodsTable";
+import SetGoods from "./components/SetGoods/GoodsTable";
 import DiscountOne from "./components/SetGoods/DiscountOne";
 import DiscountTwo from "./components/SetGoods/DiscountTwo";
 
@@ -15,6 +15,7 @@ const CtipActivityAddTwo=({...props})=> {
   let [proRules,setRules] = useState([]);
   let [products,setProducts] = useState([]);
   let [currentdata,setCurrentdata] = useState({});
+  let [singleRules,setSingleRules] = useState([]);//单行满件赠规则
   let promotionId = props.match.params.id;
 
   const staticPar =()=> {
@@ -126,7 +127,7 @@ const CtipActivityAddTwo=({...props})=> {
     })
   }
   const goback=()=> {
-
+    props.history.push(`/account/ctipActivity/add/${promotionId}`)
   }
   //保存并预览
   const handSubmit = async(type) => {
@@ -179,14 +180,17 @@ const CtipActivityAddTwo=({...props})=> {
   };
   //更新规则
   const upDateRuleList=(array)=> {
-    console.log(array);
     setRules(array)
+  }
+  const upDateProductList=(array)=> {
+    setProducts(array)
   }
   useEffect(()=>{ initPage() },[promotionId]);
   useEffect(()=>{
     staticPar();
     return ()=>{ Sessions.remove('currentdata') }
   },[]);
+  // useEffect(()=>{ form.setFieldsValue(activityInfo) },[activityInfo])
 
   const { pdScope, promotionType, beginTime, endTime, pdKind } = currentdata;
 
@@ -225,20 +229,23 @@ const CtipActivityAddTwo=({...props})=> {
               <div>
                 <div className="set_title">
                   {(promotionType == 11) && (
-                    <SetTitle type={proType}/>
+                    <SetTitle type={promotionType}/>
                   )}
                 </div>
                 <ExportFile
-                  beginTime={beginTime}
-                  endTime={endTime}
-                  pdKind={pdKind}
+                  currentdata={currentdata}
                   promotionId={promotionId}/>
-                {/*<SetGoods/>*/}
+                <SetGoods
+                  proRules={proRules}
+                  form={form}
+                  dataSource={products}
+                  currentdata={currentdata}
+                  upDateList={upDateProductList}/>
               </div>
              }
           </Card>
         </Form>
-        <div className="btn_box">
+        <div className="handle-operate-save-action">
           <Qbtn onClick={goback}> 上一步 </Qbtn>
           <Qbtn size="free" onClick={()=>handSubmit('save')}>保存并预览</Qbtn>
           <Qbtn size="free" onClick={()=>handSubmit('audit')}>保存并提交审核</Qbtn>

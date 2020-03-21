@@ -1,4 +1,4 @@
-import {appAjax} from '../Req'
+import { appAjax, omsAjax } from '../Req'
 /**
  *
  * 获取列表
@@ -21,10 +21,7 @@ export function GetEnableApi(values) {
 
 //c端查询供应商
 export function GetSuppliApi(values) {
-  return appAjax.post('/webrest.htm',{
-      code:'qerp.web.pd.supplier.query',
-      data:values
-  })
+  return omsAjax.get('/supplier/rummageSupplier',{params:{...values}})
 }
 // //c端活动信息查询
 export function GetBaseInfoApi(promotionId) {

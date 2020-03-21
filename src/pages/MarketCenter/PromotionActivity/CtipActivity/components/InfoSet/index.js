@@ -8,7 +8,8 @@ import {
   pdScopeOption,singleOption,promotionScopeOption,
   prefectureOption, purposeTypesOption,pdKindOption,
   levelOption, prefShareOption, singleShareOption } from '../optionMap.js';
-import { GetSuppliApi, GetValidCoupon } from 'api/marketCenter/CtipActivity';
+import { GetValidCoupon } from 'api/marketCenter/CtipActivity';
+
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const format ="YYYY-MM-DD HH:mm:ss";
@@ -21,111 +22,13 @@ const formItemLayout = {
     span: 19
   }
 };
-const bearMap={
-  'A':'Qtools',
-  'B':'门店',
-  'C':'供应商',
-}
-
 class InfoSet extends Component {
   constructor(props) {
     super(props);
     this.state ={
-      supplierList:[],
       notUseCoupons: [],
       tagsCouponList: []
     }
-  }
-  //分成校验
-  validatorRatio=(rule, value)=> {
-    let { activityInfo, ratioList, form } =this.props;
-    let { bearers } =form.getFieldsValue(['bearers']);
-    let total =0;
-    bearers.forEach((el)=> {
-      if(el.proportion) {
-        total+=Number(el.proportion);
-      }
-    })
-    if (total <= 100) {
-      return Promise.resolve();
-    }
-    return Promise.reject('承担比例总和不能超过100');
-  }
-  //供应商
-  handleSearch=(value)=> {
-    GetSuppliApi({name:value})
-    .then((res) => {
-      const { suppliers } =res;
-      if(res.code == '0') {
-        this.setState({ supplierList:suppliers });
-      }
-    })
-  }
-  onSelect=(value, option)=> {
-    let { ratioList } =this.props;
-    let keyValue = `C${value}`;
-    let idx = ratioList.findIndex(el => el.key == keyValue);
-    if(idx =='-1') {
-      ratioList.push({
-        key:keyValue,
-        bearerType:'C',
-        bearerStr:option.props.children,
-        bearer:value
-      });
-      this.props.upDateList(ratioList);
-    }
-  }
-  handleClose=(removedTag)=> {
-    let { ratioList } =this.props;
-    const { bearers } =this.props.form.getFieldsValue(['bearers']);
-    let tags = ratioList.filter(tag => tag.key !== removedTag.key);
-    this.props.upDateList(tags);
-    this.props.form.resetFields(['bearers'])
-  }
-  changeRange=(value)=>{
-    // this.props.form.resetFields(['logoBg'])
-  }
-  changePromotion=(e)=>{
-    // this.props.form.resetFields(['pdScope','pdKind','bannerSubtitle','bannerTitle'])
-  }
-  changeTime=(e)=>{
-    // this.props.form.resetFields(['warmUpBeginTime'])
-  }
-  changePromotionScope=(e)=>{
-    // this.props.form.resetFields(['promotionScope'])
-  }
-  changeBearActi=(value)=>{
-    let { ratioList } =this.props;
-    let newArr=[];
-    let tagsList = ratioList.filter(el => el.bearerType=='C');
-    let fixedList = ratioList.filter(el => el.bearerType!='C');
-    let valMap={};
-    fixedList.map((el) => {
-      if(!valMap[el.bearerType]) {
-        valMap[el.bearerType]=el;
-      }
-    })
-    let isIdx = value.findIndex((el) =>el=='C');
-    if(isIdx=='-1') {
-      tagsList = [];
-    }
-    value&&value.map((el,index) => {
-      if(el!='C') {
-        if(valMap[el]) {
-          newArr.push(valMap[el])
-        } else {
-          let item={}
-          item.bearer = el;
-          item.bearerType = el;
-          item.bearerStr =  bearMap[el];
-          item.key = `${el}${index}`;
-          newArr.push(item)
-        }
-      }
-     });
-    ratioList=[...newArr,...tagsList];
-    this.props.upDateList(ratioList);
-    this.props.form.resetFields(['bearers'])
   }
   //搜索不可用优惠券
   handleCouponSearch = e => {
@@ -161,14 +64,12 @@ class InfoSet extends Component {
     this.setState({ tagsCouponList });
   };
   render() {
-    let { activityInfo, ratioList, tagsList } =this.props;
-    const { supplierList,tagsCouponList } =this.state;
-    let blColumns = ColumnsCreat(this.validatorRatio,ratioList);
-    let providerIndex = activityInfo.costApportion&&activityInfo.costApportion.findIndex((el)=>el == 'C');
+    let { activityInfo } =this.props;
+    const { tagsCouponList } =this.state;
     let isJoinZq=activityInfo.platform&&activityInfo.platform.includes('2');
     let rangeOption = activityInfo.promotionScope==1?(isJoinZq?singleShareOption:singleOption):prefectureOption;
     let isEdit =activityInfo.promotionId?true:false;
-    console.log(activityInfo)
+
     return(
         <Card title="活动信息">
           {
@@ -254,7 +155,7 @@ class InfoSet extends Component {
           </FormItem>
           <FormItem label='活动端'>
             <FormItem name="platform" rules={[{ required: true, message: '请选择活动端'}]}>
-              <Checkbox.Group disabled={isEdit} onChange={this.changePromotionScope}>
+              <Checkbox.Group disabled={isEdit}>
                  <Checkbox value="1">线上App/小程序</Checkbox>
                  <Checkbox value="2">门店POS</Checkbox>
               </Checkbox.Group>
@@ -262,55 +163,9 @@ class InfoSet extends Component {
              <p className="tips-info">注：门店POS目前仅支持单品直降，如勾选此项则无法选择其他促销类型。</p>
            </FormItem>
           <FormItem label='活动门店'>全部门店</FormItem>
-          <FormItem label='活动成本承担方' {...formItemLayout}>
-            <FormItem name="costApportion" rules={[{ required: true, message: '请选择活动成本承担方'}]} noStyle>
-              <Checkbox.Group onChange={this.changeBearActi}>
-                 <Checkbox value="A">Qtools</Checkbox>
-                 <Checkbox value="B">门店</Checkbox>
-                 <Checkbox value="C">供应商</Checkbox>
-              </Checkbox.Group>
-            </FormItem>
-            {providerIndex != undefined && providerIndex != "-1" &&
-              <FormItem name="autoComplete" noStyle>
-                  <AutoComplete
-                    onSelect={this.onSelect}
-                    onSearch={this.handleSearch}>
-                    {supplierList.map(el => (
-                      <AutoComplete.Option key={el.pdSupplierId}>
-                        {el.name}
-                      </AutoComplete.Option>
-                    ))}
-                </AutoComplete>
-              </FormItem>
-            }
-          </FormItem>
-          <div className="supplier-tags-wrap">
-            {
-              tagsList.map((el)=> (
-                <Tag
-                  closable
-                  key={el.key}
-                  onClose={()=>this.handleClose(el)}>
-                  {el.bearerStr}
-                </Tag>
-              ))
-            }
-          </div>
-          <FormItem label='活动成本分摊比例'>
-            <Table
-              onRow={record => {
-                return {
-                  "data-row-key":record.key,
-                };
-              }}
-              className="bl-table-wrap"
-              bordered
-              pagination={false}
-              columns={blColumns}
-              dataSource={ratioList}/>
-          </FormItem>
+          { this.props.children }
           <FormItem label='促销范围' name="promotionScope" rules={[{ required: true, message: '请输入商品名称'}]}>
-            <Radio.Group disabled={isEdit} onChange={this.changeRange}>
+            <Radio.Group disabled={isEdit}>
               {
                 promotionScopeOption.map((el)=> (
                   <Radio
@@ -324,7 +179,7 @@ class InfoSet extends Component {
           {
             activityInfo.promotionScope&&
             <FormItem label='促销类型' name="promotionType" rules={[{ required: true, message: '请选择促销类型'}]}>
-              <Radio.Group onChange={this.changePromotion}>
+              <Radio.Group>
                 {
                   rangeOption.map((el,index) => (
                     <Radio key={el.key} value={el.key} disabled={isEdit}>{el.value}</Radio>

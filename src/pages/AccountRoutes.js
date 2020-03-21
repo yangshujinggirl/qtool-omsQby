@@ -91,6 +91,9 @@ import shopManage from './CooperateCenter/ShopManage'
 import CtipActivity from './MarketCenter/PromotionActivity/CtipActivity';//c端营销活动
 import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAdd';//c端营销活动
 import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAddTwo';//c端营销活动
+import CouponCenter from './MarketCenter/CouponCenter';//优惠券中心
+import CouponInfo from './MarketCenter/CouponCenter/CouponInfo';//优惠券中心
+import CouponAdd from './MarketCenter/CouponCenter/CouponAdd';//优惠券中心
 
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'
@@ -215,14 +218,17 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
-{/* ----------------------------------  合作中心   ---------------------------------------*/}
-          <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
-          <Route exact path="/account/supplierManage" component={SupplierManage}/>
-          <Route exact path='/account/channel' component={shopManage}/>
-{/* ----------------------------------  营销中心   ---------------------------------------*/}
-          <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
-          <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
-          <Route exact path="/account/ctipActivity/addTwo/:id" component={CtipActivityAddTwo}/>
+                {/* ----------------------------------  合作中心   ---------------------------------------*/}
+                <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
+                <Route exact path="/account/supplierManage" component={SupplierManage}/>
+                <Route exact path='/account/channel' component={shopManage}/>
+                {/* ----------------------------------  营销中心   ---------------------------------------*/}
+                <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
+                <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
+                <Route exact path="/account/ctipActivity/addTwo/:id" component={CtipActivityAddTwo}/>
+                <Route exact path="/account/coupon_centre" component={CouponCenter}/>
+                <Route exact path="/account/coupon/info/:id" component={CouponInfo}/>
+                <Route exact path="/account/coupon/add" component={CouponAdd}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
