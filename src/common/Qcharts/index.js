@@ -246,7 +246,8 @@ export default class Qcharts extends React.Component {
                 <div style={{position: "absolute", left: "0px", top: "40px", zIndex: '1000'}}>
                     <FilterSearchRangeTime
                         selectTimeChange={this.selectTimeChange.bind(this)}
-                        defaultValue={[moment(moment().subtract(30, 'days')), moment(moment())]}
+                        defaultValue={[moment(moment().subtract(29, 'days').format("YYYY-MM-DD 00:00:00")),
+                            moment(moment().format("YYYY-MM-DD 23:59:59"))]}
                         label="" allowClear={false}
                         {...this.props.selectTimeProps}/>
                 </div>
