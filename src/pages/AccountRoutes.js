@@ -108,6 +108,10 @@ import GoodsData from './DataCenter/BaseData/GoodsData'
  * 订单数据
  */
 import OrderData from "./DataCenter/BaseData/OrderData";
+/**
+ * 采购数据
+ */
+import PurchasingData from "./DataCenter/BaseData/PurchasingData";
 
 /************************************   渠道管理   *******************************************/
 import ChannelStatistic from './ChannelManage/Statistics'
@@ -254,10 +258,12 @@ class HomeRoutes extends React.Component {
                        component={PurchaseOutDetail}/>
                 <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
                 <Route exact path='/account/channel_orders' component={ShopOrder}/>
-                <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
+                <Route exact path='/account/channel_orders/detail/:id?'
+                       component={ShopOrderDetail}/>
                 <Route exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
                 <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
-                <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
+                <Route exact path='/account/channel_refund_orders/detail/:id?'
+                       component={ShopReturnOrderDetail}/>
                 <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
                 <Route exact path='/account/subscriber_refund_orders' component={UserReturn}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
@@ -280,6 +286,7 @@ class HomeRoutes extends React.Component {
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
                 <Route exact path='/account/product_data' component={GoodsData}/>
                 <Route exact path='/account/order_data' component={OrderData}/>
+                <Route exact path='/account/purchase_data' component={PurchasingData}/>
                 {/* ----------------------------------  运营中心   ---------------------------------------*/}
                 <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
                 <Route exact path='/account/b_push' component={Bpush}/>
@@ -295,7 +302,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/add_b_answer/:id?' component={AddBanswer}/>
                 {/* ----------------------------------  渠道管理   ---------------------------------------*/}
                 <Route exact path='/account/bridge_statistics' component={ChannelStatistic}/>
-                <Route exact path='/account/bridge_statistics_infos' component={ChannelStatisticInfos}/>
+                <Route exact path='/account/bridge_statistics_infos'
+                       component={ChannelStatisticInfos}/>
 
 
                 {/* ----------------------------------  客服中心   ---------------------------------------*/}
