@@ -80,11 +80,13 @@ import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //门店�
 import ShopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退单
 import ShopReturnOrderDetail from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderDetail' //门店退单
 import ShopReturnAdd from './OrderCenter/Border/ShopReturnOrder/ShopReturnAdd' //门店退单
+import UserReturn from './OrderCenter/Corder/UserReturn' //用户退单
 
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
 import SupplierManageAdd from './SupplierManage/SupplierManageAdd';//供应商管理
-import shopManage from './CooperateCenter/ShopManage'
+import ShopManage from './CooperateCenter/ShopManage'
+import AddShopManage from './CooperateCenter/ShopManage/AddShopManage'
 
 //门店管理
 /************************************  营销中心  ********************************************/
@@ -96,7 +98,18 @@ import CouponInfo from './MarketCenter/CouponCenter/CouponInfo';//优惠券中�
 import CouponAdd from './MarketCenter/CouponCenter/CouponAdd';//优惠券中心
 
 /************************************   数据中心   *******************************************/
+/**
+ * 商品数据
+ */
 import GoodsData from './DataCenter/BaseData/GoodsData'
+/**
+ * 订单数据
+ */
+import OrderData from "./DataCenter/BaseData/OrderData";
+
+/************************************   渠道管理   *******************************************/
+import ChannelStatistic from './ChannelManage/Statistics'
+import ChannelStatisticInfos from './ChannelManage/Statistics/StatisticInfo'
 
 /************************************   运营中心   *******************************************/
 import Bpush from './OperateCenter/Boperate/Bpush'
@@ -112,10 +125,25 @@ import AddTheme from './OperateCenter/Coperate/ThemeAct/AddTheme'
 import Banswer from './OperateCenter/Boperate/Banswer'
 import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 
+/************************************   用户中心   *******************************************/
+import PosUserOrder from './UserCenter/PosUserManage'
 
 /************************************   财务中心   *******************************************/
 import ShoperRecharge from './FinancialCenter/Recharge'
 import Withdraw from './FinancialCenter/Withdraw'
+/**
+ * 掌柜收支明细
+ */
+import ShopkeeperInOut from './FinancialCenter/ShopkeeperInOut'
+/**
+ * 销售收支明细
+ */
+import SaleInOut from "./FinancialCenter/SaleInOut";
+/**
+ * 分润管理页面
+ */
+import ShareInProfitManager from "./FinancialCenter/ShareInProfitManager";
+
 /************************************   客服中心   *******************************************/
 /**
  * 门店反馈页面
@@ -160,6 +188,21 @@ import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue";
  */
 import TaskGrowthValueDetail
     from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail";
+
+/************************************   渠道管理   *******************************************/
+/**
+ * 渠道管理
+ */
+import ChannelManage from "./ChannelManage/Manage";
+/**
+ * 线下门店二级渠道管理
+ */
+import OfflineStoreLevelTwo from "./ChannelManage/Manage/OfflineStore/OfflineStoreLevelTwo";
+/**
+ * 市场推广二级渠道管理
+ */
+import MarketPromotionLevelTwo
+    from "./ChannelManage/Manage/MarketPromotion/MarketPromotionLevelTwo";
 
 class HomeRoutes extends React.Component {
     render() {
@@ -209,13 +252,12 @@ class HomeRoutes extends React.Component {
                        component={PurchaseOutDetail}/>
                 <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
                 <Route exact path='/account/channel_orders' component={ShopOrder}/>
-                <Route exact path='/account/channel_orders/detail/:id?'
-                       component={ShopOrderDetail}/>
+                <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
                 <Route exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
                 <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
-                <Route exact path='/account/channel_refund_orders/detail/:id?'
-                       component={ShopReturnOrderDetail}/>
+                <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
                 <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
+                <Route exact path='/account/subscriber_refund_orders' component={UserReturn}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}
@@ -233,6 +275,7 @@ class HomeRoutes extends React.Component {
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
                 <Route exact path='/account/product_data' component={GoodsData}/>
+                <Route exact path='/account/order_data' component={OrderData}/>
                 {/* ----------------------------------  运营中心   ---------------------------------------*/}
                 <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
                 <Route exact path='/account/b_push' component={Bpush}/>
@@ -246,6 +289,10 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/cpush_infos' component={CpushInfos}/>
                 <Route exact path='/account/b_question' component={Banswer}/>
                 <Route exact path='/account/add_b_answer/:id?' component={AddBanswer}/>
+                {/* ----------------------------------  渠道管理   ---------------------------------------*/}
+                <Route exact path='/account/bridge_statistics' component={ChannelStatistic}/>
+                <Route exact path='/account/bridge_statistics_infos' component={ChannelStatisticInfos}/>
+
 
                 {/* ----------------------------------  客服中心   ---------------------------------------*/}
                 <Route exact path='/account/channel_feedback' component={StoreFeedback}/>
@@ -257,16 +304,27 @@ class HomeRoutes extends React.Component {
                 {/* ----------------------------------  财务中心   ---------------------------------------*/}
                 <Route exact path='/account/treasurer_recharge' component={ShoperRecharge}/>
                 <Route exact path='/account/cash_withdrawal' component={Withdraw}/>
+                <Route exact path='/account/treasurer_definite' component={ShopkeeperInOut}/>
+                <Route exact path='/account/sale_definite' component={SaleInOut}/>
+                <Route exact path='/account/profit_manager' component={ShareInProfitManager}/>
                 {/* ----------------------------------  用户中心   ---------------------------------------*/}
                 <Route exact path='/account/c_work_order' component={WorkOrderC}/>
                 <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
                 <Route exact path='/account/work_order' component={WorkOrder}/>
                 <Route exact path='/account/work_order/detail/:id?' component={WorkOrderDetail}/>
+                <Route exact path='/account/pos_user' component={PosUserOrder}/>
 
                 {/* ----------------------------------  会员中心   ---------------------------------------*/}
                 <Route exact path='/account/growth_task_configuration' component={TaskGrowthValue}/>
                 <Route exact path='/account/growth_task_configuration/detail/:id?'
                        component={TaskGrowthValueDetail}/>
+
+                {/* ----------------------------------  渠道管理   ---------------------------------------*/}
+                <Route exact path='/account/bridge_manager_control' component={ChannelManage}/>
+                <Route exact path='/account/bridge_manager_control/offline_store/level_2/:id?'
+                       component={OfflineStoreLevelTwo}/>
+                <Route exact path='/account/bridge_manager_control/market_promotion/level_2/:id?'
+                       component={MarketPromotionLevelTwo}/>
 
 
                 {/*

@@ -18,7 +18,7 @@ import {ErpExportApi} from "../../../../api/Export";
  */
 const ShopOrderList = QbaseList((_this) => {
         const {
-            dataList, everyPage, currentPage, totalCount, searchCriteriaList
+            dataList, everyPage, currentPage, total, searchCriteriaList
         } = _this.state;
         return (
             <div className="oms-common-index-pages-wrap">
@@ -34,7 +34,7 @@ const ShopOrderList = QbaseList((_this) => {
                     select={true}
                     dataSource={dataList}/>
                 <Qpagination
-                    data={{everyPage, currentPage, totalCount}}
+                    data={{everyPage, currentPage, total}}
                     onChange={_this.changePage}/>
             </div>
         );

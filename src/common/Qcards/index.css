@@ -1,9 +1,19 @@
+/*qcard容器*/
+.q-cards-container {
+    margin: 5px auto;
+}
+
+/*该容器下的ant样式*/
+.q-cards-container .ant-card-body {
+    padding: 10px 0 !important;
+}
 
 .q-cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
 /*具体数值*/
 .q-cards-value {
     font-size: 24px;

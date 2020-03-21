@@ -10,10 +10,10 @@ const Columns = [
       return (
         <div>
           <Link
-            to={`${Info.Url}${record.bsPushId}`}
+            to={`${InfoUrl}${record.bsPushId}`}
             className="theme-color"
           >
-            <a>{text}</a>
+            <span>{text}</span>
           </Link>
         </div>
       );

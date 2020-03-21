@@ -54,14 +54,14 @@ const Columns = [
           {record.themeStatus == "4" ? (
             <a
               className="theme-color"
-              onClick={record.onOperateClick.bind(this, "offline")}
+              onClick={()=>record.onOperateClick("offline")}
             >
               　下线
             </a>
           ) : (
             <a
               className="theme-color"
-              onClick={record.onOperateClick.bind(this, "online")}
+              onClick={()=>record.onOperateClick("online")}
             >
               　上线
             </a>

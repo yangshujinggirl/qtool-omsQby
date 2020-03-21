@@ -17,6 +17,8 @@ export default class QbaseDetail extends React.Component {
     };
 
     componentDidMount() {
+        //先显示加载中
+        this.showLoading();
         //判断是否要返回当前实例
         if (this.props.baseDetailComponentCallback != null) {
             this.props.baseDetailComponentCallback(this)

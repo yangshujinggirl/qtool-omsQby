@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Qbtn, Qpagination, Qtable } from "common/index";
-import AuditModal from "./components/AuditModal";
+import { Qpagination, Qtable } from "common/index";
 import FilterForm from "./components/FilterForm";
 import Columns from "./columns";
 import moment from 'moment'
-import "./index.less";
-import { getListApi } from "api/home/FinancialCenter/Withdraw";
+import { getListApi } from "api/home/UserCenter/PosUserManage";
 
 /**
  * 功能作用：商品说明订单列表界面
@@ -18,7 +16,7 @@ class PosUserManage extends Component {
     this.state = {
       dataList: [],
       everyPage: "",
-      totalCount: "",
+      total: "",
       currentPage: "",
       inputValues: {}
     };
@@ -33,15 +31,15 @@ class PosUserManage extends Component {
     const params = { ...this.state.inputValues, ...values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, totalCount } = res.result;
+        let { result, everyPage, currentPage, total } = res.result;
         result.map(item => {
-          item.key = item.spCarryCashId;
+          item.key = item.spShopId;
         });
         this.setState({
           dataList: result,
           everyPage,
           currentPage,
-          totalCount
+          total,
         });
       }
     });
@@ -64,23 +62,12 @@ class PosUserManage extends Component {
     };
     this.searchData(_values);
   };
-  showModalClick = () => {
-    this.setState({
-      visible: true
-    });
-  };
-  handleOperateClick = record => {
-    this.setState({
-      spCarryCashId: record.spCarryCashId,
-      visible: true
-    });
-  };
   render() {
     const {
       dataList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
     } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
@@ -90,7 +77,7 @@ class PosUserManage extends Component {
           dataSource={dataList}
         />
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
       </div>

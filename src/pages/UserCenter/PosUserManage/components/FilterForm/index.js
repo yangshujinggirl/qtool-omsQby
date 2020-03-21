@@ -1,7 +1,9 @@
 import React from "react";
 import { Form, Row, Col, Input, Select, DatePicker } from "antd";
 import { BaseFilter, Qbtn } from "common";
+import moment from 'moment'
 const { RangePicker } = DatePicker;
+
 
 class NormalForm extends BaseFilter {
   formRef = React.createRef();
@@ -42,20 +44,7 @@ class NormalForm extends BaseFilter {
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
-              <Form.Item label="付款状态" name="time">
-                <RangePicker
-                  format="YYYY-MM-DD HH:mm:ss"
-                  defaultValue={}
-                />
-              </Form.Item>
-            </Col>
-            <Col {...this.colspans} name="carryCashNo">
-              <Form.Item label="提现单号">
-                <Input placeholder="请输入提现单号" autoComplete="off" />
-              </Form.Item>
-            </Col>
-            <Col {...this.colspans}>
-              <Form.Item label="提现时间" name="time">
+              <Form.Item label="最近使用时间" name="time">
                 <RangePicker defaultValue={[moment().subtract(1, 'days'),moment()]} showTime format="YYYY-MM-DD HH:mm:ss" />
               </Form.Item>
             </Col>

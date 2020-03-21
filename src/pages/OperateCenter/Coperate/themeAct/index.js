@@ -15,7 +15,7 @@ class ThemeAct extends Component {
       everyPage: 0,
       currentPage: 0,
       everyPage: 0,
-      dataList:[],
+      dataList: [],
       inputValues: {
         themeStatus: 4
       }
@@ -29,6 +29,9 @@ class ThemeAct extends Component {
     getListApi(values).then(res => {
       if (res.httpCode == 200) {
         const { result, everyPage, currentPage, total } = res.result;
+        if (result.length) {
+          result.map(item => (item.key = item.themeActivityId));
+        }
         this.setState({
           dataList: result,
           everyPage,
@@ -99,9 +102,6 @@ class ThemeAct extends Component {
       currentPage,
       totalCount
     } = this.state;
-    if(dataList.length){
-      dataList.map(item => (item.addtheme = addtheme));
-    }  
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
