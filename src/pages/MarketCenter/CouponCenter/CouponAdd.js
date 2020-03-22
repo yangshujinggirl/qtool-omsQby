@@ -5,8 +5,7 @@ import {
 import { Qbtn, Qmessage, BaseEditTable } from 'common';
 import { useState, useEffect } from 'react';
 import Proration from '../components/Proration';
-import { GetBrandApi, GetAddApi } from 'api/marketCenter/CouponCenter';
-import { GetEditInfoApi } from 'api/home/BaseGoods';
+import { GetBrandApi, GetAddApi, GetSpuCodeApi } from 'api/marketCenter/CouponCenter';
 import { ColumnsAdd } from './columns';
 
 let { RangePicker } =DatePicker;
@@ -59,8 +58,10 @@ const CouponAdd=({...props})=> {
     }
   }
   // 品牌搜索
-  const handleBrandSearch = e => {
-    let value = e.target.value;
+  const handleBrandSearch = value => {
+    if(!value){
+      return;
+    }
     GetBrandApi({ brandName: value })
     .then(res => {
       let { result }=res;
@@ -79,9 +80,17 @@ const CouponAdd=({...props})=> {
     selectBdList = [...selectBdList,...[{key:option.key,value:value}]];
     setSelectBdList(selectBdList);
   };
+  //商品查询
   const handleBlur=(e)=> {
     let value = e.target.value;
-    GetEditInfoApi({spuCode:value})
+    let pdBrandIdList = selectBdList.map((el)=>{return el.key})
+    debugger
+    let params = {
+      spuCode:value,
+      couponUseScope:totalData.couponUseScope,
+      pdBrandIdList
+    }
+    GetSpuCodeApi(params)
     .then((res)=> {
       let { result } =res;
 
@@ -131,7 +140,8 @@ const CouponAdd=({...props})=> {
     setTotalData(totalData)
   }
   useEffect(()=>{ form.setFieldsValue({bearers:ratioList}) },[ratioList]);
-
+  useEffect(()=>{ form.setFieldsValue(totalData) },[totalData]);
+  console.log(selectBdList)
   return(
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
@@ -317,10 +327,10 @@ const CouponAdd=({...props})=> {
                       name="brand"
                       rules={[{ required: true, message: "请选择品牌"}]}>
                       <AutoComplete
+                        options={brandList}
                         onSelect={handleBrandSelect}
-                        onSearch={handleBrandSearch}
-                        onFocus={handleBrandSearch}
-                        options={brandList}/>
+                        onSearch={handleBrandSearch}/>
+
                     </FormItem>
                     {selectBdList.map((el)=> (
                       <Tag

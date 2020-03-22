@@ -18,6 +18,10 @@ export function GetInfoApi(couponId) {
 export function GetAddNumApi(values) {
   return appAjax.get('/couponManager/reissue',{params:{...values}})
 }
+//注券
+export function GetInjectApi(values) {
+  return appAjax.post('/couponManager/create',{...values})
+}
 
 //熔断
 export function GetBreakApi(couponId) {
@@ -29,5 +33,5 @@ export function GetBrandApi(values) {
 }
 //查找商品
 export function GetSpuCodeApi(values) {
-  return omsAjax.get(`/brand/searchByName`,{params:{...values}});
+  return appAjax.post(`/couponManager/pdCode/query`,{...values});
 }

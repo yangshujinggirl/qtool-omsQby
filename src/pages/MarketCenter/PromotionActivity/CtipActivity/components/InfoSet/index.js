@@ -3,7 +3,6 @@ import moment from 'moment';
 import NP from 'number-precision';
 import { Card, Tag, Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
 import { disabledDate, disabledDateTimeRange } from '../dateSet.js';
-import { ColumnsCreat } from '../../columns';
 import {
   pdScopeOption,singleOption,promotionScopeOption,
   prefectureOption, purposeTypesOption,pdKindOption,

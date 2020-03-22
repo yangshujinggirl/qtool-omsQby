@@ -2,7 +2,6 @@
 import { Table, Form, Spin, Button } from "antd";
 import { useState, useEffect } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import { Columns } from './columns';
 import { Qmessage, Qpagination, Qbtn, Qtable} from "common";
 import FilterForm from './components/FilterForm'
@@ -59,6 +58,9 @@ const CouponCenter=({...props})=> {
   const onSubmit = params => {
     setFields(params)
   };
+  const goRecord=()=> {
+
+  }
   const goAdd=()=> {
     props.history.push('/account/coupon/add')
   }
@@ -138,7 +140,7 @@ const CouponCenter=({...props})=> {
         <FilterForm onSubmit={onSubmit}/>
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={goAdd}>创建优惠券</Qbtn>
-          <Qbtn size="free"><Link to="/account/couponRecord">注券记录</Link></Qbtn>
+          <Qbtn size="free" onClick={goRecord}>注券记录</Qbtn>
         </div>
         <Qtable
           columns={Columns}

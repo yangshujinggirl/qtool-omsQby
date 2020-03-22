@@ -11,7 +11,6 @@ const Columns = [
     dataIndex: "couponName",
     render:(text,record,index)=> {
       return <Link
-              className="link-color action-left"
               to={`/account/coupon/info/${record.couponId}`}>
               {record.couponName}
             </Link>
@@ -38,18 +37,9 @@ const Columns = [
     title: "已经发放数量",
     dataIndex: "couponGiveCount",
     render: (text, record) => {
-      return record.injectRecord ? (
-        <div>
-          <a
-            href="javascript:;"
-            className="theme-color"
-            onClick={record.onOperateClick.bind(this, "inject")}>
-            {text}
-          </a>
-        </div>
-      ) : (
-        <span>{text}</span>
-      );
+      return <Link to={`/account/couponRecord/${record.couponCode}`}>
+              {text}
+            </Link>
     }
   },
   {
@@ -83,10 +73,9 @@ const Columns = [
       return (
         <div>
           {(record.status == 1 || record.status == 2) &&
-            record.addCoupon &&
             record.couponCount != -1 && (
               <span
-                className="link-color action-left"
+                className="pointerSty"
                 onClick={()=>record.onOperateClick('supplyAgain')}>
                 追加数量
               </span>
@@ -94,15 +83,15 @@ const Columns = [
           &nbsp;
           {record.status !== 3 && record.fuse && (
             <span
-              className="link-color action-left"
+              className="pointerSty"
               onClick={()=>record.onOperateClick('fusing')}>
-              追加熔断数量
+              熔断
             </span>
           )}
           &nbsp;
           {record.couponUseScene == 2 && record.status !== 3 && record.inject&& (
             <span
-              className="link-color action-left"
+              className="pointerSty"
               onClick={()=>record.onOperateClick('logoutTic')}>
               注券
             </span>

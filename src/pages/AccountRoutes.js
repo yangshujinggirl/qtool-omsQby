@@ -96,6 +96,8 @@ import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/Ct
 import CouponCenter from './MarketCenter/CouponCenter';//优惠券中心
 import CouponInfo from './MarketCenter/CouponCenter/CouponInfo';//优惠券中心
 import CouponAdd from './MarketCenter/CouponCenter/CouponAdd';//优惠券中心
+import CouponRecord from './MarketCenter/CouponRecord';//注券中心
+import PosActivity from './MarketCenter/PromotionActivity/PosActivity';//c端营销活动
 
 /************************************   数据中心   *******************************************/
 /**
@@ -263,7 +265,7 @@ class HomeRoutes extends React.Component {
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}
                 <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
                 <Route exact path="/account/supplierManage" component={SupplierManage}/>
-                <Route exact path='/account/channel' component={shopManage}/>
+                <Route exact path='/account/channel' component={ShopManage}/>
                 {/* ----------------------------------  营销中心   ---------------------------------------*/}
                 <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
                 <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
@@ -271,6 +273,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/coupon_centre" component={CouponCenter}/>
                 <Route exact path="/account/coupon/info/:id" component={CouponInfo}/>
                 <Route exact path="/account/coupon/add" component={CouponAdd}/>
+                <Route exact path="/account/couponRecord/:id?" component={CouponRecord}/>
+                <Route exact path="/account/pos_preferential_promotion" component={PosActivity}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
