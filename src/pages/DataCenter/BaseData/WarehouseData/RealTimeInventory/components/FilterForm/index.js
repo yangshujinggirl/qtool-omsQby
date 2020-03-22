@@ -27,7 +27,7 @@ export default class SearchForm extends BaseFilter {
         new GetFirstLevelClassFyList()
             .then(rep => {
                 this.setState({
-                    firstClassFyLevel: TableDataListUtil.addKeyAndResultList(rep.pdCategory)
+                    firstClassFyLevel: TableDataListUtil.addKeyAndResultList(rep.result.result)
                 });
             });
 
