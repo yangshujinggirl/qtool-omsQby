@@ -116,6 +116,10 @@ import PurchasingData from "./DataCenter/BaseData/PurchasingData";
  * 仓库数据
  */
 import WarehouseData from "./DataCenter/BaseData/WarehouseData";
+/**
+ * 财务数据
+ */
+import FinancialData from "./DataCenter/BaseData/FinancialData";
 
 /************************************   渠道管理   *******************************************/
 import ChannelStatistic from './ChannelManage/Statistics'
@@ -324,6 +328,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/treasurer_definite' component={ShopkeeperInOut}/>
                 <Route exact path='/account/sale_definite' component={SaleInOut}/>
                 <Route exact path='/account/profit_manager' component={ShareInProfitManager}/>
+                <Route exact path='/account/finance_data' component={FinancialData}/>
                 {/* ----------------------------------  用户中心   ---------------------------------------*/}
                 <Route exact path='/account/c_work_order' component={WorkOrderC}/>
                 <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>
