@@ -18,7 +18,7 @@ export default class Qcards extends React.Component {
                                         <p className='q-cards-value'
                                            style={{color: "#333"}}>{item.value != null ? item.value : 0}</p>
                                         {
-                                            item.rate.toString() === '0' ?
+                                            item.rate != null ? item.rate.toString() === '0' ?
                                                 <p style={{marginTop: "6px"}}>{item.rate + '%' + item.text}</p> :
                                                 <p style={{marginTop: "6px"}}>
                                                     {
@@ -28,7 +28,7 @@ export default class Qcards extends React.Component {
                                                             <CaretUpOutlined
                                                                 style={{color: "#5DB637"}}/>
                                                     }{item.rate + '%' + item.text}
-                                                </p>
+                                                </p> : null
                                         }
                                     </Card>
                                 )
