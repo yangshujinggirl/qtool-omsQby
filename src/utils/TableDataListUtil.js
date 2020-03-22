@@ -19,13 +19,16 @@ const TableDataListUtil = {
         //返回数据
         const resultList = [];
         //开始遍历
-        if (list != null) {
-            list.forEach((item, index) => {
-                resultList.push({
-                    key: keyStr != null && keyStr !== "" ? item[keyStr] : index,
-                    ...item
-                })
-            });
+        try {
+            if (list != null) {
+                list.forEach((item, index) => {
+                    resultList.push({
+                        key: keyStr != null && keyStr !== "" ? item[keyStr] : index,
+                        ...item
+                    })
+                });
+            }
+        } catch (e) {
         }
         return resultList;
     }
