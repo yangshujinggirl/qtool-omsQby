@@ -121,7 +121,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 ...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList
             };
             if (formatSearchCriteriaList != null) {
-                params = {...params, ...formatSearchCriteriaList(values)};
+                params = {...params, ...formatSearchCriteriaList(this,values)};
             } else {
                 params = {...params, ...values};
             }
