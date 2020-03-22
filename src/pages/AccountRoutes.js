@@ -124,6 +124,15 @@ import FinancialData from "./DataCenter/BaseData/FinancialData";
  * App数据
  */
 import AppData from "./DataCenter/FromC/AppData";
+/**
+ * 门店数据
+ */
+import StoreData from "./DataCenter/FromB/StoreData";
+/**
+ * 门店库存分布页面
+ */
+import InventoryDistribution
+        from "./DataCenter/FromB/StoreData/StoreInventory/InventoryDistribution";
 
 /************************************   渠道管理   *******************************************/
 import ChannelStatistic from './ChannelManage/Statistics'
@@ -301,6 +310,10 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/purchase_data' component={PurchasingData}/>
                 <Route exact path='/account/warehouse_data' component={WarehouseData}/>
                 <Route exact path='/account/app_data' component={AppData}/>
+                <Route exact path='/account/channel_data' component={StoreData}/>
+                <Route exact path='/account/channel_data/StoreInventory/Distribution/:id'
+                       component={InventoryDistribution}/>
+
                 {/* ----------------------------------  运营中心   ---------------------------------------*/}
                 <Route exact path='/account/add_bpush/:id?' component={AddBPush}/>
                 <Route exact path='/account/b_push' component={Bpush}/>
