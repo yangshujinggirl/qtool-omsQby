@@ -1,7 +1,6 @@
 import React from 'react'
 import {Modal} from "antd";
 import {QuestionCircleOutlined,} from '@ant-design/icons';
-import './index.css'
 import {GetGoodsAnalysis} from "../../../../../api/home/DataCenter/BaseData/GoodsData";
 import CommonUtils from "utils/CommonUtils";
 import {QcardList, Qcards} from "common/index";
