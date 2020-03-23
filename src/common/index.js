@@ -46,4 +46,5 @@ export const CascaderAddressOptions = _CascaderAddressOptions;
 export const QdetailBaseInfo = _QdetailBaseInfo;
 export const QtabShow = _QtabShow;
 export const Qcards = _Qcards;
-export const QcardList = QbaseListNew;
+export const QcardList = _QcardList;
+export const Qcharts = _Qcharts;

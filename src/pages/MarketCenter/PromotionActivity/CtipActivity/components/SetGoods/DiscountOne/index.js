@@ -7,7 +7,7 @@ import "./index.less";
 const FormItem = Form.Item;
 
 const DiscountOne =({...props})=> {
-  let dataSource = [...props.dataSource];
+  let newSource = lodash.cloneDeep(props.dataSource);
   let currentdata = props.currentdata;
   let { promotionType } =currentdata;
   let[visible,setVisible] = useState(false);
@@ -62,7 +62,7 @@ const DiscountOne =({...props})=> {
                 删除
               </a>
               <a
-                onClick={() => this.handleEditGift(record, index, parentIndex)}
+                onClick={() => handleEditGift(record, index, parentIndex)}
                 className="theme-color">
                 编辑
               </a>
@@ -81,9 +81,9 @@ const DiscountOne =({...props})=> {
       okText:"确认删除",
       cancelText:"暂不删除",
       onOk() {
-        const promotionGifts = dataSource[currentParentIndex].promotionGifts;
-        promotionGifts.splice(currentChildIndex, 1);
-        props.upDateList(dataSource);
+        const promotionGifts = newSource[parentIndex].promotionGifts;
+        promotionGifts.splice(sonIndex, 1);
+        props.upDateList(newSource);
       },
       onCancel() {
         console.log('Cancel');
@@ -104,21 +104,21 @@ const DiscountOne =({...props})=> {
   const onChange = (e, index) => {
     const { value } = e.target;
     if (promotionType == 20) {//20满元赠 21满件赠
-      dataSource[index].param.leastAmount = value;
+      newSource[index].param.leastAmount = value;
     } else {
-      dataSource[index].param.leastQty = value;
+      newSource[index].param.leastQty = value;
     }
-    props.upDateList(dataSource);
+    props.upDateList(newSource);
     // const m = new Map();
     // m.set(`Top[${index}].price`, value);
     // props.form.setFieldsValue(m);
   };
   //新增赠品确认
   const handleOk = (values) => {
-    let { parentIndex } =currentItem;
+    let { parentIndex,sonIndex } =currentItem;
     if (!currentItem.pdCode) {
       values.pdCode = (values.pdCode).trim();
-      const { promotionGifts } = dataSource[parentIndex];
+      const { promotionGifts } = newSource[parentIndex];
       if(promotionGifts.length>0){
         const isRepeat = promotionGifts.some(item=>item.pdCode == values.pdCode);
         if(isRepeat){//if(重复了)
@@ -128,33 +128,33 @@ const DiscountOne =({...props})=> {
       }
       GetComplimentaryApi({ pdCode: values.pdCode,platformType:2,pdKind:currentdata.pdKind})
       .then(res => {
-        const product = res.product;
-        let list = { ...product, maxQty: values.max };
-        dataSource[parentIndex].promotionGifts.push(list);
-        props.upDateList(dataSource);
+        const product = res.result;
+        let list = { ...product, maxQty: values.max, key:product.pdCode, pdCode:product.pdCode };
+        newSource[parentIndex].promotionGifts.push(list)
+        props.upDateList(newSource);
       });
     } else {
-      const promotionGifts = dataSource[parentIndex].promotionGifts;
-      const list = promotionGifts[sonIndex];
-      promotionGifts[sonIndex] = { ...list, maxQty: values.max };
-      props.upDateList(dataSource);
+      let promotionGifts = newSource[parentIndex].promotionGifts;
+      promotionGifts[sonIndex] = { ...promotionGifts[sonIndex], maxQty: values.max };
+      props.upDateList(newSource);
     }
-    setVisible(false)
+    handleCancel();
   };
   //取消
   const handleCancel =()=> {
+    props.form.resetFields(['pdCode','max'])
     setVisible(false)
   };
   //删除等级
-  const  deleteParent = (index) => {
+  const deleteParent = (index) => {
     Modal.confirm({
       title: '是否删除此级优惠?',
       content: '是否删除此级优惠?',
       okText:"确认删除",
       cancelText:"暂不删除",
       onOk() {
-        dataSource.splice(index, 1);
-        props.upDateList(dataSource);
+        newSource.splice(index, 1);
+        props.upDateList(newSource);
       },
       onCancel() {
         console.log('Cancel');
@@ -167,21 +167,21 @@ const DiscountOne =({...props})=> {
       param: { leastAmount: "", leastQty: "" },
       promotionGifts: []
     };
-    dataSource.push(list);
-    props.upDateList(dataSource);
+    newSource.push(list);
+    props.upDateList(newSource);
   };
   const validatorPrice=(rule, value, index)=> {
     if(+value){
       if (value > 99999) {
         return Promise.reject('不可超过99999');
       };
-      if(dataSource[index - 1] && dataSource[index - 1].param.leastAmount){
-        if(+value <= +dataSource[index - 1].param.leastAmount){
+      if(newSource[index - 1] && newSource[index - 1].param.leastAmount){
+        if(+value <= +newSource[index - 1].param.leastAmount){
           return Promise.reject('此阶梯优惠门槛需大于上一阶梯的优惠门槛');
         };
       };
-      if(dataSource[index + 1] && dataSource[index + 1].param.leastAmount){
-        if(+value >= +dataSource[index + 1].param.leastAmount){
+      if(newSource[index + 1] && newSource[index + 1].param.leastAmount){
+        if(+value >= +newSource[index + 1].param.leastAmount){
           return Promise.reject('此阶梯优惠门槛需小于下一阶梯的优惠门槛');
         };
       };
@@ -193,13 +193,13 @@ const DiscountOne =({...props})=> {
       if (+value > 99) {
         return Promise.reject('不可超过99');
       };
-      if(dataSource[index - 1] && dataSource[index - 1].param.leastQty){
-        if(+value <= +dataSource[index - 1].param.leastQty){
+      if(newSource[index - 1] && newSource[index - 1].param.leastQty){
+        if(+value <= +newSource[index - 1].param.leastQty){
           return Promise.reject('此阶梯优惠门槛需大于上一阶梯的优惠门槛');
         };
       };
-      if(dataSource[index + 1]&&dataSource[index + 1].param.leastQty){
-        if(+value >= +dataSource[index + 1].param.leastQty){
+      if(newSource[index + 1]&&newSource[index + 1].param.leastQty){
+        if(+value >= +newSource[index + 1].param.leastQty){
           return Promise.reject('此阶梯优惠门槛需小于下一阶梯的优惠门槛');
         };
       };
@@ -247,18 +247,19 @@ const DiscountOne =({...props})=> {
                 </FormItem>
               )}
             </div>
-            {dataSource.length > 1 &&
+            {newSource.length > 1 &&
               <a onClick={() => deleteParent(index)} className="theme-color">
                 删除此级
               </a>
             }
         </div>
   }
+
   return (
     <div className="discount-good">
       <div>*赠送方式: 每种赠品均送</div>
       <div className="content">
-        {dataSource.length>0 && dataSource.map((item, index) => (
+        {newSource.length>0 && newSource.map((item, index) => (
           <div key={index}>
             <Table
               className="discount_table"
@@ -275,7 +276,7 @@ const DiscountOne =({...props})=> {
               )}
               pagination={false}
               bordered
-              dataSource={item.promotionGifts? item.promotionGifts:[]}
+              dataSource={item.promotionGifts?item.promotionGifts:[]}
               columns={getColumns(index)}
               size="middle"
             />
@@ -283,7 +284,7 @@ const DiscountOne =({...props})=> {
         ))}
         <div className="discount_addLevel">
           <Button
-            disabled={dataSource.length == 8}
+            disabled={newSource.length == 8}
             type="primary"
             onClick={addParent}>
             继续新增优惠等级

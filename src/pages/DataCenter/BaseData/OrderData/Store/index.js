@@ -1,11 +1,22 @@
 import React, {useState} from 'react'
-import {Card, Modal} from "antd";
+import {Col, Modal} from "antd";
 import TopTitleDesHeader from "../../../components/TopTitleDesHeader";
-import {QbaseDetail, Qbtn, Qcards, QdetailBaseInfo} from "common/index";
-import {GetStoreOrderData} from "../../../../../api/home/DataCenter/BaseData/OrderData";
+import {
+    QbaseDetail, Qbtn,
+    Qcards,
+    Qcharts,
+    Qtable
+} from "common/index";
+import {
+    GetStoreChartsData,
+    GetStoreOrderData, GetStoreTableDataList
+} from "../../../../../api/home/DataCenter/BaseData/OrderData";
 import CommonUtils from "utils/CommonUtils";
-import {GetOfflineStoreLevelTwoChannelInfo} from "../../../../../api/home/ChannelManage/Manager/OfflineStore";
-import {AppExportApi} from "../../../../../api/Export";
+import {CHARTS_TYPE_LINEAR} from "common/Qcharts";
+import Columns from "./column";
+import {FilterSearchRangeTime} from "common/QdisabledDateTime";
+import moment from "moment";
+import {TableDataListUtil} from "utils/index";
 
 /**
  * 功能作用：门店订单数据列表页面
@@ -30,6 +41,19 @@ const Store = (props) => {
         datalist1: [],
         datalist2: [],
     });
+    /**
+     * 图表数据设置
+     */
+    const [chartsData, setChartsData] = useState({
+        xdata: [],
+        chartsDataList: {},
+        searchFilterList: {}
+    });
+    /**
+     * 表格数据
+     */
+    const [tableList, setTableList] = useState([]);
+
     /**
      * 初始化完成回调
      * @param _this
@@ -151,12 +175,84 @@ const Store = (props) => {
             },
         });
     };
+    /**
+     * 获取表格数据
+     */
+    const getTableList = (values) => {
+        setTableList(TableDataListUtil.addKeyAndResultList(new GetStoreTableDataList(values).rpShopOrderDatas))
+    };
+
+    /**
+     * 获取图表数据列表
+     * @param params
+     */
+    const getChartDataList = (params) => {
+        const shopOrderData = new GetStoreChartsData().shopOrderDatas;
+        const xdata = [];
+        const data1 = [];
+        const data2 = [];
+        for (let i = 0; i < shopOrderData.length; i++) {
+            if (params.startDate === params.endDate) {
+                xdata.push(shopOrderData[i].rpDateTime)
+            } else {
+                xdata.push(shopOrderData[i].rpDate)
+            }
+
+            data1.push(shopOrderData[i].qtySum);//订单数
+            data2.push(shopOrderData[i].amountSum); //销售额
+        }
+        const chartsDataList = {};
+        chartsDataList['订单数量'] = data1;
+        chartsDataList['订单金额'] = data2;
+        setChartsData({
+            ...chartsData,
+            chartsDataList: chartsDataList,
+            xdata: xdata
+        });
+    };
+
+    /**
+     * 刷新图表数据
+     * @param values
+     */
+    const refreshDataList = (values) => {
+        const params = {...chartsData.searchFilterList, ...values};
+        //设置数据
+        setChartsData({...chartsData, searchFilterList: {...params}});
+        //请求数据
+        getChartDataList(params);
+    };
 
     return <QbaseDetail childComponent={<div>
         <TopTitleDesHeader updateTime={dataInfo.updateTime}
                            desInfoClick={desInfo}/>
         <Qcards data={dataInfo.datalist1}/>
         <Qcards data={dataInfo.datalist2}/>
+        <Qcharts chartsType={CHARTS_TYPE_LINEAR}
+                 chartsTitle='订单变化趋势图'
+                 chartsLevel={1}
+                 chartXData={chartsData.xdata}
+                 nowSelectFirstType='订单数量'
+                 chartsData={chartsData.chartsDataList}
+                 refreshDataList={refreshDataList}
+                 selectTimeProps={{startTimeName: "startDate", endDate: "endRpDate"}}/>
+        <div>订单变化数据</div>
+        <div className="oms-common-index-pages-wrap">
+            <div style={{marginTop: '10px', marginBottom: '10px'}}>
+                <FilterSearchRangeTime
+                    style={{marginRight: '10px', width: '290px'}}
+                    selectTimeChange={getTableList}
+                    defaultValue={[moment(moment().subtract(29, 'days').format("YYYY-MM-DD 00:00:00")),
+                        moment(moment().format("YYYY-MM-DD 23:59:59"))]}
+                    startTimeName="startDate" endTimeName="endDate"
+                    allowClear={false}/>
+                <Qbtn type="primary">导出数据</Qbtn>
+            </div>
+            <Qtable
+                columns={Columns}
+                select={true}
+                dataSource={tableList}/>
+        </div>
     </div>} baseDetailComponentCallback={baseDetailComponentCallback}/>
 };
 export default Store;

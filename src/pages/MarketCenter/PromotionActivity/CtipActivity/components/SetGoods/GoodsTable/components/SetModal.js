@@ -1,154 +1,133 @@
 import { Component } from "react";
 import { Modal, Form, Input, message } from "antd";
+import { Qmessage } from 'common';
 import Discount from "./Discount";
-import { connect } from "dva";
+import lodash from 'lodash';
 import "../index.less";
 const FormItem = Form.Item;
 
-class setModal extends Component {
-  constructor(props) {
-    super(props);
-  }
-  onOk = () => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        if (
-          +values.perOrderLimit > +values.perDayLimit ||
-          +values.perDayLimit > +values.perUserLimit
-        ) {
-          return message.error(
-            "每单限购小于每天限购小于每账号限购，请重新填写"
-          );
-        }
-        let goodLists = [...this.props.goodLists];
-        let obj = goodLists[this.props.currentIndex];
-        obj = { ...obj, ...values };
-        obj.promotionRules = [...this.props.promotionRules];
-        goodLists[this.props.currentIndex] = obj;
-        this.props.dispatch({
-          type: "ctipActivityAddTwo/refreshLists",
-          payload: { goodLists }
-        });
-        this.onCancel();
+const setModal=({...props})=> {
+  const { visible, record, promotionType, dataSource } = props;
+  let newSource = lodash.cloneDeep(dataSource);
+  const onOk = async() => {
+    try {
+      let values = await this.props.form.validateFields(['perOrderLimit','perDayLimit','perDayLimit','perUserLimit']);
+      if (
+        +values.perOrderLimit > +values.perDayLimit ||
+        +values.perDayLimit > +values.perUserLimit
+      ) {
+        return Qmessage.error("每单限购小于每天限购小于每账号限购，请重新填写");
       }
-    });
-  };
-  onCancel = () => {
-    this.props.onVisible();
-    this.props.form.resetFields();
-  };
-  validateActPrice = (rule, value, callback) => {
-    if (value && value >= this.props.currentRecord.sellPrice) {
-      callback("活动价需小于C端售价");
+      let obj = newSource[record.index];
+      obj = { ...obj, ...values, promotionRules: [...props.proRules] };
+      newSource[record.index] = obj;
+      props.updateList(newSource);
+    } catch (errorInfo) {
+      console.log('Failed:', errorInfo);
     }
-    callback();
   };
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    const { visible, currentRecord, promotionType } = this.props;
-    return (
+  const onCancel = () => {
+    props.onVisible();
+    props.form.resetFields();
+  };
+  const validateActPrice = (rule, value, callback) => {
+    if (value && value >= record.sellPrice) {
+      return Promise.reject('活动价需小于C端售价');
+    }
+    return Promise.resolve();
+  };
+  return (
+    <Modal
+      width={promotionType == "11" ? 1100 : 700}
+      title="编辑商品"
+      visible={visible}
+      onOk={onOk}
+      onCancel={onCancel}
+      wrapClassName="reset_goods">
       <div>
-        <Modal
-          width={promotionType == "11" ? 1100 : 700}
-          title="编辑商品"
-          visible={visible}
-          onOk={this.onOk}
-          onCancel={this.onCancel}
-          wrapClassName="reset_goods"
-        >
-          <div>
-            <Form>
+          <FormItem
+            label="商品编码"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}>
+            <span>{record.pdCode}</span>
+          </FormItem>
+          {promotionType == 11 &&
+            <FormItem
+              className="must-pic"
+              label="优惠内容"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}>
+              {promotionType == 11 && <Discount promotionType={promotionType} form={this.props.form} />}
+            </FormItem>
+          }
+          {promotionType == 10 && (
+            <FormItem
+              label="活动价"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              name="activityPrice"
+              rules={[
+                { required: true, message: "请输入活动价" },
+                { validator: validateActPrice }
+              ]}>
+              <Input style={{ width: "100px" }} autoComplete="off" />
+            </FormItem>
+          )}
+          <FormItem
+            label="最多可参与活动的商品数"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}>
+            <FormItem
+              noStyle
+              name="maxQty">
+              <Input style={{ width: "100px" }} autoComplete="off" />
+            </FormItem>
+            <span className="suffix_tips">
+              如不填写视为商品的所有库存均参与活动
+            </span>
+          </FormItem>
+          {(promotionType == 10 || promotionType == 11) && (
+            <div>
+              <div className="limit_tips">
+                限购设置规则：每单限购小于每天限购小于每账号限购
+              </div>
               <FormItem
-                label="商品编码"
+                label="活动期间每人每单限购"
                 labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-              >
-                <span>{currentRecord.pdCode}</span>
+                wrapperCol={{ span: 16 }}>
+                <FormItem
+                  noStyle
+                  name="perOrderLimit">
+                  <Input style={{ width: "100px" }} autoComplete="off" />
+                </FormItem>
+                <span className="suffix_tips">如不填写则不限制购买数量</span>
               </FormItem>
-              {promotionType == 11 && (
-                <FormItem
-                  className="must-pic"
-                  label="优惠内容"
-                  labelCol={{ span: 8 }}
-                  wrapperCol={{ span: 16 }}
-                >
-                  {promotionType == 11 && <Discount form={this.props.form} />}
-                </FormItem>
-              )}
-              {promotionType == 10 && (
-                <FormItem
-                  label="活动价"
-                  labelCol={{ span: 8 }}
-                  wrapperCol={{ span: 16 }}
-                >
-                  {getFieldDecorator("activityPrice", {
-                    initialValue: currentRecord.activityPrice,
-                    rules: [
-                      { required: true, message: "请输入活动价" },
-                      { validator: this.validateActPrice }
-                    ]
-                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                </FormItem>
-              )}
               <FormItem
-                label="最多可参与活动的商品数"
+                label="活动期间每人每天限购"
                 labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-              >
-                {getFieldDecorator("maxQty", {
-                  initialValue: currentRecord.maxQty
-                })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                <span className="suffix_tips">
-                  如不填写视为商品的所有库存均参与活动
-                </span>
+                wrapperCol={{ span: 16 }}>
+                <FormItem
+                  noStyle
+                  name="perDayLimit">
+                  <Input style={{ width: "100px" }} autoComplete="off" />
+                </FormItem>
+                <span className="suffix_tips">如不填写则不限制购买数量</span>
               </FormItem>
-              {(promotionType == 10 || promotionType == 11) && (
-                <div>
-                  <div className="limit_tips">
-                    限购设置规则：每单限购小于每天限购小于每账号限购
-                  </div>
-                  <FormItem
-                    label="活动期间每人每单限购"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                  >
-                    {getFieldDecorator("perOrderLimit", {
-                      initialValue: currentRecord.perOrderLimit
-                    })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                    <span className="suffix_tips">如不填写则不限制购买数量</span>
-                  </FormItem>
-                  <FormItem
-                    label="活动期间每人每天限购"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                  >
-                    {getFieldDecorator("perDayLimit", {
-                      initialValue: currentRecord.perDayLimit
-                    })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                    <span className="suffix_tips">如不填写则不限制购买数量</span>
-                  </FormItem>
-                  <FormItem
-                    label="活动期间每人每账号限购"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                  >
-                    {getFieldDecorator("perUserLimit", {
-                      initialValue: currentRecord.perUserLimit
-                    })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                    <span className="suffix_tips">如不填写则不限制购买数量</span>
-                  </FormItem>
-                </div>
-              )}
-            </Form>
-          </div>
-        </Modal>
+              <FormItem
+                label="活动期间每人每账号限购"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}>
+                <FormItem
+                  noStyle
+                  name="perUserLimit">
+                  <Input style={{ width: "100px" }} autoComplete="off" />
+                </FormItem>
+                <span className="suffix_tips">如不填写则不限制购买数量</span>
+              </FormItem>
+            </div>
+          )}
       </div>
-    );
-  }
+    </Modal>
+  );
 }
-function mapStateToProps(state) {
-  const { ctipActivityAddTwo } = state;
-  return ctipActivityAddTwo;
-}
-const setModals = Form.create({})(setModal);
-export default connect(mapStateToProps)(setModals);
+export default setModal;

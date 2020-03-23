@@ -13,6 +13,7 @@ import StepMod from './components/StepMod';
 import InfoSet from './components/InfoSet';
 import WebSet from './components/WebSet';
 import ShareSet from './components/ShareSet';
+import Proration from '../../components/Proration';
 import './CtipActivityAdd.less';
 
 let FormItem = Form.Item;
@@ -38,8 +39,7 @@ const formItemLayoutBig = {
       },
     };
 
-const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨境商品
-  console.log(props)
+const CtipActivityAdd =({...props})=> {
   const [form] = Form.useForm();
   let [activityInfo, setTotalData] =useState({websiteBanner:{}});
   let [ratioList, setRatioList] =useState([]);
@@ -52,10 +52,13 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
     }
   }
   const goReturn=()=> {
-
+    props.history.push('/account/c_preferential_promotion')
   }
-  const updateRatioList=(array)=> {
+  const upDateRatioList=(array)=> {
     setRatioList(array)
+  }
+  const upDateTagList=(array)=> {
+    setTagsList(array)
   }
   const getBaseInfo=()=> {
     GetBaseInfoApi(promotionId)
@@ -238,11 +241,15 @@ const CtipActivityAdd =({...props})=> {//productNature：1一般贸易，2：跨
           form={form}
           {...formItemLayout}>
             <InfoSet
-              upDateList={updateRatioList}
-              tagsList={tagsList}
-              ratioList={ratioList}
               form={form}
-              activityInfo={activityInfo}/>
+              activityInfo={activityInfo}>
+              <Proration
+                upDateRatioList={upDateRatioList}
+                upDateTagList={upDateTagList}
+                tagsList={tagsList}
+                ratioList={ratioList}
+                form={form}/>
+            </InfoSet>
             <WebSet form={form} activityInfo={activityInfo}/>
             <ShareSet form={form} activityInfo={activityInfo}/>
           <div className="handle-operate-save-action">

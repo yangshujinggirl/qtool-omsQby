@@ -10,7 +10,6 @@ class Market extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      everyPage: 0,
       currentPage: 0,
       everyPage: 0,
       dataList: [],

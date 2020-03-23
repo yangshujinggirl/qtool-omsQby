@@ -11,68 +11,63 @@ import {Spin} from "antd";
  * @param childStateParams 调用方传递参数
  * @param formatSearchCriteriaList 请求参数格式化
  * @param onModalCancelClick modal取消弹窗点击
+ * @param optionsResponseDataFun 操作相应数据函数，当不为空时响应数据交由该函数处理
  */
 function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                    dataListOptionsKey = null, childStateParams = null, formatSearchCriteriaList = null,
-                   onModalCancelClick = null) {
+                   onModalCancelClick = null, optionsResponseDataFun = null) {
     return class extends React.Component {
 
-        /**
-         * 初始化
-         */
-        constructor() {
-            super();
-            this.state = {
-                /**
-                 * 数据列表
-                 */
-                dataList: [],
-                /**
-                 * 每页展示数量
-                 */
-                everyPage: 20,
-                /**
-                 * 当前页码
-                 */
-                currentPage: 0,
-                /**
-                 * 总数
-                 */
-                total: 0,
-                /**
-                 * 搜索条件列表
-                 */
-                searchCriteriaList: {},
-                /**
-                 * 仅记录的搜索条件列表,仅记录使用，在搜索时候做合并使用，但是在其他接口中不做任何处理
-                 */
-                recordSearchCriteriaList: {},
-                /**
-                 * 选中的数据key列表
-                 */
-                selectedRowKeys: [],
-                /**
-                 * 选中的数据实体列表
-                 */
-                selectedRows: [],
-                /**
-                 * 是否显示Modal弹窗
-                 */
-                showModal: false,
-                /**
-                 * 显示modal弹窗key
-                 */
-                showModalKey: "",
-                /**
-                 * 是否显示加载中
-                 */
-                showLoadingStatus: false,
-                /**
-                 * 子类变量数据参数
-                 */
-                ...childStateParams
-            }
-        }
+        state = {
+            /**
+             * 数据列表
+             */
+            dataList: [],
+            /**
+             * 每页展示数量
+             */
+            everyPage: 20,
+            /**
+             * 当前页码
+             */
+            currentPage: 0,
+            /**
+             * 总数
+             */
+            total: 0,
+            /**
+             * 搜索条件列表
+             */
+            searchCriteriaList: {},
+            /**
+             * 仅记录的搜索条件列表,仅记录使用，在搜索时候做合并使用，但是在其他接口中不做任何处理
+             */
+            recordSearchCriteriaList: {},
+            /**
+             * 选中的数据key列表
+             */
+            selectedRowKeys: [],
+            /**
+             * 选中的数据实体列表
+             */
+            selectedRows: [],
+            /**
+             * 是否显示Modal弹窗
+             */
+            showModal: false,
+            /**
+             * 显示modal弹窗key
+             */
+            showModalKey: "",
+            /**
+             * 是否显示加载中
+             */
+            showLoadingStatus: false,
+            /**
+             * 子类变量数据参数
+             */
+            ...childStateParams
+        };
 
         /**
          * 第一次渲染之后调用数据
@@ -126,25 +121,24 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
                 ...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList
             };
             if (formatSearchCriteriaList != null) {
-                params = {...params, ...formatSearchCriteriaList(values)};
+                params = {...params, ...formatSearchCriteriaList(this,values)};
             } else {
                 params = {...params, ...values};
             }
             apiRequest(params, this).then(res => {
                 this.hideLoading();
-                const {resultList, result, everyPage, total, currentPage} = res.result;
-                let optionsList = resultList != null ? resultList : [];
-                if (result != null) {
-                    optionsList = result;
-                }
+                const {result, everyPage, total, currentPage} = res.result != null ? res.result : res;
                 this.setState({
-                    dataList: TableDataListUtil.addKeyAndResultList(optionsList, dataListOptionsKey),
+                    dataList: TableDataListUtil.addKeyAndResultList(result, dataListOptionsKey),
                     everyPage,
                     total: total,
                     currentPage,
                     searchCriteriaList: params,
                     selectedRowKeys: []
-                });
+                }, optionsResponseDataFun != null ? function () {
+                    //默认情况处理完交由调用该高阶组件方处理数据
+                    optionsResponseDataFun(this, res)
+                } : null);
             }).catch(() => {
                 this.hideLoading();
             });

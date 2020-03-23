@@ -142,13 +142,8 @@ class index extends Component {
   };
   beforeUpload = () => {};
   render() {
-    const {
-      promotionType,
-      beginTime,
-      endTime,
-      pdKind,
-      promotionId
-    } = this.props;
+    const { promotionType, beginTime, endTime, pdKind } = this.props.currentdata;
+    const { promotionId } = this.props;
     const params = JSON.stringify({
       type: promotionType,
       beginTime,
@@ -157,7 +152,7 @@ class index extends Component {
       promotionId
     });
     const props = {
-      action: "/erpWebRest/webrest.htm?code=qerp.web.promotion.activity.import",
+      action:`/qtoolsApp/promotions/product/import`,
       onChange: this.handleChange,
       beforeUpload: this.beforeUpload,
       name: "mfile",

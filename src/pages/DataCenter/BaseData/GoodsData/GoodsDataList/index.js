@@ -10,7 +10,7 @@ import Columns from "./column";
 import {GetGoodsDataList} from "../../../../../api/home/DataCenter/BaseData/GoodsData";
 
 /**
- * 功能作用：商品分析
+ * 功能作用：商品数据列表
  * 初始注释时间： 2020/3/14 21:56
  * 注释创建人：LorenWang（王亮）
  * 方法介绍：
