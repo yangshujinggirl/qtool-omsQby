@@ -1,7 +1,7 @@
 import React from 'react'
 import {QbaseList, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
-import Columns from "./column";
+import {Columns} from "./column";
 import {GetStoreInventoryList} from "../../../../../api/home/DataCenter/FromB/StoreData";
 
 /**
