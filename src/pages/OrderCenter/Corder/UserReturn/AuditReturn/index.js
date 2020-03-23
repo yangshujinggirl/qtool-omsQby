@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Qtable, Qpagination } from "common"; //表单
 import FilterForm from "./FilterForm/index";
-import columns from "./columns";
+import {Columns} from "./columns";
 import { getListApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 

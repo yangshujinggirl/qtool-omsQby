@@ -81,12 +81,17 @@ import ShopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退�
 import ShopReturnOrderDetail from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderDetail' //门店退单
 import ShopReturnAdd from './OrderCenter/Border/ShopReturnOrder/ShopReturnAdd' //门店退单
 import UserReturn from './OrderCenter/Corder/UserReturn' //用户退单
+import AllReturnInfo from './OrderCenter/Corder/UserReturn/AllReturn/AllReturnInfo' //全部退单详情
+import AuditReturnInfo from './OrderCenter/Corder/UserReturn/AuditReturn/AuditReturnInfo' //审核退单详情
+import AbnormalOrder from './OrderCenter/AbnormalOrder' //异常订单
+import AbnormalOrderInfo from './OrderCenter/AbnormalOrder/AbnormalOrderInfo' //异常订单详情
 
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
 import SupplierManageAdd from './SupplierManage/SupplierManageAdd';//供应商管理
 import ShopManage from './CooperateCenter/ShopManage'
 import AddShopManage from './CooperateCenter/ShopManage/AddShopManage'
+import ShopManageInfo from './CooperateCenter/ShopManage/ShopManageInfo'
 
 //门店管理
 /************************************  营销中心  ********************************************/
@@ -137,7 +142,8 @@ import InventoryDistribution
 /************************************   渠道管理   *******************************************/
 import ChannelStatistic from './ChannelManage/Statistics'
 import ChannelStatisticInfos from './ChannelManage/Statistics/StatisticInfo'
-
+/************************************   库存中心   *******************************************/
+import StoreMange from './StockCenter/StoreManage' //仓库管理
 /************************************   运营中心   *******************************************/
 import Bpush from './OperateCenter/Boperate/Bpush'
 import AddBPush from './OperateCenter/Boperate/Bpush/AddPush'
@@ -154,6 +160,7 @@ import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
 
 /************************************   用户中心   *******************************************/
 import PosUserOrder from './UserCenter/PosUserManage'
+import CuserOrder from './UserCenter/CuserManage'
 
 /************************************   财务中心   *******************************************/
 import ShoperRecharge from './FinancialCenter/Recharge'
@@ -287,12 +294,18 @@ class HomeRoutes extends React.Component {
                        component={ShopReturnOrderDetail}/>
                 <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
                 <Route exact path='/account/subscriber_refund_orders' component={UserReturn}/>
+                <Route exact path='/account/allReturn_infos/:id?' component={AllReturnInfo}/>
+                <Route exact path='/account/auditReturn_info/:id?' component={AuditReturnInfo}/>
+                <Route exact path='/account/unlawful_orders' component={AbnormalOrder}/>
+                <Route exact path='/account/abnormalOrder_info/:id?' component={AbnormalOrderInfo}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}
                 <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
                 <Route exact path="/account/supplierManage" component={SupplierManage}/>
                 <Route exact path='/account/channel' component={ShopManage}/>
+                <Route exact path='/account/shopManage_edit/:id?' component={AddShopManage}/>
+                <Route exact path='/account/shopManage_infos/:id?' component={ShopManageInfo}/>
                 {/* ----------------------------------  营销中心   ---------------------------------------*/}
                 <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
                 <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
@@ -353,6 +366,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/work_order' component={WorkOrder}/>
                 <Route exact path='/account/work_order/detail/:id?' component={WorkOrderDetail}/>
                 <Route exact path='/account/pos_user' component={PosUserOrder}/>
+                <Route exact path='/account/c_user' component={CuserOrder}/>
 
                 {/* ----------------------------------  会员中心   ---------------------------------------*/}
                 <Route exact path='/account/growth_task_configuration' component={TaskGrowthValue}/>
@@ -361,10 +375,11 @@ class HomeRoutes extends React.Component {
 
                 {/* ----------------------------------  渠道管理   ---------------------------------------*/}
                 <Route exact path='/account/bridge_manager_control' component={ChannelManage}/>
-                <Route exact path='/account/bridge_manager_control/offline_store/level_2/:id?'
-                       component={OfflineStoreLevelTwo}/>
-                <Route exact path='/account/bridge_manager_control/market_promotion/level_2/:id?'
-                       component={MarketPromotionLevelTwo}/>
+                <Route exact path='/account/bridge_manager_control/offline_store/level_2/:id?' component={OfflineStoreLevelTwo}/>
+                <Route exact path='/account/bridge_manager_control/market_promotion/level_2/:id?' component={MarketPromotionLevelTwo}/>
+                {/* ----------------------------------  仓库管理   ---------------------------------------*/}
+                <Route exact path='/account/warehouse_manager' component={StoreMange}/>
+                       
 
 
                 {/*

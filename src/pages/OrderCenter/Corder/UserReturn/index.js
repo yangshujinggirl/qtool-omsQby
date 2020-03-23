@@ -22,10 +22,10 @@ class UserOrder extends Component {
       <div>
         <Tabs activeKey={level} onChange={this.callback}>
           <TabPane tab="待审核" key="1">
-            {level == "1" && <AllReturn/>}
+            {level == "1" && <AuditReturn/>}
           </TabPane>
           <TabPane tab="全部退单" key="2">
-            {level == "2" && <AuditReturn/>}
+            {level == "2" && <AllReturn/>}
           </TabPane>
         </Tabs>
       </div>

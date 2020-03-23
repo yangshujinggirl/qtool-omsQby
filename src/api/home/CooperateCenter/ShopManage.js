@@ -1,25 +1,23 @@
 import { omsAjax } from "../../Req";
 //列表
 export function getListApi(values) {
-  return omsAjax.get("/channelStatistics/query/sp", {
+  return omsAjax.get("/channel/searchChannel", {
     params: values
   });
 }
 //详情
-export function getMarketListApi(values) {
-  return omsAjax.get("/channelStatistics/query/mkt", {
+export function getInfosApi(values) {
+  return omsAjax.get("/channel/viewChannel", {
     params: values
   });
 }
 //保存
-export function saveInfosApi(id) {
-  return omsAjax.get(`/channelStatistics/${id}`);
+export function saveInfosApi(values) {
+  return omsAjax.post(`/channel/addAndUpdateChannel`,values);
 }
 //导出
 export function ExportApi(values) {
-  return omsAjax.get("/channelStatistics/export", {
-    params: values
-  });
+  return omsAjax.post("/export/commonExport",values);
 }
 //省份查询
 export function getProvinceListApi(values) {

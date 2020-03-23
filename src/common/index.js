@@ -22,6 +22,7 @@ import _Qcards from './Qcards';
 import _QcardList from './QcardList';
 import _QbaseListNew from './QbaseListNew';
 import _QimageTextEdit from './QimageTextEdit';
+import _Qcharts from './Qcharts';
 
 
 export const QimageTextEdit = _QimageTextEdit;

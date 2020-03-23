@@ -1,7 +1,6 @@
 import React from 'react'
 import {FilterSearchRangeTime} from "common/QdisabledDateTime";
 import moment from "moment";
-import '../index.css'
 
 // 引入 ECharts 主模块
 const echarts = require('echarts');

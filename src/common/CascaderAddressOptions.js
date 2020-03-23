@@ -8,7 +8,7 @@ areas.forEach((area) => {
     matchCity.children = matchCity.children || [];
     matchCity.children.push({
       label: area.name,
-      value: area.name,
+      value: area.code,
     });
   }
 });
@@ -19,7 +19,7 @@ cities.forEach((city) => {
     matchProvince.children = matchProvince.children || [];
     matchProvince.children.push({
       label: city.name,
-      value: city.name,
+      value: city.code,
       children: city.children,
     });
   }
@@ -27,7 +27,7 @@ cities.forEach((city) => {
 
 const options = provinces.map(province => ({
   label: province.name,
-  value: province.name,
+  value: province.code,
   children: province.children,
 }));
 export default options;
