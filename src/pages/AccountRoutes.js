@@ -304,11 +304,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
                 <Route exact path="/account/supplierManage" component={SupplierManage}/>
                 <Route exact path='/account/channel' component={ShopManage}/>
-<<<<<<< HEAD
                 <Route exact path='/account/shopManage_edit/:id?' component={AddShopManage}/>
                 <Route exact path='/account/shopManage_infos/:id?' component={ShopManageInfo}/>
-=======
->>>>>>> b67f76b31dfdfcb165bd68fbb768faf3e8614e23
                 {/* ----------------------------------  营销中心   ---------------------------------------*/}
                 <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
                 <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
