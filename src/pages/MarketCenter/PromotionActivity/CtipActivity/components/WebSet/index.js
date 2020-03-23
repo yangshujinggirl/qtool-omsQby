@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import moment from 'moment';
 import { Button, Card, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, } from 'antd';
 import UpLoadImgMod from '../UpLoadImgMod';
-import { disabledDate, disabledDateTime } from '../dateSet.js';
+import { disabledDate, disabledDateTime } from '../../../components/dateSet.js';
 
 const formItemLayout = {
   labelCol: {

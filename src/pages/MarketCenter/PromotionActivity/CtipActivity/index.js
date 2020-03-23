@@ -2,5 +2,8 @@ import { GetListApi,GetDeleteApi,GetApprovalsApi, GetEnableApi } from "api/marke
 
 import withSubscription from "../components/GoodsListCandB";
 
- let CtipActivity=withSubscription(GetListApi,"C")
+let apiObj={
+  GetListApi, GetDeleteApi, GetApprovalsApi, GetEnableApi
+}
+ let CtipActivity=withSubscription(apiObj,"C")
 export default CtipActivity;

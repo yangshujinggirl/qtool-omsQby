@@ -6,9 +6,7 @@ import {
     GetPurchaseOutOrderDetailApi,
     GetPurchaseOutOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseOut";
-import GoodsColumns from "./column/Goods";
-import ShippingInformationColumns from "./column/ShippingInformation";
-import OrderLogsColumns from "./column/OrderLogs";
+import { OrderLogsColumns, GoodsColumns, ShippingInformationColumns } from "./column/";
 
 /**
  * 功能作用：门店订单详情
@@ -65,10 +63,6 @@ const ShopOrderDetail = (props) => {
     };
     return (
         <div className="oms-common-addEdit-pages bgood_add">
-            <Col offset={22}>
-                <Qbtn>取消订单</Qbtn>
-            </Col>
-            <br/>
             <Card title="门店订单信息">
                 <QdetailBaseInfo showData={
                     ["订单号", dataInfo.stockingCode,
@@ -93,13 +87,17 @@ const ShopOrderDetail = (props) => {
                         "联系电话", dataInfo.phone,
                         "收货地址", dataInfo.address,]
                 }/>
-            </Card>>
+            </Card>
             <Card title="发货信息">
                 <Qtable columns={ShippingInformationColumns} dataSource={outList}/>
             </Card>
             <Card title="订单日志">
                 <Qtable columns={OrderLogsColumns} dataSource={orderLogs}/>
             </Card>
+            <Col offset={12}>
+                <Qbtn>取消订单</Qbtn>
+                <br/>
+            </Col>
         </div>
     )
 };

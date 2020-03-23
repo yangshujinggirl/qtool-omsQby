@@ -2,16 +2,16 @@ import {Link} from 'react-router-dom';
 import { Modal, Spin } from 'antd';
 import { useState, useEffect } from 'react';
 import { Qbtn, Qmessage, Qpagination, Qtable } from 'common';
-import { GetListApi,GetDeleteApi,GetApprovalsApi, GetEnableApi } from "api/marketCenter/CtipActivity";
 import { Columns } from './columns';
 import FilterForm from './components/FilterForm';
 
 const { confirm } = Modal;
-function withSubscription(ListApi,activityType) {
+function withSubscription(apiObj,activityType) {
   return ({...props})=> {
+    let { GetListApi, GetDeleteApi, GetApprovalsApi, GetEnableApi } = apiObj;
     const [dataList,setDataList] =useState([]);
     const [loading,setLoading] =useState([]);
-    const [dataPagation,setDataPagation] =useState({everyPage:0, currentPage:1, total:0});
+    const [dataPagation,setDataPagation] =useState({everyPage:15, currentPage:1, total:0});
     const [fields,setFields]=useState({});
     //查询列表
     const searchList=(values)=> {
@@ -20,7 +20,7 @@ function withSubscription(ListApi,activityType) {
       if(values) {
         params = {...params,...values};
       }
-      ListApi(params)
+      GetListApi(params)
       .then((res)=> {
         let { result, everyPage, currentPage, total } =res.result;
         result = result?result:[];
@@ -123,15 +123,19 @@ function withSubscription(ListApi,activityType) {
       });
     }
     useEffect(()=>{searchList()},[fields]);
-    console.log(dataPagation)
+
     return <Spin tip="加载中..." spinning={loading}>
             <div className="oms-common-index-pages-wrap">
               <FilterForm onSubmit={onSubmit}/>
               <div className="handle-operate-btn-action">
-                  <Link to='/account/ctipActivity/add'><Qbtn size="free">新建活动</Qbtn></Link>
+                <Qbtn size="free">
+                  <Link to={`/account/${activityType=="POS"?'posActivity':'ctipActivity'}/add`}>
+                    新建活动
+                  </Link>
+                </Qbtn>
               </div>
               <Qtable
-                columns={Columns}
+                columns={Columns(activityType)}
                 dataSource={dataList}
                 onOperateClick={handleOperateClick}/>
               <Qpagination

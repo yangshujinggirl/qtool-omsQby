@@ -1,6 +1,8 @@
-import { GetListApi } from "api/marketCenter/PosActivity";
-
+import { GetListApi, GetDeleteApi, GetApprovalsApi, GetEnableApi } from "api/marketCenter/PosActivity";
 import withSubscription from "../components/GoodsListCandB";
 
- let PosActivity=withSubscription(GetListApi,"POS")
+let apiObj={
+  GetListApi, GetDeleteApi, GetApprovalsApi, GetEnableApi
+}
+ let PosActivity=withSubscription(apiObj,"POS")
 export default PosActivity;

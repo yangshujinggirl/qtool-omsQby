@@ -6,9 +6,9 @@ import { GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
 import SetTitle from './components/SetGoods/Title';
 import ExportFile from "./components/SetGoods/ExportFile";
 import SetGoods from "./components/SetGoods/GoodsTable";
-import DiscountOne from "./components/SetGoods/DiscountOne";
-import DiscountTwo from "./components/SetGoods/DiscountTwo";
 import StepMod from '../components/StepMod';
+// import DiscountOne from "./components/SetGoods/DiscountOne";
+// import DiscountTwo from "./components/SetGoods/DiscountTwo";
 
 const CtipActivityAddTwo=({...props})=> {
   const [form] = Form.useForm();
@@ -204,19 +204,6 @@ const CtipActivityAddTwo=({...props})=> {
                 <div className="set_title">
                   <SetTitle type={promotionType} />
                 </div>
-                {(promotionType == 20 || promotionType == 21) ?
-                  <DiscountOne
-                    upDateList={upDateRuleList}
-                    dataSource={proRules}
-                    form={form}
-                    currentdata={currentdata}/>
-                  :
-                  <DiscountTwo
-                    upDateList={upDateRuleList}
-                    currentdata={currentdata}
-                    dataSource={proRules}
-                    form={form}/>
-                }
               </Card>
           )}
           <Card title="选择商品">

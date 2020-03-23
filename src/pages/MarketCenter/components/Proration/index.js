@@ -76,7 +76,6 @@ const Proration=({...props})=> {
   const [supplierList,setSupplier]=useState([]);
   let ratioList = lodash.cloneDeep(props.ratioList);
   let tagsList = lodash.cloneDeep(props.tagsList);
-
   //分成校验
   const validatorRatio=(rule, value)=> {
     let { bearers } =form.getFieldsValue(['bearers']);
