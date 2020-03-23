@@ -22,6 +22,7 @@ import _Qcards from './Qcards';
 import _QcardList from './QcardList';
 import _QbaseListNew from './QbaseListNew';
 import _QimageTextEdit from './QimageTextEdit';
+import _Qcharts from './Qcharts';
 
 
 export const QimageTextEdit = _QimageTextEdit;
@@ -46,4 +47,5 @@ export const CascaderAddressOptions = _CascaderAddressOptions;
 export const QdetailBaseInfo = _QdetailBaseInfo;
 export const QtabShow = _QtabShow;
 export const Qcards = _Qcards;
-export const QcardList = QbaseListNew;
+export const QcardList = _QcardList;
+export const Qcharts = _Qcharts;

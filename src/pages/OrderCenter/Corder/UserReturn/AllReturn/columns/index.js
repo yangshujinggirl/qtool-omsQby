@@ -5,7 +5,7 @@ const Columns = [
     title: "退单号",
     dataIndex: "reOrderNo",
     render: (text, record) => {
-      return <Link to="">{text}</Link>;
+      return <Link to={`/account/allReturn_infos/${record.reOrderNo}`}>{text}</Link>;
     }
   },
   {
@@ -63,4 +63,44 @@ const Columns = [
     )
   }
 ];
-export default Columns;
+const ReturnGoods= [
+  {
+    title: "SKU编码",
+    dataIndex: "skuCode"
+  },
+  {
+    title: "商品名称",
+    dataIndex: "productName"
+  },
+  {
+    title: "商品规格",
+    dataIndex: "salesAttributeName"
+  },
+  {
+    title: "退款数量",
+    dataIndex: "reNum"
+  },
+  {
+    title: "退款金额",
+    dataIndex: "totalPrice"
+  }
+];
+const ReturnLogs= [
+  {
+    title: "操作",
+    dataIndex: "skuCode"
+  },
+  {
+    title: "操作时间",
+    dataIndex: "productName"
+  },
+  {
+    title: "退单状态",
+    dataIndex: "salesAttributeName"
+  },
+  {
+    title: "操作人",
+    dataIndex: "reNum"
+  },
+];
+export {Columns,ReturnGoods,ReturnLogs} ;

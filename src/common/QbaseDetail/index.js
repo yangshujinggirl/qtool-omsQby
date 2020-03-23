@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Spin} from "antd";
+import './index.css'
 
 /**
  * 功能作用：基础详情页面,使用方式参见客服中心详情，当前主要为了统一加载中
@@ -46,7 +47,11 @@ export default class QbaseDetail extends React.Component {
 
     render() {
         return <Spin
-            spinning={this.state.showLoadingStatus}> {this.props.childComponent != null ? this.props.childComponent : null}</Spin>
+            spinning={this.state.showLoadingStatus}>
+            <div className='q-base-detail-container'>
+                {this.props.childComponent != null ? this.props.childComponent : null}
+            </div>
+        </Spin>
     }
 }
 

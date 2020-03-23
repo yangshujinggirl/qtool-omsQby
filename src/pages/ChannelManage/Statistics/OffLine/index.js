@@ -15,7 +15,6 @@ class OffLine extends Component {
       lineLoading: false,
       everyPage: 0,
       currentPage: 0,
-      everyPage: 0,
       dataList: [],
       inputValues: {
         themeStatus: 4
@@ -43,7 +42,6 @@ class OffLine extends Component {
         }
         this.setState({
           dataList: result,
-          everyPage,
           everyPage,
           currentPage,
           totalCount: total

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Qbtn, Qpagination, Qtable } from "common/index";
 import FilterForm from "./components/FilterForm";
 import Columns from "./columns";
-import { getListApi } from "api/home/CooperateCenter/ShopManage";
+import { getListApi } from "api/home/StockCenter/StoreManage";
 
 /**
  * 功能作用：商品说明订单列表界面
@@ -31,7 +31,7 @@ class ShopManage extends Component {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, totalCount } = res.result;
         result.map(item => {
-          item.key = item.pdExplainId;
+          item.key = item.id;
         });
         this.setState({
           dataList: result,
