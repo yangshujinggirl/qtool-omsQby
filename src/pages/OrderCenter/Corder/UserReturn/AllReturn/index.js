@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Modal, message } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import FilterForm from "./FilterForm/index";
-import Columns from "./columns";
+import {Columns} from "./columns";
 import { getListApi,operateReturnApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 import { OmsExportApi } from "api/Export";
@@ -80,7 +80,7 @@ class AllReturn extends Component {
     this.setState({
       operateType
     });
-    if (!selectedRowKeys) {
+    if (!selectedRowKeys[0]) {
       return message.warning("请至少选择一个退货单", 0.8);
     } else {
       if (operateType == 0) {
@@ -91,11 +91,10 @@ class AllReturn extends Component {
         if (selectedRows && selectedRows[0].status !== 20) {
           return message.warning("仅待收货的退单支持此操作", 0.8);
         }
-      }
-      if (operateType == 1) {
-        //取消退单
-        if (selectedRows && selectedRows[0].deliveryType !== 2) {
-          return message.warning("仅保税退单支持此操作", 0.8);
+      };
+      if (operateType == 1) {//取消退单
+        if (selectedRows && selectedRows[0].warehouseType !== 1) {
+          return message.warning("仅Qtools收货的退单支持此操作", 0.8);
         }
         if (
           (selectedRows && selectedRows[0].status !== 20) ||
@@ -129,7 +128,8 @@ class AllReturn extends Component {
   };
   //导出数据
   exportData = () => {
-    OmsExportApi({ ...this.props.inputValues }, "");
+    const {stime,etime,...params} = this.state.inputValues
+    OmsExportApi({stime,etime,exportType:8,reOrderExport:{...params}}, "/export/commonExport");
   };
   render() {
     const {

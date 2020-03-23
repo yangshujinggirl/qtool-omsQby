@@ -7,8 +7,6 @@ import CgoodSagas from './models/Cgoods';
 import BrandSagas from './models/Brand';
 import ClassifySagas from './models/Classify';
 import AttributionSagas from './models/Attributions';
-import StoreHouseSagas from './models/StoreHouse';
-import StockManage from './models/StockManage'
 import SaleOrder from './models/OrderCenter/SaleOrder'
 import PosOrder from './models/OrderCenter/PosOrder'
 import ShopKeeperOrder from './models/OrderCenter/ShopKeeperOrder'
@@ -27,8 +25,6 @@ export function* helloSaga () {
     call(BrandSagas),
     call(ClassifySagas),
     call(AttributionSagas),
-    call(StoreHouseSagas),
-    call(StockManage),
     call(SaleOrder),
     call(PosOrder),
     call(ShopKeeperOrder),

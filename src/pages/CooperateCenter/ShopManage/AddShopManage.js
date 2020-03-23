@@ -4,22 +4,26 @@ import BaseEdit from "./components/Edits/BaseEdit";
 import Address from "./components/Edits/Address";
 import Shop from "./components/Edits/Shop";
 import Cooperate from "./components/Edits/Cooperate";
-import { getInfos,saveInfosApi } from "api/home/CooperateCenter/ShopManage";
+import moment from 'moment'
+import { getInfosApi,saveInfosApi } from "api/home/CooperateCenter/ShopManage";
 const formLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
 };
 
-class AddPosUser extends Component {
+class AddShopManage extends Component {
   formRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      channelPic:[],
+      contractPic:[],
+
     };
   }
   componentDidMount = () => {
-    // this.getInfo();
+    this.getInfo();
   };
   /**
    * 获取详情
@@ -29,15 +33,18 @@ class AddPosUser extends Component {
     this.setState({
       loading: true
     });
-    getInfos(id)
+    getInfosApi({id})
       .then(res => {
         this.setState({
           loading: false
         });
         if (res.httpCode == 200) {
-          this.setState({
-            info: res.result
-          });
+          let {openingTime,businessHoursE,businessHoursS,...infos} = res.result;
+          infos.openingTime = moment(openingTime)
+          infos.businessHoursE = moment(businessHoursE)
+          infos.businessHoursS = moment(businessHoursS)
+          console.log(infos)
+          this.formRef.current.setFieldsValue({...infos})
         }
       })
       .catch(() => {
@@ -53,15 +60,49 @@ class AddPosUser extends Component {
    * 保存
    */
   handleSubmit = async () => {
-    const values = await form.validateFields();
-    saveInfosApi(values).then(res => {
+    const values = await this.formRef.current.validateFields();
+    console.log(values)
+    const _values = this.formatValue(values)
+    console.log(_values)
+    saveInfosApi(_values).then(res => {
       if (res.httpCode == 200) {
         this.goBack();
       }
     });
   };
+  formatValue=(values)=>{
+    const {channelPic,contractPic} = this.state;
+    const {openingTime,businessHoursS,businessHoursE,..._values} = values;
+    if( channelPic.length){
+      _values.channelPic = channelPic[0].response?channelPic[0].response.result:channelPic[0].url
+    }
+    if( contractPic.length){
+      _values.contractPic = contractPic[0].response?contractPic[0].response.result:contractPic[0].url
+    };
+    if(openingTime){
+      _values.openingTime = moment(openingTime).format('YYYY-MM-DD HH:mm:ss')
+    };
+    if(businessHoursS){
+      _values.businessHoursS = moment(businessHoursS).format('HH:mm')
+    }
+    if(businessHoursE){
+      _values.businessHoursE = moment(businessHoursE).format('HH:mm')
+    }
+    return _values;
+  }
+  //合同信息图片修改
+  upDateContractList=(fileList)=>{
+    this.setState({
+      contractPic:fileList
+    });
+  }
+  upDateChannelPicList=(fileList)=>{
+    this.setState({
+      channelPic:fileList
+    });
+  }
   render() {
-    const { loading } = this.state;
+    const { loading,contractPic,channelPic } = this.state;
     return (
       <Spin spinning={loading}>
         <div className="oms-common-addEdit-pages">
@@ -71,7 +112,7 @@ class AddPosUser extends Component {
             {...formLayout}
           >
             <Card title="基本信息">
-              <BaseEdit />
+              <BaseEdit upDateChannelPicList={this.upDateChannelPicList} channelPic={channelPic}/>
             </Card>
             <Card title="地址信息">
               <Address />
@@ -80,7 +121,7 @@ class AddPosUser extends Component {
               <Shop />
             </Card>
             <Card title="合作经营">
-              <Cooperate />
+              <Cooperate contractPic={contractPic} upDateContractList={this.upDateContractList}/>
             </Card>
           </Form>
           <div className="handle-operate-save-action">
@@ -94,4 +135,4 @@ class AddPosUser extends Component {
     );
   }
 }
-export default AddPosUser;
+export default AddShopManage;

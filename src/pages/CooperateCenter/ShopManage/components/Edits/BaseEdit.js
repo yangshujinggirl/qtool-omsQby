@@ -1,26 +1,21 @@
 import { Input,Form } from "antd";
-import { useState } from "react";
 import UploadImg from "common/QupLoadImgLimt";
 
-const BaseEdit = () => {
-  const [fileList,setFileList] = useState([]);
-  const upDateList=(fileList)=>{
-    setFileList(fileList)
-  }
+const BaseEdit = (props) => {
   return (
     <React.Fragment>
       <Form.Item label="门店图片">
-        <UploadImg upDateList={upDateList} fileList={fileList} />
+        <UploadImg limit={1} upDateList={props.upDateChannelPicList} fileList={props.channelPic} />
       </Form.Item>
       <Form.Item
-        name="name"
+        name="channelName"
         label="门店名称"
         rules={[{ required: true, message: "请输入门店名称" }]}
       >
         <Input placeholder="请输入门店名称" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="sname"
+        name="channelJName"
         label="门店简称"
         rules={[{ required: true, message: "请输入门店简称" }]}
       >
@@ -34,56 +29,56 @@ const BaseEdit = () => {
         <Input placeholder="请输入打印简称" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="ecName"
+        name="businessName"
         label="电商名称"
         rules={[{ required: true, message: "请输入电商名称" }]}
       >
         <Input placeholder="请输入电商名称" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="shopman"
+        name="person"
         label="门店店主"
         rules={[{ required: true, message: "请输入门店简称" }]}
       >
         <Input placeholder="请输入门店简称" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="mobile"
+        name="personMobile"
         label="店主手机"
         rules={[{ required: true, message: "请输入店主手机" }]}
       >
         <Input placeholder="请输入店主手机" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="telephone"
+        name="channelPhone"
         label="门店电话"
         rules={[{ required: true, message: "请输入门店电话" }]}
       >
         <Input placeholder="请输入门店电话" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="serverTel"
+        name="servicePhone"
         label="客服电话"
         rules={[{ required: true, message: "请输入客服电话" }]}
       >
         <Input placeholder="请输入客服电话" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="bank"
+        name="openingBank"
         label="开户银行"
         rules={[{ required: true, message: "请输入开户银行" }]}
       >
         <Input placeholder="请输入开户银行" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="bankNo"
+        name="bankCardNo"
         label="银行卡号"
         rules={[{ required: true, message: "请输入银行卡号" }]}
       >
         <Input placeholder="请输入银行卡号" autoComplete='off'/>
       </Form.Item>
       <Form.Item
-        name="bankName"
+        name="openingName"
         label="开户名"
         rules={[{ required: true, message: "请输入开户名" }]}
       >
