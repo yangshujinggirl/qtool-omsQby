@@ -28,7 +28,5 @@ export function getInfoApi(values) {
  * 处理
  */
 export function handelAbnormalApi(values) {
-    return omsAjax.get("/unlawfulOrder/getDetailByOrderNo", {
-        params: values
-    });
+    return omsAjax.post("/unlawfulOrder/reviseOrder", values);
 }

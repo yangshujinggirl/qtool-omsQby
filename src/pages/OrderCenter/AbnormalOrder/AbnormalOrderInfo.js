@@ -4,7 +4,7 @@ import { Qtable } from "common";
 import { ReturnGoods } from "./columns";
 import {
   getInfoApi,
-  operateReturnApi
+  handelAbnormalApi
 } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 const TextArea = Input.TextArea;
@@ -27,7 +27,9 @@ const AuditReturnInfo = props => {
    */
   handleSubmit = async () => {
     const values = await form.vaildateFields();
-    operateReturnApi().then(res => {
+    values.operation = 2;
+    values.orderNo = id;
+    handelAbnormalApi(values).then(res => {
       if (res.httpCode == 200) {
         props.history.push("/account/subscriber_refund_orders");
       }
