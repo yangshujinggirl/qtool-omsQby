@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Form, Radio, Input } from "antd";
 import { Qtable } from "common";
-import { ReturnGoods } from "./columns";
+import { AbnormalGoods } from "./columns";
 import {
   getInfoApi,
   handelAbnormalApi
@@ -38,27 +38,26 @@ const AuditReturnInfo = props => {
   return (
     <div>
       <Card title="退单信息" className="base_info">
-        <Form.Item label="退单号">{infos.reOrderNo}</Form.Item>
-        <Form.Item label="关联用户订单">{infos.channelOrderNo}</Form.Item>
-        <Form.Item label="订单类型">{infos.deliveryTypeStr}</Form.Item>
-        <Form.Item label="用户手机号">{infos.phone}</Form.Item>
-        <Form.Item label="用户昵称">{infos.subject}</Form.Item>
-        <Form.Item label="退款类型">{infos.refundTypeStr}</Form.Item>
-        <Form.Item label="退款运费">{infos.sync}</Form.Item>
-        <Form.Item label="退款商品金额">{infos.price}</Form.Item>
-        <Form.Item label="退款总金额">{infos.refundMoney}</Form.Item>
-        <Form.Item label="创建时间">
-          {moment(infos.createTime).format("YYYY-MM-DD HH:mm:ss")}
+        <Form.Item label="订单号">{infos.id}</Form.Item>
+        <Form.Item label="关联门店">{infos.channelName}</Form.Item>
+        <Form.Item label="下单人">{infos.g}</Form.Item>
+        <Form.Item label="手机号">{infos.phone}</Form.Item>
+        <Form.Item label="商品数量">{infos.itemCount}</Form.Item>
+        <Form.Item label="实付金额">{infos.orderTotal}</Form.Item>
+        <Form.Item label="订单类型">
+          {infos.sort == 1 ? "门店采购单" : infos.sort == 2 ? "用户订单" : ""}
         </Form.Item>
+        <Form.Item label="异常原因">{infos.abnormalCause}</Form.Item>
+        <Form.Item label="收货人">{infos.consignee}</Form.Item>
+        <Form.Item label="联系电话">{infos.phone}</Form.Item>
+        <Form.Item label="收货地址">{infos.address}</Form.Item>
       </Card>
       <Card title="订单商品">
-        <Qtable columns={ReturnGoods} dataSource={detailList} />
+        <Qtable columns={AbnormalGoods} dataSource={detailList} />
       </Card>
       <Card title="异常审核">
         <Form>
-          <Form.Item
-            label="取消原因"
-          >
+          <Form.Item label="取消原因">
             <TextArea placeholder="请输入取消原因" />
           </Form.Item>
           <Form.Item>

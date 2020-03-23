@@ -52,7 +52,7 @@ const Columns = [
     )
   }
 ];
-const ReturnGoods = [
+const AbnormalGoods = [
   {
     title: "SKU编码",
     dataIndex: "skuCode"
@@ -82,4 +82,4 @@ const ReturnGoods = [
     dataIndex: "refundMoney"
   }
 ];
-export { Columns, ReturnGoods };
+export { Columns, AbnormalGoods };
