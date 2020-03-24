@@ -23,8 +23,10 @@ import _QcardList from './QcardList';
 import _QbaseListNew from './QbaseListNew';
 import _QimageTextEdit from './QimageTextEdit';
 import _Qcharts from './Qcharts';
+import _QbaseInfo from './QbaseInfo';
 
 
+export const QbaseInfo = _QbaseInfo;
 export const QimageTextEdit = _QimageTextEdit;
 export const QbaseListNew = _QbaseListNew;
 export const QbyConnect = _QbyConnect;
@@ -48,4 +50,4 @@ export const QdetailBaseInfo = _QdetailBaseInfo;
 export const QtabShow = _QtabShow;
 export const Qcards = _Qcards;
 export const QcardList = _QcardList;
-export const Qcharts = _Qcharts;
+export const Qecharts = _Qcharts;

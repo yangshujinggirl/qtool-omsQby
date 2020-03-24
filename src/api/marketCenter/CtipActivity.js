@@ -21,7 +21,7 @@ export function GetEnableApi(values) {
 
 //c端查询供应商
 export function GetSuppliApi(values) {
-  return omsAjax.get('/supplier/rummageSupplier',{params:{...values}})
+  return appAjax.get('/supplier/like/',{params:{...values}})
 }
 // //c端活动信息查询
 export function GetBaseInfoApi(promotionId) {

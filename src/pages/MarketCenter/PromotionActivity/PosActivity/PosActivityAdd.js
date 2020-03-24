@@ -7,7 +7,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
-import { GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/PosActivity';
+import { GetSupplierApi, GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/PosActivity';
 import StepMod from '../components/StepMod';
 import InfoSet from './components/InfoSet';
 import Proration from '../../components/Proration';
@@ -192,6 +192,7 @@ const CtipActivityAdd =({...props})=> {
               activityInfo={activityInfo}>
               <div>
                 <Proration
+                  supplierApi={GetSupplierApi}
                   upDateRatioList={upDateRatioList}
                   upDateTagList={upDateTagList}
                   tagsList={tagsList}

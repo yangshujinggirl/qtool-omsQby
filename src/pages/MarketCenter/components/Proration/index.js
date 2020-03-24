@@ -1,6 +1,6 @@
 import { Input, Tag, Form, Checkbox, AutoComplete, Table } from 'antd';
 import { useState, useEffect } from 'react';
-import { GetSuppliApi } from 'api/marketCenter/CtipActivity';
+// import { GetSuppliApi } from 'api/marketCenter/CtipActivity';
 import lodash from 'lodash';
 
 const FormItem = Form.Item;
@@ -72,7 +72,7 @@ const ColumnsCreat =(validator,dataSource)=>{
 }
 
 const Proration=({...props})=> {
-  let { form } =props;
+  let { form, supplierApi } =props;
   const [supplierList,setSupplier]=useState([]);
   let ratioList = lodash.cloneDeep(props.ratioList);
   let tagsList = lodash.cloneDeep(props.tagsList);
@@ -114,9 +114,9 @@ const Proration=({...props})=> {
   }
   //供应商
   const handleSearch=(value)=> {
-    GetSuppliApi({sname:value})
+    supplierApi({name:value})
     .then((res) => {
-      const { result } =res;
+      const { result } =res.result;
       let options=[];
       options = result&&result.map((el,index)=>{
         let item={};

@@ -76,10 +76,11 @@ import PurchaseOutDetail from "./OrderCenter/PurchaseOrder/PurchaseOut/PurchaseO
 import AddPurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut/AddPurchaseOut' //新增采退
 import ShopOrder from './OrderCenter/Border/ShopOrder' //门店订单
 import ShopOrderDetail from './OrderCenter/Border/ShopOrder/ShopOrderDetail' //门店订单详情
-import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //门店订单
+import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //新建门店订单
+import ShopReturnOrderAdd from './OrderCenter/Border/ShopOrder/ShopReturnOrderAdd' //新建门店退单
 import ShopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退单
 import ShopReturnOrderDetail from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderDetail' //门店退单
-import ShopReturnAdd from './OrderCenter/Border/ShopReturnOrder/ShopReturnAdd' //门店退单
+
 import UserReturn from './OrderCenter/Corder/UserReturn' //用户退单
 import AllReturnInfo from './OrderCenter/Corder/UserReturn/AllReturn/AllReturnInfo' //全部退单详情
 import AuditReturnInfo from './OrderCenter/Corder/UserReturn/AuditReturn/AuditReturnInfo' //审核退单详情
@@ -105,6 +106,11 @@ import CouponRecord from './MarketCenter/CouponRecord';//注券中心
 import PosActivity from './MarketCenter/PromotionActivity/PosActivity';//POS端营销活动
 import PosActivityAdd from './MarketCenter/PromotionActivity/PosActivity/PosActivityAdd';//POS端营销活动
 import PosActivityAddTwo from './MarketCenter/PromotionActivity/PosActivity/PosActivityAddTwo';//POS端营销活动
+import PosAudit from './MarketCenter/AuditCenter/PosAudit';//POS端营销活动
+import CtipAudit from './MarketCenter/AuditCenter/CtipAudit';//POS端营销活动
+import PosAuditEdit from './MarketCenter/AuditCenter/PosAudit/PosAuditEdit';//POS端营销活动
+import PosAuditInfo from './MarketCenter/AuditCenter/PosAudit/PosAuditInfo';//POS端营销活动
+
 
 /************************************   数据中心   *******************************************/
 /**
@@ -291,9 +297,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
                 <Route exact path='/account/shopOrder/add/:type' component={ShopOrderAdd}/>
                 <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
-                <Route exact path='/account/channel_refund_orders/detail/:id?'
-                       component={ShopReturnOrderDetail}/>
-                <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnAdd}/>
+                <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
+                <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnOrderAdd}/>
                 <Route exact path='/account/subscriber_refund_orders' component={UserReturn}/>
                 <Route exact path='/account/allReturn_infos/:id?' component={AllReturnInfo}/>
                 <Route exact path='/account/auditReturn_info/:id?' component={AuditReturnInfo}/>
@@ -318,6 +323,11 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/pos_preferential_promotion" component={PosActivity}/>
                 <Route exact path="/account/posActivity/add/:id?" component={PosActivityAdd}/>
                 <Route exact path="/account/posActivity/addTwo/:id" component={PosActivityAddTwo}/>
+                <Route exact path="/account/ctipAudit" component={CtipAudit}/>
+
+                <Route exact path="/account/posAudit" component={PosAudit}/>
+                <Route exact path="/account/posAudit/info/:id/" component={PosAuditInfo}/>
+                <Route exact path="/account/posAudit/edit/:id/" component={PosAuditEdit}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
