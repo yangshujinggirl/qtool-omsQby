@@ -102,7 +102,9 @@ import CouponCenter from './MarketCenter/CouponCenter';//优惠券中心
 import CouponInfo from './MarketCenter/CouponCenter/CouponInfo';//优惠券中心
 import CouponAdd from './MarketCenter/CouponCenter/CouponAdd';//优惠券中心
 import CouponRecord from './MarketCenter/CouponRecord';//注券中心
-import PosActivity from './MarketCenter/PromotionActivity/PosActivity';//c端营销活动
+import PosActivity from './MarketCenter/PromotionActivity/PosActivity';//POS端营销活动
+import PosActivityAdd from './MarketCenter/PromotionActivity/PosActivity/PosActivityAdd';//POS端营销活动
+import PosActivityAddTwo from './MarketCenter/PromotionActivity/PosActivity/PosActivityAddTwo';//POS端营销活动
 
 /************************************   数据中心   *******************************************/
 /**
@@ -286,9 +288,8 @@ class HomeRoutes extends React.Component {
                        component={PurchaseOutDetail}/>
                 <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
                 <Route exact path='/account/channel_orders' component={ShopOrder}/>
-                <Route exact path='/account/channel_orders/detail/:id?'
-                       component={ShopOrderDetail}/>
-                <Route exact path='/account/shopOrder/add/:id?' component={ShopOrderAdd}/>
+                <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
+                <Route exact path='/account/shopOrder/add/:type' component={ShopOrderAdd}/>
                 <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
                 <Route exact path='/account/channel_refund_orders/detail/:id?'
                        component={ShopReturnOrderDetail}/>
@@ -315,6 +316,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/coupon/add" component={CouponAdd}/>
                 <Route exact path="/account/couponRecord/:id?" component={CouponRecord}/>
                 <Route exact path="/account/pos_preferential_promotion" component={PosActivity}/>
+                <Route exact path="/account/posActivity/add/:id?" component={PosActivityAdd}/>
+                <Route exact path="/account/posActivity/addTwo/:id" component={PosActivityAddTwo}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
@@ -379,7 +382,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/bridge_manager_control/market_promotion/level_2/:id?' component={MarketPromotionLevelTwo}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
                 <Route exact path='/account/warehouse_manager' component={StoreMange}/>
-                       
+
 
 
                 {/*
