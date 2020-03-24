@@ -13,6 +13,7 @@ const AllReturnInfo = props => {
       if (res.httpCode == 200) {
         infos = res.result;
         detailList = res.result.detailList;
+        console.log(infos)
       }
     });
   }, []);

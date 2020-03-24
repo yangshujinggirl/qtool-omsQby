@@ -6,7 +6,7 @@ const Columns = [
     dataIndex: "reOrderNo",
     render: (text, record) => {
       return (
-        <Link to={`/account/allReturn_infos/${record.reOrderNo}`}>{text}</Link>
+        <Link to={`/account/auditReturn_info/${record.reOrderNo}`}>{text}</Link>
       );
     }
   },

@@ -12,9 +12,7 @@ export function getListApi(values) {
  * 取消退单/确认收货/审核
  */
 export function operateReturnApi(values) {
-  return omsAjax.get("/orderRefund/batchOperation", {
-    params: values
-  });
+  return omsAjax.post("/orderRefund/batchOperation", values);
 }
 /**
  *

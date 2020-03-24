@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Qtable, Qpagination } from "common"; //表单
 import FilterForm from "./FilterForm/index";
-import {Columns} from "./columns";
+import Columns from "./columns";
 import { getListApi } from "api/home/StockCenter/StoreManage";
 
 /**
@@ -33,7 +33,7 @@ class CrossGoodStore extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount: total
+          total
         });
       }
     });
@@ -53,14 +53,16 @@ class CrossGoodStore extends Component {
   };
 
   render() {
-    const { dataList, everyPage, currentPage, totalCount } = this.state;
+    const { dataList, everyPage, currentPage, total } = this.state;
+    console.log(dataList)
+    console.log(Columns)
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <Qtable dataSource={dataList} columns={Columns} />
         {dataList.length > 0 ? (
           <Qpagination
-            data={{ everyPage, currentPage, totalCount }}
+            data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
             onShowSizeChange={this.onShowSizeChange}
           />

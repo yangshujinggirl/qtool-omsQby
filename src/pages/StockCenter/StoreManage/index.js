@@ -22,10 +22,10 @@ class StoreManage extends Component {
       <div>
         <Tabs activeKey={level} onChange={this.callback}>
           <TabPane tab="一般贸易商品仓" key="1">
-            {level == "1" && <CrossGoodStore/>}
+            {level == "1" && <TradeGoodStore/>}
           </TabPane>
           <TabPane tab="跨境商品仓" key="2">
-            {level == "2" && <TradeGoodStore/>}
+            {level == "2" && <CrossGoodStore/>}
           </TabPane>
         </Tabs>
       </div>

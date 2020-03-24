@@ -13,7 +13,7 @@ class ReturnAudit extends Component {
     super(props);
     this.state = {
       dataList: [],
-      inputValues: {status:10,sourceType:2},
+      inputValues: {status:10,sourceType:1},
       everyPage: 0,
       currentPage: 0,
       total: 0
@@ -64,7 +64,6 @@ class ReturnAudit extends Component {
 
   render() {
     const { dataList, everyPage, currentPage, totalCount } = this.state;
-
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
