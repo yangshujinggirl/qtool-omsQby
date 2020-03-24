@@ -96,7 +96,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
          * @param everyPage 每页数量
          */
         changePage = (currentPage, everyPage) => {
-            this.searchDataList({...this.state.searchCriteriaList, currentPage, everyPage});
+            this.searchDataList({...this.state.searchCriteriaList, currentPage, everyPage}, false);
         };
 
         /**
@@ -113,15 +113,16 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
         /**
          * 搜索数据列表
          * @param values 搜索数据
+         * @param isUseRecord 是否使用记录数据，默认搜索时使用记录数据
          */
-        searchDataList = (values) => {
+        searchDataList = (values, isUseRecord = true) => {
             this.showLoading();
             //先合并记录数据
-            let params = {
+            let params = isUseRecord ? {
                 ...this.state.searchCriteriaList, ...this.state.recordSearchCriteriaList
-            };
+            } : {...this.state.searchCriteriaList};
             if (formatSearchCriteriaList != null) {
-                params = {...params, ...formatSearchCriteriaList(this,values)};
+                params = {...params, ...formatSearchCriteriaList(this, values)};
             } else {
                 params = {...params, ...values};
             }
