@@ -7,15 +7,12 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
-import { ColumnsAddGeneral,ColumnsAddCross } from './columns';
-import { GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/CtipActivity';
+import { GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/PosActivity';
 import StepMod from '../components/StepMod';
 import InfoSet from './components/InfoSet';
-import WebSet from './components/WebSet';
-import ShareSet from './components/ShareSet';
 import Proration from '../../components/Proration';
 import NotUseCoupon from '../components/NotUseCounpon';
-import './CtipActivityAdd.less';
+// import './CtipActivityAdd.less';
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -42,7 +39,7 @@ const formItemLayoutBig = {
 
 const CtipActivityAdd =({...props})=> {
   const [form] = Form.useForm();
-  let [activityInfo, setTotalData] =useState({websiteBanner:{}});
+  let [activityInfo, setTotalData] =useState({websiteBanner:{},promotionType:10});
   let [ratioList, setRatioList] =useState([]);
   let [tagsList, setTagsList] =useState([]);
   let [couponList, setCouponList] =useState([]);
@@ -110,28 +107,18 @@ const CtipActivityAdd =({...props})=> {
           promotionId:values.promotionId,
           promotionType
         }
-        props.history.push({pathname:`/account/ctipActivity/addTwo/${promotionId}`,state:datas})
+        props.history.push({pathname:`/account/posActivity/addTwo/${promotionId}`,state:datas})
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
   }
   const formatParams=(values)=> {
-    let { time, warmUpBeginTime, bannerBeginTime, logoBeginTime, costApportion, autoComplete, bearers, ...paramsVal} =values;
-    // const { activityInfo, ratioList, data,tagsCouponList} =this.props;
+    let { time, costApportion, autoComplete, bearers, ...paramsVal} =values;
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
       paramsVal.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
     };
-    if(warmUpBeginTime) {
-      paramsVal.warmUpBeginTime = moment(warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss');
-    }
-    if(bannerBeginTime) {
-      paramsVal.bannerBeginTime = moment(bannerBeginTime).format('YYYY-MM-DD HH:mm:ss');
-    }
-    if(logoBeginTime) {
-      paramsVal.logoBeginTime = moment(logoBeginTime).format('YYYY-MM-DD HH:mm:ss');
-    }
     if(ratioList.length>0) {
       paramsVal.bearers = ratioList.map((el) => {
         let item={};
@@ -151,11 +138,6 @@ const CtipActivityAdd =({...props})=> {
     paramsVal = {
       ...paramsVal,
       platformType:2,
-      pdDetailBannerPic: activityInfo.pdDetailBannerPic,
-      logoPic: activityInfo.logoPic,
-      websiteBanner: activityInfo.websiteBanner,
-      shareWechatPic: activityInfo.shareWechatPic,
-      shareWechatCfPic: activityInfo.shareWechatCfPic,
       activityNotUseCoupons:activityNotUseCoupons
     }
     if(promotionId) {
@@ -166,7 +148,7 @@ const CtipActivityAdd =({...props})=> {
   //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
-    let { bearers=[], pdDetailBannerPic, logoPic, websiteBanner, shareWechatCfPic, shareWechatPic, ...valFileds } = allValues;
+    let { bearers=[], ...valFileds } = allValues;
     if(currentKey == 'bearers') {
       let newArray = [...allValues['bearers']];
       setRatioList(newArray);
@@ -186,41 +168,6 @@ const CtipActivityAdd =({...props})=> {
     }
     if(currentKey == 'time') {
       allValues.warmUpBeginTime=null;
-    }
-    if(pdDetailBannerPic) {
-      if(pdDetailBannerPic.status == 'done') {
-        if(pdDetailBannerPic.response.httpCode == '200') {
-          allValues.pdDetailBannerPic = pdDetailBannerPic.response.result;
-        }
-      }
-    }
-    if(logoPic) {
-      if(logoPic.status == 'done') {
-        if(logoPic.response.httpCode == '200') {
-          allValues.logoPic = logoPic.response.result;
-        }
-      }
-    }
-    if(websiteBanner) {
-      if(websiteBanner.status == 'done') {
-        if(websiteBanner.response.httpCode == '200') {
-          allValues.websiteBanner = websiteBanner.response.result;
-        }
-      }
-    }
-    if(shareWechatPic) {
-      if(shareWechatPic.status == 'done') {
-        if(shareWechatPic.response.httpCode == '200') {
-          allValues.shareWechatPic = shareWechatPic.response.result;
-        }
-      }
-    }
-    if(shareWechatCfPic) {
-      if(shareWechatCfPic.status == 'done') {
-        if(shareWechatCfPic.response.httpCode == '200') {
-          allValues.shareWechatCfPic = shareWechatCfPic.response.result;
-        }
-      }
     }
     activityInfo = {...activityInfo,...allValues};
     setTotalData(activityInfo)
@@ -253,8 +200,6 @@ const CtipActivityAdd =({...props})=> {
                 <NotUseCoupon upDateList={upDateCouponList} couponList={couponList}/>
               </div>
             </InfoSet>
-            <WebSet form={form} activityInfo={activityInfo}/>
-            <ShareSet form={form} activityInfo={activityInfo}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={goReturn}> 返回 </Qbtn>
             <Qbtn size="free" onClick={()=>submit(1)}>保存并继续</Qbtn>

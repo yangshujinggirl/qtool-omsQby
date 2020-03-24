@@ -1,10 +1,10 @@
+import React from "react";
 import {QbaseList, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm/InventoryDistribution";
-import Columns from "./column/InventoryDistribution";
+import {InventoryDistributionColumns} from "./column";
 import {
     GetStoreInventoryDistributionList,
 } from "../../../../../api/home/DataCenter/FromB/StoreData";
-import React from "react";
 
 /**
  * 功能作用：门店库存分布页面
@@ -23,7 +23,7 @@ const InventoryDistribution = QbaseList((_this) => {
         return <div className="oms-common-index-pages-wrap">
             <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
             <Qtable
-                columns={Columns}
+                columns={InventoryDistributionColumns}
                 dataSource={dataList}/>
             <Qpagination
                 data={{everyPage: everyPage, currentPage: currentPage, total: total}}

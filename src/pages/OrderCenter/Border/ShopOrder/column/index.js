@@ -33,14 +33,15 @@ const Columns = [
 const columnsAdd=(onBlur)=>{
   return [{
             title: "sku编码",
-            dataIndex: "skuCode",
+            dataIndex: "code",
             width:140,
             render:(text,record,index)=> {
-              return  <Form.Item name={['list',index,'barCode']}>
+              return  <Form.Item
+                        name={['list',index,'code']}
+                        rules={[{ required: true, message: '请输入sku编码'}]}>
                         <Input
-                          className="goods-name"
                           key={index}
-                          onBlur={(e)=>onBlur(e,index)}/>
+                          onBlur={(e)=>onBlur(e,index,'code')}/>
                       </Form.Item>
             }
           },{
@@ -48,30 +49,60 @@ const columnsAdd=(onBlur)=>{
             dataIndex: "qty",
             width:140,
             render:(text,record,index)=> {
-              return  <Form.Item name={['list',index,'qty']}>
-                        <Input disabled={record.isExamine} className="goods-name" key={index}/>
+              return  <Form.Item
+                          name={['list',index,'qty']}
+                          rules={[{ required: true, message: '请输入订购数量'},
+                                { pattern:/^\d+$/,message:'请输入正整数' },
+                          ]}>
+                        <Input
+                          onBlur={(e)=>onBlur(e,index,'qty')}
+                          key={index}/>
                       </Form.Item>
             }
           },{
             title: "商品名称",
-            dataIndex: "productName",
+            dataIndex: "name",
             textWrap: 'word-break',
           },{
             title: "商品规格",
-            dataIndex: "salesAttributeName",
+            dataIndex: "displayName",
             textWrap: 'word-break',
           },{
             title: "B端售价",
-            dataIndex: "outerProductCode",
+            dataIndex: "price",
             textWrap: 'word-break',
           },{
             title: "金额小计",
             textWrap: 'word-break',
-            dataIndex: "dhPrice",
+            dataIndex: "amount",
           }]
 };
-
-
+const OrderLogsColumns = [
+    {title: "操作", dataIndex: "operation", key: "1"},
+    {
+        title: "操作时间", dataIndex: "createTime", key: "2",
+        render: (text) => (
+            <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+        )
+    },
+    {title: "订单状态", dataIndex: "statusVal", key: "3"},
+    {title: "操作人", dataIndex: "stepVal", key: "4"},
+    {title: "备注", dataIndex: "modifyBy", key: "5"},
+];
+const GoodsColumns = [
+    {title: "SKU编码", dataIndex: "itemCode", key: "1"},
+    {title: "商品名称", dataIndex: "itemName", key: "2"},
+    {title: "商品规格", dataIndex: "salesAttributeName", key: "3"},
+    {title: "订购数量", dataIndex: "amount", key: "4"},
+    {title: "订购单价", dataIndex: "price", key: "5"},
+    {title: "门店总价", dataIndex: "totalPrice", key: "6"},
+];
+const ShippingInformationColumns = [
+    {title: "物流/快递单号", dataIndex: "trackingNumber", key: "1"},
+    {title: "物流/快递公司", dataIndex: "carrier", key: "3"},
+    {title: "运费", dataIndex: "freightPrice", key: "4"},
+    {title: "状态 ", dataIndex: "status", key: "5"},
+];
 export {
-   columnsAdd,Columns
+   columnsAdd,Columns,OrderLogsColumns,GoodsColumns,ShippingInformationColumns
 }

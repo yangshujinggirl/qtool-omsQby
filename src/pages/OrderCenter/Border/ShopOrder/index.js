@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {QbaseList, Qbtn, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
 import {Columns} from "./column";
-import {GetShopOrderListApi} from "../../../../api/home/OrderCenter/Border/ShopOrder";
+import {GetShopOrderListApi} from "api/home/OrderCenter/Border/ShopOrder";
 import {ErpExportApi} from "../../../../api/Export";
 
 /**
@@ -24,10 +24,9 @@ const ShopOrderList = QbaseList((_this) => {
             <div className="oms-common-index-pages-wrap">
                 <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
                 <div className="handle-operate-btn-action">
-                    <Link to='/account/add_purchasein'><Qbtn size="free">新建门店订单</Qbtn></Link>
-                    <Link to='/account/add_purchasein'><Qbtn size="free">新建赠品单</Qbtn></Link>
-                    <Qbtn size="free"
-                          onClick={() => new ErpExportApi(searchCriteriaList, "/export/spOrders")}>导出数据</Qbtn>
+                    <Qbtn size="free"><Link to='/account/shopOrder/add/1'>新建门店订单</Link></Qbtn>
+                    <Qbtn size="free"><Link to='/account/shopOrder/add/2'>新建赠品单</Link></Qbtn>
+                    <Qbtn size="free" onClick={() => new ErpExportApi(searchCriteriaList, "/export/spOrders")}>导出数据</Qbtn>
                 </div>
                 <Qtable
                     columns={Columns}
@@ -38,7 +37,5 @@ const ShopOrderList = QbaseList((_this) => {
                     onChange={_this.changePage}/>
             </div>
         );
-    }, GetShopOrderListApi,
-    false, null, null,
-    null, null);
+    }, GetShopOrderListApi, false, null, null, null, null);
 export default ShopOrderList
