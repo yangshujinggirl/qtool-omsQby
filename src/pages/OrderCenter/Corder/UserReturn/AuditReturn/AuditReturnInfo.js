@@ -1,34 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { Card, Form, Radio, Input } from "antd";
+import { Card, Form, Radio, Input, Button } from "antd";
 import { Qtable } from "common";
 import { ReturnGoods } from "./columns";
 import {
   getInfoApi,
   operateReturnApi
 } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
+import moment from "moment";
 const TextArea = Input.TextArea;
 
 const AuditReturnInfo = props => {
-  let [infos, detailList] = [{}, []];
+  const [form] = Form.useForm();
   const [status, setStatus] = useState("");
+  const [infos, setInfos] = useState({});
+  const [detailList, setDetailList] = useState("");
   const { id } = props.match.params;
-  useEffect(({ reOrderNo: id }) => {
+  useEffect(() => {
     getInfoApi({ reOrderNo: id }).then(res => {
       if (res.httpCode == 200) {
-        infos = res.result;
-        detailList = res.result.detailList;
+        setInfos(res.result);
+        setDetailList(res.result.detailList);
       }
     });
   }, []);
-  onChange = e => {
+  const onChange = e => {
     setStatus(e.target.value);
   };
   /**
    * 提交
    */
-  handleSubmit = async () => {
-    const values = await form.vaildateFields();
+  const handleSubmit = async () => {
+    const values = await form.validateFields();
     values.operation = 1;
+    values.reOrderNo=id;
     operateReturnApi(values).then(res => {
       if (res.httpCode == 200) {
         props.history.push("/account/subscriber_refund_orders");
@@ -48,14 +52,15 @@ const AuditReturnInfo = props => {
         <Form.Item label="退款商品金额">{infos.price}</Form.Item>
         <Form.Item label="退款总金额">{infos.refundMoney}</Form.Item>
         <Form.Item label="创建时间">
-          {moment(infos.createTime).format("YYYY-MM-DD HH:mm:ss")}
+          {infos.createTime &&
+            moment(infos.createTime).format("YYYY-MM-DD HH:mm:ss")}
         </Form.Item>
       </Card>
       <Card title="订单商品">
         <Qtable columns={ReturnGoods} dataSource={detailList} />
       </Card>
       <Card title="异常处理">
-        <Form>
+        <Form form={form}>
           <Form.Item
             name="status"
             label="审核结果"
@@ -83,21 +88,21 @@ const AuditReturnInfo = props => {
                 label="收货人"
                 rules={[{ required: true, message: "请输入收货人" }]}
               >
-                <Input placeholder="请输入收货人" autocomplete="off" />
+                <Input placeholder="请输入收货人" autoComplete="off" />
               </Form.Item>
               <Form.Item
                 name="shPhone"
                 label="收货电话"
                 rules={[{ required: true, message: "请输入收货电话" }]}
               >
-                <Input placeholder="请输入收货电话" autocomplete="off" />
+                <Input placeholder="请输入收货电话" autoComplete="off" />
               </Form.Item>
               <Form.Item
                 name="shAddress"
                 label="收货地址"
                 rules={[{ required: true, message: "请输入收货地址" }]}
               >
-                <Input placeholder="请输入收货地址" autocomplete="off" />
+                <Input placeholder="请输入收货地址" autoComplete="off" />
               </Form.Item>
             </React.Fragment>
           )}

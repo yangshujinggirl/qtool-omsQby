@@ -15,10 +15,10 @@ class AllReturn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      operateType: 0, //0：确认收货1：取消退单
+      operateType: 0, //0：确认收货 1：取消退单
       dataList: [],
       selectedRowKeys: [],
-      inputValues: { sourceType: 2 },
+      inputValues: { sourceType: 1 },
       everyPage: 0,
       currentPage: 0,
       total: 0
@@ -108,9 +108,10 @@ class AllReturn extends Component {
       visible: true
     });
   };
-  //确定撤销
+  //确定收货||取消退单  
   onOk = () => {
-    const {} = this.state;
+    const {selectedRowKeys,operateType} = this.state;
+    const values = {reOrderNo:selectedRowKeys[0],operation:operateType==0?3:2}
     operateReturnApi(values).then(res => {
       if (res.httpCode == 200) {
         message.success("撤销成功", 0.8);
@@ -122,7 +123,7 @@ class AllReturn extends Component {
       }
     });
   };
-  //取消撤销
+  //确定收货||取消退单
   onCancel = () => {
     this.setState({ visible: false, selectedRowKeys: [], selectedRow: [] });
   };
@@ -146,14 +147,10 @@ class AllReturn extends Component {
       selectedRowKeys,
       onChange: this.onChange
     };
-
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <div className="handle-operate-btn-action">
-          <Link to="">
-            <Qbtn>新增退单</Qbtn>
-          </Link>
           <Qbtn onClick={() => this.operateClick(0)}>确认收货</Qbtn>
           <Qbtn onClick={() => this.operateClick(1)}>取消退单</Qbtn>
           <Qbtn onClick={this.exportData}>导出数据</Qbtn>

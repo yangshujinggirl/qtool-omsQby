@@ -85,6 +85,8 @@ import AllReturnInfo from './OrderCenter/Corder/UserReturn/AllReturn/AllReturnIn
 import AuditReturnInfo from './OrderCenter/Corder/UserReturn/AuditReturn/AuditReturnInfo' //审核退单详情
 import AbnormalOrder from './OrderCenter/AbnormalOrder' //异常订单
 import AbnormalOrderInfo from './OrderCenter/AbnormalOrder/AbnormalOrderInfo' //异常订单详情
+import ReplaceOrder from './OrderCenter/ReplaceOrder' //代发订单
+import GetPurchaseInOrder from './OrderCenter/ReplaceOrder/GetPurchaseInOrder' //生成采购订单
 
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
@@ -298,6 +300,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/auditReturn_info/:id?' component={AuditReturnInfo}/>
                 <Route exact path='/account/unlawful_orders' component={AbnormalOrder}/>
                 <Route exact path='/account/abnormalOrder_info/:id?' component={AbnormalOrderInfo}/>
+                <Route exact path='/account/agency_delivery_orders/:id?' component={ReplaceOrder}/>
+                <Route exact path='/account/get_purchasein_order' component={GetPurchaseInOrder}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}
