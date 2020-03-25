@@ -24,8 +24,10 @@ import _QbaseListNew from './QbaseListNew';
 import _QimageTextEdit from './QimageTextEdit';
 import _Qcharts from './Qcharts';
 import _QbaseInfo from './QbaseInfo';
+import _ImageFlex from './ImageFlex';
 
 
+export const ImageFlex = _ImageFlex;
 export const QbaseInfo = _QbaseInfo;
 export const QimageTextEdit = _QimageTextEdit;
 export const QbaseListNew = _QbaseListNew;

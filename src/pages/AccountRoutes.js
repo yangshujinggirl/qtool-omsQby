@@ -101,17 +101,23 @@ import ShopManageInfo from './CooperateCenter/ShopManage/ShopManageInfo'
 import CtipActivity from './MarketCenter/PromotionActivity/CtipActivity';//c端营销活动
 import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAdd';//c端营销活动
 import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAddTwo';//c端营销活动
+import CtipActivityInfo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityInfo';//c端营销活动
+
 import CouponCenter from './MarketCenter/CouponCenter';//优惠券中心
 import CouponInfo from './MarketCenter/CouponCenter/CouponInfo';//优惠券中心
 import CouponAdd from './MarketCenter/CouponCenter/CouponAdd';//优惠券中心
 import CouponRecord from './MarketCenter/CouponRecord';//注券中心
 import PosActivity from './MarketCenter/PromotionActivity/PosActivity';//POS端营销活动
+import PosActivityInfo from './MarketCenter/PromotionActivity/PosActivity/PosActivityInfo';//POS端营销活动
 import PosActivityAdd from './MarketCenter/PromotionActivity/PosActivity/PosActivityAdd';//POS端营销活动
 import PosActivityAddTwo from './MarketCenter/PromotionActivity/PosActivity/PosActivityAddTwo';//POS端营销活动
-import PosAudit from './MarketCenter/AuditCenter/PosAudit';//POS端营销活动
-import CtipAudit from './MarketCenter/AuditCenter/CtipAudit';//POS端营销活动
-import PosAuditEdit from './MarketCenter/AuditCenter/PosAudit/PosAuditEdit';//POS端营销活动
-import PosAuditInfo from './MarketCenter/AuditCenter/PosAudit/PosAuditInfo';//POS端营销活动
+import PosAudit from './MarketCenter/AuditCenter/PosAudit';//POS审核
+import PosAuditEdit from './MarketCenter/AuditCenter/PosAudit/PosAuditEdit';//POS审核
+import CtipAudit from './MarketCenter/AuditCenter/CtipAudit';//C审核
+import CtipAuditEdit from './MarketCenter/AuditCenter/CtipAudit/CtipAuditEdit';//C审核
+import BossActivity from './MarketCenter/PromotionActivity/BossActivity';//C审核
+import BossActivityAdd from './MarketCenter/PromotionActivity/BossActivity/BossActivityAdd';//C审核
+import BossActivityInfo from './MarketCenter/PromotionActivity/BossActivity/BossActivityInfo';//C审核
 
 
 /************************************   数据中心   *******************************************/
@@ -320,18 +326,23 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
                 <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
                 <Route exact path="/account/ctipActivity/addTwo/:id" component={CtipActivityAddTwo}/>
+                <Route exact path="/account/ctipActivity/info/:id" component={CtipActivityInfo}/>
                 <Route exact path="/account/coupon_centre" component={CouponCenter}/>
                 <Route exact path="/account/coupon/info/:id" component={CouponInfo}/>
                 <Route exact path="/account/coupon/add" component={CouponAdd}/>
                 <Route exact path="/account/couponRecord/:id?" component={CouponRecord}/>
                 <Route exact path="/account/pos_preferential_promotion" component={PosActivity}/>
                 <Route exact path="/account/posActivity/add/:id?" component={PosActivityAdd}/>
+                <Route exact path="/account/posActivity/info/:id" component={PosActivityInfo}/>
                 <Route exact path="/account/posActivity/addTwo/:id" component={PosActivityAddTwo}/>
+                <Route exact path="/account/c_sales_promotion_check" component={CtipAudit}/>
                 <Route exact path="/account/ctipAudit" component={CtipAudit}/>
-
+                <Route exact path="/account/ctipAudit/edit/:id/:auditId" component={CtipAuditEdit}/>
                 <Route exact path="/account/posAudit" component={PosAudit}/>
-                <Route exact path="/account/posAudit/info/:id/" component={PosAuditInfo}/>
-                <Route exact path="/account/posAudit/edit/:id/" component={PosAuditEdit}/>
+                <Route exact path="/account/posAudit/edit/:id/:auditId" component={PosAuditEdit}/>
+                <Route exact path="/account/b_limited_promotion" component={BossActivity}/>
+                <Route exact path="/account/bossActivity/add" component={BossActivityAdd}/>
+                <Route exact path="/account/bossActivity/info" component={BossActivityInfo}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}

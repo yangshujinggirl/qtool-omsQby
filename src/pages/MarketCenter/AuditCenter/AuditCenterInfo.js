@@ -1,4 +1,0 @@
-
-const Info=({...props})=> {
-
-}

@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Upload, Button, message, Modal } from "antd";
+import { Upload, Button, Modal } from "antd";
+import { Qmessage, Qbtn } from 'common'
 import "./index.less";
+
 class index extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   downLoadTemp = () => {
     window.open("../../../../../../static/market/c_down.xlsx");
   };
@@ -14,21 +12,12 @@ class index extends Component {
     const { response } = file;
     if (file.status == "done") {
       if (response) {
-        if (response.code == "0") {
-          const {
-            promotionProducts,
-            successSize,
-            noPro,
-            formatWrong,
-            priceGapWrong,
-            productKindWrong,
-            huchiWrong,
-            enableEnjoyActivityWrong,
-            purChaseWrong,
-            paramWrong,
-            requiredWrong,
-            repeatWrong
-          } = response.data;
+        if (response.httpCode == "200") {
+          let {
+            promotionProducts,successSize,
+            noPro,priceGapWrong,
+            huchiWrong,requiredWrong,repeatWrong
+          } = response.result;
           Modal.success({
             title: "",
             content: (
@@ -41,25 +30,11 @@ class index extends Component {
                     )} 商品不存在
                   </p>
                 )}
-                {formatWrong.length>0 && (
-                  <p className='import_error'>
-                    {formatWrong.map(
-                      (item, index) =>`${item}${index == formatWrong.length - 1 ? "" : "/ "}`
-                    )} 商品填写格式错误或商品C端售价为空
-                  </p>
-                )}
                 {priceGapWrong.length>0 && (
                   <p className='import_error'>
                     {priceGapWrong.map(
                       (item, index) =>`${item}${index == priceGapWrong.length - 1 ? "" : "/ "}`
                     )} 商品填写格式错误
-                  </p>
-                )}
-                {productKindWrong.length>0 && (
-                  <p className='import_error'>
-                    {productKindWrong.map(
-                      (item, index) =>`${item}${index == productKindWrong.length - 1 ? "" : "/ "}`
-                    )} 商品不符合活动商品范围
                   </p>
                 )}
                  {huchiWrong.length>0 && (
@@ -68,27 +43,6 @@ class index extends Component {
                       (item, index) =>`${item}${index == huchiWrong.length - 1 ? "" : "/ "}`
                     )}
                     商品已参加其他和此活动互斥的活动
-                  </p>
-                )}
-                {purChaseWrong.length>0 && (
-                  <p className='import_error'>
-                    {purChaseWrong.map(
-                      (item, index) =>`${item}${index == purChaseWrong.length - 1 ? "" : "/ "}`
-                    )} 商品限购数量的大小关系不对
-                  </p>
-                )}
-                {enableEnjoyActivityWrong.length>0 && (
-                  <p className='import_error'>
-                    {enableEnjoyActivityWrong.map(
-                      (item, index) =>`${item}${index == enableEnjoyActivityWrong.length - 1 ? "" : "/ "}`
-                    )} 商品为保税商品，不能参与单品满件赠活动
-                  </p>
-                )}
-                {paramWrong.length>0 && (
-                  <p className='import_error'>
-                    {paramWrong.map(
-                      (item, index) =>`${item}${index == paramWrong.length - 1 ? "" : "/ "}`
-                    )} 商品填写格式错误
                   </p>
                 )}
                 {requiredWrong.length>0 && (
@@ -109,13 +63,11 @@ class index extends Component {
             ),
             footer: null
           });
-          this.props.dispatch({
-            type: "ctipActivityAddTwo/refreshLists",
-            payload: { goodLists: promotionProducts }
-          });
-          props.upDateList(promotionProducts);
+          promotionProducts=promotionProducts?promotionProducts:[]
+          promotionProducts.map((el,index)=>el.key=index)
+          this.props.upDateList(promotionProducts);
         } else {
-          message.error(file.response.message, 0.8);
+          Qmessage.error(file.response.message, 0.8);
         }
         return file.response.status === "success";
       }
@@ -143,11 +95,8 @@ class index extends Component {
     return (
       <div className="c_act_import">
         <div>
-          请导入商品：
           <Upload {...props}>
-            <Button type="primary" size="large">
-              导入商品
-            </Button>
+            <Qbtn> 导入商品</Qbtn>
           </Upload>
           <a className="act_down" onClick={this.downLoadTemp}>
             下载导入模板

@@ -79,7 +79,7 @@ function withSubscription(apiObj,activityType) {
       confirm({
         content: '是否确认撤销审核',
         onOk:()=> {
-          GetApprovalsApi({promotionId:record.promotionId})
+          GetApprovalsApi(record.promotionId)
           .then((res) => {
             successCallback();
             Qmessage.success('撤销审核成功')

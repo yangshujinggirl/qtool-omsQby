@@ -1,9 +1,9 @@
 import { Modal, Col, Input, Radio, Form, Collapse, Spin } from 'antd';
 import { useEffect } from 'react';
-import { Qbtn } from 'common'
+import { Qbtn } from 'common';
 import { Sessions } from 'utils';
-import { GetSaveApprovalsApi } from 'api/marketCenter/PosAudit';
-import withSubscription from '../../components/PosInfoWrap';
+import { GetSaveApprovalsApi } from 'api/marketCenter/CtipAudit';
+import withSubscription from '../../components/CtipInfoWrap';
 const { Panel } = Collapse;
 
 const formItemLayout = {
@@ -43,8 +43,9 @@ const Audit=({...props})=> {
     staticPar();
     return ()=>{ Sessions.remove('auditData') }
   },[]);
+  console.log(JSON.parse(Sessions.get("auditData")))
   return(
-    <Panel header="审核结果" key="6">
+    <Panel header="审核结果" key="3">
       <Form form={form} {...formItemLayout}>
         <Form.Item label="审核结果" name="isPass" rules={[{ required: true, message: '请填写审核结果'}]}>
           <Radio.Group>

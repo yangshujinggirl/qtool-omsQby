@@ -53,7 +53,7 @@ function withSubscription(listApi,activityType) {//1：C端2：pos
             <div className="oms-common-index-pages-wrap">
               <FilterForm onSubmit={onSubmit}/>
               <Qtable
-                columns={Columns("POS")}
+                columns={Columns(activityType)}
                 dataSource={dataList}
                 onOperateClick={handleOperateClick}/>
               <Qpagination

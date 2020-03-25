@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { Upload, Button, message, Modal } from "antd";
+import { Qbtn } from 'common';
 import "./index.less";
+
 class index extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   downLoadTemp = () => {
     const { promotionType } = this.props;
     switch (promotionType) {
@@ -34,21 +32,14 @@ class index extends Component {
     const { response } = file;
     if (file.status == "done") {
       if (response) {
-        if (response.code == "0") {
-          const {
-            promotionProducts,
-            successSize,
-            noPro,
-            formatWrong,
-            priceGapWrong,
-            productKindWrong,
-            huchiWrong,
-            enableEnjoyActivityWrong,
-            purChaseWrong,
-            paramWrong,
-            requiredWrong,
-            repeatWrong
-          } = response.data;
+        if (response.httpCode == "200") {
+          let {
+            promotionProducts,successSize,
+            noPro,formatWrong,priceGapWrong,
+            productKindWrong,huchiWrong,
+            enableEnjoyActivityWrong,purChaseWrong,
+            paramWrong,requiredWrong,repeatWrong
+          } = response.result;
           Modal.success({
             title: "",
             content: (
@@ -129,10 +120,9 @@ class index extends Component {
             ),
             footer: null
           });
-          this.props.dispatch({
-            type: "ctipActivityAddTwo/refreshLists",
-            payload: { goodLists: promotionProducts }
-          });
+          promotionProducts = promotionProducts?promotionProducts:[];
+          promotionProducts.map((el,index)=>el.key=index);
+          this.props.upDateList(promotionProducts)
         } else {
           message.error(file.response.message, 0.8);
         }
@@ -162,11 +152,8 @@ class index extends Component {
     return (
       <div className="c_act_import">
         <div>
-          请导入商品：
           <Upload {...props}>
-            <Button type="primary" size="large">
-              导入商品
-            </Button>
+            <Qbtn>导入商品</Qbtn>
           </Upload>
           <a className="act_down" onClick={this.downLoadTemp}>
             下载导入模板
@@ -179,8 +166,4 @@ class index extends Component {
     );
   }
 }
-// function mapStateToProps(state) {
-//   const { ctipActivityAddTwo } = state;
-//   return ctipActivityAddTwo;
-// }
 export default index;

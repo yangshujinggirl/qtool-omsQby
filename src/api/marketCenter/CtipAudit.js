@@ -6,10 +6,6 @@ import { appAjax, omsAjax } from '../Req'
 export function GetListApi(values){
     return appAjax.get('/approval/list',{params:{...values}})
 }
-//c端活动列表删除
-export function GetDeleteApi(values) {
-  return appAjax.put('/promotions/delete',{...values})
-}
 //审核
 export function GetSaveApprovalsApi(values) {
   return appAjax.post('/approvalOpinion',{...values})
