@@ -4,7 +4,12 @@ import { erpAjax } from "../../../Req";
 /**
  * 获取采购订单列表
  */
-export function GetShopOrderListApi(values) {
+export function GetListApi(values) {
+    return erpAjax.get("/spOrder/list", {
+        params: { ...values }
+    });
+}
+export function GetOrderInfoApi(values) {
     return erpAjax.get("/spOrder/list", {
         params: { ...values }
     });
@@ -28,13 +33,13 @@ export function GetImportApi(values) {
     return erpAjax.post("/import/spOrder/skuCode");
 }
 /*
-商品信息
+查询商品信息
  */
 export function GetSpuInfoApi(spuId) {
     return erpAjax.get(`/sku/code/${spuId}`);
 }
 /*
-门店
+查询门店
  */
 export function GetShopListApi(values) {
     return erpAjax.get(`/shop/list`,{params:{...values}});

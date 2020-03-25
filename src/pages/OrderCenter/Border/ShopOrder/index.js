@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {QbaseList, Qbtn, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
 import {Columns} from "./column";
-import {GetShopOrderListApi} from "api/home/OrderCenter/Border/ShopOrder";
+import { GetListApi } from "api/home/OrderCenter/Border/ShopOrder";
 import {ErpExportApi} from "../../../../api/Export";
 
 /**
@@ -30,12 +30,11 @@ const ShopOrderList = QbaseList((_this) => {
                 </div>
                 <Qtable
                     columns={Columns}
-                    select={true}
                     dataSource={dataList}/>
                 <Qpagination
                     data={{everyPage, currentPage, total}}
                     onChange={_this.changePage}/>
             </div>
         );
-    }, GetShopOrderListApi, false, null, null, null, null);
+    }, GetListApi, false, null, null, null, null);
 export default ShopOrderList

@@ -78,29 +78,32 @@ const columnsAdd=(onBlur)=>{
           }]
 };
 const OrderLogsColumns = [
-    {title: "操作", dataIndex: "operation", key: "1"},
+    {title: "操作", dataIndex: "operateName", key: "1"},
     {
-        title: "操作时间", dataIndex: "createTime", key: "2",
-        render: (text) => (
-            <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
-        )
+      title: "操作时间",
+      dataIndex: "operateTime",
+      key: "2",
+      render: (text) => (
+          <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+      )
     },
     {title: "订单状态", dataIndex: "statusVal", key: "3"},
-    {title: "操作人", dataIndex: "stepVal", key: "4"},
-    {title: "备注", dataIndex: "modifyBy", key: "5"},
+    {title: "操作人", dataIndex: "operateUser", key: "4"},
+    {title: "备注", dataIndex: "remark", key: "5"},
 ];
 const GoodsColumns = [
-    {title: "SKU编码", dataIndex: "itemCode", key: "1"},
-    {title: "商品名称", dataIndex: "itemName", key: "2"},
-    {title: "商品规格", dataIndex: "salesAttributeName", key: "3"},
-    {title: "订购数量", dataIndex: "amount", key: "4"},
-    {title: "订购单价", dataIndex: "price", key: "5"},
-    {title: "门店总价", dataIndex: "totalPrice", key: "6"},
+    {title: "SKU编码", dataIndex: "spuCode", key: "1"},
+    {title: "商品名称", dataIndex: "spuName", key: "2"},
+    {title: "商品规格", dataIndex: "pdSkuType", key: "3"},
+    {title: "订购数量", dataIndex: "qty", key: "4"},
+    {title: "订购单价", dataIndex: "retailPrice", key: "5"},
+    {title: "门店总价", dataIndex: "amount", key: "6"},
 ];
 const ShippingInformationColumns = [
-    {title: "物流/快递单号", dataIndex: "trackingNumber", key: "1"},
-    {title: "物流/快递公司", dataIndex: "carrier", key: "3"},
-    {title: "运费", dataIndex: "freightPrice", key: "4"},
+
+    {title: "物流/快递单号", dataIndex: "expressCode", key: "1"},
+    {title: "物流/快递公司", dataIndex: "expressCompany", key: "3"},
+    {title: "运费", dataIndex: "expressFee", key: "4"},
     {title: "状态 ", dataIndex: "status", key: "5"},
 ];
 export {

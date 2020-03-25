@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
 import { ColumnsAddGeneral,ColumnsAddCross } from './columns';
-import { GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/CtipActivity';
+import { GetSuppliApi, GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/CtipActivity';
 import StepMod from '../components/StepMod';
 import InfoSet from './components/InfoSet';
 import WebSet from './components/WebSet';
@@ -245,6 +245,7 @@ const CtipActivityAdd =({...props})=> {
               activityInfo={activityInfo}>
               <div>
                 <Proration
+                  supplierApi={GetSuppliApi}
                   upDateRatioList={upDateRatioList}
                   upDateTagList={upDateTagList}
                   tagsList={tagsList}
