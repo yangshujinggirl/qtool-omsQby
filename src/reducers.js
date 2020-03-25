@@ -4,9 +4,8 @@ import PublicReducers from './pages/Public/reducers.js';
 import BaseGoodsAddReducers from './pages/GoodsCenter/BaseGoodsCenter/reducers/reducersAdd';
 import BgoodsReducers from './pages/GoodsCenter/Bgoods/GoodsList/reducers/reducersIndex';
 import CgoodsReducers from './pages/Cgoods/reducers/reducersIndex';
-import ClassifyReducers from './pages/Classify/reducers/reducersIndex';
-import BrandReducers from './pages/Brand/reducers/reducersIndex';
-import AttributionsReducers from './pages/Attributions/reducers/reducersIndex';
+import ClassifyReducers from './pages/GoodsCenter/BaseConfigCenter/Classify/reducers/reducersIndex';
+import AttributionsReducers from './pages/GoodsCenter/BaseConfigCenter/Attributions/reducers/reducersIndex';
 import SaleOrderReducers from './pages/OrderCenter/SaleOrder/reducers/reducersIndex';
 import PosReducers from './pages/OrderCenter/PosOrder/reducers/reducersIndex';
 import ShopKeeperReducers from './pages/OrderCenter/ShopKeeperOrder/reducers/reducersIndex';
@@ -23,7 +22,6 @@ export default combineReducers({
   BgoodsReducers,
   CgoodsReducers,
   ClassifyReducers,
-  BrandReducers,
   AttributionsReducers,
   SaleOrderReducers,
   SupplierReducers,

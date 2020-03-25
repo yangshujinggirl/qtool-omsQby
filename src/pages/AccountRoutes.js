@@ -31,12 +31,12 @@ import NotFound from "./NotFound";
 
 /************************************  商品中心  ********************************************/
 //基础配置-----------------------------------//////
-import BrandAdd from "./Brand/BrandAdd";
-import BrandInfo from "./Brand/BrandInfo";
+import BrandAdd from "./GoodsCenter/BaseConfigCenter/Brand/BrandAdd";
+import BrandInfo from "./GoodsCenter/BaseConfigCenter/Brand/BrandInfo";
 import Country from "./GoodsCenter/BaseConfigCenter/Country"; //国家地区管理
-import Attributions from "./Attributions"; //规格管理
-import Brand from "./Brand"; //品牌管理
-import Classify from "./Classify"; //后台类目管理
+import Attributions from "./GoodsCenter/BaseConfigCenter/Attributions"; //规格管理
+import Brand from "./GoodsCenter/BaseConfigCenter/Brand"; //品牌管理
+import Classify from "./GoodsCenter/BaseConfigCenter/Classify"; //后台类目管理
 import CgoodsExplain from "./GoodsCenter/BaseConfigCenter/CgoodsExplain"; //后台类目管理
 //基础商品-----------------------------------//////
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
@@ -148,6 +148,10 @@ import ChannelStatistic from './ChannelManage/Statistics'
 import ChannelStatisticInfos from './ChannelManage/Statistics/StatisticInfo'
 /************************************   库存中心   *******************************************/
 import StoreMange from './StockCenter/StoreManage' //仓库管理
+import ErpStock from './StockCenter/GoodStock/ErpStock' //ERP库存
+import ShopStock from './StockCenter/GoodStock/ShopStock' //门店库存
+import CrossBorderStock from './StockCenter/GoodStock/CrossBorderStock' //跨境商品库存
+import StockAdjust from './StockCenter/StockAdjust' //跨境库存调整
 /************************************   运营中心   *******************************************/
 import Bpush from './OperateCenter/Boperate/Bpush'
 import AddBPush from './OperateCenter/Boperate/Bpush/AddPush'
@@ -386,14 +390,15 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/bridge_manager_control/market_promotion/level_2/:id?' component={MarketPromotionLevelTwo}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
                 <Route exact path='/account/warehouse_manager' component={StoreMange}/>
-
-
+                <Route exact path='/account/stock_erp' component={ErpStock}/>
+                <Route exact path='/account/stock_channel' component={ShopStock}/>
+                <Route exact path='/account/stock_bonded' component={CrossBorderStock}/>
+                <Route exact path='/account/stocking_change_bonded' component={StockAdjust}/>
 
                 {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
         <Route  path="/account/Csite" component={Cgoods}/>
         <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
-
         <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
         <Route  path="/account/wareHouseManage" component={StoreHouse}/>
         <Route  path="/account/stockManage" component={StockManage}/>

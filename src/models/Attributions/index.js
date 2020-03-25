@@ -4,17 +4,17 @@ import {GetListsApi} from 'api/home/Attributions'
 function* getTabsList(action){
     const params = action.payload;
     const res = yield call(GetListsApi,params);
-    const {resultList,everyPage,currentPage,totalCount} = res.result;
-    resultList && resultList.map(item=>{
+    const {result,everyPage,currentPage,total} = res.result;
+    result && result.map(item=>{
         item.key = item.attributeId
     });
     yield put({
         type:'ATTRIBUTION_TABLELIST',
         payload:{
-            atrLists:resultList,
+            atrLists:result,
             everyPage,
             currentPage,
-            totalCount
+            total
         }
     })
 }

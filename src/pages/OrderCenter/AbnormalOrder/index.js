@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Spin} from 'antd'
 import { Qtable, Qpagination } from "common"; //表单
 import FilterForm from "./FilterForm/index";
 import {Columns} from "./columns";
@@ -16,7 +17,8 @@ class ReturnAudit extends Component {
       inputValues: {},
       everyPage: 0,
       currentPage: 0,
-      total: 0
+      total: 0,
+      loading:false
     };
   }
   componentWillMount() {
@@ -24,6 +26,9 @@ class ReturnAudit extends Component {
   }
   //点击搜索
   searchData = values => {
+    this.setState({
+      loading:true
+    })
     const { time, ..._values } = values;
     if (time && time[0]) {
       _values.stime = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
@@ -34,6 +39,9 @@ class ReturnAudit extends Component {
     }
     const params = { ...this.state.inputValues, ..._values };
     getListApi(params).then(res => {
+      this.setState({
+        loading:false
+      })
       if (res.httpCode == 200) {
         const { result, everyPage, currentPage, total } = res.result;
         if (result.length) {
@@ -46,6 +54,10 @@ class ReturnAudit extends Component {
           totalCount: total
         });
       }
+    }).catch(()=>{
+      this.setState({
+        loading:false
+      })
     });
     this.setState({ inputValues: params });
   };
@@ -63,9 +75,10 @@ class ReturnAudit extends Component {
   };
 
   render() {
-    const { dataList, everyPage, currentPage, totalCount } = this.state;
+    const { dataList, everyPage, currentPage, totalCount,loading } = this.state;
 
     return (
+      <Spin spinning={loading}>
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <Qtable dataSource={dataList} columns={Columns} />
@@ -77,6 +90,7 @@ class ReturnAudit extends Component {
           />
         ) : null}
       </div>
+      </Spin>
     );
   }
 }

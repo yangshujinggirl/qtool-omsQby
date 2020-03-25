@@ -17,3 +17,9 @@ export function getSupplierListApi(values) {
     params: values
   });
 }
+//快递公司查询
+export function getExpressListApi(values) {
+  return omsAjax.get("dictionary/getListByLogisticsName", {
+    params: values
+  });
+}

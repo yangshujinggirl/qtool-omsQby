@@ -42,7 +42,7 @@ const Columns = [
     title: "操作",
     dataIndex: "createTime",
     render:(text,record,index)=>(
-      <a>修改</a>
+      <a onClick={()=>{record.onOperateClick()}}>修改</a>
     )
   },
 ];

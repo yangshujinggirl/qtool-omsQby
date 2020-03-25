@@ -52,50 +52,55 @@ class BrandAdd extends React.Component {
       });
     }
   };
+  /**
+   * 数据格式化
+   */
   getValueFormat = res => {
     let {
       logo,
-      introduceImgList = [],
-      isSq,
+      introduceImgList,
       validityStart,
-      validityEnd
+      validityEnd,
+      ...infos
     } = res.result;
+    let introduceImg=[];
     logo = [
       {
         uid: "-1",
         name: "image.png",
         status: "done",
-        url: logo
+        url: sessionStorage.getItem("oms_fileDomain") + logo,
+        img:logo
       }
     ];
-    let introduceImg = [];
-    introduceImgList.length > 0 &&
+    if (introduceImgList && introduceImgList.length) {
       introduceImgList.map((item, index) => {
         const obj = {
           uid: index,
           name: "image.png",
           status: "done",
-          url: item
+          url: sessionStorage.getItem("oms_fileDomain") + item,
+          img:item
         };
         introduceImg.push(obj);
       });
-    form.setFieldsValue({
-      validityStart: moment(validityStart),
-      validityEnd: moment(validityEnd),
-      ...infos
-    });
+    }
+    infos.logo = logo;
+    infos.introduceImg = introduceImg;
+    infos.time = [moment(validityStart), moment(validityEnd)];
+    this.formRef.current.setFieldsValue(infos);
     this.setState({
       logo,
       introduceImg,
-      isSq: isSq
+      isSq:infos.isSq
     });
   };
   /**
    * 提交
    */
   handleSubmit = deBounce(async () => {
-    const brandNameEn = this.formRef.current.getFieldValue('brandNameEn');
-    const brandNameCn = this.formRef.current.getFieldValue('brandNameCn');
+    const brandNameEn = this.formRef.current.getFieldValue("brandNameEn");
+    const brandNameCn = this.formRef.current.getFieldValue("brandNameCn");
     if (!brandNameEn && !brandNameCn) {
       this.formRef.current.setFields([
         { name: ["brandNameCn"], errors: ["中文名称和英文名称至少必填一个"] }
@@ -108,7 +113,7 @@ class BrandAdd extends React.Component {
       //修改
       UpdataBrandApi({ id, ..._values }).then(res => {
         if (res.httpCode == 200) {
-          message.success("保存成功");
+          message.success("保存成功",.8);
           this.props.history.push("/account/brand");
         }
       });
@@ -116,7 +121,7 @@ class BrandAdd extends React.Component {
       //新建
       AddBrandApi({ ..._values }).then(res => {
         if (res.httpCode == 200) {
-          message.success("保存成功");
+          message.success("保存成功",.8);
           this.props.history.push("/account/brand");
         }
       });
@@ -126,22 +131,22 @@ class BrandAdd extends React.Component {
    * 数据格式化
    */
   formatValue = values => {
-    const { introduceImg, logo } = this.state;
-    const { time, ..._values } = values;
+    const { logo } = this.state;
+    const imgs = [];
+    const { time, introduceImg, ..._values } = values;
     if (time && time[0]) {
       _values.validityStart = moment(time[0]).format("YYYY-MM-DD");
       _values.validityEnd = moment(time[1]).format("YYYY-MM-DD");
     }
-    const imgs = [];
-    if (introduceImg[0]) {
+    if (introduceImg&&introduceImg[0]) {
       introduceImg.map(item => {
-        imgs.push(item.response ? item.response.result : item.url);
+        imgs.push(item.response ? item.response.result : item.img);
       });
     }
-    _values.introduceImgList = imgs;
-    if (logo[0]) {
-      _values.logo = logo[0].response ? logo[0].response.result : logo[0].url;
+    if (logo&&logo[0]) {
+      _values.logo = logo[0].response ? logo[0].response.result : logo[0].img;
     }
+    _values.introduceImgList = imgs;
     return _values;
   };
   /**
@@ -181,8 +186,8 @@ class BrandAdd extends React.Component {
   }, 500);
   onChange = () => {
     const errors = this.formRef.current.getFieldError("brandNameCn");
-    if(errors){
-      this.formRef.current.setFields([{name:['brandNameCn'],errors:[]}])
+    if (errors) {
+      this.formRef.current.setFields([{ name: ["brandNameCn"], errors: [] }]);
     }
   };
   render() {
@@ -194,7 +199,7 @@ class BrandAdd extends React.Component {
           className="common-addEdit-form"
           {...formItemLayout}
         >
-          <Form.Item style={{ marginBottom: 0 }} label="品牌中文名称">
+          <Form.Item className='item_required' style={{ marginBottom: 0 }} label="品牌中文名称">
             <Form.Item
               name="brandNameCn"
               style={{ display: "inline-block", marginRight: "10px" }}
@@ -234,7 +239,7 @@ class BrandAdd extends React.Component {
             label="品牌状态"
             rules={[{ required: true, message: "请选择" }]}
           >
-            <Select placeholder="请选择">
+            <Select placeholder="请选择" allowClear={true}>
               <Option value={1}>启用</Option>
               <Option value={0}>不启用</Option>
             </Select>
@@ -249,18 +254,14 @@ class BrandAdd extends React.Component {
               <Radio value={false}>无</Radio>
             </Radio.Group>
           </Form.Item>
-          {isSq == 1 && (
+          {isSq && (
             <React.Fragment>
-              <Form.Item
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 20 }}
-                label="授权图片"
-                className="brand_img"
-              >
+              <Form.Item labelCol={{ span: 4 }} label="授权图片" className='sq_img'>
                 <UploadIsSq
+                  name="introduceImg"
                   upDateList={this.upAuthList}
                   fileList={introduceImg}
-                  limit={1}
+                  limit={3}
                 />
                 <div className="brand_desc">
                   <p>　1、该图片可能展示在前端，请尽量保证图片美观；</p>
@@ -288,7 +289,7 @@ class BrandAdd extends React.Component {
                 label="授权级别"
                 name="transLevel"
               >
-                <Select placeholder="请选择">
+                <Select placeholder="请选择" allowClear={true}>
                   <Option key={1} value={1}>
                     1级授权
                   </Option>
@@ -302,12 +303,14 @@ class BrandAdd extends React.Component {
               </Form.Item>
             </React.Fragment>
           )}
-          <Form.Item label="品牌logo" className="brand_img">
+          <Form.Item label="品牌logo" className="sq_img">
             <UploadLogo
-              upDateList={this.upDateList}
-              fileList={logo}
+              name="logo"
               width={500}
               height={500}
+              upDateList={this.upDateList}
+              fileList={logo}
+              limit={1}
             />
             <div className="brand_desc">
               <p>　1、可传1张，图片大小不得超过 3MB；</p>
