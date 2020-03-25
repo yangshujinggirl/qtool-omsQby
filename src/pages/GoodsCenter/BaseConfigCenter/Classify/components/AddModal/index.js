@@ -216,7 +216,6 @@ class AddModal extends React.Component {
                 <Option value={0}>禁用</Option>
                 <Option value={1}>启用</Option>
               </Select>
-              )}
             </FormItem>
           </div>
         );

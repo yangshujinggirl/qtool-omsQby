@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Modal, message } from "antd";
+import { Modal, message,Spin } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import FilterForm from "./FilterForm/index";
 import {Columns} from "./columns";
@@ -21,7 +21,8 @@ class AllReturn extends Component {
       inputValues: { sourceType: 1 },
       everyPage: 0,
       currentPage: 0,
-      total: 0
+      total: 0,
+      loading:false
     };
   }
   componentDidMount() {
@@ -36,6 +37,9 @@ class AllReturn extends Component {
   };
   //点击搜索
   searchData = values => {
+    this.setState({
+      loading:true
+    })
     const { rangePicker, ..._values } = values;
     if (rangePicker && rangePicker[0]) {
       _values.stime = moment(rangePicker[0]).format("YYYY-MM-DD HH:mm:ss");
@@ -46,6 +50,9 @@ class AllReturn extends Component {
     }
     const params = { ...this.state.inputValues, ..._values };
     getListApi(params).then(res => {
+      this.setState({
+        loading:false
+      });
       if (res.httpCode == 200) {
         const { result, everyPage, currentPage, total } = res.result;
         if (result.length) {
@@ -59,6 +66,10 @@ class AllReturn extends Component {
           totalCount: total
         });
       }
+    }).catch(()=>{
+      this.setState({
+        loading:false
+      })
     });
     this.setState({ inputValues: params });
   };
@@ -140,7 +151,8 @@ class AllReturn extends Component {
       total,
       operateType,
       visible,
-      selectedRowKeys
+      selectedRowKeys,
+      loading
     } = this.state;
     const rowSelection = {
       type: "radio",
@@ -148,6 +160,7 @@ class AllReturn extends Component {
       onChange: this.onChange
     };
     return (
+      <Spin spinning={loading}>
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <div className="handle-operate-btn-action">
@@ -184,6 +197,7 @@ class AllReturn extends Component {
           />
         ) : null}
       </div>
+      </Spin>
     );
   }
 }

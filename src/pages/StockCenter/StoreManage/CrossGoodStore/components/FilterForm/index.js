@@ -17,7 +17,7 @@ class NormalForm extends BaseFilter {
           <Row>
             <Col {...this.colspan}>
               <Form.Item name="warehouseName" label="仓库名称">
-                <Input placeholder="请输入仓库名称" autocomplete="off" />
+                <Input placeholder="请输入仓库名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>

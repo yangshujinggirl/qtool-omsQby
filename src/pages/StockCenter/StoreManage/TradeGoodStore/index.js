@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Spin} from 'antd'
 import { Qtable, Qpagination } from "common"; //表单
 import FilterForm from "./FilterForm/index";
 import Columns from "./columns";
@@ -15,7 +16,8 @@ class CrossGoodStore extends Component {
       inputValues: {status:10,sourceType:2},
       everyPage: 0,
       currentPage: 0,
-      total: 0
+      total: 0,
+      loading:false
     };
   }
   componentWillMount() {
@@ -23,7 +25,13 @@ class CrossGoodStore extends Component {
   }
   //点击搜索
   searchData = values => {
+    this.setState({
+      loading:true
+    })
     getListApi(values).then(res => {
+      this.setState({
+        loading:false
+      })
       if (res.httpCode == 200) {
         const { result, everyPage, currentPage, total } = res.result;
         if (result.length) {
@@ -36,6 +44,10 @@ class CrossGoodStore extends Component {
           total
         });
       }
+    }).catch(()=>{
+      this.setState({
+        loading:false
+      })
     });
     this.setState({ inputValues: values });
   };
@@ -53,10 +65,9 @@ class CrossGoodStore extends Component {
   };
 
   render() {
-    const { dataList, everyPage, currentPage, total } = this.state;
-    console.log(dataList)
-    console.log(Columns)
+    const { dataList, everyPage, currentPage, total,loading } = this.state;
     return (
+      <Spin spinning={loading}>
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <Qtable dataSource={dataList} columns={Columns} />
@@ -68,6 +79,7 @@ class CrossGoodStore extends Component {
           />
         ) : null}
       </div>
+      </Spin>
     );
   }
 }

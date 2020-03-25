@@ -21,7 +21,7 @@ export function ExportApi(values) {
 }
 //省份查询
 export function getProvinceListApi(values) {
-  return omsAjax.get("/channelStatistics/query/province", {
+  return omsAjax.get("city/find", {
     ...values
   });
 }

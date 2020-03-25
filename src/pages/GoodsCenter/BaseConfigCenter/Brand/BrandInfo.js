@@ -1,5 +1,5 @@
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from "@ant-design/compatible";
+import "@ant-design/compatible/assets/index.css";
 import { GetInfoApi } from "api/home/Brand";
 import moment from "moment";
 const formItemLayout = {
@@ -23,6 +23,7 @@ class BrandInfo extends React.Component {
   }
   render() {
     const { infos } = this.state;
+    const fileDomain = sessionStorage.getItem("oms_fileDomain");
     return (
       <div className="oms-common-addEdit-pages">
         <Form {...formItemLayout}>
@@ -37,15 +38,23 @@ class BrandInfo extends React.Component {
           <Form.Item label="授权书">
             {infos.introduceImgList &&
               infos.introduceImgList.map((item, index) => (
-                <img key={index} src={item} className="brand_infos_introImg" />
+                <img
+                  key={index}
+                  src={fileDomain + item}
+                  className="brand_infos_introImg"
+                />
               ))}
           </Form.Item>
           <Form.Item label="授权有效期">
-            {moment(infos.validityStart).format("YYYY-MM-DD HH:mm:ss")} —
-            {moment(infos.validityEnd).format("YYYY-MM-DD HH:mm:ss")}
+            {infos.validityStart && (
+              <span>
+                {moment(infos.validityStart).format("YYYY-MM-DD HH:mm:ss")} —
+                {moment(infos.validityEnd).format("YYYY-MM-DD HH:mm:ss")}
+              </span>
+            )}
           </Form.Item>
           <Form.Item label="品牌logo">
-            <img className='brand_infos_logo' src={infos.logo}/>
+            <img className="brand_infos_logo" src={fileDomain+infos.logo} />
           </Form.Item>
           <Form.Item label="品牌简介">{infos.brandIntroduce}</Form.Item>
         </Form>

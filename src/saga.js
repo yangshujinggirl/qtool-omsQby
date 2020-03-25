@@ -4,7 +4,6 @@ import { all,call, select} from 'redux-saga/effects'
 import BaseAddSagas from './models/BaseGoods/BaseAdd';
 import BgoodSagas from './models/Bgoods';
 import CgoodSagas from './models/Cgoods';
-import BrandSagas from './models/Brand';
 import ClassifySagas from './models/Classify';
 import AttributionSagas from './models/Attributions';
 import SaleOrder from './models/OrderCenter/SaleOrder'
@@ -22,7 +21,6 @@ export function* helloSaga () {
     call(BaseAddSagas),
     call(BgoodSagas),
     call(CgoodSagas),
-    call(BrandSagas),
     call(ClassifySagas),
     call(AttributionSagas),
     call(SaleOrder),

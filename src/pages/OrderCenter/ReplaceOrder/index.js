@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Modal, message, Upload } from "antd";
+import { Modal, message, Upload,Spin } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import FilterForm from "./components/FilterForm/index";
 import { getListApi, sendGoodsApi } from "api/home/OrderCenter/ReplaceOrder";
@@ -22,7 +22,8 @@ class ReplaceOrder extends Component {
       selectedRows: [],
       selectedRowKeys: [],
       visible: false,
-      orderNo: ""
+      orderNo: "",
+      loading:false
     };
   }
   componentWillMount() {
@@ -36,6 +37,9 @@ class ReplaceOrder extends Component {
   };
   //点击搜索
   searchData = values => {
+    this.setState({
+      loading:true
+    })
     const { time, ..._values } = values;
     if (time && time[0]) {
       _values.stime = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
@@ -46,6 +50,9 @@ class ReplaceOrder extends Component {
     }
     const params = { ...this.state.inputValues, ..._values };
     getListApi(params).then(res => {
+      this.setState({
+        loading:false
+      })
       if (res.httpCode == 200) {
         const { result, everyPage, currentPage, total } = res.result;
         if (result.length) {
@@ -58,6 +65,10 @@ class ReplaceOrder extends Component {
           totalCount: total
         });
       }
+    }).catch(()=>{
+      this.setState({
+        loading:false
+      })
     });
     this.setState({ inputValues: params });
   };
@@ -112,7 +123,8 @@ class ReplaceOrder extends Component {
       totalCount,
       selectedRowKeys,
       visible,
-      orderNo
+      orderNo,
+      loading
     } = this.state;
     const rowSelection = {
       type: "checkbox",
@@ -126,6 +138,7 @@ class ReplaceOrder extends Component {
       showUploadList:false
     }
     return (
+      <Spin spinning={loading}>
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <div className="handle-operate-btn-action">
@@ -161,6 +174,7 @@ class ReplaceOrder extends Component {
           orderNo={orderNo}
         />
       </div>
+      </Spin>
     );
   }
 }

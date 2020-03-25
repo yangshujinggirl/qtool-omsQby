@@ -1,27 +1,23 @@
 import React, { Component } from "react";
 import { Spin } from "antd";
-import { Qtable, Qpagination } from "common"; //表单
-import FilterForm from "./FilterForm/index";
-import { Columns } from "./columns";
-import { getListApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
-import moment from "moment";
+import { Qtable, Qpagination, Qbtn } from "common"; //表单
+import { getListApi } from "api/home/StockCenter/GoodStock";
+import FilterForm from "./components/FilterForm/index";
+import Columns from "./columns";
+import { AppExportApi } from "api/Export";
 
-/**
- *退单审核
- */
-class ReturnAudit extends Component {
+class ErpStock extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataList: [],
-      inputValues: { status: 10, sourceType: 1 },
       everyPage: 0,
       currentPage: 0,
-      total: 0,
+      dataList: [],
+      inputValues: {},
       loading: false
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.searchData({});
   }
   //点击搜索
@@ -29,16 +25,7 @@ class ReturnAudit extends Component {
     this.setState({
       loading: true
     });
-    const { rangePicker, ..._values } = values;
-    if (rangePicker && rangePicker[0]) {
-      _values.stime = moment(rangePicker[0]).format("YYYY-MM-DD HH:mm:ss");
-      _values.etime = moment(rangePicker[1]).format("YYYY-MM-DD HH:mm:ss");
-    } else {
-      _values.stime = "";
-      _values.etime = "";
-    }
-    const params = { ...this.state.inputValues, ..._values };
-    getListApi(params)
+    getListApi(values)
       .then(res => {
         this.setState({
           loading: false
@@ -52,7 +39,7 @@ class ReturnAudit extends Component {
             dataList: result,
             everyPage,
             currentPage,
-            totalCount: total
+            total
           });
         }
       })
@@ -61,7 +48,7 @@ class ReturnAudit extends Component {
           loading: false
         });
       });
-    this.setState({ inputValues: params });
+    this.setState({ inputValues: values });
   };
 
   //点击分页
@@ -75,25 +62,27 @@ class ReturnAudit extends Component {
     const params = { currentPage, limit, ...this.state.inputValues };
     this.searchData(params);
   };
-
+  //导出数据
+  exportData = () => {
+    AppExportApi(
+      { type: 1, ...this.state.inputValues },
+      "/channelStatistics/export"
+    );
+  };
   render() {
-    const {
-      dataList,
-      everyPage,
-      currentPage,
-      totalCount,
-      loading
-    } = this.state;
+    const { dataList, everyPage, currentPage, total, loading } = this.state;
     return (
       <Spin spinning={loading}>
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.searchData} />
+          <div className="handle-operate-btn-action">
+            <Qbtn onClick={this.exportData}>导出数据</Qbtn>
+          </div>
           <Qtable dataSource={dataList} columns={Columns} />
           {dataList.length > 0 ? (
             <Qpagination
-              data={{ everyPage, currentPage, totalCount }}
+              data={{ everyPage, currentPage, total }}
               onChange={this.changePage}
-              onShowSizeChange={this.onShowSizeChange}
             />
           ) : null}
         </div>
@@ -101,5 +90,4 @@ class ReturnAudit extends Component {
     );
   }
 }
-
-export default ReturnAudit;
+export default ErpStock;
