@@ -19,7 +19,6 @@ const Columns=[
     key: 'promotionId',
     render:(text,record,index)=> {
       return <Link
-              className="link-color action-left"
               to={`/account/ctipActivity/info/${record.promotionId}`}>
               {record.promotionId}
             </Link>
@@ -55,7 +54,6 @@ const Columns=[
             record.status==1&&
             <span>
             <Link
-              className="pointerSty"
               to={`/account/ctipActivity/add/${record.promotionId}`}>
               编辑
             </Link>
@@ -85,12 +83,11 @@ const Columns=[
           }
           {
             record.status==4&&
-            <Link
+            <span
               className="pointerSty"
-              to={null}
               onClick={()=>record.onOperateClick('forcedEnd')}>
               强制结束
-            </Link>
+            </span>
           }
         </div>
       )

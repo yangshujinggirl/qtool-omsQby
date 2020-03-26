@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { Qbtn, Qpagination, Qtable} from "common";
 import FilterForm from "./components/FilterForm";
+import LoseModal from './components/LoseModal';
 import {Columns} from "./columns";
 import { GetListApi } from "api/marketCenter/BossActivity";
 import {ErpExportApi} from "api/Export";
@@ -12,6 +13,8 @@ const BossActivity=({...props})=> {
   const [loading,setLoading] =useState([]);
   const [dataPagation,setDataPagation] =useState({everyPage:15, currentPage:1, total:0});
   const [fields,setFields]=useState({});
+  const [currentItem,setCurrentItem]=useState({});
+  const [visible,setVisible]=useState(false);
   //查询列表
   const searchList=(values)=> {
     setLoading(true)
@@ -39,6 +42,18 @@ const BossActivity=({...props})=> {
   const onSubmit = params => {
     setFields(params)
   };
+  const onOperateClick=(record,type)=> {
+    setCurrentItem(record);
+    setVisible(true);
+  }
+  const onOk=(values)=> {
+    setCurrentItem({});
+    setVisible(false);
+  }
+  const onCancel=(record,type)=> {
+    setCurrentItem({});
+    setVisible(false);
+  }
   useEffect(()=>{searchList()},[fields]);
 
   return <Spin tip="加载中..." spinning={loading}>
@@ -46,15 +61,20 @@ const BossActivity=({...props})=> {
             <FilterForm onSubmit={onSubmit}/>
             <div className="handle-operate-btn-action">
               <Qbtn size="free"><Link to={`/account/bossActivity/add`}> 新增限时直降</Link></Qbtn>
-              <Qbtn size="free"><Link to='/account/shopOrder/add/2'>强制失效</Link></Qbtn>
             </div>
             <Qtable
               columns={Columns}
-              dataSource={dataList}/>
+              dataSource={dataList}
+              onOperateClick={onOperateClick}/>
             <Qpagination
               data={dataPagation}
               onChange={changePage}
               onShowSizeChange={onShowSizeChange}/>
+            <LoseModal
+              visible={visible}
+              record={currentItem}
+              onOk={onOk}
+              onCancel={onCancel}/>
           </div>
         </Spin>
 }

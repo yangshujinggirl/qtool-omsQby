@@ -9,10 +9,7 @@ const Columns = [
         dataIndex: "orderNo",
         key: "1",
         render: (text, record) => (
-            <Link
-                className="link-color"
-                to={`/account/channel_orders/detail/${record.orderNo}`}
-            >{text}</Link>
+            <Link to={`/account/channel_orders/detail/${record.orderNo}`}>{text}</Link>
         )
     },
     {title: "下单门店", dataIndex: "shopName", key: "2"},
@@ -37,7 +34,7 @@ const columnsAdd=(onBlur)=>{
             width:140,
             render:(text,record,index)=> {
               return  <Form.Item
-                        name={['list',index,'code']}
+                        name={['list',index,'skuCode']}
                         rules={[{ required: true, message: '请输入sku编码'}]}>
                         <Input
                           key={index}
@@ -52,7 +49,7 @@ const columnsAdd=(onBlur)=>{
               return  <Form.Item
                           name={['list',index,'qty']}
                           rules={[{ required: true, message: '请输入订购数量'},
-                                { pattern:/^\d+$/,message:'请输入正整数' },
+                                { pattern:/^[1-9]+$/,message:'请输入正整数' },
                           ]}>
                         <Input
                           onBlur={(e)=>onBlur(e,index,'qty')}
@@ -61,15 +58,15 @@ const columnsAdd=(onBlur)=>{
             }
           },{
             title: "商品名称",
-            dataIndex: "name",
+            dataIndex: "productName",
             textWrap: 'word-break',
           },{
             title: "商品规格",
-            dataIndex: "displayName",
+            dataIndex: "salesAttributeName",
             textWrap: 'word-break',
           },{
             title: "B端售价",
-            dataIndex: "price",
+            dataIndex: "businessPrice",
             textWrap: 'word-break',
           },{
             title: "金额小计",

@@ -86,6 +86,7 @@ class index extends Component {
     });
     const props = {
       action:`/qtoolsErp/import/excel`,
+      accept: ".xlsx,.xls",
       onChange: this.handleChange,
       beforeUpload: this.beforeUpload,
       name: "mfile",

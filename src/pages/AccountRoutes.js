@@ -38,6 +38,9 @@ import Attributions from "./GoodsCenter/BaseConfigCenter/Attributions"; //规格
 import Brand from "./GoodsCenter/BaseConfigCenter/Brand"; //品牌管理
 import Classify from "./GoodsCenter/BaseConfigCenter/Classify"; //后台类目管理
 import CgoodsExplain from "./GoodsCenter/BaseConfigCenter/CgoodsExplain"; //后台类目管理
+import DescriptManage from "./GoodsCenter/BaseConfigCenter/DescriptManage";//描述属性管理
+import DescriptAdd from "./GoodsCenter/BaseConfigCenter/DescriptManage/DescriptAdd";//描述属性
+import DescriptInfo from "./GoodsCenter/BaseConfigCenter/DescriptManage/DescriptInfo";//描述属性
 //基础商品-----------------------------------//////
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
 import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGoodsAdd";//基础商品
@@ -45,17 +48,14 @@ import BaseGoodsInfo from "./GoodsCenter/BaseGoodsCenter/BaseGoodsInfo";//基础
 import BaseGoodsEditImg from "./GoodsCenter/BaseGoodsCenter/BaseGoodsEditImg";//基础商品
 import GoodsAudit from "./GoodsCenter/BaseConfigCenter/GoodsAudit"; //商品审核
 //C端---------------------------------------//////
-import DescriptManage from "./Ctip/DescriptManage";//描述属性管理
-import DescriptAdd from "./Ctip/DescriptManage/DescriptAdd";//描述属性
-import DescriptInfo from "./Ctip/DescriptManage/DescriptInfo";//描述属性
-import CrossBorderLog from "./Ctip/CrossBorderGoods/CrossBorderLog";//C端跨境商品
-import CrossBorderInfo from "./Ctip/CrossBorderGoods/CrossBorderInfo";//C端跨境商品
-import CrossBorderEdit from "./Ctip/CrossBorderGoods/CrossBorderEdit";//C端跨境商品
-import CrossBorderGoods from "./Ctip/CrossBorderGoods";//C端跨境商品
-import GeneralTradeGoods from "./Ctip/GeneralTradeGoods";//C端一般贸易商品
-import GeneralTradeEdit from "./Ctip/GeneralTradeGoods/GeneralTradeEdit";//C端一般贸易商品
-import GeneralTradeInfo from "./Ctip/GeneralTradeGoods/GeneralTradeInfo";//C端一般贸易商品
-import GeneralTradeLog from "./Ctip/GeneralTradeGoods/GeneralTradeLog";//C端一般贸易商品
+import CrossBorderLog from "./GoodsCenter/Cgoods/CrossBorderGoods/CrossBorderLog";//C端跨境商品
+import CrossBorderInfo from "./GoodsCenter/Cgoods/CrossBorderGoods/CrossBorderInfo";//C端跨境商品
+import CrossBorderEdit from "./GoodsCenter/Cgoods/CrossBorderGoods/CrossBorderEdit";//C端跨境商品
+import CrossBorderGoods from "./GoodsCenter/Cgoods/CrossBorderGoods";//C端跨境商品
+import GeneralTradeGoods from "./GoodsCenter/Cgoods/GeneralTradeGoods";//C端一般贸易商品
+import GeneralTradeEdit from "./GoodsCenter/Cgoods/GeneralTradeGoods/GeneralTradeEdit";//C端一般贸易商品
+import GeneralTradeInfo from "./GoodsCenter/Cgoods/GeneralTradeGoods/GeneralTradeInfo";//C端一般贸易商品
+import GeneralTradeLog from "./GoodsCenter/Cgoods/GeneralTradeGoods/GeneralTradeLog";//C端一般贸易商品
 import Ctask from './GoodsCenter/Cgoods/Ctask'//C端批量任务
 import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//C端批量任务
 import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//C端批量任务
@@ -77,7 +77,7 @@ import AddPurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut/AddPurchaseO
 import ShopOrder from './OrderCenter/Border/ShopOrder' //门店订单
 import ShopOrderDetail from './OrderCenter/Border/ShopOrder/ShopOrderDetail' //门店订单详情
 import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //新建门店订单
-import ShopReturnOrderAdd from './OrderCenter/Border/ShopOrder/ShopReturnOrderAdd' //新建门店退单
+import ShopReturnOrderAdd from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderAdd' //新建门店退单
 import ShopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退单
 import ShopReturnOrderDetail from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderDetail' //门店退单
 
@@ -121,39 +121,14 @@ import BossActivityInfo from './MarketCenter/PromotionActivity/BossActivity/Boss
 
 
 /************************************   数据中心   *******************************************/
-/**
- * 商品数据
- */
-import GoodsData from './DataCenter/BaseData/GoodsData'
-/**
- * 订单数据
- */
-import OrderData from "./DataCenter/BaseData/OrderData";
-/**
- * 采购数据
- */
-import PurchasingData from "./DataCenter/BaseData/PurchasingData";
-/**
- * 仓库数据
- */
-import WarehouseData from "./DataCenter/BaseData/WarehouseData";
-/**
- * 财务数据
- */
-import FinancialData from "./DataCenter/BaseData/FinancialData";
-/**
- * App数据
- */
-import AppData from "./DataCenter/FromC/AppData";
-/**
- * 门店数据
- */
-import StoreData from "./DataCenter/FromB/StoreData";
-/**
- * 门店库存分布页面
- */
-import InventoryDistribution
-        from "./DataCenter/FromB/StoreData/StoreInventory/InventoryDistribution";
+import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
+import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
+import PurchasingData from "./DataCenter/BaseData/PurchasingData";/*** 采购数据*/
+import WarehouseData from "./DataCenter/BaseData/WarehouseData";/*** 仓库数据*/
+import FinancialData from "./DataCenter/BaseData/FinancialData";/*** 财务数据*/
+import AppData from "./DataCenter/FromC/AppData";/*** App数据*/
+import StoreData from "./DataCenter/FromB/StoreData";/*** 门店数据*/
+import InventoryDistribution from "./DataCenter/FromB/StoreData/StoreInventory/InventoryDistribution";/*** 门店库存分布页面*/
 
 /************************************   渠道管理   *******************************************/
 import ChannelStatistic from './ChannelManage/Statistics'
@@ -185,78 +160,28 @@ import CuserOrder from './UserCenter/CuserManage'
 /************************************   财务中心   *******************************************/
 import ShoperRecharge from './FinancialCenter/Recharge'
 import Withdraw from './FinancialCenter/Withdraw'
-/**
- * 掌柜收支明细
- */
-import ShopkeeperInOut from './FinancialCenter/ShopkeeperInOut'
-/**
- * 销售收支明细
- */
-import SaleInOut from "./FinancialCenter/SaleInOut";
-/**
- * 分润管理页面
- */
-import ShareInProfitManager from "./FinancialCenter/ShareInProfitManager";
+import ShopkeeperInOut from './FinancialCenter/ShopkeeperInOut'/*** 掌柜收支明细*/
+import SaleInOut from "./FinancialCenter/SaleInOut";/*** 销售收支明细*/
+import ShareInProfitManager from "./FinancialCenter/ShareInProfitManager";/*** 分润管理页面*/
 
 /************************************   客服中心   *******************************************/
-/**
- * 门店反馈页面
- */
-import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'
-/**
- * 门店反馈详情页面
- */
-import StoreFeedbackDetail from './CustomerServiceCenter/FromB/StoreFeedback/StoreFeedbackDetail'
-/**
- * 用户反馈页面
- */
-import UserFeedback from './CustomerServiceCenter/FromC/UserFeedback'
-/**
- * 用户意见反馈详情页面
- */
-import UserFeedbackDetail from './CustomerServiceCenter/FromC/UserFeedback/UserFeedbackDetail'
-/**
- * C端客服工单
- */
-import WorkOrderC from './CustomerServiceCenter/FromC/WorkOrderC'
-/**
- * C端客服工单详情
- */
-import WorkOrderCDetail from "./CustomerServiceCenter/FromC/WorkOrderC/WorkOrderCDetail";
-/**
- * 客服工单
- */
-import WorkOrder from "./CustomerServiceCenter/FromC/WorkOrder";
-/**
- * 客服工单详情页面
- */
-import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDetail";
+import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'/*** 门店反馈页面*/
+import StoreFeedbackDetail from './CustomerServiceCenter/FromB/StoreFeedback/StoreFeedbackDetail'/*** 门店反馈详情页面*/
+import UserFeedback from './CustomerServiceCenter/FromC/UserFeedback'/*** 用户反馈页面*/
+import UserFeedbackDetail from './CustomerServiceCenter/FromC/UserFeedback/UserFeedbackDetail'/*** 用户意见反馈详情页面*/
+import WorkOrderC from './CustomerServiceCenter/FromC/WorkOrderC'/*** C端客服工单*/
+import WorkOrderCDetail from "./CustomerServiceCenter/FromC/WorkOrderC/WorkOrderCDetail";/*** C端客服工单详情*/
+import WorkOrder from "./CustomerServiceCenter/FromC/WorkOrder";/*** 客服工单*/
+import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDetail";/*** 客服工单详情页面*/
 
 /************************************   会员中心   *******************************************/
-/**
- * 成长值任务
- */
-import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue";
-/**
- * 成长值任务详情
- */
-import TaskGrowthValueDetail
-    from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail";
+import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue";/*** 成长值任务*/
+import TaskGrowthValueDetail from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail";/*** 成长值任务详情*/
 
 /************************************   渠道管理   *******************************************/
-/**
- * 渠道管理
- */
-import ChannelManage from "./ChannelManage/Manage";
-/**
- * 线下门店二级渠道管理
- */
-import OfflineStoreLevelTwo from "./ChannelManage/Manage/OfflineStore/OfflineStoreLevelTwo";
-/**
- * 市场推广二级渠道管理
- */
-import MarketPromotionLevelTwo
-    from "./ChannelManage/Manage/MarketPromotion/MarketPromotionLevelTwo";
+import ChannelManage from "./ChannelManage/Manage";/*** 渠道管理*/
+import OfflineStoreLevelTwo from "./ChannelManage/Manage/OfflineStore/OfflineStoreLevelTwo";/*** 线下门店二级渠道管理*/
+import MarketPromotionLevelTwo from "./ChannelManage/Manage/MarketPromotion/MarketPromotionLevelTwo";/*** 市场推广二级渠道管理*/
 
 class HomeRoutes extends React.Component {
     render() {
@@ -345,8 +270,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/posAudit" component={PosAudit}/>
                 <Route exact path="/account/posAudit/edit/:id/:auditId" component={PosAuditEdit}/>
                 <Route exact path="/account/b_limited_promotion" component={BossActivity}/>
-                <Route exact path="/account/bossActivity/add" component={BossActivityAdd}/>
-                <Route exact path="/account/bossActivity/info" component={BossActivityInfo}/>
+                <Route exact path="/account/bossActivity/add/:id?" component={BossActivityAdd}/>
+                <Route exact path="/account/bossActivity/info/:id" component={BossActivityInfo}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
