@@ -21,7 +21,7 @@ export function GetEnableApi(values) {
 
 //c端查询供应商
 export function GetSuppliApi(values) {
-  return appAjax.get('/supplier/like/',{params:{...values}})
+  return appAjax.get('/supplier/like/name',{params:{...values}})
 }
 // //c端活动信息查询
 export function GetBaseInfoApi(promotionId) {
@@ -43,41 +43,3 @@ export function GetDiscountInfoApi(promotionId) {
 export function GetComplimentaryApi(values) {
   return appAjax.get('/promotions/pdcode',{params:{...values}});
 }
-// //商品设置页面的保存
-// export function saveGoodsetApi(values) {
-//   values = JSON.stringify(values)
-//   return ajax.post('/webrest.htm',{
-//       code:'qerp.web.promotion.activity.rule.modify',
-//       data:values
-//   })
-// }
-// //商品设置页面的保存
-// export function getLogApi(values) {
-//   values = JSON.stringify(values)
-//   return ajax.post('/webrest.htm',{
-//       code:'qerp.web.promotion.journal',
-//       data:values
-//   })
-// }
-// //商品设置页面的审核
-// export function goAuditApi(values) {
-//   values = JSON.stringify(values)
-//   return ajax.post('/webrest.htm',{
-//       code:'qerp.web.promotion.approvals.create',
-//       data:values
-//   })
-// }
-// //导出商品
-// export function goExportApi(values) {
-//   values = JSON.stringify(values)
-//   return ajax.post('/webrest.htm',{
-//       code:'qerp.web.sys.doc.task',
-//       data:values
-//   })
-// }
-/*
-图文信息编辑
- */
-// export function GetEditImgApi(values){
-//     return omsAjax.post('/items/saveProductImageText',{...values})
-// }

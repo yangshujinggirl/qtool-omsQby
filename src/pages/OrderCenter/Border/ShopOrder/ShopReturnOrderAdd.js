@@ -4,15 +4,14 @@ import {
 } from 'antd';
 import NP from 'number-precision';
 import { useState, useEffect } from 'react';
-import { Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
+import { QupLoadAndDownLoad, Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
 import {
   GetSaveApi, GetSaveFreeApi,
   GetShopAddressApi, GetShopListApi,
   GetSpuInfoApi
 } from 'api/home/OrderCenter/Border/ShopOrder';
-import './ShopOrderAdd.less';
+
 import { columnsAdd } from './column';
-import ImportFile from './components/ImportFile';
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -191,13 +190,13 @@ const ShopOrderAdd=({...props})=> {
                 <Input placeholder="请输入详细地址" autoComplete="off"/>
               </Form.Item>
             </Form.Item>
-            <ImportFile action="/qtoolsErp/import/spOrder/skuCode" upDateList={upDateList}>
+            <QupLoadAndDownLoad action="/qtoolsErp/import/spOrder/skuCode" upDateList={upDateList}>
               <BaseEditTable
                 btnText="添加商品"
                 upDateList={upDateList}
                 dataSource={goodsList}
                 columns={columnsAdd(handleBlur)}/>
-            </ImportFile>
+            </QupLoadAndDownLoad>
             <Form.Item label="商品数量" name="qtySum" rules={[{ required: true, message: '请输入商品数量'}]}>
               <Input placeholder="请输入商品数量" autoComplete="off" disabled/>
             </Form.Item>

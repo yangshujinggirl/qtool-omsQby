@@ -1,14 +1,16 @@
 import { Spin, Card, Form } from 'antd';
 import { useEffect, useState } from 'react';
-import { Qbtn } from 'common';
+import { Qbtn, Qtable, Qmessage } from 'common';
 import { Sessions } from 'utils';
-import { GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
+import { GetSaveActivApi, GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
 import SetTitle from './components/SetGoods/Title';
 import ExportFile from "./components/SetGoods/ExportFile";
-import SetGoods from "./components/SetGoods/GoodsTable";
+// import SetGoods from "./components/SetGoods/GoodsTable";
 import DiscountOne from "./components/SetGoods/DiscountOne";
 import DiscountTwo from "./components/SetGoods/DiscountTwo";
 import StepMod from '../components/StepMod';
+import EditModal from "./components/SetGoods/EditModal";
+import {InitColumns} from './columns';
 
 const CtipActivityAddTwo=({...props})=> {
   const [form] = Form.useForm();
@@ -16,6 +18,8 @@ const CtipActivityAddTwo=({...props})=> {
   let [products,setProducts] = useState([]);
   let [currentdata,setCurrentdata] = useState({});
   let [singleRules,setSingleRules] = useState([]);//单行满件赠规则
+  let [visible, setVisible] = useState(false);
+  let [currentItem, setCurrentItem] = useState({});
   let promotionId = props.match.params.id;
 
   const staticPar =()=> {
@@ -24,6 +28,41 @@ const CtipActivityAddTwo=({...props})=> {
       Sessions.set("currentdata",JSON.stringify(state));
     }
   }
+  const onOperateClick=(record,type)=> {
+    let handIndex = products.findIndex((el)=>el.pdCode==record.pdCode);
+    switch(type){
+      case "delete":
+        handleDelete(handIndex);
+        break;
+      case "edit":
+        handleEdit(record,handIndex);
+        break;
+    }
+  }
+  //编辑
+  const handleEdit = (record,index) => {
+    record = {...record,index};
+    setCurrentItem(record);
+    setVisible(true);
+  };
+  //删除
+  const handleDelete = (index) => {
+    Modal.confirm({
+      title: '是否删除此商品?',
+      content: '是否删除此商品?',
+      okText:"确认删除",
+      cancelText:"暂不删除",
+      onOk() {
+        products.splice(index, 1);
+        products=[...products]
+        setProducts(products);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+  const onCancel = () => { setVisible(false)};
   const initPage=()=>{
     GetDiscountInfoApi(promotionId)
     .then((res)=> {
@@ -131,50 +170,36 @@ const CtipActivityAddTwo=({...props})=> {
   }
   //保存并预览
   const handSubmit = async(type) => {
-    try {
-      let values = await form.validateFields();
-      this.sendQequest("type");
-    } catch (errorInfo) {
-      console.log('Failed:', errorInfo);
-    }
-  };
-  //发送请求
-  const sendQequest = type => {
-    const { promotionId, promotionType,pdScope } = this.props.data;
-    const { goodLists } = this.props;
+    const { promotionId, promotionType,pdScope } = currentdata;
     if(pdScope!=1){
-      if (goodLists.length == 0) {
-        message.error("请至少添加一个活动商品");
+      if (products.length == 0) {
+        Qmessage.error("请至少添加一个活动商品");
         return
       };
     };
-    let values = { promotionId, promotionType, promotionProducts: goodLists };
+    let values = { promotionId, promotionType, promotionProducts: products };
     if (!(promotionType == 10 || promotionType == 11)) {//非单品
-      const { dataSource } = this.props;
-      values.promotionRules = dataSource;
+      values.promotionRules = proRules;
     }
     if (promotionType == 20 || promotionType == 21) {//满元或者满件赠
       const isNoValue = values.promotionRules.some(item => {
         return item.promotionGifts.length == 0;
       });
       if (isNoValue) {
-        message.error("存在某级阶梯没有赠品，请至少上传一个赠品");
+        Qmessage.error("存在某级阶梯没有赠品，请至少上传一个赠品");
         return ;
       };
     };
-    saveGoodsetApi(values).then(res => {
-      if (res.code == "0") {
-        if (type == "audit") {
-          message.success("提交审核成功");
-          goAuditApi({promotionId}).then(res=>{
-            if(res.code == 0){
-              this.gobackToList(); //回到列表页
-            };
-          });
-        };
-        if (type == "save") {//回到查看页
-          this.goInfo();
-        };
+    values={...values,type}
+    GetSaveActivApi(values)
+    .then(res => {
+      if (type == "2") {
+        Qmessage.success("提交审核成功");
+        let datas={ createUser:currentdata.createUser}
+        props.history.push({pathname:`/account/ctipAudit/edit/${promotionId}/${result.approvalId}`,state:datas})
+      };
+      if (type == "1") {//回到查看页
+        props.history.push(`/account/ctipActivity/info/${promotionId}`)
       };
     });
   };
@@ -190,7 +215,6 @@ const CtipActivityAddTwo=({...props})=> {
     staticPar();
     return ()=>{ Sessions.remove('currentdata') }
   },[]);
-  // useEffect(()=>{ form.setFieldsValue(activityInfo) },[activityInfo])
 
   const { pdScope, promotionType, beginTime, endTime, pdKind } = currentdata;
 
@@ -228,27 +252,42 @@ const CtipActivityAddTwo=({...props})=> {
               :
               <div>
                 <div className="set_title">
-                  {(promotionType == 11) && (
+                  {promotionType == 11 && (
                     <SetTitle type={promotionType}/>
                   )}
                 </div>
                 <ExportFile
+                  upDateList={upDateProductList}
                   currentdata={currentdata}
                   promotionId={promotionId}/>
-                <SetGoods
-                  proRules={proRules}
-                  form={form}
-                  dataSource={products}
-                  currentdata={currentdata}
-                  upDateList={upDateProductList}/>
+                <div className="act_setGoods">
+                  <div className="batch_set_box">
+                    共{products.length}条数据
+                  </div>
+                  <Qtable
+                    scroll={{ x: (promotionType == 10 || promotionType == 11) ? "140%" : ""}}
+                    columns={InitColumns(promotionType)}
+                    onOperateClick={onOperateClick}
+                    dataSource={products}/>
+                </div>
               </div>
              }
           </Card>
+          <EditModal
+            updateList={upDateProductList}
+            proRules={proRules}
+            dataSource={products}
+            form={form}
+            promotionType={promotionType}
+            visible={visible}
+            record={currentItem}
+            onVisible={onCancel}
+          />
         </Form>
         <div className="handle-operate-save-action">
           <Qbtn onClick={goback}> 上一步 </Qbtn>
-          <Qbtn size="free" onClick={()=>handSubmit('save')}>保存并预览</Qbtn>
-          <Qbtn size="free" onClick={()=>handSubmit('audit')}>保存并提交审核</Qbtn>
+          <Qbtn size="free" onClick={()=>handSubmit('1')}>保存并预览</Qbtn>
+          <Qbtn size="free" onClick={()=>handSubmit('2')}>保存并提交审核</Qbtn>
         </div>
       </div>
     </Spin>

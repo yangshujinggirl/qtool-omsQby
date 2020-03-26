@@ -1,16 +1,19 @@
-import { Spin, Card, Form } from 'antd';
+import { Spin, Modal, Card, Form } from 'antd';
 import { useEffect, useState } from 'react';
-import { Qmessage, Qbtn } from 'common';
+import { Qmessage, Qbtn, Qtable } from 'common';
 import { Sessions } from 'utils';
 import { GetAuditApi, GetSaveGoodsApi, GetGoodsInfoApi } from 'api/marketCenter/PosActivity';
 import ExportFile from "./components/ExportFile";
-import GoodsTable from "./components/GoodsTable";
 import StepMod from '../components/StepMod';
+import EditModal from './components/EditModal';
+import columnsAdd from './columns';
 
 const CtipActivityAddTwo=({...props})=> {
   const [form] = Form.useForm();
   let [products,setProducts] = useState([]);
   let [currentdata,setCurrentdata] = useState({});
+  let [visible, setVisible] = useState(false);
+  let [currentItem, setCurrentItem] = useState({});
   let promotionId = props.match.params.id;
 
   const staticPar =()=> {
@@ -19,33 +22,61 @@ const CtipActivityAddTwo=({...props})=> {
       Sessions.set("currentdata",JSON.stringify(state));
     }
   }
+  //获取商品信息
   const initPage=()=>{
     GetGoodsInfoApi(promotionId)
     .then((res)=> {
       let { promotionProducts } =res.result;
+      promotionProducts&&promotionProducts.map((el,index)=>el.key=index);
       setProducts(promotionProducts);
       setCurrentdata(JSON.parse(Sessions.get("currentdata")))
     })
   }
+  //更新商品列表
   const upDateProductList=(array)=> {
     setProducts(array)
   }
   const goback=()=> {
-    props.history.push(`/account/ctipActivity/add/${promotionId}`)
+    props.history.push(`/account/posActivity/add/${promotionId}`)
   }
-  //保存并预览
-  const handSubmit = async(type) => {
-    try {
-      let values = await form.validateFields();
-      sendQequest(type);
-    } catch (errorInfo) {
-      console.log('Failed:', errorInfo);
+  const onOperateClick=(record,type)=> {
+    let handIndex = products.findIndex((el)=>el.pdCode==record.pdCode);
+    switch(type){
+      case "delete":
+        handleDelete(handIndex);
+        break;
+      case "edit":
+        handleEdit(record,handIndex);
+        break;
     }
+  }
+  //编辑
+  const handleEdit = (record,index) => {
+    record = {...record,index};
+    setCurrentItem(record);
+    setVisible(true);
   };
-  //发送请求
-  const sendQequest = type => {
-    const { promotionId, promotionType,pdScope } = currentdata;
-    const { goodLists } = this.props;
+  //删除
+  const handleDelete = (index) => {
+    Modal.confirm({
+      title: '是否删除此商品?',
+      content: '是否删除此商品?',
+      okText:"确认删除",
+      cancelText:"暂不删除",
+      onOk() {
+        products.splice(index, 1);
+        products=[...products]
+        setProducts(products);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+  const onCancel = () => { setVisible(false)};
+  //保存
+  const handSubmit = async(type) => {
+    const { promotionId, promotionType } = currentdata;
     if (products.length == 0) {
       Qmessage.error("请至少添加一个活动商品");
       return
@@ -54,11 +85,13 @@ const CtipActivityAddTwo=({...props})=> {
     values.promotionRules = products;
     GetSaveGoodsApi(values)
     .then(res => {
+      let {result} =res;
       if (type == "audit") {
         Qmessage.success("提交审核成功");
-        GetAuditApi({promotionId})
+        GetAuditApi({promotionId,createUser:currentdata.createUser})
         .then(res=>{
-          props.history.push(`/account/pos_preferential_promotion`) //回到列表页
+          let datas={ createUser:currentdata.createUser}
+          props.history.push({pathname:`/account/posAudit/edit/${promotionId}/${result.approvalId}`,state:datas})
         });
       };
       if (type == "save") {//回到查看页
@@ -72,7 +105,7 @@ const CtipActivityAddTwo=({...props})=> {
     staticPar();
     return ()=>{ Sessions.remove('currentdata') }
   },[]);
-  const { pdScope, promotionType, beginTime, endTime, pdKind } = currentdata;
+  const { promotionType } = currentdata;
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
@@ -84,7 +117,18 @@ const CtipActivityAddTwo=({...props})=> {
                 upDateList={upDateProductList}
                 currentdata={currentdata}
                 promotionId={promotionId}/>
-              <GoodsTable dataSource={products} currentdata={currentdata}/>
+              <Qtable
+                scroll={{ x: 140 }}
+                columns={columnsAdd}
+                onOperateClick={onOperateClick}
+                dataSource={products}/>
+              <EditModal
+                upDateList={upDateProductList}
+                dataSource={products}
+                form={form}
+                visible={visible}
+                record={currentItem}
+                onCancel={onCancel}/>
             </div>
           </Card>
         </Form>

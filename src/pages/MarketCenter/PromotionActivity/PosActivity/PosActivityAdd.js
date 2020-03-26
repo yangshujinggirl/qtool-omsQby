@@ -51,7 +51,7 @@ const CtipActivityAdd =({...props})=> {
     }
   }
   const goReturn=()=> {
-    props.history.push('/account/c_preferential_promotion')
+    props.history.push('/account/pos_preferential_promotion')
   }
   const upDateCouponList=(array)=> {
     setCouponList(array)
@@ -103,9 +103,9 @@ const CtipActivityAdd =({...props})=> {
           beginTime:values.beginTime,
           endTime:values.endTime,
           pdKind:values.pdKind,
-          pdScope:values.pdScope,
           promotionId:values.promotionId,
-          promotionType
+          promotionType,
+          createUser:activityInfo.createUser
         }
         props.history.push({pathname:`/account/posActivity/addTwo/${promotionId}`,state:datas})
       })
@@ -148,7 +148,7 @@ const CtipActivityAdd =({...props})=> {
   //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
-    let { bearers=[], ...valFileds } = allValues;
+    // let { bearers=[], ...valFileds } = allValues;
     if(currentKey == 'bearers') {
       let newArray = [...allValues['bearers']];
       setRatioList(newArray);

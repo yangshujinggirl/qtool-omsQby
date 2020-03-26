@@ -50,3 +50,9 @@ export function GetShopListApi(values) {
 export function GetShopAddressApi(values) {
     return erpAjax.get(`/shop/query`,{params:{...values}});
 }
+/*
+门店地址信息
+ */
+export function GetCityApi() {
+    return erpAjax.get(`/bsregion/list`);
+}

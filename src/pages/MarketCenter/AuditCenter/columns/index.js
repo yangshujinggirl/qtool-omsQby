@@ -51,18 +51,19 @@ const Columns =(activityType)=> {
       title: "操作",
       dataIndex: "",
       render: (text, record, index) => {
-        let baseKey = activityType=="1"?'ctipAudit':'posAudit'
+        let baseKeyOne = activityType=="1"?'ctipAudit':'posAudit';
+        let baseKeyTwo = activityType=="1"?'ctipActivity':'posActivity';
         return(
           <div className="list-handle-opreation">
             {
               record.status==1?
                 <Link
-                  to={`/account/${baseKey}/edit/${record.promotionId}`}>
+                  to={{pathname:`/account/${baseKeyOne}/edit/${record.promotionId}/${record.approvalId}`,state:{createUser:record.createUser}}}>
                   审核
                 </Link>
                 :
                 <Link
-                  to={`/account/${baseKey}/info/${record.promotionId}`}>
+                  to={`/account/${baseKeyTwo}/info/${record.promotionId}`}>
                   查看
                 </Link>
             }

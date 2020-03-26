@@ -4,15 +4,14 @@ import {
 } from 'antd';
 import NP from 'number-precision';
 import { useState, useEffect } from 'react';
-import { Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
+import { QupLoadAndDownLoad, Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
 import {
   GetSaveApi, GetSaveFreeApi,
   GetShopAddressApi, GetShopListApi,
-  GetSpuInfoApi
+  GetSpuInfoApi,GetCityApi
 } from 'api/home/OrderCenter/Border/ShopOrder';
 import './ShopOrderAdd.less';
 import { columnsAdd } from './column';
-import ImportFile from './components/ImportFile';
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -30,12 +29,19 @@ const formItemLayout = {
 
 const ShopOrderAdd=({...props})=> {
   const [form] = Form.useForm();
-  console.log(props)
   let orderType = props.match.params.type;//2赠品 1商品
   let SaveOrderApi = orderType==1?GetSaveApi:GetSaveFreeApi;
   let [totalData, setTotal] = useState({});
   let [shopList, setShopList] = useState([]);
   let [goodsList, setGoodsList] = useState([{key:0}]);
+  let [cityList, setCityList] = useState([]);
+  const getAdrressList=()=> {
+    GetCityApi()
+    .then((res)=> {
+      let { result } =res;
+      setCityList(result)
+    })
+  }
   //搜索门店
   const handleSearch = (value) => {
     GetShopListApi({name:value})
@@ -56,7 +62,7 @@ const ShopOrderAdd=({...props})=> {
     GetShopAddressApi({spShopId:option.key})
     .then((res) => {
       let { result } =res;
-      let cascaderAdress = [result.recProvinceId,result.recCityId,result.recDistrictId];
+      let cascaderAdress = [`${result.recProvinceId}`,`${result.recCityId}`,`${result.recDistrictId}`];
       totalData = {
         ...totalData,
         cascaderAdress,
@@ -67,6 +73,13 @@ const ShopOrderAdd=({...props})=> {
       }
       setTotal(totalData)
     })
+  }
+  //上传更新
+  const upDateFileList=(response)=> {
+    let { result } = response.result;
+    result=result?result:[]
+    result.map((el,index)=>el.key=index)
+    setGoodsList(result)
   }
   const handleBlur=(event,index,type)=> {
     let value = event.target.value;
@@ -84,14 +97,7 @@ const ShopOrderAdd=({...props})=> {
     GetSpuInfoApi(value)
     .then((res)=> {
       let { subList } =res.result;
-      let itemInfo={
-        code:subList[0].skuCode,
-        name:subList[0].productName,
-        displayName:subList[0].salesAttributeName,
-        price:subList[0].businessPrice,
-        amount:null
-      }
-      goodsList[index] = {...goodsList[index],...itemInfo };
+      goodsList[index] = {...goodsList[index],...subList[0] };
       goodsList=[...goodsList]
       setGoodsList(goodsList)
     })
@@ -102,7 +108,7 @@ const ShopOrderAdd=({...props})=> {
     goodsList.map((el)=> {
       if(el.qty) {
         qtySum=NP.plus(qtySum, el.qty)
-        el.amount=NP.times(el.qty,el.price);
+        el.amount=NP.times(el.qty,el.businessPrice);
         if(orderType==2) {
           el.amount=NP.times(el.qty,"0.01");
         }
@@ -152,6 +158,7 @@ const ShopOrderAdd=({...props})=> {
     })
   }
   const upDateList=(arrVal)=> { setGoodsList(arrVal) }
+  useEffect(()=>{ getAdrressList() },[])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList })},[goodsList])
 
@@ -184,20 +191,24 @@ const ShopOrderAdd=({...props})=> {
             <Form.Item label="收货地址">
               <Form.Item noStyle name="cascaderAdress" rules={[{ required: true, message: '请输入收货地址'}]}>
                 <Cascader
-                  options={CascaderAddressOptions}
+                  options={cityList}
                   placeholder="请选择省市区" />
               </Form.Item>
               <Form.Item noStyle name="recAddress" rules={[{ required: true, message: '请输入详细地址'}]}>
                 <Input placeholder="请输入详细地址" autoComplete="off"/>
               </Form.Item>
             </Form.Item>
-            <ImportFile action="/qtoolsErp/import/spOrder/skuCode" upDateList={upDateList}>
+            <QupLoadAndDownLoad
+              fileName="ordermd"
+              data={{type: 12}}
+              action="/qtoolsErp/import/excel"
+              upDateList={upDateFileList}>
               <BaseEditTable
                 btnText="添加商品"
                 upDateList={upDateList}
                 dataSource={goodsList}
                 columns={columnsAdd(handleBlur)}/>
-            </ImportFile>
+            </QupLoadAndDownLoad>
             <Form.Item label="商品数量" name="qtySum" rules={[{ required: true, message: '请输入商品数量'}]}>
               <Input placeholder="请输入商品数量" autoComplete="off" disabled/>
             </Form.Item>

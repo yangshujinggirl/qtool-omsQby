@@ -2,19 +2,16 @@ import {Link} from 'react-router-dom';
 import { Modal, Collapse, Spin } from 'antd';
 import { useState, useEffect } from 'react';
 import { Qbtn, Qmessage, Qpagination, Qtable } from 'common';
-import { GetLogApi } from 'api/marketCenter/PosAudit';
 import { GetBaseInfoApi, GetGoodsInfoApi } from 'api/marketCenter/PosActivity';
 import DetailBase from '../../PromotionActivity/PosActivity/components/DetailBase';
-import DetailLog from '../../PromotionActivity/PosActivity/components/DetailLog';
 import DetailGoods from '../../PromotionActivity/PosActivity/components/DetailGoods';
 
 const { confirm } = Modal;
 const { Panel } = Collapse;
 const formItemLayout = {
- labelCol: 3,
- wrapperCol:20,
+ labelCol: {span:3},
+ wrapperCol:{span:20},
 };
-
 function withSubscription(WrapComponents,handleType ) {//
   return ({...props})=> {
     const promotionId = props.match.params.id;
@@ -26,7 +23,11 @@ function withSubscription(WrapComponents,handleType ) {//
       GetBaseInfoApi(promotionId)
       .then((res)=> {
         let { result } =res;
-        setTotalData(result);
+        let { costApportions, ...val } =result;
+        costApportions=costApportions?costApportions:[];
+        costApportions.map((el,index)=>el.key=index);
+        val={...val,costApportions}
+        setTotalData(val);
       })
       GetGoodsInfoApi(promotionId)
       .then((res)=> {
@@ -35,25 +36,22 @@ function withSubscription(WrapComponents,handleType ) {//
         promotionProducts.map((el,index)=>el.key=index);
         setDataList(promotionProducts)
       })
-      if(handleType=="info") {
-        GetLogApi(promotionId)
-        .then((res)=> {
-          console.log(res)
-        })
-      }
     }
     useEffect(()=>{initPage()},[promotionId]);
 
-    return <Collapse accordion defaultActiveKey={['1']}>
-              <Panel header="活动信息" key="1">
-                <DetailBase info={totalData} {...formItemLayout}/>
-              </Panel>
-              <Panel header="活动商品" key="2">
-                <DetailGoods info={dataList}/>
-              </Panel>
-              {WrapComponents?<WrapComponents />:null
-              }
-          </Collapse>
+    return (
+      <div>
+        <Collapse accordion defaultActiveKey={['1']}>
+            <Panel header="活动信息" key="1">
+              <DetailBase info={totalData} formItemLayout={formItemLayout}/>
+            </Panel>
+            <Panel header="活动商品" key="2">
+              <DetailGoods info={dataList}/>
+            </Panel>
+            {WrapComponents({...props})}
+        </Collapse>
+      </div>
+    )
   }
 };
 export default withSubscription;
