@@ -11,10 +11,7 @@ const Columns = [
   },
   {
     title: "订单类型",
-    dataIndex: "sort",
-    render:(text,record,index)=>(
-      <span>{text==1?'门店采购单':'用户订单'}</span>
-    )
+    dataIndex: "sortStr",
   },
   {
     title: "异常原因",
@@ -71,15 +68,15 @@ const AbnormalGoods = [
   },
   {
     title: "应付单价",
-    dataIndex: "totalPrice"
+    dataIndex: "price"
   },
   {
     title: "应付总价",
-    dataIndex: "reNum"
+    dataIndex: "oughtToPay"
   },
   {
     title: "实付总价",
-    dataIndex: "refundMoney"
+    dataIndex: "totalPrice"
   }
 ];
 export { Columns, AbnormalGoods };

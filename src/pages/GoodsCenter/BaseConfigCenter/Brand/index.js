@@ -65,7 +65,6 @@ class Brand extends React.Component {
   };
   render() {
     const { brandLists, everyPage, currentPage, total, loading } = this.state;
-    console.log(brandLists)
     return (
       <Spin spinning={loading}>
         <div className="oms-common-index-pages-wrap">

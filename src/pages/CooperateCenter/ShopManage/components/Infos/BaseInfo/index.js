@@ -5,7 +5,7 @@ const BaseEdit = props => {
     <React.Fragment>
       <Form.Item label="门店图片">
         {props.infos.channelPic && (
-          <img
+          <img style={{width:'100px',height:'100px;'}}
             src={
               sessionStorage.getItem("oms_fileDomain") + props.infos.channelPic
             }

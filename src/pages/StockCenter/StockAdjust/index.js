@@ -21,7 +21,9 @@ const StockAdjust = () => {
     const { value } = e.target;
     getStockListApi({ skuCode: value }).then(res => {
       if (res.httpCode == 200) {
-        setTopList(res.result);
+        const {skuCode,productName,salesAttributeName,availableStock} = res.result;
+        const obj = {skuCode,productName,salesAttributeName,availableStock};
+        setTopList([obj]);
       }
     });
   };

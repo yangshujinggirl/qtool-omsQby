@@ -22,11 +22,11 @@ const ShopEdit = (props) => {
       <Form.Item label="营业时间">
         <React.Fragment>
           <Form.Item noStyle name="businessHoursS">
-            {moment(props.infos.businessHoursS).format("HH:mm")}
+            {props.infos.businessHoursS}
           </Form.Item>
           　至　
           <Form.Item noStyle name="businessHoursE">
-            {moment(props.infos.businessHoursE).format("HH:mm")}
+            {props.infos.businessHoursE}
           </Form.Item>
         </React.Fragment>
       </Form.Item>

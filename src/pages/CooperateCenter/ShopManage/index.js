@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Qbtn, Qpagination, Qtable } from "common/index";
 import FilterForm from "./components/FilterForm";
 import Columns from "./columns";
-import { getListApi } from "api/home/StockCenter/StoreManage";
+import { getListApi } from "api/home/CooperateCenter/ShopManage";
 
 /**
  * 功能作用：商品说明订单列表界面
@@ -14,9 +14,9 @@ class ShopManage extends Component {
     super(props);
     this.state = {
       dataList: [],
-      everyPage: "",
-      totalCount: "",
-      currentPage: "",
+      everyPage: 0,
+      total: 0,
+      currentPage: 0,
       inputValues: {}
     };
   }
@@ -29,7 +29,7 @@ class ShopManage extends Component {
     const params = { ...this.state.inputValues, ...values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, totalCount } = res.result;
+        let { result, everyPage, currentPage, total } = res.result;
         result.map(item => {
           item.key = item.id;
         });
@@ -37,7 +37,7 @@ class ShopManage extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount
+          total
         });
       }
     });
@@ -54,7 +54,7 @@ class ShopManage extends Component {
   };
 
   render() {
-    const { dataList, everyPage, currentPage, totalCount } = this.state;
+    const { dataList, everyPage, currentPage, total } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
@@ -68,7 +68,7 @@ class ShopManage extends Component {
           dataSource={dataList}
         />
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
       </div>

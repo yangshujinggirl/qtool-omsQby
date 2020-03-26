@@ -4,7 +4,7 @@ import {omsAjax} from '../../../Req'
  * 根据商品名获取库存列表
  */
 export function getStockListApi(values){
-    return omsAjax.get('/stock/updateBorderStock',{
+    return omsAjax.get('/stock/getSkuStock',{
        params:{...values}
     })
 }

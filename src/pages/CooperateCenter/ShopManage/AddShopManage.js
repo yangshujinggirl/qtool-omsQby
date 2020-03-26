@@ -5,11 +5,7 @@ import Address from "./components/Edits/Address";
 import Shop from "./components/Edits/Shop";
 import Cooperate from "./components/Edits/Cooperate";
 import moment from "moment";
-import {
-  getInfosApi,
-  saveInfosApi,
-  getProvinceListApi
-} from "api/home/CooperateCenter/ShopManage";
+import { getInfosApi, saveInfosApi } from "api/home/CooperateCenter/ShopManage";
 const formLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
@@ -44,15 +40,53 @@ class AddShopManage extends Component {
         if (res.httpCode == 200) {
           let {
             openingTime,
-            businessHoursE,
             businessHoursS,
+            businessHoursE,
+            channelPic,
+            contractPic,
+            province,
+            city,
+            area,
+            shProvince,
+            shCity,
+            shArea,
             ...infos
           } = res.result;
-          infos.openingTime = moment(openingTime);
-          infos.businessHoursE = moment(businessHoursE);
-          infos.businessHoursS = moment(businessHoursS);
-          console.log(infos);
+          infos.openingTime = openingTime ? moment(openingTime) : null;
+          infos.businessHoursE = businessHoursE ? moment(businessHoursE,'HH:mm') : null;
+          infos.businessHoursS = businessHoursS ? moment(businessHoursS,'HH:mm') : null;
+          console.log(infos)
+          infos.channelPic = channelPic
+            ? [
+                {
+                  uid: "1",
+                  name: "image.png",
+                  status: "done",
+                  url: sessionStorage.getItem("oms_fileDomain") + channelPic,
+                  img: channelPic
+                }
+              ]
+            : [];
+          infos.contractPic = contractPic
+            ? [
+                {
+                  uid: "2",
+                  name: "images.png",
+                  status: "done",
+                  url: sessionStorage.getItem("oms_fileDomain") + contractPic,
+                  img: contractPic
+                }
+              ]
+            : [];
+          infos.areacode = [province, city, area];
+          infos.shAreacode = [shProvince, shCity, shArea];
           this.formRef.current.setFieldsValue({ ...infos });
+          this.setState({
+            channelPic: channelPic || [],
+            contractPic: contractPic || [],
+            businessHoursE,
+            businessHoursS
+          });
         }
       })
       .catch(() => {
@@ -69,9 +103,7 @@ class AddShopManage extends Component {
    */
   handleSubmit = async () => {
     const values = await this.formRef.current.validateFields();
-    console.log(values);
     const _values = this.formatValue(values);
-    console.log(_values);
     saveInfosApi(_values).then(res => {
       if (res.httpCode == 200) {
         this.goBack();
@@ -84,12 +116,12 @@ class AddShopManage extends Component {
     if (channelPic.length) {
       _values.channelPic = channelPic[0].response
         ? channelPic[0].response.result
-        : channelPic[0].url;
+        : channelPic[0].img;
     }
     if (contractPic.length) {
       _values.contractPic = contractPic[0].response
         ? contractPic[0].response.result
-        : contractPic[0].url;
+        : contractPic[0].img;
     }
     if (openingTime) {
       _values.openingTime = moment(openingTime).format("YYYY-MM-DD HH:mm:ss");
@@ -99,6 +131,10 @@ class AddShopManage extends Component {
     }
     if (businessHoursE) {
       _values.businessHoursE = moment(businessHoursE).format("HH:mm");
+    }
+    const { id } = this.props.match.params;
+    if(id){
+      _values.id = id
     }
     return _values;
   };

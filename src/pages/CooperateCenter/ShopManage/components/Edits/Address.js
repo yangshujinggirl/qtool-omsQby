@@ -1,18 +1,17 @@
 import { Input, Cascader, Form } from "antd";
-import { CascaderAddressOptions } from "common";
 import React, { useEffect, useState } from "react";
 import { getProvinceListApi } from "api/home/CooperateCenter/ShopManage";
 
-const Address = () => {
-  const [provinceList, setProvinceList] = useState([]);
+const Address = props => {
+  const [options, setOptions] = useState([]);
   useEffect(() => {
     //获取省市区
     getProvinceListApi().then(res => {
       if (res.httpCode == 200) {
-        setProvinceList(provinceList);
+        setOptions(res.result);
       }
     });
-  },[]);
+  }, []);
   return (
     <React.Fragment>
       <Form.Item
@@ -20,10 +19,7 @@ const Address = () => {
         label="所属城市"
         rules={[{ required: true, message: "请选择所属城市" }]}
       >
-        <Cascader
-          placeholder="请选择所属城市"
-          options={provinceList}
-        />
+        <Cascader placeholder="请选择所属城市" options={options} />
       </Form.Item>
       <Form.Item
         name="address"
@@ -51,10 +47,7 @@ const Address = () => {
         label="收货城市"
         rules={[{ required: true, message: "请输入收货城市" }]}
       >
-        <Cascader
-          placeholder="请输入收货城市"
-          options={provinceList}
-        />
+        <Cascader placeholder="请输入收货城市" options={options} />
       </Form.Item>
       <Form.Item
         name="shAddress"

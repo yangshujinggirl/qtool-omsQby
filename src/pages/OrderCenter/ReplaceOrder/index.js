@@ -22,7 +22,7 @@ class ReplaceOrder extends Component {
       selectedRows: [],
       selectedRowKeys: [],
       visible: false,
-      orderNo: "",
+      orderDetailNo:'',
       loading:false
     };
   }
@@ -62,7 +62,7 @@ class ReplaceOrder extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount: total
+          total
         });
       }
     }).catch(()=>{
@@ -94,7 +94,7 @@ class ReplaceOrder extends Component {
   handleOperateClick = record => {
     this.setState({
       visible: true,
-      orderNo: record.order_no
+      orderDetailNo: record.orderDetailNo
     });
   };
   //发货保存
@@ -112,18 +112,22 @@ class ReplaceOrder extends Component {
   //发货取消
   onCancel = () => {
     this.setState({
-      visible: true
+      visible: false
     });
   };
+  //批量发货模板
+  batchFahuo=()=>{
+    window.open("src/static/fahuo.xls");
+  }
   render() {
     const {
       dataList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
       selectedRowKeys,
       visible,
-      orderNo,
+      orderDetailNo,
       loading
     } = this.state;
     const rowSelection = {
@@ -148,7 +152,7 @@ class ReplaceOrder extends Component {
           <Upload {...uploadProps}>
             <Qbtn onClick={this.cancelPush}>批量发货</Qbtn>
           </Upload>
-          <Qbtn size="free" onClick={this.cancelPush}>
+          <Qbtn size="free" onClick={this.batchFahuo}>
             批量发货模板
           </Qbtn>
           <Qbtn onClick={this.exportData}>导出数据</Qbtn>
@@ -162,17 +166,21 @@ class ReplaceOrder extends Component {
         />
         {dataList.length > 0 ? (
           <Qpagination
-            data={{ everyPage, currentPage, totalCount }}
+            data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
             onShowSizeChange={this.onShowSizeChange}
           />
         ) : null}
-        <SendModal
+        {
+          visible&&
+          <SendModal
           onOk={this.onOk}
           onCancel={this.onCancel}
           visible={visible}
-          orderNo={orderNo}
+          orderDetailNo={orderDetailNo}
         />
+        }
+       
       </div>
       </Spin>
     );
