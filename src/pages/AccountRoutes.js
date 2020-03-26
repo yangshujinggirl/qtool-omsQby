@@ -77,7 +77,7 @@ import AddPurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut/AddPurchaseO
 import ShopOrder from './OrderCenter/Border/ShopOrder' //门店订单
 import ShopOrderDetail from './OrderCenter/Border/ShopOrder/ShopOrderDetail' //门店订单详情
 import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //新建门店订单
-import ShopReturnOrderAdd from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderAdd' //新建门店退单
+import ShopReturnOrderAdd from './OrderCenter/Border/ShopOrder/ShopReturnOrderAdd' //新建门店退单
 import ShopReturnOrder from './OrderCenter/Border/ShopReturnOrder' //门店退单
 import ShopReturnOrderDetail from './OrderCenter/Border/ShopReturnOrder/ShopReturnOrderDetail' //门店退单
 
@@ -247,7 +247,7 @@ class HomeRoutes extends React.Component {
 
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}
                 <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
-                <Route exact path="/account/supplierManage" component={SupplierManage}/>
+                <Route exact path="/account/supplier" component={SupplierManage}/>
                 <Route exact path='/account/channel' component={ShopManage}/>
                 <Route exact path='/account/shopManage_edit/:id?' component={AddShopManage}/>
                 <Route exact path='/account/shopManage_infos/:id?' component={ShopManageInfo}/>
