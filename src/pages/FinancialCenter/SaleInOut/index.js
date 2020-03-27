@@ -40,7 +40,7 @@ const SaleInOut = QbaseList((_this) => {
     return <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
         <div className="handle-operate-btn-action">
-            <Qbtn size="free" onClick={() => new ErpExportApi()}>导出数据</Qbtn>
+            <Qbtn size="free" onClick={() => new ErpExportApi(_this.state.searchCriteriaList, "spIncome/export")}>导出数据</Qbtn>
             <div style={{float: 'right'}}>
                 <Popover content={content} title="销售收款计算规则" trigger="hover" placement="leftTop">
                     <div>销售收款计算规则<QuestionCircleOutlined

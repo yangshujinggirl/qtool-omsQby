@@ -51,5 +51,11 @@ const DirectMail = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     )
-}, getDirectMailListApi, false);
+}, getDirectMailListApi, false,null,null,(_this,params)=>{
+    console.log(params)
+    return{
+        orderType:4,
+        ...params
+    }
+});
 export default DirectMail;

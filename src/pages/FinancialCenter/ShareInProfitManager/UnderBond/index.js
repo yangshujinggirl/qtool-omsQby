@@ -53,5 +53,11 @@ const UnderBond = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     )
-}, getUnderBondListApi, false);
+}, getUnderBondListApi, false,null,null,(_this,params)=>{
+    console.log(params)
+    return{
+        orderType:5,
+        ...params
+    }
+});
 export default UnderBond;

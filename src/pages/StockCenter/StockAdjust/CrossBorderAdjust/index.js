@@ -1,18 +1,18 @@
 import { Qtable } from "common";
 import { useState } from "react";
 import { Form, Input, Button } from "antd";
-import {columns1,columns2} from './columns'
-import "./index.less";
+import { columns1, columns2 } from "./columns";
 import {
   getStockListApi,
   getChangedStockApi
-} from "api/home/StockCenter/StockAdjust";
+} from "api/home/StockCenter/StockAdjust/CrossBorderAdjust";
+import "./index.less";
 const formLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 }
 };
 
-const StockAdjust = () => {
+const CrossBorderAdjust = () => {
   const [form] = Form.useForm();
   const [topList, setTopList] = useState([]);
   const [bottomList, setBottomList] = useState([]);
@@ -21,8 +21,19 @@ const StockAdjust = () => {
     const { value } = e.target;
     getStockListApi({ skuCode: value }).then(res => {
       if (res.httpCode == 200) {
-        const {skuCode,productName,salesAttributeName,availableStock} = res.result;
-        const obj = {skuCode,productName,salesAttributeName,availableStock};
+        const {
+          skuCode,
+          productName,
+          salesAttributeName,
+          availableStock
+        } = res.result;
+        const obj = {
+          skuCode,
+          productName,
+          salesAttributeName,
+          availableStock,
+          key:0,
+        };
         setTopList([obj]);
       }
     });
@@ -34,6 +45,7 @@ const StockAdjust = () => {
       if (res.httpCode == 200) {
         const arr = [...bottomList];
         arr.push({ ...res.result });
+        arr.map((item,index)=>item.key = index)
         setBottomList(arr);
       }
     });
@@ -61,7 +73,10 @@ const StockAdjust = () => {
         <Form.Item
           name="adjustment"
           label="增减库存"
-          rules={[{ required: true, message: "请输入增减库存" }]}
+          rules={[
+            { required: true, message: "请输入增减库存" },
+            { pattern: /^[^[+]{0,1}(\d+)$/, message: "请输入整数" }
+          ]}
         >
           <Input
             style={{ width: "300px" }}
@@ -84,4 +99,4 @@ const StockAdjust = () => {
     </div>
   );
 };
-export default StockAdjust;
+export default CrossBorderAdjust;

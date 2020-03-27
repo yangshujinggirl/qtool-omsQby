@@ -1,9 +1,9 @@
-import React from 'react'
-import {QbaseList, Qbtn, Qtable} from "common/index";
+import React from "react";
+import { QbaseList, Qbtn, Qtable, Qpagination } from "common/index";
 import Columns from "./column";
-import {getListApi} from "api/home/FinancialCenter/ShoperInOut";
+import { getListApi } from "api/home/FinancialCenter/ShoperInOut";
 import FilterForm from "./components/FilterForm";
-import {ErpExportApi} from "../../../api/Export";
+import { ErpExportApi } from "../../../api/Export";
 
 /**
  * 功能作用：掌柜收支明细页面
@@ -15,17 +15,40 @@ import {ErpExportApi} from "../../../api/Export";
  * 修改时间：
  * 备注：
  */
-const ShopkeeperInOut = QbaseList((_this) => {
-    const {dataList} = _this.state;
-    return <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
+const ShopkeeperInOut = QbaseList(
+  _this => {
+    const {
+      everyPage,
+      currentPage,
+      total,
+      dataList,
+      searchCriteriaList
+    } = _this.state;
+    return (
+      <div className="oms-common-index-pages-wrap">
+        <FilterForm
+          onSubmit={_this.searchDataList}
+          selectTimeChange={_this.selectTimeChange}
+        />
         <div className="handle-operate-btn-action">
-            <Qbtn size="free" onClick={() => new ErpExportApi()}>导出数据</Qbtn>
+          <Qbtn
+            size="free"
+            onClick={() =>
+              new ErpExportApi(searchCriteriaList, "/spmoney/list/export")
+            }
+          >
+            导出数据
+          </Qbtn>
         </div>
-        <Qtable
-            columns={Columns}
-            select={true}
-            dataSource={dataList}/>
-    </div>
-}, getListApi, false);
-export default ShopkeeperInOut
+        <Qtable columns={Columns} select={true} dataSource={dataList} />
+        <Qpagination
+          data={{ everyPage, currentPage, total }}
+          onChange={_this.changePage}
+        />
+      </div>
+    );
+  },
+  getListApi,
+  false
+);
+export default ShopkeeperInOut;

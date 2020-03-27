@@ -6,7 +6,7 @@ import {erpAjax} from "./../../Req";
  * @return {*}
  */
 export function getListApi(values) {
-    return erpAjax.get("/spmoney/detail/query", {
+    return erpAjax.get("spmoney/detail/query", {
         params: values
     });
 }
