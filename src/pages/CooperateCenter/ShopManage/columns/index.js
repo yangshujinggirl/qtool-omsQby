@@ -9,40 +9,37 @@ const Columns = [{
     }
 }, {
     title: '门店店主',
-    dataIndex: 'channelPhone'
-},{
-    title: '门店联系电话',
     dataIndex: 'person'
 },{
+    title: '门店联系电话',
+    dataIndex: 'channelPhone'
+},{
     title: '门店类型',
-    dataIndex: 'channelType',
-    render:(text,record,index)=>(
-        <span>{text==1?'直营店':(text==2?'联营店':(text==3?'加盟店':(text==4?'APP':'小程序')))}</span>
-    )
+    dataIndex: 'channelTypeStr',
+    // render:(text,record,index)=>(
+    //     <span>{text==1?'直营店':(text==2?'联营店':(text==3?'加盟店':(text==4?'APP':'小程序')))}</span>
+    // )
 },{
     title: '营业状态',
-    dataIndex: 'channelStatus',
-    render:(text,record,index)=>(
-        <span>{text==1?'开业中':(text==2?'待开业':'关业中')}</span>
-    )
+    dataIndex: 'channelStatusStr',
+    // render:(text,record,index)=>(
+    //     <span>{text==1?'开业中':(text==2?'待开业':'关业中')}</span>
+    // )
 },{
     title: '所在地区',
-    dataIndex: 'provinces',
-    render:(text,record,index)=>(
-    <span>{record.shProvince}{record.shCity}{record.shArea}</span>
-    )
+    dataIndex: 'addressPrefix',
 },{
     title: '账户余额',
-    dataIndex: 'amount'
+    dataIndex: 'quota'
 },{
     title: '门店积分',
     dataIndex: 'score'
 },{
     title: '创建人',
-    dataIndex: 'toDeductTotalPoints'
+    dataIndex: 'createBy'
 },{
     title: '最后修改人',
-    dataIndex: 'toDeductTotalPoints'
+    dataIndex: 'modifyBy'
 },{
     title: '操作',
     dataIndex: 'opation',

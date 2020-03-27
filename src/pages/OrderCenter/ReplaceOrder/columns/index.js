@@ -5,6 +5,10 @@ const Columns = [
     dataIndex: "orderNo"
   },
   {
+    title: "子订单号",
+    dataIndex: "orderDetailNo"
+  },
+  {
     title: "门店名称",
     dataIndex: "channelName"
   },

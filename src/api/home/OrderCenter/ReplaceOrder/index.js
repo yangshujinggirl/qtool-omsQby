@@ -5,7 +5,7 @@ export function getListApi(values) {
 }
 //发货
 export function sendGoodsApi(values) {
-  return omsAjax.post("/orderagency/sendOrder", values);
+  return omsAjax.get("/orderagency/sendOrder", { params: values });
 }
 //生成代购单
 export function createPurchaseinOrderApi(values) {

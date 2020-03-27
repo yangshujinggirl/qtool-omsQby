@@ -10,17 +10,17 @@ class NormalForm extends BaseFilter {
     return (
       <div className="qtoolOms-condition">
         <Form
-          ref={this.formRef}
-          className="qtools-condition-form"
-          {...this.formItemLayout}
+         className="serach-common-form"
+         ref={this.formRef}
+         {...this.formItemLayout}
         >
-          <Row>
-            <Col {...this.colspan}>
+          <Row gutter={24}>
+            <Col {...this.colspans}>
               <Form.Item name="name" label="门店名称">
                 <Input placeholder="请输入门店名称" autoComplete="off" />
               </Form.Item>
             </Col>
-            <Col {...this.colspan}>
+            <Col {...this.colspans}>
               <Form.Item name="channelPopularizeCoding" label="门店店主">
                 <Input placeholder="请输入门店店主" autoComplete="off" />
               </Form.Item>
@@ -30,7 +30,7 @@ class NormalForm extends BaseFilter {
                 <Cascader options={CascaderAddressOptions}/>
               </Form.Item>
             </Col>
-            <Col {...this.colspan}>
+            <Col {...this.colspans}>
               <Form.Item name="shopType" label="营业状态">
                 <Select allowClear={true} placeholder="请选择营业状态">
                   <Option value={1} key={1}>
@@ -45,7 +45,7 @@ class NormalForm extends BaseFilter {
                 </Select>
               </Form.Item>
             </Col>
-            <Col {...this.colspan}>
+            <Col {...this.colspans}>
               <Form.Item name="shopType" label="门店类型">
                 <Select allowClear={true} placeholder="请选择门店类型">
                   <Cascader options={CascaderAddressOptions} />

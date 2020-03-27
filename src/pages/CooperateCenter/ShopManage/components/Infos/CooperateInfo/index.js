@@ -35,7 +35,7 @@ const Cooperate = props => {
       </Form.Item>
       <Form.Item label="合同信息">
         {props.infos.contractPic && (
-          <img
+          <img style={{width:'100px',height:'100px;'}}
             src={
               sessionStorage.getItem("oms_fileDomain") + props.infos.contractPic
             }

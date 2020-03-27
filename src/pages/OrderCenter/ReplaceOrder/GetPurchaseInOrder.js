@@ -21,6 +21,7 @@ const GetPurchaseInOrder = props => {
   useEffect(() => {
     getDataSource();
   }, []);
+  //获取采购列表
   const getDataSource = () => {
     let [dataSource, obj, totalNum, totalPrice] = [[], {}, 0, 0];
     const replaceList = JSON.parse(sessionStorage.getItem("replaceList"));
@@ -154,6 +155,7 @@ const GetPurchaseInOrder = props => {
   const onSelect = (value, option) => {
     setId(option.key);
   };
+  //提交
   const handleSubmit = () => {
     const values = form.validateFields();
     let dfList = [];
