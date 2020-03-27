@@ -9,6 +9,11 @@ export function GetListApi(values) {
         params: { ...values }
     });
 }
+export function GetInfoApi(values) {
+    return omsAjax.get("/orderRefund/refundDetail", {
+        params: { ...values }
+    });
+}
 export function GetCancelApi(values) {
-    return appAjax.post("/orderRefund/batchOperation", {...values});
+    return omsAjax.post("/orderRefund/batchOperation", {...values});
 }

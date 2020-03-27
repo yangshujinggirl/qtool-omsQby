@@ -235,7 +235,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/shopOrder/add/:type' component={ShopOrderAdd}/>
                 <Route exact path='/account/channel_refund_orders' component={ShopReturnOrder}/>
                 <Route exact path='/account/channel_refund_orders/detail/:id?' component={ShopReturnOrderDetail}/>
-                <Route exact path='/account/shopReturn/add/:id?' component={ShopReturnOrderAdd}/>
+                <Route exact path='/account/shopReturn/add' component={ShopReturnOrderAdd}/>
                 <Route exact path='/account/subscriber_refund_orders' component={UserReturn}/>
                 <Route exact path='/account/allReturn_infos/:id?' component={AllReturnInfo}/>
                 <Route exact path='/account/auditReturn_info/:id?' component={AuditReturnInfo}/>

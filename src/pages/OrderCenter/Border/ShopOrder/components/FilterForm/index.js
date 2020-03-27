@@ -2,18 +2,6 @@ import React from "react";
 import {Form, Input, Select, Row, Col, DatePicker} from "antd";
 import {Qbtn} from "common";
 import moment from "moment";
-import {
-    AGENCY_SEND_STATUS_NO,
-    AGENCY_SEND_STATUS_YES,
-    AUDIT_STATUS_CANCEL,
-    AUDIT_STATUS_SENT,
-    AUDIT_STATUS_STAY_IN_A_SINGLE,
-    AUDIT_STATUS_WAIT_PENDING,
-    AUDIT_STATUS_WAIT_SEND, DIRECT_MAIL_STATUS_NO, DIRECT_MAIL_STATUS_YES,
-    ORDER_FROM_Q_SHOPKEEPER,
-    ORDER_FROM_Q_TOY_STORY_LAND, PRE_SELL_STATUS_NO,
-    PRE_SELL_STATUS_YES
-} from "../../config";
 import {BaseFilter} from "common/index";
 import {FilterSearchRangeTime} from "common/QdisabledDateTime";
 
@@ -57,43 +45,33 @@ export default class SearchForm extends BaseFilter {
                         <Col {...this.colspans}>
                             <FormItem label="订单状态" name="status" {...this.formItemLayout}>
                                 <Select placeholder="请选择订单状态" allowClear={true}>
-                                    <Option value={AUDIT_STATUS_WAIT_PENDING}>待处理</Option>
-                                    <Option value={AUDIT_STATUS_STAY_IN_A_SINGLE}>待合单</Option>
-                                    <Option value={AUDIT_STATUS_WAIT_SEND}>待发货</Option>
-                                    <Option value={AUDIT_STATUS_SENT}>已发货</Option>
-                                    <Option value={AUDIT_STATUS_CANCEL}>已取消</Option>
+                                    <Option value={10}>待发货</Option>
+                                    <Option value={20}>已发货</Option>
+                                    <Option value={30}>已取消</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
                             <FormItem label="订单来源" name="source" {...this.formItemLayout}>
                                 <Select placeholder="请选择订单来源" allowClear={true}>
-                                    <Option value={ORDER_FROM_Q_TOY_STORY_LAND}>Q本营</Option>
-                                    <Option value={ORDER_FROM_Q_SHOPKEEPER}>Q掌柜</Option>
+                                    <Option value={2}>Q本营</Option>
+                                    <Option value={1}>Q掌柜</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
                             <FormItem label="是否预售" name="preSellStatus" {...this.formItemLayout}>
                                 <Select placeholder="请选择" allowClear={true}>
-                                    <Option value={PRE_SELL_STATUS_YES}>是</Option>
-                                    <Option value={PRE_SELL_STATUS_NO}>否</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <Col {...this.colspans}>
-                            <FormItem label="是否直邮" name="step" {...this.formItemLayout}>
-                                <Select placeholder="请选择" allowClear={true}>
-                                    <Option value={DIRECT_MAIL_STATUS_YES}>是</Option>
-                                    <Option value={DIRECT_MAIL_STATUS_NO}>否</Option>
+                                    <Option value={1}>是</Option>
+                                    <Option value={0}>否</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
                             <FormItem label="是否代发" name="step" {...this.formItemLayout}>
                                 <Select placeholder="请选择" allowClear={true}>
-                                    <Option value={AGENCY_SEND_STATUS_YES}>是</Option>
-                                    <Option value={AGENCY_SEND_STATUS_NO}>否</Option>
+                                    <Option value={1}>是</Option>
+                                    <Option value={0}>否</Option>
                                 </Select>
                             </FormItem>
                         </Col>

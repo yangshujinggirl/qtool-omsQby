@@ -11,7 +11,7 @@ import {
   GetSpuInfoApi,GetCityApi
 } from 'api/home/OrderCenter/Border/ShopOrder';
 import './ShopOrderAdd.less';
-import { columnsAdd } from './column';
+import { ColumnsAdd } from './column';
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -207,7 +207,7 @@ const ShopOrderAdd=({...props})=> {
                 btnText="添加商品"
                 upDateList={upDateList}
                 dataSource={goodsList}
-                columns={columnsAdd(handleBlur)}/>
+                columns={ColumnsAdd(handleBlur)}/>
             </QupLoadAndDownLoad>
             <Form.Item label="商品数量" name="qtySum" rules={[{ required: true, message: '请输入商品数量'}]}>
               <Input placeholder="请输入商品数量" autoComplete="off" disabled/>

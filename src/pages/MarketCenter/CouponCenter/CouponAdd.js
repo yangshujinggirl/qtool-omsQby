@@ -2,10 +2,11 @@ import {
   Input,Spin,Form,Upload,Select,Table,Card,Tag,
   Row,Col,Checkbox,Button,Radio,AutoComplete,DatePicker
 } from 'antd';
-import { Qbtn, Qmessage, BaseEditTable } from 'common';
+import { Qbtn, Qmessage, BaseEditTable, QupLoadAndDownLoad } from 'common';
 import { useState, useEffect } from 'react';
 import Proration from '../components/Proration';
 import { GetBrandApi, GetAddApi, GetSpuCodeApi } from 'api/marketCenter/CouponCenter';
+import { GetSuppliApi } from 'api/marketCenter/CtipActivity';
 import { ColumnsAdd } from './columns';
 
 let { RangePicker } =DatePicker;
@@ -26,15 +27,22 @@ const formItemLayout = {
     };
 const CouponAdd=({...props})=> {
   const [form] = Form.useForm();
-  let [totalData, setTotalData]=useState({});
-  let [goodsList, setGoodsList] =useState([]);
-  let [tagsList, setTagsList] =useState([]);
-  let [ratioList, setRatioList] =useState([]);
-  let [brandList, setBrandList] =useState([]);
-  let [selectBdList, setSelectBdList] =useState([]);
+  let [totalData, setTotalData]=useState({couponUseScope:"4"});
+  let [goodsList, setGoodsList] =useState([]);//商品信息
+  let [tagsList, setTagsList] =useState([]);//分成
+  let [ratioList, setRatioList] =useState([]);//成本比例
+  let [brandList, setBrandList] =useState([]);//品牌list
+  let [selectBdList, setSelectBdList] =useState([]);//选中品牌
+  let [selectBdKeyList, setSelectBdkeyList] =useState([]);
   let [limitDisabled, setLimitDisabled] =useState(false);
 
-
+  //上传更新
+  const upDateFileList=(response)=> {
+    let { result } = response;
+    result=result?result:[]
+    result.map((el,index)=>el.key=index)
+    setGoodsList(result)
+  }
   const upDateGoodsList=(array)=> {
     setGoodsList(array)
   }
@@ -78,23 +86,24 @@ const CouponAdd=({...props})=> {
   //品牌选中
   const handleBrandSelect = (value, option) => {
     selectBdList = [...selectBdList,...[{key:option.key,value:value}]];
+    let bdKeyList = selectBdList.map((el)=>{return el.key})
     setSelectBdList(selectBdList);
+    setSelectBdKeyList(bdKeyList);
   };
   //商品查询
-  const handleBlur=(e)=> {
+  const handleBlur=(e,index)=> {
     let value = e.target.value;
-    let pdBrandIdList = selectBdList.map((el)=>{return el.key})
-    debugger
     let params = {
-      spuCode:value,
+      pdCode:value,
       couponUseScope:totalData.couponUseScope,
-      pdBrandIdList
+      pdBrandIdList:selectBdKeyList
     }
     GetSpuCodeApi(params)
     .then((res)=> {
-      let { result } =res;
-
-      console.log(res)
+      let { pdList } =res.result;
+      goodsList[index]={...pdList,key:index};
+      goodsList=[...goodsList]
+      setGoodsList(goodsList)
     })
   }
   const submit = async () => {
@@ -122,13 +131,9 @@ const CouponAdd=({...props})=> {
   const goReturn=()=> {
     props.history.push('/account/coupon_centre')
   }
-  const sendCouponCountChange=()=> {
-
-  }
   //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
-    let { bearers=[], pdDetailBannerPic, logoPic, websiteBanner, shareWechatCfPic, shareWechatPic, ...valFileds } = allValues;
     if(currentKey == 'bearers') {
       let newArray = [...allValues['bearers']];
       setRatioList(newArray);
@@ -139,9 +144,30 @@ const CouponAdd=({...props})=> {
     totalData = {...totalData,...allValues};
     setTotalData(totalData)
   }
+  const tipsMap=(type)=> {
+    let tips;
+    switch(type) {
+      case 1:
+        tips="注册领取意为当新用户注册成功后，即发放优惠券到账，无需用户手动领取";
+        break;
+      case 3:
+        tips="手动领取意为优惠券在App需要用户手动领取使用。会员权益礼包券请创建此类型。";
+        break;
+      case 2:
+        tips="注券意为将优惠券发放给相应用户，创建完成后在优惠券列表的操作处点击注券即可开始注券流程。";
+        break;
+      case 4:
+        tips="系统自动发放到账意为发放优惠券到用户账户，此类型仅限会员生日礼包券使用。";
+        break;
+      default:
+        tips="注册领取意为当新用户注册成功后，即发放优惠券到账，无需用户手动领取";
+    }
+    return tips;
+  }
   useEffect(()=>{ form.setFieldsValue({bearers:ratioList}) },[ratioList]);
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData]);
-  console.log(selectBdList)
+  useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList]);
+  console.log(ratioList)
   return(
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
@@ -205,12 +231,12 @@ const CouponAdd=({...props})=> {
               元可用,只可输入0，正整数
             </FormItem>
             <Proration
+              supplierApi={GetSuppliApi}
               upDateRatioList={upDateRatioList}
               upDateTagList={upDateTagList}
               tagsList={tagsList}
               ratioList={ratioList}
-              form={form}
-              activityInfo={totalData}/>
+              form={form}/>
             <FormItem label="优惠券有效期">
               <FormItem
                 name="couponValid"
@@ -255,10 +281,7 @@ const CouponAdd=({...props})=> {
                 </RadioGroup>
               </FormItem>
               <div className="suffix_tips coupon_tips">
-                <p>注册领取意为当新用户注册成功后，即发放优惠券到账，无需用户手动领取。</p>
-                <p>手动领取意为优惠券在App需要用户手动领取使用。会员权益礼包券请创建此类型。</p>
-                <p>注券意为将优惠券发放给相应用户，创建完成后在优惠券列表的操作处点击注券即可开始注券流程。</p>
-                <p>系统自动发放到账意为发放优惠券到用户账户，此类型仅限会员生日礼包券使用。</p>
+                <p>{tipsMap(totalData.couponUseScene)}</p>
               </div>
             </FormItem>
             <FormItem label="预计发放张数">
@@ -358,19 +381,20 @@ const CouponAdd=({...props})=> {
               shouldUpdate={(prevValues, currentValues) => prevValues.spuScope !== currentValues.spuScope}>
               {({ getFieldValue }) => {
                 return getFieldValue('spuScope') == 1&&
-                <FormItem label="商品信息">
-                  <div>
-                    <Qbtn onClick={goReturn}> 导入商品 </Qbtn>
-                    <Qbtn size="free" onClick={()=>submit(1)}>下载导入模板</Qbtn>
-                  </div>
-                  <div>
+                <QupLoadAndDownLoad
+                  fileName="activityCoupon"
+                  data={{
+                    pdBrandIdList:selectBdKeyList,
+                    couponUseScope:totalData.couponUseScope
+                  }}
+                  action="/qtoolsApp/couponManager/pdimport"
+                  upDateList={upDateFileList}>
                     <BaseEditTable
                       btnText="添加商品"
                       upDateList={upDateGoodsList}
                       dataSource={goodsList}
                       columns={ColumnsAdd(handleBlur)}/>
-                  </div>
-                </FormItem>
+                </QupLoadAndDownLoad>
               }}
             </FormItem>
           </Card>

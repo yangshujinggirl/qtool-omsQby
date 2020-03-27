@@ -1,6 +1,5 @@
 import { Input, Tag, Form, Checkbox, AutoComplete, Table } from 'antd';
 import { useState, useEffect } from 'react';
-// import { GetSuppliApi } from 'api/marketCenter/CtipActivity';
 import lodash from 'lodash';
 
 const FormItem = Form.Item;
@@ -116,7 +115,7 @@ const Proration=({...props})=> {
   const handleSearch=(value)=> {
     supplierApi({name:value})
     .then((res) => {
-      const { result } =res.result;
+      const { result } =res;
       let options=[];
       options = result&&result.map((el,index)=>{
         let item={};
@@ -159,7 +158,7 @@ const Proration=({...props})=> {
     props.upDateRatioList(ratioList);
   }
   let blColumns = ColumnsCreat(validatorRatio,ratioList);
-
+  console.log(ratioList)
   return <div>
             <FormItem label='活动成本承担方'>
               <FormItem name="costApportion" rules={[{ required: true, message: '请选择活动成本承担方'}]} noStyle>

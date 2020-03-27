@@ -7,27 +7,49 @@ const Columns = [
     {
         title: "订单号",
         dataIndex: "orderNo",
-        key: "1",
         render: (text, record) => (
             <Link to={`/account/channel_orders/detail/${record.orderNo}`}>{text}</Link>
         )
     },
-    {title: "下单门店", dataIndex: "shopName", key: "2"},
-    {title: "商品数量", dataIndex: "qtySum", key: "3"},
-    {title: "订单金额", dataIndex: "amountSum", key: "4"},
-    {title: "订单状态", dataIndex: "statusStr", key: "5"},
-    {title: "订单来源", dataIndex: "sourceName", key: "6"},
-    {title: "订单标签", dataIndex: "sourceName", key: "7"},
-    {title: "收货人", dataIndex: "recName", key: "8"},
-    {title: "创建人", dataIndex: "userName", key: "9"},
+    {title: "下单门店", dataIndex: "shopName"},
+    {title: "商品数量", dataIndex: "qtySum"},
+    {title: "订单金额", dataIndex: "amountSum"},
+    {title: "订单状态", dataIndex: "statusStr"},
+    {title: "订单来源", dataIndex: "sourceName"},
     {
-        title: "发货时间",
-        key: "10",
-        dataIndex: "createTime",
-        render: text => <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+      title: "订单标签",
+      render:(text,record,index)=> {
+        return<span>
+          {record.preSellStatus==1&&"预售"}&nbsp;
+          {record.sendType==1&&"代发"}
+        </span>
+      }
+    },
+    {title: "收货人", dataIndex: "recName"},
+    {title: "创建人", dataIndex: "userName"},
+    {
+      title: "发货时间",
+      dataIndex: "createTime",
+      render: text => <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+    },
+    {
+      title: "操作",
+      dataIndex: "action",
+      render:(text,record,index)=> {
+        return (
+          <span>
+            {
+              record.status==10&&
+              <span className="pointerSty" onClick={() => record.onOperateClick('cancel')}>
+                取消订单
+              </span>
+            }
+        </span>
+        )
+      }
     }
 ];
-const columnsAdd=(onBlur)=>{
+const ColumnsAdd=(onBlur)=>{
   return [{
             title: "sku编码",
             dataIndex: "code",
@@ -49,7 +71,7 @@ const columnsAdd=(onBlur)=>{
               return  <Form.Item
                           name={['list',index,'qty']}
                           rules={[{ required: true, message: '请输入订购数量'},
-                                { pattern:/^[1-9]+$/,message:'请输入正整数' },
+                                { pattern:/^[1-9]+(\d*)$/,message:'请输入正整数' },
                           ]}>
                         <Input
                           onBlur={(e)=>onBlur(e,index,'qty')}
@@ -103,6 +125,55 @@ const ShippingInformationColumns = [
     {title: "运费", dataIndex: "expressFee", key: "4"},
     {title: "状态 ", dataIndex: "status", key: "5"},
 ];
+const ColumnsReturnAdd=(handleBlur)=> {
+  return [{
+            title: 'SKU编码',
+            dataIndex: 'skuCode',
+          },{
+            title: '商品名称',
+            dataIndex: 'name',
+          },{
+            title: '商品规格',
+            dataIndex: 'salesAttributeName',
+          },{
+            title: '可退数量',
+            dataIndex: 'qty',
+          },{
+            title: '退货数量',
+            dataIndex: 'returnQty',
+            width:"150px",
+            render: (text, record, index) => {
+              const validateQty=(rule,value)=> {
+                if(value){
+                  if(Number(value) > Number( record.qty )){
+                      return Promise.reject('退货数量不可大于可退数量');
+                  };
+                };
+                return Promise.resolve();
+              };
+              return (
+                  <Form.Item
+                    name={['list',index,'returnQty']}
+                    rules={[{ required: true, message: '请输入订购数量'},
+                        { pattern:/^[1-9]+(\d*)$/,message:'请输入正整数' },
+                        {validator:validateQty}
+                    ]}>
+                    <Input placeholder="退货数量" onBlur={(e)=>handleBlur(e, index)}/>
+                  </Form.Item>
+              );
+            }
+          },{
+              title: '商品单价',
+              dataIndex: 'price',
+              width:"150px"
+          },{
+              title: '金额小计',
+              dataIndex: 'amount',
+              width:"150px"
+          }];
+}
 export {
-   columnsAdd,Columns,OrderLogsColumns,GoodsColumns,ShippingInformationColumns
+   ColumnsAdd,Columns,
+   OrderLogsColumns,GoodsColumns,ShippingInformationColumns,
+   ColumnsReturnAdd
 }
