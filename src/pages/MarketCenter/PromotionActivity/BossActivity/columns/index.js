@@ -77,9 +77,7 @@ const ColumnsAdd =(onBlur, validatePrice)=> {
       render:(text,record,index)=>{
         const validatePrice=(rule,value)=> {
           if(value){
-            if(Number(value) == 0 ){
-               return Promise.reject('大于0的2位小数');
-            }else if(Number(value) > Number( record.businessPrice ) || Number(value) == Number( record.businessPrice ) ){
+            if(Number(value) > Number( record.businessPrice ) || Number(value) == Number( record.businessPrice ) ){
                 return Promise.reject('活动供价超过或等于供价，请谨慎填写');
             };
           };
@@ -90,7 +88,7 @@ const ColumnsAdd =(onBlur, validatePrice)=> {
             name={['productList',index,'activitySupplyPrice']}
             rules={[
               {required:true,message:'请输入活动供价'},
-              {pattern:/^\d+(\.\d{0,2})?$/,message:'大于0的2位小数'},
+              {pattern:/^[1-9]\d*\.\d{1,2}$|0\.[1-9]\d{0,1}$|0\.0[1-9]{1}$|^[1-9]\d*$/,message:'大于0的2位小数'},
               {validator:validatePrice}
             ]}>
             <Input placeholder='请输入活动供价' autoComplete='off'/>

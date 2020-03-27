@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Card, Form, Col} from "antd";
+import {Card, Modal, Form, Col} from "antd";
 import {Qbtn, QbaseInfo, Qtable} from "common";
 import moment from "moment";
 import { GetOrderInfoApi } from "api/home/OrderCenter/Border/ShopOrder";
@@ -10,14 +10,19 @@ const ShopOrderDetail = (props) => {
   const [orderLogs, setOrderLogs] = useState([]);
   const [outList, setOutList] = useState([]);
   const [goodsList, setGoodsList] = useState([]);
-  const spOrderId = props.match.params.id;
+  const orderNo = props.match.params.id;
 
   const getInfo=()=> {
-    GetOrderInfoApi({spOrderId})
+    GetOrderInfoApi(orderNo)
     .then((res)=> {
       console.log(res);
     })
   }
+  //返回
+  const goReturn=()=> {
+    props.history.push('/account/channel_orders')
+  }
+
   useEffect(() => { getInfo() }, []);
   return (
       <div className="oms-common-addEdit-pages bgood_add">
@@ -54,10 +59,12 @@ const ShopOrderDetail = (props) => {
           <Card title="订单日志">
               <Qtable columns={OrderLogsColumns} dataSource={orderLogs}/>
           </Card>
-          <Col offset={12}>
-              <Qbtn>取消订单</Qbtn>
-              <br/>
-          </Col>
+          <div className="handle-operate-save-action">
+            <Qbtn onClick={goReturn}>
+              返回
+            </Qbtn>
+          </div>
+
       </div>
   )
 };

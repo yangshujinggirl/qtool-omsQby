@@ -165,7 +165,7 @@ const ColumnsAdd = (handleBlur)=> {
                 name={['list',index,'pdCode']}
                 rules={[{required: true, message: '请输入商品编码'}]}>
                   <Input
-                    onBlur={handleBlur}
+                    onBlur={(e)=>handleBlur(e,index)}
                     placeholder="商品编码"
                     autoComplete="off"/>
                </Form.Item>

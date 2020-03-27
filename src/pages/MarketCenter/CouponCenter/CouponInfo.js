@@ -40,6 +40,7 @@ const CouponInfo =({...props})=> {
       let { brandList } = couponInfo;
       pdList = pdList?pdList:[];
       brandList = brandList?brandList:[];
+      proportionList = proportionList?proportionList:[];
       pdList.map((el,index)=>el.key=index);
       proportionList = proportionList.map((item,index) => {
         item.budget = couponInfo.budget;

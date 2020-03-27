@@ -3,7 +3,7 @@ import {Modal} from "antd";
 import {Link} from "react-router-dom";
 import {QbaseList, Qbtn, Qmessage, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
-import Columns from "./column";
+import {Columns} from "./column";
 import { GetListApi, GetCancelApi } from "api/home/OrderCenter/Border/ShopReturnOrder";
 import {AppExportApi} from "api/Export";
 
@@ -26,25 +26,28 @@ const ShopReturnOrder = QbaseList((_this) => {
       }
     }
     const handleCancel=(record)=> {
-      GetCancelApi({reOrderNo:record.id,operation:2})
+      GetCancelApi({reOrderNo:record.reOrderNo,operation:2})
       .then((res)=> {
         Qmessage.success('取消成功');
-        _this.searchDataList
+        _this.searchDataList()
       })
+    }
+    const handleExport=()=> {
+      return new AppExportApi(searchCriteriaList)
     }
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
         <div className="handle-operate-btn-action">
-          <Qbtn size="free" onClick={() => new AppExportApi(searchCriteriaList)}>导出数据</Qbtn>
+          <Qbtn size="free" onClick={handleExport}>导出数据</Qbtn>
         </div>
         <Qtable
           columns={Columns}
           dataSource={dataList}
           onOperateClick={onOperateClick}/>
         <Qpagination
-            data={{everyPage, currentPage, total}}
-              onChange={_this.changePage}/>
+          data={{everyPage, currentPage, total}}
+          onChange={_this.changePage}/>
       </div>
     );
 },
