@@ -34,7 +34,7 @@ const Columns = [
     dataIndex: "createTime"
   }
 ];
-const detailGoods = [
+const DetailGoods = [
   {
     title: "商品名称",
     dataIndex: "name"
@@ -68,4 +68,4 @@ const detailGoods = [
     dataIndex: "actualPayAmount"
   }
 ];
-export { Columns, detailGoods };
+export { Columns, DetailGoods };
