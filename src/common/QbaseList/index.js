@@ -26,11 +26,11 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
             /**
              * 每页展示数量
              */
-            everyPage: 20,
+            everyPage: 15,
             /**
              * 当前页码
              */
-            currentPage: 0,
+            currentPage: 1,
             /**
              * 总数
              */
@@ -96,7 +96,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
          * @param everyPage 每页数量
          */
         changePage = (currentPage, everyPage) => {
-            this.searchDataList({...this.state.searchCriteriaList, currentPage, everyPage}, false);
+            this.searchDataList(this.state.searchCriteriaList, false, currentPage, everyPage);
         };
 
         /**
@@ -114,8 +114,10 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
          * 搜索数据列表
          * @param values 搜索数据
          * @param isUseRecord 是否使用记录数据，默认搜索时使用记录数据
+         * @param currentPage 当前页码，默认不传
+         * @param everyPage 每页请求数量，默认不传
          */
-        searchDataList = (values, isUseRecord = true) => {
+        searchDataList = (values, isUseRecord = true, currentPage = null, everyPage = null) => {
             this.showLoading();
             //先合并记录数据
             let params = isUseRecord ? {
@@ -126,7 +128,7 @@ function QbaseList(ChildComponent, apiRequest, isComponentDidMountRequestData,
             } else {
                 params = {...params, ...values};
             }
-            apiRequest(params, this).then(res => {
+            apiRequest({...params, currentPage, everyPage}, this).then(res => {
                 this.hideLoading();
                 const {result, everyPage, total, currentPage} = res.result != null ? res.result : res;
                 this.setState({
