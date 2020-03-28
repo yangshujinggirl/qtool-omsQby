@@ -267,7 +267,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/c_sales_promotion_check" component={CtipAudit}/>
                 <Route exact path="/account/ctipAudit" component={CtipAudit}/>
                 <Route exact path="/account/ctipAudit/edit/:id/:auditId" component={CtipAuditEdit}/>
-                <Route exact path="/account/posAudit" component={PosAudit}/>
+                <Route exact path="/account/pos_sales_promotion_check" component={PosAudit}/>
                 <Route exact path="/account/posAudit/edit/:id/:auditId" component={PosAuditEdit}/>
                 <Route exact path="/account/b_limited_promotion" component={BossActivity}/>
                 <Route exact path="/account/bossActivity/add/:id?" component={BossActivityAdd}/>

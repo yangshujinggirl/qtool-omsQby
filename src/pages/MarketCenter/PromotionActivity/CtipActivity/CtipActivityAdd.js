@@ -226,9 +226,7 @@ const CtipActivityAdd =({...props})=> {
     setTotalData(activityInfo)
   }
 
-  useEffect(()=>{
-    initPage();
-  },[promotionId])
+  useEffect(()=>{ initPage() },[promotionId])
   useEffect(()=>{ form.setFieldsValue(activityInfo) },[activityInfo])
   useEffect(()=>{ form.setFieldsValue({bearers:ratioList}) },[ratioList]);
   return (
