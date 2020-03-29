@@ -88,6 +88,7 @@ import AbnormalOrder from './OrderCenter/AbnormalOrder' //异常订单
 import AbnormalOrderInfo from './OrderCenter/AbnormalOrder/AbnormalOrderInfo' //异常订单详情
 import ReplaceOrder from './OrderCenter/ReplaceOrder' //代发订单
 import GetPurchaseInOrder from './OrderCenter/ReplaceOrder/GetPurchaseInOrder' //生成采购订单
+import ShortageOrder from './OrderCenter/ShortageOrder' //生成采购订单
 
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
@@ -138,7 +139,8 @@ import StoreMange from './StockCenter/StoreManage' //仓库管理
 import ErpStock from './StockCenter/GoodStock/ErpStock' //ERP库存
 import ShopStock from './StockCenter/GoodStock/ShopStock' //门店库存
 import CrossBorderStock from './StockCenter/GoodStock/CrossBorderStock' //跨境商品库存
-import StockAdjust from './StockCenter/StockAdjust' //跨境库存调整
+import BstockAdjust from './StockCenter/StockAdjust/BstockAdjust' //B端库存调整
+import CrossBorderAdjust from './StockCenter/StockAdjust/CrossBorderAdjust' //跨境库存调整
 /************************************   运营中心   *******************************************/
 import Bpush from './OperateCenter/Boperate/Bpush'
 import AddBPush from './OperateCenter/Boperate/Bpush/AddPush'
@@ -241,6 +243,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/abnormalOrder_info/:id?' component={AbnormalOrderInfo}/>
                 <Route exact path='/account/agency_delivery_orders/:id?' component={ReplaceOrder}/>
                 <Route exact path='/account/get_purchasein_order' component={GetPurchaseInOrder}/>
+                <Route exact path='/account/shortage_sku_order_detail' component={ShortageOrder}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}
@@ -338,7 +341,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/stock_erp' component={ErpStock}/>
                 <Route exact path='/account/stock_channel' component={ShopStock}/>
                 <Route exact path='/account/stock_bonded' component={CrossBorderStock}/>
-                <Route exact path='/account/stocking_change_bonded' component={StockAdjust}/>
+                <Route exact path='/account/stocking_change_b' component={BstockAdjust}/>
+                <Route exact path='/account/stocking_change_bonded' component={CrossBorderAdjust}/>
 
                 {/*
         <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>

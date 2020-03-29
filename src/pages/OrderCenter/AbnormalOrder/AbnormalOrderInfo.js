@@ -45,7 +45,7 @@ const AuditReturnInfo = props => {
         <Form.Item label="商品数量">{infos.itemCount}</Form.Item>
         <Form.Item label="实付金额">{infos.orderTotal}</Form.Item>
         <Form.Item label="订单类型">
-          {sortStr}
+          {infos.sortStr}
         </Form.Item>
         <Form.Item label="异常原因">{infos.abnormalCause}</Form.Item>
         <Form.Item label="收货人">{infos.consignee}</Form.Item>

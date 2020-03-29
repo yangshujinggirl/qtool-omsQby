@@ -5,7 +5,7 @@ import {erpAjax} from "./../../Req";
  * @param values 搜索筛选条件
  */
 export function getListApi(values) {
-    return erpAjax.get("/appMoney/list", {
+    return erpAjax.get("/spIncome/list", {
         params: values
     });
 }

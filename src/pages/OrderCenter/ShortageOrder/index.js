@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Spin } from "antd";
 import { Qtable, Qpagination,Qbtn } from "common"; //表单
 import FilterForm from "./FilterForm/index";
-import { Columns } from "./columns";
+import  Columns  from "./columns";
 import { getListApi } from "api/home/OrderCenter/AbnormalOrder";
 import moment from "moment";
 import {OmsExportApi} from 'api/Export'
