@@ -109,15 +109,15 @@ class SearchForm extends BaseFilter {
                 <RangePicker />
               </FormItem>
             </Col>
+            <Col span={24}>
+              <FormItem wrapperCol={{span:24}} className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit}>
+                  搜索
+                </Qbtn>
+              </FormItem>
+            </Col>
           </Row>
         </Form>
-        <Col span={24}>
-          <FormItem className="oms-condition-operate">
-            <Qbtn type="primary" onClick={this.handleSubmit}>
-              搜索
-            </Qbtn>
-          </FormItem>
-        </Col>
       </div>
     );
   }

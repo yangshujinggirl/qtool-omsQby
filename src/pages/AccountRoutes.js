@@ -89,6 +89,10 @@ import AbnormalOrderInfo from './OrderCenter/AbnormalOrder/AbnormalOrderInfo' //
 import ReplaceOrder from './OrderCenter/ReplaceOrder' //代发订单
 import GetPurchaseInOrder from './OrderCenter/ReplaceOrder/GetPurchaseInOrder' //生成采购订单
 import ShortageOrder from './OrderCenter/ShortageOrder' //生成采购订单
+import UserOrder from './OrderCenter/Corder/UserOrder' //用户订单
+import AddReturnOrder from './OrderCenter/Corder/UserOrder/AddReturnOrder' //新增退单
+import UserOrderInfo from './OrderCenter/Corder/UserOrder/UserOrderInfo' //退单详情
+import BondedOrder from './OrderCenter/BondedOrder' //保税订单
 
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
@@ -246,6 +250,10 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/agency_delivery_orders/:id?' component={ReplaceOrder}/>
                 <Route exact path='/account/get_purchasein_order' component={GetPurchaseInOrder}/>
                 <Route exact path='/account/shortage_sku_order_detail' component={ShortageOrder}/>
+                <Route exact path='/account/addUserOrder_returnOrder' component={AddReturnOrder}/>
+                <Route exact path='/account/user_order_infos' component={UserOrderInfo}/>
+                <Route exact path='/account/subscriber_orders' component={UserOrder}/>
+                <Route exact path='/account/orderBonded' component={BondedOrder}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
                 {/* ----------------------------------  合作中心   ---------------------------------------*/}

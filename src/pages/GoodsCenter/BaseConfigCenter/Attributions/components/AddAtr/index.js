@@ -81,7 +81,7 @@ const AddAtr = props => {
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 12 }}
           >
-            <Input placeholder="请输入规格名称" autoComplete="off" />
+            <Input placeholder="请输入规格名称,5字之内" maxLength={5} autoComplete="off" />
           </FormItem>
           <FormItem
             label="状态"

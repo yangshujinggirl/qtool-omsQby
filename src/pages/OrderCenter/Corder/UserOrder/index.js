@@ -20,7 +20,7 @@ class ErpStock extends Component {
     };
   }
   componentDidMount() {
-    this.searchData({});
+    // this.searchData({});
   }
   //点击搜索
   searchData = values => {
@@ -83,7 +83,7 @@ class ErpStock extends Component {
           <FilterForm onSubmit={this.searchData} />
           <div className="handle-operate-btn-action">
             <Link to={`/account/addUserOrder_returnOrder`}>
-              <Qbtn onClick={this.exportData}>新建退单</Qbtn>
+              <Qbtn>新建退单</Qbtn>
             </Link>
             <Qbtn onClick={this.exportData}>导出数据</Qbtn>
           </div>

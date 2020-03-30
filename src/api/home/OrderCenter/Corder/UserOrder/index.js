@@ -20,3 +20,11 @@ export function getInfoApi(values) {
   const { id } = values;
   return omsAjax.get(`/toC/order/common/${id}`);
 }
+/**
+ * 根据订单号查询退单数据
+ */
+export function getReturnInfoApi(values) {
+  return omsAjax.get(`/toC/returnOrder/queryDetail`, {
+    params: values
+  });
+}

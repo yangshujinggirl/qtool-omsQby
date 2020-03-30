@@ -76,7 +76,7 @@ const AddPurchaseIn = props => {
    * 获取仓库列表
    */
   const getStoreList = () => {
-    searchStoreApi({ wname: 1 }).then(res => {
+    searchStoreApi().then(res => {
       if (res.httpCode == 200) {
         setStoreList(res.result);
       }
