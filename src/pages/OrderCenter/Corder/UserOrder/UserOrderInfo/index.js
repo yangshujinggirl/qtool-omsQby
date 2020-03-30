@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { Card, Form } from "antd";
 import { Qtable } from "common";
-import { GoodColumns, handleLogColumns, giftSkuColumns } from "./columns";
+import { GoodColumns, handleLogColumns, giftSkuColumns } from "../columns";
 import { getInfoApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import {OrderPackageList} from './components/StoreOutInfo'
-import moment from "moment";
 
 const AllReturnInfo = props => {
   const [orderInfo, setOrderInfo] = useState({});

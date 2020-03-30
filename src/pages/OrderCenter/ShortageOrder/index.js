@@ -3,7 +3,7 @@ import { Spin } from "antd";
 import { Qtable, Qpagination,Qbtn } from "common"; //表单
 import FilterForm from "./FilterForm/index";
 import  Columns  from "./columns";
-import { getListApi } from "api/home/OrderCenter/AbnormalOrder";
+import { getListApi } from "api/home/OrderCenter/ShortageOrder";
 import moment from "moment";
 import {OmsExportApi} from 'api/Export'
 
@@ -79,7 +79,7 @@ class ReturnAudit extends Component {
   //导出数据
   exportData=()=>{
     const {stime,etime,...params} = this.state.inputValues
-    OmsExportApi({stime,etime,exportType:10,reOrderExport:{...params}}, "/export/commonExport");
+    OmsExportApi({stime,etime,exportType:4,orderDetailExport:{...params}}, "/export/commonExport");
   }
   render() {
     const {
@@ -89,7 +89,6 @@ class ReturnAudit extends Component {
       total,
       loading
     } = this.state;
-
     return (
       <Spin spinning={loading}>
         <div className="oms-common-index-pages-wrap">

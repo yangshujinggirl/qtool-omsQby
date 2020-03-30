@@ -1,10 +1,13 @@
-import moment from "moment";
+import {Link} from 'react-router-dom'
 //列表
 const Columns = [
   {
     title: "订单号",
     dataIndex: "orderNo",
-    key: "1"
+    key: "1",
+    render:()=>(
+    <Link to={`/account/user_order_infos/${record.orderId}`}>{text}</Link>
+    )
   },
   {
     title: "门店名称",
