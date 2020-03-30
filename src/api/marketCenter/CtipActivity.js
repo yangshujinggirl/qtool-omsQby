@@ -35,6 +35,10 @@ export function GetValidCoupon(couponCode) {
 export function GetSaveActivApi(values) {
   return appAjax.post('/promotions/save',{...values})
 }
+//c端活动保存活动
+export function GetSaveGoodsApi(values) {
+  return appAjax.post('/promotions/promotionRules',{...values})
+}
 //查询c端商品设置
 export function GetDiscountInfoApi(promotionId) {
   return appAjax.get(`/promotions/promotionRules/${promotionId}`)

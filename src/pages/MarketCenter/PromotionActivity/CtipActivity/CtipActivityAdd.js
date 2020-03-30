@@ -6,7 +6,7 @@ import {
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
+import { Qtable, Qmessage, Qbtn } from 'common';
 import { ColumnsAddGeneral,ColumnsAddCross } from './columns';
 import { GetSuppliApi, GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/CtipActivity';
 import StepMod from '../components/StepMod';

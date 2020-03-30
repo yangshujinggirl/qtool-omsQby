@@ -1,0 +1,29 @@
+@import "../../variates.less";
+.icon-mod {
+  .mod-wrap {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    .item-icon {
+      width: 60px;
+      flex-shrink:0;
+      text-align: center;
+      &:not(:last-child) {
+        margin-right: 20px
+      }
+    }
+    .pic-wrap {
+      width: 60px;
+      height: 60px;
+      border: 1px solid @line;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+  }
+  .icon-no-data {
+    height: 60px;
+    line-height: 60px;
+  }
+}

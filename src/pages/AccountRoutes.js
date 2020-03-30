@@ -74,6 +74,7 @@ import PurchaseInDetail from "./OrderCenter/PurchaseOrder/PurchaseIn/PurchaseInD
 import PurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut' //采退
 import PurchaseOutDetail from "./OrderCenter/PurchaseOrder/PurchaseOut/PurchaseOutDetail";//采退订单详情
 import AddPurchaseOut from './OrderCenter/PurchaseOrder/PurchaseOut/AddPurchaseOut' //新增采退
+
 import ShopOrder from './OrderCenter/Border/ShopOrder' //门店订单
 import ShopOrderDetail from './OrderCenter/Border/ShopOrder/ShopOrderDetail' //门店订单详情
 import ShopOrderAdd from './OrderCenter/Border/ShopOrder/ShopOrderAdd' //新建门店订单
@@ -121,6 +122,8 @@ import BossActivityAdd from './MarketCenter/PromotionActivity/BossActivity/BossA
 import BossActivityInfo from './MarketCenter/PromotionActivity/BossActivity/BossActivityInfo';//C审核
 /**********************************内容中心***************************************************/
 import CtipContent from './ContentCenter/CtipContent';
+import CtipContentAdd from './ContentCenter/CtipContent/CtipContentAdd/index';
+import BannerSetCtip from './ContentCenter/CtipContent/BannerSetCtip';
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
@@ -275,6 +278,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/bossActivity/info/:id" component={BossActivityInfo}/>
                 {/*----------------------------内容中心----------------------------------------------------*/}
                 <Route exact path="/account/home_page_configuration" component={CtipContent}/>
+                <Route exact path="/account/CtipContent/add/:id" component={CtipContentAdd}/>
+                <Route exact path="/account/cbannerSet/:id?" component={BannerSetCtip}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}

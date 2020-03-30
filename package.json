@@ -60,7 +60,8 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "swiper": "^5.3.6"
   },
   "theme": {
     "primary-color": "#35BAB0",
