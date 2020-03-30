@@ -1,11 +1,10 @@
-import { Spin, Card, Form } from 'antd';
+import { Spin, Card,Modal,  Form } from 'antd';
 import { useEffect, useState } from 'react';
 import { Qbtn, Qtable, Qmessage } from 'common';
 import { Sessions } from 'utils';
 import { GetSaveActivApi, GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
 import SetTitle from './components/SetGoods/Title';
 import ExportFile from "./components/SetGoods/ExportFile";
-// import SetGoods from "./components/SetGoods/GoodsTable";
 import DiscountOne from "./components/SetGoods/DiscountOne";
 import DiscountTwo from "./components/SetGoods/DiscountTwo";
 import StepMod from '../components/StepMod';
@@ -57,9 +56,7 @@ const CtipActivityAddTwo=({...props})=> {
         products=[...products]
         setProducts(products);
       },
-      onCancel() {
-        console.log('Cancel');
-      },
+      onCancel() {},
     });
   };
   const onCancel = () => { setVisible(false)};
@@ -273,16 +270,15 @@ const CtipActivityAddTwo=({...props})=> {
               </div>
              }
           </Card>
-          <EditModal
+          {visible&&<EditModal
             updateList={upDateProductList}
-            proRules={proRules}
             dataSource={products}
             form={form}
             promotionType={promotionType}
             visible={visible}
             record={currentItem}
-            onVisible={onCancel}
-          />
+            onCancel={onCancel}/>
+        }
         </Form>
         <div className="handle-operate-save-action">
           <Qbtn onClick={goback}> 上一步 </Qbtn>

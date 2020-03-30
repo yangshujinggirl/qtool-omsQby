@@ -123,8 +123,8 @@ import CtipAuditEdit from './MarketCenter/AuditCenter/CtipAudit/CtipAuditEdit';/
 import BossActivity from './MarketCenter/PromotionActivity/BossActivity';//C审核
 import BossActivityAdd from './MarketCenter/PromotionActivity/BossActivity/BossActivityAdd';//C审核
 import BossActivityInfo from './MarketCenter/PromotionActivity/BossActivity/BossActivityInfo';//C审核
-
-
+/**********************************内容中心***************************************************/
+import CtipContent from './ContentCenter/CtipContent';
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
@@ -230,11 +230,9 @@ class HomeRoutes extends React.Component {
                 {/* ----------------------------------  订单中心   ---------------------------------------*/}
                 <Route exact path='/account/purchaseOrder' component={PurchaseIn}/>
                 <Route exact path='/account/add_purchasein/:id?' component={AddPurchaseIn}/>
-                <Route exact path="/account/purchaseOrderInDetail/:id"
-                       component={PurchaseInDetail}/>
+                <Route exact path="/account/purchaseOrderInDetail/:id" component={PurchaseInDetail}/>
                 <Route exact path='/account/purchaseRefundOrder' component={PurchaseOut}/>
-                <Route exact path="/account/purchaseRefundOrderOutDetail/:id"
-                       component={PurchaseOutDetail}/>
+                <Route exact path="/account/purchaseRefundOrderOutDetail/:id" component={PurchaseOutDetail}/>
                 <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
                 <Route exact path='/account/channel_orders' component={ShopOrder}/>
                 <Route exact path='/account/channel_orders/detail/:id?' component={ShopOrderDetail}/>
@@ -278,11 +276,13 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/c_sales_promotion_check" component={CtipAudit}/>
                 <Route exact path="/account/ctipAudit" component={CtipAudit}/>
                 <Route exact path="/account/ctipAudit/edit/:id/:auditId" component={CtipAuditEdit}/>
-                <Route exact path="/account/posAudit" component={PosAudit}/>
+                <Route exact path="/account/pos_sales_promotion_check" component={PosAudit}/>
                 <Route exact path="/account/posAudit/edit/:id/:auditId" component={PosAuditEdit}/>
                 <Route exact path="/account/b_limited_promotion" component={BossActivity}/>
                 <Route exact path="/account/bossActivity/add/:id?" component={BossActivityAdd}/>
                 <Route exact path="/account/bossActivity/info/:id" component={BossActivityInfo}/>
+                {/*----------------------------内容中心----------------------------------------------------*/}
+                <Route exact path="/account/home_page_configuration" component={CtipContent}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
@@ -310,8 +310,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/add_b_answer/:id?' component={AddBanswer}/>
                 {/* ----------------------------------  渠道管理   ---------------------------------------*/}
                 <Route exact path='/account/bridge_statistics' component={ChannelStatistic}/>
-                <Route exact path='/account/bridge_statistics_infos'
-                       component={ChannelStatisticInfos}/>
+                <Route exact path='/account/bridge_statistics_infos' component={ChannelStatisticInfos}/>
 
 
                 {/* ----------------------------------  客服中心   ---------------------------------------*/}

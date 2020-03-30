@@ -9,27 +9,30 @@ import "./index.less";
 const Discount=({...props})=> {
   let newSource = lodash.cloneDeep(props.promotionRules);
   newSource&&newSource.map((item, index) => item.key = index);
+  let [rules, setRules]=useState(newSource);
+
   const handleDelete = index => {
-    newSource.splice(index, 1);
-    props.upDateList(newSource)
+    rules.splice(index, 1);
+    rules=[...rules]
+    setRules(rules)
   };
   const add = () => {
-    newSource.push({ param: { leastQty: "", giftQty: "" } });
-    props.upDateList(newSource)
+    rules.push({ param: { leastQty: "", giftQty: "" } });
+    rules=[...rules]
+    setRules(rules)
   };
   const onChange = (e, index, key) => {
-    newSource[index]["param"][key] = e.target.value;
-    props.upDateList(newSource)
+    rules[index]["param"][key] = e.target.value;
   };
   const validator=(rule, value, index) => {
     if (+value>0) {
         if(+value>99){
           return Promise.reject('需小于等于99');
         };
-        const currentGiftQty = +newSource[index].param.giftQty;//当前减额
-        if(newSource[index - 1]){
-          const prevLeastQty = +newSource[index - 1].param.leastQty;//上一条门槛
-          const prevGiftQty = +newSource[index - 1].param.giftQty;//上一条减额
+        const currentGiftQty = +rules[index].param.giftQty;//当前减额
+        if(rules[index - 1]){
+          const prevLeastQty = +rules[index - 1].param.leastQty;//上一条门槛
+          const prevGiftQty = +rules[index - 1].param.giftQty;//上一条减额
           if(prevLeastQty){
             if(+value <= prevLeastQty){
               return Promise.reject('此阶梯优惠门槛需大于上一阶梯');
@@ -43,9 +46,9 @@ const Discount=({...props})=> {
             };
           };
         };
-        if(newSource[index+1]){
-          const nextLeastQty = +newSource[index + 1].param.leastQty;//下一条门槛
-          const nextGiftQty = +newSource[index + 1].param.giftQty;//下一条减额
+        if(rules[index+1]){
+          const nextLeastQty = +rules[index + 1].param.leastQty;//下一条门槛
+          const nextGiftQty = +rules[index + 1].param.giftQty;//下一条减额
           if(nextLeastQty){
             if(+value >= nextLeastQty){
               return Promise.reject('此阶梯优惠门槛需小于下一阶梯');
@@ -67,12 +70,12 @@ const Discount=({...props})=> {
         if(+value>99){
           return Promise.reject('需小于等于99');
         };
-        const currentLeastQty = +newSource[index].param.leastQty;//当前减额
+        const currentLeastQty = +promotionRules[index].param.leastQty;//当前减额
         if(currentLeastQty){
           const currentDiscount = currentLeastQty/(+value+currentLeastQty)//当前折扣
-          if(newSource[index - 1]){
-            const prevLeastQty = +newSource[index - 1].param.leastQty;//上一条门槛
-            const prevGiftQty = +newSource[index - 1].param.giftQty;//上一条减额
+          if(promotionRules[index - 1]){
+            const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
+            const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
             if(prevGiftQty && prevLeastQty){
               const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
               if(currentDiscount > prevDiscount){
@@ -80,9 +83,9 @@ const Discount=({...props})=> {
               };
             };
           };
-          if(newSource[index+1]){
-            const nextLeastQty = +newSource[index + 1].param.leastQty;//下一条门槛
-            const nextGiftQty = +newSource[index + 1].param.giftQty;//下一条减额
+          if(promotionRules[index+1]){
+            const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
+            const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
             if(nextLeastQty && nextGiftQty){
               const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
               if(currentDiscount < nextDiscount){
@@ -94,7 +97,7 @@ const Discount=({...props})=> {
       };
       return Promise.resolve();
   }
-
+  console.log(rules)
   return (
     <div className="discountTwo">
       <div className="discount_tips">
@@ -103,7 +106,7 @@ const Discount=({...props})=> {
         <span>例：买X送Y，每阶梯的X/（X+Y）需小于等于上一阶梯的X/（X+Y）</span>
       </div>
       {
-        newSource.length>0&&newSource.map((item, index) => (
+        rules.length>0&&rules.map((item, index) => (
           <div className="step" key={index}>
             <FormItem className="satified_price">
               阶梯{index + 1}：<span style={{ color: "red" }}>*</span>
@@ -136,7 +139,7 @@ const Discount=({...props})=> {
                     onChange={(e) =>onChange(e, index, "giftQty")}/>
                 </FormItem>
                   件
-                {newSource.length > 1 && (
+                {rules.length > 1 && (
                   <span className="pointerSty" onClick={() => handleDelete(index)}> 删除等级</span>
                 )}
             </FormItem>
@@ -145,7 +148,7 @@ const Discount=({...props})=> {
       }
       <div className="discountTwo_add">
         <Button
-          disabled={newSource.length == 3}
+          disabled={rules.length == 3}
           type="primary"
           onClick={add}>
           继续新增等级优惠
