@@ -83,7 +83,7 @@ class UpLoadImg extends Component {
     );
   };
   handleChange = ({file,fileList}) => {
-    this.props.upDateList([...fileList]);
+    this.props.upDateList&&this.props.upDateList([...fileList]);
   };
   handleCancel = () => this.setState({ previewVisible: false });
   handlePreview = file => {

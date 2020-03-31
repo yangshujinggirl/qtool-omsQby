@@ -2,7 +2,7 @@ import { Spin, Card,Modal,  Form } from 'antd';
 import { useEffect, useState } from 'react';
 import { Qbtn, Qtable, Qmessage } from 'common';
 import { Sessions } from 'utils';
-import { GetSaveActivApi, GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
+import { GetSaveGoodsApi, GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
 import SetTitle from './components/SetGoods/Title';
 import ExportFile from "./components/SetGoods/ExportFile";
 import DiscountOne from "./components/SetGoods/DiscountOne";
@@ -188,7 +188,7 @@ const CtipActivityAddTwo=({...props})=> {
       };
     };
     values={...values,type}
-    GetSaveActivApi(values)
+    GetSaveGoodsApi(values)
     .then(res => {
       if (type == "2") {
         Qmessage.success("提交审核成功");
