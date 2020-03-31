@@ -13,6 +13,7 @@ import TaxOrderReducers from './pages/OrderCenter/TaxOrder/reducers/reducersInde
 import ShopManageReducers from './pages/GoodsCenter/BaseConfigCenter/ShopManage/reducers/reducersIndex';
 import SupplierReducers from './pages/GoodsCenter/BaseConfigCenter/Supplier/reducers/reducersIndex';
 import SupplierManageReducers from './pages/GoodsCenter/BaseConfigCenter/SupplierManage/reducers/reducersIndex';
+import AddReturnOrderReducers from './pages/OrderCenter/Corder/UserOrder/AddReturnOrder/reducers/reducersIndex';
 
 export default combineReducers({
   PublicReducers,
@@ -28,5 +29,6 @@ export default combineReducers({
   OnlineReducers,
   ShopManageReducers,
   TaxOrderReducers,
-  SupplierManageReducers
+  SupplierManageReducers,
+  AddReturnOrderReducers
 })

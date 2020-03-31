@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
-import NP from 'number-precision'
-import {
-  Form,
-  Input,
-  DatePicker,
-  AutoComplete,
-  Select,
-  Radio,
-  Spin,
-  message
-} from "antd";
+import { connect } from "react-redux";
+import NP from "number-precision";
+import { Form, Input, Radio, Spin } from "antd";
 import {
   addPurchaseinApi,
   searchSupplierApi,
@@ -27,12 +19,16 @@ const formItemLayout = {
 
 const AddPurchaseIn = props => {
   const [form] = Form.useForm();
+  const { selectedRows } = props;
   const [loading, setLoading] = useState(false);
+  const [orderType, setOrderType] = useState("");
+  const [isDelivery, setIsDelivery] = useState("");
   const [returnWay, setReturnWay] = useState("");
   const [deliveryList, setDeliveryList] = useState([]);
-  /**
-   * 页面初始化
-   */
+  const [orderTypeStatus,setOrderTypeStatus] = useState('')
+  useEffect(()=>{ 
+   
+  },[selectedRows])
   /**
    * 物流费用发生改变
    * @param {*} e
@@ -56,7 +52,8 @@ const AddPurchaseIn = props => {
       })
       .catch(err => {
         setLoading(false);
-      });[]
+      });
+    [];
   };
   /**
    * 数据处理
@@ -72,24 +69,13 @@ const AddPurchaseIn = props => {
    * 更改商品信息
    * @param {[{}]} goodList
    */
-  const changeDataSource = (e, record) => {
-    const {value} = e.target;
-    if (value) {
-      debugger
-      const arr = [...deliveryList];
-      const list = arr[record.parIndex]['details'];
-      const index = list.findIndex(item => item.key == record.key);
-      const item = list[index];
-      const returnPrice = NP.times(record.actualPayPrice,Number(value))
-      list.splice(index, 1, { ...item, num: Number(value),returnPrice });
-      setDeliveryList(arr)
-      const name = 'goodList'+record.parIndex
-      form.setFieldsValue({[name]:list});
-    }
+  const changeDataSource = list => {
+    setDeliveryList(list);
   };
+  //输入订单子单号回车
   const onBlur = e => {
     const { value } = e.target;
-    if (value) {
+    if (value && /^[0-9]*$/.test(Number(value))) {
       // getReturnInfoApi({channelOrderNo:value.trim()}).then(res => {
       //   if (res.httpCode == 200) {
       //     setDeliveryList(res.result.deliveryList);
@@ -107,6 +93,8 @@ const AddPurchaseIn = props => {
           returnAddress: "收货人地址",
           deliveryList: [
             {
+              needPush: 1,
+              pushStatus: 1,
               deliveryChannelId: "1",
               deliveryChannelName: "华东仓配中心",
               channelOrderDetailNo: "222222",
@@ -120,10 +108,10 @@ const AddPurchaseIn = props => {
                   buyNum: 4,
                   alreadyReturnNum: 2,
                   actualPayAmount: 100,
-                  actualPayPrice:11,
+                  actualPayPrice: 11,
                   alreadyReturnAmount: 50,
                   canReturnAmount: 50,
-                  isGift: 1,
+                  isGift: 0,
                   canReturn: 1
                 },
                 {
@@ -133,18 +121,20 @@ const AddPurchaseIn = props => {
                   expressStatus: 0,
                   expressStatusStr: "未发货",
                   buyNum: 4,
-                  alreadyReturnNum: 2,
+                  alreadyReturnNum: 0,
                   actualPayAmount: 100,
-                  actualPayPrice:11,
+                  actualPayPrice: 11,
                   alreadyReturnAmount: 50,
                   canReturnAmount: 50,
-                  isGift: 1,
+                  isGift: 0,
                   canReturn: 1,
                   key: 0
                 }
               ]
             },
             {
+              needPush: 1,
+              pushStatus: 0,
               deliveryChannelId: "2",
               deliveryChannelName: "吴中永旺2店",
               channelOrderDetailNo: "111111",
@@ -156,9 +146,9 @@ const AddPurchaseIn = props => {
                   expressStatus: 0,
                   expressStatusStr: "未发货",
                   buyNum: 4,
-                  alreadyReturnNum: 2,
+                  alreadyReturnNum: 0,
                   actualPayAmount: 100,
-                  actualPayPrice:11,
+                  actualPayPrice: 11,
                   alreadyReturnAmount: 50,
                   canReturnAmount: 50,
                   isGift: 0,
@@ -170,23 +160,33 @@ const AddPurchaseIn = props => {
           ]
         }
       };
+      const {orderType,isDelivery,needPush,pushStatus} = res.result;
       const list = res.result.deliveryList;
       list.map((item, index) => {
-        item.key = item.deliveryChannelId;
+        item.key = index;
         item.details.map(subItem => {
           subItem.isDelivery = res.result.isDelivery;
+          subItem.orderType = res.result.orderType;
           subItem.channelOrderDetailNo = item.channelOrderDetailNo;
-          subItem.deliveryChannelId = item.deliveryChannelId;
-          subItem.key = item.deliveryChannelId + "_" + subItem.skuCode;
-          subItem.parIndex = index;
-          if(subItem.isDelivery==0||subItem.expressStatus==0||subItem.isGift==1){
+          subItem.needPush = item.needPush;
+          subItem.pushStatus = item.pushStatus;
+          subItem.key = index + "_" + subItem.skuCode;
+          subItem.parentId = index;
+          if (
+            subItem.isDelivery == 0 ||
+            subItem.expressStatus == 0 ||
+            subItem.isGift == 1
+          ) {
             subItem.num = subItem.buyNum;
-            subItem.returnPrice =  NP.times(subItem.actualPayPrice,subItem.buyNum)
-          };
+            subItem.returnPrice = NP.times(
+              subItem.actualPayPrice,
+              subItem.buyNum
+            );
+          }
           return subItem;
         });
-        const name = 'goodList'+index;
-        form.setFieldsValue({[name]:item.details});
+        const name = "goodList" + index;
+        form.setFieldsValue({ [name]: item.details });
         return item;
       });
       setDeliveryList(list);
@@ -194,6 +194,7 @@ const AddPurchaseIn = props => {
   };
   console.log(deliveryList);
   console.log(form.getFieldsValue());
+
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_toC_return">
@@ -210,7 +211,7 @@ const AddPurchaseIn = props => {
             >
               <Input
                 onBlur={onBlur}
-                onKeyPress={onBlur}
+                onPressEnter={onBlur}
                 placeholder="请输入普通订单订单号或保税订单子单号"
               />
             </Form.Item>
@@ -237,18 +238,32 @@ const AddPurchaseIn = props => {
                   </div>
                 </Form.Item>
                 <ReturnGoods
+                  form={form}
                   changeDataSource={changeDataSource}
                   deliveryList={deliveryList}
                 />
               </Form.Item>
-              <Form.Item
-                label="退款方式"
-                name="returnWay"
-                rules={[{ required: true, message: "请选择退款方式" }]}
-              >
-                <Radio.Group onChange={onRadioChange}>
-                  <Radio value={1}>仅退款</Radio>
-                  <Radio value={2}>退货退款</Radio>
+              {
+                <Form.Item
+                  label="退款方式"
+                  name="returnWay"
+                  rules={[{ required: true, message: "请选择退款方式" }]}
+                >
+                  <Radio.Group
+                    onChange={onRadioChange}
+                    disabled={selectedRows.length == 0}
+                  >
+                    <Radio value={1}>仅退款</Radio>
+                    <Radio value={2}>退货退款</Radio>
+                  </Radio.Group>
+                </Form.Item>
+              }
+
+              <Form.Item>
+                <Radio.Group value={1}>
+                  <Radio value={1} disabled>
+                    仅退款
+                  </Radio>
                 </Radio.Group>
               </Form.Item>
               {returnWay == 2 && (
@@ -333,5 +348,9 @@ const AddPurchaseIn = props => {
     </Spin>
   );
 };
-
-export default AddPurchaseIn;
+const mapStateToProps = state => {
+  console.log(state);
+  const { AddReturnOrderReducers } = state;
+  return AddReturnOrderReducers;
+};
+export default connect(mapStateToProps)(AddPurchaseIn);

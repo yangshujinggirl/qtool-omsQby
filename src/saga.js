@@ -14,6 +14,7 @@ import TaxOrder from './models/OrderCenter/TaxOrder'
 import ShopManage from './models/BaseConfigCenter/ShopManage'
 import Supplier from './models/BaseConfigCenter/Supplier'
 import SupplierManage from './models/BaseConfigCenter/SupplierManage'
+import AddReturnOrder from './models/OrderCenter/UserOrder/addReturnOrder.js'
 
 
 export function* helloSaga () {
@@ -31,5 +32,6 @@ export function* helloSaga () {
     call(Supplier),
     call(ShopManage),
     call(SupplierManage),
+    call(AddReturnOrder),
   ])
 }
