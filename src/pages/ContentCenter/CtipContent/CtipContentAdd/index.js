@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { GetEditInfoApi } from 'api/contentCenter/CtipContentAdd';
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
+import IconMod from "./components/IconMod";
 import './index.less';
 
 const CtipContentAdd=({...props})=> {
   let [totalData, setTotalData] =useState({search:{}});
   let [bannerInfo, setBannder] =useState({moduleContent:[]});
+  let [iconInfo, setIconInfo] =useState({moduleContent:[]});
   let homepageId=props.match.params.id;
 
   const getInfo=()=> {
@@ -16,6 +18,7 @@ const CtipContentAdd=({...props})=> {
       let { search, banner, brandDisplay, icon, coupon, productDisplay, picMix,multilineProduct, themeActivity, flowProduct, homepageInfoVo } =res.result;
       setTotalData(homepageInfoVo);
       setBannder(banner);
+      setIconInfo(icon);
       console.log(res)
     })
   }
@@ -60,6 +63,7 @@ const CtipContentAdd=({...props})=> {
           <div className="part-mods">
             <SearchMod info={totalData}/>
             <BannerMod info={bannerInfo} {...props}/>
+            <IconMod info={iconInfo} {...props}/>
           </div>
         </div>
 }

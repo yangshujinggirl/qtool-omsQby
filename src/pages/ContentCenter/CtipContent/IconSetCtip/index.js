@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import BannerSet from "./BannerSet";
+import IconSet from "./IconSet";
 import ModuleSet from "./ModuleSet";
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
-
 
 class Index extends Component {
   constructor(props) {
@@ -20,10 +19,10 @@ class Index extends Component {
     return (
       <div className="content_box stock-tabs" >
         <Tabs activeKey={activeKey} onChange={this.onChange}>
-          <TabPane tab="设置banner" key="1">
+          <TabPane tab="设置Icon" key="1">
             {
               activeKey=='1'&&
-              <BannerSet {...this.props}/>
+              <IconSet {...this.props}/>
             }
           </TabPane>
           <TabPane tab="模块设置" key="2">

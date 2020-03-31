@@ -6,7 +6,7 @@ import {
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
+import { Qtable, Qmessage, Qbtn } from 'common';
 import { GetSupplierApi, GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/PosActivity';
 import StepMod from '../components/StepMod';
 import InfoSet from './components/InfoSet';

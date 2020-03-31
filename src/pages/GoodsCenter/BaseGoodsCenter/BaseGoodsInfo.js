@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button,Radio,AutoComplete,
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
+import { Qtable, Qmessage, Qbtn } from 'common';
 import { ColumnsInfoGeneral,ColumnsInfoCross } from './columns';
 import { GetEditInfoApi } from 'api/home/BaseGoods';
 // import './BaseGoodsAdd.less';

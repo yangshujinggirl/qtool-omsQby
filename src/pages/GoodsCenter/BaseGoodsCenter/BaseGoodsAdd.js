@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
+import { Qtable, Qmessage, Qbtn } from 'common';
 import { BatchListGenreal,BatchListCross, ColumnsAddGeneral,ColumnsAddCross } from './columns';
 import { GetOriginApi, GetAttributeApi, GetEditApi, GetBrandApi } from 'api/home/BaseGoods';
 import Creatlabel from './components/Creatlabel';
@@ -242,7 +242,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
     }
   }
-  
+
   useEffect(()=>{
     initPage();
     return () => {
