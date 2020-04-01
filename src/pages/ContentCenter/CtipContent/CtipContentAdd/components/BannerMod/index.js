@@ -1,8 +1,10 @@
 import react, { Component } from 'react';
 import { Button } from 'antd';
+import { Sessions } from 'utils';
 import ErrorText from '../ErrorText';
 import CommonMod from '../CommonMod';
 import Swiper from 'swiper';
+// import 'swiper/dist/css/swiper.min.css';
 import './index.less';
 
 let mySwiper;
@@ -32,7 +34,7 @@ class BannerMod extends Component {
   render() {
     let { homepageInfoVo } =this.props.info;
     let { moduleContent, backgroundPicUrl,isDisplay, homepageModuleId } =this.props.info;
-    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    const fileDomain = Sessions.get('fileDomain');
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
       <CommonMod
@@ -70,10 +72,6 @@ class BannerMod extends Component {
       </CommonMod>
     )
   }
-}
-function mapStateToProps(state) {
-  const { homeEdit } =state;
-  return homeEdit;
 }
 // export default BannerMod;
 export default BannerMod;

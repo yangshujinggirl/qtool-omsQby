@@ -16,12 +16,12 @@ const TabsMod=({...props})=> {
       onOk:()=>{
         props.onOk(el.key);
       },
-      onCancel:()=> {},
+      onCancel:()=> {props.onCancel(el.key)},
     });
   };
 
   return(
-    <div className={`part-tabs ${props.className}`}>
+    <div className={`part-tabs ${props.modType=="2"?"icon-part-tabs":""}`}>
       {
       props.panes.map((el,index) => (
           <p

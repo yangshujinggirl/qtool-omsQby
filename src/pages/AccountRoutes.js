@@ -128,6 +128,7 @@ import BossActivityInfo from './MarketCenter/PromotionActivity/BossActivity/Boss
 import CtipContent from './ContentCenter/CtipContent';
 import CtipContentAdd from './ContentCenter/CtipContent/CtipContentAdd/index';
 import BannerSetCtip from './ContentCenter/CtipContent/BannerSetCtip';
+import IconSetCtip from './ContentCenter/CtipContent/IconSetCtip';
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
@@ -288,6 +289,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/home_page_configuration" component={CtipContent}/>
                 <Route exact path="/account/CtipContent/add/:id" component={CtipContentAdd}/>
                 <Route exact path="/account/cbannerSet/:id?" component={BannerSetCtip}/>
+                <Route exact path="/account/cIconSet/:id?" component={IconSetCtip}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}

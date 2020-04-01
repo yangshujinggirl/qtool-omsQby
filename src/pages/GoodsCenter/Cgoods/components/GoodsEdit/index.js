@@ -8,7 +8,7 @@ import {
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ColumnsAdd } from '../column';
-import { Qtable, Qbtn, Qmessage, QupLoadImgLimt } from 'common';
+import { Qtable, Qbtn, Qmessage } from 'common';
 import { GetDetailApi, GetEditApi,GetLabelApi } from 'api/cTip/GeneralTradeGoods';
 import EditTable from './components/EditTable';
 import GraphicInformation from './components/GraphicInformation';

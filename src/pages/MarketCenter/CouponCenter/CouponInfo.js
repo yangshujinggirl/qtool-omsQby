@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn, QupLoadImgLimt } from 'common';
+import { Qtable, Qmessage, Qbtn } from 'common';
 import { ColumnCb, ColumnGoods } from './columns';
 import { GetInfoApi } from "api/marketCenter/CouponCenter";
 
