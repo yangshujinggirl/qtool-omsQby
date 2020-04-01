@@ -1,44 +1,60 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import NP from "number-precision";
-import { Form, Input, Radio, Spin } from "antd";
-import {
-  addPurchaseinApi,
-  searchSupplierApi,
-  searchStoreApi,
-  searchPriceApi,
-  GetPurchaseInOrderDetailApi
-} from "api/home/orderCenter/PurchaseOrder/PurchaseIn";
+import { Form, Input, Radio, Spin, Button } from "antd";
+import { addPurchaseinApi } from "api/home/orderCenter/PurchaseOrder/PurchaseIn";
 import "./index.less";
-import { Qbtn } from "common";
 import ReturnGoods from "./components/Editable";
 const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
 };
 
-const AddPurchaseIn = props => {
+const AddReturnOrder = props => {
   const [form] = Form.useForm();
   const { selectedRows } = props;
   const [loading, setLoading] = useState(false);
-  const [orderType, setOrderType] = useState("");
-  const [isDelivery, setIsDelivery] = useState("");
   const [returnWay, setReturnWay] = useState("");
+  const [expressAmount, setExpressAmount] = useState("");
   const [deliveryList, setDeliveryList] = useState([]);
-  const [orderTypeStatus,setOrderTypeStatus] = useState('')
-  useEffect(()=>{ 
-   
-  },[selectedRows])
-  /**
-   * 物流费用发生改变
-   * @param {*} e
-   */
+  useEffect(() => {
+    getTotalAmount(selectedRows)
+  }, [props.selectedRows]);
+  //物流费用发生改变
   const onRadioChange = e => {
     setReturnWay(e.target.value);
   };
-  /**
-   * 提交
-   */
+  //获取合计退款
+  const getTotalAmount=(list)=>{
+    if (list.length > 0) {
+      let totalReturnAmount = 0;
+      list.map(item => {
+        totalReturnAmount += Number(item.returnPrice||0);
+      });
+      if(isAddExpressFee()){
+        totalReturnAmount = totalReturnAmount + expressAmount;
+      }
+      form.setFieldsValue({ totalReturnAmount });
+    }else{
+      form.setFieldsValue({ totalReturnAmount:0 });
+    };
+  };
+  //判断加不加上运费
+  const isAddExpressFee=()=>{
+    const isOnlyOne = deliveryList.length == 1;
+    const isAllSelect = deliveryList[0].details.length == selectedRows.length;
+    const isAllnoSend = selectedRows.every(item=>item.expressStatus==0);//所有的都是未发货
+    let [totalReturnNum,totalHadReturnNum,totalBuyNum] = [0,0,0];
+    selectedRows.map(item=>{
+      totalReturnNum += item.num;
+      totalHadReturnNum += item.alreadyReturnNum;
+      totalBuyNum += item.buyNum
+    });
+    const isAllReturn = totalHadReturnNum+totalReturnNum == totalBuyNum
+    console.log(isOnlyOne+'-'+isAllSelect+'-'+isAllnoSend+'-'+isAllReturn)
+    return isOnlyOne&&isAllSelect&&isAllnoSend&&isAllReturn
+  }
+  // 提交
   const handleSubmit = async () => {
     const values = await form.validateFields();
     const _values = formatValues(values);
@@ -55,25 +71,16 @@ const AddPurchaseIn = props => {
       });
     [];
   };
-  /**
-   * 数据处理
-   */
-  const formatValues = values => {};
-  /**
-   * 取消
-   */
+  //取消
   const goBack = () => {
     props.history.push("/account/purchaseOrder");
   };
-  /**
-   * 更改商品信息
-   * @param {[{}]} goodList
-   */
+  //更改商品信息
   const changeDataSource = list => {
     setDeliveryList(list);
   };
   //输入订单子单号回车
-  const onBlur = e => {
+  const getDetail = e => {
     const { value } = e.target;
     if (value && /^[0-9]*$/.test(Number(value))) {
       // getReturnInfoApi({channelOrderNo:value.trim()}).then(res => {
@@ -103,10 +110,10 @@ const AddPurchaseIn = props => {
                   skuCode: "123",
                   productName: "小黄鸭",
                   salesAttributeName: "黄色",
-                  expressStatus: 1,
-                  expressStatusStr: "已发货",
+                  expressStatus: 0,
+                  expressStatusStr: "未发货",
                   buyNum: 4,
-                  alreadyReturnNum: 2,
+                  alreadyReturnNum: 0,
                   actualPayAmount: 100,
                   actualPayPrice: 11,
                   alreadyReturnAmount: 50,
@@ -121,7 +128,7 @@ const AddPurchaseIn = props => {
                   expressStatus: 0,
                   expressStatusStr: "未发货",
                   buyNum: 4,
-                  alreadyReturnNum: 0,
+                  alreadyReturnNum:0,
                   actualPayAmount: 100,
                   actualPayPrice: 11,
                   alreadyReturnAmount: 50,
@@ -160,13 +167,14 @@ const AddPurchaseIn = props => {
           ]
         }
       };
-      const {orderType,isDelivery,needPush,pushStatus} = res.result;
+      const { orderType, isDelivery, expressAmount } = res.result;
+      setExpressAmount(expressAmount);
       const list = res.result.deliveryList;
       list.map((item, index) => {
         item.key = index;
         item.details.map(subItem => {
-          subItem.isDelivery = res.result.isDelivery;
-          subItem.orderType = res.result.orderType;
+          subItem.isDelivery = isDelivery;
+          subItem.orderType = orderType;
           subItem.channelOrderDetailNo = item.channelOrderDetailNo;
           subItem.needPush = item.needPush;
           subItem.pushStatus = item.pushStatus;
@@ -183,6 +191,10 @@ const AddPurchaseIn = props => {
               subItem.buyNum
             );
           }
+          if(subItem.buyNum == subItem.alreadyReturnNum){
+            subItem.num = 0;
+            subItem.returnPrice = 0;
+          }
           return subItem;
         });
         const name = "goodList" + index;
@@ -192,13 +204,11 @@ const AddPurchaseIn = props => {
       setDeliveryList(list);
     }
   };
-  console.log(deliveryList);
-  console.log(form.getFieldsValue());
-
+  console.log(deliveryList)
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_toC_return">
-        <Form className="common-addEdit-form" form={form} {...formItemLayout}>
+        <Form initialValues={{ returnWay: 1 }}className="common-addEdit-form" form={form} {...formItemLayout}>
           <Form.Item label="用户订单" className="item_required">
             <Form.Item
               noStyle
@@ -210,8 +220,7 @@ const AddPurchaseIn = props => {
               ]}
             >
               <Input
-                onBlur={onBlur}
-                onPressEnter={onBlur}
+                onBlur={getDetail}
                 placeholder="请输入普通订单订单号或保税订单子单号"
               />
             </Form.Item>
@@ -240,32 +249,41 @@ const AddPurchaseIn = props => {
                 <ReturnGoods
                   form={form}
                   changeDataSource={changeDataSource}
+                  getTotalAmount={getTotalAmount}
                   deliveryList={deliveryList}
                 />
               </Form.Item>
-              {
-                <Form.Item
-                  label="退款方式"
-                  name="returnWay"
-                  rules={[{ required: true, message: "请选择退款方式" }]}
-                >
-                  <Radio.Group
-                    onChange={onRadioChange}
-                    disabled={selectedRows.length == 0}
+              {selectedRows.length == 0 ||
+              selectedRows[0].expressStatus == 1 ? (
+                <Form.Item label="退款方式">
+                  <Form.Item
+                    noStyle
+                    name="returnWay"
+                    rules={[{ required: true, message: "请选择退款方式" }]}
                   >
-                    <Radio value={1}>仅退款</Radio>
-                    <Radio value={2}>退货退款</Radio>
+                    <Radio.Group
+                      onChange={onRadioChange}
+                      disabled={selectedRows.length == 0}
+                    >
+                      <Radio value={1}>仅退款</Radio>
+                      <Radio value={2}>退货退款</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item noStyle>
+                    <span className="suffix_tips">
+                      勾选退款商品后选择退款方式
+                    </span>
+                  </Form.Item>
+                </Form.Item>
+              ) : (
+                <Form.Item label="退款方式" name="returnWay">
+                  <Radio.Group value={1}>
+                    <Radio value={1} disabled>
+                      仅退款
+                    </Radio>
                   </Radio.Group>
                 </Form.Item>
-              }
-
-              <Form.Item>
-                <Radio.Group value={1}>
-                  <Radio value={1} disabled>
-                    仅退款
-                  </Radio>
-                </Radio.Group>
-              </Form.Item>
+              )}
               {returnWay == 2 && (
                 <Form.Item label="退货地址" className="item_required">
                   <Form.Item
@@ -304,11 +322,11 @@ const AddPurchaseIn = props => {
                 </Form.Item>
               )}
               <Form.Item label="运费" name="expressAmount">
-                <Input disabled />
+                {expressAmount}
               </Form.Item>
               <Form.Item label="合计退款">
                 <Form.Item name="totalReturnAmount">
-                  <Input disabled />
+                  <Input disabled/>
                 </Form.Item>
                 <Form.Item>
                   <div className="add_return_order_tips">
@@ -341,16 +359,19 @@ const AddPurchaseIn = props => {
           )}
         </Form>
         <div className="handle-operate-save-action">
-          <Qbtn onClick={goBack}>取消</Qbtn>
-          <Qbtn onClick={handleSubmit}>确定</Qbtn>
+          <Button type="primary" size="large" onClick={goBack}>
+            取消
+          </Button>
+          <Button type="primary" size="large" onClick={handleSubmit}>
+            确定
+          </Button>
         </div>
       </div>
     </Spin>
   );
 };
 const mapStateToProps = state => {
-  console.log(state);
   const { AddReturnOrderReducers } = state;
   return AddReturnOrderReducers;
 };
-export default connect(mapStateToProps)(AddPurchaseIn);
+export default connect(mapStateToProps)(AddReturnOrder);
