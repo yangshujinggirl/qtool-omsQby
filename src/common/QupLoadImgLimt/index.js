@@ -123,11 +123,11 @@ class UpLoadImg extends Component {
             listType="picture-card"
             beforeUpload={this.beforeUpload}
             onPreview={this.handlePreview}
-            onChange={this.handleChange}
-          >
+            onChange={this.handleChange}>
             {fileList.length >= limit ? null : uploadButton}
           </Upload>
         </Form.Item>
+        {this.props.children}
         <Modal
           visible={previewVisible}
           footer={null}

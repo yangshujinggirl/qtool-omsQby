@@ -4,7 +4,7 @@ import CommonMod from '../CommonMod';
 import './index.less';
 
 const IconMod=({...props})=> {
-  const { homepageModuleId, moduleContent, moduleBackColor, titleColor, isDisplay } =props.info;
+  let { homepageModuleId, moduleContent, moduleBackColor, titleColor, isDisplay } =props.info;
   const fileDomain = Sessions.get('fileDomain');
   moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
 

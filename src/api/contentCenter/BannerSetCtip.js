@@ -4,7 +4,7 @@ export function GetListApi(values){
     return appAjax.get(`/module/banner/query/`,{params:{...values}})
 }
 //保存banner
-export function GetSaveBannerApi(values){
+export function GetSaveApi(values){
     return appAjax.post(`/module/banner/save`,{...values})
 }
 //banner详情

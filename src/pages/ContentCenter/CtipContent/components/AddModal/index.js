@@ -18,7 +18,13 @@ const AddModal=({...props})=> {
       let values = await form.validateFields();
       GetSaveApi(values)
       .then((res)=> {
-        props.history.push(`/account/ctipContent/add/${res.homepageId}`);
+        if(values.type=="2") {
+          form.resetFields();
+          props.onOk();
+        } else {
+          props.history.push(`/account/ctipContent/add/${res.result.homepageId}`);
+        }
+
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);

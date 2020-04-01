@@ -4,15 +4,14 @@ import moment from 'moment';
 import {Qmessage, Qbtn } from 'common';
 import TabsMod from './components/TabsMod';
 import FrameModal from './components/FrameModal';
-import BannerAndIconTables from './components/BannerAndIconTables';
-import { linkOption, linkOptionTwo, linkIconOption } from './components/optionsMap';
+import BannerIconPicTables from './components/BannerIconPicTables';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
 
-function withSubscription(paramsObj,modType) {//modType:1banner,2:icon;
+function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:icon;3:多图
   return ({...props})=> {
-    let { GetListApi, GetChangeApi, GetSaveBannerApi, panes } =paramsObj;
+    let { GetListApi, GetChangeApi, GetSaveApi, panes } =paramsObj;
     const [form] = Form.useForm();
     let [list,setList]=useState([]);
     let [categorySource,setCategorySource]=useState([]);
@@ -23,7 +22,9 @@ function withSubscription(paramsObj,modType) {//modType:1banner,2:icon;
     let unit = modType=="1"?"帖":"坑";
     //查询信息
     const getList=(activiKey)=> {
-      GetListApi({position:activiKey?activiKey:"1",homepageModuleId})
+      let position = activiKey?activiKey:"1";
+      setActiviKey(position);
+      GetListApi({position,homepageModuleId})
       .then((res)=> {
         let { dataList, categoryList } =res.result;
         categoryList=categoryList?categoryList:[];
@@ -50,12 +51,10 @@ function withSubscription(paramsObj,modType) {//modType:1banner,2:icon;
       })
     }
     //切换坑帖
-    const onOkToggle=(activiKey)=> {
-      setActiviKey(activiKey);
-      onSubmit(activiKey);
+    const onOkToggle=(toKey)=> {
+      onSubmit(()=>getList(toKey));
     }
     const onCancelToggle=(activiKey)=> {
-      setActiviKey(activiKey);
       getList(activiKey);
     }
     //更新list
@@ -74,7 +73,7 @@ function withSubscription(paramsObj,modType) {//modType:1banner,2:icon;
       return values;
     }
     //提交
-    const onSubmit=async()=> {
+    const onSubmit=async(func)=> {
       try {
         let  values = await form.validateFields();
         let { goods } =values;
@@ -84,10 +83,10 @@ function withSubscription(paramsObj,modType) {//modType:1banner,2:icon;
             return el;
         })
         let params={homepageModuleId, position:activiKey, dataList }
-        GetSaveBannerApi(params)
+        GetSaveApi(params)
         .then((res)=> {
           Qmessage.success('保存成功');
-          getList(activiKey)
+          func&&typeof func == 'function'?func():getList(activiKey)
         })
       } catch (errorInfo) {
         console.log('Failed:', errorInfo);
@@ -115,7 +114,7 @@ function withSubscription(paramsObj,modType) {//modType:1banner,2:icon;
       setCurrentItem(record);
       setVisible(true);
     }
-    //变贴
+    //变帖，坑
     const onOk=(values)=> {
       if(values.frameNum == activiKey ) {
         Qmessage.error(`不可选择当前${unit}`)
@@ -143,32 +142,33 @@ function withSubscription(paramsObj,modType) {//modType:1banner,2:icon;
     useEffect(()=> { getList() },[homepageModuleId]);
     useEffect(()=> {form.setFieldsValue({goods:list})},[list])
 
-    let optionSource = activiKey=="1"?linkOption:linkOptionTwo;
-    if(modType=="2") {
-      optionSource = linkIconOption;
-    }
     return(
       <div className="set-pages oms-common-addEdit-pages">
-        <TabsMod
-          modType={modType}
-          activiKey={activiKey}
-          panes={panes}
-          onOk={onOkToggle}
-          onCancel ={onCancelToggle}/>
+        {
+          WrapComponent&&
+          <WrapComponent
+            activiKey={activiKey}
+            onOk={onOkToggle}
+            onCancel ={onCancelToggle}
+            {...props}/>
+        }
         <Form form={form} onValuesChange={onValuesChange}>
-          <BannerAndIconTables
+          <BannerIconPicTables
             modType={modType}
-            optionSource={optionSource}
+            activiKey={activiKey}
             onOperateClick={onOperateClick}
             dataSource={list}
             categorySource={categorySource}
             upDateList={upDateList}/>
-          <FrameModal
-            modType={modType}
-            visible={visible}
-            onOk={onOk}
-            onCancel={onCancel}
-            form={form}/>
+          {
+            modType!="3"&&
+            <FrameModal
+              modType={modType}
+              visible={visible}
+              onOk={onOk}
+              onCancel={onCancel}
+              form={form}/>
+          }
         </Form>
         <div className="handle-operate-save-action">
           <Qbtn onClick={()=>onSubmit()}>保存</Qbtn>

@@ -72,6 +72,7 @@ const CtipContent=({...props})=> {
   }
   const handleAdd=()=>{ setVisible(true); }
   const onCancel=()=>{ setVisible(false); }
+  const onOk=()=>{ setVisible(false);searchList();}
   useEffect(()=>{searchList()},[fields]);
 
   return <Spin tip="加载中..." spinning={loading}>
@@ -89,6 +90,7 @@ const CtipContent=({...props})=> {
               onChange={changePage}
               onShowSizeChange={onShowSizeChange}/>
             <AddModal
+              onOk={onOk}
               onCancel={onCancel}
               visible={visible}
               {...props}/>
