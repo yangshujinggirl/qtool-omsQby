@@ -1,4 +1,5 @@
 import { Form, Input } from "antd";
+import NP from "number-precision";
 const getColumns = props => {
   const Columns = [
     {
@@ -103,24 +104,17 @@ const getColumns = props => {
       const returnPrice = NP.times(record.actualPayPrice, Number(value));
       list.splice(index, 1, { ...item, num: Number(value), returnPrice });
       props.changeDataSource(arr);
+      if(props.selectedRows.length>0){//当已勾选，又更改数量的时候，同时更新合计退款
+        props.getTotalAmount(list)
+      };
       const name = "goodList" + record.parentId;
       props.form.setFieldsValue({ [name]: list });
     }
   };
   //退款数量置灰的几种情况
   const disabledCase = record => {
-    if (record.orderType == 1) {//一般订单--->已生成出库单并且商品不是赠品且已发货（可编辑）
-      return !(
-        record.isDelivery == 1 &&
-        record.expressStatus == 1 &&
-        record.isGift == 0
-      );
-    } else {//保税
-      if (record.needPush == 1) {//保税需要推送--->订单已推送且商品已发货（可编辑）
-        return !(record.pushStatus == 1 && record.expressStatus == 1);
-      } else {//保税不需要推送---->订单未推送（不可编辑）
-        return record.expressStatus == 0;
-      }
+    if(!(record.isGift==0&&record.canReturn==1&&record.expressStatus==1)){
+      return true
     }
     return false;
   };

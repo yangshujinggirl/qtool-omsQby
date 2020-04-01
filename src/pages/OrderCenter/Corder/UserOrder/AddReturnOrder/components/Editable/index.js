@@ -21,17 +21,18 @@ const ReturnGoods = props => {
   const rowSelection = {
     selectedRowKeys,
     onChange: (selectedRowKeys, selectedRows) => {
+      console.log(selectedRows)
       setSelectedRowKeys(selectedRowKeys);
       if (selectedRows && selectedRows[0]) {
         setParentId(selectedRows[0].parentId);
         setExpressStatus(selectedRows[0].expressStatus);
-        props.dispatch({
-          type:'addReturn/getSlectRows',
-          payload:selectedRows
-        });
       } else {
         setParentId("");
-      }
+      };
+      props.dispatch({
+        type:'addReturn/getSlectRows',
+        payload:selectedRows
+      });
     },
     getCheckboxProps: record => ({
       disabled: isDisabled(record)
@@ -41,37 +42,25 @@ const ReturnGoods = props => {
   };
   //不可勾选的情况
   const isDisabled = record => {
-    if (record.canReturn == 0 || record.buyNum == record.alreadyReturnNum) {
-      //退款中,//购买数量=已退数量,不可选
+    if (record.canReturn == 0 || record.buyNum == record.alreadyReturnNum) {//退款中,//购买数量=已退数量,不可选
       return true;
     }
-    if (record.orderType == 1 && record.isDelivery == 1) {
-      //一般订单并且是已出库的订单
-      if (String(parentId)) {
-        //已经勾选过
-        if (
-          record.parentId != parentId ||
-          record.expressStatus != expressStatus
-        ) {
-          //跨出库单不可勾选   +   //不可跨发货信息勾选
+    if (record.orderType == 1 && record.isDelivery == 1) {//一般订单并且是已出库的订单
+      if (String(parentId)) {//已经勾选过
+        if ( record.parentId != parentId ||record.expressStatus != expressStatus) {//跨出库单不可勾选   +   //不可跨发货信息勾选
           return true;
         }
       }
     }
-    if (record.orderType == 2) {
-      //保税的
-      if (record.needPush == 1) {
-        //需要推送的
-        if (record.expressStatus == 0) {
-          //未发货的不可勾选
+    if (record.orderType == 2) {//保税的
+      if (record.needPush == 1) {//需要推送的
+        if (record.expressStatus == 0) {//未发货的不可勾选
           return true;
         }
       }
-      if (record.needPush == 0) {
-        //无需推送的
+      if (record.needPush == 0) {//无需推送的
         if (String(parentId)) {
-          if (record.expressStatus != expressStatus) {
-            //不可跨发货信息勾选
+          if (record.expressStatus != expressStatus) {//不可跨发货信息勾选
             return true;
           }
         }
@@ -93,7 +82,7 @@ const ReturnGoods = props => {
             bordered={true}
             pagination={false}
             columns={Columns}
-            dataSource={item.details}
+            dataSource={[...item.details]}
             rowSelection={rowSelection}
             title={() => <span>{item.deliveryChannelName}</span>}
             key={index}
