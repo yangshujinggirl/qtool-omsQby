@@ -41,6 +41,7 @@ import CgoodsExplain from "./GoodsCenter/BaseConfigCenter/CgoodsExplain"; //后�
 import DescriptManage from "./GoodsCenter/BaseConfigCenter/DescriptManage";//描述属性管理
 import DescriptAdd from "./GoodsCenter/BaseConfigCenter/DescriptManage/DescriptAdd";//描述属性
 import DescriptInfo from "./GoodsCenter/BaseConfigCenter/DescriptManage/DescriptInfo";//描述属性
+
 //基础商品-----------------------------------//////
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
 import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGoodsAdd";//基础商品
@@ -59,6 +60,8 @@ import GeneralTradeLog from "./GoodsCenter/Cgoods/GeneralTradeGoods/GeneralTrade
 import Ctask from './GoodsCenter/Cgoods/Ctask'//C端批量任务
 import AddTask from './GoodsCenter/Cgoods/Ctask/AddTask'//C端批量任务
 import TaskInfo from './GoodsCenter/Cgoods/Ctask/TaskInfo'//C端批量任务
+import ActExchangeGoods from './GoodsCenter/Cgoods/ActExchangeGoods'
+import AddActExchangeGoods from './GoodsCenter/Cgoods/ActExchangeGoods/AddGoods'
 //B端商品-----------------------------------//////
 import Bgoods from "./GoodsCenter/Bgoods/GoodsList";//商品列表
 import BgoodsAdd from "./GoodsCenter/Bgoods/GoodsList/BgoodsAdd";//新增
@@ -233,6 +236,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/generalTrade/edit/:id" component={GeneralTradeEdit}/>
                 <Route exact path="/account/general_trade_product" component={GeneralTradeGoods}/>
                 <Route exact path="/account/c_product_title" component={CgoodsExplain}/>
+                <Route exact path="/account/event_exchange_products" component={ActExchangeGoods}/>
+                <Route exact path="/account/add_act_exchange_goods/:id?" component={AddActExchangeGoods}/>
                 {/* ----------------------------------  订单中心   ---------------------------------------*/}
                 <Route exact path='/account/purchaseOrder' component={PurchaseIn}/>
                 <Route exact path='/account/add_purchasein/:id?' component={AddPurchaseIn}/>

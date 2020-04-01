@@ -1,75 +1,107 @@
 import React, { useState, useEffect } from "react";
+
 import { connect } from "react-redux";
 import NP from "number-precision";
-import { Form, Input, Radio, Spin, Button } from "antd";
-import { addPurchaseinApi } from "api/home/orderCenter/PurchaseOrder/PurchaseIn";
+import { Form, Input, Radio, Spin, Button, message } from "antd";
+import {
+  getReturnInfoApi,
+  addReturnOrderApi
+} from "api/home/orderCenter/Corder/UserOrder";
 import "./index.less";
 import ReturnGoods from "./components/Editable";
+import GiftModal from "./components/GiftModal";
+
 const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
 };
-
 const AddReturnOrder = props => {
   const [form] = Form.useForm();
   const { selectedRows } = props;
   const [loading, setLoading] = useState(false);
   const [returnWay, setReturnWay] = useState("");
-  const [expressAmount, setExpressAmount] = useState("");
+  const [infos, setInfos] = useState({});
   const [deliveryList, setDeliveryList] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [giftList, setGiftList] = useState([]);
   useEffect(() => {
-    getTotalAmount(selectedRows)
+    getTotalAmount(selectedRows);
   }, [props.selectedRows]);
   //物流费用发生改变
   const onRadioChange = e => {
     setReturnWay(e.target.value);
   };
   //获取合计退款
-  const getTotalAmount=(list)=>{
+  const getTotalAmount = list => {
     if (list.length > 0) {
       let totalReturnAmount = 0;
       list.map(item => {
-        totalReturnAmount += Number(item.returnPrice||0);
+        totalReturnAmount += Number(item.returnPrice || 0);
       });
-      if(isAddExpressFee()){
-        totalReturnAmount = totalReturnAmount + expressAmount;
+      if (isAddExpressFee()) {
+        totalReturnAmount = totalReturnAmount + infos.expressAmount;
       }
       form.setFieldsValue({ totalReturnAmount });
-    }else{
-      form.setFieldsValue({ totalReturnAmount:0 });
-    };
+    } else {
+      form.setFieldsValue({ totalReturnAmount: 0 });
+    }
   };
   //判断加不加上运费
-  const isAddExpressFee=()=>{
+  const isAddExpressFee = () => {
     const isOnlyOne = deliveryList.length == 1;
     const isAllSelect = deliveryList[0].details.length == selectedRows.length;
-    const isAllnoSend = selectedRows.every(item=>item.expressStatus==0);//所有的都是未发货
-    let [totalReturnNum,totalHadReturnNum,totalBuyNum] = [0,0,0];
-    selectedRows.map(item=>{
+    const isAllnoSend = selectedRows.every(item => item.expressStatus == 0); //所有的都是未发货
+    let [totalReturnNum, totalHadReturnNum, totalBuyNum] = [0, 0, 0];
+    selectedRows.map(item => {
       totalReturnNum += item.num;
       totalHadReturnNum += item.alreadyReturnNum;
-      totalBuyNum += item.buyNum
+      totalBuyNum += item.buyNum;
     });
-    const isAllReturn = totalHadReturnNum+totalReturnNum == totalBuyNum
-    console.log(isOnlyOne+'-'+isAllSelect+'-'+isAllnoSend+'-'+isAllReturn)
-    return isOnlyOne&&isAllSelect&&isAllnoSend&&isAllReturn
-  }
+    const isAllReturn = totalHadReturnNum + totalReturnNum == totalBuyNum;
+    console.log(
+      isOnlyOne + "-" + isAllSelect + "-" + isAllnoSend + "-" + isAllReturn
+    );
+    return isOnlyOne && isAllSelect && isAllnoSend && isAllReturn;
+  };
   // 提交
   const handleSubmit = async () => {
     const values = await form.validateFields();
     const _values = formatValues(values);
     setLoading(true);
-    addPurchaseinApi(_values)
+    addReturnOrderApi(_values)
       .then(res => {
         setLoading(false);
         if (res.httpCode == 200) {
           goBack();
+        }
+        if (res.httpCode == 300) {
+          setGiftList(res.result);
+          setVisible(true);
         }
       })
       .catch(err => {
         setLoading(false);
       });
     [];
+  };
+  //数据格式化
+  const formatValues = _values => {
+    const {goodList0,goodList1,...values} = _values;
+    if (selectedRows.length == 0) {
+      return message.warning("请选择退货商品");
+    }
+    const { channelOrderNo, orderType, isDelivery,expressAmount } = infos;
+    values.channelOrderNo = channelOrderNo;
+    values.orderType = orderType;
+    values.isDelivery = isDelivery;
+    values.expressAmount = expressAmount;
+    let details = [];
+    selectedRows.map(item => {
+      const { channelOrderDetailNo, skuCode, num, isGift } = item;
+      details.push({ channelOrderDetailNo, skuCode, num, isGift });
+    });
+    values.details = details;
+    return values
   };
   //取消
   const goBack = () => {
@@ -91,6 +123,7 @@ const AddReturnOrder = props => {
       const res = {
         httpCode: 200,
         result: {
+          channelOrderNo:'111',
           orderType: 1,
           deliveryType: 1,
           expressAmount: 100,
@@ -128,7 +161,7 @@ const AddReturnOrder = props => {
                   expressStatus: 0,
                   expressStatusStr: "未发货",
                   buyNum: 4,
-                  alreadyReturnNum:0,
+                  alreadyReturnNum: 0,
                   actualPayAmount: 100,
                   actualPayPrice: 11,
                   alreadyReturnAmount: 50,
@@ -167,10 +200,10 @@ const AddReturnOrder = props => {
           ]
         }
       };
-      const { orderType, isDelivery, expressAmount } = res.result;
-      setExpressAmount(expressAmount);
-      const list = res.result.deliveryList;
-      list.map((item, index) => {
+      const { deliveryList, ...infos } = res.result;
+      const { orderType, isDelivery } = infos;
+      setInfos(infos);
+      deliveryList.map((item, index) => {
         item.key = index;
         item.details.map(subItem => {
           subItem.isDelivery = isDelivery;
@@ -191,7 +224,7 @@ const AddReturnOrder = props => {
               subItem.buyNum
             );
           }
-          if(subItem.buyNum == subItem.alreadyReturnNum){
+          if (subItem.buyNum == subItem.alreadyReturnNum) {
             subItem.num = 0;
             subItem.returnPrice = 0;
           }
@@ -201,14 +234,18 @@ const AddReturnOrder = props => {
         form.setFieldsValue({ [name]: item.details });
         return item;
       });
-      setDeliveryList(list);
+      setDeliveryList(deliveryList);
     }
   };
-  console.log(deliveryList)
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_toC_return">
-        <Form initialValues={{ returnWay: 1 }}className="common-addEdit-form" form={form} {...formItemLayout}>
+        <Form
+          initialValues={{ returnWay: 1 }}
+          className="common-addEdit-form"
+          form={form}
+          {...formItemLayout}
+        >
           <Form.Item label="用户订单" className="item_required">
             <Form.Item
               noStyle
@@ -321,12 +358,12 @@ const AddReturnOrder = props => {
                   </Form.Item>
                 </Form.Item>
               )}
-              <Form.Item label="运费" name="expressAmount">
-                {expressAmount}
+              <Form.Item label="运费">
+                {infos.expressAmount}
               </Form.Item>
               <Form.Item label="合计退款">
                 <Form.Item name="totalReturnAmount">
-                  <Input disabled/>
+                  <Input disabled />
                 </Form.Item>
                 <Form.Item>
                   <div className="add_return_order_tips">
@@ -366,6 +403,11 @@ const AddReturnOrder = props => {
             确定
           </Button>
         </div>
+        <GiftModal
+          visible={visible}
+          dataSource={giftList}
+          onOk={() => setVisible(false)}
+        />
       </div>
     </Spin>
   );

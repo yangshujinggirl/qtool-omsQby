@@ -17,7 +17,7 @@ class NormalForm extends BaseFilter {
     searchStoreApi().then(res => {
       if (res.httpCode == 200) {
         this.setState({
-          storeList:res.result
+          storeList: res.result
         });
       }
     });
@@ -100,15 +100,15 @@ class NormalForm extends BaseFilter {
                 <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
               </Form.Item>
             </Col>
+            <Col span={24}>
+              <Form.Item wrapperCol={{span:24}} className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
+                  搜索
+                </Qbtn>
+              </Form.Item>
+            </Col>
           </Row>
         </Form>
-        <Col span={24}>
-          <Form.Item className="oms-condition-operate">
-            <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
-              搜索
-            </Qbtn>
-          </Form.Item>
-        </Col>
       </div>
     );
   }
