@@ -125,10 +125,12 @@ import BossActivity from './MarketCenter/PromotionActivity/BossActivity';//C审�
 import BossActivityAdd from './MarketCenter/PromotionActivity/BossActivity/BossActivityAdd';//C审核
 import BossActivityInfo from './MarketCenter/PromotionActivity/BossActivity/BossActivityInfo';//C审核
 /**********************************内容中心***************************************************/
-import CtipContent from './ContentCenter/CtipContent';
-import CtipContentAdd from './ContentCenter/CtipContent/CtipContentAdd/index';
-import BannerSetCtip from './ContentCenter/CtipContent/BannerSetCtip';
-import IconSetCtip from './ContentCenter/CtipContent/IconSetCtip';
+import CtipContent from './ContentCenter/CtipContent';//内容列表
+import CtipContentAdd from './ContentCenter/CtipContent/CtipContentAdd/index';//配置页
+import BannerSetCtip from './ContentCenter/CtipContent/BannerSetCtip';//banner
+import IconSetCtip from './ContentCenter/CtipContent/IconSetCtip';//icon
+import MorePicSetCtip from './ContentCenter/CtipContent/MorePicSetCtip';//多图
+import NewUserSetCtip from './ContentCenter/CtipContent/NewUserSetCtip';//新人礼
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
@@ -290,6 +292,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/CtipContent/add/:id" component={CtipContentAdd}/>
                 <Route exact path="/account/cbannerSet/:id?" component={BannerSetCtip}/>
                 <Route exact path="/account/cIconSet/:id?" component={IconSetCtip}/>
+                <Route exact path="/account/cMorePicSet/:id?" component={MorePicSetCtip}/>
+                <Route exact path="/account/cNewUserSet/:id?" component={NewUserSetCtip}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}

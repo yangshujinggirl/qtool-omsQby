@@ -41,7 +41,7 @@ class MoreGoodsMod extends Component {
           <div className="mod-wrap">
             <div className={multilineProduct.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
               <div className="hd-item">
-                <spa>{multilineProduct.title}</spa>
+                <span>{multilineProduct.title}</span>
               </div>
               {
                 multilineProduct.isDisplayMore==1&&

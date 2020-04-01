@@ -10,8 +10,21 @@ const FormItem = Form.Item;
 const { TabPane } = Tabs;
 
 function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:icon;3:多图
-  return ({...props})=> {
-    let { GetListApi, GetChangeApi, GetSaveApi, panes } =paramsObj;
+  let { GetListApi, GetChangeApi, GetSaveApi, panes } =paramsObj;
+  return class Index extends React.Component{
+    formRef = React.createRef();
+    constructor(props) {
+      super(props);
+      this.state={
+        list:[],
+        categorySource:[],
+        activiKey:"1",
+        visible:false,
+        currentItem:{},
+        homepageModuleId:this.props.match.params.id,
+        unit:modType=="1"?"帖":"坑"
+      }
+    }
     const [form] = Form.useForm();
     let [list,setList]=useState([]);
     let [categorySource,setCategorySource]=useState([]);
@@ -21,10 +34,8 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
     let homepageModuleId = props.match.params.id;
     let unit = modType=="1"?"帖":"坑";
     //查询信息
-    const getList=(activiKey)=> {
-      let position = activiKey?activiKey:"1";
-      setActiviKey(position);
-      GetListApi({position,homepageModuleId})
+    getList=(activiKey)=> {
+      GetListApi({position:this.state.activiKey,this.state.homepageModuleId})
       .then((res)=> {
         let { dataList, categoryList } =res.result;
         categoryList=categoryList?categoryList:[];
@@ -46,15 +57,26 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
           }
           return el;
         })
-        setList(dataList);
-        setCategorySource(categoryList);
+        this.setState({list: dataList,categorySource: categoryList})
+      })
+    }
+    const changePromise=(val)=> {
+      return new Promise(function(resolve, reject) {
+        setActiviKey(val);
+        console.log(val)
+        resolve();
       })
     }
     //切换坑帖
     const onOkToggle=(toKey)=> {
-      onSubmit(()=>getList(toKey));
+      changePromise(toKey)
+      .then((res)=> {
+        console.log(activiKey)
+      })
+      // onSubmit(toKey);
     }
     const onCancelToggle=(activiKey)=> {
+      setActiviKey(activiKey);
       getList(activiKey);
     }
     //更新list
@@ -73,7 +95,7 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
       return values;
     }
     //提交
-    const onSubmit=async(func)=> {
+    const onSubmit=async(toggleActiviKey)=> {
       try {
         let  values = await form.validateFields();
         let { goods } =values;
@@ -86,7 +108,8 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
         GetSaveApi(params)
         .then((res)=> {
           Qmessage.success('保存成功');
-          func&&typeof func == 'function'?func():getList(activiKey)
+          setActiviKey(toggleActiviKey);
+          getList(activiKey)
         })
       } catch (errorInfo) {
         console.log('Failed:', errorInfo);

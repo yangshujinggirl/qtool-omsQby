@@ -2,6 +2,7 @@ import { Table, Input, Form, DatePicker, Select, Button } from 'antd';
 import { useState } from 'react';
 import moment from 'moment';
 import { QupLoadImgLimt, Qbtn } from 'common';
+import { linkOption, linkOptionTwo, linkIconOption } from '../optionsMap';
 import lodash from 'lodash';
 import './index.less';
 
@@ -71,23 +72,45 @@ const disabledDateTime = (date) => {
   };
 };
 
-const BaseEditTable=({...props})=> {
-  //绑定方法
-  const processData=(data)=> {
-    if(!props.onOperateClick) {
-      return data;
-    }
-    data && data.map((item, i) => {
-        item.onOperateClick = (type) => { props.onOperateClick(item, type) };
-    })
+//绑定方法
+const processData=(props,data)=> {
+  if(!props.onOperateClick) {
     return data;
   }
+  data && data.map((item, i) => {
+      item.onOperateClick = (type) => { props.onOperateClick(item, type) };
+  })
+  return data;
+}
 
-  let { dataSource, columns, categorySource, optionSource, modType } =props;
-  dataSource = processData(dataSource);
+const BaseEditTable=({...props})=> {
+  let { dataSource, columns, categorySource, activiKey, modType } =props;
+  dataSource = processData(processData,dataSource);
   let newDataSource = lodash.cloneDeep(dataSource);
   let [key,setKey] = useState(newDataSource.length);
-
+  let optionSource,picWith,picHeight;
+  switch(modType) {
+    case "1"://banner
+      optionSource = activiKey=="1"?linkOption:linkOptionTwo;
+      picWith = 343;
+      picHeight=178;
+      break;
+    case "2"://icon
+      optionSource = linkIconOption;
+      picWith = 1;
+      picHeight=1;
+      break;
+    case "3"://多图
+      optionSource = linkIconOption;
+      if(activiKey=="1") {
+        picWith = 313;
+        picHeight= 400;
+      } else {
+        picWith = 357;
+        picHeight= 192;
+      }
+      break;
+  }
   const handleAdd=()=> {
     key++;
     setKey(key)
@@ -106,21 +129,13 @@ const BaseEditTable=({...props})=> {
   }
   const renderPicUrl=(text,record,index)=> {
     let fileList=record.picUrl?record.picUrl:[];
-    let width,height;
-    if(modType == '1') {
-      width = 343;
-      height=178;
-    } else{
-      width = 1;
-      height=1;
-    }
     return <QupLoadImgLimt
               rules={[{ required: true, message: '请上传图片' } ]}
               name={['goods',index,'picUrl']}
               fileList={fileList}
               limit="1"
-              width={width}
-              height={height}/>
+              width={picWith}
+              height={picHeight}/>
   }
   const renderTitle=(text,record,index)=> {
     return <FormItem name={['goods',index,'title']} rules={[{ required:true,message:'请输入名称'}]}>
@@ -245,9 +260,11 @@ const BaseEditTable=({...props})=> {
       disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&(record.platform!=undefined)&&!!record.linkInfoType;
     }
     return <div className="handle-item-btn-list">
-            <Button type="primary" disabled={!disabled} onClick={()=>record.onOperateClick('frame')}>
-              {modType=="2"?'变坑':'变帧'}
-            </Button>
+            {modType!="3"&&
+              <Button type="primary" disabled={!disabled} onClick={()=>record.onOperateClick('frame')}>
+                {modType=="2"?'变坑':'变帧'}
+              </Button>
+            }
             <Button type="primary" onClick={()=>handleDelete(index)}> 删除 </Button>
           </div>
   }
@@ -260,10 +277,13 @@ const BaseEditTable=({...props})=> {
           pagination={false}
           dataSource={newDataSource}>
           <Table.Column title="序号" key ='key' dataIndex="key" width="4%"  render={renderCode}/>
-          <Table.Column title={`${modType=="1"?'banner':'icon'}图片*`} key ='picUrl' width="6%"  dataIndex="picUrl" render={renderPicUrl}/>
+          <Table.Column title={`图片*`} key ='picUrl' width="6%"  dataIndex="picUrl" render={renderPicUrl}/>
           <Table.Column title="ID" key ='frameDetailId' dataIndex="frameDetailId" width="6%"/>
-          <Table.Column title={`${modType=="1"?'banner':'icon'}名称*`} key ='title' width="14%" dataIndex="title" render={renderTitle}/>
-          <Table.Column title="适用端*" key ='platform' width="10%" dataIndex="platform" render={renderPlatForm}/>
+          <Table.Column title={`名称*`} key ='title' width="14%" dataIndex="title" render={renderTitle}/>
+          {
+            modType!="3"&&
+            <Table.Column title="适用端*" key ='platform' width="10%" dataIndex="platform" render={renderPlatForm}/>
+          }
           <Table.Column title="跳转链接*" key ='linkInfoType' width="14%" dataIndex="linkInfoType" render={renderLinkType}/>
           <Table.Column title="跳转内容*" key ='linkInfo' width="16%" dataIndex="linkInfo" render={renderLinkInfo}/>
           <Table.Column title="开始时间*" key ='beginTime' width="16%" dataIndex="beginTime" render={renderStartTime}/>

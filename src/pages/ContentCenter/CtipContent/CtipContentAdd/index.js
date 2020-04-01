@@ -4,12 +4,14 @@ import { GetEditInfoApi } from 'api/contentCenter/CtipContentAdd';
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
 import IconMod from "./components/IconMod";
+import MorePicMod from "./components/MorePicMod";
 import './index.less';
 
 const CtipContentAdd=({...props})=> {
   let [totalData, setTotalData] =useState({search:{}});
   let [bannerInfo, setBannder] =useState({moduleContent:[]});
   let [iconInfo, setIconInfo] =useState({moduleContent:[]});
+  let [morePicInfo, setMorePicInfo] =useState({moduleContent:[]});
   let homepageId=props.match.params.id;
 
   const getInfo=()=> {
@@ -19,6 +21,7 @@ const CtipContentAdd=({...props})=> {
       setTotalData(homepageInfoVo);
       setBannder(banner);
       setIconInfo(icon);
+      setMorePicInfo(picMix);
       console.log(res)
     })
   }
@@ -64,6 +67,7 @@ const CtipContentAdd=({...props})=> {
             <SearchMod info={totalData}/>
             <BannerMod info={bannerInfo} {...props}/>
             <IconMod info={iconInfo} {...props}/>
+            <MorePicMod info={morePicInfo} {...props}/>
           </div>
         </div>
 }

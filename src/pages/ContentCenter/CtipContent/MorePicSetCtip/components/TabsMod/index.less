@@ -1,0 +1,61 @@
+.more-pic-set-pages {
+  .pic-tabs-wrap {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 30px;
+    padding: 10px 0;
+    .lev-one-l,
+    .lev-one-r {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .lev-one-r {
+      width: 40%;
+      padding-left: 20px;
+      box-sizing: border-box;
+      .r-item {
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+      }
+      .label {
+        font-size: 14px;
+        color: #000;
+        margin-bottom: 6px;
+      }
+    }
+    .content-wrap {
+      display: flex;
+      align-items: center;
+      align-items: stretch;
+    }
+    .lev-two-l,
+    .lev-two-r {
+      width: 120px;
+      text-align: center;
+    }
+    .lev-two-l {
+      background: #ccc;
+      margin-right: 10px;
+      cursor: pointer;
+      &.activikey {
+        border: 1px solid #35BAB0;
+        color: #35BAB0;
+      }
+    }
+    .lev-two-r {
+      .con {
+        height: 70px;
+        background: #ccc;
+        cursor: pointer;
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+        &.activikey {
+          border: 1px solid #35BAB0;
+          color: #35BAB0;
+        }
+      }
+    }
+  }
+}
