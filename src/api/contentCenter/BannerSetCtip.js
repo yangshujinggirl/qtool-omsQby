@@ -7,9 +7,9 @@ export function GetListApi(values){
 export function GetSaveApi(values){
     return appAjax.post(`/module/banner/save`,{...values})
 }
-//banner详情
-export function GetEditInfoApi(values){
-    return appAjax.post(`/module/banner/{frameDetailId}`,{...values})
+//查设置详情（通用
+export function GetModalInfoApi(homepageModuleId){
+    return appAjax.post(`/homePageModule/get/${homepageModuleId}`)
 }
 //保存设置
 export function GetSaveSetApi(values){

@@ -1,7 +1,8 @@
-import { Form, message, Button } from "antd";
+import { Form, Input, message, Button, Radio } from "antd";
 import { useState, useEffect } from 'react';
 import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
-import { GetSaveSetApi } from 'api/contentCenter/BannerSetCtip';
+import { GetSaveSetApi } from 'api/contentCenter/IconSetCtip';
+import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
 const FormItem = Form.Item;
 
 const ModuleSet=({...props})=> {
@@ -9,32 +10,28 @@ const ModuleSet=({...props})=> {
   let [list,setList]=useState([]);
   let homepageModuleId = props.match.params.id;
   const initPage = () => {
-    this.props.dispatch({type: 'tab/loding',payload:true})
-    const { homepageModuleId } = this.props.data
-    getModuleApi({ homepageModuleId }).then(res => {
-      if (res.code == "0") {
-        const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-        const { backgroundPicUrl } = res.homepageModuleVo;
-        let fileList = [];
-        if (backgroundPicUrl) {
-          fileList = [
-            {
-              uid: "-1",
-              status: "done",
-              url: fileDomain + backgroundPicUrl
-            }
-          ];
-        }
-        this.setState({ fileList,imageUrl:backgroundPicUrl });
-        this.props.dispatch({type: 'tab/loding',payload:false})
-      }else{
-        this.props.dispatch({type: 'tab/loding',payload:false})
-      }
+    GetModalInfoApi(homepageModuleId)
+    .then(res => {
+    //   if (res.code == "0") {
+    //     const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
+    //     const { backgroundPicUrl } = res.homepageModuleVo;
+    //     let fileList = [];
+    //     if (backgroundPicUrl) {
+    //       fileList = [
+    //         {
+    //           uid: "-1",
+    //           status: "done",
+    //           url: fileDomain + backgroundPicUrl
+    //         }
+    //       ];
+    //     }
+    //     this.setState({ fileList,imageUrl:backgroundPicUrl });
+    //     this.props.dispatch({type: 'tab/loding',payload:false})
+    //   }else{
+    //     this.props.dispatch({type: 'tab/loding',payload:false})
+    //   }
     });
   };
-  const upDateList=(array)=> {
-    setList(array)
-  }
   const handleSubmit =()=> {
     GetSaveSetApi({
       homepageModuleId,
@@ -44,24 +41,22 @@ const ModuleSet=({...props})=> {
       Qmessage.success('保存成功')
     })
   }
+  useEffect(()=>{ initPage() },[homepageModuleId])
+
   return (
     <Form form={form}>
-      <FormItem label="模块背景图">
-        <FormItem noStyle>
-          <QupLoadImgLimt
-            rules={[{ required: true, message: '请上传图片' } ]}
-            name="backgroundPicUrl"
-            fileList={list}
-            limit="1"
-            width={375}
-            height={196}
-            upDateList={upDateList}/>
-          图片宽高比为375:196，支持png格式，大小在2m以内
-        </FormItem>
-        <Qbtn onClick={handleSubmit}>
-          保存设置
-        </Qbtn>
+      <FormItem label="设置模块背景色号" name="moduleBackColor">
+        <Input type='color' style={{ width: "60px" }}/>
       </FormItem>
+      <FormItem label="设置模块背景色号" name="titleColor">
+        <Radio.Group>
+          <Radio value={0}>黑色</Radio>
+          <Radio value={1}>白色</Radio>
+        </Radio.Group>
+      </FormItem>
+      <Qbtn onClick={handleSubmit}>
+        保存设置
+      </Qbtn>
     </Form>
   );
 }
