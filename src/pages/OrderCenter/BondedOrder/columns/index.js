@@ -34,7 +34,7 @@ const Columns = [
  
   {
     title: "生成时间",
-    dataIndex: "channelOrderCreateTime",
+    dataIndex: "createTime",
     render: (text, record, index) => (
       <span>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
     )
@@ -44,7 +44,7 @@ const Columns = [
     dataIndex: "operate",
     render: (text, record) => {
       return (
-        record.purchaseNo && <a onClick={() => record.onOperateClick()}>发货</a>
+        record.orderStatus==210 && <a onClick={() => record.onOperateClick()}>发货</a>
       );
     }
   }

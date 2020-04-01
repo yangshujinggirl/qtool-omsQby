@@ -5,7 +5,7 @@ export function getListApi(values) {
 }
 //发货
 export function sendGoodsApi(values) {
-  return omsAjax.get("/orderagency/sendOrder", { params: values });
+  return omsAjax.get("/orders/sendOrder", { params: values });
 }
 //快递公司查询
 export function getExpressListApi(values) {

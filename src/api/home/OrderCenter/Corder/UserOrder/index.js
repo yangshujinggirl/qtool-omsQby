@@ -28,3 +28,7 @@ export function getReturnInfoApi(values) {
     params: values
   });
 }
+//新建退单
+export function addReturnOrderApi(values) {
+  return omsAjax.post(`/toC/returnOrder/create`,values);
+}

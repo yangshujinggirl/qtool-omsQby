@@ -130,7 +130,7 @@ class ReplaceOrder extends Component {
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData} />
         <div className="handle-operate-btn-action">
-          <Qbtn onClick={this.exportData}>导出商品数据</Qbtn>
+          <Qbtn onClick={this.exportData} size='free'>导出商品数据</Qbtn>
         </div>
         <Qtable
           dataSource={dataList}
