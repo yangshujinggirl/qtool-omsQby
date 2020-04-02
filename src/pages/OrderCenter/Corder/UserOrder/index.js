@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import { getListApi } from "api/home/OrderCenter/Corder/UserOrder";
 import FilterForm from "./components/FilterForm/index";
-import Columns from "./columns";
+import {Columns} from "./columns";
 import { AppExportApi } from "api/Export";
 import moment from "moment";
 

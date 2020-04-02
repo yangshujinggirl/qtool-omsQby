@@ -1,32 +1,6 @@
 import {Switch, Route, Link} from "react-router-dom";
 import NotFound from "./NotFound";
-// import Public from "./Public";
-// import Protected from "./Protected";
-// import Cgoods from "./Cgoods";
-// import CgoodsAdd from "./Cgoods/CgoodsAdd";
-// import CgoodsInfo from "./Cgoods/CgoodsInfo";
 
-// import StoreHouse from "./StoreHouse";
-// import StockManage from "./StockManage";
-// import StoreAdd from "./StoreHouse/StoreAdd";
-// //订单中心
-// import SaleOrder from "./OrderCenter/SaleOrder";
-// import PosOrder from "./OrderCenter/PosOrder";
-// import ShopKeeperOrder from "./OrderCenter/ShopKeeperOrder";
-// import OnlineOrder from "./OrderCenter/OnlineOrder";
-// import ShopstockOrder from "./OrderCenter/ShopstockOrder";
-// import TaxOrder from "./OrderCenter/TaxOrder";
-// import UnconfirmedOrder from "./OrderCenter/UnconfirmedOrder";
-// import Supplier from "./GoodsCenter/BaseConfigCenter/Supplier";//供应商
-// import SupplierAdd from "./GoodsCenter/BaseConfigCenter/Supplier/SupplierAdd";
-// import InvestmentManage from "./GoodsCenter/BaseConfigCenter/InvestmentManage"; //招商管理
-// import InvestmentManageInfo from "./GoodsCenter/BaseConfigCenter/InvestmentManage/InvestmentManageInfo"; //招商信息
-// import ShopManage from "./GoodsCenter/BaseConfigCenter/ShopManage";//门店管理
-// import AddShop from "./GoodsCenter/BaseConfigCenter/ShopManage/AddShop";
-// import SetShop from "./GoodsCenter/BaseConfigCenter/ShopManage/SetShop";
-// // import SupplierManage from "./GoodsCenter/BaseConfigCenter/SupplierManage";
-// import AddSupplier from "./GoodsCenter/BaseConfigCenter/SupplierManage/AddSupplier";
-// import OrderAgency from "./OrderCenter/OrderAgency";
 
 
 /************************************  商品中心  ********************************************/
@@ -370,32 +344,9 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/stocking_change_b' component={BstockAdjust}/>
                 <Route exact path='/account/stocking_change_bonded' component={CrossBorderAdjust}/>
 
-                {/*
-        <Route  path="/account/descriptAdd/:id?" component={DescriptAdd}/>
-        <Route  path="/account/Csite" component={Cgoods}/>
-        <Route  path="/account/cgoodsAdd/:id?" component={CgoodsAdd}/>
-        <Route  path="/account/cgoodsInfo/:id?" component={CgoodsInfo}/>
-        <Route  path="/account/wareHouseManage" component={StoreHouse}/>
-        <Route  path="/account/stockManage" component={StockManage}/>
-        <Route  path="/account/storeAdd/:id?" component={StoreAdd}/>
-        <Route  path="/account/orderException" component={ShopstockOrder}/>
-        <Route  path="/account/orderConfirm" component={UnconfirmedOrder}/>
-        <Route  path="/account/orderSale" component={SaleOrder}/>
-        <Route  path="/account/orderPos" component={PosOrder}/>
-        <Route  path="/account/orderShopkeeper" component={ShopKeeperOrder}/>
-        <Route  path="/account/orderOnline" component={OnlineOrder}/>
-        <Route  path="/account/orderBonded" component={TaxOrder}/>
-        <Route  path="/account/productsIstation" component={Supplier}/>
-        <Route  path="/account/supplierAdd/:id?" component={SupplierAdd}/>
-        <Route  path="/account/customer" component={InvestmentManage}/>
-        <Route  path="/account/investmentInfo/:id" component={InvestmentManageInfo}/>
-        <Route  path="/account/channel" component={ShopManage}/>
-        <Route  path="/account/addShop/:id?" component={AddShop}/>
-        <Route  path="/account/shopSet/:id?" component={SetShop}/>
-        // <Route  path="/account/supplier" component={SupplierManage}/>
-        {/* <Route  path="/account/addSupplier/:id?" component={AddSupplier}/> */}
-                {/* <Route  path="/account/addSupplier/:id?" component={AddSupplier}/>
-        <Route  path="/account/orderAgency" component={OrderAgency}/> */}
+                
+        
+       
                 <Route component={NotFound}/>
             </Switch>
         );

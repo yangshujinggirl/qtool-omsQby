@@ -6,7 +6,11 @@ import { getListApi, saveApi } from "api/home/OperateCenter/Boperate/Banswer";
 import FilterForm from "./components/FilterForm/index";
 import {Columns} from "./columns";
 
-class Banner extends Component {
+/**
+ * 周虹烨
+ * B端问答
+ */
+class Banswer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,4 +85,4 @@ class Banner extends Component {
     );
   }
 }
-export default Banner;
+export default Banswer;

@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getInfosApi } from "api/home/OperateCenter/Boperate/Bpush";//请求方法
 
-const CouponDetail = props => {
+/**
+ * 
+ * 周虹烨
+ * B端推送详情
+ * 
+ */
+const BpushDetail = props => {
   const [infos, setInfos] = useState({});
   useEffect(() => {
     const { id } = props.match.params;
@@ -22,4 +28,4 @@ const CouponDetail = props => {
     </div>
   );
 };
-export default CouponDetail;
+export default BpushDetail;

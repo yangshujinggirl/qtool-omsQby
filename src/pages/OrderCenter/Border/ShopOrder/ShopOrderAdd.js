@@ -145,7 +145,7 @@ const ShopOrderAdd=({...props})=> {
       spOrder:{
         ...params,
         spShopId:totalData.spShopId,
-        recProvinceId:cascaderAdress[0],
+        recProvinceId:BaseConfigCenterAdress[0],
         recCityId:cascaderAdress[1],
         recDistrictId:cascaderAdress[2],
       },

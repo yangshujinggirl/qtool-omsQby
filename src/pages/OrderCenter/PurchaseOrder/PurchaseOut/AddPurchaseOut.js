@@ -6,8 +6,7 @@ import {
   getOrderInfoApi,
   searchStoreApi
 } from "api/home/OrderCenter/PurchaseOrder/PurchaseOut";
-import { Qbtn, CascaderAddressOptions } from "common";
-import moment from "moment";
+import { Qbtn } from "common";
 import Editable from "./components/Editable";
 import NP from "number-precision";
 import "./index.less";
@@ -24,10 +23,12 @@ const AddPurchaseOut = props => {
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [goodList, setGoodList] = useState([]);
+  const [options, setOptions] = useState([]);
   const [suppliersName, setSuppliersName] = useState("");
   useEffect(() => {
     getStoreList();
     initPage();
+    getProvinceList();
   }, []);
   /**
    * 初始化
@@ -42,26 +43,36 @@ const AddPurchaseOut = props => {
           const { detailList, ...infos } = res.result;
           countPrice(detailList);
           form.setFieldsValue({ goodList: detailList, ...infos });
-          
         }
       });
     }
   };
+  const getProvinceList = () => {
+    //获取省市区
+    getProvinceListApi().then(res => {
+      if (res.httpCode == 200) {
+        setOptions(res.result);
+      }
+    });
+  };
+
   /**
    * 计算总价
    */
-  const countPrice=(list)=>{
+  const countPrice = list => {
     let totalPrice = 0;
     if (list.length > 0) {
       list.map(item => {
         item.key = item.id;
-        item.total = (NP.times(Number(item.amount),Number(item.price))).toFixed(2)
+        item.total = NP.times(Number(item.amount), Number(item.price)).toFixed(
+          2
+        );
         totalPrice += Number(item.total);
       });
     }
     setGoodList(list);
     setTotalPrice(totalPrice);
-  }
+  };
   /**
    * 获取仓库列表
    */
@@ -86,33 +97,33 @@ const AddPurchaseOut = props => {
    */
   const handleSubmit = async () => {
     const values = await form.validateFields();
-    const { provinces,goodList:data, ..._values } = values;
+    const { provinces, goodList: data, ..._values } = values;
     if (provinces) {
       _values.province = provinces[0];
       _values.city = provinces[1];
       _values.area = provinces[2];
     }
-    if(props.match.params.id){
-      goodList.map(item=>{
-        data.map(subItem=>{
+    if (props.match.params.id) {
+      goodList.map(item => {
+        data.map(subItem => {
           subItem.id = item.id;
           subItem.thinkCode = item.thinkCode;
           subItem.itemCode = item.itemCode;
-        })
+        });
       });
     }
-    goodList.map(item=>{
-      data.map(subItem=>{
+    goodList.map(item => {
+      data.map(subItem => {
         subItem.thinkCode = item.thinkCode;
         subItem.itemCode = item.itemCode;
-      })
+      });
     });
     _values.detailList = data;
     _values.stockingReCode = props.match.params.id;
     addPurchaseOutApi(_values).then(res => {
       if (res.httpCode == 200) {
         goBack();
-      };
+      }
     });
   };
   //取消
@@ -127,10 +138,10 @@ const AddPurchaseOut = props => {
     if (value.trim()) {
       getOrderInfoApi({ stockingCode: value.trim() }).then(res => {
         if (res.httpCode == 200) {
-          const { data, suppliersName,...infos } = res.result;
+          const { data, suppliersName, ...infos } = res.result;
           setSuppliersName(suppliersName);
-          countPrice(data)
-          form.setFieldsValue({ goodList: data,infos });
+          countPrice(data);
+          form.setFieldsValue({ goodList: data, infos });
         }
       });
     }
@@ -149,7 +160,7 @@ const AddPurchaseOut = props => {
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_purchase">
-        <Form className='common-addEdit-form' form={form} {...formItemLayout}>
+        <Form className="common-addEdit-form" form={form} {...formItemLayout}>
           <Form.Item className="item_required" label="采购单号">
             <Form.Item
               noStyle
@@ -160,7 +171,7 @@ const AddPurchaseOut = props => {
                 placeholder="请输入采购单号"
                 onBlur={searchInfo}
                 onPressEnter={searchInfo}
-                autoComplete='off'
+                autoComplete="off"
               />
             </Form.Item>
             <span>{suppliersName}</span>
@@ -213,7 +224,7 @@ const AddPurchaseOut = props => {
               rules={[{ required: true, message: "请选择省市区" }]}
             >
               <Cascader
-                options={CascaderAddressOptions}
+                options={options}
                 placeholder="请选择地区"
               />
             </Form.Item>
@@ -243,7 +254,11 @@ const AddPurchaseOut = props => {
                 <span className="return_price_color">{goodList.length}</span>，
               </span>
               <span>
-                共计：<span className="return_price_color">{totalPrice.toFixed(2)}</span>元
+                共计：
+                <span className="return_price_color">
+                  {totalPrice.toFixed(2)}
+                </span>
+                元
               </span>
             </div>
           </div>

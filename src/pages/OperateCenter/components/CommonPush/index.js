@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Modal, message } from "antd";
 import { Qtable, Qpagination,Qbtn } from "common"; //表单
 import FilterForm from "./FilterForm/index";
-import columns from './Columns'
+import columns from './columns'
 import moment from "moment";
 
 /**

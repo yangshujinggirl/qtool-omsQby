@@ -44,4 +44,4 @@ export const QupLoadImgLimt = _QupLoadImgLimt;
 export const QtabShow = _QtabShow;
 export const Qcards = _Qcards;
 export const QcardList = _QcardList;
-export const Qecharts = _Qcharts;
+export const Qcharts = _Qcharts;

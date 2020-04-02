@@ -17,7 +17,13 @@ const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
 };
-const Bpush = props => {
+
+/**
+ * 周虹烨
+ * 新增B端推送
+ *
+ */
+const AddPush = props => {
   const [form] = Form.useForm();
   const [pushNow, setPushNow] = useState(1);
   const [alertType, setAlertType] = useState(true);
@@ -279,4 +285,4 @@ const Bpush = props => {
   );
 };
 
-export default Bpush;
+export default AddPush;

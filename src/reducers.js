@@ -10,9 +10,6 @@ import PosReducers from './pages/OrderCenter/PosOrder/reducers/reducersIndex';
 import ShopKeeperReducers from './pages/OrderCenter/ShopKeeperOrder/reducers/reducersIndex';
 import OnlineReducers from './pages/OrderCenter/OnlineOrder/reducers/reducersIndex';
 import TaxOrderReducers from './pages/OrderCenter/TaxOrder/reducers/reducersIndex';
-import ShopManageReducers from './pages/GoodsCenter/BaseConfigCenter/ShopManage/reducers/reducersIndex';
-import SupplierReducers from './pages/GoodsCenter/BaseConfigCenter/Supplier/reducers/reducersIndex';
-import SupplierManageReducers from './pages/GoodsCenter/BaseConfigCenter/SupplierManage/reducers/reducersIndex';
 import AddReturnOrderReducers from './pages/OrderCenter/Corder/UserOrder/AddReturnOrder/reducers/reducersIndex';
 
 export default combineReducers({
@@ -23,12 +20,9 @@ export default combineReducers({
   ClassifyReducers,
   AttributionsReducers,
   SaleOrderReducers,
-  SupplierReducers,
   PosReducers,
   ShopKeeperReducers,
   OnlineReducers,
-  ShopManageReducers,
   TaxOrderReducers,
-  SupplierManageReducers,
   AddReturnOrderReducers
 })
