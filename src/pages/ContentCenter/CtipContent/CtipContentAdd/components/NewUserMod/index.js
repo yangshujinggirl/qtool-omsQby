@@ -4,38 +4,32 @@ import CommonMod from '../CommonMod';
 
 import './index.less'
 
-class NewUserMod extends Component {
-  goEdit=()=> {
-    const { homepageModuleId } =this.props.info;
-    this.props.history.push(`/account/cNewUserSet/${homepageModuleId}`);
+const NewUserMod=({...props})=> {
+  let { homepageModuleId, moduleBackColor,isDisplay, moduleContent } =props.info;
+  const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+  const goEdit=()=> {
+    props.history.push(`/account/cNewUserSet/${homepageModuleId}`);
   }
-  render() {
-    let { homepageModuleId, moduleBackColor,isDisplay, moduleContent } =this.props.info;
-    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    return (
-      <CommonMod
-        homepageModuleId={ homepageModuleId }
-        className={`new-user-mod ${!isDisplay?'hiddle-module':''}`}
-        style={{'backgroundColor':moduleBackColor}}>
-        <div>
-          {
-            moduleContent&&moduleContent.newComerPicUrl?
-            <div className="content-wrap">
-              <img src={`${fileDomain}${moduleContent.newComerPicUrl}`}/>
-            </div>
-            :
-            <div className="no-module-data new-user-noData">新人礼</div>
-          }
-          <div className="handle-btn-action">
-            <div>
-                <Button onClick={this.goEdit}>编辑</Button>
-                <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'显示'}</Button>
-            </div>
+
+  return (
+    <CommonMod
+      hasDisplayBtn={true}
+      toggleShow={()=>{}}
+      goEdit={goEdit}
+      isDisplay={isDisplay}
+      homepageModuleId={ homepageModuleId }
+      className={`new-user-mod ${!isDisplay?'hiddle-module':''}`}
+      style={{'backgroundColor':moduleBackColor}}>
+        {
+          moduleContent&&moduleContent.newComerPicUrl?
+          <div className="content-wrap">
+            <img src={`${fileDomain}${moduleContent.newComerPicUrl}`}/>
           </div>
-        </div>
-      </CommonMod>
-    );
-  }
+          :
+          <div className="no-module-data new-user-noData">新人礼</div>
+        }
+    </CommonMod>
+  );
 }
 
 export default NewUserMod;

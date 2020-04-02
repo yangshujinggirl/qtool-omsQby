@@ -24,13 +24,17 @@ const formItemLayout = {
 const NewUserGift=({...props})=> {
   const [form] = Form.useForm();
   let [totalData,setTotalData]=useState({newComerPicUrl:[],couponPopUpPicUrl:[]});
-  let [list,setList]=useState([{}]);
+  let [list,setList]=useState([]);
   let [couponList,setCouponList]=useState([]);
   let homepageModuleId = props.match.params.id;
   const getInfo=()=> {
     GetListApi({homepageModuleId})
     .then((res)=> {
       let { couponList, couponSourceList,...totalData } = res.result;
+      totalData.newComerPicUrl=totalData.newComerPicUrl?totalData.newComerPicUrl:[]
+      totalData.couponPopUpPicUrl=totalData.couponPopUpPicUrl?totalData.couponPopUpPicUrl:[]
+      couponList=couponList?couponList:[]
+      couponSourceList=couponSourceList?couponSourceList:[]
       setTotalData(totalData);
       setList(couponList);
       setCouponList(couponSourceList);
@@ -58,6 +62,14 @@ const NewUserGift=({...props})=> {
   const upDateList=(array)=> {
     setList(array)
   }
+  const upDateListComer=(array)=> {
+    totalData={...totalData,newComerPicUrl:array}
+    setTotalData(totalData)
+  }
+  const upDateListPop=(array)=> {
+    totalData={...totalData,couponPopUpPicUrl:array}
+    setTotalData(totalData)
+  }
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=> {getInfo()},[homepageModuleId])
   return (
@@ -76,7 +88,8 @@ const NewUserGift=({...props})=> {
               fileList={totalData.newComerPicUrl}
               width={343}
               height={71}
-              limit="1">
+              limit="1"
+              upDateList={upDateListComer}>
               <span>图片宽高比为343:71，支持png格式，大小在2m以内</span>
             </QupLoadImgLimt>
             <QupLoadImgLimt
@@ -86,7 +99,8 @@ const NewUserGift=({...props})=> {
               fileList={totalData.couponPopUpPicUrl}
               width={69}
               height={70}
-              limit="1">
+              limit="1"
+              upDateList={upDateListPop}>
               <span>图片宽高比为69:70，支持png格式，大小在2m以内</span>
             </QupLoadImgLimt>
             <FormItem label="模块展示时间" name="time">

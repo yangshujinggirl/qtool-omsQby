@@ -24,10 +24,10 @@ class ThemeMod extends Component {
     const fileDomain = Sessions.get('fileDomain');
     return (
       <CommonMod
+        goEdit={this.goEdit}
         homepageModuleId={homepageModuleId}
         className="theme-mod"
         style={{'backgroundColor':moduleBackColor}}>
-        <div>
           <div className="mod-wrap">
             <div className={titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
               <div className="hd-item">
@@ -56,10 +56,6 @@ class ThemeMod extends Component {
               <div className="no-module-data theme-noData">主题模块</div>
             }
           </div>
-          <div className="handle-btn-action">
-            <Button onClick={this.goEdit}>编辑</Button>
-          </div>
-        </div>
       </CommonMod>
     );
   }

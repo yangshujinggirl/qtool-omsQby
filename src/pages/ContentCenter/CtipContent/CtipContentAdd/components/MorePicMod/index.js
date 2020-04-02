@@ -24,10 +24,10 @@ const MorePicMod=({...props})=> {
   })
   return (
     <CommonMod
+      goEdit={goEdit}
       homepageModuleId={homepageModuleId}
       className="common-sty morePic-mod"
       style={{'backgroundColor':moduleBackColor}}>
-      <div>
         <div className="mod-wrap">
           <div className={titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
             <span>{title}</span>
@@ -46,10 +46,6 @@ const MorePicMod=({...props})=> {
             </div>
           </div>
         </div>
-        <div className="handle-btn-action">
-            <Button onClick={goEdit}>编辑</Button>
-        </div>
-      </div>
     </CommonMod>
   );
 }

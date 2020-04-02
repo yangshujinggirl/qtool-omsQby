@@ -15,7 +15,7 @@ import {
   searchStoreApi,
   searchPriceApi,
   GetPurchaseInOrderDetailApi
-} from "api/home/orderCenter/PurchaseOrder/PurchaseIn";
+} from "api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import "./index.less";
 import { Qbtn } from "common";
 import moment from "moment";
