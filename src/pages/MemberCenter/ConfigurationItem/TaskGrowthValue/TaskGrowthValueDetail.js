@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {QbaseDetail, QdetailBaseInfo, QenlargeImg, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qtable} from "common/index";
 import {Card} from "antd";
 import {LogColumns, SubheadingColumns} from "./column/DetailLog";
 import {GetDataDetail} from "../../../../api/home/MemberCenter/ConfigurationItem/TaskGrowthValue";
@@ -39,17 +39,23 @@ const TaskGrowthValueDetail = (props) => {
     };
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="工单基础信息">
-            <QdetailBaseInfo
-                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 20}}}
-                showData={
-                    ["成长值类型", dataInfo.growthType,
-                        "任务项", dataInfo.name,
-                        "成长值任务图标", dataInfo.url != null ?
-                        <QenlargeImg url={sessionStorage.getItem("oms_fileDomain") + dataInfo.url}
-                                     key={dataInfo.url} placement="inline"/> : null,
-                        "成长值任务标题", dataInfo.title,
-                        "成长值任务副标题", <Qtable columns={SubheadingColumns} dataSource={subTitleBox}/>,
-                        "成长值任务描述", dataInfo.ruleDesc]
+            <QbaseInfo
+                colSpan={24} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 20}}}
+                dataInfo={
+                    [{key: "成长值类型", value: dataInfo.growthType},
+                        {key: "任务项", value: dataInfo.name},
+                        {
+                            key: "成长值任务图标", value: dataInfo.url != null ?
+                                <QenlargeImg
+                                    url={sessionStorage.getItem("oms_fileDomain") + dataInfo.url}
+                                    key={dataInfo.url} placement="inline"/> : null
+                        },
+                        {key: "成长值任务标题", value: dataInfo.title},
+                        {
+                            key: "成长值任务副标题",
+                            value: <Qtable columns={SubheadingColumns} dataSource={subTitleBox}/>
+                        },
+                        {key: "成长值任务描述", value: dataInfo.ruleDesc}]
                 }/>
         </Card>
         <Card title="日志">

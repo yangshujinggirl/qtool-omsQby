@@ -66,13 +66,13 @@ const OfflineStoreLevelTwo = (props) => {
     };
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="一级渠道基础信息">
-            <QdetailBaseInfo
-                showData={
-                    ["一级渠道ID", dataInfo.channelPopularizeCoding,
-                        "一级渠道名称", dataInfo.name,
-                        "渠道类型", dataInfo.channelType,
-                        "省份", dataInfo.province,
-                        "二级渠道数", dataInfo.secondChannelNum]
+            <QbaseInfo
+                dataInfo={
+                    [{key: "一级渠道ID", value: dataInfo.channelPopularizeCoding},
+                        {key: "一级渠道名称", value: dataInfo.name},
+                        {key: "渠道类型", value: dataInfo.channelType},
+                        {key: "省份", value: dataInfo.province},
+                        {key: "二级渠道数", value: dataInfo.secondChannelNum}]
                 }/>
         </Card>
         <Card title="二级渠道">

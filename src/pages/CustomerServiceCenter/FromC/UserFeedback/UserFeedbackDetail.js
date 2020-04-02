@@ -5,7 +5,7 @@ import {
     GetUserFeedbackDetail,
     EditUserFeedbackData
 } from "../../../../api/home/CustomerServiceCenter/FromC";
-import {QbaseDetail, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
     FEEDBACK_STATUS_END,
     FEEDBACK_STATUS_IN_HAND,
@@ -99,46 +99,55 @@ const UserFeedbackDetail = (props) => {
 
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="反馈信息">
-            <QdetailBaseInfo showData={
-                ["反馈编号", dataInfo.feedbackNo,
-                    "反馈用户", dataInfo.nickName,
-                    "用户电话", dataInfo.userTel,
-                    "反馈状态", dataInfo.statusStr,
-                    "处理时长", dataInfo.handleTime + 'h',
-                    "反馈时间", dataInfo.createTime != null && moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")]
+            <QbaseInfo dataInfo={
+                [{key: "反馈编号", value: dataInfo.feedbackNo},
+                    {key: "反馈用户", value: dataInfo.nickName},
+                    {key: "用户电话", value: dataInfo.userTel},
+                    {key: "反馈状态", value: dataInfo.statusStr},
+                    {key: "处理时长", value: dataInfo.handleTime + 'h'},
+                    {
+                        key: "反馈时间",
+                        value: dataInfo.createTime != null && moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")
+                    }]
             }/>
         </Card>
         <Card title="反馈内容">
-            <QdetailBaseInfo
-                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                showData={
-                    ["反馈内容", contentRemark,
-                        "反馈图片", picList.map((item, index) => {
-                        return (
-                            <QenlargeImg
-                                url={sessionStorage.getItem("oms_fileDomain") + item.imgPath}
-                                key={index} placement="inline"/>
-                        )
-                    })]
+            <QbaseInfo
+                colSpan={24} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                dataInfo={
+                    [{key: "反馈内容", value: contentRemark},
+                        {
+                            key: "反馈图片", value: picList.map((item, index) => {
+                                return (
+                                    <QenlargeImg
+                                        url={sessionStorage.getItem("oms_fileDomain") + item.imgPath}
+                                        key={index} placement="inline"/>
+                                )
+                            })
+                        }]
                 }/>
         </Card>
         <Card title="反馈处理">
-            <QdetailBaseInfo
-                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                showData={
+            <QbaseInfo
+                colSpan={24} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                dataInfo={
                     [
-                        "反馈状态", <Select
-                        onChange={handleStatusSelectChange}
-                        style={{width: '200px'}}
-                        value={dataInfo.status}>
-                        <Option value={FEEDBACK_STATUS_WAIT}>待处理</Option>
-                        <Option value={FEEDBACK_STATUS_IN_HAND}>处理中</Option>
-                        <Option value={FEEDBACK_STATUS_END}>已处理</Option>
-                    </Select>,
-                        "处理备注", <TextArea rows={4} value={dataInfo.editRemark}
-                                          onChange={editRemarkInfo}
-                                          placeholder='备注信息，最多200字，方便其他人了解，非必填'
-                                          maxLength='200'/>
+                        {
+                            key: "反馈状态", value: <Select
+                                onChange={handleStatusSelectChange}
+                                style={{width: '200px'}}
+                                value={dataInfo.status}>
+                                <Option value={FEEDBACK_STATUS_WAIT}>待处理</Option>
+                                <Option value={FEEDBACK_STATUS_IN_HAND}>处理中</Option>
+                                <Option value={FEEDBACK_STATUS_END}>已处理</Option>
+                            </Select>
+                        },
+                        {
+                            key: "处理备注", value: <TextArea rows={4} value={dataInfo.editRemark}
+                                                            onChange={editRemarkInfo}
+                                                            placeholder='备注信息，最多200字，方便其他人了解，非必填'
+                                                            maxLength='200'/>
+                        }
                     ]
                 }/>
         </Card>
