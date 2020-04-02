@@ -5,7 +5,7 @@ import { Qpagination, Qbtn, Qtable} from "common";
 import { ColumnsGeneral, ColumnsCross } from "../../columns";
 import { GetGoodsApi } from "api/home/BaseGoods";
 import GoodsListExtends from '../GoodsListExtends';
-import { ExportApi } from "api/Export";
+import { AppExportApi } from "api/Export";
 
 function withSubscription(FilterFormMod,productNature){
   return class BaseGoods extends React.Component {
@@ -55,7 +55,7 @@ function withSubscription(FilterFormMod,productNature){
       })
     };
     export =()=> {
-      ExportApi({...this.state.inputValues,type:1})
+      AppExportApi({...this.state.inputValues,type:1})
     }
     addTrade=()=> {
        this.props.history.push(`/account/baseGoodsAdd/${productNature}`);

@@ -11,25 +11,19 @@ const ModuleSet=({...props})=> {
   const initPage = () => {
     GetModalInfoApi(homepageModuleId)
     .then(res => {
-      console.log(res)
-      // if (res.code == "0") {
-      //   const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-      //   const { backgroundPicUrl } = res.homepageModuleVo;
-      //   let fileList = [];
-      //   if (backgroundPicUrl) {
-      //     fileList = [
-      //       {
-      //         uid: "-1",
-      //         status: "done",
-      //         url: fileDomain + backgroundPicUrl
-      //       }
-      //     ];
-      //   }
-      //   this.setState({ fileList,imageUrl:backgroundPicUrl });
-      //   this.props.dispatch({type: 'tab/loding',payload:false})
-      // }else{
-      //   this.props.dispatch({type: 'tab/loding',payload:false})
-      // }
+      let { backgroundPicUrl } =res.result;
+      if(backgroundPicUrl) {
+        backgroundPicUrl=[{
+           uid: '-1',
+           name: 'image.png',
+           status: 'done',
+           path:backgroundPicUrl,
+           url:`${res.fileDomain}${backgroundPicUrl}`
+        }]
+      } else {
+        backgroundPicUrl=[]
+      }
+      setList(backgroundPicUrl)
     });
   };
   const upDateList=(array)=> {
@@ -44,7 +38,8 @@ const ModuleSet=({...props})=> {
       Qmessage.success('保存成功')
     })
   }
-  useEffect(()=>{ initPage() },[homepageModuleId])
+  useEffect(()=>{ initPage() },[homepageModuleId]);
+  useEffect(()=>{ form.setFieldsValue({backgroundPicUrl: list}) },[list])
   return (
     <Form form={form}>
       <FormItem label="模块背景图">

@@ -3,7 +3,7 @@ import FilterForm from "./components/FilterForm";
 import { QsubTable, Qpagination, QbyConnect, Qbtn, Qtable} from "common";
 import { Columns } from "./column";
 import { GetListApi } from "api/home/SupplierManage";
-import { ExportApi } from "api/Export";
+import { OmsExportApi } from "api/Export";
 import moment from 'moment'
 
 class SupplierManage extends React.Component {
@@ -76,7 +76,7 @@ class SupplierManage extends React.Component {
     this.props.history.push('/account/baseGoodsAdd')
   }
   export =()=> {
-    ExportApi({...this.state.inputValues,type:1})
+    OmsExportApi({...this.state.inputValues,type:1})
   }
   render() {
     const { list, totalCount, everyPage, currentPage } = this.state;

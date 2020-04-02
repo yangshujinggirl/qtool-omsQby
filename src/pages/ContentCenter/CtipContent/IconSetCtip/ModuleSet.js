@@ -7,51 +7,36 @@ const FormItem = Form.Item;
 
 const ModuleSet=({...props})=> {
   const [form] = Form.useForm();
-  let [list,setList]=useState([]);
+  let [totalData,setTotalData]=useState([]);
   let homepageModuleId = props.match.params.id;
   const initPage = () => {
     GetModalInfoApi(homepageModuleId)
     .then(res => {
-    //   if (res.code == "0") {
-    //     const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-    //     const { backgroundPicUrl } = res.homepageModuleVo;
-    //     let fileList = [];
-    //     if (backgroundPicUrl) {
-    //       fileList = [
-    //         {
-    //           uid: "-1",
-    //           status: "done",
-    //           url: fileDomain + backgroundPicUrl
-    //         }
-    //       ];
-    //     }
-    //     this.setState({ fileList,imageUrl:backgroundPicUrl });
-    //     this.props.dispatch({type: 'tab/loding',payload:false})
-    //   }else{
-    //     this.props.dispatch({type: 'tab/loding',payload:false})
-    //   }
+      setTotalData(res.result)
     });
   };
-  const handleSubmit =()=> {
-    GetSaveSetApi({
-      homepageModuleId,
-      backgroupPicUrl:list[0].response.result
-    })
-    .then(res => {
-      Qmessage.success('保存成功')
-    })
+  const handleSubmit =async()=> {
+    try {
+      let  values = await form.validateFields();
+      GetSaveSetApi({...values, homepageModuleId})
+      .then(res => {
+        Qmessage.success('保存成功')
+      })
+    } catch (errorInfo) {
+      console.log('Failed:', errorInfo);
+    }
   }
   useEffect(()=>{ initPage() },[homepageModuleId])
-
+  useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   return (
     <Form form={form}>
       <FormItem label="设置模块背景色号" name="moduleBackColor">
-        <Input type='color' style={{ width: "60px" }}/>
+        <Input type='color' style={{ width: "60px",height:"32px" }}/>
       </FormItem>
       <FormItem label="设置模块背景色号" name="titleColor">
         <Radio.Group>
-          <Radio value={0}>黑色</Radio>
-          <Radio value={1}>白色</Radio>
+          <Radio value="0">黑色</Radio>
+          <Radio value="1">白色</Radio>
         </Radio.Group>
       </FormItem>
       <Qbtn onClick={handleSubmit}>
