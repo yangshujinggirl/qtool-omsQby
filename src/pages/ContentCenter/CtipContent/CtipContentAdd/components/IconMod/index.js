@@ -13,6 +13,9 @@ const IconMod=({...props})=> {
   }
   return(
     <CommonMod
+      hasDisplayBtn={true}
+      toggleShow={()=>{}}
+      goEdit={goEdit}
       homepageModuleId={homepageModuleId}
       className={`icon-mod hasLine ${!isDisplay?'hiddle-module':''}`}
       style={{'backgroundColor':moduleBackColor}}>
@@ -31,12 +34,6 @@ const IconMod=({...props})=> {
         :
         <div className="no-module-data icon-no-data">Icon 模块</div>
       }
-      <div className="handle-btn-action">
-          <div>
-            <Button onClick={goEdit}>编辑</Button>
-            <Button onClick={()=>props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'显示'}</Button>
-          </div>
-      </div>
     </CommonMod>
   )
 }

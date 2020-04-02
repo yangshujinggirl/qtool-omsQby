@@ -134,6 +134,7 @@ import BannerSetCtip from './ContentCenter/CtipContent/BannerSetCtip';//banner
 import IconSetCtip from './ContentCenter/CtipContent/IconSetCtip';//icon
 import MorePicSetCtip from './ContentCenter/CtipContent/MorePicSetCtip';//多图
 import NewUserSetCtip from './ContentCenter/CtipContent/NewUserSetCtip';//新人礼
+import ThemeActivitySetCtip from './ContentCenter/CtipContent/ThemeActivitySetCtip';//主题活动
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
@@ -299,6 +300,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/cIconSet/:id?" component={IconSetCtip}/>
                 <Route exact path="/account/cMorePicSet/:id?" component={MorePicSetCtip}/>
                 <Route exact path="/account/cNewUserSet/:id?" component={NewUserSetCtip}/>
+                <Route exact path="/account/cThemeSet/:id?" component={ThemeActivitySetCtip}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}

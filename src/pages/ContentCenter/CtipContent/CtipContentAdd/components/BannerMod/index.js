@@ -3,8 +3,7 @@ import { Button } from 'antd';
 import { Sessions } from 'utils';
 import ErrorText from '../ErrorText';
 import CommonMod from '../CommonMod';
-import Swiper from 'swiper';
-// import 'swiper/dist/css/swiper.min.css';
+import Swiper from 'swiper/js/swiper.js';
 import './index.less';
 
 let mySwiper;
@@ -32,16 +31,15 @@ class BannerMod extends Component {
     this.props.history.push(`/account/cbannerSet/${homepageModuleId}`);
   }
   render() {
-    let { homepageInfoVo } =this.props.info;
-    let { moduleContent, backgroundPicUrl,isDisplay, homepageModuleId } =this.props.info;
+    let { moduleContent, backgroundPicUrl,homepageModuleId } =this.props.info;
     const fileDomain = Sessions.get('fileDomain');
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
       <CommonMod
+        goEdit={this.goEdit}
         homepageModuleId={homepageModuleId}
         className="banner-mod hasLine"
         style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
-        <div>
           {
             moduleContent&&moduleContent.length>0?
             ( moduleContent.length==1?
@@ -65,10 +63,6 @@ class BannerMod extends Component {
             :
             <div className="no-module-data banner-no-module">Banner模块</div>
           }
-          <div className="handle-btn-action">
-            <Button onClick={this.goEdit}>编辑</Button>
-          </div>
-        </div>
       </CommonMod>
     )
   }

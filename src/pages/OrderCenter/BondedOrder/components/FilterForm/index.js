@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Qbtn, BaseFilter } from "common";
 import { Form, Row, Col, Input, Select, DatePicker } from "antd";
-import { searchStoreApi } from "api/home/orderCenter/PurchaseOrder/PurchaseIn";
+import { searchStoreApi } from "api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
 

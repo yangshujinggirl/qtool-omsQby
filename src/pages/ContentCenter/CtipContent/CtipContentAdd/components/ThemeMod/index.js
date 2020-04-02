@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { connect } from 'dva';
 import { Button } from "antd";
-import Swiper from "swiper/dist/js/swiper.js";
+import { Sessions } from 'utils';
+import Swiper from "swiper/js/swiper.js";
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import "./index.less";
@@ -15,38 +15,25 @@ class ThemeMod extends Component {
       observeParents:true,
     });
   }
-  goEdit = () => {
-    const { componkey } = this.props;
-    const {homepageModuleId} = this.props.info.themeActivity
-    const paneitem = {
-      title: "主题模块",
-      key: `${componkey}edit-theme`+homepageModuleId,
-      componkey: `${componkey}edit-theme`,
-      parentKey:componkey,
-      data: {homepageModuleId:this.props.info.themeActivity.homepageModuleId}
-    };
-    this.props.dispatch({
-      type: "tab/firstAddTab",
-      payload: paneitem
-    });
-  };
+  goEdit=()=> {
+    const { homepageModuleId } =this.props.info;
+    this.props.history.push(`/account/cThemeSet/${homepageModuleId}`);
+  }
   render() {
-    let { themeActivity, homepageInfoVo } =this.props.info;
-    let { moduleContent, moduleBackColor, homepageModuleId } =themeActivity;
-    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
+    let { titleColor, title, isDisplayMore, moduleContent, moduleBackColor, homepageModuleId } =this.props.info;
+    const fileDomain = Sessions.get('fileDomain');
     return (
       <CommonMod
+        goEdit={this.goEdit}
         homepageModuleId={homepageModuleId}
         className="theme-mod"
         style={{'backgroundColor':moduleBackColor}}>
-        <div>
           <div className="mod-wrap">
-            <div className={themeActivity.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
+            <div className={titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
               <div className="hd-item">
-                <span>{themeActivity.title}</span>
+                <span>{title}</span>
               </div>
-              {!!themeActivity.isDisplayMore&&<p className="hd-item">查看更多</p>}
+              {!!isDisplayMore&&<p className="hd-item">查看更多</p>}
             </div>
             {
               moduleContent&&moduleContent.length>0?
@@ -69,20 +56,9 @@ class ThemeMod extends Component {
               <div className="no-module-data theme-noData">主题模块</div>
             }
           </div>
-          <div className="handle-btn-action">
-            {
-              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
-              <Button onClick={this.goEdit}>编辑</Button>
-            }
-          </div>
-        </div>
       </CommonMod>
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { homeEdit } = state;
-  return homeEdit;
-}
-export default connect(mapStateToProps)(ThemeMod);
+export default ThemeMod;

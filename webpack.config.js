@@ -38,7 +38,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test:/\.(less|css)$/,
+        test:/\.less$/,
         use: extractLeSS.extract({
           use:[{
             loader:'css-loader'
@@ -50,6 +50,17 @@ module.exports = {
               modifyVars: theme,
               javascriptEnabled: true,
             }
+          }
+        ]})
+      },
+      {
+        test:/\.css$/,
+        use: extractLeSS.extract({
+          fallback:"style-loader",
+          use:[{
+            loader:'css-loader'
+          },{
+            loader:'postcss-loader'
           }
         ]})
       },

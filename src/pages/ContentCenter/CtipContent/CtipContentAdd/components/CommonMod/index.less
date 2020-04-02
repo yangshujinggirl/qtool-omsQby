@@ -1,0 +1,40 @@
+//模块公共样式
+.homeEdit-common-sty {
+  width: 100%;
+  padding:10px;
+  box-sizing: border-box;
+  position: relative;
+  &.hiddle-module {
+    &:after{
+      content:'';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 222;
+    }
+  }
+  //按钮处理区
+  .handle-btn-action {
+    position: absolute;
+    right:0;
+    top: 0;
+    transform: translateX(100%);
+    button {
+      margin-right: 10px;
+    }
+  }
+  //模块标题
+  .mod-common-head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    .hd-item {
+      flex-shrink: 0;
+    }
+  }
+}

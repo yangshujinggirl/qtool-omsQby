@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Card, Select, Input, Button} from "antd";
 import moment from "moment";
-import {QbaseDetail, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
     EditStoreFeedbackDta,
     GetStoreFeedbackDetail
@@ -112,56 +112,65 @@ const StoreFeedbackDetail = (props) => {
 
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="反馈信息">
-            <QdetailBaseInfo showData={
-                ["反馈编号", dataInfo.feedbackNo,
-                    "反馈门店", dataInfo.spShopName,
-                    "门店店主", dataInfo.shopMan,
-                    "店主电话", dataInfo.telephone,
-                    "反馈类型", dataInfo.typeStr,
-                    "反馈状态", dataInfo.statusStr,
-                    "处理时长", dataInfo.handleTime,
-                    "反馈时间", dataInfo.createTime != null && moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")]
+            <QbaseInfo dataInfo={
+                [{key: "反馈编号", value: dataInfo.feedbackNo},
+                    {key: "反馈门店", value: dataInfo.spShopName},
+                    {key: "门店店主", value: dataInfo.shopMan},
+                    {key: "店主电话", value: dataInfo.telephone},
+                    {key: "反馈类型", value: dataInfo.typeStr},
+                    {key: "反馈状态", value: dataInfo.statusStr},
+                    {key: "处理时长", value: dataInfo.handleTime},
+                    {
+                        key: "反馈时间",
+                        value: dataInfo.createTime != null && moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")
+                    }]
             }/>
         </Card>
         <Card title="反馈内容">
-            <QdetailBaseInfo
-                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                showData={
-                    ["反馈内容", dataInfo.remark,
-                        "反馈图片", picList.map((item, index) => {
-                        return (
-                            <QenlargeImg url={item.url} key={index} placement="inline"/>
-                        )
-                    })]
+            <QbaseInfo
+                colSpan={24} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                dataInfo={
+                    [{key: "反馈内容", value: dataInfo.remark},
+                        {
+                            key: "反馈图片", value: picList.map((item, index) => {
+                                return (
+                                    <QenlargeImg url={item.url} key={index} placement="inline"/>
+                                )
+                            })
+                        }]
                 }/>
         </Card>
         <Card title="反馈处理">
-            <QdetailBaseInfo
-                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                showData={
-                    ["反馈类型", <Select
-                        onChange={handleTypeSelectChange}
-                        style={{width: '200px'}}
-                        value={dataInfo.type}>
-                        <Option value={FEEDBACK_TYPE_OPERATION}>运营相关问题</Option>
-                        <Option value={FEEDBACK_TYPE_GOODS}>商品相关问题</Option>
-                        <Option value={FEEDBACK_TYPE_DESIGN}>设计相关问题</Option>
-                        <Option value={FEEDBACK_TYPE_ATTRACT_INVESTMENT}>招商相关问题</Option>
-                        <Option value={FEEDBACK_TYPE_SYSTEM}>系统相关问题</Option>
-                        <Option value={FEEDBACK_TYPE_OTHER}>其他</Option>
-                    </Select>,
-                        "反馈状态", <Select
-                        onChange={handleStatusSelectChange}
-                        style={{width: '200px'}}
-                        value={dataInfo.status}>
-                        <Option value={FEEDBACK_STATUS_WAIT}>待处理</Option>
-                        <Option value={FEEDBACK_STATUS_IN_HAND}>处理中</Option>
-                        <Option value={FEEDBACK_STATUS_END}>已处理</Option>
-                    </Select>,
-                        "处理备注", <TextArea rows={4} value={dataInfo.editRemark}
-                                          onChange={editRemarkInfo}
-                                          placeholder='备注信息，最多200字，方便其他人了解，非必填'
-                                          maxLength='200'/>
+            <QbaseInfo
+                colSpan={24} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                dataInfo={
+                    [{
+                        key: "反馈类型", value: <Select
+                            onChange={handleTypeSelectChange}
+                            style={{width: '200px'}}
+                            value={dataInfo.type}>
+                            <Option value={FEEDBACK_TYPE_OPERATION}>运营相关问题</Option>
+                            <Option value={FEEDBACK_TYPE_GOODS}>商品相关问题</Option>
+                            <Option value={FEEDBACK_TYPE_DESIGN}>设计相关问题</Option>
+                            <Option value={FEEDBACK_TYPE_ATTRACT_INVESTMENT}>招商相关问题</Option>
+                            <Option value={FEEDBACK_TYPE_SYSTEM}>系统相关问题</Option>
+                            <Option value={FEEDBACK_TYPE_OTHER}>其他</Option>
+                        </Select>
+                    }, {
+                        key: "反馈状态", value: <Select
+                            onChange={handleStatusSelectChange}
+                            style={{width: '200px'}}
+                            value={dataInfo.status}>
+                            <Option value={FEEDBACK_STATUS_WAIT}>待处理</Option>
+                            <Option value={FEEDBACK_STATUS_IN_HAND}>处理中</Option>
+                            <Option value={FEEDBACK_STATUS_END}>已处理</Option>
+                        </Select>
+                    }, {
+                        key: "处理备注", value: <TextArea rows={4} value={dataInfo.editRemark}
+                                                        onChange={editRemarkInfo}
+                                                        placeholder='备注信息，最多200字，方便其他人了解，非必填'
+                                                        maxLength='200'/>
+                    }
                     ]
                 }/>
         </Card>
