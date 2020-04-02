@@ -1,0 +1,197 @@
+@import "./variates.less";
+// 公用样式
+body,
+html {
+  font-family: PingFangSC, Helvetica, Arial, Microsoft YaHei, Droid Sans,
+    sans-serif;
+  height: 100%;
+  // height: inherit !important;
+  background: @body-bg;
+  font-size: 12px;
+  color: @tLevel3;
+  #root {
+    height: 100%;
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+dd,
+dl,
+li,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ol,
+ul {
+  list-style: none outside none;
+}
+
+img {
+  width: 100%;
+}
+.cf:after,
+.cf:before {
+  content: "";
+  display: table;
+}
+.cf:after {
+  clear: both;
+}
+.cf {
+  *zoom: 1;
+}
+//清除浮动
+.clear:after {
+  content: "";
+  height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+//悬浮样式
+.pointerSty {
+  color: @brandColor;
+  cursor: pointer;
+}
+//品牌色--字体
+.brandColor {
+  color: @brandColor;
+}
+//一级字体
+.tLeve1 {
+  color: @tLeve1;
+}
+//二级字体
+.tLevel2 {
+  color: @tLevel2;
+}
+//三级，正文字体
+.tLevel3 {
+  color: @tLevel3;
+}
+//表单颜色
+.ant-table {
+  color: @tLevel2;
+}
+textarea {
+  resize: none;
+}
+//去除Inpur默认样式
+.ant-input {
+  width: 100%;
+  // padding-left: 20px;
+  box-sizing: border-box;
+  border-radius: 0;
+  font-size: 12px;
+  &:hover,
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+}
+.ant-calendar-picker {
+  width: 100%;
+}
+//按钮hover颜色
+.ant-btn {
+  height: @btn-height;
+  &.ant-btn-primary {
+    &:focus,
+    &:hover {
+      background: @btnHover;
+    }
+  }
+}
+//FormItem下边距统一修改
+.ant-form-item {
+  margin-bottom: 16px;
+}
+
+.ant-table thead > tr > th,
+td {
+  text-align: center;
+}
+//文字做input显示使用
+.label-show-input {
+  border: 0;
+  background: rgba(0, 0, 0, 0);
+  color: #666;
+}
+.action-left {
+  margin-right: 20px;
+}
+.ant-modal-header {
+  text-align: center;
+}
+//编辑页提示
+.suffix_tips {
+  color: #9b9b9b;
+  margin-left: 10px;
+}
+.btn_center {
+  text-align: center;
+  margin-top: 50px;
+}
+//编辑页按钮
+.edit_btn {
+  margin-top: 100px;
+  margin-right: 200px;
+}
+//弹窗居中
+.modal_center {
+  .ant-modal-body {
+    text-align: center;
+  }
+}
+//頂部tab切换
+.ant-tabs-nav-wrap {
+  .ant-tabs-nav {
+    .ant-tabs-tab {
+      padding: 12px;
+    }
+  }
+}
+//input ranger时间
+.ant-picker-range {
+  width: 180px;
+}
+//input必填项前面的**
+.item_required {
+  .ant-form-item-label::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: #ff4d4f;
+    font-size: 12px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: "*";
+  }
+}
+//详情的基本信息
+.base_info {
+  .ant-form-item {
+    display: inline-block;
+    padding:0 25px;
+    .ant-form-item-label,
+    .ant-form-item-control {
+      display: inline-block;
+    }
+  }
+}
+//Card组件的样式
+.ant-card-bordered{
+  margin-bottom:30px;
+}
+.ant-upload-list{
+  float:left
+}
