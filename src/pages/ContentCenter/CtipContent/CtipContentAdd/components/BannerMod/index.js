@@ -3,8 +3,8 @@ import { Button } from 'antd';
 import { Sessions } from 'utils';
 import ErrorText from '../ErrorText';
 import CommonMod from '../CommonMod';
-import Swiper from 'swiper';
-// import 'swiper/dist/css/swiper.min.css';
+import Swiper from 'swiper/js/swiper.js';
+import 'swiper/css/swiper.min.css';
 import './index.less';
 
 let mySwiper;
