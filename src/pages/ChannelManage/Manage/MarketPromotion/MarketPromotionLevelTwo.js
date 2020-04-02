@@ -167,14 +167,14 @@ const MarketPromotionLevelTwo = (props) => {
         childComponent={<div
             className="oms-common-addEdit-pages bgood_add oms-common-index-pages-wrap">
             <Card title="一级渠道基础信息">
-                <QdetailBaseInfo
-                    showData={
-                        ["一级渠道ID", dataInfo.channelPopularizeCoding,
-                            "一级渠道名称", dataInfo.name,
-                            "渠道类型", dataInfo.channelType,
-                            "负责人", dataInfo.principal,
-                            "二级渠道数", dataInfo.secondChannelNum,
-                            "备注", dataInfo.remark]
+                <QbaseInfo
+                    dataInfo={
+                        [{key: "一级渠道ID", value: dataInfo.channelPopularizeCoding},
+                            {key: "一级渠道名称", value: dataInfo.name},
+                            {key: "渠道类型", value: dataInfo.channelType},
+                            {key: "负责人", value: dataInfo.principal},
+                            {key: "二级渠道数", value: dataInfo.secondChannelNum},
+                            {key: "备注", value: dataInfo.remark}]
                     }/>
             </Card>
             <Card title="二级渠道">

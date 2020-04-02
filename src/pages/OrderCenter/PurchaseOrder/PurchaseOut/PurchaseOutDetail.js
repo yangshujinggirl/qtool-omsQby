@@ -5,7 +5,7 @@ import {
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseOut";
 import {Card} from "antd";
 import moment from "moment";
-import {QdetailBaseInfo, Qtable} from "common/index";
+import {QbaseInfo, QdetailBaseInfo, Qtable} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "../PurchaseIn/column/OrderLogs";
 import ShippingInformationColumns from "./column/ShippingInformation";
@@ -38,14 +38,14 @@ const PurchaseOutDetail = (props) => {
             //设置普通数据
             setDataInfo(res.result);
             //设置发货信息
-            setOutList(TableDataListUtil.addKeyAndResultList(res.result.outList,null));
+            setOutList(TableDataListUtil.addKeyAndResultList(res.result.outList, null));
             //设置采退商品信息
-            setDetailList(TableDataListUtil.addKeyAndResultList(res.result.detailList,null));
+            setDetailList(TableDataListUtil.addKeyAndResultList(res.result.detailList, null));
         });
         //获取操作日志
         new GetPurchaseOutOrderOptionsLogsApi(id).then(res => {
             hideLoading();
-            setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result,null));
+            setOrderLogs(TableDataListUtil.addKeyAndResultList(res.result, null));
         });
     }, []);
     /**
@@ -63,29 +63,32 @@ const PurchaseOutDetail = (props) => {
     return (
         <div className="oms-common-addEdit-pages bgood_add">
             <Card title="采退单信息">
-                <QdetailBaseInfo showData={
-                    ["采退单号", dataInfo.stockingReCode,
-                        "关联采购单号", dataInfo.stockingCode,
-                        "供应商名称", dataInfo.suppliersName,
-                        "采退原因", dataInfo.reRemark,
-                        "发货仓库", dataInfo.warehouseName,
-                        "审核状态", dataInfo.statusStr,
-                        "订单状态", dataInfo.stepStr,
-                        "采退数量", dataInfo.totalNum,
-                        "采退金额", dataInfo.priceTotal,
-                        "订单创建人", dataInfo.user,
-                        "创建时间", moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss"),
-                        "订单备注", dataInfo.remarkes,]
+                <QbaseInfo dataInfo={
+                    [{key: "采退单号", value: dataInfo.stockingReCode},
+                        {key: "关联采购单号", value: dataInfo.stockingCode},
+                        {key: "供应商名称", value: dataInfo.suppliersName},
+                        {key: "采退原因", value: dataInfo.reRemark},
+                        {key: "发货仓库", value: dataInfo.warehouseName},
+                        {key: "审核状态", value: dataInfo.statusStr},
+                        {key: "订单状态", value: dataInfo.stepStr},
+                        {key: "采退数量", value: dataInfo.totalNum},
+                        {key: "采退金额", value: dataInfo.priceTotal},
+                        {key: "订单创建人", value: dataInfo.user},
+                        {
+                            key: "创建时间",
+                            value: moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")
+                        },
+                        {key: "订单备注", value: dataInfo.remarkes},]
                 }/>
             </Card>
             <Card title="采退商品">
                 <Qtable columns={GoodsColumns} dataSource={detailList}/>
             </Card>
             <Card title="收货信息">
-                <QdetailBaseInfo showData={
-                    ["收货人", dataInfo.consignee,
-                        "联系电话", dataInfo.phone,
-                        "收货地址", dataInfo.address,]
+                <QbaseInfo dataInfo={
+                    [{key: "收货人", value: dataInfo.consignee},
+                        {key: "联系电话", value: dataInfo.phone},
+                        {key: "收货地址", value: dataInfo.address},]
                 }/>
             </Card>>
             <Card title="发货信息">

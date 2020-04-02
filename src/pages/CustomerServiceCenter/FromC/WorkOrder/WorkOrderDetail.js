@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Card, Input, Select} from "antd";
-import {QbaseDetail, QdetailBaseInfo, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QdetailBaseInfo, Qmessage, Qtable} from "common/index";
 import Columns from "../UserFeedback/column/DetailLog";
 import {TableItemShowTime} from "common/QdisabledDateTime";
 import {WORK_ORDER_STATUS_END, WORK_ORDER_STATUS_IN_HAND, WORK_ORDER_STATUS_WAIT} from "./config";
@@ -110,43 +110,49 @@ const WorkOrderDetail = (props) => {
 
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
         <Card title="反馈信息">
-            <QdetailBaseInfo showData={
-                ["客服单号", dataInfo.customServiceNo,
-                    "客服状态", dataInfo.statusStr,
-                    "处理时长", dataInfo.handleTime,
-                    "开始时间", <TableItemShowTime showTime={dataInfo.createTime}/>,
-                    "部门/用户/门店", dataInfo.source,
-                    "联系电话", dataInfo.waiterTel]
+            <QbaseInfo dataInfo={
+                [{key: "客服单号", value: dataInfo.customServiceNo},
+                    {key: "客服状态", value: dataInfo.statusStr},
+                    {key: "处理时长", value: dataInfo.handleTime},
+                    {key: "开始时间", value: <TableItemShowTime showTime={dataInfo.createTime}/>},
+                    {key: "部门/用户/门店", value: dataInfo.source},
+                    {key: "联系电话", value: dataInfo.waiterTel}]
             }/>
         </Card>
         <Card title="工单内容">
-            <QdetailBaseInfo
-                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                showData={
-                    ["客服主题", content.customServiceTheme,
-                        "反馈内容", content.content]
+            <QbaseInfo
+                colSpan={24} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                dataInfo={
+                    [{key: "客服主题", value: content.customServiceTheme},
+                        {key: "反馈内容", value: content.content}]
                 }/>
         </Card>
         <Card title="工单处理">
-            <QdetailBaseInfo
-                isVertical={true} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
-                showData={
+            <QbaseInfo
+                colSpan={24} formItemConfig={{labelCol: {span: 2}, wrapperCol: {span: 12}}}
+                dataInfo={
                     [
-                        "客服状态", <Select
-                        onChange={handleStatusSelectChange}
-                        style={{width: '200px'}}
-                        value={dataInfo.status}>
-                        <Option value={WORK_ORDER_STATUS_WAIT}>待处理</Option>
-                        <Option value={WORK_ORDER_STATUS_IN_HAND}>处理中</Option>
-                        <Option value={WORK_ORDER_STATUS_END}>已处理</Option>
-                    </Select>,
-                        "处理备注", <TextArea rows={4} value={contentRemark}
-                                          onChange={editRemarkInfo}
-                                          placeholder='备注信息，最多200字，方便其他人了解，非必填'
-                                          maxLength='200'/>,
-                        "图片备注",
-                        <UploadLogo upDateList={upDateList} fileList={imgList} limit={5}
-                                    width={500} height={500}/>,
+                        {
+                            key: "客服状态", value: <Select
+                                onChange={handleStatusSelectChange}
+                                style={{width: '200px'}}
+                                value={dataInfo.status}>
+                                <Option value={WORK_ORDER_STATUS_WAIT}>待处理</Option>
+                                <Option value={WORK_ORDER_STATUS_IN_HAND}>处理中</Option>
+                                <Option value={WORK_ORDER_STATUS_END}>已处理</Option>
+                            </Select>
+                        },
+                        {
+                            key: "处理备注", value: <TextArea rows={4} value={contentRemark}
+                                                          onChange={editRemarkInfo}
+                                                          placeholder='备注信息，最多200字，方便其他人了解，非必填'
+                                                          maxLength='200'/>
+                        },
+                        {
+                            key: "图片备注",
+                            value: <UploadLogo upDateList={upDateList} fileList={imgList} limit={5}
+                                               width={500} height={500}/>
+                        },
                     ]
                 }/>
         </Card>

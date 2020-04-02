@@ -4,7 +4,7 @@ import {
     GetPurchaseInOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import {Card, Col, Form, Row} from "antd";
-import {Qtable, QdetailBaseInfo} from "common/index";
+import {Qtable, QdetailBaseInfo, QbaseInfo} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "./column/OrderLogs";
 import {
@@ -69,24 +69,37 @@ const PurchaseInDetail = (props) => {
     return (
         <div className="oms-common-addEdit-pages bgood_add">
             <Card title="采购单信息">
-                <QdetailBaseInfo showData={
-                    ["采购单号", dataInfo.stockingCode,
-                        "采购主体", dataInfo.procurementTarget,
-                        "供应商名称", dataInfo.suppliersName,
-                        "单据类型", dataInfo.documentType === DOCUMENT_TYPE_NEW ? "新品首单" :
-                        (dataInfo.documentType === DOCUMENT_TYPE_NORMAL ? "正常品单" :
-                            (dataInfo.documentType === DOCUMENT_TYPE_GOODS_OUT_OF_STOCK_PRESSURE ? "缺货压货单" :
-                                (dataInfo.documentType === DOCUMENT_TYPE_SPECIMEN ? "样品订单" : ""))),
-                        "收货仓库", dataInfo.warehouseName,
-                        "审核状态", dataInfo.statusStr,
-                        "订单状态", dataInfo.stepStr,
-                        "商品总数", dataInfo.itemCount,
-                        "预计送达时间", moment(dataInfo.predictCtime).format("YYYY-MM-DD"),
-                        "物流费用", dataInfo.logisticsType === LOGISTICS_EXPENSE_MODE_ZERO ? "包邮" :
-                        (dataInfo.logisticsType === LOGISTICS_EXPENSE_MODE_RECIPIENT_PAY ? "到付" + dataInfo.postage + "元" : ""),
-                        "订单创建人", dataInfo.user,
-                        "创建时间", moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss"),
-                        "订单备注", dataInfo.remarkes,]
+                <QbaseInfo dataInfo={
+                    [{key: "采购单号", value: dataInfo.stockingCode},
+                        {key: "采购主体", value: dataInfo.procurementTarget},
+                        {key: "供应商名称", value: dataInfo.suppliersName},
+                        {
+                            key: "单据类型",
+                            value: dataInfo.documentType === DOCUMENT_TYPE_NEW ? "新品首单" :
+                                (dataInfo.documentType === DOCUMENT_TYPE_NORMAL ? "正常品单" :
+                                    (dataInfo.documentType === DOCUMENT_TYPE_GOODS_OUT_OF_STOCK_PRESSURE ? "缺货压货单" :
+                                        (dataInfo.documentType === DOCUMENT_TYPE_SPECIMEN ? "样品订单" : "")))
+                        },
+                        {key: "收货仓库", value: dataInfo.warehouseName},
+                        {key: "审核状态", value: dataInfo.statusStr},
+                        {key: "订单状态", value: dataInfo.stepStr},
+                        {key: "商品总数", value: dataInfo.itemCount},
+                        {
+                            key: "预计送达时间",
+                            value: moment(dataInfo.predictCtime).format("YYYY-MM-DD")
+                        },
+                        {
+                            key: "物流费用",
+                            value: dataInfo.logisticsType === LOGISTICS_EXPENSE_MODE_ZERO ? "包邮" :
+                                (dataInfo.logisticsType === LOGISTICS_EXPENSE_MODE_RECIPIENT_PAY ? "到付" + dataInfo.postage
+                                    + "元" : "")
+                        },
+                        {key: "订单创建人", value: dataInfo.user},
+                        {
+                            key: "创建时间",
+                            value: moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")
+                        },
+                        {key: "订单备注", value: dataInfo.remarkes},]
                 }/>
             </Card>
             <Card title="采购商品">
