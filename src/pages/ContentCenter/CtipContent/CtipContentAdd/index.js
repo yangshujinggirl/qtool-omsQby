@@ -6,6 +6,7 @@ import BannerMod from "./components/BannerMod";
 import IconMod from "./components/IconMod";
 import MorePicMod from "./components/MorePicMod";
 import NewUserMod from "./components/NewUserMod";
+import ThemeMod from "./components/ThemeMod";
 import './index.less';
 
 const CtipContentAdd=({...props})=> {
@@ -14,6 +15,7 @@ const CtipContentAdd=({...props})=> {
   let [iconInfo, setIconInfo] =useState({moduleContent:[]});
   let [morePicInfo, setMorePicInfo] =useState({moduleContent:[]});
   let [newUserInfo, setNewUserInfo] =useState({});
+  let [themeInfo, setThemeInfo] =useState([]);
   let homepageId=props.match.params.id;
 
   const getInfo=()=> {
@@ -25,7 +27,7 @@ const CtipContentAdd=({...props})=> {
       setIconInfo(icon);
       setMorePicInfo(picMix);
       setNewUserInfo(coupon);
-      console.log(res)
+      setThemeInfo(themeActivity);
     })
   }
   const releaseHome=()=>{}
@@ -72,6 +74,7 @@ const CtipContentAdd=({...props})=> {
             <IconMod info={iconInfo} {...props}/>
             <MorePicMod info={morePicInfo} {...props}/>
             <NewUserMod info={newUserInfo} {...props}/>
+            <ThemeMod info={themeInfo} {...props}/>
           </div>
         </div>
 }

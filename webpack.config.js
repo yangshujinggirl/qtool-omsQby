@@ -38,7 +38,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test:/\.(less)$/,
+        test:/\.less$/,
         use: extractLeSS.extract({
           use:[{
             loader:'css-loader'
