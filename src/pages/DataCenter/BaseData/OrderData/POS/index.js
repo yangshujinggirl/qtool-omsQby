@@ -217,7 +217,7 @@ const POS = (props) => {
                            desInfoClick={desInfo}/>
         <Qcards data={dataInfo.datalist1}/>
         <Qcards data={dataInfo.datalist2}/>
-        <Qcharts chartsType={CHARTS_TYPE_LINEAR}
+        <Qecharts chartsType={CHARTS_TYPE_LINEAR}
                  chartsTitle='订单变化趋势图'
                  chartsLevel={1}
                  chartXData={chartsData.xdata}

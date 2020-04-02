@@ -1,10 +1,27 @@
 import React from "react";
-import { Qbtn, BaseFilter, CascaderAddressOptions } from "common";
+import { Qbtn, BaseFilter } from "common";
 import { Form, Row, Col, Input, Select, Cascader } from "antd";
+import { getProvinceListApi } from "api/home/CooperateCenter/ShopManage";
 const Option = Select.Option;
 
 class NormalForm extends BaseFilter {
   formRef = React.createRef();
+  constructor(props){
+    super(props);
+    this.state={
+      options:[]
+    }
+  }
+  componentDidMount=() => {
+    //获取省市区
+    getProvinceListApi().then(res => {
+      if (res.httpCode == 200) {
+        this.setState({
+          options:res.result
+        })
+      }
+    });
+  }
   //初始化
   render() {
     return (
@@ -27,7 +44,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="provinceId" label="省份">
-                <Cascader options={CascaderAddressOptions}/>
+                <Cascader options={this.state.options}/>
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -48,7 +65,7 @@ class NormalForm extends BaseFilter {
             <Col {...this.colspans}>
               <Form.Item name="shopType" label="门店类型">
                 <Select allowClear={true} placeholder="请选择门店类型">
-                  <Cascader options={CascaderAddressOptions} />
+                  <Cascader options={this.state.options} />
                 </Select>
               </Form.Item>
             </Col>

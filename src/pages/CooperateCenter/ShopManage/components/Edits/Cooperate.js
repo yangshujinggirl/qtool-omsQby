@@ -1,5 +1,5 @@
 import { Input, Select, Radio, Form } from "antd";
-import UploadContractImg from "common/QuploadImgLimt";
+import UploadContractImg from "common/QupLoadImgLimt";
 
 const Cooperate = props => {
   return (

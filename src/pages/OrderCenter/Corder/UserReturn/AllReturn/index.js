@@ -63,7 +63,7 @@ class AllReturn extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount: total
+          total
         });
       }
     }).catch(()=>{

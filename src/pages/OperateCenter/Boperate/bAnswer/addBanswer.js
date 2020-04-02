@@ -7,7 +7,12 @@ const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
 };
-const Bpush = props => {
+/**
+ * 周虹烨
+ * 新增B端问答
+ *
+ */
+const AddBanswer = props => {
   const [form] = Form.useForm();
   const { id } = props.match.params;
   const [detailImg, setDetailImg] = useState([]);
@@ -159,4 +164,4 @@ const Bpush = props => {
   );
 };
 
-export default Bpush;
+export default AddBanswer;

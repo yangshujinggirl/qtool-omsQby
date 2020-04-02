@@ -3,7 +3,7 @@ import { getTimeInfoApi, AddTimeApi } from "api/home/GoodsCenter/Bgoods/Btimer";
 import Columns from "./column";
 import { Form, Input, Button, message, Radio, Modal } from "antd";
 import moment from "moment";
-import ImportBtn from "common/QupLoadFileList";
+import ImportBtn from "common/QuploadFileList";
 import { DateTime } from "common/QdisabledDateTime";
 const formLayout = {
   labelCol: { span: 4 },

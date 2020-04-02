@@ -3,7 +3,6 @@ import { Card, Form } from "antd";
 import { Qtable } from "common";
 import { GoodColumns, handleLogColumns, giftSkuColumns } from "../columns";
 import { getInfoApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
-import {OrderPackageList} from './components/StoreOutInfo'
 
 const AllReturnInfo = props => {
   const [orderInfo, setOrderInfo] = useState({});

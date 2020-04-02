@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Modal  } from "antd";
-import Upload from "common/QuploadImgLimt";
-import UploadList from "common/QuploadImgLimt";
+import Upload from "common/QupLoadImgLimt";
+import UploadList from "common/QupLoadImgLimt";
 import { saveApi, getInfosApi } from "api/home/OperateCenter/Boperate/Banner";
 import "./index.less";
 import img from "./imgs/ex6.png";

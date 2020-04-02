@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Form, Radio, Input, Button } from "antd";
 import { Qtable } from "common";
-import { ReturnGoods } from "./columns";
+import { AbnormalGoodsColumns } from "./columns";
 import {
   getInfoApi,
   operateReturnApi
@@ -39,6 +39,10 @@ const AuditReturnInfo = props => {
       }
     });
   };
+  const formLayout = {
+    labelCol:{span:2},
+    wrapperCol:{span:8}
+  }
   return (
     <div>
       <Card title="退单信息" className="base_info">
@@ -57,10 +61,10 @@ const AuditReturnInfo = props => {
         </Form.Item>
       </Card>
       <Card title="订单商品">
-        <Qtable columns={ReturnGoods} dataSource={detailList} />
+        <Qtable columns={AbnormalGoodsColumns} dataSource={detailList} />
       </Card>
       <Card title="异常处理">
-        <Form form={form}>
+        <Form form={form} {...formLayout}>
           <Form.Item
             name="status"
             label="审核结果"

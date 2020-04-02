@@ -18,7 +18,5 @@ export function saveApi(values) {
 }
 //查询任务
 export function getInfoApi(values) {
-  return appAjax.get(`/pdSpuActives/${values.pdSpuActiveId}`,{
-    params:values
-  });
+  return appAjax.get(`/pdSpuActives/${values}`);
 }

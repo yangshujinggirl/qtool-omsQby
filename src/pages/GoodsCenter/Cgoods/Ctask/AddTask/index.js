@@ -10,10 +10,9 @@ import {
   Modal
 } from "antd";
 import { getTaskInfoApi, AddTaskApi } from "api/home/GoodsCenter/Cgoods/Ctask";
-import ImportBtn from "common/QupLoadFileList";
+import ImportBtn from "common/QuploadFileList";
 import { DateTime, RangeTime } from "common/QdisabledDateTime";
 import { Columns1, Columns2, Columns3 } from "./column";
-import { Sessions } from "utils";
 import moment from "moment";
 const RadioGroup = Radio.Group;
 const Option = Select.Option;

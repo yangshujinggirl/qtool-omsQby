@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Select, Radio, Button } from "antd";
-import Upload from "common/QuploadImgLimt";
+import Upload from "common/QupLoadImgLimt";
 import { Qbtn } from "common";
 import {
   saveApi,

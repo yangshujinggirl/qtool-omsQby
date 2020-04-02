@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Modal } from "antd";
-import UploadList from "common/QuploadImgLimt";
-import { saveApi, getInfosApi } from "api/home/GoodsCenter/Cgoods/ActExchangeGoods";
+import UploadList from "common/QupLoadImgLimt";
+import { saveApi, getInfoApi } from "api/home/GoodsCenter/Cgoods/ActExchangeGoods";
 import "./index.less";
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -11,11 +11,12 @@ const AddExchangeGoods = props => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const { id } = props.match.params;
+  
   //修改时初始化数据
   useEffect(() => {
     const { id } = props.match.params;
     if (id) {
-      getInfosApi(id).then(res => {
+      getInfoApi(id).then(res => {
         if (res.httpCode == 200) {
           const { picUrl, ...infos } = res.result;
           const fileList = [
@@ -23,11 +24,12 @@ const AddExchangeGoods = props => {
               uid: "-1",
               name: "image.png",
               status: "done",
-              picUrl: sessionStorage.getItem("oms_fileDomain") + picUrl,
+              url: sessionStorage.getItem("oms_fileDomain") + picUrl,
               img:picUrl
             }
           ];
           setFileList(fileList);
+          infos.picUrl = fileList;
           form.setFieldsValue(infos);
         }
       });
@@ -38,8 +40,7 @@ const AddExchangeGoods = props => {
   }
   const handleSubmit=async()=>{
     const values = await form.validateFields();
-    values.id = id;
-    debugger
+    values.pdSpuActiveId = id;
     values.picUrl = values.picUrl[0].response? values.picUrl[0].response.result:values.picUrl[0].img;
     saveApi(values).then(res=>{
       if(res.httpCode == 200){
