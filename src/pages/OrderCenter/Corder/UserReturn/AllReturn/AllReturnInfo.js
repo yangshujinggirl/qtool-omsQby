@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Card, Form } from "antd";
 import { Qtable } from "common";
 import { ReturnGoods, ReturnLogs } from "./columns";
@@ -6,14 +6,15 @@ import { getInfoApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 
 const AllReturnInfo = props => {
-  let [infos, detailList] = [{}, []];
+  
   const {id} = props.match.params;
+  const [infos,setInfos] =useState({})
+  const [detailList,setDetailList] =useState([])
   useEffect(() => {
     getInfoApi({reOrderNo:id}).then(res => {
       if (res.httpCode == 200) {
-        infos = res.result;
-        detailList = res.result.detailList;
-        console.log(infos)
+        setInfos(res.result);
+        setDetailList( res.result.detailList)
       }
     });
   }, []);
@@ -33,7 +34,7 @@ const AllReturnInfo = props => {
         <Form.Item  label="退款总金额">{infos.refundMoney}</Form.Item >
         <Form.Item  label="原订单实付金额">{infos.totalPrice}</Form.Item >
         <Form.Item  label="创建时间">
-          {moment(infos.createTime).format("YYYY-MM-DD HH:mm:ss")}
+          {infos.createTime&&moment(infos.createTime).format("YYYY-MM-DD HH:mm:ss")}
         </Form.Item >
       </Card>
       <Card title="退货商品">

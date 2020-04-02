@@ -5,7 +5,7 @@ import {
   addPurchaseOutApi,
   getOrderInfoApi,
   searchStoreApi
-} from "api/home/orderCenter/PurchaseOrder/PurchaseOut";
+} from "api/home/OrderCenter/PurchaseOrder/PurchaseOut";
 import { Qbtn, CascaderAddressOptions } from "common";
 import moment from "moment";
 import Editable from "./components/Editable";

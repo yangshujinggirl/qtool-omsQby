@@ -39,6 +39,10 @@ const AuditReturnInfo = props => {
       }
     });
   };
+  const formLayout = {
+    labelCol:{span:2},
+    wrapperCol:{span:8}
+  }
   return (
     <div>
       <Card title="退单信息" className="base_info">
@@ -60,7 +64,7 @@ const AuditReturnInfo = props => {
         <Qtable columns={ReturnGoods} dataSource={detailList} />
       </Card>
       <Card title="异常处理">
-        <Form form={form}>
+        <Form form={form} {...formLayout}>
           <Form.Item
             name="status"
             label="审核结果"

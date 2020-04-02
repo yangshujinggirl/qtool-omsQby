@@ -52,7 +52,7 @@ class ReturnAudit extends Component {
             dataList: result,
             everyPage,
             currentPage,
-            totalCount: total
+            total
           });
         }
       })
@@ -81,7 +81,7 @@ class ReturnAudit extends Component {
       dataList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
       loading
     } = this.state;
     return (
@@ -91,7 +91,7 @@ class ReturnAudit extends Component {
           <Qtable dataSource={dataList} columns={Columns} />
           {dataList.length > 0 ? (
             <Qpagination
-              data={{ everyPage, currentPage, totalCount }}
+              data={{ everyPage, currentPage, total }}
               onChange={this.changePage}
               onShowSizeChange={this.onShowSizeChange}
             />
