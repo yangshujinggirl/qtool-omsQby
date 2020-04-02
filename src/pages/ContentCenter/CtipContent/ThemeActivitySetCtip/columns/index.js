@@ -17,8 +17,8 @@ const ColumnsAdd=(optionSource,onSelect)=>{
       dataIndex: 'showThemeTitle',
       align:'center',
       render:(text,record,index)=> {
-        return <FormItem name={['showThemeId',index]} rules={[{ required:true,message:'请输入名称'}]}>
-                <Select placeholder="请选择选择主题" onSelect={(value,option)=>onSelect(value,option)}>
+        return <FormItem name={['list',index,'themeId']} rules={[{ required:true,message:'请输入名称'}]}>
+                <Select placeholder="请选择选择主题" onSelect={(value,option)=>onSelect(value,index)}>
                   {optionSource && optionSource.map(item => (
                     <Select.Option key={item.themeId} value={item.themeId} >
                       {item.title}
@@ -29,10 +29,10 @@ const ColumnsAdd=(optionSource,onSelect)=>{
       }
     },{
       title: "副标题",
-      dataIndex: "showSubtitle",
+      dataIndex: "subtitle",
     },{
       title: "主题状态",
-      dataIndex: "showThemeStatusStr",
+      dataIndex: "statusStr",
     }];
 }
 export default ColumnsAdd;

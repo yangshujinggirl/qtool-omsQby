@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import { getListApi } from "api/home/GoodsCenter/Cgoods/ActExchangeGoods";
 import FilterForm from "./components/FilterForm/index";
-import Columns from "./Columns";
+import Columns from "./columns";
 
 class ActExchangeGoods extends Component {
   constructor(props) {

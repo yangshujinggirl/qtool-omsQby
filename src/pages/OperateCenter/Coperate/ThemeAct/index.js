@@ -4,7 +4,7 @@ import { Modal, message } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import { getListApi, saveApi } from "api/home/OperateCenter/Coperate/ThemeAct";
 import FilterForm from "./components/FilterForm/index";
-import Columns from "./Columns";
+import Columns from "./columns";
 
 class ThemeAct extends Component {
   constructor(props) {

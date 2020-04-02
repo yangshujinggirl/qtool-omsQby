@@ -47,7 +47,7 @@ const BaseEditTable=({...props})=> {
   }
   return <Table
           className="edit-table-component"
-          footer={()=><Qbtn type="default" onClick={()=>handleAdd()}>+{props.btnText}</Qbtn>}
+          footer={()=><Qbtn type="default" disabled={props.limit&&(props.limit==newDataSource.length)} onClick={()=>handleAdd()}>+{props.btnText?props.btnText:'新增'}</Qbtn>}
           bordered
           pagination={false}
           columns={initColumns()}
