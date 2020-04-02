@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Modal } from "antd";
-import UploadList from "common/QuploadImgLimt";
+import UploadList from "common/QupLoadImgLimt";
 import { saveApi, getInfoApi } from "api/home/GoodsCenter/Cgoods/ActExchangeGoods";
 import "./index.less";
 const formItemLayout = {
