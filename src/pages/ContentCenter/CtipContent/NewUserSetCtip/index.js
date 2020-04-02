@@ -116,7 +116,7 @@ const NewUserGift=({...props})=> {
           </Card>
           <Card title="模块设置">
             <FormItem label="设置模块背景色号" name="moduleBackColor">
-              <Input type='color' style={{ width: "60px" }}/>
+              <Input type='color' style={{ width: "60px",height:"32px" }}/>
             </FormItem>
           </Card>
           <div className="handle-operate-save-action">

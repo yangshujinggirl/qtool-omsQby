@@ -2,56 +2,37 @@
 import { Input, Form, DatePicker, Select, Button } from 'antd';
 const FormItem = Form.Item;
 
-const ColumnsAdd=(optionSource)=>{
+const ColumnsAdd=(optionSource,onSelect)=>{
   return [
     {
       title: '序号',
       dataIndex: 'key',
       align:'center',
-      width:'4%',
       render:(text,record,index)=> {
         index++;
         return <span>{index}</span>
       }
     }, {
-      title: '选择优惠券',
-      dataIndex: 'couponId',
+      title: '选择主题',
+      dataIndex: 'showThemeTitle',
       align:'center',
-      width:'10%',
       render:(text,record,index)=> {
-        return <FormItem name={['couponIds',index]} rules={[{ required:true,message:'请输入名称'}]}>
-                <Select placeholder="请选择你要发放的优惠券">
+        return <FormItem name={['showThemeId',index]} rules={[{ required:true,message:'请输入名称'}]}>
+                <Select placeholder="请选择选择主题" onSelect={(value,option)=>onSelect(value,option)}>
                   {optionSource && optionSource.map(item => (
-                    <Option key={item.couponId} value={item.couponId} >
-                      {item.couponName}
-                    </Option>
+                    <Select.Option key={item.themeId} value={item.themeId} >
+                      {item.title}
+                    </Select.Option>
                   ))}
                 </Select>
               </FormItem>
       }
     },{
-      title: "使用门槛",
-      dataIndex: "couponFullAmount",
-      render:(text,record,index)=>{
-        return <p>
-          {
-            text ? <span>￥{text}</span> : ''
-          }
-        </p>
-      }
-    }, {
-      title: "优惠金额",
-      dataIndex: "couponMoney",
-      render:(text,record,index)=>{
-        return <p>
-          {
-            text ? <span>￥{text}</span> : ''
-          }
-        </p>
-      }
+      title: "副标题",
+      dataIndex: "showSubtitle",
     },{
-      title: "已发放数量",
-      dataIndex: "couponGiveCount"
+      title: "主题状态",
+      dataIndex: "showThemeStatusStr",
     }];
 }
 export default ColumnsAdd;

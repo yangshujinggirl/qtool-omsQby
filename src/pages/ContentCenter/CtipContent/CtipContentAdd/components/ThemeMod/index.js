@@ -17,7 +17,7 @@ class ThemeMod extends Component {
   }
   goEdit=()=> {
     const { homepageModuleId } =this.props.info;
-    this.props.history.push(`/account/cbannerSet/${homepageModuleId}`);
+    this.props.history.push(`/account/cThemeSet/${homepageModuleId}`);
   }
   render() {
     let { titleColor, title, isDisplayMore, moduleContent, moduleBackColor, homepageModuleId } =this.props.info;
