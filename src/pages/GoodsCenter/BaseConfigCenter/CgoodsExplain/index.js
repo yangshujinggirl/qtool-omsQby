@@ -7,18 +7,18 @@ import "./index.less";
 import { GetListsApi,saveExplainApi } from "../../../../api/home/GoodsCenter/BaseConfig/CgoodsExplain";
 
 /**
- * 功能作用：商品说明订单列表界面
+ * 功能作用：商品标签
  * 注释创建人：周虹烨
  */
 
-class CgoodsExplain extends Component {
+class GoodLabel extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataList: [],
-      everyPage: "",
-      totalCount: "",
-      currentPage: "",
+      everyPage: 0,
+      total: 0,
+      currentPage: 0,
       visible: false,
       pdExplainId: "",
       inputValues: {}
@@ -34,7 +34,7 @@ class CgoodsExplain extends Component {
     const params = { ...this.state.inputValues, ...values };
     GetListsApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, totalCount } = res.result;
+        let { result, everyPage, currentPage, total } = res.result;
         result.map(item => {
           item.key = item.pdExplainId;
         });
@@ -42,7 +42,7 @@ class CgoodsExplain extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount
+          total
         });
       }
     });
@@ -98,7 +98,7 @@ class CgoodsExplain extends Component {
       dataList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
       visible,
       pdExplainId
     } = this.state;
@@ -116,7 +116,7 @@ class CgoodsExplain extends Component {
           onOperateClick={this.handleOperateClick}
         />
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
         {visible && (
@@ -131,4 +131,4 @@ class CgoodsExplain extends Component {
     );
   }
 }
-export default CgoodsExplain;
+export default GoodLabel;

@@ -1,7 +1,7 @@
-import { erpAjax } from "../../Req";
+import { appAjax } from "../../Req";
 //列表
 export function getListApi(values) {
-  return erpAjax.get("/user", {
+  return appAjax.get("/user", {
     params: values
   });
 }

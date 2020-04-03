@@ -30,6 +30,7 @@ const GiftModal = props => {
       visible={visible}
       footer={<Button type='primary' onClick={onOk}>我知道了</Button>}
       closable={false}
+      maskClosable={false}
     >
       <Qtable columns={Columns} dataSource={dataSource} />
     </Modal>

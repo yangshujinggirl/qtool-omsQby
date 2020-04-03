@@ -1,16 +1,17 @@
 import React, { Component } from "react";
+import {Button} from 'antd'
 import { Qpagination, Qtable } from "common/index";
 import FilterForm from "./components/FilterForm";
 import Columns from "./columns";
-import moment from 'moment'
-import { getListApi } from "api/home/UserCenter/CuserManage";
+import { getListApi } from "api/home/FinancialCenter/AccountBanlance";
+import {ErpExportApi} from 'api/Export'
 
 /**
- * 功能作用：商品说明订单列表界面
+ * 功能作用：賬戶餘額订单列表界面
  * 注释创建人：周虹烨
  */
 
-class CuserManage extends Component {
+class AccountBanlance extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,16 +29,7 @@ class CuserManage extends Component {
   };
   //搜索列表
   searchData = values => {
-    const {time,..._values} = values;
-    if (time && time[0]) {
-      _values.createTimeST = moment(time[0]).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-      _values.createTimeET = moment(time[1]).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-    }
-    const params = { ...this.state.inputValues, ..._values };
+    const params = { ...this.state.inputValues, ...values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;
@@ -61,16 +53,12 @@ class CuserManage extends Component {
   };
   //搜索查询
   onSubmit = params => {
-    const {time,..._values} = params;
-    if(time&&time[0]){
-      _values.dateStart = moment(time[0]).formate('YYYY-MM-DD HH:mm:ss')
-      _values.dateEnd = moment(time[1]).formate('YYYY-MM-DD HH:mm:ss')
-    }else{
-      _values.dateStart = ''
-      _values.dateEnd = ''
-    };
-    this.searchData(_values);
+    this.searchData(params);
   };
+  //导出数据
+  exportData=()=>{
+    ErpExportApi(this.state.inputValues,'/spmoney/shopPoints/export')
+  }
   render() {
     const {
       dataList,
@@ -81,6 +69,9 @@ class CuserManage extends Component {
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
+        <div className='handle-operate-btn-action'>
+          <Button type='primary' size='large' onClick={this.exportData}>导出数据</Button>
+        </div>
         <Qtable
           columns={Columns}
           dataSource={dataList}
@@ -93,4 +84,4 @@ class CuserManage extends Component {
     );
   }
 }
-export default CuserManage;
+export default AccountBanlance;

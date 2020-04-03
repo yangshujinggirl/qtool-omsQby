@@ -187,33 +187,5 @@ const Columns = [
       </div>
     )
   },
-  {
-    title: "操作",
-    key: "17",
-    width:150,
-    render: (text, record, index) => {
-      return (
-        <div>
-          {record.status == 1 && (
-            <div>
-              <a
-                className="link-color"
-                onClick={record.onOperateClick.bind(this, "audit")}
-              >
-                审核
-              </a>
-              　
-              <a
-                className="link-color"
-                onClick={record.onOperateClick.bind(this, "cancel")}
-              >
-                撤销
-              </a>
-            </div>
-          )}
-        </div>
-      );
-    }
-  }
 ];
 export default Columns;

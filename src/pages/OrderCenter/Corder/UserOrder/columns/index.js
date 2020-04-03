@@ -1,13 +1,16 @@
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 //列表
 const Columns = [
   {
     title: "订单号",
     dataIndex: "orderNo",
     key: "1",
-    render:()=>(
-    <Link to={`/account/user_order_infos/${record.orderId}`}>{text}</Link>
-    )
+    render: () =>
+      orderType == 1 ? (
+        <Link to={`/account/user_order_infos/${record.orderId}`}>{text}</Link>
+      ) : (
+        <Link to={`/account/user_bondedOrder_infos/${record.orderId}`}>{text}</Link>
+      )
   },
   {
     title: "门店名称",
@@ -141,7 +144,7 @@ const handleLogColumns = [
   }
 ];
 //详情--赠品信息
-const giftSkuColumns=[
+const giftSkuColumns = [
   {
     title: "操作",
     dataIndex: "qerpAction"
@@ -158,5 +161,5 @@ const giftSkuColumns=[
     title: "备注",
     dataIndex: "remark"
   }
-]
-export { Columns, GoodColumns,handleLogColumns,giftSkuColumns };
+];
+export { Columns, GoodColumns, handleLogColumns, giftSkuColumns };

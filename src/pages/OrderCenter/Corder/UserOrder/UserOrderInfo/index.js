@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { Card, Form } from "antd";
 import { Qtable } from "common";
 import { GoodColumns, handleLogColumns, giftSkuColumns } from "../columns";
-import { getInfoApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
+import { getInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
 
-const AllReturnInfo = props => {
+const UserOrderInfo = props => {
   const [orderInfo, setOrderInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const [skuList, setSkuList] = useState([]);
@@ -89,4 +89,4 @@ const AllReturnInfo = props => {
     </div>
   );
 };
-export default AllReturnInfo;
+export default UserOrderInfo;

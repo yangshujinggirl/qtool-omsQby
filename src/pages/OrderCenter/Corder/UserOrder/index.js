@@ -8,7 +8,7 @@ import {Columns} from "./columns";
 import { AppExportApi } from "api/Export";
 import moment from "moment";
 
-class ErpStock extends Component {
+class UserOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -99,4 +99,4 @@ class ErpStock extends Component {
     );
   }
 }
-export default ErpStock;
+export default UserOrder;

@@ -8,11 +8,11 @@ class GoodsAudit extends Component {
     return (
       <div>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="一般贸易商品" key="1">  
-            <TradeGoods/>
+          <TabPane tab="一般贸易商品" key="1">
+            <TradeGoods />
           </TabPane>
           <TabPane tab="跨境商品" key="2">
-            111
+            <PassGoods />
           </TabPane>
         </Tabs>
       </div>

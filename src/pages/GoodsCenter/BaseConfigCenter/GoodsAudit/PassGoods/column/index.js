@@ -108,19 +108,8 @@ const Columns = [
     dataIndex: "lastUpdateTime",
     key: "14",
     render: (text, record, index) => (
-      <span>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+      <span>{text&&moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
     )
   },
-  {
-    title: "操作",
-    key: "15",
-    render: (text, record, index) => {
-      return (
-        <a className="link-color" onClick={record.onOperateClick.bind(this)}>
-          审核
-        </a>
-      );
-    }
-  }
 ];
 export default Columns;

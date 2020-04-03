@@ -99,7 +99,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem className="oms-condition-operate">
+              <FormItem wrapperCol={{span:24}} className="oms-condition-operate">
                 <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
                   搜索
                 </Qbtn>

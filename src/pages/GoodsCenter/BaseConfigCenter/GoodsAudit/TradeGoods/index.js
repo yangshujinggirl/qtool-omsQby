@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import {message,Popover} from 'antd'
 import FilterForm from "./FilterForm";
 import EditModal from "./components/Audit";
-import { GetListApi } from "api/home/BaseConfigCenter/GoodsAudit";
-import { Icon } from "@ant-design/compatible";
-import { Popover } from "antd";
+import { getPassListApi } from "api/home/GoodsCenter/BaseConfig/GoodsAudit";
+import { QuestionCircleFilled } from '@ant-design/icons';
 import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
 import "./index.less";
@@ -32,26 +32,17 @@ class TradeGoods extends Component {
   //搜索列表
   searchData = values => {
     const params = { ...this.state.inputValues, ...values };
-    GetListApi(params).then(res => {
+    getPassListApi(params).then(res => {
       if (res.httpCode == 200) {
-        const {
-          resultList = [],
-          everyPage,
-          currentPage,
-          totalCount
-        } = res.result;
-        let tableLists = [];
-        if (resultList.length > 0) {
-          resultList.map(item => {
-            item.key = item.id;
-            return item;
-          });
+        const {result,total,currentPage,everyPage} = res.result
+        if(result.length>0){
+          result.map(item=>item.key = item.id)
         }
         this.setState({
-          tableLists,
+          tableLists:result,
           everyPage,
           currentPage,
-          totalCount
+          total
         });
       }
     });
@@ -70,26 +61,24 @@ class TradeGoods extends Component {
   onSubmit = params => {
     this.searchData(params);
   };
-  handleOperateClick = (record, type) => {
-    this.setState({
-      type,
-      record,
-      visible: true
-    });
-  };
-  rowSelectChange = (selectedRowKeys, selectedRows) => {
+  rowSelectChange = (selectedRowKeys) => {
     this.setState({
       selectedRowKeys
     });
   };
   //批量审核
   audit = () => {
+    if(!this.state.selectedRowKeys.length){
+      return message.error('请至少选择一条待审核任务；',.8)
+    }
+    if(!this.state.selectedRowKeys.length>20){
+      return message.error('单次审核任务不得超过20条；',.8)
+    }
     this.setState({
       visible: true,
-      type: "all"
     });
   };
-  onOk = (values, clearForm) => {
+  onOk = () => {
     this.setState({
       visible: false,
       selectedRowKeys: []
@@ -107,11 +96,9 @@ class TradeGoods extends Component {
       selectedRowKeys,
       tableLists,
       everyPage,
-      totalCount,
+      total,
       currentPage,
       visible,
-      record,
-      type
     } = this.state;
     const rowSelection = {
       onChange: this.rowSelectChange,
@@ -133,11 +120,10 @@ class TradeGoods extends Component {
         <div className="handle-operate-btn-action">
           <Qbtn onClick={this.audit}> 批量审核 </Qbtn>
           <Popover className="pop_over" title="说明" content={content}>
-            审核说明 <Icon type="question-circle" theme="filled" />
+            审核说明 <QuestionCircleFilled />
           </Popover>
         </div>
         <Qtable
-          onOperateClick={this.handleOperateClick}
           columns={Columns}
           dataSource={tableLists}
           select={true}
@@ -145,12 +131,12 @@ class TradeGoods extends Component {
           scroll={{ x: 2400 }}
         />
         <Qpagination
-          data={{ everyPage, totalCount, currentPage }}
+          data={{ everyPage, total, currentPage }}
           onChange={this.changePage}
         />
         {visible && (
           <EditModal
-            {...{ visible, type, record, selectedRowKeys }}
+            {...{ visible,selectedRowKeys }}
             onOk={this.onOk}
             onCancel={this.onCancel}
           />
