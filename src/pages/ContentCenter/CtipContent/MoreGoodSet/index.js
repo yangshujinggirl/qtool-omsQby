@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ThemeActivitySet from "./ThemeActivitySet";
+import MoreGoods from "./MoreGoods";
 import ModuleSet from "./ModuleSet";
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
@@ -23,7 +23,7 @@ class Index extends Component {
           <TabPane tab="设置主题" key="1">
             {
               activeKey=='1'&&
-              <ThemeActivitySet {...this.props}/>
+              <MoreGoods {...this.props}/>
             }
           </TabPane>
           <TabPane tab="模块设置" key="2">
