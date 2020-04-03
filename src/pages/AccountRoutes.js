@@ -110,6 +110,8 @@ import MorePicSetCtip from './ContentCenter/CtipContent/MorePicSetCtip';//多图
 import NewUserSetCtip from './ContentCenter/CtipContent/NewUserSetCtip';//新人礼
 import ThemeActivitySetCtip from './ContentCenter/CtipContent/ThemeActivitySetCtip';//主题活动
 import MoreGoodSet from './ContentCenter/CtipContent/MoreGoodSet';//两行三列活动
+import PageSetCtip from './ContentCenter/CtipContent/PageSetCtip';//页面配置
+import PageSetEditCtip from './ContentCenter/CtipContent/PageSetCtip/PageSetEditCtip';//页面配置
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
@@ -168,6 +170,7 @@ import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDe
 /************************************   会员中心   *******************************************/
 import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue";/*** 成长值任务*/
 import TaskGrowthValueDetail from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail";/*** 成长值任务详情*/
+import TaskGrowthEdit from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthEdit";/*** 成长值任务编辑*/
 
 /************************************   渠道管理   *******************************************/
 import ChannelManage from "./ChannelManage/Manage";/*** 渠道管理*/
@@ -277,6 +280,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/cNewUserSet/:id?" component={NewUserSetCtip}/>
                 <Route exact path="/account/cThemeSet/:id?" component={ThemeActivitySetCtip}/>
                 <Route exact path="/account/cMoreGoodSet/:id?" component={MoreGoodSet}/>
+                <Route exact path="/account/page_configuration" component={PageSetCtip}/>
+                <Route exact path="/account/cPageSet/edit/:id?" component={PageSetEditCtip}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}
@@ -331,8 +336,8 @@ class HomeRoutes extends React.Component {
 
                 {/* ----------------------------------  会员中心   ---------------------------------------*/}
                 <Route exact path='/account/growth_task_configuration' component={TaskGrowthValue}/>
-                <Route exact path='/account/growth_task_configuration/detail/:id?'
-                       component={TaskGrowthValueDetail}/>
+                <Route exact path='/account/growth_task_configuration/detail/:id' component={TaskGrowthValueDetail}/>
+                <Route exact path='/account/taskGrowth/edit/:id' component={TaskGrowthEdit}/>
 
                 {/* ----------------------------------  渠道管理   ---------------------------------------*/}
                 <Route exact path='/account/bridge_manager_control' component={ChannelManage}/>
@@ -346,9 +351,9 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/stocking_change_b' component={BstockAdjust}/>
                 <Route exact path='/account/stocking_change_bonded' component={CrossBorderAdjust}/>
 
-                
-        
-       
+
+
+
                 <Route component={NotFound}/>
             </Switch>
         );

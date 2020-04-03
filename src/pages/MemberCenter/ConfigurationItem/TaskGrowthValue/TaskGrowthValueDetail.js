@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qtable} from "common/index";
 import {Card} from "antd";
-import {LogColumns, SubheadingColumns} from "./column/DetailLog";
+import {LogColumns, SubheadingColumns} from "./column";
 import {GetDataDetail} from "../../../../api/home/MemberCenter/ConfigurationItem/TaskGrowthValue";
 import TableDataListUtil from "utils/TableDataListUtil";
 

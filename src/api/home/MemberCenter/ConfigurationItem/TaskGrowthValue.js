@@ -15,3 +15,6 @@ export function GetDataListApi(values) {
 export function GetDataDetail(id) {
     return appAjax.get("/userMember/task/detail/" + id);
 }
+export function GetSaveApi(values) {
+    return appAjax.put("/userMember/task",{...values});
+}
