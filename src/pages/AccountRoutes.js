@@ -15,6 +15,7 @@ import CgoodsExplain from "./GoodsCenter/BaseConfigCenter/CgoodsExplain"; //后�
 import DescriptManage from "./GoodsCenter/BaseConfigCenter/DescriptManage";//描述属性管理
 import DescriptAdd from "./GoodsCenter/BaseConfigCenter/DescriptManage/DescriptAdd";//描述属性
 import DescriptInfo from "./GoodsCenter/BaseConfigCenter/DescriptManage/DescriptInfo";//描述属性
+import GoodLabel from "./GoodsCenter/BaseConfigCenter/GoodLabel";//描述属性
 
 //基础商品-----------------------------------//////
 import BaseGoods from "./GoodsCenter/BaseGoodsCenter";//基础商品
@@ -69,8 +70,10 @@ import GetPurchaseInOrder from './OrderCenter/ReplaceOrder/GetPurchaseInOrder' /
 import ShortageOrder from './OrderCenter/ShortageOrder' //生成采购订单
 import UserOrder from './OrderCenter/Corder/UserOrder' //用户订单
 import AddReturnOrder from './OrderCenter/Corder/UserOrder/AddReturnOrder' //新增退单
-import UserOrderInfo from './OrderCenter/Corder/UserOrder/UserOrderInfo' //退单详情
+import UserOrderInfo from './OrderCenter/Corder/UserOrder/UserOrderInfo' //一般退单详情
+import BondedOrderInfo from './OrderCenter/Corder/UserOrder/BondedOrderInfo' //保税退单详情
 import BondedOrder from './OrderCenter/BondedOrder' //保税订单
+
 
 /************************************  合作中心  ********************************************/
 import SupplierManage from './SupplierManage';//供应商管理
@@ -85,7 +88,6 @@ import CtipActivity from './MarketCenter/PromotionActivity/CtipActivity';//c端�
 import CtipActivityAdd from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAdd';//c端营销活动
 import CtipActivityAddTwo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityAddTwo';//c端营销活动
 import CtipActivityInfo from './MarketCenter/PromotionActivity/CtipActivity/CtipActivityInfo';//c端营销活动
-
 import CouponCenter from './MarketCenter/CouponCenter';//优惠券中心
 import CouponInfo from './MarketCenter/CouponCenter/CouponInfo';//优惠券中心
 import CouponAdd from './MarketCenter/CouponCenter/CouponAdd';//优惠券中心
@@ -101,7 +103,7 @@ import CtipAuditEdit from './MarketCenter/AuditCenter/CtipAudit/CtipAuditEdit';/
 import BossActivity from './MarketCenter/PromotionActivity/BossActivity';//C审核
 import BossActivityAdd from './MarketCenter/PromotionActivity/BossActivity/BossActivityAdd';//C审核
 import BossActivityInfo from './MarketCenter/PromotionActivity/BossActivity/BossActivityInfo';//C审核
-/**********************************内容中心***************************************************/
+/**********************************  内容中心 ***************************************************/
 import CtipContent from './ContentCenter/CtipContent';//内容列表
 import CtipContentAdd from './ContentCenter/CtipContent/CtipContentAdd/index';//配置页
 import BannerSetCtip from './ContentCenter/CtipContent/BannerSetCtip';//banner
@@ -141,7 +143,7 @@ import CpushInfos from './OperateCenter/Coperate/Cpush/CpushDetail'
 import ThemeAct from './OperateCenter/Coperate/ThemeAct'
 import AddTheme from './OperateCenter/Coperate/ThemeAct/AddTheme'
 import Banswer from './OperateCenter/Boperate/Banswer'
-import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer'
+import AddBanswer from './OperateCenter/Boperate/Banswer/AddBanswer' 
 
 /************************************   用户中心   *******************************************/
 import PosUserOrder from './UserCenter/PosUserManage'
@@ -153,6 +155,7 @@ import Withdraw from './FinancialCenter/Withdraw'
 import ShopkeeperInOut from './FinancialCenter/ShopkeeperInOut'/*** 掌柜收支明细*/
 import SaleInOut from "./FinancialCenter/SaleInOut";/*** 销售收支明细*/
 import ShareInProfitManager from "./FinancialCenter/ShareInProfitManager";/*** 分润管理页面*/
+import AccountBanlance from "./FinancialCenter/AccountBanlance";/*** 账户余额*/
 
 /************************************   客服中心   *******************************************/
 import StoreFeedback from './CustomerServiceCenter/FromB/StoreFeedback'/*** 门店反馈页面*/
@@ -213,6 +216,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/c_product_title" component={CgoodsExplain}/>
                 <Route exact path="/account/event_exchange_products" component={ActExchangeGoods}/>
                 <Route exact path="/account/add_act_exchange_goods/:id?" component={AddActExchangeGoods}/>
+                <Route exact path="/account/c_label" component={GoodLabel}/>
                 {/* ----------------------------------  订单中心   ---------------------------------------*/}
                 <Route exact path='/account/purchaseOrder' component={PurchaseIn}/>
                 <Route exact path='/account/add_purchasein/:id?' component={AddPurchaseIn}/>
@@ -236,6 +240,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/shortage_sku_order_detail' component={ShortageOrder}/>
                 <Route exact path='/account/addUserOrder_returnOrder' component={AddReturnOrder}/>
                 <Route exact path='/account/user_order_infos' component={UserOrderInfo}/>
+                <Route exact path='/account/user_bondedOrder_infos/' component={BondedOrderInfo}/>
                 <Route exact path='/account/subscriber_orders' component={UserOrder}/>
                 <Route exact path='/account/orderBonded' component={BondedOrder}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}
@@ -319,6 +324,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/sale_definite' component={SaleInOut}/>
                 <Route exact path='/account/profit_manager' component={ShareInProfitManager}/>
                 <Route exact path='/account/finance_data' component={FinancialData}/>
+                <Route exact path='/account/account_balance_b' component={AccountBanlance}/>
                 {/* ----------------------------------  用户中心   ---------------------------------------*/}
                 <Route exact path='/account/c_work_order' component={WorkOrderC}/>
                 <Route exact path='/account/c_work_order/detail/:id?' component={WorkOrderCDetail}/>

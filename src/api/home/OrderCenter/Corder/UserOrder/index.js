@@ -1,9 +1,9 @@
-import { omsAjax } from "../../../../Req";
+import { appAjax } from "../../../../Req";
 /**
  * 列表
  */
 export function getListApi(values) {
-  return omsAjax.get("/toC/orderList", {
+  return appAjax.get("/toC/orderList", {
     params: values
   });
 }
@@ -11,24 +11,24 @@ export function getListApi(values) {
  * 导出数据
  */
 export function exportDataApi(values) {
-  return omsAjax.post("/toC/orderList/export", values);
+  return appAjax.post("/toC/orderList/export", values);
 }
 /**
  * 退单详情
  */
 export function getInfoApi(values) {
   const { id } = values;
-  return omsAjax.get(`/toC/order/common/${id}`);
+  return appAjax.get(`/toC/order/common/${id}`);
 }
 /**
  * 根据订单号查询退单数据
  */
 export function getReturnInfoApi(values) {
-  return omsAjax.get(`/toC/returnOrder/queryDetail`, {
+  return appAjax.get(`/toC/returnOrder/queryDetail`, {
     params: values
   });
 }
 //新建退单
 export function addReturnOrderApi(values) {
-  return omsAjax.post(`/toC/returnOrder/create`,values);
+  return appAjax.post(`/toC/returnOrder/create`,values);
 }
