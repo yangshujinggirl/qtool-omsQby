@@ -106,7 +106,7 @@ const Mod=({...props})=> {
             'data-row-key':record.key,
             'data-row-parent':'listOne',
             'data-row-index':index,
-            'moveRow': moveRow,
+            moveRow
           })}/>
         <Table
           bordered
@@ -122,7 +122,7 @@ const Mod=({...props})=> {
             'data-row-key':record.key,
             'data-row-index':index,
             'data-row-parent':'listTwo',
-            'moveRow': moveRow,
+            moveRow
           })}/>
       </div>
     </DndProvider>

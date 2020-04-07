@@ -14,6 +14,7 @@ class index extends Component {
       if (response) {
         let { result, httpCode } =response;
         if (httpCode == "200") {
+          result.pdSpuList&&result.pdSpuList.map((el)=>el.key=el.pdSpuId)
           this.props.upDateList(result.pdSpuList);
         } else {
           Qmessage.error(file.response.message, 0.8);

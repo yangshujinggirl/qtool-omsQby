@@ -10,7 +10,7 @@ let dragingIndex = -1;
 
 class BodyRow extends React.Component {
   render() {
-    const { isOver, connectDragSource, connectDropTarget, ...restProps } = this.props;
+    const { isOver, connectDragSource, connectDropTarget, moveRow,  ...restProps } = this.props;
     const style = { ...restProps.style, cursor: 'move' };
 
     let { className } = restProps;

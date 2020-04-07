@@ -27,24 +27,33 @@ class ImportBtn extends React.Component {
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
-          const { mlSpuVo } =response;
-          const { noImportSpu } =mlSpuVo;
-          if(noImportSpu&&noImportSpu.length>0) {
+          const { unImportSpuArr,notExistSpuArr }=response;
+          if(unImportSpuArr&&unImportSpuArr.length>0) {
             let content = <div className="import-error-modal">
-            以下商品导入失败<br/>
+            商品已导入超过100个，以下商品导入失败<br/>
             SPUID:
               {
-                noImportSpu.map((el,index) => el = `${el}${index==(noImportSpu.length-1)?'':'/'}`)
+                unImportSpuArr.map((el,index) => el = `${el}${index==(unImportSpuArr.length-1)?'':'/'}`)
               }
             </div>
             message.error(content,5)
           }
-          let pdSpuList= mlSpuVo.pdSpuList?mlSpuVo.pdSpuList:[];
-          pdSpuList.map((el,index) =>{
+          if(notExistSpuArr&&notExistSpuArr.length>0) {
+            let content = <div className="import-error-modal">
+            以下商品不存在，导入失败<br/>
+            SPUID:
+              {
+                notExistSpuArr.map((el,index) => el = `${el}${index==(notExistSpuArr.length-1)?'':'/'}`)
+              }
+            </div>
+            message.error(content,5)
+          }
+          let spuList= response.spuList?response.spuList:[];
+          spuList.map((el,index) =>{
             el.key = index;
             el.FixedPdSpuId = el.pdSpuId;
           })
-          this.props.callback(pdSpuList)
+          this.props.callback(spuList);
         }else{
           message.error(file.response.message,.8);
         }
@@ -55,16 +64,17 @@ class ImportBtn extends React.Component {
   }
   render() {
     const props = {
-      action: '/erpWebRest/webrest.htm?code=qerp.web.config.mulitilinespu.import',
+      action: '/erpWebRest/webrest.htm?code=qerp.web.config.pdFlowSpu.import',
       onChange: this.handleChange,
       beforeUpload:this.beforeUpload,
       name:'mfile',
       showUploadList:false,
     };
     return (
-      <Upload {...props} className="upload-file-btn">
+      <Upload{...props}
+        className="upload-file-btn">
           <Button type="primary" size="large">
-            上传附件
+            批量导入
           </Button>
       </Upload>
     );
