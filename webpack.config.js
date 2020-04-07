@@ -149,6 +149,7 @@ module.exports = {
         pathRewrite: {"^/qtoolsApp" : ""},
         changeOrigin: true,
       }
+      
     }
   }
 };
