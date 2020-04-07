@@ -12,8 +12,9 @@ class index extends Component {
     const { response } = file;
     if (file.status == "done") {
       if (response) {
-        if (response.httpCode == "200") {
-          // this.props.upDateList(promotionProducts);
+        let { result, httpCode } =response;
+        if (httpCode == "200") {
+          this.props.upDateList(result.pdSpuList);
         } else {
           Qmessage.error(file.response.message, 0.8);
         }

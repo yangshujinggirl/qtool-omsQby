@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
 import { Table, Button, Form, Input, message } from 'antd';
+import { DndProvider, DragSource, DropTarget } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { useState, useEffect } from 'react';
 import lodash from 'lodash';
-import DragField from '../DragField';
-import { GetSearchApi } from 'api/contentCenter/MoreGoodSet';
+import DragableBodyRow from '../DragField';
+import { GetSearchPdspuApi } from 'api/contentCenter/MoreGoodSet';
 import { columnsFun, columnsTwoFun } from '../../columns';
 
-//dispatch 更新数据源
 const FormItem = Form.Item;
+
 const Mod=({...props})=> {
   let { list, goods } =props;
   let newList = lodash.cloneDeep(props.list);
   let [addkey,setAddkey] =useState(newList.length);
+  //绑定方法
+  const processData=(data)=> {
+    data && data.map((item, i) => {
+        item.onOperateClick = (type) => { this.props.onOperateClick(item,type) };
+    })
+    return data;
+  }
   //新增
   const handleAdd=()=> {
     addkey++;
     setAddkey(addkey);
     newList.push({ key:addkey })
+    props.upDateList(newList);
+  }
+  //删除
+  const handleDelete=(record)=> {
+    newList = newList.filter(item => item.key !== record.key);
     props.upDateList(newList);
   }
   //表单事件
@@ -27,10 +41,7 @@ const Mod=({...props})=> {
         break;
     }
   }
-  const handleDelete=(record)=> {
-    newList = newList.filter(item => item.key !== record.key);
-    props.upDateList(newList);
-  }
+  //拖拽
   const moveRow = (dragParent, hoverParent, dragIndex, hoverIndex) => {
     let tempHover = goods[dragParent][dragIndex];
     let tempDrag = goods[hoverParent][hoverIndex];
@@ -40,17 +51,13 @@ const Mod=({...props})=> {
     let totalList = [...listOne, ...listTwo];
     props.upDateList(totalList);
   };
-  //code
+  //code查询商品
   const handleBlur=(e,record)=> {
-    let value;
-    value = lodash.trim(e.target.value)
-    if(!value) {
-      return;
-    }
-    if(value == record.FixedPdSpuId) {
-      return;
-    }
-    GetSearchApi({pdSpuId:value,type:0})
+    let value = e.target.value;
+    if(!value) { return; }
+    value = lodash.trim(value)
+    if(value == record.FixedPdSpuId) { return; }
+    GetSearchPdspuApi(value)
     .then((res) => {
       if(res.code==0) {
         let { spuInfo } =res;
@@ -70,16 +77,55 @@ const Mod=({...props})=> {
       }
     })
   }
+  //拖拽行
+  const components = {
+    body: {
+      row: DragableBodyRow,
+    },
+  };
   let columnsOne = columnsFun(handleBlur);
   let columnsTwo = columnsTwoFun(handleBlur);
+
+  let listTwo = processData(goods.listTwo)
+  let listOne = processData(goods.listOne)
+  let len = newList.length;
+
   return (
-    <DragField
-      columnsOne={columnsOne}
-      columnsTwo={columnsTwo}
-      handleAdd={handleAdd}
-      goods={goods}
-      onOperateClick={onOperateClick}
-      moveRow={moveRow}/>
+    <DndProvider backend={HTML5Backend}>
+      <div className="drag-tables-component">
+        <Table
+          bordered
+          rowClassName={(record,index)=>(
+            record.isLine==20||record.isPresell||record.pdSpuInv==0?'haveBackColor':null
+          )}
+          pagination={false}
+          columns={columnsOne}
+          dataSource={listOne}
+          components={components}
+          onRow={(record, index) => ({
+            'data-row-key':record.key,
+            'data-row-parent':'listOne',
+            'data-row-index':index,
+            'moveRow': moveRow,
+          })}/>
+        <Table
+          bordered
+          rowClassName={(record,index)=>(
+            record.isLine==20||record.isPresell||record.pdSpuInv==0?'haveBackColor':null
+          )}
+          pagination={false}
+          columns={columnsTwo}
+          dataSource={listTwo}
+          components={components}
+          footer={()=><Button type="default" disabled={len>=100?true:false} onClick={handleAdd}>+新增</Button>}
+          onRow={(record, index) => ({
+            'data-row-key':record.key,
+            'data-row-index':index,
+            'data-row-parent':'listTwo',
+            'moveRow': moveRow,
+          })}/>
+      </div>
+    </DndProvider>
   );
 }
 export default Mod;

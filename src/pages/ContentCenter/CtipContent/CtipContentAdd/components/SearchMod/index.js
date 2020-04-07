@@ -1,154 +1,92 @@
 import react, { Component } from "react";
 import { Input, Button, message } from "antd";
 import { SearchOutlined, ScanOutlined } from "@ant-design/icons";
+import { Sessions } from 'utils';
+import { GetSavePicApi, GetListApi } from "api/contentCenter/SearchSetCtip";
 import CommonMod from '../CommonMod';
+import SearchEdit from "./components/Edit";
 import "./index.less";
-import { GetSavePicApi, GeSearchPicApi } from "api/contentCenter/CtipContentAdd";
-// import SearchUpload from "./components/Edit";
+
+let fileDomain = Sessions.get('fileDomain');
 
 class SearchMod extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      fileList: [],
+      fileList:[],fileList2:[],fileList3:[],
       loading: false
     };
   }
+
   //编辑
   onEdit = () => {
     const { homepageModuleId } = this.props.info;
-    GeSearchPicApi({ homepageModuleId }).then(res => {
-      //查询
-      if (res.code == "0") {
-        const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-        const { backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic } = res.searchQueryVo;
-        this.handleResult(fileDomain, backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic);
-      }
+    GetListApi({ homepageModuleId })
+    .then(res => {
+      const { backgroundPicUrl=[],contentPicUrl=[],noFullScreenBackGroundPic=[] } = res.result;
+      this.handleResult( backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic);
     });
   };
   //结果数据处理
-  handleResult = (fileDomain, backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic) => {
+  handleResult = (backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic) => {
     let [fileList,fileList2,fileList3] = [[],[],[]]
     if (backgroundPicUrl) {
-      fileList = [
-        {
+      fileList = [{
           uid: "-1",
           status: "done",
+          path:backgroundPicUrl,
           url: fileDomain + backgroundPicUrl
-        }
-      ];
+        }];
     }
     if (contentPicUrl) {//小程序
-      fileList3 = [
-        {
+      fileList3 = [{
           uid: "-1",
           status: "done",
+          path:contentPicUrl,
           url: fileDomain + contentPicUrl
-        }
-      ];
+        }];
     }
     if (noFullScreenBackGroundPic) {//非全面屏
-      fileList2 = [
-        {
+      fileList2 = [{
           uid: "-1",
           status: "done",
+          path:noFullScreenBackGroundPic,
           url: fileDomain + noFullScreenBackGroundPic
-        }
-      ];
+        }];
     }
-    this.setState(
-      {
-        fileList,
-        fileList2,
-        fileList3,
-        imageUrl: backgroundPicUrl,
-        imageUrl2: noFullScreenBackGroundPic,
-        imageUrl3: contentPicUrl,
-      },
-      () => {
-        this.setState({
-          visible: true
-        });
-      }
-    );
-  };
-  //全面屏发生变化时
-  changeImg = fileList => {
-    let imageUrl = ''
-    if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
-      imageUrl = fileList[0].response.data[0];
-    };
-    this.setState({
-      fileList,
-      imageUrl
+    this.setState({ fileList, fileList2, fileList3 },() => {
+        this.setState({ visible: true });
     });
   };
-  //非全面屏发生变化时
-  changeImg2 = fileList => {
-    let imageUrl2 = ''
-    if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
-      imageUrl2 = fileList[0].response.data[0];
-    };
-    this.setState({
-      fileList2:fileList,
-      imageUrl2
-    });
-  };
-  //小程序发生变化时
-  changeImg3 = fileList => {
-    let imageUrl3 = ''
-    if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
-      imageUrl3 = fileList[0].response.data[0];
-    };
-    this.setState({
-      fileList3:fileList,
-      imageUrl3
-    });
-  };
-  //背景图片保存
+  //更新数据
+  upDateFilist=(type,fileList)=> {
+    switch (type) {
+      case 1:
+        this.setState({ fileList });
+        break;
+      case 2:
+        this.setState({ fileList2:fileList });
+        break;
+      case 3:
+        this.setState({ fileList3:fileList });
+        break;
+      default:
+    }
+  }
   onOk = () => {
-    const { imageUrl,imageUrl2,imageUrl3 } = this.state;
-    const { homepageModuleId } = this.props.info.search;
-    const values = {
-      homepageModuleId,
-      backgroundPicUrl: imageUrl,
-      noFullScreenBackGroundPic: imageUrl2,
-      contentPicUrl: imageUrl3,
-
-    };
-    this.setState({
-      loading: true
-    });
-    GetSavePicApi(values).then(res => {
-      if (res.code == "0") {
-        message.success("设置成功");
-        this.setState({
-          fileList: [],
-          visible: false,
-          loading: false
-        });
-        this.props.callback();
-      }else{
-        this.setState({
-          loading:false
-        });
-      };
-    });
+    this.props.callback();
   };
   onCancel = () => {
-    this.setState({
-      fileList: [],
-      visible: false
-    });
+    this.setState({ visible: false });
   };
   render() {
     const { visible, fileList,fileList2,fileList3, loading } = this.state;
-    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     let { backgroundPicUrl, homepageModuleId } = this.props.info;
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
       <CommonMod
+        goEdit={this.onEdit}
         homepageModuleId={homepageModuleId}
         className="search-mod hasLine"
         style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
@@ -156,9 +94,15 @@ class SearchMod extends Component {
           <Input
             addonBefore={<SearchOutlined />}
             addonAfter={<ScanOutlined />}/>
-          <div className="handle-btn-action">
-              <Button onClick={this.onEdit}>编辑</Button>
-          </div>
+          <SearchEdit
+            fileList={fileList}
+            fileList2={fileList2}
+            fileList3={fileList3}
+            upDateFilist={this.upDateFilist}
+            visible={visible}
+            homepageModuleId={homepageModuleId}
+            onOk={this.onOk}
+            onCancel={this.onCancel}/>
         </div>
       </CommonMod>
     );

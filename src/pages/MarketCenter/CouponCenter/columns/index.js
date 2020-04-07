@@ -89,7 +89,7 @@ const Columns = [
             </span>
           )}
           &nbsp;
-          {record.couponUseScene == 2 && record.status !== 3 && record.inject&& (
+          {record.couponUseScene == 2 && record.status !== 3 && (
             <span
               className="pointerSty"
               onClick={()=>record.onOperateClick('logoutTic')}>
