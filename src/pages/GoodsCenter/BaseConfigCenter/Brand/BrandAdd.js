@@ -231,7 +231,7 @@ class BrandAdd extends React.Component {
               dataSource={addressList}
               onSelect={this.onSelect}
               onSearch={this.onSearch}
-              placeholder="请选择归属地"
+              placeholder="请选择"
             />
           </Form.Item>
           <Form.Item
@@ -241,7 +241,7 @@ class BrandAdd extends React.Component {
           >
             <Select placeholder="请选择" allowClear={true}>
               <Option value={1}>启用</Option>
-              <Option value={0}>不启用</Option>
+              <Option value={0}>禁用</Option>
             </Select>
           </Form.Item>
           <Form.Item

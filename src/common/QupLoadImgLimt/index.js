@@ -102,7 +102,7 @@ class UpLoadImg extends Component {
     return e && e.fileList;
   };
   render() {
-    let { fileList, label, limit, name, rules, action } = this.props;
+    let { fileList, label, limit, name, rules } = this.props;
     const { previewVisible, previewImage } = this.state;
     const uploadButton = (
       <div>
@@ -119,7 +119,7 @@ class UpLoadImg extends Component {
           rules={rules}
           noStyle>
           <Upload
-            action={action?action:'/qtoolsOms/upload/img'}
+            action='/qtoolsOms/upload/img'
             listType="picture-card"
             beforeUpload={this.beforeUpload}
             onPreview={this.handlePreview}

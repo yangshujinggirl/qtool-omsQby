@@ -21,10 +21,8 @@ import _Qcharts from './Qcharts';
 import _QbaseInfo from './QbaseInfo';
 import _ImageFlex from './ImageFlex';//图片放大
 import _QupLoadAndDownLoad from './QupLoadAndDownLoad';//导入下载
-import _QcontrolContext from './QcontrolContext';//
 
 
-export const QcontrolContext = _QcontrolContext;
 export const QupLoadAndDownLoad = _QupLoadAndDownLoad;
 export const ImageFlex = _ImageFlex;
 export const QbaseInfo = _QbaseInfo;

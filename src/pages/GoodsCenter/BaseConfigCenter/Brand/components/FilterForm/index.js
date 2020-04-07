@@ -27,15 +27,15 @@ class Search extends BaseFilter {
               <FormItem name="status" label="品牌状态">
                 <Select placeholder="请选择" allowClear={true}>
                   <Option value={1}>启用</Option>
-                  <Option value={0}>不启用</Option>
+                  <Option value={0}>禁用</Option>
                 </Select>
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem name="isSq" label="品牌授权">
                 <Select placeholder="请选择" allowClear={true}>
-                  <Option value={1}>有</Option>
-                  <Option value={0}>无</Option>
+                  <Option value={1}>有授权</Option>
+                  <Option value={0}>无授权</Option>
                 </Select>
               </FormItem>
             </Col>

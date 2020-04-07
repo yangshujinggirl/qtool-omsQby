@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Input,Form,Select } from 'antd';
-import {QupLoadImgLimt} from 'common';
+import QupLoadImgLimt from '../components/QupLoadImgLimt';
 
 import { Link } from 'react-router-dom';
 let FormItem = Form.Item;

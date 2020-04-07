@@ -18,7 +18,7 @@ class UserOrder extends Component {
     })
   };
   render() {
-    const  level  =  sessionStorage.getItem('returnTab');
+    const  level  =  sessionStorage.getItem('returnTab')?sessionStorage.getItem('returnTab'):"1";
     return (
       <div>
         <Tabs activeKey={level} onChange={this.callback}>

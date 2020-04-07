@@ -6,8 +6,8 @@ import {
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { GetImgInfoApi, GetEditImgApi } from 'api/home/BaseGoods';
-import { QupLoadImgLimt, Qmessage, QimageTextEdit, Qtable, Qbtn } from 'common';
-// import QupLoadImgLimt from './components/QupLoadImgLimt';
+import { Qmessage, QimageTextEdit, Qtable, Qbtn } from 'common';
+import QupLoadImgLimt from './components/QupLoadImgLimt';
 
 import { ColumnsEditImgGeneral } from './columns';
 import './BaseGoodsEditImg.less';

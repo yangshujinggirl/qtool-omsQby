@@ -20,7 +20,7 @@ class UserOrder extends Component {
     };
   }
   componentDidMount() {
-    // this.searchData({});
+    this.searchData({});
   }
   //点击搜索
   searchData = values => {
