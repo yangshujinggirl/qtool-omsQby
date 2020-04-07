@@ -96,7 +96,7 @@ const BondedOrderInfo = props => {
       {otherOperateLogList.length > 0 &&
         otherOperateLogList.map((item, index) => (
           <Card title={`${item.titleName}（子单${index + 1}）`}>
-            <Qtable columns={HangzhouClearLogsColumns} dataSource={item.list} />
+            <Qtable columns={HangzhouClearLogsColumns} dataSource={item.operateLogList} />
           </Card>
         ))}
     </div>

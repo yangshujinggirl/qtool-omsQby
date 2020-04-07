@@ -16,7 +16,7 @@ class GoodLabel extends Component {
     super(props);
     this.state = {
       dataList: [],
-      everyPage: 0,
+      everyPage: 15,
       total: 0,
       currentPage: 0,
       visible: false,

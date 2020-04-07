@@ -154,7 +154,7 @@ class AddModal extends React.Component {
     const { level } = this.props;
     let params = {};
     if (level == 2) {
-      params.parentId = values.parentId;
+      params.parentId = values.parentId1;
     }
     if (level == 3) {
       params.parentId = values.parentId2;
@@ -231,7 +231,7 @@ class AddModal extends React.Component {
             </FormItem>
             <FormItem
               label="所属一级类目名称"
-              name="parentId"
+              name="parentId1"
               rules={[{ required: true, message: "请输入类目名称" }]}
             >
               <Select placeholder="请选择">

@@ -1,60 +1,64 @@
-import moment from 'moment'
+import moment from "moment";
 const Columns = [
   {
     title: "订单号",
-    dataIndex: "orderNo"
+    dataIndex: "orderNo",
+  },
+  {
+    title: "渠道订单号",
+    dataIndex: "channelOrderNo",
   },
   {
     title: "子订单号",
-    dataIndex: "orderDetailNo"
+    dataIndex: "orderDetailNo",
   },
   {
     title: "门店名称",
-    dataIndex: "channelName"
+    dataIndex: "channelName",
   },
   {
     title: "代发状态",
-    dataIndex: "isThinkStr"
+    dataIndex: "isThinkStr",
   },
   {
     title: "SKU编码",
-    dataIndex: "skuCode"
+    dataIndex: "skuCode",
   },
   {
     title: "商品名称",
-    dataIndex: "productName"
+    dataIndex: "productName",
   },
   {
     title: "规格",
-    dataIndex: "salesAttributeName"
+    dataIndex: "salesAttributeName",
   },
   {
     title: "商品数量",
-    dataIndex: "num"
+    dataIndex: "num",
   },
   {
     title: "商品实付价格",
-    dataIndex: "totalPrice"
+    dataIndex: "totalPrice",
   },
 
   {
     title: "收货人",
-    dataIndex: "consignee"
+    dataIndex: "consignee",
   },
   {
     title: "联系电话",
-    dataIndex: "phone"
+    dataIndex: "phone",
   },
   {
     title: "收货地址",
-    dataIndex: "address"
+    dataIndex: "address",
   },
   {
     title: "生成时间",
     dataIndex: "channelOrderCreateTime",
     render: (text, record, index) => (
       <span>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
-    )
+    ),
   },
   {
     title: "操作",
@@ -63,8 +67,8 @@ const Columns = [
       return (
         record.purchaseNo && <a onClick={() => record.onOperateClick()}>发货</a>
       );
-    }
-  }
+    },
+  },
 ];
 
 export default Columns;

@@ -6,8 +6,12 @@ const Columns = [
     dataIndex: "orderNo",
   },
   {
+    title: "渠道订单号",
+    dataIndex: "channelOrderNo",
+  },
+  {
     title: "门店名称",
-    dataIndex: "channelName"
+    dataIndex: "channelName",
   },
   {
     title: "订单类型",
@@ -15,26 +19,27 @@ const Columns = [
   },
   {
     title: "SKU编码",
-    dataIndex: "skuCode"
+    dataIndex: "skuCode",
   },
   {
     title: "商品名称",
-    dataIndex: "productName"
+    dataIndex: "productName",
   },
   {
     title: "商品规格",
-    dataIndex: "salesAttributeName"
+    dataIndex: "salesAttributeName",
   },
   {
     title: "购买数量",
     dataIndex: "num",
-  },{
+  },
+  {
     title: "下单时间",
     dataIndex: "channelOrderCreateTime",
-    render:(text,record,index)=>(
-    <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
-    )
-  }, 
+    render: (text, record, index) => (
+      <span>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+    ),
+  },
 ];
 
-export default Columns
+export default Columns;

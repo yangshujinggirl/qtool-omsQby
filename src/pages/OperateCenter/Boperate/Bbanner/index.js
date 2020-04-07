@@ -29,7 +29,7 @@ class Banner extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount: total
+          total
         });
       }
     });
@@ -52,7 +52,7 @@ class Banner extends Component {
       dataList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
     } = this.state;
     dataList.map(item => (item.key = item.pdBannerId));
     return (
@@ -70,7 +70,7 @@ class Banner extends Component {
         />
         {dataList.length > 0 ? (
           <Qpagination
-            data={{ everyPage, currentPage, totalCount }}
+            data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
             onShowSizeChange={this.onShowSizeChange}
           />

@@ -36,7 +36,7 @@ class ThemeAct extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount: total
+          total
         });
       }
     });
@@ -100,7 +100,7 @@ class ThemeAct extends Component {
       dataList,
       everyPage,
       currentPage,
-      totalCount
+      total
     } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
@@ -117,7 +117,7 @@ class ThemeAct extends Component {
         />
         {dataList.length > 0 ? (
           <Qpagination
-            data={{ everyPage, currentPage, totalCount }}
+            data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
             onShowSizeChange={this.onShowSizeChange}
           />
