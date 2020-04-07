@@ -44,7 +44,7 @@ class OffLine extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount: total
+          total
         });
       }
     });
@@ -67,7 +67,7 @@ class OffLine extends Component {
     AppExportApi({type:1,...this.state.inputValues},'/channelStatistics/export')
   }
   render() {
-    const { dataList, everyPage, currentPage, totalCount } = this.state;
+    const { dataList, everyPage, currentPage, total } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData}  type={1}/>
@@ -77,7 +77,7 @@ class OffLine extends Component {
         <Qtable dataSource={dataList} columns={columnsOfflinePrimary} />
         {dataList.length > 0 ? (
           <Qpagination
-            data={{ everyPage, currentPage, totalCount }}
+            data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
             onShowSizeChange={this.onShowSizeChange}
           />

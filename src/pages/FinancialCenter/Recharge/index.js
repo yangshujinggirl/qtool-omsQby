@@ -18,7 +18,7 @@ class ShopKeepRecharge extends Component {
     this.state = {
       dataList: [],
       everyPage: "",
-      totalCount: "",
+      total: "",
       currentPage: "",
       visible: false,
       spVoucherId: "",
@@ -35,7 +35,7 @@ class ShopKeepRecharge extends Component {
     const params = { ...this.state.inputValues, ...values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, totalCount } = res.result;
+        let { result, everyPage, currentPage, total } = res.result;
         result.map(item => {
           item.key = item.spVoucherId;
         });
@@ -43,7 +43,7 @@ class ShopKeepRecharge extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount
+          total
         });
       }
     });
@@ -114,7 +114,7 @@ class ShopKeepRecharge extends Component {
       dataList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
       visible,
       spVoucherId
     } = this.state;
@@ -128,7 +128,7 @@ class ShopKeepRecharge extends Component {
           onOperateClick={this.handleOperateClick}
         />
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
         {visible && (

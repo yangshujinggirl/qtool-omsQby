@@ -17,9 +17,9 @@ class Withdraw extends Component {
     super(props);
     this.state = {
       dataList: [],
-      everyPage: "",
-      totalCount: "",
-      currentPage: "",
+      everyPage: 0,
+      total: 0,
+      currentPage: 0,
       visible: false,
       spCarryCashId: "",
       inputValues: {}
@@ -35,7 +35,7 @@ class Withdraw extends Component {
     const params = { ...this.state.inputValues, ...values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, totalCount } = res.result;
+        let { result, everyPage, currentPage, total } = res.result;
         result.map(item => {
           item.key = item.spCarryCashId;
         });
@@ -43,7 +43,7 @@ class Withdraw extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount
+          total
         });
       }
     });
@@ -107,7 +107,7 @@ class Withdraw extends Component {
       dataList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
       visible,
       spCarryCashId
     } = this.state;
@@ -120,7 +120,7 @@ class Withdraw extends Component {
           onOperateClick={this.handleOperateClick}
         />
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
         {visible && (

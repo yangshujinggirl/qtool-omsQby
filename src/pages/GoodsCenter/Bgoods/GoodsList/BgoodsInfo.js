@@ -118,7 +118,9 @@ const BgoodsAdd = props => {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item label="图文描述"></Form.Item>
+              <Form.Item label="图文描述">
+                
+              </Form.Item>
             </Col>
           </Row>
         </Card>

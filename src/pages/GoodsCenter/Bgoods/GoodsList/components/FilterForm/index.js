@@ -18,25 +18,29 @@ class SearchForm extends BaseFilter {
   }
   componentDidMount() {
     GetCategoryApi({ level: 1, parentId: "" }).then(res => {
-      this.setState({ setCatagoryList: res.result || [] });
+      if(res.httpCode == 200){
+        this.setState({ catagoryList: res.result || [] });
+      }
     });
   }
   //一级菜单更改
   onChange = value => {
     this.formRef.current.setFieldsValue({ pdCategory2Id: undefined });
     this.setState({
-      setCatagoryList2: []
+      catagoryList2: []
     });
     if (value) {
       GetCategoryApi({ level: -1, parentId: value }).then(res => {
         this.setState({
-          setCatagoryList2: res.result || []
+          catagoryList2: res.result || []
         });
       });
     }
   };
   render() {
     const { catagoryList, catagoryList2 } = this.state;
+    console.log(catagoryList)
+    console.log(catagoryList2)
     return (
       <div className="qtoolOms-condition">
         <Form
@@ -72,7 +76,7 @@ class SearchForm extends BaseFilter {
                   placeholder="请选择"
                   allowClear={true}
                 >
-                  {catagoryList.map(item => (
+                  {catagoryList.length&&catagoryList.map(item => (
                     <Option value={item.id} key={item.id}>
                       {item.categoryName}
                     </Option>

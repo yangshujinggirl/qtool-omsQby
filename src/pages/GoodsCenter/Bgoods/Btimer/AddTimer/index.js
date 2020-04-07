@@ -140,7 +140,7 @@ const AddTimer = props => {
             changeDataSource={changeDataSource}
             downLoadTemp={downLoadTemp}
             Columns={Columns}
-            dataSource={dataSource}
+            dataSource={goodList}
             action="/qtoolsErp/inputcode/taskTime"
           >
             {visible && (

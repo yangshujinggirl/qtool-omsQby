@@ -114,7 +114,8 @@ class CommonSort extends React.Component {
   };
   render() {
     const { Columns, visible, id } = this.state;
-    const { categoryLists, level, text } = this.props;
+    const { categoryLists, level, text,total,currentPage,everyPage } = this.props;
+    console.log(this.props)
     return (
       <div>
         <FilterForm onSubmit={this.onSubmit} level={level} />
@@ -128,7 +129,7 @@ class CommonSort extends React.Component {
           dataSource={categoryLists}
           onOperateClick={this.handleOperateClick}
         />
-        <Qpagination data={this.props} onChange={this.changePage} />
+        <Qpagination data={{everyPage,currentPage,total}} onChange={this.changePage} />
         {visible && (
           <AddModal
             {...{ text, visible, level, id }}

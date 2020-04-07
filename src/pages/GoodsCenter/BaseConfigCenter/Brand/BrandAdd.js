@@ -5,14 +5,16 @@ import {
   Radio,
   AutoComplete,
   DatePicker,
-  Form
+  Form,
+  Popover,
 } from "antd";
+import { QuestionCircleFilled } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 import {
   GetInfoApi,
   AddBrandApi,
   UpdataBrandApi,
-  BrandAddressApi
+  BrandAddressApi,
 } from "api/home/Brand";
 import UploadLogo from "common/QupLoadImgLimt";
 import UploadIsSq from "common/QupLoadImgLimt";
@@ -22,7 +24,7 @@ import "./index.less";
 const Option = Select.Option;
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 20 }
+  wrapperCol: { span: 20 },
 };
 
 class BrandAdd extends React.Component {
@@ -33,11 +35,12 @@ class BrandAdd extends React.Component {
       isSq: "",
       logo: [],
       introduceImg: [],
-      addressList: []
+      addressList: [],
     };
   }
   componentDidMount() {
     this.getInfos();
+    this.formRef.current.setFieldsValue({isTransfer:false})
   }
   /**
    * 获取详情
@@ -45,7 +48,7 @@ class BrandAdd extends React.Component {
   getInfos = () => {
     const { id } = this.props.match.params;
     if (id) {
-      GetInfoApi({ brandId: id }).then(res => {
+      GetInfoApi({ brandId: id }).then((res) => {
         if (res.httpCode == 200) {
           this.getValueFormat(res);
         }
@@ -55,7 +58,7 @@ class BrandAdd extends React.Component {
   /**
    * 数据格式化
    */
-  getValueFormat = res => {
+  getValueFormat = (res) => {
     let {
       logo,
       introduceImgList,
@@ -63,15 +66,15 @@ class BrandAdd extends React.Component {
       validityEnd,
       ...infos
     } = res.result;
-    let introduceImg=[];
+    let introduceImg = [];
     logo = [
       {
         uid: "-1",
         name: "image.png",
         status: "done",
         url: sessionStorage.getItem("oms_fileDomain") + logo,
-        img:logo
-      }
+        img: logo,
+      },
     ];
     if (introduceImgList && introduceImgList.length) {
       introduceImgList.map((item, index) => {
@@ -80,7 +83,7 @@ class BrandAdd extends React.Component {
           name: "image.png",
           status: "done",
           url: sessionStorage.getItem("oms_fileDomain") + item,
-          img:item
+          img: item,
         };
         introduceImg.push(obj);
       });
@@ -92,7 +95,7 @@ class BrandAdd extends React.Component {
     this.setState({
       logo,
       introduceImg,
-      isSq:infos.isSq
+      isSq: infos.isSq,
     });
   };
   /**
@@ -103,7 +106,7 @@ class BrandAdd extends React.Component {
     const brandNameCn = this.formRef.current.getFieldValue("brandNameCn");
     if (!brandNameEn && !brandNameCn) {
       this.formRef.current.setFields([
-        { name: ["brandNameCn"], errors: ["中文名称和英文名称至少必填一个"] }
+        { name: ["brandNameCn"], errors: ["中文名称和英文名称至少必填一个"] },
       ]);
     }
     const values = await this.formRef.current.validateFields();
@@ -111,17 +114,17 @@ class BrandAdd extends React.Component {
     const _values = this.formatValue(values);
     if (id) {
       //修改
-      UpdataBrandApi({ id, ..._values }).then(res => {
+      UpdataBrandApi({ id, ..._values }).then((res) => {
         if (res.httpCode == 200) {
-          message.success("保存成功",.8);
+          message.success("保存成功", 0.8);
           this.props.history.push("/account/brand");
         }
       });
     } else {
       //新建
-      AddBrandApi({ ..._values }).then(res => {
+      AddBrandApi({ ..._values }).then((res) => {
         if (res.httpCode == 200) {
-          message.success("保存成功",.8);
+          message.success("保存成功", 0.8);
           this.props.history.push("/account/brand");
         }
       });
@@ -130,7 +133,7 @@ class BrandAdd extends React.Component {
   /**
    * 数据格式化
    */
-  formatValue = values => {
+  formatValue = (values) => {
     const { logo } = this.state;
     const imgs = [];
     const { time, introduceImg, ..._values } = values;
@@ -138,12 +141,12 @@ class BrandAdd extends React.Component {
       _values.validityStart = moment(time[0]).format("YYYY-MM-DD");
       _values.validityEnd = moment(time[1]).format("YYYY-MM-DD");
     }
-    if (introduceImg&&introduceImg[0]) {
-      introduceImg.map(item => {
+    if (introduceImg && introduceImg[0]) {
+      introduceImg.map((item) => {
         imgs.push(item.response ? item.response.result : item.img);
       });
     }
-    if (logo&&logo[0]) {
+    if (logo && logo[0]) {
       _values.logo = logo[0].response ? logo[0].response.result : logo[0].img;
     }
     _values.introduceImgList = imgs;
@@ -152,33 +155,33 @@ class BrandAdd extends React.Component {
   /**
    * 品牌图片
    */
-  upDateList = fileList => {
+  upDateList = (fileList) => {
     this.setState({ logo: fileList });
   };
   /**
    * 授权图片
    */
-  upAuthList = fileList => {
+  upAuthList = (fileList) => {
     this.setState({ introduceImg: fileList });
   };
   /**
    * 更改品牌授权
    */
-  changeIsSq = e => {
+  changeIsSq = (e) => {
     const { value } = e.target;
     this.setState({
-      isSq: value
+      isSq: value,
     });
   };
   /**
    * 搜索品牌归属地
    */
-  onSearch = deBounce(value => {
+  onSearch = deBounce((value) => {
     if (/^[\u2E80-\u9FFF]+$/.test(value)) {
-      BrandAddressApi({ brandCountry: value }).then(res => {
+      BrandAddressApi({ brandCountry: value }).then((res) => {
         if (res.httpCode == 200) {
           this.setState({
-            addressList: res.result
+            addressList: res.result,
           });
         }
       });
@@ -199,7 +202,11 @@ class BrandAdd extends React.Component {
           className="common-addEdit-form"
           {...formItemLayout}
         >
-          <Form.Item className='item_required' style={{ marginBottom: 0 }} label="品牌中文名称">
+          <Form.Item
+            className="item_required"
+            style={{ marginBottom: 0 }}
+            label="品牌中文名称"
+          >
             <Form.Item
               name="brandNameCn"
               style={{ display: "inline-block", marginRight: "10px" }}
@@ -236,7 +243,7 @@ class BrandAdd extends React.Component {
           </Form.Item>
           <Form.Item
             name="status"
-            label="品牌状态"
+            label="状态"
             rules={[{ required: true, message: "请选择" }]}
           >
             <Select placeholder="请选择" allowClear={true}>
@@ -256,7 +263,11 @@ class BrandAdd extends React.Component {
           </Form.Item>
           {isSq && (
             <React.Fragment>
-              <Form.Item labelCol={{ span: 4 }} label="授权图片" className='sq_img'>
+              <Form.Item
+                labelCol={{ span: 4 }}
+                label="授权图片"
+                className="sq_img"
+              >
                 <UploadIsSq
                   name="introduceImg"
                   upDateList={this.upAuthList}
@@ -277,11 +288,16 @@ class BrandAdd extends React.Component {
               >
                 <RangePicker format="YYYY-MM-DD" />
               </Form.Item>
-              <Form.Item name="isTransfer" label="是否转授权">
-                <Radio.Group>
-                  <Radio value={true}>是</Radio>
-                  <Radio value={false}>否</Radio>
-                </Radio.Group>
+              <Form.Item label="是否转授权">
+                <Form.Item name="isTransfer" noStyle>
+                  <Radio.Group>
+                    <Radio value={true}>是</Radio>
+                    <Radio value={false}>否</Radio>
+                  </Radio.Group>
+                </Form.Item>
+                <Popover content="如可转授权，则表示公司可开展下级分销商">
+                  <QuestionCircleFilled />
+                </Popover>
               </Form.Item>
               <Form.Item
                 labelCol={{ span: 4 }}
@@ -291,13 +307,19 @@ class BrandAdd extends React.Component {
               >
                 <Select placeholder="请选择" allowClear={true}>
                   <Option key={1} value={1}>
-                    1级授权
+                    一级代理
                   </Option>
                   <Option key={2} value={2}>
-                    2级授权
+                    二级代理
                   </Option>
                   <Option key={3} value={3}>
-                    3级授权
+                    三级代理
+                  </Option>
+                  <Option key={4} value={4}>
+                    四级代理
+                  </Option>
+                  <Option key={5} value={5}>
+                    五级代理
                   </Option>
                 </Select>
               </Form.Item>

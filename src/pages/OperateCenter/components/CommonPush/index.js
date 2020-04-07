@@ -58,7 +58,7 @@ const commonPush=(propsData)=>{
                 dataList: result,
                 everyPage,
                 currentPage,
-                totalCount: total
+                total
               });
             }
           });
@@ -135,7 +135,7 @@ const commonPush=(propsData)=>{
             dataList,
             everyPage,
             currentPage,
-            totalCount,
+            total,
             selectedRowKeys
           } = this.state;
           const rowSelection = {
@@ -177,7 +177,7 @@ const commonPush=(propsData)=>{
               />
               {dataList.length > 0 ? (
                 <Qpagination
-                  data={{ everyPage, currentPage, totalCount }}
+                  data={{ everyPage, currentPage, total }}
                   onChange={this.changePage}
                   onShowSizeChange={this.onShowSizeChange}
                 />

@@ -22,7 +22,7 @@ class Bgoods extends React.Component {
     this.state = {
       everyPage: 20,
       currentPage: 0,
-      totalCount: 0,
+      total: 0,
       goodLists: [],
       visible: false,
       attr: "",
@@ -43,7 +43,7 @@ class Bgoods extends React.Component {
         this.setState({
           goodLists: result,
           everyPage,
-          totalCount: total,
+          total: total,
           currentPage,
           inputValues: params
         });
@@ -144,7 +144,7 @@ class Bgoods extends React.Component {
     const {
       goodLists,
       everyPage,
-      totalCount,
+      total,
       currentPage,
       attr,
       visible,
@@ -174,7 +174,7 @@ class Bgoods extends React.Component {
           />
         )}
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
         {visible && (
