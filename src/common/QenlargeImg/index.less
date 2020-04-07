@@ -1,0 +1,21 @@
+.enlarge-img-components {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  img{
+    width: 100%;
+    height: 100%;
+  }
+  &.block-arrange {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+  &.inline-arrange {
+    display: inline-block;
+    vertical-align: top;
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+}

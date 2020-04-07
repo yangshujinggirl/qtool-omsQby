@@ -1,0 +1,12 @@
+.q-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/*具体数值*/
+.q-card-list-value {
+    font-size: 24px;
+}
