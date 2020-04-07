@@ -1,6 +1,10 @@
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
-console.log(DragDropContext)
+import { DndProvider } from 'react-dnd';
 
-// export default DragDropContext(HTML5Backend);
-export default DragDropContext;
+
+export function DragDropContext(WrapComponent){
+  return <DndProvider backend={HTML5Backend}>
+          <WrapComponent />
+        </DndProvider>
+};
+// export default DragDropContext;

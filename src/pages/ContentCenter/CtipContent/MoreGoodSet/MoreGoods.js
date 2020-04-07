@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetListApi, GetSaveApi } from 'api/contentCenter/MoreGoodSet';
 import ExportFile from './components/ExportFile';
-// import MainMod from './components/MainMod';
+import MainMod from './components/MainMod';
 const { RangePicker } = DatePicker;
 let FormItem = Form.Item;
 
@@ -24,8 +24,6 @@ const formItemLayout = {
 
 const MoreGoodSet=({...props})=> {
   const [form] = Form.useForm();
-  let [gdListOne,setGdListOne]=useState([]);
-  let [gdListTwo,setGdListTwo]=useState([]);
   let [goods,setGoods]=useState({listOne:[],listTwo:[]});
   let [list,setList]=useState([]);
   let homepageModuleId = props.match.params.id;
@@ -65,18 +63,30 @@ const MoreGoodSet=({...props})=> {
     setList(array)
     setGoods(goodsObj)
   }
-  // useEffect(()=> { getInfo() },[homepageModuleId]);
-  // useEffect(()=>{ form.setFieldsValue({list:showThemeList}) },[showThemeList])
-
+  //表单change事件
+  const onValuesChange=(changedValues, allValues)=> {
+    let currentKey = Object.keys(changedValues)[0];
+    if(currentKey == 'fieldsOne') {
+      goods['listOne'] = allValues['fieldsOne'];
+    } else {
+      goods['listTwo'] = allValues['fieldsTwo'];
+    }
+    goods = {...goods}
+    setGoods(goods);
+  }
+  useEffect(()=> {form.setFieldsValue({fieldsOne:goods.listOne})},[goods.listOne])
+  useEffect(()=> {form.setFieldsValue({fieldsTwo:goods.listTwo})},[goods.listTwo])
+  console.log(goods);
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
         <Form
           className="common-addEdit-form"
           form={form}
+          onValuesChange={onValuesChange}
           {...formItemLayout}>
           <ExportFile upDateList={upDateList}/>
-          {/*<MainMod form={form} upDateList={upDateList} goods={goods} list={list}/>*/}
+          <MainMod form={form} upDateList={upDateList} goods={goods} list={list}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={submit}>保存</Qbtn>
           </div>

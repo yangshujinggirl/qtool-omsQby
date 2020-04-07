@@ -29,10 +29,10 @@ const ColumnsAdd=(optionSource,onSelect)=>{
       }
     },{
       title: "副标题",
-      dataIndex: "subtitle",
+      dataIndex: "showSubtitle",
     },{
       title: "主题状态",
-      dataIndex: "statusStr",
+      dataIndex: "showThemeStatusStr",
     }];
 }
 export default ColumnsAdd;

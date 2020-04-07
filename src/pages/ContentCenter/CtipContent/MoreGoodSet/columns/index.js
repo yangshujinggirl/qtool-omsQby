@@ -5,23 +5,23 @@ const FormItem = Form.Item;
 
 const fileDomain = Sessions.get('fileDomain');
 
-let tagsTit =()=>(
+let tagsTit =(
     <span>
       选填项，如填写则前端将会展示标签。效果如下：
       <img src="" style={{'width':'80px'}}/>
     </span>
 );
 
-const sellingPoints =()=>(<Tooltip placement="top" title='选填项，如填写则前端将会展示卖点，而不是商品名称'>
+const sellingPoints =(<Tooltip placement="top" title='选填项，如填写则前端将会展示卖点，而不是商品名称'>
                 商品卖点&nbsp;<Icon type="exclamation-circle-o" />
               </Tooltip>);
-const pdSpuInv =()=>(<Tooltip placement="top" title='即为仓库库存。若库存不为0，则所有用户都可以买这个商品。'>
+const pdSpuInv =(<Tooltip placement="top" title='即为仓库库存。若库存不为0，则所有用户都可以买这个商品。'>
                 B端在售库存&nbsp;<Icon type="exclamation-circle-o" />
               </Tooltip>);
-const outOfStockShopNum =()=>(<Tooltip placement="top" title='即为该门店没有此商品，若B端在售库存为0，则选择此门店的用户会看到补货中'>
+const outOfStockShopNum =(<Tooltip placement="top" title='即为该门店没有此商品，若B端在售库存为0，则选择此门店的用户会看到补货中'>
               缺货门店&nbsp;<Icon type="exclamation-circle-o" />
               </Tooltip>);
-const tags =()=>(<Tooltip placement="top" title={tagsTit}>
+const tags =(<Tooltip placement="top" title={tagsTit}>
               商品标签&nbsp;<Icon type="exclamation-circle-o" />
               </Tooltip>);
 export function columnsFun(handleBlur){
@@ -82,7 +82,7 @@ export function columnsFun(handleBlur){
       width:'8%',
     },
     {
-      title:()=>{return sellingPoints},
+      title:'sellingPoints',
       dataIndex: 'sellingPoints',
       key: 'sellingPoints',
       align:'center',
@@ -93,7 +93,7 @@ export function columnsFun(handleBlur){
               </FormItem>
       }
     },{
-      title:()=>{return  tags},
+      title:'tags',
       dataIndex: 'tags',
       key: 'tags',
       align:'center',
@@ -105,13 +105,13 @@ export function columnsFun(handleBlur){
       }
     },
     {
-      title:()=>{return pdSpuInv},
+      title:'pdSpuInv',
       dataIndex: 'pdSpuInv',
       key: 'pdSpuInv',
       width:'10%',
     },
     {
-      title:()=>{return outOfStockShopNum},
+      title:'outOfStockShopNum',
       dataIndex: 'outOfStockShopNum',
       key: 'outOfStockShopNum',
       width:'8%',
@@ -169,7 +169,7 @@ export function columnsTwoFun( handleBlur){
       width:'8%',
       render:(text,record,index)=> {
         return <FormItem
-                name={['fieldsOne',index,'pdSpuId']}
+                name={['fieldsTwo',index,'pdSpuId']}
                 rules={[
                   { required:true,message:'请输入Spuid' },
                   { pattern:/^\S+$/g,message:'不可输入空格' }
@@ -186,7 +186,6 @@ export function columnsTwoFun( handleBlur){
       align:'center',
       width:'8%',
       render:(text,record,index)=> {
-        const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
         return <div className="img-wrap">
                  {
                    record.pdSpuPic&&
@@ -216,7 +215,7 @@ export function columnsTwoFun( handleBlur){
       colSpan:0,
       width:'8%',
       render:(text,record,index)=> {
-        return <FormItem name={['fieldsOne',index, 'sellingPoints']} rules={[{pattern:/^\S+$/g,message:'不可输入空格'}]}>
+        return <FormItem name={['fieldsTwo',index, 'sellingPoints']} rules={[{pattern:/^\S+$/g,message:'不可输入空格'}]}>
                 <Input maxLength='8' placeholder="8个字符以内" autoComplete="off"/>
               </FormItem>
       }
@@ -228,7 +227,7 @@ export function columnsTwoFun( handleBlur){
       colSpan:0,
       width:'8%',
       render:(text,record,index)=> {
-        return <FormItem name={['fieldsOne',index,'tags']} rules={[{pattern:/^\S+$/g,message:'不可输入空格'}]}>
+        return <FormItem name={['fieldsTwo',index,'tags']} rules={[{pattern:/^\S+$/g,message:'不可输入空格'}]}>
                 <Input maxLength='8' placeholder="8个字符以内" autoComplete="off"/>
               </FormItem>
       }
@@ -268,6 +267,15 @@ export function columnsTwoFun( handleBlur){
       key: 'isPresellStr',
       colSpan:0,
       width:'10%',
-    }
+    },{
+      title: '操作',
+      dataIndex: 'operation',
+      key: 'operation',
+      width:'4%',
+      colSpan:0,
+      render:(text,record,index) => {
+        return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
+      }
+    },
   ];
 }

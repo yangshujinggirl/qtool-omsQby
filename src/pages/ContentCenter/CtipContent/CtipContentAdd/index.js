@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { GetEditInfoApi } from 'api/contentCenter/CtipContentAdd';
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
+import BrandMod from "./components/BrandMod";
 import IconMod from "./components/IconMod";
 import MorePicMod from "./components/MorePicMod";
 import NewUserMod from "./components/NewUserMod";
@@ -11,13 +12,15 @@ import MoreGoodsMod from "./components/MoreGoodsMod";
 import './index.less';
 
 const CtipContentAdd=({...props})=> {
-  let [totalData, setTotalData] =useState({search:{}});
+  let [totalData, setTotalData] =useState({});
+  let [searchInfo, setSearchInfo] =useState({});
   let [bannerInfo, setBannder] =useState({moduleContent:[]});
   let [iconInfo, setIconInfo] =useState({moduleContent:[]});
   let [morePicInfo, setMorePicInfo] =useState({moduleContent:[]});
   let [newUserInfo, setNewUserInfo] =useState({});
   let [themeInfo, setThemeInfo] =useState([]);
   let [moreGoods, setMoreGoods] =useState({moduleContent:[]});
+  let [brandInfo, setBrandInfo] =useState({moduleContent:[]});
   let homepageId=props.match.params.id;
 
   const getInfo=()=> {
@@ -25,12 +28,14 @@ const CtipContentAdd=({...props})=> {
     .then((res)=> {
       let { search, banner, brandDisplay, icon, coupon, productDisplay, picMix,multilineProduct, themeActivity, flowProduct, homepageInfoVo } =res.result;
       setTotalData(homepageInfoVo);
+      setSearchInfo(search);
       setBannder(banner);
       setIconInfo(icon);
       setMorePicInfo(picMix);
       setNewUserInfo(coupon);
       setThemeInfo(themeActivity);
       setMoreGoods(multilineProduct);
+      setBrandInfo(brandDisplay);
     })
   }
   const releaseHome=()=>{}
@@ -72,8 +77,9 @@ const CtipContentAdd=({...props})=> {
             </div>
           </div>
           <div className="part-mods">
-            <SearchMod info={totalData}/>
+            <SearchMod info={searchInfo}/>
             <BannerMod info={bannerInfo} {...props}/>
+            <BrandMod info={brandInfo} {...props}/>
             <IconMod info={iconInfo} {...props}/>
             <MorePicMod info={morePicInfo} {...props}/>
             <NewUserMod info={newUserInfo} {...props}/>

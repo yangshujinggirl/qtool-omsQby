@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { BaseEditTable, Qmessage, QupLoadImgLimt, Qbtn } from 'common';
 import { GetListApi, GetSaveApi } from 'api/contentCenter/ThemeActivitySetCtip';
 import ColumnsAdd from './columns';
 const { RangePicker } = DatePicker;
@@ -30,6 +30,10 @@ const ThemeActivitySet=({...props})=> {
     GetListApi({homepageModuleId})
     .then((res)=> {
       let { showThemeList, themeList } = res.result;
+      showThemeList.map((el,index)=>{
+        el.key=index;
+        el.themeId = el.showThemeId;
+      });
       setThemeList(themeList);
       setShowThemeList(showThemeList);
     })
