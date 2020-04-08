@@ -1,76 +1,84 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Modal  } from "antd";
+import { Form, Input, Button, Modal, message } from "antd";
 import Upload from "common/QupLoadImgLimt";
 import UploadList from "common/QupLoadImgLimt";
-import { saveApi, getInfosApi } from "api/home/OperateCenter/Boperate/Banner";
+import { saveApi, getInfosApi } from "api/home/OperateCenter/Coperate/ThemeAct";
 import "./index.less";
 import img from "./imgs/ex6.png";
 const TextArea = Input.TextArea;
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 20 }
+  wrapperCol: { span: 20 },
 };
-const Bpush = props => {
+const Bpush = (props) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [listFileList, setListFileList] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [imgUrl, setImgUrl] = useState("");
-  const [listImgUrl, setListImgUrl] = useState("");
   const { id } = props.match.params;
   //修改时初始化数据
   useEffect(() => {
     const { id } = props.match.params;
     if (id) {
-      getInfosApi(id).then(res => {
+      getInfosApi(id).then((res) => {
         if (res.httpCode == 200) {
-          const { url, ...infos } = res.result;
+          const { indexPicUrl, listPagePicUrl, ...infos } = res.result;
           const fileList = [
             {
               uid: "-1",
               name: "image.png",
               status: "done",
-              url: sessionStorage.getItem("oms_fileDomain") + url
-            }
+              url: sessionStorage.getItem("oms_fileDomain") + indexPicUrl,
+              img: indexPicUrl,
+            },
+          ];
+          const listFileList = [
+            {
+              uid: "-2",
+              name: "image.png",
+              status: "done",
+              url: sessionStorage.getItem("oms_fileDomain") + listPagePicUrl,
+              img: listPagePicUrl,
+            },
           ];
           setFileList(fileList);
-          setImgUrl(url);
-          form.setFieldsValue(infos);
+          setListFileList(listFileList);
+          form.setFieldsValue({
+            ...infos,
+            indexPicUrl: fileList,
+            listPagePicUrl: listFileList,
+          });
         }
       });
     }
   }, []);
-  /**
-   * form表单变化
-   * @param {*} changedValues
-   * @param {*} allValues
-   */
-  const onValuesChange = (changedValues, allValues) => {
-    const { jumpCode } = changedValues;
-    if (jumpCode) {
-      form.resetFields(["configureCode", "configureUrl"]);
-      setJumpCode(jumpCode);
-    }
-  };
+
   //保存
-  const handleSubmit = async e => {
+  const handleSubmit = async () => {
     const values = await form.validateFields();
-    const params = formatValue(values);
-    saveApi(params).then(res => {
+    const { indexPicUrl, listPagePicUrl, ..._values } = values;
+    if (indexPicUrl.length == 0) {
+      return message.warning("请先上传首页展示图片", 0.8);
+    }
+    if (listPagePicUrl.length == 0) {
+      return message.warning("请先上传列表页展示图片", 0.8);
+    }
+    _values.indexPicUrl = indexPicUrl[0].response
+      ? indexPicUrl[0].response.result
+      : indexPicUrl[0].img;
+    _values.listPagePicUrl = listPagePicUrl[0].response
+      ? listPagePicUrl[0].response.result
+      : listPagePicUrl[0].img;
+    if (id) {
+      _values.themeActivityId = id;
+    }
+    saveApi(_values).then((res) => {
       if (res.httpCode == 200) {
         goBack();
       }
     });
   };
-  //请求数据格式化
-  const formatValue = values => {
-    values.url = imgUrl;
-    values.type = 10;
-    if (id) {
-      values.pdBannerId = id;
-    }
-    return values;
-  };
+
   /**
    * 取消
    */
@@ -81,53 +89,34 @@ const Bpush = props => {
    *
    * 首页展示图片
    */
-  const upDateList = fileList => {
+  const upDateList = (fileList) => {
     setFileList(fileList);
-    if (
-      fileList[0] &&
-      fileList[0].response &&
-      fileList[0].response.httpCode == 200
-    ) {
-      setListImgUrl(fileList[0].response.result[0]);
-    }
   };
   /**
-   * 
+   *
    * @param {*} 列表展示图片
    */
-  const upDateListFileList=fileList=>{
+  const upDateListFileList = (fileList) => {
     setListFileList(fileList);
-    if (
-      fileList[0] &&
-      fileList[0].response &&
-      fileList[0].response.httpCode == 200
-    ) {
-      setListImgUrl(fileList[0].response.result[0]);
-    }
-  }
+  };
   /**
    * 查看示例
    */
   const onlookEx = () => {
-    setVisible(true)
+    setVisible(true);
   };
   /**
    * 查看示例关闭掉
    */
   const onCancel = () => {
-    setVisible(false)
+    setVisible(false);
   };
   return (
     <div className="oms-common-addEdit-pages add_theme">
-      <Form
-        onValuesChange={onValuesChange}
-        form={form}
-        {...formItemLayout}
-        className="common-addEdit-form"
-      >
+      <Form form={form} {...formItemLayout} className="common-addEdit-form">
         <Form.Item
           label="主题活动名称"
-          name="name"
+          name="themeName"
           rules={[{ required: true, message: "请输入主题活动名称" }]}
         >
           <Input
@@ -138,7 +127,7 @@ const Bpush = props => {
         </Form.Item>
         <Form.Item
           label="主题活动副标题"
-          name="name"
+          name="subtitle"
           rules={[{ required: true, message: "请输入主题活动副标题" }]}
         >
           <Input
@@ -149,7 +138,7 @@ const Bpush = props => {
         </Form.Item>
         <Form.Item
           label="主题活动描述"
-          name="name"
+          name="description"
           rules={[{ required: true, message: "请输入主题活动描述" }]}
         >
           <TextArea
@@ -162,15 +151,18 @@ const Bpush = props => {
           <Form.Item>
             <div className="add_theme_img">
               <Upload
-                action="/qtoolsErp/upload/img"
+                name="indexPicUrl"
+                action="/qtoolsApp/upload/img"
                 limit={1}
                 fileList={listFileList}
                 upDateList={upDateListFileList}
-                width='366'
-                height='339'
+                width="366"
+                height="339"
               />
             </div>
-            <span className='suffix_tips'>首页展示图片，图片尺寸为366*339，格式为jpg</span>
+            <span className="suffix_tips">
+              首页展示图片，图片尺寸为366*339，格式为jpg
+            </span>
           </Form.Item>
           <a className="theme-color look-exp" onClick={onlookEx}>
             查看示例
@@ -178,20 +170,24 @@ const Bpush = props => {
           <Form.Item>
             <div className="add_theme_img">
               <UploadList
+                name="listPagePicUrl"
+                name="listPagePicUrl"
                 action="/qtoolsErp/upload/img"
                 limit={1}
                 fileList={fileList}
                 upDateList={upDateList}
-                width='686'
-                height='365'
+                width="686"
+                height="365"
               />
             </div>
-            <span className='suffix_tips'>列表页展示图片，图片尺寸为686*365，格式为jpg</span>
+            <span className="suffix_tips">
+              列表页展示图片，图片尺寸为686*365，格式为jpg
+            </span>
           </Form.Item>
         </Form.Item>
         <Form.Item
           label="跳转页面编码"
-          name="name"
+          name="pageCode"
           rules={[{ required: true, message: "请输入跳转页面编码" }]}
         >
           <Input placeholder="请输入跳转页面编码" autoComplete="off" />

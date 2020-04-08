@@ -270,8 +270,8 @@ const BgoodsAdd = (props) => {
           </Row>
         </Card>
         <div className="handle-operate-save-action">
-          <Button onClick={goBack}>返回</Button>
-          <Button type="primary" onClick={onFinish}>
+          <Button onClick={goBack} size='large'>取消</Button>
+          <Button type="primary" size='large' onClick={onFinish}>
             保存
           </Button>
         </div>

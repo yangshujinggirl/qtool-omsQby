@@ -120,8 +120,9 @@ const BgoodsAdd = (props) => {
               >
                 {infos.spuImg &&
                   infos.spuImg.length > 0 &&
-                  JSON.parse(infos.spuImg).map((item) => (
+                  JSON.parse(infos.spuImg).map((item, index) => (
                     <img
+                      key={index}
                       className="main_img"
                       src={sessionStorage.getItem("oms_fileDomain") + item}
                     />
@@ -139,11 +140,14 @@ const BgoodsAdd = (props) => {
               >
                 {infos.productDetailImg &&
                   infos.productDetailImg.length > 0 &&
-                  JSON.parse(infos.productDetailImg).map((item) =>
+                  JSON.parse(infos.productDetailImg).map((item, index) =>
                     item.type == 1 ? (
-                      <div className="b_list_img_content">{item.content}</div>
+                      <div key={index} className="b_list_img_content">
+                        {item.content}
+                      </div>
                     ) : (
                       <img
+                        key={index}
                         className="content_img"
                         src={
                           sessionStorage.getItem("oms_fileDomain") +

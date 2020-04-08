@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Modal, message } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
-import { getListApi, saveApi } from "api/home/OperateCenter/Coperate/ThemeAct";
+import { getListApi, activityOnlineApi  } from "api/home/OperateCenter/Coperate/ThemeAct";
 import FilterForm from "./components/FilterForm/index";
 import Columns from "./columns";
 
@@ -71,11 +71,11 @@ class ThemeAct extends Component {
       themeStatus = 5;
     }
     activityOnlineApi({ themeActivityId, themeStatus }).then(res => {
-      if (res.code == "0") {
-        this.props.dispatch({
-          type: "themeAct/fetchList",
-          payload: { ...this.state.inputValues }
-        });
+      this.setState({
+        lineLoading: false
+      });
+      if (res.httpCode == 200) {
+        this.searchData({...this.state.inputValues})
         this.setState({
           onlineVisible: false,
           lineLoading: false
@@ -85,6 +85,10 @@ class ThemeAct extends Component {
           lineLoading: false
         });
       }
+    }).catch(err=>{
+      this.setState({
+        lineLoading: false
+      });
     });
   };
   onLineCancel = () => {
