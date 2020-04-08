@@ -25,7 +25,6 @@ export default class SearchForm extends BaseFilter {
         <Form
           className="serach-common-form"
           ref={this.formRef}
-          {...this.formItemLayout}
         >
           <Row gutter={24}>
             <Col {...this.colspans}>
@@ -101,15 +100,15 @@ export default class SearchForm extends BaseFilter {
                 startTimeName="stime"
                 endTimeName="etime"
                 label="下单时间"
-                itemLayout={this.formItemLayout}
+                itemLayout={this.formItemLayout2}
               />
             </Col>
-            <Col offset={21}>
-              <FormItem wrapperCol={{span:24}} className="oms-condition-operate">
-                <Qbtn type="primary" onClick={this.handleSubmit}>
+            <Col span={24}>
+              <Form.Item className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
                   搜索
                 </Qbtn>
-              </FormItem>
+              </Form.Item>
             </Col>
           </Row>
         </Form>

@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { Qbtn, BaseFilter } from "common";
-import { Form, Row, Col, Input, Button, Select, DatePicker } from "antd";
+import { Form, Row, Col, Input, Select } from "antd";
 const Option = Select.Option;
 
 class NormalForm extends BaseFilter {
@@ -16,17 +16,17 @@ class NormalForm extends BaseFilter {
         >
           <Row>
             <Col {...this.colspan}>
-              <Form.Item name="name" label="主题名称">
+              <Form.Item name="themeName" label="主题名称">
                 <Input placeholder="请输入主题名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="urUserName" label="最后修改人">
+              <Form.Item name="operator" label="最后修改人">
                 <Input placeholder="请输入最后修改人" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="status" label="主题状态">
+              <Form.Item name="themeStatus" label="主题状态">
                 <Select allowClear={true} placeholder="请选择主题状态">
                   <Option value={4}>上线</Option>
                   <Option value={5}>下线</Option>

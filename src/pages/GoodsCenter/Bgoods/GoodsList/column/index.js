@@ -121,7 +121,7 @@ const subColumns = [
     dataIndex: "",
     render: (text, record, index) => (
       <div>
-        {record.upperStatus == 0 || record.upperStatus == 1 ? (
+        {record.upperStatus == 0 || record.upperStatus == 2 ? (
           <a className="link-color" onClick={() => record.onOperateClick(1)}>
             立即上架
           </a>
@@ -138,7 +138,6 @@ const editColumns = [
   {
     title: "SKU编码",
     dataIndex: "skuCode",
-    editable: true,
     placeholder:"30字以内，端请谨慎填写"
   },
   {

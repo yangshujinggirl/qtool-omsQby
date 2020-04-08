@@ -5,11 +5,11 @@ const Columns = [
     title: "订单号",
     dataIndex: "orderNo",
     key: "1",
-    render: () =>
-      orderType == 1 ? (
-        <Link to={`/account/user_order_infos/${record.orderId}`}>{text}</Link>
+    render: (text,record,index) =>
+      record.orderType == 1 ? (
+        <Link to={`/account/user_order_infos/${record.orderNo}`}>{text}</Link>
       ) : (
-        <Link to={`/account/user_bondedOrder_infos/${record.orderId}`}>{text}</Link>
+        <Link to={`/account/user_bondedOrder_infos/${record.orderNo}`}>{text}</Link>
       )
   },
   {

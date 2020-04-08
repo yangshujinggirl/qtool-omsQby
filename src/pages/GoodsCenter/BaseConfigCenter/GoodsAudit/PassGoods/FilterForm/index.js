@@ -1,106 +1,71 @@
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Input, Select, Row, Col, DatePicker, Cascader } from "antd";
+import { Input, Select, Row, Col, DatePicker, Form } from "antd";
 import { BaseFilter, Qbtn } from "common";
-import { GetCategoryApi } from "api/home/BaseGoods";
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
 class Search extends BaseFilter {
+  formRef = React.createRef();
   constructor(props) {
     super(props);
-    this.state = {
-        catagoryList:[],
-        categoryCode2:[],
-        catagoryList2:[]
+    this.formItemLayout = {
+      labelCol: { span: 5 },
+      wrapperCol: { span: 12 },
+    };
+    this.colspans2={
+      xs: 24,
+      md: 12,
+      xl: 8,
+      xxl:6
     }
   }
-  componentDidMount = () => {
-    this.initPage();
-  };
-  initPage = () => {
-    GetCategoryApi({ level: 1, parentId: "" }).then(res => {
-      this.setState({
-        catagoryList: res.result
-      });
-    });
-  };
-  onChange = value => {
-    this.props.form.resetFields(['categoryCode2'])
-    this.setState({catagoryList2:[]});
-    if (value) {
-      GetCategoryApi({ level: -1, parentId: value }).then(res => {
-        this.setState({
-          catagoryList2: res.result || []
-        });
-      });
-    }
-  };
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { catagoryList=[], catagoryList2=[] } = this.state;
     return (
       <div className="qtoolOms-condition">
-        <Form className="serach-common-form">
-          <Row gutter={24}>
+        <Form ref={this.formRef} className="serach-common-form">
+          <Row>
             <Col {...this.colspans}>
-              <FormItem label="商品名称" {...this.formItemLayout}>
-                {getFieldDecorator("channelName")(
-                  <Input placeholder="请输入商品名称" autoComplete="off" />
-                )}
+              <FormItem
+                label="商品名称"
+                {...this.formItemLayout}
+                name="productName"
+              >
+                <Input placeholder="请输入商品名称" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="spu编码" {...this.formItemLayout}>
-                {getFieldDecorator("channelName")(
-                  <Input placeholder="请输入spu编码" autoComplete="off" />
-                )}
+              <FormItem label="spu编码" {...this.formItemLayout} name="spuCode">
+                <Input placeholder="请输入spu编码" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="sku编码" {...this.formItemLayout}>
-                {getFieldDecorator("channelName")(
-                  <Input placeholder="请输入sku编码" autoComplete="off" />
-                )}
+              <FormItem label="sku编码" {...this.formItemLayout} name="skuCode">
+                <Input placeholder="请输入sku编码" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="一级类目" {...this.formItemLayout}>
-                {getFieldDecorator("categoryCode1", {
-                  onChange: this.onChange
-                })(
-                  <Select placeholder="请选择" allowClear={true}>
-                    {catagoryList.length>0&&catagoryList.map(item => (
-                      <Option value={item.id} key={item.id}>
-                        {item.categoryName}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
+              <FormItem label="审核状态" {...this.formItemLayout} name="status">
+                <Select placeholder="请选择" allowClear={true}>
+                  <Option value={1} key={1}>
+                    待审核
+                  </Option>
+                  <Option value={2} key={2}>
+                    审核通过
+                  </Option>
+                  <Option value={3} key={3}>
+                    审核不通过
+                  </Option>
+                </Select>
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="二级类目" {...this.formItemLayout}>
-                {getFieldDecorator("categoryCode2")(
-                  <Select
-                    placeholder="请选择"
-                    disabled={!catagoryList2.length > 0}
-                    allowClear={true}
-                  >
-                    {catagoryList2.length>0&&catagoryList2.map(item => (
-                      <Option value={item.id} key={item.id}>
-                        {item.categoryName}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
+            <Col {...this.colspans2}>
+              <FormItem label="提报时间" {...this.formItemLayout} name="time">
+                <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
               </FormItem>
             </Col>
-            <Col {...this.colspans}>
-              <FormItem label="提交人" {...this.formItemLayout}>
-                {getFieldDecorator("channelName")(
-                  <Input placeholder="请输入提交人" autoComplete="off" />
-                )}
+            <Col {...this.colspans2}>
+              <FormItem label="审核时间" {...this.formItemLayout} name="time2">
+                <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
               </FormItem>
             </Col>
             <Col span={24}>
@@ -116,5 +81,4 @@ class Search extends BaseFilter {
     );
   }
 }
-const SearchForm = Form.create({})(Search);
-export default SearchForm;
+export default Search;

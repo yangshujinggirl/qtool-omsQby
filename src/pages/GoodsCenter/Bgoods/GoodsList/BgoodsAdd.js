@@ -8,12 +8,12 @@ import {
   Radio,
   message,
   Checkbox,
-  Card
+  Card,
 } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import {
   GetGoodDetailApi,
-  saveGoodApi
+  saveGoodApi,
 } from "api/home/GoodsCenter/Bgoods/GoodList";
 import "./index.less";
 import Editable from "./components/Editable";
@@ -22,10 +22,10 @@ import { editColumns as Columns } from "./column";
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: {
-    span: 18
-  }
+    span: 18,
+  },
 };
-const BgoodsAdd = props => {
+const BgoodsAdd = (props) => {
   const [form] = Form.useForm();
   const [infos, setInfos] = useState({});
   const [tipStatus, setTipStatus] = useState(0);
@@ -34,25 +34,25 @@ const BgoodsAdd = props => {
   //请求详情
   useEffect(() => {
     const { id } = props.match.params;
-    console.log(typeof(id))
-    GetGoodDetailApi({ id }).then(res => {
+    console.log(typeof id);
+    GetGoodDetailApi({ id }).then((res) => {
       if (res.httpCode == "200") {
         const { result } = res;
         formatValue(result);
         form.setFieldsValue({
           productBname: result.productBname,
           isBeforeSales: result.isBeforeSales,
-          label: result.label
+          label: result.label,
         });
       }
     });
   }, []);
   //得到数据后处理
-  const formatValue = result => {
+  const formatValue = (result) => {
     let goodList = [];
     const { subList } = result;
     if (subList.length > 0) {
-      goodList = result.subList.map(item => {
+      goodList = result.subList.map((item) => {
         item.key = item.id;
         return item;
       });
@@ -69,7 +69,7 @@ const BgoodsAdd = props => {
     setGoodList(goodList);
   };
   //更新table数据
-  const changeDataSource = newData => {
+  const changeDataSource = (newData) => {
     setGoodList(newData);
   };
   //保存
@@ -77,15 +77,15 @@ const BgoodsAdd = props => {
     try {
       const values = await form.validateFields();
       const { label, ..._values } = values;
-      _values.isNew = label.some(item => item == "上新") ? 1 : 0;
-      _values.isHot = label.some(item => item == "畅销") ? 1 : 0;
+      _values.isNew = label.some((item) => item == "上新") ? 1 : 0;
+      _values.isHot = label.some((item) => item == "畅销") ? 1 : 0;
       const listSkus = [];
-      goodList.map(item => {
+      goodList.map((item) => {
         listSkus.push({ id: item.id, skuTips: item.skuTips });
       });
       _values.listSkus = listSkus;
       _values.id = props.match.params.id;
-      saveGoodApi(_values).then(res => {
+      saveGoodApi(_values).then((res) => {
         message.success("保存成功", 0.8);
         props.history.push("/account/commodities_list");
       });
@@ -104,7 +104,7 @@ const BgoodsAdd = props => {
   //批量操作
   const batchOperate = () => {
     const { value } = batchTips.current.state;
-    const newData = goodList.map(item => {
+    const newData = goodList.map((item) => {
       item.skuTips = value;
       return item;
     });
@@ -221,19 +221,57 @@ const BgoodsAdd = props => {
         </Card>
         <Card title="图文信息">
           <Row>
-            <Col span={12}>
-              <Form.Item label="商品主图"></Form.Item>
+            <Col span={18}>
+              <Form.Item
+                label="商品主图"
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 18 }}
+              >
+                {infos.spuImg &&
+                  infos.spuImg.length > 0 &&
+                  JSON.parse(infos.spuImg).map((item, index) => (
+                    <img
+                      key={index}
+                      className="main_img"
+                      src={sessionStorage.getItem("oms_fileDomain") + item}
+                    />
+                  ))}
+              </Form.Item>
             </Col>
           </Row>
           <Row>
-            <Col span={12}>
-              <Form.Item label="图文描述"></Form.Item>
+            <Col span={18}>
+              <Form.Item
+                label="图文描述"
+                className="container"
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 18 }}
+              >
+                {infos.productDetailImg &&
+                  infos.productDetailImg.length > 0 &&
+                  JSON.parse(infos.productDetailImg).map((item, index) =>
+                    item.type == 1 ? (
+                      <div key={index} className="b_list_img_content">
+                        {item.content}
+                      </div>
+                    ) : (
+                      <img
+                        className="content_img"
+                        key={index}
+                        src={
+                          sessionStorage.getItem("oms_fileDomain") +
+                          item.content
+                        }
+                      />
+                    )
+                  )}
+              </Form.Item>
             </Col>
           </Row>
         </Card>
         <div className="handle-operate-save-action">
-          <Button onClick={goBack}>返回</Button>
-          <Button type="primary" onClick={onFinish}>
+          <Button onClick={goBack} size='large'>取消</Button>
+          <Button type="primary" size='large' onClick={onFinish}>
             保存
           </Button>
         </div>

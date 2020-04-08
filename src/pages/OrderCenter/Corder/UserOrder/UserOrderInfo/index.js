@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Form } from "antd";
 import { Qtable } from "common";
 import { GoodColumns, handleLogColumns, giftSkuColumns } from "../columns";
+import StoreOutInfo from "./components/StoreOutInfo";
 import { getInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
 
-const UserOrderInfo = props => {
+const UserOrderInfo = (props) => {
   const [orderInfo, setOrderInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const [skuList, setSkuList] = useState([]);
@@ -12,8 +13,9 @@ const UserOrderInfo = props => {
   const [orderPackageList, setOrderPackageList] = useState([]);
   const [orderOperateLogList, setOrderOperateLogList] = useState([]);
   const [giftSkuList, setGiftSkuList] = useState([]);
+  const { id } = props.match.params;
   useEffect(() => {
-    getInfoApi({ reOrderNo: id }).then(res => {
+    getInfoApi({ orderNo: id }).then((res) => {
       if (res.httpCode == 200) {
         const {
           orderInfo,
@@ -22,15 +24,15 @@ const UserOrderInfo = props => {
           spShopInfo,
           orderPackageList,
           orderOperateLogList,
-          giftSkuList
+          giftSkuList,
         } = res.result;
-        setOrderInfo(orderInfo)
-        setUserInfo(userInfo)
-        setSkuList(skuList)
-        setSpShopInfo(spShopInfo)
-        setOrderPackageList(orderPackageList)
-        setOrderOperateLogList(orderOperateLogList)
-        setGiftSkuList(giftSkuList)
+        setOrderInfo(orderInfo);
+        setUserInfo(userInfo);
+        setSkuList(skuList);
+        setSpShopInfo(spShopInfo);
+        setOrderPackageList(orderPackageList);
+        setOrderOperateLogList(orderOperateLogList);
+        setGiftSkuList(giftSkuList);
       }
     });
   }, []);
@@ -67,10 +69,9 @@ const UserOrderInfo = props => {
 
       <Card title="商品信息">
         <Qtable columns={GoodColumns} dataSource={skuList} />
+        <div style={{ color: "red" }}>(以下为赠品)</div>
+        <Qtable columns={giftSkuColumns} dataSource={giftSkuList} />
       </Card>
-
-      <div style={{ color: "red" }}>(以下为赠品)</div>
-      <Qtable columns={giftSkuColumns} dataSource={giftSkuList} />
 
       <Card title="门店信息" className="base_info">
         <Form.Item label="门店名称">{spShopInfo.reOrderNo}</Form.Item>
@@ -80,9 +81,9 @@ const UserOrderInfo = props => {
       </Card>
 
       <Card title="出库信息">
-          <OrderPackageList orderPackageList={orderPackageList}/>
+        <StoreOutInfo orderPackageList={orderPackageList} />
       </Card>
-      
+
       <Card title="处理日志">
         <Qtable columns={handleLogColumns} dataSource={orderOperateLogList} />
       </Card>
