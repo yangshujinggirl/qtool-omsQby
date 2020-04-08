@@ -83,6 +83,7 @@ const GetPurchaseInOrder = props => {
           <Input
             placeholder="采购单价"
             onBlur={e => onChange(e, record, "purchasePrice")}
+            autoComplete='off'
           />
         </Form.Item>
       )
@@ -96,6 +97,7 @@ const GetPurchaseInOrder = props => {
             placeholder="可输入30字备注"
             maxLength={30}
             onBlur={e => onChange(e, record, "remarks")}
+            autoComplete='off'
           />
         </Form.Item>
       )
@@ -209,7 +211,6 @@ const GetPurchaseInOrder = props => {
               <span>
                 商品数量：<span className="brandColor">{totalNum}</span>,
               </span>
-              　
               <span>
                 共计：
                 <span className="brandColor">
