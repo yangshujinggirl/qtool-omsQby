@@ -124,7 +124,7 @@ class ReplaceOrder extends Component {
   //
   getPurchaseOrder = () => {
     if (this.state.selectedRowKeys.length == 0) {
-      return message.error("请至少选择一个订单；", 0.8);
+      return message.warning("请至少选择一个订单；", 0.8);
     }
     this.props.history.push("/account/get_purchasein_order");
   };

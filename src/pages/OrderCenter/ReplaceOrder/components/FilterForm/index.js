@@ -10,45 +10,61 @@ class NormalForm extends BaseFilter {
   render() {
     return (
       <div className="qtoolOms-condition">
-        <Form
-          ref={this.formRef}
-          className="serach-common-form"
-          {...this.formItemLayout}
-        >
+        <Form ref={this.formRef} className="serach-common-form">
           <Row>
             <Col {...this.colspan}>
-              <Form.Item name="orderNo" label="订单号">
+              <Form.Item name="orderNo" label="订单号" {...this.formItemLayout}>
                 <Input placeholder="请输入订单号" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="channelName" label="门店名称">
+              <Form.Item
+                name="channelName"
+                label="门店名称"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入门店名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="skuCode" label="SKU编码">
+              <Form.Item
+                name="skuCode"
+                label="SKU编码"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入SKU编码" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="productName" label="商品名称">
+              <Form.Item
+                name="productName"
+                label="商品名称"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入商品名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="consignee" label="收货人">
+              <Form.Item
+                name="consignee"
+                label="收货人"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入收货人" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="phone" label="联系电话">
+              <Form.Item name="phone" label="联系电话" {...this.formItemLayout}>
                 <Input placeholder="请输入联系电话" autoComplete="off" />
               </Form.Item>
             </Col>
 
             <Col {...this.colspan}>
-              <Form.Item name="isThink" label="代发状态">
+              <Form.Item
+                name="isThink"
+                label="代发状态"
+                {...this.formItemLayout}
+              >
                 <Select
                   allowClear={true}
                   placeholder="请选择代发状态"
@@ -60,19 +76,19 @@ class NormalForm extends BaseFilter {
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item label="生成时间" name="time">
+              <Form.Item label="生成时间" name="time" {...this.formItemLayout2}>
                 <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
+                  搜索
+                </Qbtn>
               </Form.Item>
             </Col>
           </Row>
         </Form>
-        <Col span={24}>
-          <Form.Item className="oms-condition-operate">
-            <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
-              搜索
-            </Qbtn>
-          </Form.Item>
-        </Col>
       </div>
     );
   }

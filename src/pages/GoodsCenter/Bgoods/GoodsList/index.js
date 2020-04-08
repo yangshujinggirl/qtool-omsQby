@@ -61,7 +61,7 @@ class Bgoods extends React.Component {
   //批量操作
   batchOperate = attr => {
     if (!this.state.selectedRowKeys.length) {
-      message.error("请选择批量操作的对象", 0.8);
+      message.warning("请选择批量操作的对象", 0.8);
       return;
     }
     this.setState({
@@ -100,12 +100,12 @@ class Bgoods extends React.Component {
   onCancel = () => {
     this.setState({
       visible: false,
-      attr: ""
+      attr: "",
+      selectedRowKeys:[]
     });
   };
   //上下架操作
-  handleOperateClick = (record, attr) => {
-    //attr(1:'上架' 0:下架)
+  handleOperateClick = (record, attr) => {//attr(1:'上架' 0:下架)
     const { id } = record;
     changeStatusApi({ id, upperStatus: attr }).then(res => {
       if (res.httpCode == 200) {

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import {message,Popover} from 'antd'
+import { message, Popover } from "antd";
 import FilterForm from "./FilterForm";
 import EditModal from "./components/Audit";
 import { getListApi } from "api/home/GoodsCenter/BaseConfig/GoodsAudit";
-import { QuestionCircleFilled } from '@ant-design/icons';
+import { QuestionCircleFilled } from "@ant-design/icons";
 import { Qtable, Qpagination, Qbtn } from "common";
 import Columns from "./column";
+import moment from 'moment'
 import "./index.less";
 
 class TradeGoods extends Component {
@@ -20,9 +21,7 @@ class TradeGoods extends Component {
       type: "",
       visible: false,
       record: [],
-      inputValues: {
-        productNature: 2
-      }
+      inputValues: {},
     };
   }
   //初始化数据
@@ -30,19 +29,36 @@ class TradeGoods extends Component {
     this.searchData([]);
   };
   //搜索列表
-  searchData = values => {
-    const params = { ...this.state.inputValues, ...values };
-    getListApi(params).then(res => {
+  searchData = (values) => {
+    const { time, time2, ..._values } = values;
+    if (time && time[0]) {
+      //提报时间
+      _values.create_stime = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
+      _values.create_etime = moment(time[1]).format("YYYY-MM-DD HH:mm:ss");
+    } else {
+      _values.create_stime = "";
+      _values.create_etime = "";
+    }
+    if (time2 && time2[0]) {
+      //审核时间
+      _values.update_stime = moment(time2[0]).format("YYYY-MM-DD HH:mm:ss");
+      _values.update_etime = moment(time2[1]).format("YYYY-MM-DD HH:mm:ss");
+    } else {
+      _values.update_stime = "";
+      _values.update_etime = "";
+    }
+    const params = { ...this.state.inputValues, ..._values };
+    getListApi(params).then((res) => {
       if (res.httpCode == 200) {
-        const {result,total,currentPage,everyPage} = res.result
-        if(result.length>0){
-          result.map(item=>item.key = item.id)
+        const { result, total, currentPage, everyPage } = res.result;
+        if (result.length > 0) {
+          result.map((item) => (item.key = item.id));
         }
         this.setState({
-          tableLists:result,
+          tableLists: result,
           everyPage,
           currentPage,
-          total
+          total,
         });
       }
     });
@@ -53,26 +69,26 @@ class TradeGoods extends Component {
     const params = {
       ...this.state.inputValues,
       currentPage,
-      everyPage
+      everyPage,
     };
     this.searchData(params);
   };
   //搜索查询
-  onSubmit = params => {
+  onSubmit = (params) => {
     this.searchData(params);
   };
   rowSelectChange = (selectedRowKeys) => {
     this.setState({
-      selectedRowKeys
+      selectedRowKeys,
     });
   };
   //批量审核
   audit = () => {
-    if(!this.state.selectedRowKeys.length){
-      return message.error('请至少选择一条待审核任务；',.8)
+    if (!this.state.selectedRowKeys.length) {
+      return message.warning("请至少选择一条待审核任务；", 0.8);
     }
-    if(!this.state.selectedRowKeys.length>20){
-      return message.error('单次审核任务不得超过20条；',.8)
+    if (!this.state.selectedRowKeys.length > 20) {
+      return message.warning("单次审核任务不得超过20条；", 0.8);
     }
     this.setState({
       visible: true,
@@ -81,14 +97,14 @@ class TradeGoods extends Component {
   onOk = () => {
     this.setState({
       visible: false,
-      selectedRowKeys: []
+      selectedRowKeys: [],
     });
     this.searchData({ ...this.state.inputValues });
   };
   onCancel = () => {
     this.setState({
       visible: false,
-      selectedRowKeys: []
+      selectedRowKeys: [],
     });
   };
   render() {
@@ -102,7 +118,10 @@ class TradeGoods extends Component {
     } = this.state;
     const rowSelection = {
       onChange: this.rowSelectChange,
-      selectedRowKeys
+      getCheckboxProps: (record) => ({
+        disabled: record.status == 2 || record.status == 3,
+      }),
+      selectedRowKeys,
     };
     const content = (
       <div>
@@ -136,7 +155,7 @@ class TradeGoods extends Component {
         />
         {visible && (
           <EditModal
-            {...{ visible,selectedRowKeys }}
+            {...{ visible, selectedRowKeys }}
             onOk={this.onOk}
             onCancel={this.onCancel}
           />

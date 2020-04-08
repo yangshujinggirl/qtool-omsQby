@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { Card, Form } from "antd";
 import { Qtable } from "common";
 import {
@@ -9,7 +9,7 @@ import {
   HangzhouOrderLogsColumns,
   HangzhouClearLogsColumns
 } from "./columns";
-import { getInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
+import { getBonedInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
 
 const BondedOrderInfo = props => {
   const [orderInfo, setOrderInfo] = useState({});
@@ -19,8 +19,9 @@ const BondedOrderInfo = props => {
   const [expressInfo, setExpressInfo] = useState([]);
   const [orderOperateLogList, setOrderOperateLogList] = useState([]);
   const [otherOperateLogList, setOtherOperateLogList] = useState([]);
+  const {id} = props.match.params;
   useEffect(() => {
-    getInfoApi({ reOrderNo: id }).then(res => {
+    getBonedInfoApi({ orderNo: id }).then(res => {
       if (res.httpCode == 200) {
         const {
           orderInfo,

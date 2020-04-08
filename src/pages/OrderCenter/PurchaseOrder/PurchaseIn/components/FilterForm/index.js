@@ -8,7 +8,7 @@ import {
   AUDIT_STATUS_WAIT,
   ORDER_STATUS_LOADING,
   ORDER_STATUS_RECEIVED,
-  ORDER_STATUS_WAIT
+  ORDER_STATUS_WAIT,
 } from "../../config";
 import { FilterSearchRangeTime } from "common/QdisabledDateTime";
 
@@ -22,11 +22,7 @@ export default class SearchForm extends BaseFilter {
   render() {
     return (
       <div className="qtoolOms-condition">
-        <Form
-          className="serach-common-form"
-          ref={this.formRef}
-          {...this.formItemLayout}
-        >
+        <Form className="serach-common-form" ref={this.formRef}>
           <Row gutter={24}>
             <Col {...this.colspans}>
               <FormItem
@@ -87,23 +83,20 @@ export default class SearchForm extends BaseFilter {
                 selectTimeChange={this.props.selectTimeChange}
                 defaultValue={[
                   moment(this.searchCriteriaDefaultStartTime),
-                  moment(this.searchCriteriaDefaultEndTime)
+                  moment(this.searchCriteriaDefaultEndTime),
                 ]}
                 startTimeName="stime"
                 endTimeName="etime"
                 label="下单时间"
-                itemLayout={this.formItemLayout}
+                itemLayout={this.formItemLayout2}
               />
             </Col>
-            <Col offset={21}>
-              <FormItem
-                wrapperCol={{ span: 24 }}
-                className="oms-condition-operate"
-              >
-                <Qbtn type="primary" onClick={this.handleSubmit}>
+            <Col span={24}>
+              <Form.Item className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
                   搜索
                 </Qbtn>
-              </FormItem>
+              </Form.Item>
             </Col>
           </Row>
         </Form>

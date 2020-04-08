@@ -4,16 +4,16 @@ import { Qtable } from "common";
 const { TabPane } = Tabs;
 import { GoodColumns, LogColumns } from "./columns";
 
-const StoreOutInfo = props => {
-  const { operateLogList } = props;
+const StoreOutInfo = (props) => {
+  const { orderPackageList } = props;
   return (
     <React.Fragment>
       <Card title="出库信息" className="base_info">
         <Tabs type="card">
-          {operateLogList.map(item => (
-            <TabPane tab="华东仓配中心" key="1">
+          {orderPackageList.map((item, index) => (
+            <TabPane tab={item.name} key={`${index + 1}`}>
               <div>
-                <div>{item.titleName}</div>
+                <div>包裹{index + 1}</div>
                 <div>
                   <Form.Item label="物流公司">
                     {item.packageList.expressCompany}
@@ -22,7 +22,6 @@ const StoreOutInfo = props => {
                     {item.packageList.expressNo}
                   </Form.Item>
                 </div>
-                <div>商品信息</div>
                 <div>
                   <Qtable columns={GoodColumns} dataSource={item.skuList} />
                 </div>

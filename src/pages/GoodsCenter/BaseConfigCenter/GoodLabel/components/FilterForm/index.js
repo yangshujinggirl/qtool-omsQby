@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Row, Col, Input, Select} from "antd";
+import { Form, Row, Col, Input, Select } from "antd";
 import { BaseFilter, Qbtn } from "common";
 
 class NormalForm extends BaseFilter {

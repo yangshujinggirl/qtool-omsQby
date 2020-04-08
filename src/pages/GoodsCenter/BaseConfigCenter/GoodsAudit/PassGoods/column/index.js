@@ -1,115 +1,144 @@
-import { Link } from "react-router-dom";
 import moment from "moment";
-
+const renderDefault = (record, text, variableName) => {
+  return (
+    <div>
+      {record.status == 1 || record.status == 3 ? (
+        <span style={{ color: "red" }}>{text}</span>
+      ) : record[variableName] && record[variableName] == text ? (
+        <span>{text}</span>
+      ) : (
+        <div>
+          <span style={{ color: "red" }}>{text}</span>
+          <br />
+          {`(${record[variableName]})`}
+        </div>
+      )}
+    </div>
+  );
+};
 const Columns = [
-  {
-    title: "spu编码",
-    dataIndex: "spuCode",
-    key: "1"
-  },
   {
     title: "sku编码",
     dataIndex: "skuCode",
-    key: "2"
+    key: "1",
+    width: 150,
   },
   {
     title: "商品名称",
     dataIndex: "productName",
-    key: "3"
+    key: "2",
+    width: 150,
   },
   {
     title: "规格",
     dataIndex: "salesAttributeName",
-    key: "4"
+    key: "3",
+    width: 150,
   },
   {
-    title: "类目",
-    dataIndex: "categoryInfo",
-    key: "5"
-  },
-  {
-    title: "商品类型",
-    dataIndex: "productType",
-    key: "6"
+    title: "审核状态",
+    dataIndex: "status",
+    key: "5",
+    width: 150,
+    render: (text, record, index) => (
+      <div>
+        {(() => {
+          switch (text) {
+            case 1:
+              return "待审核";
+              break;
+            case 2:
+              return "审核通过";
+              break;
+            case 3:
+              return "审核不通过";
+              break;
+            default:
+              return null;
+          }
+        })()}
+      </div>
+    ),
   },
   {
     title: "采购价",
     dataIndex: "purchasePrice",
-    key: "7",
-    render: record => (
-      <div>
-        {record.exPurchasePrice}
-        <span style={{color:'red'}}>{record.purchasePrice}</span>
-      </div>
-    )
+    key: "6",
+    width: 100,
+    render: (text, record, index) =>
+      renderDefault(record, text, "exPurchasePrice"),
   },
   {
-    title: "B端售价",
+    title: "到货价",
     dataIndex: "businessPrice",
+    key: "7",
+    width: 100,
+    render: (text, record, index) =>
+      renderDefault(record, text, "exBusinessPrice"),
+  },
+  {
+    title: "出库价",
+    dataIndex: "businessProfit",
     key: "8",
-    render: record => (
-      <div>
-        {record.exBusinessPrice}
-        <span style={{color:'red'}}>{record.businessPrice}</span>
-      </div>
-    )
+    width: 100,
+    render: (text, record, index) =>
+      renderDefault(record, text, "exBusinessProfit"),
   },
   {
     title: "C端售价",
-    dataIndex: "channelStatus",
+    dataIndex: "customerPrice",
     key: "9",
-    render: record => (
-      <div>
-        {record.exCustomerPrice}
-        <span style={{color:'red'}}>{record.customerPrice}</span>
-      </div>
-    )
+    width: 100,
+    render: (text, record, index) =>
+      renderDefault(record, text, "exCustomerPrice"),
   },
   {
-    title: "建议零售价",
-    dataIndex: "channelStatus",
+    title: "分成比例",
+    dataIndex: "customerProfit",
     key: "10",
-    render: record => (
-      <div>
-        {record.exProposalPrice}
-        <span style={{color:'red'}}>{record.proposalPrice}</span>
-      </div>
-    )
+    width: 100,
+    render: (text, record, index) =>
+      renderDefault(record, text, "exCustomerProfit"),
   },
   {
-    title: "服务费",
-    dataIndex: "channelStatus",
+    title: "跨境综合税",
+    dataIndex: "proposalPrice",
     key: "11",
-    render: record => (
-      <div>
-        {record.exBonusRate}
-        <span style={{color:'red'}}>{record.bonusRate}</span>
-      </div>
-    )
+    width: 100,
+    render: (text, record, index) =>
+      renderDefault(record, text, "exProposalPrice"),
   },
   {
-    title: "税率",
-    dataIndex: "channelStatus",
-    key: "12",
-    render: record => (
-      <div>
-        {record.exTaxRate}
-        <span style={{color:'red'}}>{record.taxRate}</span>
-      </div>
-    )
-  },
-  {
-    title: "提交人",
-    dataIndex: "modifyBy",
-    key: "13"
-  },
-  {
-    title: "提交时间",
-    dataIndex: "lastUpdateTime",
+    title: "修改说明",
+    dataIndex: "remarks",
     key: "14",
+    width: 100,
+  },
+  {
+    title: "提报时间",
+    dataIndex: "createTime",
+    key: "15",
+    width: 150,
     render: (text, record, index) => (
-      <span>{text&&moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
-    )
+      <div>
+        <span>{record.createBy}</span>
+        <br />
+        <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+      </div>
+    ),
+  },
+  {
+    title: "审核时间",
+    dataIndex: "lastUpdateTime",
+    key: "16",
+    width: 150,
+    render: (text, record, index) => (
+      <div>
+        <span>{record.modifyBy}</span>
+        <br />
+        <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+      </div>
+    ),
   },
 ];
 export default Columns;

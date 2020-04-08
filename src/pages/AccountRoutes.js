@@ -240,8 +240,8 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/get_purchasein_order' component={GetPurchaseInOrder}/>
                 <Route exact path='/account/shortage_sku_order_detail' component={ShortageOrder}/>
                 <Route exact path='/account/addUserOrder_returnOrder' component={AddReturnOrder}/>
-                <Route exact path='/account/user_order_infos' component={UserOrderInfo}/>
-                <Route exact path='/account/user_bondedOrder_infos/' component={BondedOrderInfo}/>
+                <Route exact path='/account/user_order_infos/:id' component={UserOrderInfo}/>
+                <Route exact path='/account/user_bondedOrder_infos/:id' component={BondedOrderInfo}/>
                 <Route exact path='/account/subscriber_orders' component={UserOrder}/>
                 <Route exact path='/account/orderBonded' component={BondedOrder}/>
                 {/* ----------------------------------  仓库管理   ---------------------------------------*/}

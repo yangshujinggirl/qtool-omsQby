@@ -1,31 +1,36 @@
 import { Link } from "react-router-dom";
-import moment from 'moment'
+import moment from "moment";
 const Columns = [
   {
     title: "退单号",
     dataIndex: "reOrderNo",
     render: (text, record) => {
-      return <Link to={`/account/allReturn_infos/${record.reOrderNo}`}>{text}</Link>;
-    }
+      return (
+        <Link to={`/account/allReturn_infos/${record.reOrderNo}`}>{text}</Link>
+      );
+    },
   },
   {
     title: "关联订单号",
     dataIndex: "channelOrderNo",
-    render: (text, record) => {
-      return <Link to="">{text}</Link>;
-    }
+    render: (text, record) =>
+      record.deliveryType == 2 ? (
+        <Link to={`/account/user_bondedOrder_infos/${record.channelOrderNo}`}>{text}</Link>
+      ) : (
+        <Link to={`/account/user_order_infos/${record.channelOrderNo}`}>{text}</Link>
+      ),
   },
   {
     title: "用户手机号",
-    dataIndex: "phone"
+    dataIndex: "phone",
   },
   {
     title: "退单状态",
-    dataIndex: "statusStr"
+    dataIndex: "statusStr",
   },
   {
     title: "收货方",
-    dataIndex: "warehouseName"
+    dataIndex: "warehouseName",
   },
   {
     title: "退款方式",
@@ -33,74 +38,74 @@ const Columns = [
   },
   {
     title: "原订单支付金额",
-    dataIndex: "totalPrice"
+    dataIndex: "totalPrice",
   },
   {
     title: "退款商品数",
-    dataIndex: "reNum"
+    dataIndex: "reNum",
   },
   {
     title: "退款总金额",
-    dataIndex: "refundMoney"
+    dataIndex: "refundMoney",
   },
   {
     title: "订单类型",
-    dataIndex: "deliveryTypeStr"
+    dataIndex: "deliveryTypeStr",
   },
   {
     title: "退款类型",
-    dataIndex: "refundTypeStr"
+    dataIndex: "refundTypeStr",
   },
   {
     title: "退款渠道",
-    dataIndex: "payTypeStr"
+    dataIndex: "payTypeStr",
   },
   {
     title: "创建时间",
     dataIndex: "createTime",
-    render:(text,record,index)=>(
-    <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
-    )
-  }
+    render: (text, record, index) => (
+      <span>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+    ),
+  },
 ];
-const ReturnGoods= [
+const ReturnGoods = [
   {
     title: "SKU编码",
-    dataIndex: "skuCode"
+    dataIndex: "skuCode",
   },
   {
     title: "商品名称",
-    dataIndex: "productName"
+    dataIndex: "productName",
   },
   {
     title: "商品规格",
-    dataIndex: "salesAttributeName"
+    dataIndex: "salesAttributeName",
   },
   {
     title: "退款数量",
-    dataIndex: "reNum"
+    dataIndex: "reNum",
   },
   {
     title: "退款金额",
-    dataIndex: "totalPrice"
-  }
+    dataIndex: "totalPrice",
+  },
 ];
-const ReturnLogs= [
+const ReturnLogs = [
   {
     title: "操作",
-    dataIndex: "skuCode"
+    dataIndex: "skuCode",
   },
   {
     title: "操作时间",
-    dataIndex: "productName"
+    dataIndex: "productName",
   },
   {
     title: "退单状态",
-    dataIndex: "salesAttributeName"
+    dataIndex: "salesAttributeName",
   },
   {
     title: "操作人",
-    dataIndex: "reNum"
+    dataIndex: "reNum",
   },
 ];
-export {Columns,ReturnGoods,ReturnLogs} ;
+export { Columns, ReturnGoods, ReturnLogs };

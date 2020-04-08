@@ -8,16 +8,16 @@ import { editColumns as Columns } from "./column";
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: {
-    span: 18
-  }
+    span: 18,
+  },
 };
-const BgoodsAdd = props => {
+const BgoodsAdd = (props) => {
   const [infos, setInfos] = useState({});
   const [goodList, setGoodList] = useState([]);
   //请求详情
   useEffect(() => {
     const { id } = props.match.params;
-    GetGoodDetailApi({ id }).then(res => {
+    GetGoodDetailApi({ id }).then((res) => {
       if (res.httpCode == "200") {
         const { result } = res;
         formatValue(result);
@@ -25,11 +25,11 @@ const BgoodsAdd = props => {
     });
   }, []);
   //得到数据后处理
-  const formatValue = result => {
+  const formatValue = (result) => {
     let goodList = [];
     const { subList } = result;
     if (subList.length > 0) {
-      goodList = result.subList.map(item => {
+      goodList = subList.map((item) => {
         item.key = item.id;
         return item;
       });
@@ -112,14 +112,46 @@ const BgoodsAdd = props => {
         </Card>
         <Card title="图文信息">
           <Row>
-            <Col span={12}>
-              <Form.Item label="商品主图"></Form.Item>
+            <Col span={18}>
+              <Form.Item
+                label="商品主图"
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 18 }}
+              >
+                {infos.spuImg &&
+                  infos.spuImg.length > 0 &&
+                  JSON.parse(infos.spuImg).map((item) => (
+                    <img
+                      className="main_img"
+                      src={sessionStorage.getItem("oms_fileDomain") + item}
+                    />
+                  ))}
+              </Form.Item>
             </Col>
           </Row>
           <Row>
-            <Col span={12}>
-              <Form.Item label="图文描述">
-                
+            <Col span={18}>
+              <Form.Item
+                label="图文描述"
+                className="container"
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 18 }}
+              >
+                {infos.productDetailImg &&
+                  infos.productDetailImg.length > 0 &&
+                  JSON.parse(infos.productDetailImg).map((item) =>
+                    item.type == 1 ? (
+                      <div className="b_list_img_content">{item.content}</div>
+                    ) : (
+                      <img
+                        className="content_img"
+                        src={
+                          sessionStorage.getItem("oms_fileDomain") +
+                          item.content
+                        }
+                      />
+                    )
+                  )}
               </Form.Item>
             </Col>
           </Row>

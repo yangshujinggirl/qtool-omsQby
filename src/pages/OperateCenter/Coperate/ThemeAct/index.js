@@ -92,6 +92,14 @@ class ThemeAct extends Component {
       onlineVisible: false
     });
   };
+  //点击上下线
+  handleOperateClick=(record,type)=>{
+    this.setState({
+      onlineVisible:true,
+      onlineType:type,
+      themeActivityId:record.themeActivityId
+    })
+  }
   render() {
     const {
       onlineVisible,
