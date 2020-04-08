@@ -2,7 +2,6 @@ import { Tabs, Button, Form, Modal } from 'antd';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import {Qmessage, Qbtn } from 'common';
-import TabsMod from './components/TabsMod';
 import FrameModal from './components/FrameModal';
 import BannerIconPicTables from './components/BannerIconPicTables';
 

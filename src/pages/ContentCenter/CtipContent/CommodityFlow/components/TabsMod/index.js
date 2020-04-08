@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
 import { Tabs, Button, Form, Input, Icon, Modal, message } from 'antd';
-import { connect } from 'dva';
+import { useState, useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import lodash from 'lodash';
 import DragTabCard from '../DragTabCard';
-import MyTagControlContext from '../../../../../../components/MyTagControlContext';
 import './index.less';
 
 
 
-class Field extends Component {
+const Field=({...props})=> {
+  let { tabs, selectkey } = props;
+  let newTabs = lodash.cloneDeep(tabs);
+  let [addKey,setAddKey] = useState(newTabs.length);
   //切换查详情
-  handleToggle =(e,record,index)=> {
-    const { selectkey } =this.props;
+  const handleToggle =(e,record,index)=> {
     e.stopPropagation()
     if(e.target.tagName=='INPUT') {
       return;
@@ -23,131 +26,82 @@ class Field extends Component {
       content: '切换页面请确认保存',
       okText:'保存',
       onOk:()=>{
-        this.props.onOk(record,index);
+        props.onOk(record,index);
       },
       onCancel:()=> {
-        this.props.onCancel(record,index);
+        props.onCancel(record,index);
       },
     });
   }
   //新增
-  handleAdd=()=> {
-    let { tabs, addKey } =this.props;
-    tabs.push({ key:addKey, tabId:null });
+  const handleAdd=()=> {
     addKey++;
-    this.props.dispatch({
-      type:'commodityFlow/getAddKey',
-      payload:addKey
-    });
-    this.updateTabs(tabs)
+    setAddKey(addKey)
+    newTabs.push({ key:addKey, tabId:"-1" });
+    props.upDateList(newTabs)
   }
   //删除
-  handleDelete=(e,record)=> {
+  const handleDelete=(e,record)=> {
     e.stopPropagation()
-    let { tabs, selectkey } =this.props;
-    tabs = tabs.filter(item => item.key !== record.key);
-    if(selectkey==record.key&&tabs.length>0) {
-      selectkey = tabs[0].key;
-      this.props.dispatch({
-        type:'commodityFlow/fetchGoodsList',
-        payload:{tabId:tabs[0].tabId,selectkey}
-      })
+    newTabs = newTabs.filter(item => item.key !== record.key);
+    if(selectkey==record.key&&newTabs.length>0) {
+      selectkey = newTabs[0].key
+      props.onCancel(tabs[0].tabId,selectkey)
     }
-    this.updateTabs(tabs)
+    props.upDateList(newTabs)
   }
-  handleBlur = (e,currentIndex) => {
+  const handleBlur = (e,currentIndex) => {
     let value = e.target.value;
-    let { tabs } =this.props;
-    let idx = tabs.findIndex((el) => {
+    let idx = newTabs.findIndex((el) => {
       return el.tabName == value
     })
     if (idx!='-1'&&currentIndex!=idx) {
-      tabs.map((el,index) => {
+      newTabs.map((el,index) => {
         if(index==currentIndex) {
           el.tabName = null;
         }
       })
-      this.updateTabs(tabs);
+      props.upDateList(newTabs)
       message.error('Tab名称不可重复')
     }
   }
-  moveRow = (dragIndex, hoverIndex) => {
-    let { tabs } =this.props;
-    // let temp = tabs.splice(dragIndex,1);
-    //     tabs.splice(hoverIndex, 0, ...temp);
-    let tempHover = tabs[dragIndex];
-    let tempDrag = tabs[hoverIndex];
-    tabs.splice(hoverIndex, 1, tempHover);
-    tabs.splice(dragIndex, 1, tempDrag);
-    this.updateTabs(tabs)
+  const moveRow = (dragIndex, hoverIndex) => {
+    let tempHover = newTabs[dragIndex];
+    let tempDrag = newTabs[hoverIndex];
+    newTabs.splice(hoverIndex, 1, tempHover);
+    newTabs.splice(dragIndex, 1, tempDrag);
+    props.upDateList(newTabs)
   };
-  updateTabs(tabs) {
-    this.props.dispatch({
-      type:'commodityFlow/getTabs',
-      payload:tabs
-    })
-  }
-  render() {
-    const { tabs, selectkey, addKey } =this.props;
-    return (
-      <div className="part-same tabs-mod-wrap">
-        <p className="part-head">设置商品流tab</p>
+  useEffect(()=>{ props.form.current.setFieldsValue({tabsField:newTabs}) },[newTabs])
+  return (
+    <div className="part-same tabs-mod-wrap">
+      <p className="part-head">设置商品流tab</p>
+      <DndProvider backend={HTML5Backend}>
         {
-          tabs.map((el,index)=> (
+          newTabs.map((el,index)=> (
             <DragTabCard
-              tabs={tabs}
+              tabs={newTabs}
               selectkey={selectkey}
               key={index}
               item={el}
               index={index}
-              form={this.props.form}
-              handleBlur={(e)=>this.handleBlur(e,index)}
-              handleToggle={(e)=>this.handleToggle(e,el,index)}
-              handleDelete={(e)=>this.handleDelete(e,el,index)}
-              moveRow={this.moveRow}/>
+              form={props.form}
+              handleBlur={(e)=>handleBlur(e,index)}
+              handleToggle={(e)=>handleToggle(e,el,index)}
+              handleDelete={(e)=>handleDelete(e,el,index)}
+              moveRow={moveRow}/>
           ))
         }
-        <Button
-          disabled={tabs.length>=10?true:false}
-          onClick={this.handleAdd}
-          size="large"
-          type="primary">
-            新增Tab({tabs.length}/10)
-        </Button>
-      </div>
-    );
-  }
+      </DndProvider>
+      <Button
+        disabled={newTabs.length>=10?true:false}
+        onClick={handleAdd}
+        size="large"
+        type="primary">
+          新增Tab({newTabs.length}/10)
+      </Button>
+    </div>
+  );
 }
 
-let FieldF = Form.create({
-  onValuesChange(props, changedFields, allFields) {
-    let { tabsField } =allFields;
-    let { tabs } =props;
-    tabs =tabs.map((el,index) => {
-      tabsField.map((item,idx) => {
-        if(index == idx) {
-          el={...el,...item}
-        }
-      })
-      return el;
-    })
-    props.dispatch({
-      type:'commodityFlow/getTabs',
-      payload:tabs
-    })
-  },
-  mapPropsToFields(props) {
-    return {
-      tabs: Form.createFormField(props.tabs),
-    };
-  }
-})(Field);
-FieldF = MyTagControlContext(FieldF);
-
-function mapStateToProps(state) {
-  const { commodityFlow } =state;
-  return commodityFlow;
-}
-
-
-export default connect(mapStateToProps)(FieldF);
+export default Field;

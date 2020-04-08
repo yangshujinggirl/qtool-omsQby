@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Tabs, Button, Form, Input, Icon } from 'antd';
-import { DragSource, DropTarget } from 'react-dnd';
-import { connect } from 'dva';
+import { DragSource, DropTarget, DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+// import { connect } from 'dva';
 import update from 'immutability-helper';
-import MyTagControlContext from '../../../../../../components/MyTagControlContext';
+// import MyTagControlContext from '../../../../../../components/MyTagControlContext';
 import './index.less';
 
 
@@ -58,19 +59,20 @@ class Sort extends Component {
     const { sortArr } =this.props;
     return(
       <div className="sort-arr-action">
-        {
-          sortArr.map((el,index)=> (
-            <DragableCard
-              key={index}
-              item={el}
-              index={index}
-              moveRow={this.props.moveRow}/>
-          ))
-        }
+        <DndProvider backend={HTML5Backend}>
+          {
+            sortArr.map((el,index)=> (
+              <DragableCard
+                key={index}
+                item={el}
+                index={index}
+                moveRow={this.props.moveRow}/>
+            ))
+          }
+        </DndProvider>
       </div>
     )
   }
 }
-Sort = MyTagControlContext(Sort);
 
 export default Sort;

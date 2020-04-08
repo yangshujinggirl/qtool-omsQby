@@ -1,5 +1,5 @@
 import { Button, message, Upload, Modal} from 'antd';
-import { connect } from 'dva';
+
 import './index.less';
 
 class ImportBtn extends React.Component {
@@ -23,11 +23,10 @@ class ImportBtn extends React.Component {
   handleChange = (info) => {
     let file = info.file;
     const { response } =file;
-    this.props.dispatch({ type: 'tab/loding', payload:true});
     if(file.status == 'done') {
       if (response) {
-        if(response.code=='0'){
-          const { unImportSpuArr,notExistSpuArr }=response;
+        if(response.httpCode=='200'){
+          let { unImportSpuArr,notExistSpuArr,pdFlowTabSpus }=response.result;
           if(unImportSpuArr&&unImportSpuArr.length>0) {
             let content = <div className="import-error-modal">
             商品已导入超过100个，以下商品导入失败<br/>
@@ -48,23 +47,22 @@ class ImportBtn extends React.Component {
             </div>
             message.error(content,5)
           }
-          let spuList= response.spuList?response.spuList:[];
-          spuList.map((el,index) =>{
+          pdFlowTabSpus= pdFlowTabSpus?pdFlowTabSpus:[];
+          pdFlowTabSpus.map((el,index) =>{
             el.key = index;
             el.FixedPdSpuId = el.pdSpuId;
           })
-          this.props.callback(spuList);
+          this.props.callback(pdFlowTabSpus);
         }else{
           message.error(file.response.message,.8);
         }
-        this.props.dispatch({ type: 'tab/loding', payload:false});
         return file.response.status === 'success';
       }
     }
   }
   render() {
     const props = {
-      action: '/erpWebRest/webrest.htm?code=qerp.web.config.pdFlowSpu.import',
+      action: '/qtoolsApp/content/pdFlowTab/pdFlowSpuImport',
       onChange: this.handleChange,
       beforeUpload:this.beforeUpload,
       name:'mfile',

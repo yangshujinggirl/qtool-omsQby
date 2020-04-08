@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'antd';
-import { DragSource, DropTarget } from 'react-dnd';
-import MyTagControlContext from '../../../../../../components/MyTagControlContext';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragSource, DndProvider, DropTarget } from 'react-dnd';
+// import MyTagControlContext from '../../../../../../components/MyTagControlContext';
 
 
 
@@ -57,46 +58,48 @@ DragableBodyRow = DragSource('row', rowSource, connect => ({
   connectDragSource: connect.dragSource(),
 }))(DragableBodyRow);
 
-class Field extends Component {
-  constructor(props) {
-    super(props);
-  }
-  components = {
-    body: {
-      row: DragableBodyRow,
-    },
-  };
-  //绑定方法
-  processData(data) {
-    if(!this.props.onOperateClick) {
-      return data;
-    }
-    data && data.map((item, i) => {
-        item.onOperateClick = (type) => { this.props.onOperateClick(item, type) };
-    })
-    return data;
-  }
-  render() {
-    let { goodsList, columns, moveRow } =this.props;
-    goodsList  = this.processData(goodsList);
-    return (
-      <Table
-        bordered
-        pagination={false}
-        columns={columns}
-        dataSource={goodsList}
-        rowClassName={(record,index)=>(
-          !!record.isPresell||!record.shelfStatus||record.pdInvQty=='0'?'haveBackColor':null
-        )}
-        components={this.components}
-        footer={()=><Button type="default" disabled={goodsList.length>=100?true:false} onClick={this.props.handleAdd}>+新增</Button>}
-        onRow={(record, index) => ({
-          'data-row-key':record.key,
-          'data-row-index':index,
-          moveRow: moveRow,
-        })}/>
-    );
-  }
-}
+// class Field extends Component {
+//   constructor(props) {
+//     super(props);
+//   }
+//   components = {
+//     body: {
+//       row: DragableBodyRow,
+//     },
+//   };
+//   //绑定方法
+//   processData(data) {
+//     if(!this.props.onOperateClick) {
+//       return data;
+//     }
+//     data && data.map((item, i) => {
+//         item.onOperateClick = (type) => { this.props.onOperateClick(item, type) };
+//     })
+//     return data;
+//   }
+//   render() {
+//     let { goodsList, columns, moveRow } =this.props;
+//     goodsList  = this.processData(goodsList);
+//     return (
+//       <DndProvider backend={HTML5Backend}>
+//         <Table
+//           bordered
+//           pagination={false}
+//           columns={columns}
+//           dataSource={goodsList}
+//           rowClassName={(record,index)=>(
+//             !!record.isPresell||!record.shelfStatus||record.pdInvQty=='0'?'haveBackColor':null
+//           )}
+//           components={this.components}
+//           footer={()=><Button type="default" disabled={goodsList.length>=100?true:false} onClick={this.props.handleAdd}>+新增</Button>}
+//           onRow={(record, index) => ({
+//             'data-row-key':record.key,
+//             'data-row-index':index,
+//             moveRow: moveRow,
+//           })}/>
+//       </DndProvider>
+//     );
+//   }
+// }
 
-export default MyTagControlContext(Field);
+export default DragableBodyRow;
