@@ -208,45 +208,42 @@ export function columnsTwoFun( handleBlur){
       width:'8%',
     },
     {
-      title: "商品卖点",
+      title: '商品卖点',
       dataIndex: 'sellingPoints',
       key: 'sellingPoints',
       align:'center',
-      colSpan:0,
       width:'8%',
+      colSpan:0,
       render:(text,record,index)=> {
         return <FormItem name={['fieldsTwo',index, 'sellingPoints']} rules={[{pattern:/^\S+$/g,message:'不可输入空格'}]}>
                 <Input maxLength='8' placeholder="8个字符以内" autoComplete="off"/>
               </FormItem>
       }
     },{
-      title: "商品标签",
+      title: '商品标签',
       dataIndex: 'tags',
       key: 'tags',
       align:'center',
-      colSpan:0,
       width:'8%',
+      colSpan:0,
       render:(text,record,index)=> {
         return <FormItem name={['fieldsTwo',index,'tags']} rules={[{pattern:/^\S+$/g,message:'不可输入空格'}]}>
                 <Input maxLength='8' placeholder="8个字符以内" autoComplete="off"/>
               </FormItem>
       }
-    },
-    {
+    },{
       title: 'B端在售库存',
       dataIndex: 'pdSpuInv',
       key: 'pdSpuInv',
       colSpan:0,
       width:'10%',
-    },
-    {
+    },{
       title: '缺货门店',
       dataIndex: 'outOfStockShopNum',
       key: 'outOfStockShopNum',
       colSpan:0,
       width:'8%',
-    },
-    {
+    },{
       title: '上架状态',
       dataIndex: 'isLine',
       key: 'isLine',
@@ -267,12 +264,13 @@ export function columnsTwoFun( handleBlur){
       key: 'isPresellStr',
       colSpan:0,
       width:'10%',
-    },{
+    },
+    {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
-      width:'4%',
       colSpan:0,
+      width:'4%',
       render:(text,record,index) => {
         return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
       }

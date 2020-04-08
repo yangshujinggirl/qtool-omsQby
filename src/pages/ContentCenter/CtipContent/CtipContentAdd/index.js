@@ -1,6 +1,6 @@
 import { Dropdown, Menu, Modal, Popover, Button, message, Form } from "antd";
 import { useState, useEffect } from 'react';
-import { GetEditInfoApi } from 'api/contentCenter/CtipContentAdd';
+import { GetEditInfoApi, GetSearchFlowPdApi } from 'api/contentCenter/CtipContentAdd';
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
 import BrandMod from "./components/BrandMod";
@@ -9,6 +9,7 @@ import MorePicMod from "./components/MorePicMod";
 import NewUserMod from "./components/NewUserMod";
 import ThemeMod from "./components/ThemeMod";
 import MoreGoodsMod from "./components/MoreGoodsMod";
+import ClassifyMod from "./components/ClassifyMod";
 import './index.less';
 
 const CtipContentAdd=({...props})=> {
@@ -21,12 +22,17 @@ const CtipContentAdd=({...props})=> {
   let [themeInfo, setThemeInfo] =useState([]);
   let [moreGoods, setMoreGoods] =useState({moduleContent:[]});
   let [brandInfo, setBrandInfo] =useState({moduleContent:[]});
+  let [flowProduct, setFlowProduct] =useState({moduleContent:[],flowProductList:[]});
   let homepageId=props.match.params.id;
 
   const getInfo=()=> {
     GetEditInfoApi(homepageId)
     .then((res)=> {
-      let { search, banner, brandDisplay, icon, coupon, productDisplay, picMix,multilineProduct, themeActivity, flowProduct, homepageInfoVo } =res.result;
+      let { search, banner, brandDisplay, icon, coupon, productDisplay, picMix,
+        multilineProduct, themeActivity, flowProduct, homepageInfoVo } =res.result;
+        if(flowProduct&&flowProduct.moduleContent&&flowProduct.moduleContent.length>0) {
+          getFlowProduct(flowProduct.moduleContent[0].pdFlowTabId);
+        }
       setTotalData(homepageInfoVo);
       setSearchInfo(search);
       setBannder(banner);
@@ -36,6 +42,13 @@ const CtipContentAdd=({...props})=> {
       setThemeInfo(themeActivity);
       setMoreGoods(multilineProduct);
       setBrandInfo(brandDisplay);
+      setFlowProduct(flowProduct);
+    })
+  }
+  const getFlowProduct=(id)=> {
+    GetSearchFlowPdApi(id)
+    .then((res)=>{
+      setFlowProduct({...flowProduct,flowProductList:[]})
     })
   }
   const releaseHome=()=>{}
@@ -85,6 +98,7 @@ const CtipContentAdd=({...props})=> {
             <NewUserMod info={newUserInfo} {...props}/>
             <ThemeMod info={themeInfo} {...props}/>
             <MoreGoodsMod info={moreGoods} {...props}/>
+            <ClassifyMod info={moreGoods} {...props}/>
           </div>
         </div>
 }

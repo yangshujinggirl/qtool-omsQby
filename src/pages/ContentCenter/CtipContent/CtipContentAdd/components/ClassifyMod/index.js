@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
-import { connect } from 'dva';
-import Swiper from 'swiper/dist/js/swiper.js';
+import { Sessions } from 'utils';
+import Swiper from 'swiper/js/swiper.js';
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import './index.less';
@@ -17,23 +17,9 @@ class ClassifyMod extends Component {
             observeParents:true,
         })
   }
-  //编辑
   goEdit=()=> {
-    const { componkey } =this.props;
-    const {homepageModuleId} = this.props.info.flowProduct
-    const paneitem={
-      title:'商品流设置',
-      key:`${componkey}edit-commodity`+homepageModuleId,
-      componkey:`${componkey}edit-commodity`,
-      parentKey:componkey,
-      data:{
-        homepageModuleId
-      }
-    };
-    this.props.dispatch({
-        type:'tab/firstAddTab',
-        payload:paneitem
-    })
+    const { homepageModuleId } =this.props.info;
+    this.props.history.push(`/account/commodityFlow/${homepageModuleId}`);
   }
   toggleType=(el)=> {
     this.props.dispatch({
@@ -42,13 +28,12 @@ class ClassifyMod extends Component {
     })
   }
   render() {
-    let { flowProduct, homepageInfoVo } =this.props.info;
-    let { moduleContent, moduleBackColor, isDisplay, homepageModuleId } =flowProduct;
-    let { flowProductList } = this.props;
-    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    let { moduleContent, moduleBackColor, isDisplay, homepageModuleId, flowProductList } =this.props.info;
+    const fileDomain = Sessions.get('fileDomain');
 
     return(
       <CommonMod
+        goEdit={this.goEdit}
         homepageModuleId={homepageModuleId}
         className="classify-mod">
         <div>
@@ -113,13 +98,6 @@ class ClassifyMod extends Component {
           :
           <div className="no-module-data classify-noData">商品流模块</div>
         }
-          <div className="handle-btn-action">
-            {
-              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
-              <Button onClick={this.goEdit}>编辑</Button>
-            }
-
-          </div>
         </div>
       </CommonMod>
     )
@@ -130,4 +108,4 @@ function mapStateToProps(state) {
   return homeEdit;
 }
 
-export default connect(mapStateToProps)(ClassifyMod);
+export default ClassifyMod;

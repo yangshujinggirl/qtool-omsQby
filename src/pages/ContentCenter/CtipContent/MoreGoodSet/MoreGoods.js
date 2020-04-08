@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
-import { GetListApi, GetSaveApi } from 'api/contentCenter/MoreGoodSet';
+import { GetInfoApi, GetSaveApi } from 'api/contentCenter/MoreGoodSet';
 import ExportFile from './components/ExportFile';
 import MainMod from './components/MainMod';
 const { RangePicker } = DatePicker;
@@ -27,18 +27,30 @@ const MoreGoodSet=({...props})=> {
   let [goods,setGoods]=useState({listOne:[],listTwo:[]});
   let [list,setList]=useState([]);
   let homepageModuleId = props.match.params.id;
-  const getInfo=()=> {
-    GetListApi({homepageModuleId})
+  const getInfo =()=> {
+    GetInfoApi(homepageModuleId)
     .then((res)=> {
       let { showThemeList, themeList } = res.result;
-      setThemeList(themeList);
-      setShowThemeList(showThemeList);
+      // setThemeList(themeList);
+      // setShowThemeList(showThemeList);
     })
   }
   const submit=async()=> {
     try {
+      if(list.length< 6) {
+        message.error('请至少配置6个商品');
+        return;
+      }
       let  values = await form.validateFields();
-      let params= { themeList:values.list, homepageModuleId }
+      let { fieldsTwo, fieldsOne } =values;
+      let pdSpuList;
+      if(fieldsOne&&fieldsTwo) {
+        pdSpuList =[...fieldsOne,...fieldsTwo]
+      } else if(fieldsOne) {
+        pdSpuList = fieldsOne;
+      }
+      debugger
+      let params= { homepageModuleId, pdSpuList };
       GetSaveApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
@@ -74,9 +86,10 @@ const MoreGoodSet=({...props})=> {
     goods = {...goods}
     setGoods(goods);
   }
+  // useEffect(()=> { getInfo() },[homepageModuleId]);
   useEffect(()=> {form.setFieldsValue({fieldsOne:goods.listOne})},[goods.listOne])
   useEffect(()=> {form.setFieldsValue({fieldsTwo:goods.listTwo})},[goods.listTwo])
-  console.log(goods);
+
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
