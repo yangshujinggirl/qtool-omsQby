@@ -8,6 +8,12 @@ export function GetGoodsApi(values){
        params:{...values}
     })
 }
+//查询保税仓
+export function GetWarehouseApi(values){
+    return omsAjax.get('/warehouse/usableWarehouse',{
+       params:{...values}
+    })
+}
 /**
  * 后台一级类目列表
  * @param {*} values

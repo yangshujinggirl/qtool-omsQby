@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qmessage, Qbtn } from 'common';
 import { BatchListGenreal,BatchListCross, ColumnsAddGeneral,ColumnsAddCross } from './columns';
-import { GetOriginApi, GetAttributeApi, GetEditApi, GetBrandApi } from 'api/home/BaseGoods';
+import { GetWarehouseApi, GetOriginApi, GetAttributeApi, GetEditApi, GetBrandApi } from 'api/home/BaseGoods';
 import Creatlabel from './components/Creatlabel';
 import EditableCell from './components/EditableCell';
 import StandardsMod from './components/StandardsMod';
@@ -49,6 +49,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   const [deletedList,setDeletedList] =useState([])
   const [brandList,setBrandlIst] =useState([])
   const [originList,setOriginList] =useState([])
+  const [wareList,setWareList] =useState([])
   //初始化
   const initPage=()=> {
     props.dispatch({
@@ -242,7 +243,13 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
     }
   }
-
+  //保税仓
+  const getWarehouse=()=> {
+    GetWarehouseApi({warehouseType:3})
+    .then((res)=> {
+      setWareList(res.result)
+    })
+  }
   useEffect(()=>{
     initPage();
     return () => {
@@ -252,6 +259,11 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
     };
   },[spuCode])
+  useEffect(()=>{
+    if(productNature == 2) {
+      getWarehouse()
+    }
+  },[])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList]);
 
@@ -320,9 +332,12 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
               </div>
               :
               <Form.Item label="保税仓" name="bondedWarehouseId" rules={[{ required: true, message: '请选择保税仓'}]}>
-                <Select placeholder="请选择后台一级类目" disabled={isEdit}>
-                  <Option value={1} key={1}>淮安</Option>
-                  <Option value={2} key={2}>苏州蔻兔</Option>
+                <Select placeholder="请选择保税仓" disabled={isEdit}>
+                  {
+                    wareList.map((el)=>(
+                      <Option value={el.id} key={el.id}>{el.warehouseName}</Option>
+                    ))
+                  }
                 </Select>
               </Form.Item>
             }
