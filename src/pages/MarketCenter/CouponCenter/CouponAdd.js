@@ -382,6 +382,7 @@ const CouponAdd=({...props})=> {
               {({ getFieldValue }) => {
                 return getFieldValue('spuScope') == 1&&
                 <QupLoadAndDownLoad
+                  label="商品信息"
                   fileName="activityCoupon"
                   data={{
                     pdBrandIdList:selectBdKeyList,

@@ -4,9 +4,8 @@ import {
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetInfoApi, GetSaveApi } from 'api/contentCenter/MoreGoodSet';
-import ExportFile from './components/ExportFile';
 import MainMod from './components/MainMod';
 const { RangePicker } = DatePicker;
 let FormItem = Form.Item;
@@ -58,6 +57,11 @@ const MoreGoodSet=({...props})=> {
       console.log('Failed:', errorInfo);
     }
   }
+  const upDateFileList=(response)=> {
+    let { pdSpuList } =response.result;
+    pdSpuList&&pdSpuList.map((el)=>el.key=el.pdSpuId)
+    upDateList(pdSpuList);
+  }
   const upDateList=(array)=> {
     let listOne=[], listTwo=[], goodsObj;
     if(array.length>0) {
@@ -97,7 +101,13 @@ const MoreGoodSet=({...props})=> {
           form={form}
           onValuesChange={onValuesChange}
           {...formItemLayout}>
-          <ExportFile upDateList={upDateList}/>
+          <QupLoadAndDownLoad
+            noStyle={false}
+            fileName="moreGoods"
+            action="/qtoolsApp/pdListDisplay/multilineSpuImport"
+            upDateList={upDateFileList}>
+            <div>注：首页2行3列商品模块固定展示6件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充</div>
+          </QupLoadAndDownLoad>
           <MainMod form={form} upDateList={upDateList} goods={goods} list={list}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={submit}>保存</Qbtn>

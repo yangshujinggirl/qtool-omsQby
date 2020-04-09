@@ -205,7 +205,7 @@ const ClassifyMod=({...props})=> {
             确定添加
         </Qbtn>
         <QupLoadAndDownLoad
-          noLabel={true}
+          noStyle={true}
           fileName="commodityFlow"
           action="/qtoolsApp/content/pdFlowTab/pdFlowSpuImport"
           upDateList={upDateFileList}/>

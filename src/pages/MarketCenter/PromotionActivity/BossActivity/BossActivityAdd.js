@@ -110,6 +110,7 @@ const ActivityAdd=({...props})=> {
                 format="YYYY-MM-DD HH:mm:ss"/>
             </Form.Item>
             <QupLoadAndDownLoad
+              label="商品信息"
               fileName="activityBLow"
               data={{type: 11}}
               action="/qtoolsErp/import/excel"
