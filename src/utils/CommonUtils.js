@@ -41,6 +41,7 @@ const CommonUtils = {
      */
     async paramsFormValues(formRef) {
         const values = await formRef.current.validateFields();
+        console.log(values)
         for (let i in values) {
             // 替换搜索条件中字符串的前后空格
             if (typeof values[i] == "string") {

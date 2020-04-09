@@ -250,7 +250,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
                 <Route exact path="/account/supplier" component={SupplierManage}/>
                 <Route exact path='/account/channel' component={ShopManage}/>
-                <Route exact path='/account/shopManage_edit/:id' component={AddShopManage}/>
+                <Route exact path='/account/shopManage_edit/:id?' component={AddShopManage}/>
                 <Route exact path='/account/shopManage_infos/:id?' component={ShopManageInfo}/>
                 {/* ----------------------------------  营销中心   ---------------------------------------*/}
                 <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
@@ -301,10 +301,10 @@ class HomeRoutes extends React.Component {
                 <Route exact path='/account/add_banner/:id?' component={AddBbanner}/>
                 <Route exact path='/account/themati_activities' component={ThemeAct}/>
                 <Route exact path='/account/add_theme/:id?' component={AddTheme}/>
-                <Route exact path='/account/bpush_infos' component={BpushInfos}/>
+                <Route exact path='/account/bpush_infos/:id' component={BpushInfos}/>
                 <Route exact path='/account/add_cpush/:id?' component={AddCPush}/>
                 <Route exact path='/account/c_push' component={Cpush}/>
-                <Route exact path='/account/cpush_infos' component={CpushInfos}/>
+                <Route exact path='/account/cpush_infos/:id' component={CpushInfos}/>
                 <Route exact path='/account/b_question' component={Banswer}/>
                 <Route exact path='/account/add_b_answer/:id?' component={AddBanswer}/>
                 {/* ----------------------------------  渠道管理   ---------------------------------------*/}
