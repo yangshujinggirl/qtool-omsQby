@@ -30,12 +30,14 @@ const BaseEditTable=({...props})=> {
   const renderHandle=(text,record,index)=> {
     return <div>
             { record.isEdit?
-              <Button onClick={()=>record.onOperateClick('edit')}>编辑时间</Button>
+              <span>
+                <Button disabled={record.status == 0} onClick={()=>record.onOperateClick('edit')}>编辑时间</Button>
+                &nbsp;&nbsp;
+                <Button disabled={!record.time} onClick={()=>record.onOperateClick('goodSet')}>配置商品</Button>
+              </span>
               :
               <Button disabled={!record.time} onClick={()=>record.onOperateClick('save')}>确认</Button>
             }
-            &nbsp;&nbsp;
-            <Button disabled={!record.time} onClick={()=>record.onOperateClick('goodSet')}>配置商品</Button>
             &nbsp;&nbsp;
             <Button onClick={()=>record.onOperateClick('delete')}>删除</Button>
           </div>
@@ -44,9 +46,9 @@ const BaseEditTable=({...props})=> {
     return <div>
           {
             record.isEdit?
-            <span></span>
+            <span>{record.beginTime}~{record.endTime}</span>
             :
-            <Form.Item name="time" rules={[{required:true,message:'请选择时间'}]}>
+            <Form.Item name={['fields',index,'time']} rules={[{required:true,message:'请选择时间'}]}>
               <RangePicker
                 format={"YYYY-MM-DD HH:mm:ss"}
                 disabledDate={disabledDate}

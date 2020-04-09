@@ -4,9 +4,8 @@ import {
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
-import { GetInfoApi, GetSaveApi } from 'api/contentCenter/MoreGoodSet';
-import ExportFile from './components/ExportFile';
+import { QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { GetActivityInfoApi, GetActivityListApi, GetSaveGoodsApi } from 'api/contentCenter/SingleGoodsSet';
 import MainMod from './components/MainMod';
 const { RangePicker } = DatePicker;
 let FormItem = Form.Item;
@@ -24,15 +23,28 @@ const formItemLayout = {
 
 const MoreGoodSet=({...props})=> {
   const [form] = Form.useForm();
+  let { params } =props;
   let [goods,setGoods]=useState({listOne:[],listTwo:[]});
   let [list,setList]=useState([]);
+  let [totalData,setTotalData]=useState({});
+  let [activityList,setActivityList]=useState([]);
+  let [activityId,setActivityId]=useState({});
   let homepageModuleId = props.match.params.id;
   const getInfo =()=> {
-    GetInfoApi(homepageModuleId)
+    let pdListDisplayCfgId = params.pdListDisplayCfgId;
+    GetActivityInfoApi(pdListDisplayCfgId)
     .then((res)=> {
-      let { showThemeList, themeList } = res.result;
-      // setThemeList(themeList);
-      // setShowThemeList(showThemeList);
+      let { pdSpuList,...val } =res.result;
+      pdSpuList =pdSpuList?pdSpuList:[];
+      pdSpuList.map((el,index)=>el.key=index);
+      setList(pdSpuList)
+      setTotalData(val)
+    })
+    GetActivityListApi(pdListDisplayCfgId)
+    .then((res)=> {
+      let { activitys } =res.result;
+      activitys = activitys?activitys:[]
+      setActivityList(activitys);
     })
   }
   const submit=async()=> {
@@ -49,15 +61,17 @@ const MoreGoodSet=({...props})=> {
       } else if(fieldsOne) {
         pdSpuList = fieldsOne;
       }
-      debugger
       let params= { homepageModuleId, pdSpuList };
-      GetSaveApi(params)
+      GetSaveGoodsApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
+  }
+  const upDateFileList=()=> {
+
   }
   const upDateList=(array)=> {
     let listOne=[], listTwo=[], goodsObj;
@@ -86,10 +100,10 @@ const MoreGoodSet=({...props})=> {
     goods = {...goods}
     setGoods(goods);
   }
-  // useEffect(()=> { getInfo() },[homepageModuleId]);
+  useEffect(()=> { getInfo() },[homepageModuleId]);
   useEffect(()=> {form.setFieldsValue({fieldsOne:goods.listOne})},[goods.listOne])
   useEffect(()=> {form.setFieldsValue({fieldsTwo:goods.listTwo})},[goods.listTwo])
-
+  console.log(props)
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
@@ -99,17 +113,30 @@ const MoreGoodSet=({...props})=> {
           onValuesChange={onValuesChange}
           {...formItemLayout}>
           <Form.Item label="时间段">
-            2020-03-31 14:03:00 ~ 2020-03-31 17:00:00
+            {totalData.beginTime}~{totalData.endTime}
           </Form.Item>
           <Form.Item label="选择活动">
             <Form.Item noStyle name="activityId">
               <Select>
-                <Select.Option value={1}>123</Select.Option>
+              {
+                activityList.map((el) =>(
+                  <Select.Option value={el.activityId} key={el.activityId}>
+                    {el.activityName}
+                  </Select.Option>
+                ))
+              }
               </Select>
             </Form.Item>
             请先选择你要展示的商品所在的活动
           </Form.Item>
-          <ExportFile upDateList={upDateList}/>
+          <QupLoadAndDownLoad
+            noLabel={true}
+            data={{type:params.type, activityId}}
+            fileName="singleGoods"
+            action="/qtoolsApp/pdListDisplay/singleLineSpuImport"
+            upDateList={upDateFileList}>
+            <span>注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充</span>
+          </QupLoadAndDownLoad>
           <MainMod form={form} upDateList={upDateList} goods={goods} list={list}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={submit}>保存</Qbtn>

@@ -46,23 +46,14 @@ const ImportFile=({...props})=> {
     showUploadList: false
   };
   return (
-    <Form.Item noStyle>
-    {
-      noLabel?//纯导入下载
-      <Form.Item noStyle>
-        <Upload {...upLoadProps}><Qbtn>{importText?importText:'导入文件'}</Qbtn></Upload>&nbsp;&nbsp;
+    <Form.Item label={props.label} noStyle={props.noStyle}>
+      <Form.Item noStyle={props.noStyle}>
+        <Upload {...upLoadProps}><Qbtn>{importText?importText:'导入文件'}</Qbtn></Upload>&nbsp;
         <Qbtn onClick={goDownLoad}>{downText?downText:'下载模板'}</Qbtn>
       </Form.Item>
-      :
-      <Form.Item label="商品信息">
-        <Form.Item>
-          <Upload {...upLoadProps}><Qbtn>{importText?importText:'导入文件'}</Qbtn></Upload>&nbsp;
-          <Qbtn onClick={goDownLoad}>{downText?downText:'下载模板'}</Qbtn>
-        </Form.Item>
-        {props.children}
-      </Form.Item>
-    }
+      {props.children}
     </Form.Item>
+
   )
 }
 export default ImportFile;
