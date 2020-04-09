@@ -14,7 +14,7 @@ let FormItem = Form.Item;
 const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 4 },
+      sm: { span: 2 },
     },
     wrapperCol: {
       xs: { span: 24 },
@@ -30,9 +30,9 @@ const MoreGoodSet=({...props})=> {
   const getInfo =()=> {
     GetInfoApi(homepageModuleId)
     .then((res)=> {
-      let { pdSpuList } = res.result;
-      pdSpuList=pdSpuList?pdSpuList:[]
-      setList(pdSpuList);
+      let { showThemeList, themeList } = res.result;
+      // setThemeList(themeList);
+      // setShowThemeList(showThemeList);
     })
   }
   const submit=async()=> {
@@ -49,6 +49,7 @@ const MoreGoodSet=({...props})=> {
       } else if(fieldsOne) {
         pdSpuList = fieldsOne;
       }
+      debugger
       let params= { homepageModuleId, pdSpuList };
       GetSaveApi(params)
       .then((res)=> {
@@ -85,7 +86,7 @@ const MoreGoodSet=({...props})=> {
     goods = {...goods}
     setGoods(goods);
   }
-  useEffect(()=> { getInfo() },[homepageModuleId]);
+  // useEffect(()=> { getInfo() },[homepageModuleId]);
   useEffect(()=> {form.setFieldsValue({fieldsOne:goods.listOne})},[goods.listOne])
   useEffect(()=> {form.setFieldsValue({fieldsTwo:goods.listTwo})},[goods.listTwo])
 
@@ -97,6 +98,17 @@ const MoreGoodSet=({...props})=> {
           form={form}
           onValuesChange={onValuesChange}
           {...formItemLayout}>
+          <Form.Item label="时间段">
+            2020-03-31 14:03:00 ~ 2020-03-31 17:00:00
+          </Form.Item>
+          <Form.Item label="选择活动">
+            <Form.Item noStyle name="activityId">
+              <Select>
+                <Select.Option value={1}>123</Select.Option>
+              </Select>
+            </Form.Item>
+            请先选择你要展示的商品所在的活动
+          </Form.Item>
           <ExportFile upDateList={upDateList}/>
           <MainMod form={form} upDateList={upDateList} goods={goods} list={list}/>
           <div className="handle-operate-save-action">

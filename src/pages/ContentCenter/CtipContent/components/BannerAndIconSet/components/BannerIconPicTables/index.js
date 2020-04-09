@@ -85,7 +85,7 @@ const processData=(props,data)=> {
 
 const BaseEditTable=({...props})=> {
   let { dataSource, columns, categorySource, activiKey, modType } =props;
-  dataSource = processData(processData,dataSource);
+  dataSource = processData(props,dataSource);
   let newDataSource = lodash.cloneDeep(dataSource);
   let [key,setKey] = useState(newDataSource.length);
   let optionSource,picWith,picHeight;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import MorePicSet from "./MorePicSet";
+import MoreGoods from "./MoreGoods";
 import ModuleSet from "./ModuleSet";
+import TimeSet from "./TimeSet";
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
 
@@ -20,16 +21,22 @@ class Index extends Component {
     return (
       <div className="content_box stock-tabs" >
         <Tabs activeKey={activeKey} onChange={this.onChange}>
-          <TabPane tab="图片设置" key="1">
+          <TabPane tab="设置时段" key="1">
             {
               activeKey=='1'&&
-              <MorePicSet {...this.props}/>
+              <TimeSet {...this.props}/>
             }
           </TabPane>
           <TabPane tab="模块设置" key="2">
             {
               activeKey=='2'&&
               <ModuleSet {...this.props}/>
+            }
+          </TabPane>
+          <TabPane tab="配置商品" key="3">
+            {
+              activeKey=='3'&&
+              <MoreGoods {...this.props}/>
             }
           </TabPane>
         </Tabs>

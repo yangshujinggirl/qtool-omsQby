@@ -1,24 +1,22 @@
 import { appAjax, omsAjax } from '../Req';
 
+//查询tab
 export function GetTabListApi(values){
     return appAjax.get(`/content/pdFlowTab`,{params:{...values}})
 }
+//查询信息
 export function GetProListApi(pdFlowTabId){
-    return appAjax.get(`/content/pdFlowTab/qerp/${pdFlowTabId}`)
+    return appAjax.get(`/content/pdFlowTab/pdFlowTabSpu?pdFlowTabId=${pdFlowTabId}`)
 }
-// //保存banner
-// export function GetSaveApi(values){
-//     return appAjax.post(`/module/banner/save`,{...values})
-// }
-// //查设置详情（通用
-// export function GetModalInfoApi(homepageModuleId){
-//     return appAjax.get(`/homePageModule/get/${homepageModuleId}`)
-// }
-// //保存设置
-// export function GetSaveSetApi(values){
-//     return appAjax.post(`/module/banner/setting`,{...values})
-// }
-// //变贴
-// export function GetChangeApi(values){
-//     return appAjax.post(`/module/banner/change`,{...values})
-// }
+//分类添加
+export function GetAddClassProApi(values){
+    return appAjax.post(`/content/pdFlowTab/spuCategoryAdd`,{...values})
+}
+//code查询商品信息
+export function GetSearchSpuidApi(pdSpuId){
+    return appAjax.get(`/pdListDisplay/multilineSpu/${pdSpuId}/queryById`,{params:{type:1}})
+}
+// //保存
+export function GetSaveApi(values){
+    return appAjax.post(`/content/pdFlowTab`,{...values})
+}

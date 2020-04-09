@@ -20,7 +20,7 @@ class Index extends Component {
     return (
       <div className="content_box stock-tabs" >
         <Tabs activeKey={activeKey} onChange={this.onChange}>
-          <TabPane tab="设置主题" key="1">
+          <TabPane tab="商品设置" key="1">
             {
               activeKey=='1'&&
               <MoreGoods {...this.props}/>

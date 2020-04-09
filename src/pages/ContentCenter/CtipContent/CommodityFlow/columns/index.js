@@ -1,9 +1,8 @@
 import { Input, Form, Select, Button } from 'antd';
 import moment from 'moment';
-import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
-export function columnsFun(form,handleBlur,handleChange){
+export function columnsFun(handleBlur){
   let linkage=(record)=> {
     let placeholder='',disabled=true, rules=[];
     if(record.fixPosition) {
@@ -32,24 +31,16 @@ export function columnsFun(form,handleBlur,handleChange){
       key: 'pdSpuId',
       width:'6%',
       render:(text,record,index)=> {
-        const { getFieldDecorator } =form;
-        return <FormItem>
-                {getFieldDecorator(`spuList[${index}].pdSpuId`,{
-                  initialValue:record.pdSpuId,
-                  rules:[{
-                    required:true,message:'请输入Spuid'
-                  }],
-                  onChange:(e)=>{
-                    e.stopPropagation()
-                  }
-                })(
-                  <Input
-                    onBlur={(e)=>handleBlur(e,record)}
-                    maxLength='15'
-                    placeholder="请输入Spuid"
-                    autoComplete="off"/>
-                )}
-              </FormItem>
+        return <Form.Item
+                name={['spuList',index,'pdSpuId']}
+                rules={[{ required:true,message:'请输入Spuid'}]}>
+                <Input
+                  onChange={(e)=>{ e.stopPropagation()}}
+                  onBlur={(e)=>handleBlur(e,record)}
+                  maxLength='15'
+                  placeholder="请输入Spuid"
+                  autoComplete="off"/>
+              </Form.Item>
       }
     },
     {
@@ -112,41 +103,31 @@ export function columnsFun(form,handleBlur,handleChange){
       key: 'fixed',
       width:'18%',
       render:(text,record,index)=> {
-        const { getFieldDecorator } =form;
         let mod;
         let linkageObj = linkage(record);
         if(record.isFixed) {
           mod = <span onClick={()=>record.onOperateClick('toggle')} className="cr">解除固定</span>
         } else {
           mod = <div>该商品固定在
-                    <FormItem className="row-input-item">
-                      {getFieldDecorator(`spuList[${index}].fixPosition`,{
-                        initialValue:record.fixPosition,
-                        rules:[{
-                          pattern:/^([1-9]$)|(^[1-3][0-9]$)|(^[4][0-5]$)/,message:'请输入1-40'
-                        }],
-                        onChange:(e)=>handleChange('fixPosition',e,index)
-                      })(
+                    <Form.Item className="row-input-item"
+                      name={['spuList',index,'fixPosition']}
+                      rules={[{ pattern:/^([1-9]$)|(^[1-3][0-9]$)|(^[4][0-5]$)/,message:'请输入1-40'}]}>
                         <Input
                           maxLength='2'
                           placeholder="请输入"
                           autoComplete="off"/>
-                      )}
-                    </FormItem>
+                    </Form.Item>
                     位置
-                    <FormItem className="row-input-item">
-                      {getFieldDecorator(`spuList[${index}].fixDay`,{
-                        initialValue:record.fixDay,
-                        rules:linkageObj.rules,
-                        onChange:(e)=>handleChange('fixDay',e,index)
-                      })(
-                        <Input
-                          maxLength='3'
-                          disabled={linkageObj.disabled}
-                          placeholder="请输入"
-                          autoComplete="off"/>
-                      )}
-                    </FormItem>
+                    <Form.Item
+                      className="row-input-item"
+                      name={['spuList',index,'fixDay']}
+                      rules={linkageObj.rules}>
+                      <Input
+                        maxLength='3'
+                        disabled={linkageObj.disabled}
+                        placeholder="请输入"
+                        autoComplete="off"/>
+                    </Form.Item>
                     天
                   </div>
         }
