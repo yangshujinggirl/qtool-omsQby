@@ -28,6 +28,7 @@ const MoreGoodSet=({...props})=> {
   let [list,setList]=useState([]);
   let [totalData,setTotalData]=useState({});
   let [activityList,setActivityList]=useState([]);
+  let [activityId,setActivityId]=useState({});
   let homepageModuleId = props.match.params.id;
   const getInfo =()=> {
     let pdListDisplayCfgId = params.pdListDisplayCfgId;
@@ -130,6 +131,7 @@ const MoreGoodSet=({...props})=> {
           </Form.Item>
           <QupLoadAndDownLoad
             noLabel={true}
+            data={{type:params.type, activityId}}
             fileName="singleGoods"
             action="/qtoolsApp/pdListDisplay/singleLineSpuImport"
             upDateList={upDateFileList}>
