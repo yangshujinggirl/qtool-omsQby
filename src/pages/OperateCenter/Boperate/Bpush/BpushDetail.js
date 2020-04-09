@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getInfosApi } from "api/home/OperateCenter/Boperate/Bpush";//请求方法
+import './index.less'
 
 /**
  * 
@@ -18,7 +19,7 @@ const BpushDetail = props => {
     });
   },[]);
   return (
-    <div className="couponDetail">
+    <div className="bpush_detail">
       <p className="tail">推送主题：　　{infos.title}</p>
       <p className="tail">推送时间：　　{infos.pushTime}</p>
       <p className="tail">推送内容：　　{infos.msgContent}</p>

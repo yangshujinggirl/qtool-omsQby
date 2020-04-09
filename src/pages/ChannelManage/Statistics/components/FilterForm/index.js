@@ -5,14 +5,8 @@ import { getProvinceListApi } from "api/home/ChannelManage/Statistics";
 import moment from "moment";
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
-const disabledDate = current => {
-  return (
-    current &&
-    current >
-      moment()
-        .endOf("day")
-        .subtract(1, "days")
-  );
+const disabledDate = (current) => {
+  return current && current > moment().endOf("day").subtract(1, "days");
 };
 
 class NormalForm extends BaseFilter {
@@ -20,7 +14,7 @@ class NormalForm extends BaseFilter {
   constructor(props) {
     super(props);
     this.state = {
-      provinceList: []
+      provinceList: [],
     };
   }
   componentDidMount = () => {
@@ -30,11 +24,11 @@ class NormalForm extends BaseFilter {
    * 省份
    */
   getProvince() {
-    getProvinceListApi().then(res => {
+    getProvinceListApi().then((res) => {
       if (res.httpCode == 200) {
         res.result &&
           res.result.length > 0 &&
-          res.result.map(el => (el.key = el.provinceId));
+          res.result.map((el) => (el.key = el.provinceId));
         this.setState({ provinceList: res.result });
       }
     });
@@ -45,28 +39,36 @@ class NormalForm extends BaseFilter {
     const { provinceList } = this.state;
     return (
       <div className="qtoolOms-condition">
-        <Form
-          ref={this.formRef}
-          className="qtools-condition-form"
-          {...this.formItemLayout}
-        >
+        <Form ref={this.formRef} className="qtools-condition-form">
           <Row>
-            <Col {...this.colspan}>
-              <Form.Item name="name" label="一级渠道名称">
+            <Col {...this.colspans}>
+              <Form.Item
+                name="name"
+                label="一级渠道名称"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入一级渠道名称" autoComplete="off" />
               </Form.Item>
             </Col>
-            <Col {...this.colspan}>
-              <Form.Item name="channelPopularizeCoding" label="一级渠道ID">
+            <Col {...this.colspans}>
+              <Form.Item
+                name="channelPopularizeCoding"
+                label="一级渠道ID"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入一级渠道ID" autoComplete="off" />
               </Form.Item>
             </Col>
             {type == 1 && (
-              <Col {...this.colspan}>
-                <Form.Item name="provinceId" label="省份">
+              <Col {...this.colspans}>
+                <Form.Item
+                  name="provinceId"
+                  label="省份"
+                  {...this.formItemLayout}
+                >
                   <Select allowClear={true} placeholder="请选择省份">
                     {provinceList.length > 0 &&
-                      provinceList.map(el => (
+                      provinceList.map((el) => (
                         <Option value={el.provinceId} key={el.provinceId}>
                           {el.name}
                         </Option>
@@ -76,8 +78,12 @@ class NormalForm extends BaseFilter {
               </Col>
             )}
             {type == 1 && (
-              <Col {...this.colspan}>
-                <Form.Item name="shopType" label="门店类型">
+              <Col {...this.colspans}>
+                <Form.Item
+                  name="shopType"
+                  label="门店类型"
+                  {...this.formItemLayout}
+                >
                   <Select allowClear={true} placeholder="请选择门店类型">
                     <Option value={1} key={1}>
                       直营
@@ -92,20 +98,20 @@ class NormalForm extends BaseFilter {
                 </Form.Item>
               </Col>
             )}
-            <Col {...this.colspan}>
-              <Form.Item label="统计时间" name="time">
+            <Col {...this.colspans}>
+              <Form.Item label="统计时间" name="time" {...this.formItemLayout}>
                 <RangePicker format="YYYY-MM-DD" disabledDate={disabledDate} />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
+                  搜索
+                </Qbtn>
               </Form.Item>
             </Col>
           </Row>
         </Form>
-        <Col span={24}>
-          <Form.Item className="oms-condition-operate">
-            <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
-              搜索
-            </Qbtn>
-          </Form.Item>
-        </Col>
       </div>
     );
   }

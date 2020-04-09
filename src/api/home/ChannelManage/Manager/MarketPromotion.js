@@ -65,3 +65,9 @@ export function EditMarketPromotionChannel(values) {
         ...values
     })
 }
+/**
+ *编辑获取渠道信息
+ */
+export function getChannelInfos(channelPopularizeId) {
+    return appAjax.get(`/channelPopularize/getUpdateInfo/${channelPopularizeId}`)
+}

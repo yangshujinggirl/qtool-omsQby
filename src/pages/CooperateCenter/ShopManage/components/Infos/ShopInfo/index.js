@@ -1,7 +1,7 @@
 import { Form } from "antd";
 import moment from "moment";
 
-const ShopEdit = (props) => {
+const ShopInfo = (props) => {
   return (
     <React.Fragment>
       <Form.Item name="channelArea" label="门店面积">
@@ -37,4 +37,4 @@ const ShopEdit = (props) => {
     </React.Fragment>
   );
 };
-export default ShopEdit;
+export default ShopInfo;

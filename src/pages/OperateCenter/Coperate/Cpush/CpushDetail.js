@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getInfosApi } from "api/home/OperateCenter/Boperate/Bpush";//请求方法
+import { getInfosApi } from "api/home/OperateCenter/Coperate/Cpush";//请求方法
+import './index.less'
 
-const CouponDetail = props => {
+const CpushDetail = props => {
   const [infos, setInfos] = useState({});
   useEffect(() => {
     const { id } = props.match.params;
@@ -12,7 +13,7 @@ const CouponDetail = props => {
     });
   },[]);
   return (
-    <div className="couponDetail">
+    <div className="cpush_detail">
       <p className="tail">推送主题：　　{infos.title}</p>
       <p className="tail">推送时间：　　{infos.pushTime}</p>
       <p className="tail">推送内容：　　{infos.msgContent}</p>
@@ -22,4 +23,4 @@ const CouponDetail = props => {
     </div>
   );
 };
-export default CouponDetail;
+export default CpushDetail;

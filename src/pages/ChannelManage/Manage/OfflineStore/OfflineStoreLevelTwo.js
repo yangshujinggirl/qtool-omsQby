@@ -4,7 +4,7 @@ import {
     QbaseDetail,
     QbaseList,
     Qbtn,
-    QdetailBaseInfo,
+    QbaseInfo,
     Qpagination,
     Qtable
 } from "common/index";

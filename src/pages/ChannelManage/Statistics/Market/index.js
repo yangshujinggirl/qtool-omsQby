@@ -12,6 +12,7 @@ class Market extends Component {
     this.state = {
       currentPage: 0,
       everyPage: 0,
+      total:0,
       dataList: [],
       inputValues: {
         themeStatus: 4
@@ -41,7 +42,7 @@ class Market extends Component {
           dataList: result,
           everyPage,
           currentPage,
-          totalCount: total
+          total
         });
       }
     });
@@ -64,7 +65,7 @@ class Market extends Component {
     AppExportApi({type:3,...this.state.inputValues},'/channelStatistics/export')
   }
   render() {
-    const { dataList, everyPage, currentPage, totalCount } = this.state;
+    const { dataList, everyPage, currentPage, total } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.searchData}  type={2}/>
@@ -74,7 +75,7 @@ class Market extends Component {
         <Qtable dataSource={dataList} columns={columnsOnlinePrimary} />
         {dataList.length > 0 ? (
           <Qpagination
-            data={{ everyPage, currentPage, totalCount }}
+            data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
             onShowSizeChange={this.onShowSizeChange}
           />

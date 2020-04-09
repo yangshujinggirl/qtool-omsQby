@@ -6,49 +6,57 @@ const Option = Select.Option;
 
 class NormalForm extends BaseFilter {
   formRef = React.createRef();
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      options:[]
-    }
+    this.state = {
+      options: [],
+    };
   }
-  componentDidMount=() => {
+  componentDidMount = () => {
     //获取省市区
-    getProvinceListApi().then(res => {
+    getProvinceListApi().then((res) => {
       if (res.httpCode == 200) {
         this.setState({
-          options:res.result
-        })
+          options: res.result,
+        });
       }
     });
-  }
+  };
   //初始化
   render() {
     return (
       <div className="qtoolOms-condition">
-        <Form
-         className="serach-common-form"
-         ref={this.formRef}
-         {...this.formItemLayout}
-        >
+        <Form className="serach-common-form" ref={this.formRef}>
           <Row gutter={24}>
             <Col {...this.colspans}>
-              <Form.Item name="name" label="门店名称">
+              <Form.Item name="name" label="门店名称" {...this.formItemLayout}>
                 <Input placeholder="请输入门店名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
-              <Form.Item name="channelPopularizeCoding" label="门店店主">
+              <Form.Item
+                name="channelPopularizeCoding"
+                label="门店店主"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入门店店主" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
-              <Form.Item name="provinceId" label="省份">
-                <Cascader options={this.state.options}/>
+              <Form.Item
+                name="provinceId"
+                label="省份"
+                {...this.formItemLayout}
+              >
+                <Cascader options={this.state.options} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
-              <Form.Item name="shopType" label="营业状态">
+              <Form.Item
+                name="shopType"
+                label="营业状态"
+                {...this.formItemLayout}
+              >
                 <Select allowClear={true} placeholder="请选择营业状态">
                   <Option value={1} key={1}>
                     待开业
@@ -63,21 +71,25 @@ class NormalForm extends BaseFilter {
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
-              <Form.Item name="shopType" label="门店类型">
+              <Form.Item
+                name="shopType"
+                label="门店类型"
+                {...this.formItemLayout}
+              >
                 <Select allowClear={true} placeholder="请选择门店类型">
                   <Cascader options={this.state.options} />
                 </Select>
               </Form.Item>
             </Col>
+            <Col span={24}>
+              <Form.Item className="oms-condition-operate">
+                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
+                  搜索
+                </Qbtn>
+              </Form.Item>
+            </Col>
           </Row>
         </Form>
-        <Col span={24}>
-          <Form.Item className="oms-condition-operate">
-            <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
-              搜索
-            </Qbtn>
-          </Form.Item>
-        </Col>
       </div>
     );
   }
