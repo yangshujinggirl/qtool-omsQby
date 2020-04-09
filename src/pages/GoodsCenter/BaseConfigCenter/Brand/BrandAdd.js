@@ -21,6 +21,7 @@ import UploadIsSq from "common/QupLoadImgLimt";
 import { Qbtn } from "common";
 import moment from "moment";
 import "./index.less";
+import {deBounce} from 'utils/tools'
 const Option = Select.Option;
 const formItemLayout = {
   labelCol: { span: 4 },

@@ -21,7 +21,9 @@ class TradeGoods extends Component {
       type: "",
       visible: false,
       record: [],
-      inputValues: {},
+      inputValues: {
+        productNature:1
+      },
     };
   }
   //初始化数据

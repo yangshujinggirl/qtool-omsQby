@@ -1,4 +1,5 @@
 import moment from "moment";
+import { Link } from "react-router-dom";
 const Columns = [
   {
     title: "提现单号",
@@ -6,29 +7,27 @@ const Columns = [
     render: (text, record) => {
       return (
         <div>
-          <a
-            href="javascript:;"
-            className="theme-color"
-            onClick={record.onOperateClick.bind(this, "detail")}
-          >
+          <Link to={`/account/withdrawDetail/${record.spCarryCashId}`}>
             {text}
-          </a>
+          </Link>
         </div>
       );
-    }
+    },
   },
   {
     title: "门店名称",
-    dataIndex: "shopName"
+    dataIndex: "shopName",
   },
   {
     title: "提现金额",
-    dataIndex: "amount"
+    dataIndex: "amount",
   },
   {
     title: "提现时间",
     dataIndex: "createTime",
-    render: text => <span>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+    render: (text) => (
+      <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+    ),
   },
   {
     title: "审核状态",
@@ -47,11 +46,11 @@ const Columns = [
       ) : (
         <div>{text}</div>
       );
-    }
+    },
   },
   {
     title: "付款状态",
-    dataIndex: "payStatusStr"
-  }
+    dataIndex: "payStatusStr",
+  },
 ];
 export default Columns;

@@ -24,13 +24,14 @@ const UnderBond = QbaseList((_this) => {
         dataList, everyPage, currentPage, total
     } = _this.state;
     return (
-        <div className="oms-common-index-pages-wrap">
+        <div className="oms-common-index-pages-wrap divide_profit">
             <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
             <div className="handle-operate-btn-action">
                 <Qbtn size="free"
                       onClick={() => new ErpExportApi(_this.state.searchCriteriaList, "/rpshareProfit/directDeveryOrder/export")}>导出数据</Qbtn>
                 <div style={{float: 'right'}}>
                     <p onClick={() => Modal.info({
+                        width:500,
                         title: '表单说明',
                         content: (
                             <div className='lists'>

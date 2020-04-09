@@ -23,6 +23,7 @@ const UpLoadFile = ({
   del,
   footer,
   changeDataSource,
+  downLoadTemp
 }) => {
   const [errorMsg, setErrMsg] = useState("");
   const [visible, setVisible] = useState("");
@@ -69,7 +70,7 @@ const UpLoadFile = ({
   /**
    * 下载模板
    */
-  const downLoadTemp = () => {
+  const downLoadTempFuc = () => {
     downLoadTemp();
   };
   /**
@@ -139,7 +140,7 @@ const UpLoadFile = ({
             导入商品
           </Button>
         </Upload>
-        <a className="download" onClick={downLoadTemp}>
+        <a className="download" onClick={downLoadTempFuc}>
           下载导入模板
         </a>
       </div>

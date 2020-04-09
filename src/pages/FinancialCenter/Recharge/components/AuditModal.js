@@ -1,64 +1,64 @@
-import { useEffect,useState } from "react";
-import { Modal, Form, Input, Select,Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Modal, Form, Select, Button } from "antd";
 import { QenlargeImg } from "common";
-const FormItem = Form.Item;
-import { getInfoApi } from "api/home/FinancialCenter/ShoperRecharge";
+import { getInfosApi, auditRecharge } from "api/home/FinancialCenter/Recharge";
+import {deBounce} from 'utils/tools'
+import '../index.less'
 const Option = Select.Option;
-const TextArea = Input.TextArea;
+const FormItem = Form.Item;
 
-const AuditModal = props => {
+const AuditRechargeModal = (props) => {
   const [form] = Form.useForm();
   const { spVoucherId, visible } = props;
-  const [spVoucher, setSpVoucher] = useState({});
-  const [spVoucherDetails, setSpVoucherDetails] = useState([]);
+  console.log(props);
+  const [infos, setInfos] = useState({});
   const [repeatNos, setRepeatNos] = useState([]);
+  const [imgs, setImgs] = useState([]);
   const [checkStatus, setCheckStatus] = useState(false);
-  // useEffect(() => {
-  //   if (spVoucherId) {
-  //     getInfoApi({spVoucherId }).then(res => {
-  //       if (res.httpCode == 200) {
-  //         const { spVoucher, spVoucherDetails, repeatNos } = res.result;
-  //         setSpVoucher(spVoucher);
-  //         setSpVoucherDetails(spVoucherDetails);
-  //         setRepeatNos(repeatNos);
-  //       }
-  //     });
-  //   }
-  // }, []);
+  //页面初始化
+  useEffect(() => {
+    getInfosApi(spVoucherId).then((res) => {
+      if (res.httpCode == 200) {
+        const { spVoucherDto, repeatNos, spVoucherDetails } = res.result;
+        setImgs(spVoucherDetails);
+        setInfos(spVoucherDto);
+        setRepeatNos(repeatNos);
+      }
+    });
+  }, []);
   const clearForm = () => {
     form.resetFields();
   };
-  const onOk= async () => {
+  //审核通过、不通过
+  const handlePass = deBounce(async (status) => {
+    if (status == 2) {
+      setCheckStatus(true);
+    }
     const values = await form.validateFields();
     values.spVoucherId = spVoucherId;
-    values.status = 1;
-    props.onOk(values, clearForm);
-  };
-  const onCancel=()=>{
-    clearForm();
-    props.onCancel()
-  }
-  const onNotPass = async() => {
-    await setCheckStatus(true)
-    const values = await form.validateFields();
-    values.spVoucherId = spVoucherId;
-    values.status = 2;
-    props.onNotPass(values, clearForm);
-  };
+    values.status = status;
+    auditRecharge(values)
+      .then((res) => {
+        if (res.httpCode == 200) {
+          props.onClear(clearForm);
+        }
+      })
+  },500);
   return (
     <div>
       <Modal
-        title="充值审核"
+        className='recharge_modal'
         visible={visible}
-        onCancel={onCancel}
+        title="充值审核"
         footer={[
-          <Button key="back" onClick={onNotPass}>
+          <Button key="back" onClick={() => handlePass(2)}>
             审核不通过
           </Button>,
-          <Button key="submit" type="primary" onClick={onOk}>
+          <Button key="submit" type="primary" onClick={() => handlePass(1)}>
             审核通过
-          </Button>
+          </Button>,
         ]}
+        onCancel={() => props.onClear(clearForm)}
       >
         <Form form={form}>
           <FormItem
@@ -66,14 +66,14 @@ const AuditModal = props => {
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 12 }}
           >
-            {spVoucher.shopName}
+            {infos.shopName}
           </FormItem>
           <FormItem
             label="充值金额"
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 12 }}
           >
-            {spVoucher.amount}
+            {infos.amount}
           </FormItem>
           <FormItem
             label="充值凭证"
@@ -86,7 +86,7 @@ const AuditModal = props => {
                   color: "red",
                   lineHeight: "16px",
                   marginBottom: 5,
-                  marginTop: 5
+                  marginTop: 5,
                 }}
               >
                 此凭证与
@@ -95,9 +95,14 @@ const AuditModal = props => {
               </p>
             ) : (
               <div className="cz_imgboxsLists">
-                {spVoucherDetails &&
-                  spVoucherDetails.map((item, index) => (
-                    <QenlargeImg key={index} picUrl={item.picUrl} />
+                {imgs &&
+                  imgs.length &&
+                  imgs.map((item, index) => (
+                    <QenlargeImg
+                      url={
+                        sessionStorage.getItem("oms_fileDomain") + item.picUrl
+                      }
+                    />
                   ))}
               </div>
             )}
@@ -123,4 +128,4 @@ const AuditModal = props => {
     </div>
   );
 };
-export default AuditModal;
+export default AuditRechargeModal;

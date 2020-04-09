@@ -2,12 +2,14 @@ import React from "react";
 import { Modal, Input, Select, message, Form, Layout } from "antd";
 import { GetCategoryApi } from "api/home/BaseGoods";
 import { AddApi, EditApi, getClassInfo } from "api/home/Classify";
+import {deBounce} from 'utils/tools'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const formLayout = {
   labelCol: { span: 7 },
   wrapperCol: { span: 12 }
 };
+
 class AddModal extends React.Component {
   formRef = React.createRef();
   constructor(props) {
