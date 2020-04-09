@@ -113,6 +113,7 @@ import NewUserSetCtip from './ContentCenter/CtipContent/NewUserSetCtip';//新人
 import ThemeActivitySetCtip from './ContentCenter/CtipContent/ThemeActivitySetCtip';//主题活动
 import MoreGoodSet from './ContentCenter/CtipContent/MoreGoodSet';//两行三列活动
 import CommodityFlow from './ContentCenter/CtipContent/CommodityFlow';//两行三列活动
+import SingleGoodsSet from './ContentCenter/CtipContent/SingleGoodsSet';//单行商品
 /************************************   数据中心   *******************************************/
 import GoodsData from './DataCenter/BaseData/GoodsData'/*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData";/*** 订单数据*/
@@ -284,6 +285,7 @@ class HomeRoutes extends React.Component {
                 <Route exact path="/account/cThemeSet/:id" component={ThemeActivitySetCtip}/>
                 <Route exact path="/account/cMoreGoodSet/:id" component={MoreGoodSet}/>
                 <Route exact path="/account/commodityFlow/:id" component={CommodityFlow}/>
+                <Route exact path="/account/singleGoods/:id" component={SingleGoodsSet}/>
 
 
                 {/* ----------------------------------  数据中心   ---------------------------------------*/}

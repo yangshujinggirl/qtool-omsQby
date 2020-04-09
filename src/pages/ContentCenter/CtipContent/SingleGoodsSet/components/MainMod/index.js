@@ -17,7 +17,7 @@ const Mod=({...props})=> {
   //绑定方法
   const processData=(data)=> {
     data && data.map((item, i) => {
-        item.onOperateClick = (type) => { onOperateClick(item,type) };
+        item.onOperateClick = (type) => { this.props.onOperateClick(item,type) };
     })
     return data;
   }
@@ -37,7 +37,7 @@ const Mod=({...props})=> {
   const onOperateClick=(record,type)=> {
     switch(type) {
       case 'delete':
-        handleDelete(record);
+        this.handleDelete(record);
         break;
     }
   }

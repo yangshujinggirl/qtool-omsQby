@@ -2,7 +2,7 @@ import { Input, Form, Select, Button } from 'antd';
 import moment from 'moment';
 const FormItem = Form.Item;
 
-export function columnsFun(handleBlur,handleChange){
+export function columnsFun(handleBlur){
   let linkage=(record)=> {
     let placeholder='',disabled=true, rules=[];
     if(record.fixPosition) {
@@ -113,7 +113,6 @@ export function columnsFun(handleBlur,handleChange){
                       name={['spuList',index,'fixPosition']}
                       rules={[{ pattern:/^([1-9]$)|(^[1-3][0-9]$)|(^[4][0-5]$)/,message:'请输入1-40'}]}>
                         <Input
-                          onChange={(e)=>handleChange('fixPosition',e,index)}
                           maxLength='2'
                           placeholder="请输入"
                           autoComplete="off"/>
@@ -124,7 +123,6 @@ export function columnsFun(handleBlur,handleChange){
                       name={['spuList',index,'fixDay']}
                       rules={linkageObj.rules}>
                       <Input
-                        onChange={(e)=>handleChange('fixDay',e,index)}
                         maxLength='3'
                         disabled={linkageObj.disabled}
                         placeholder="请输入"

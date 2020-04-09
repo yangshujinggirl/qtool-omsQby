@@ -10,6 +10,7 @@ import NewUserMod from "./components/NewUserMod";
 import ThemeMod from "./components/ThemeMod";
 import MoreGoodsMod from "./components/MoreGoodsMod";
 import ClassifyMod from "./components/ClassifyMod";
+import SingleGoodsMod from "./components/SingleGoodsMod";
 import './index.less';
 
 const CtipContentAdd=({...props})=> {
@@ -23,6 +24,7 @@ const CtipContentAdd=({...props})=> {
   let [moreGoods, setMoreGoods] =useState({moduleContent:[]});
   let [brandInfo, setBrandInfo] =useState({moduleContent:[]});
   let [flowProduct, setFlowProduct] =useState({moduleContent:[],flowProductList:[]});
+  let [singleGoods, setSingleGoods] =useState({moduleContent:[]});
   let homepageId=props.match.params.id;
 
   const getInfo=()=> {
@@ -43,6 +45,7 @@ const CtipContentAdd=({...props})=> {
       setMoreGoods(multilineProduct);
       setBrandInfo(brandDisplay);
       setFlowProduct(flowProduct);
+      setSingleGoods(productDisplay);
     })
   }
   const getFlowProduct=(id)=> {
@@ -94,10 +97,11 @@ const CtipContentAdd=({...props})=> {
             <BannerMod info={bannerInfo} {...props}/>
             <BrandMod info={brandInfo} {...props}/>
             <IconMod info={iconInfo} {...props}/>
-            <MorePicMod info={morePicInfo} {...props}/>
             <NewUserMod info={newUserInfo} {...props}/>
-            <ThemeMod info={themeInfo} {...props}/>
+            <SingleGoodsMod info={singleGoods} {...props}/>
+            <MorePicMod info={morePicInfo} {...props}/>
             <MoreGoodsMod info={moreGoods} {...props}/>
+            <ThemeMod info={themeInfo} {...props}/>
             <ClassifyMod info={moreGoods} {...props}/>
           </div>
         </div>

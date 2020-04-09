@@ -17,7 +17,7 @@ const ColumnsAdd=(optionSource,onSelect)=>{
       dataIndex: 'showThemeTitle',
       align:'center',
       render:(text,record,index)=> {
-        return <FormItem name={['list',index,'themeId']} rules={[{ required:true,message:'请输入名称'}]}>
+        return <FormItem name={['list',index,'themeId']} rules={[{ required:true,message:'请选择选择主题'}]}>
                 <Select placeholder="请选择选择主题" onSelect={(value,option)=>onSelect(value,index)}>
                   {optionSource && optionSource.map(item => (
                     <Select.Option key={item.themeId} value={item.themeId} >

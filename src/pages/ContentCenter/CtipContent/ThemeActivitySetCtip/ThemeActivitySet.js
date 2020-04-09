@@ -41,7 +41,13 @@ const ThemeActivitySet=({...props})=> {
   const submit=async()=> {
     try {
       let  values = await form.validateFields();
-      let params= { themeList:values.list, homepageModuleId }
+      let list = showThemeList.map((el)=>{
+        return {
+          themeId:el.themeId,
+          frameDetailId:el.frameDetailId,
+        }
+      })
+      let params= { themeList:list, homepageModuleId }
       GetSaveApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
@@ -55,7 +61,12 @@ const ThemeActivitySet=({...props})=> {
   }
   const onselect=(value,index)=> {
     let currentItem=themeList.find((el)=>el.themeId == value);
-    showThemeList[index] = {...showThemeList[index], ...currentItem };
+    showThemeList[index] = {
+      ...showThemeList[index],
+      themeId:currentItem.themeId,
+      showSubtitle: currentItem.subtitle,
+      showThemeStatusStr: currentItem.statusStr,
+    };
     showThemeList=[...showThemeList]
     setShowThemeList(showThemeList)
   }

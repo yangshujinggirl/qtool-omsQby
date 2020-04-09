@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "dva";
 import { Button } from "antd";
+import { Sessions } from 'utils';
 import Countdown from "react-countdown-now";
 import Line from "../Line";
 import CommonMod from "../CommonMod";
-import Swiper from "swiper/dist/js/swiper.js";
+import Swiper from "swiper/js/swiper.js";
 import moment from "moment";
 import "./index.less";
 
-class GoodsMod extends Component {
+class GoodsMod extends React.Component {
   componentDidUpdate() {
     var goodsSwiper = new Swiper(".goods-swiper-container", {
       slidesPerView: 3,
@@ -18,59 +17,43 @@ class GoodsMod extends Component {
     });
   }
   goEdit = () => {
-    const { componkey } = this.props;
-    const { homepageModuleId } = this.props.info.productDisplay;
-    const paneitem = {
-      title: "单行商品设置",
-      key: `${componkey}edit-goods` + homepageModuleId,
-      componkey: `${componkey}edit-goods`,
-      parentKey: componkey,
-      data: {
-        homepageModuleId
-      }
-    };
-    this.props.dispatch({
-      type: "tab/firstAddTab",
-      payload: paneitem
-    });
+    const { homepageModuleId } = this.props.info;
+    this.props.history.push(`/account/singleGoods/${homepageModuleId}`);
   };
   render() {
-    let { productDisplay, homepageInfoVo } = this.props.info;
-    let {
-      homepageModuleId,
-      moduleContent,
-      moduleBackColor,
-      isDisplay
-    } = productDisplay;
-    const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
+    let { titleColor, title, preHeatIcon, isDisplayCountdown, displayEndTime, isDisplayMore,
+      homepageModuleId, moduleContent, moduleBackColor, isDisplay } = this.props.info;
+    const fileDomain = Sessions.get('fileDomain');
     const endDate = new Date("2019-8-24"); // Christmas, yay
-    moduleBackColor = moduleBackColor ? `${moduleBackColor}` : null;
     return (
       <CommonMod
+        goEdit={this.goEdit}
+        hasDisplayBtn={true}
+        isDisplay={isDisplay}
         homepageModuleId={homepageModuleId}
         className={`goods-mod ${!isDisplay ? "hiddle-module" : ""}`}
-        style={{ backgroundColor: moduleBackColor }}
-      >
+        style={{ backgroundColor: moduleBackColor }}>
         <div className="mod-wrap">
           <div
             className={
-              productDisplay.titleColor == 0
+              titleColor == 0
                 ? "black-title mod-common-head"
                 : "white-title mod-common-head"
-            }
-          >
+            }>
             <div className="hd-item">
-              <span>{productDisplay.title}　</span>
-              {productDisplay.preHeatIcon
-                ? productDisplay.preHeatIcon
-                : !!productDisplay.isDisplayCountdown &&
-                  productDisplay.displayEndTime && (
-                    <Countdown date={productDisplay.displayEndTime} />
-                  )}
+              <span>{title}</span>
+              {
+                preHeatIcon?preHeatIcon
+                  :
+                  (
+                    !!isDisplayCountdown &&
+                    displayEndTime && (
+                      <Countdown date={displayEndTime} />
+                    )
+                  )
+                }
             </div>
-            {!!productDisplay.isDisplayMore && (
-              <p className="hd-item">查看更多</p>
-            )}
+            {!!isDisplayMore && <p className="hd-item">查看更多</p>}
           </div>
           {moduleContent && moduleContent.length > 0 ? (
             <div className="swiper-container goods-swiper-container">
@@ -104,29 +87,9 @@ class GoodsMod extends Component {
             <div className="no-module-data goods-no-module">商品模块</div>
           )}
         </div>
-        <div className="handle-btn-action">
-          {!this.props.data.info &&
-            homepageInfoVo &&
-            !!homepageInfoVo.releasable && (
-              <div>
-                <Button onClick={this.goEdit}>编辑</Button>
-                <Button
-                  onClick={() =>
-                    this.props.toggleShow(homepageModuleId, isDisplay)
-                  }
-                >
-                  {isDisplay ? "隐藏" : "显示"}
-                </Button>
-              </div>
-            )}
-        </div>
       </CommonMod>
     );
   }
 }
 
-function mapStateToProps(state) {
-  const { homeEdit } = state;
-  return homeEdit;
-}
-export default connect(mapStateToProps)(GoodsMod);
+export default GoodsMod;

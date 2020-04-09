@@ -1,5 +1,6 @@
-import { Tabs, Button, Form } from 'antd';
+import { Tabs, Button, Col, Form } from 'antd';
 import NP from 'number-precision';
+import moment from 'moment';
 import lodash from 'lodash';
 import { Qbtn, Qmessage } from 'common';
 import ClassifyMod from './components/ClassifyMod';
@@ -52,21 +53,45 @@ class CommodityFlow extends React.Component {
       if(result&&result.length>0) {
         result.map((el,index)=> el.key = index);
         let currentItem = result.find((el) => el.key == selectkey);
+        this.setState({ tabs:result })
         getProductList(currentItem.tabId);
-      } else {
-        result = [{key:0}];
       }
-      this.setState({ tabs:result })
     })
   }
   //查询商品list
   getProductList=(tabId,key)=> {
-    if(key) {
+    if(key!=null) {
       this.setState({ selectkey:key })
     }
     GetProListApi(tabId)
     .then((res)=> {
-
+      if(!res.result) {
+        this.resetPage()
+      }
+    })
+  }
+  resetPage=()=> {
+    this.setState({
+      goodsList:[],
+      sortObjArray:[
+        {
+          title:'新品',
+          key:'a'
+        },{
+          title:'热卖商品',
+          key:'b'
+        },{
+          title:'促销商品',
+          key:'c'
+        },{
+          title:'普通商品',
+          key:'d'
+        }],
+      totalData:{
+        sortType:20,
+        ruleType:0,
+        day:30,
+      }
     })
   }
   //更新tabs
@@ -84,13 +109,14 @@ class CommodityFlow extends React.Component {
   //切换保存
   onOkToggle=(value,index)=> {
     const { tabId, key } =value;
-    this.submit(()=>this.getProductList(tabId,key))
+    this.onSubmit(()=>this.getProductList(tabId,key))
   }
   //切换不保存
   onCancel=(value,index)=> {
     const { tabId, key } =value;
     this.getProductList(tabId,key);
   }
+  //提交
   onSubmit= async(func)=> {
     try {
       let  values = await this.formRef.current.validateFields();
@@ -119,11 +145,12 @@ class CommodityFlow extends React.Component {
       console.log('Failed:', errorInfo);
     }
   }
-  formatData(values) {
+  //表单change
+  formatData=(values)=> {
     let sortRule;
     const { sortType, ruleType } =values;
     const { goodsList, selectkey, tabs, totalData, sortObjArray } =this.state;
-    let { homePageModuleId } =this.props.match.params.id;
+    let homePageModuleId =this.props.match.params.id;
     if(sortType==20) {
       sortRule={
         ruleType:values.ruleType,
@@ -160,7 +187,7 @@ class CommodityFlow extends React.Component {
       }
     })
     let params={
-          homePageModuleId:homePageModuleId,
+          homePageModuleId,
           tabName:selectItem.tabName,
           tabId:selectItem.tabId,
           sortType:values.sortType,
@@ -229,7 +256,9 @@ class CommodityFlow extends React.Component {
                     form={this.formRef}
                     {...this.state}/>
                 </div>
-                <Qbtn onClick={this.onSubmit}>保存</Qbtn>
+                <Col offset={11}>
+                  <Qbtn onClick={this.onSubmit}>保存</Qbtn>
+                </Col>
               </div>
             }
           </Form>

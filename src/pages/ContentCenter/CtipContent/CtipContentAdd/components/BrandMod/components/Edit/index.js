@@ -19,8 +19,8 @@ const Search=({...props})=> {
       GetSaveApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
-        props.onOk();
         onCancel();
+        props.onOk();
       })
 
     } catch (errorInfo) {

@@ -215,10 +215,10 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
         saveType,
         list,
         attrList: [{
-          attributeName:pdType1Id,
+          attributeId:pdType1Id,
           attributeValueList:listOne
         },{
-          attributeName:pdType2Id,
+          attributeId:pdType2Id,
           attributeValueList:listTwo
         }]
       }

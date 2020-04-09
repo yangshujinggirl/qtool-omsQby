@@ -1,4 +1,3 @@
-import react, { Component } from 'react';
 import { Button } from 'antd';
 import { Sessions } from 'utils';
 import ErrorText from '../ErrorText';
@@ -7,7 +6,7 @@ import Swiper from 'swiper/js/swiper.js';
 import './index.less';
 
 let mySwiper;
-class BannerMod extends Component {
+class BannerMod extends React.Component {
   componentDidUpdate() {
     const { moduleContent } =this.props.info;
     if(mySwiper&&mySwiper.el){//销毁

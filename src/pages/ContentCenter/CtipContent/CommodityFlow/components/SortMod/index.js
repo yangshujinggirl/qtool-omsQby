@@ -63,9 +63,11 @@ const SortMod=({...props})=>{
                       <FormItem noStyle>
                         &nbsp;&nbsp;
                         最近
+                        &nbsp;&nbsp;
                         <FormItem noStyle name="day"  rules={[{ required:true,message:'请输入'}]}>
                           <Input placeholder="请输入" style={{"width":"80px"}} autoComplete="off"/>
                         </FormItem>
+                        &nbsp;&nbsp;
                         天
                       </FormItem>
                       :

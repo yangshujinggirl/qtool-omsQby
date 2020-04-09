@@ -106,8 +106,8 @@ const StandardsMod=({...props})=> {
                   attributeArray.length>0 &&
                   attributeArray.map((ele,index) => (
                     <Option
-                      value={ele.attributeName}
-                      key={ele.attributeName}>{ele.attributeName}</Option>
+                      value={ele.attributeId}
+                      key={ele.attributeId}>{ele.attributeName}</Option>
                   ))
                 }
               </Select>
@@ -129,7 +129,7 @@ const StandardsMod=({...props})=> {
                   attributeArray.length>0 &&
                   attributeArray.map((ele,index) => (
                     <Option
-                      value={ele.attributeName}
+                      value={ele.attributeId}
                       key={ele.attributeId}>{ele.attributeName}</Option>
                   ))
                 }

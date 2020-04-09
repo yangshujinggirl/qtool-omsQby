@@ -75,35 +75,28 @@ const GoodsTable=({...props})=>{
     }
     GetSearchSpuidApi(value)
     .then((res) => {
-      const { spuInfo, code }=res;
-      if(code == '0') {
-        let idx = newList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
-        if(idx != -1) {
-          message.error('商品重复，请重新添加');
-        } else {
-          newList = newList.map((el,idx) => {
-            if(el.key == record.key) {
-              el.FixedPdSpuId = spuInfo.pdSpuId;
-              el = {...el,...spuInfo};
-            };
-            return el
-          });
-        }
+      const { result }=res;
+      let idx = newList.findIndex((el) => el.FixedPdSpuId == result.pdSpuId);
+      if(idx != -1) {
+        message.error('商品重复，请重新添加');
+      } else {
+        newList = newList.map((el,idx) => {
+          if(el.key == record.key) {
+            el.FixedPdSpuId = result.pdSpuId;
+            el = {...el,...result};
+          };
+          return el
+        });
       }
       props.upDateList(newList);
     });
-  }
-  const handleChange=(name,e,index)=> {
-    // let value = e.target.value;
-    // newList[index][name] = value;
-    // props.upDateList(newList);
   }
   const components = {
     body: {
       row: DragableBodyRow,
     },
   };
-  const columns = columnsFun(handleBlur,handleChange);
+  const columns = columnsFun(handleBlur);
   newList  = processData(newList);
   useEffect(()=>{ props.form.current.setFieldsValue({spuList:newList}) },[newList])
   return (
