@@ -1,4 +1,5 @@
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { Spin } from "antd";
 import React, { Component } from "react";
 import { Qbtn, Qpagination, Qtable } from "common/index";
 import FilterForm from "./components/FilterForm";
@@ -13,11 +14,12 @@ class ShopManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       dataList: [],
       everyPage: 0,
       total: 0,
       currentPage: 0,
-      inputValues: {}
+      inputValues: {},
     };
   }
   //初始化数据
@@ -25,22 +27,40 @@ class ShopManage extends Component {
     this.searchData({});
   };
   //搜索列表
-  searchData = values => {
-    const params = { ...this.state.inputValues, ...values };
-    getListApi(params).then(res => {
-      if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, total } = res.result;
-        result.map(item => {
-          item.key = item.id;
-        });
-        this.setState({
-          dataList: result,
-          everyPage,
-          currentPage,
-          total
-        });
-      }
+  searchData = (values) => {
+    this.setState({
+      loading: true,
     });
+    const { province, ..._values } = values;
+    if (province) {
+      _values.province = province[0];
+      _values.city = province[1];
+      _values.area = province[2];
+    }
+    const params = { ...this.state.inputValues, ..._values };
+    getListApi(params)
+      .then((res) => {
+        if (res.httpCode == 200) {
+          let { result, everyPage, currentPage, total } = res.result;
+          result.map((item) => {
+            item.key = item.id;
+          });
+          this.setState({
+            dataList: result,
+            everyPage,
+            currentPage,
+            total,
+          });
+          this.setState({
+            loading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          loading: false,
+        });
+      });
     this.setState({ inputValues: params });
   };
   //更改分页
@@ -49,29 +69,28 @@ class ShopManage extends Component {
     this.searchData(params);
   };
   //搜索查询
-  onSubmit = params => {
+  onSubmit = (params) => {
     this.searchData(params);
   };
 
   render() {
-    const { dataList, everyPage, currentPage, total } = this.state;
+    const { loading, dataList, everyPage, currentPage, total } = this.state;
     return (
-      <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.onSubmit} />
-        <div className="handle-operate-btn-action">
-          <Link to="/account/shopManage_edit">
-            <Qbtn>新增门店</Qbtn>
-          </Link>
+      <Spin spinning={loading}>
+        <div className="oms-common-index-pages-wrap">
+          <FilterForm onSubmit={this.onSubmit} />
+          <div className="handle-operate-btn-action">
+            <Link to="/account/shopManage_edit">
+              <Qbtn>新增门店</Qbtn>
+            </Link>
+          </div>
+          <Qtable columns={Columns} dataSource={dataList} />
+          <Qpagination
+            data={{ everyPage, currentPage, total }}
+            onChange={this.changePage}
+          />
         </div>
-        <Qtable
-          columns={Columns}
-          dataSource={dataList}
-        />
-        <Qpagination
-          data={{ everyPage, currentPage, total }}
-          onChange={this.changePage}
-        />
-      </div>
+      </Spin>
     );
   }
 }

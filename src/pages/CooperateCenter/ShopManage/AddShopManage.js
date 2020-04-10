@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Form, Spin, Button,Modal } from "antd";
+import { Card, Form, Spin, Button, Modal } from "antd";
 import BaseEdit from "./components/Edits/BaseEdit";
 import Address from "./components/Edits/Address";
 import Shop from "./components/Edits/Shop";
@@ -28,9 +28,7 @@ class AddShopManage extends Component {
   componentDidMount = () => {
     this.getInfo();
   };
-  /**
-   * 获取详情
-   */
+  //获取详情
   getInfo = () => {
     const { id } = this.props.match.params;
     this.setState({
@@ -42,59 +40,7 @@ class AddShopManage extends Component {
           loading: false,
         });
         if (res.httpCode == 200) {
-          let {
-            openingTime,
-            businessHoursS,
-            businessHoursE,
-            channelPic,
-            contractPic,
-            province,
-            city,
-            area,
-            shProvince,
-            shCity,
-            shArea,
-            ...infos
-          } = res.result;
-          infos.openingTime = openingTime ? moment(openingTime) : null;
-          infos.businessHoursE = businessHoursE
-            ? moment(businessHoursE, "HH:mm")
-            : null;
-          infos.businessHoursS = businessHoursS
-            ? moment(businessHoursS, "HH:mm")
-            : null;
-          console.log(infos);
-          infos.channelPic = channelPic
-            ? [
-                {
-                  uid: "1",
-                  name: "image.png",
-                  status: "done",
-                  url: sessionStorage.getItem("oms_fileDomain") + channelPic,
-                  img: channelPic,
-                },
-              ]
-            : [];
-          infos.contractPic = contractPic
-            ? [
-                {
-                  uid: "2",
-                  name: "images.png",
-                  status: "done",
-                  url: sessionStorage.getItem("oms_fileDomain") + contractPic,
-                  img: contractPic,
-                },
-              ]
-            : [];
-          infos.areacode = [province, city, area];
-          infos.shAreacode = [shProvince, shCity, shArea];
-          this.formRef.current.setFieldsValue({ ...infos });
-          this.setState({
-            channelPic: channelPic || [],
-            contractPic: contractPic || [],
-            businessHoursE,
-            businessHoursS,
-          });
+          this.formatInfos(res);
         }
       })
       .catch(() => {
@@ -103,23 +49,94 @@ class AddShopManage extends Component {
         });
       });
   };
+  //格式化详情数据
+  formatInfos = (res) => {
+    let {
+      openingTime,
+      businessHoursS,
+      businessHoursE,
+      channelPic,
+      contractPic,
+      province,
+      city,
+      area,
+      shProvince,
+      shCity,
+      shArea,
+      ...infos
+    } = res.result;
+    infos.openingTime = openingTime ? moment(openingTime) : null;
+    infos.businessHoursE = businessHoursE
+      ? moment(businessHoursE, "HH:mm")
+      : null;
+    infos.businessHoursS = businessHoursS
+      ? moment(businessHoursS, "HH:mm")
+      : null;
+    infos.channelPic = channelPic
+      ? [
+          {
+            uid: "1",
+            name: "image.png",
+            status: "done",
+            url: sessionStorage.getItem("oms_fileDomain") + channelPic,
+            img: channelPic,
+          },
+        ]
+      : [];
+    infos.contractPic = contractPic
+      ? [
+          {
+            uid: "2",
+            name: "images.png",
+            status: "done",
+            url: sessionStorage.getItem("oms_fileDomain") + contractPic,
+            img: contractPic,
+          },
+        ]
+      : [];
+    infos.areacode = [province, city, area];
+    infos.shAreacode = [shProvince, shCity, shArea];
+    this.formRef.current.setFieldsValue({ ...infos });
+    this.setState({
+      channelPic: channelPic || [],
+      contractPic: contractPic || [],
+      businessHoursE,
+      businessHoursS,
+      channelCode: infos.channelCode,
+    });
+  };
+  //返回
   goBack = () => {
     this.props.history.push("/account/channel");
   };
-  /**
-   * 保存
-   */
+  //保存
   handleSubmit = async () => {
+     this.f ,ormRef.current.scrollToField(err=>{
+      consle.log(err)
+    });
     const values = await this.formRef.current.validateFields();
     const _values = this.formatValue(values);
-    saveInfosApi(_values).then((res) => {
-      if (res.httpCode == 200) {
-        if(!_values.id){
-          this.resetModal(res,_values.id);
-        }
-      }
+    this.setState({
+      loading: true,
     });
+    saveInfosApi(_values)
+      .then((res) => {
+        this.setState({
+          loading: false,
+        });
+        if (res.httpCode == 200) {
+          if (!_values.id) {
+            this.resetModal(res, _values.id);
+          }
+        }
+      })
+      .catch(() => {
+        this.setState({
+          loading: false,
+        });
+      });
   };
+  //保存格式化
   formatValue = (values) => {
     const { channelPic, contractPic } = this.state;
     const { openingTime, businessHoursS, businessHoursE, ..._values } = values;
@@ -154,13 +171,14 @@ class AddShopManage extends Component {
       contractPic: fileList,
     });
   };
+  //门店图片
   upDateChannelPicList = (fileList) => {
     this.setState({
       channelPic: fileList,
     });
   };
   //密码modal
-  resetModal = (res,id) => {
+  resetModal = (res, id) => {
     const { channelName, personMobile, userPwd } = res.result;
     const text = id ? "重置" : "新建";
     Modal.success({
@@ -180,9 +198,10 @@ class AddShopManage extends Component {
   //重置密码
   resetPwd = () => {
     const { id } = this.props.match.params;
-    resetPwdApi({ id }).then((res) => {
+    const { channelCode } = this.state;
+    resetPwdApi({ channelCode }).then((res) => {
       if (res.httpCode == 200) {
-        this.resetModal(res,id);
+        this.resetModal(res, id);
       }
     });
   };
