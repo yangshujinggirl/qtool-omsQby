@@ -3,9 +3,12 @@ import { Qbtn, Qpagination, Qtable } from "common/index";
 import AuditModal from "./components/AuditModal";
 import FilterForm from "./components/FilterForm";
 import Columns from "./columns";
-import moment from 'moment'
+import moment from "moment";
 import "./index.less";
-import { getListApi,rechargeAuditApi } from "api/home/FinancialCenter/ShoperRecharge";
+import {
+  getListApi,
+  auditRecharge,
+} from "api/home/FinancialCenter/ShoperRecharge";
 
 /**
  * 功能作用：商品说明订单列表界面
@@ -20,9 +23,9 @@ class ShopKeepRecharge extends Component {
       everyPage: "",
       total: "",
       currentPage: "",
-      visible: false,
+      visible:false,
       spVoucherId: "",
-      inputValues: {}
+      inputValues: {},
     };
   }
 
@@ -31,19 +34,19 @@ class ShopKeepRecharge extends Component {
     this.searchData({});
   };
   //搜索列表
-  searchData = values => {
+  searchData = (values) => {
     const params = { ...this.state.inputValues, ...values };
-    getListApi(params).then(res => {
+    getListApi(params).then((res) => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;
-        result.map(item => {
+        result.map((item) => {
           item.key = item.spVoucherId;
         });
         this.setState({
           dataList: result,
           everyPage,
           currentPage,
-          total
+          total,
         });
       }
     });
@@ -55,60 +58,37 @@ class ShopKeepRecharge extends Component {
     this.searchData(params);
   };
   //搜索查询
-  onSubmit = params => {
-    const {time,..._values} = params;
-    if(time&&time[0]){
-      _values.voucherDateStart = moment(time[0]).formate('YYYY-MM-DD HH:mm:ss')
-      _values.voucherDateEnd = moment(time[1]).formate('YYYY-MM-DD HH:mm:ss')
-    }else{
-      _values.voucherDateStart = ''
-      _values.voucherDateEnd = ''
-    };
+  onSubmit = (params) => {
+    const { time, ..._values } = params;
+    if (time && time[0]) {
+      _values.voucherDateStart = moment(time[0]).formate("YYYY-MM-DD HH:mm:ss");
+      _values.voucherDateEnd = moment(time[1]).formate("YYYY-MM-DD HH:mm:ss");
+    } else {
+      _values.voucherDateStart = "";
+      _values.voucherDateEnd = "";
+    }
     this.searchData(_values);
   };
-  showModalClick = () => {
-    this.setState({
-      visible: true
-    });
-  };
-  handleOperateClick = record => {
+  handleOperateClick = (record) => {
     this.setState({
       spVoucherId: record.spVoucherId,
-      visible: true
-    });
-  };
-  //确定
-  onOk = (values, clearForm) => {
-    rechargeAuditApi(values).then(res => {
-      if (res.httpCode == 200) {
-        this.setState({
-          visible: false,
-          spVoucherId: ""
-        });
-        clearForm();
-        this.searchData({})
-      }
+      visible: true,
     });
   };
   //取消
-  onNotPass = clearForm => {
+  onClear = (clearForm) => {
     this.setState(
       {
         visible: false,
-        spVoucherId: ""
+        spVoucherId: "",
       },
       () => {
         clearForm();
       }
     );
+    this.searchData(this.state.inputValues)
   };
-  
-  onCancel=()=>{
-    this.setState({
-      visible: false,
-      spVoucherId: ""
-    });
-  }
+
   render() {
     const {
       dataList,
@@ -116,9 +96,8 @@ class ShopKeepRecharge extends Component {
       currentPage,
       total,
       visible,
-      spVoucherId
+      spVoucherId,
     } = this.state;
-    console.log(spVoucherId)
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={this.onSubmit} />
@@ -133,11 +112,9 @@ class ShopKeepRecharge extends Component {
         />
         {visible && (
           <AuditModal
+            onClear={this.onClear}
             spVoucherId={spVoucherId}
             visible={visible}
-            onOk={this.onOk}
-            onCancel={this.onCancel}
-            onNotPass={this.onNotPass}
           />
         )}
       </div>

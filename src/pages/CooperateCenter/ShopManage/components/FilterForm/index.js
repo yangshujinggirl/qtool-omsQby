@@ -42,7 +42,7 @@ class NormalForm extends BaseFilter {
                 <Input placeholder="请输入门店店主" autoComplete="off" />
               </Form.Item>
             </Col>
-            <Col {...this.colspan}>
+            <Col {...this.colspans}>
               <Form.Item
                 name="provinceId"
                 label="省份"

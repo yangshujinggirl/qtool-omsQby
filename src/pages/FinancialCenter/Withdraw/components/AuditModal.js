@@ -1,59 +1,47 @@
-import { useEffect } from "react";
-import { Modal, Form, Input, Select } from "antd";
-import { QenlargeImg } from "common";
+import { useState } from "react";
+import { Modal, Form, Input, Button } from "antd";
 const FormItem = Form.Item;
-import { getInfoApi } from "api/home/FinancialCenter/ShoperRecharge";
-const Option = Select.Option;
-const TextArea = Input.TextArea;
+import { auditWithdraw } from "api/home/FinancialCenter/Withdraw";
+import {deBounce} from 'utils/tools'
 
-const AuditModal = props => {
+const AuditModal = (props) => {
   const [form] = Form.useForm();
-  const { spVoucherId, visible } = props;
-  const [spVoucher, setSpVoucher] = useState({});
-  const [spVoucherDetails, setSpVoucherDetails] = useState([]);
-  const [repeatNos, setRepeatNos] = useState([]);
+  const { spCarryCashId, shopName, amount, visible } = props;
   const [checkStatus, setCheckStatus] = useState(false);
-  useEffect(() => {
-    if (spVoucherId) {
-      GetInfoApi({ id: spVoucherId }).then(res => {
-        if (res.httpCode == 200) {
-          const { spVoucher, spVoucherDetails, repeatNos } = res.result;
-          setSpVoucher(spVoucher);
-          setSpVoucherDetails(spVoucherDetails);
-          setRepeatNos(repeatNos);
-        }
-      });
-    }
-  }, []);
   const clearForm = () => {
     form.resetFields();
   };
-  const onOk= async () => {
+  //审核通过、不通过
+  const handlePass = deBounce(async (status) => {
+    if (status == 2) {
+      setCheckStatus(true);
+    }
     const values = await form.validateFields();
-    values.spVoucherId = spVoucherId;
+    values.spCarryCashId = spCarryCashId;
+    values.status = status;
     values.status = 1;
-    props.onOk(values, clearForm);
-  };
-  const onNotPass = async() => {
-    setCheckStatus(true)
-    const values = await form.validateFields();
-    values.spVoucherId = spVoucherId;
-    values.status = 2;
-    props.onNotPass(values, clearForm);
-  };
+    values.shopName=shopName;
+    auditWithdraw(values)
+      .then((res) => {
+        if (res.httpCode == 200) {
+          props.onClear(clearForm);
+        }
+      })
+  },500);
   return (
     <div>
       <Modal
         title="提现审核"
         visible={visible}
         footer={[
-          <Button key="back" onClick={onNotPass}>
+          <Button key="back" onClick={() => handlePass(2)}>
             审核不通过
           </Button>,
-          <Button key="submit" type="primary" onClick={onOk}>
+          <Button key="submit" type="primary" onClick={() => handlePass(1)}>
             审核通过
-          </Button>
+          </Button>,
         ]}
+        onCancel={() => props.onClear(clearForm)}
       >
         <Form form={form}>
           <FormItem
@@ -61,14 +49,14 @@ const AuditModal = props => {
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 12 }}
           >
-            {spVoucher.shopName}
+            {shopName}
           </FormItem>
           <FormItem
             label="提现金额"
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 12 }}
           >
-            {spVoucher.amount}
+            {amount}
           </FormItem>
           <FormItem
             label="不通过理由"
@@ -77,7 +65,7 @@ const AuditModal = props => {
             name="remark"
             rules={[{ required: checkStatus, message: "请输入不通过理由" }]}
           >
-            <Input placeholder='请输入不通过理由'/>
+            <Input placeholder="请输入不通过理由" autoComplete='off'/>
           </FormItem>
         </Form>
       </Modal>

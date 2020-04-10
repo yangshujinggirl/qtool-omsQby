@@ -31,6 +31,7 @@ const Total = QbaseList((_this) => {
                       onClick={() => new ErpExportApi(_this.state.searchCriteriaList, "/rpshareProfit/sumProfits/export")}>导出数据</Qbtn>
                 <div style={{float: 'right'}}>
                     <p onClick={() => Modal.info({
+                        width:600,
                         title: '表单说明',
                         content: (
                             <div className='lists'>

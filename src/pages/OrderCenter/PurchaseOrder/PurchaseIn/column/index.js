@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { AUDIT_STATUS_NO_PASS } from "../config";
+import { AUDIT_STATUS_NO_PASS,AUDIT_STATUS_WAIT  } from "../config";
 import React from "react";
 
 const Columns = [
@@ -15,7 +15,7 @@ const Columns = [
       >
         {text}
       </Link>
-    )
+    ),
   },
   { title: "供应商名称", dataIndex: "suppliersName", key: "2" },
   { title: "商品数量", dataIndex: "itemCount", key: "3" },
@@ -24,7 +24,7 @@ const Columns = [
     title: "预计送达时间",
     dataIndex: "predictCtime",
     key: "5",
-    render: text => <span>{text && moment(text).format("YYYY-MM-DD")}</span>
+    render: (text) => <span>{text && moment(text).format("YYYY-MM-DD")}</span>,
   },
   { title: "到货数量", dataIndex: "receiveCount", key: "6" },
   { title: "到货金额", dataIndex: "receivePrice", key: "7" },
@@ -40,7 +40,7 @@ const Columns = [
         <br />
         <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
       </div>
-    )
+    ),
   },
   {
     title: "操作",
@@ -55,8 +55,9 @@ const Columns = [
             修改
           </Link>
         ) : null}
+        {record.status === AUDIT_STATUS_WAIT ? <a className='theme-color' onClick={()=>record.onOperateClick()}>审核</a> : null}
       </div>
-    )
-  }
+    ),
+  },
 ];
 export default Columns;

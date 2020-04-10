@@ -50,7 +50,7 @@ const AddTimer = props => {
       _values.taskTime = moment(taskTime).format("YYYY-MM-DD HH:mm:ss");
       _values.codes = goodList;
       AddTimeApi(_values).then(res => {
-        if (res.code == "200") {
+        if (res.httpCode == "200") {
           message.success("保存成功", 0.8);
           goback();
         }
@@ -85,7 +85,7 @@ const AddTimer = props => {
    * 返回
    */
   const goback = () => {
-    props.history.push("/account/cTask");
+    props.history.push("/account/b_timing");
   };
 
   /**

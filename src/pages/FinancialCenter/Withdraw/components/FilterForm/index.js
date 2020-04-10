@@ -12,12 +12,20 @@ class NormalForm extends BaseFilter {
         <Form ref={this.formRef} className="serach-common-form">
           <Row gutter={24}>
             <Col {...this.colspans}>
-              <Form.Item name="shopName" label="门店名称">
+              <Form.Item
+                name="shopName"
+                label="门店名称"
+                {...this.formItemLayout}
+              >
                 <Input placeholder="请输入门店名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
-              <Form.Item name="status" label="审核状态">
+              <Form.Item
+                name="status"
+                label="审核状态"
+                {...this.formItemLayout}
+              >
                 <Select
                   allowClear={true}
                   placeholder="请选择审核状态"
@@ -30,7 +38,11 @@ class NormalForm extends BaseFilter {
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
-              <Form.Item label="付款状态" name="payStatus">
+              <Form.Item
+                label="付款状态"
+                name="payStatus"
+                {...this.formItemLayout}
+              >
                 <Select
                   allowClear={true}
                   placeholder="请选择付款状态"
@@ -43,13 +55,13 @@ class NormalForm extends BaseFilter {
                 </Select>
               </Form.Item>
             </Col>
-            <Col {...this.colspans} name="carryCashNo">
-              <Form.Item label="提现单号">
+            <Col {...this.colspans} name="carryCashNo" >
+              <Form.Item label="提现单号" {...this.formItemLayout}>
                 <Input placeholder="请输入提现单号" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
-              <Form.Item label="提现时间" name="time">
+              <Form.Item label="提现时间" name="time" {...this.formItemLayout}>
                 <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
               </Form.Item>
             </Col>

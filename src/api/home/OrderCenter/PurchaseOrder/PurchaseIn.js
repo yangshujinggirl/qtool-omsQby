@@ -21,11 +21,8 @@ export function PushPurchaseInOrderForceComplete(values) {
 /**
  * 推送批量审核数据
  */
-export function PushPurchaseInOrderBatchReview(values, status) {
-  return omsAjax.post("/thinkStocking/thinkStockingCheck", {
-    stockingCodeList: values,
-    status: status
-  });
+export function PushPurchaseInOrderBatchReview(values) {
+  return omsAjax.post("/thinkStocking/thinkStockingCheck",values);
 }
 /**
  * 新建、修改

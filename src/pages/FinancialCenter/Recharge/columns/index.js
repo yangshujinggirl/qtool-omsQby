@@ -1,29 +1,29 @@
-import {Link} from 'react-router-dom'
-import moment from 'moment'
+import { Link } from "react-router-dom";
+import moment from "moment";
 const Columns = [
   {
     title: "充值号",
     dataIndex: "voucherNo",
     render: (text, record) => {
       return (
-        <Link to='/account'>{text}</Link>
+        <Link to={`/account/rechargeInfos/${record.spVoucherId}`}>{text}</Link>
       );
-    }
+    },
   },
   {
     title: "门店名称",
-    dataIndex: "shopName"
+    dataIndex: "shopName",
   },
   {
     title: "充值金额",
-    dataIndex: "amount"
+    dataIndex: "amount",
   },
   {
     title: "充值时间",
     dataIndex: "createTime",
-    render:(text)=>(
-      <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
-    )
+    render: (text) => (
+      <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
+    ),
   },
   {
     title: "审核状态",
@@ -34,7 +34,7 @@ const Columns = [
           {status == 0 && (
             <a
               className="theme-color"
-              onClick={record.onOperateClick.bind(this)}
+              onClick={() => record.onOperateClick()}
             >
               待审核
             </a>
@@ -43,7 +43,7 @@ const Columns = [
           {status == 2 && <a>审核不通过</a>}
         </div>
       );
-    }
-  }
+    },
+  },
 ];
 export default Columns;

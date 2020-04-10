@@ -3,7 +3,7 @@ import { Qbtn, Qpagination, Qtable } from "common/index";
 import AuditModal from "./components/AuditModal";
 import FilterForm from "./components/FilterForm";
 import Columns from "./columns";
-import moment from 'moment'
+import moment from "moment";
 import "./index.less";
 import { getListApi } from "api/home/FinancialCenter/Withdraw";
 
@@ -22,7 +22,7 @@ class Withdraw extends Component {
       currentPage: 0,
       visible: false,
       spCarryCashId: "",
-      inputValues: {}
+      inputValues: {},
     };
   }
 
@@ -31,19 +31,19 @@ class Withdraw extends Component {
     this.searchData({});
   };
   //搜索列表
-  searchData = values => {
+  searchData = (values) => {
     const params = { ...this.state.inputValues, ...values };
-    getListApi(params).then(res => {
+    getListApi(params).then((res) => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;
-        result.map(item => {
+        result.map((item) => {
           item.key = item.spCarryCashId;
         });
         this.setState({
           dataList: result,
           everyPage,
           currentPage,
-          total
+          total,
         });
       }
     });
@@ -55,50 +55,41 @@ class Withdraw extends Component {
     this.searchData(params);
   };
   //搜索查询
-  onSubmit = params => {
-    const {time,..._values} = params;
-    if(time&&time[0]){
-      _values.dateStart = moment(time[0]).formate('YYYY-MM-DD HH:mm:ss')
-      _values.dateEnd = moment(time[1]).formate('YYYY-MM-DD HH:mm:ss')
-    }else{
-      _values.dateStart = ''
-      _values.dateEnd = ''
-    };
+  onSubmit = (params) => {
+    const { time, ..._values } = params;
+    if (time && time[0]) {
+      _values.dateStart = moment(time[0]).formate("YYYY-MM-DD HH:mm:ss");
+      _values.dateEnd = moment(time[1]).formate("YYYY-MM-DD HH:mm:ss");
+    } else {
+      _values.dateStart = "";
+      _values.dateEnd = "";
+    }
     this.searchData(_values);
   };
   showModalClick = () => {
     this.setState({
-      visible: true
+      visible: true,
     });
   };
-  handleOperateClick = record => {
+  handleOperateClick = (record) => {
+    const {shopName,spCarryCashId,amount} = record;
     this.setState({
-      spCarryCashId: record.spCarryCashId,
-      visible: true
-    });
-  };
-  //确定
-  onOk = (values, clearForm) => {
-    rechargeAuditApi(values).then(res => {
-      if (res.httpCode == 200) {
-        this.setState({
-          visible: false,
-          spCarryCashId: ""
-        });
-        clearForm();
-        this.searchData({})
-      }
+      spCarryCashId,
+      shopName,
+      amount,
+      visible: true,
     });
   };
   //取消
-  onNotPass = clearForm => {
+  onClear = (clearForm) => {
     this.setState(
       {
         visible: false,
-        spCarryCashId: ""
+        spCarryCashId: "",
       },
       () => {
         clearForm();
+        this.searchData(this.state.inputValues)
       }
     );
   };
@@ -109,7 +100,9 @@ class Withdraw extends Component {
       currentPage,
       total,
       visible,
-      spCarryCashId
+      spCarryCashId,
+      amount,
+      shopName,
     } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
@@ -125,10 +118,8 @@ class Withdraw extends Component {
         />
         {visible && (
           <AuditModal
-            spCarryCashId={spCarryCashId}
-            visible={visible}
-            onOk={this.onOk}
-            onNotPass={this.onNotPass}
+            {...{shopName,amount,spCarryCashId,visible}}
+            onClear={this.onClear}
           />
         )}
       </div>

@@ -1,9 +1,9 @@
 import moment from "moment";
-const eventEmitter = require("events").EventEmitter;
-const eventBus = new eventEmitter();
-export default eventBus;
+// const eventEmitter = require("events").EventEmitter;
+// const eventBus = new eventEmitter();
+// export default eventBus;
 //全局防抖
-window.deBounce = (func, wait) => {
+export const deBounce = (func, wait) => {
   let timer = null;
   return function(...args) {
     clearTimeout(timer);
