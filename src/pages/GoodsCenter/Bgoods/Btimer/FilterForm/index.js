@@ -38,8 +38,8 @@ class NormalForm extends BaseFilter {
                 </Select>
               </FormItem>
             </Col>
-            <Col {...this.colspans} name="status">
-              <FormItem label="状态" {...this.formItemLayout}>
+            <Col {...this.colspans}>
+              <FormItem label="状态" name="status" {...this.formItemLayout}>
                 <Select
                   allowClear={true}
                   placeholder="请选择状态"

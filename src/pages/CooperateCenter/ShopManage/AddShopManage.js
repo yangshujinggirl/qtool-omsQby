@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import { Card, Form, Spin, Button } from "antd";
+import { Card, Form, Spin, Button,Modal } from "antd";
 import BaseEdit from "./components/Edits/BaseEdit";
 import Address from "./components/Edits/Address";
 import Shop from "./components/Edits/Shop";
 import Cooperate from "./components/Edits/Cooperate";
 import moment from "moment";
-import { getInfosApi, saveInfosApi } from "api/home/CooperateCenter/ShopManage";
+import {
+  getInfosApi,
+  saveInfosApi,
+  resetPwdApi,
+} from "api/home/CooperateCenter/ShopManage";
 const formLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 20 }
+  wrapperCol: { span: 20 },
 };
 
 class AddShopManage extends Component {
@@ -18,7 +22,7 @@ class AddShopManage extends Component {
     this.state = {
       loading: false,
       channelPic: [],
-      contractPic: []
+      contractPic: [],
     };
   }
   componentDidMount = () => {
@@ -30,12 +34,12 @@ class AddShopManage extends Component {
   getInfo = () => {
     const { id } = this.props.match.params;
     this.setState({
-      loading: true
+      loading: true,
     });
     getInfosApi({ id })
-      .then(res => {
+      .then((res) => {
         this.setState({
-          loading: false
+          loading: false,
         });
         if (res.httpCode == 200) {
           let {
@@ -53,9 +57,13 @@ class AddShopManage extends Component {
             ...infos
           } = res.result;
           infos.openingTime = openingTime ? moment(openingTime) : null;
-          infos.businessHoursE = businessHoursE ? moment(businessHoursE,'HH:mm') : null;
-          infos.businessHoursS = businessHoursS ? moment(businessHoursS,'HH:mm') : null;
-          console.log(infos)
+          infos.businessHoursE = businessHoursE
+            ? moment(businessHoursE, "HH:mm")
+            : null;
+          infos.businessHoursS = businessHoursS
+            ? moment(businessHoursS, "HH:mm")
+            : null;
+          console.log(infos);
           infos.channelPic = channelPic
             ? [
                 {
@@ -63,8 +71,8 @@ class AddShopManage extends Component {
                   name: "image.png",
                   status: "done",
                   url: sessionStorage.getItem("oms_fileDomain") + channelPic,
-                  img: channelPic
-                }
+                  img: channelPic,
+                },
               ]
             : [];
           infos.contractPic = contractPic
@@ -74,8 +82,8 @@ class AddShopManage extends Component {
                   name: "images.png",
                   status: "done",
                   url: sessionStorage.getItem("oms_fileDomain") + contractPic,
-                  img: contractPic
-                }
+                  img: contractPic,
+                },
               ]
             : [];
           infos.areacode = [province, city, area];
@@ -85,13 +93,13 @@ class AddShopManage extends Component {
             channelPic: channelPic || [],
             contractPic: contractPic || [],
             businessHoursE,
-            businessHoursS
+            businessHoursS,
           });
         }
       })
       .catch(() => {
         this.setState({
-          loading: false
+          loading: false,
         });
       });
   };
@@ -104,13 +112,15 @@ class AddShopManage extends Component {
   handleSubmit = async () => {
     const values = await this.formRef.current.validateFields();
     const _values = this.formatValue(values);
-    saveInfosApi(_values).then(res => {
+    saveInfosApi(_values).then((res) => {
       if (res.httpCode == 200) {
-        this.goBack();
+        if(!_values.id){
+          this.resetModal(res,_values.id);
+        }
       }
     });
   };
-  formatValue = values => {
+  formatValue = (values) => {
     const { channelPic, contractPic } = this.state;
     const { openingTime, businessHoursS, businessHoursE, ..._values } = values;
     if (channelPic.length) {
@@ -133,20 +143,47 @@ class AddShopManage extends Component {
       _values.businessHoursE = moment(businessHoursE).format("HH:mm");
     }
     const { id } = this.props.match.params;
-    if(id){
-      _values.id = id
+    if (id) {
+      _values.id = id;
     }
     return _values;
   };
   //合同信息图片修改
-  upDateContractList = fileList => {
+  upDateContractList = (fileList) => {
     this.setState({
-      contractPic: fileList
+      contractPic: fileList,
     });
   };
-  upDateChannelPicList = fileList => {
+  upDateChannelPicList = (fileList) => {
     this.setState({
-      channelPic: fileList
+      channelPic: fileList,
+    });
+  };
+  //密码modal
+  resetModal = (res,id) => {
+    const { channelName, personMobile, userPwd } = res.result;
+    const text = id ? "重置" : "新建";
+    Modal.success({
+      title: `Qtools门店账户密码${text}成功`,
+      content: (
+        <div>
+          <p>门店:{channelName}</p>
+          <p>账号:{personMobile}</p>
+          <p>密码:{userPwd}</p>
+        </div>
+      ),
+      onOk: () => {
+        this.goBack();
+      },
+    });
+  };
+  //重置密码
+  resetPwd = () => {
+    const { id } = this.props.match.params;
+    resetPwdApi({ id }).then((res) => {
+      if (res.httpCode == 200) {
+        this.resetModal(res,id);
+      }
     });
   };
   render() {
@@ -180,6 +217,11 @@ class AddShopManage extends Component {
           </Form>
           <div className="handle-operate-save-action">
             <Button onClick={this.goBack}>返回</Button>
+            {this.props.match.params.id && (
+              <Button type="primary" onClick={this.resetPwd}>
+                重置密码
+              </Button>
+            )}
             <Button type="primary" onClick={this.handleSubmit}>
               保存
             </Button>

@@ -38,7 +38,7 @@ const UpLoadFile = ({
         const { result } = file.response;
         if (result.constructor == Object) {
           if (result.hasOwnProperty("msg")) {
-            if (result['msg']) {
+            if (result['msg']&&result['msg']!='success') {
               setErrMsg(result['msg']);
               setVisible(true);
             }
@@ -163,7 +163,7 @@ const UpLoadFile = ({
         >
           <div>
             <p style={{ color: "#35bab0" }}>
-              共成功导入商品{dataSource.length}
+              共成功导入商品{dataSource.length}条
             </p>
             {errorMsg && <p>{errorMsg}</p>}
           </div>

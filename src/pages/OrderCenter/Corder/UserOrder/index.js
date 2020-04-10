@@ -32,36 +32,36 @@ class UserOrder extends Component {
       _values.createTimeST = null;
       _values.createTimeET = null;
     }
-    // this.setState({
-    //   loading: true
-    // });
-    // getListApi(values)
-    //   .then(res => {
-    //     this.setState({
-    //       loading: false
-    //     });
-    //     if (res.httpCode == 200) {
-    //       const { result, everyPage, currentPage, total } = res.result;
-    //       if (result.length) {
-    //         result.map(item => (item.key = item.orderId));
-    //       }
-    //       this.setState({
-    //         dataList: result,
-    //         everyPage,
-    //         currentPage,
-    //         total
-    //       });
-    //     }
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       loading: false
-    //     });
-    //   });
-    const list = [{orderType:1,key:0,orderNo:111,spShopName:1,platformStr:'支付宝',orderStatusStr:'一般',deliveryTypeStr:'ff',shipmentStr:'11',nickname:'11',mobilePhone:'11',qtySum:1,}]
     this.setState({
-      dataList: list,
-    })
+      loading: true
+    });
+    getListApi(values)
+      .then(res => {
+        this.setState({
+          loading: false
+        });
+        if (res.httpCode == 200) {
+          const { result, everyPage, currentPage, total } = res.result;
+          if (result.length) {
+            result.map(item => (item.key = item.orderId));
+          }
+          this.setState({
+            dataList: result,
+            everyPage,
+            currentPage,
+            total
+          });
+        }
+      })
+      .catch(() => {
+        this.setState({
+          loading: false
+        });
+      });
+    // const list = [{orderType:1,key:0,orderNo:111,spShopName:1,platformStr:'支付宝',orderStatusStr:'一般',deliveryTypeStr:'ff',shipmentStr:'11',nickname:'11',mobilePhone:'11',qtySum:1,}]
+    // this.setState({
+    //   dataList: list,
+    // })
     this.setState({ inputValues: values });
   };
 
