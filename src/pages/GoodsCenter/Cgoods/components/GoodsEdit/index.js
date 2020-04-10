@@ -98,7 +98,7 @@ const MainComponent=({...props})=> {
             <Form.Item label="服务" name="serviceInfo" rules={[{ required: true, message: '请选择服务' }]}>
               <Checkbox.Group>
                 {
-                  serviceOption.map((el)=> (
+                  serviceOption&&serviceOption.map((el)=> (
                     <Checkbox value={el.key} key={el.key}>{el.value}</Checkbox>
                   ))
                 }

@@ -82,7 +82,7 @@ const TimeSet=({...props})=> {
     let params = {
       pdListDisplayCfgId:record.pdListDisplayCfgId,
       activeKey:"3",
-      type
+      type:totalData.type
     }
     props.upDateKey(params)
   }
