@@ -406,15 +406,15 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                 </Form.Item>
                 <Form.Item label="是否代发" name="sendType" rules={[{ required: true, message: '请选择是否代发' }]}>
                   <Radio.Group>
-                    <Radio value={1} key={1}>是</Radio>
-                    <Radio value={0} key={0}>否</Radio>
+                    <Radio value={2} key={2}>是</Radio>
+                    <Radio value={1} key={1}>否</Radio>
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item
                   noStyle
                   shouldUpdate={(prevValues, currentValues) => prevValues.sendType !== currentValues.sendType}>
                   {({ getFieldValue }) => {
-                    return getFieldValue('sendType') == 1&&
+                    return getFieldValue('sendType') == 2&&
                     <Form.Item  label="代发时效">
                       <Form.Item
                         noStyle

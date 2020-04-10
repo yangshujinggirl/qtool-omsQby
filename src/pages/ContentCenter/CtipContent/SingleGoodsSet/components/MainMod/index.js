@@ -11,13 +11,13 @@ import { columnsFun, columnsTwoFun } from '../../columns';
 const FormItem = Form.Item;
 
 const Mod=({...props})=> {
-  let { list, goods } =props;
+  let { list, goods, params } =props;
   let newList = lodash.cloneDeep(props.list);
   let [addkey,setAddkey] =useState(newList.length);
   //绑定方法
   const processData=(data)=> {
     data && data.map((item, i) => {
-        item.onOperateClick = (type) => { this.props.onOperateClick(item,type) };
+        item.onOperateClick = (type) => { onOperateClick(item,type) };
     })
     return data;
   }
@@ -37,7 +37,7 @@ const Mod=({...props})=> {
   const onOperateClick=(record,type)=> {
     switch(type) {
       case 'delete':
-        this.handleDelete(record);
+        handleDelete(record);
         break;
     }
   }
@@ -52,12 +52,12 @@ const Mod=({...props})=> {
     props.upDateList(totalList);
   };
   //code查询商品
-  const handleBlur=(e,record)=> {
+  const handleBlur=(e,record,type)=> {
     let value = e.target.value;
     if(!value) { return; }
     value = lodash.trim(value)
     if(value == record.FixedPdSpuId) { return; }
-    GetSearCodeApi(value)
+    GetSearCodeApi({[type]:value})
     .then((res) => {
       let { result } =res;
       let idx = newList.findIndex((el) => el.FixedPdSpuId == result.pdSpuId);
@@ -81,8 +81,8 @@ const Mod=({...props})=> {
       row: DragableBodyRow,
     },
   };
-  let columnsOne = columnsFun(handleBlur);
-  let columnsTwo = columnsTwoFun(handleBlur);
+  let columnsOne = columnsFun(handleBlur,params.type);
+  let columnsTwo = columnsTwoFun(handleBlur,params.type);
 
   let listTwo = processData(goods.listTwo)
   let listOne = processData(goods.listOne)
