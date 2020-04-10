@@ -38,8 +38,8 @@ const UpLoadFile = ({
         const { result } = file.response;
         if (result.constructor == Object) {
           if (result.hasOwnProperty("msg")) {
-            if (result[msg]) {
-              setErrMsg(result[msg]);
+            if (result['msg']) {
+              setErrMsg(result['msg']);
               setVisible(true);
             }
             result.result.map((item, index) => {

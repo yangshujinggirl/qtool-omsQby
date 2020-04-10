@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getTimeInfoApi } from "api/home/GoodsCenter/Bgoods/Btimer";
 import  Columns from "./AddTimer/column";
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Button } from "antd";
+import { Button,Form } from "antd";
 import Qtable from "common/Qtable/index"; //表单
-import moment from "moment";
+import moment from 'moment'
 const FormItem = Form.Item;
 
 const TimerInfo = props => {
@@ -15,20 +13,9 @@ const TimerInfo = props => {
   useEffect(() => {
     const { id } = props.match.params;
     getTimeInfoApi({ pdTaskTimeId: id }).then(res => {
-      setInfos(res);
-      setGoodList(res.skuList);
+      setInfos(res.result);
+      setGoodList(res.result.taskDetails);
     });
-    // const res = {
-    //   taskName: "名字",
-    //   taskOperateStartTime: "2018-10-09",
-    //   taskOperateEndTime: "2018-10-10",
-    //   taskType: 2,
-    //   extraField: 0,
-    //   skuList: [{ id: 1, name: 1, extraInfo: "11" }]
-    // };
-    // setInfos(res);
-    // setGoodList(res.skuList);
-    // console.log(111)
   }, []);
   const goback = () => {
     props.history.push("/account/b_timing");
@@ -47,7 +34,7 @@ const TimerInfo = props => {
         labelCol={{ span: 3, offset: 1 }}
         wrapperCol={{ span: 8 }}
       >
-        <span>{infos.taskOperateStartTime}</span>
+        <span>{infos.taskTime&&moment(infos.taskTime).format('YYYY-MM-DD HH:mm:ss')}</span>
       </FormItem>
       <FormItem
         label="状态调整"

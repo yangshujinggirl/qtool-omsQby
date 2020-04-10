@@ -191,21 +191,9 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/category" component={Classify} />
         <Route exact path="/account/standards" component={Attributions} />
         <Route exact path="/account/items_list" component={BaseGoods} />
-        <Route
-          exact
-          path="/account/baseGoodsAdd/:type/:id?"
-          component={BaseGoodsAdd}
-        />
-        <Route
-          exact
-          path="/account/baseGoodsInfo/:type/:id?"
-          component={BaseGoodsInfo}
-        />
-        <Route
-          exact
-          path="/account/baseGoodsEditImg/:id?"
-          component={BaseGoodsEditImg}
-        />
+        <Route exact path="/account/baseGoodsAdd/:type/:id?" component={BaseGoodsAdd}/>
+        <Route exact path="/account/baseGoodsInfo/:type/:id?" component={BaseGoodsInfo}/>
+        <Route exact path="/account/baseGoodsEditImg/:id?" component={BaseGoodsEditImg}/>
         <Route exact path="/account/items_examine" component={GoodsAudit} />
         <Route exact path="/account/commodities_list" component={Bgoods} />
         <Route exact path="/account/bgoodsAdd/:id?" component={BgoodsAdd} />
@@ -216,331 +204,88 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/c_batch_task" component={Ctask} />
         <Route exact path="/account/addTask" component={AddTask} />
         <Route exact path="/account/taskInfo/:id?" component={TaskInfo} />
-        <Route
-          exact
-          path="/account/descriptive_attribute"
-          component={DescriptManage}
-        />
+        <Route exact path="/account/descriptive_attribute" component={DescriptManage}/>
         <Route exact path="/account/descriptAdd/:id?" component={DescriptAdd} />
-        <Route
-          exact
-          path="/account/descriptInfo/:id?"
-          component={DescriptInfo}
-        />
-        <Route
-          exact
-          path="/account/cross_border_product"
-          component={CrossBorderGoods}
-        />
-        <Route
-          exact
-          path="/account/CrossBorder/log/:id"
-          component={CrossBorderLog}
-        />
-        <Route
-          exact
-          path="/account/CrossBorder/edit/:id"
-          component={CrossBorderEdit}
-        />
-        <Route
-          exact
-          path="/account/CrossBorder/info/:id"
-          component={CrossBorderInfo}
-        />
-        <Route
-          exact
-          path="/account/generalTrade/log/:id"
-          component={GeneralTradeLog}
-        />
-        <Route
-          exact
-          path="/account/generalTrade/info/:id"
-          component={GeneralTradeInfo}
-        />
-        <Route
-          exact
-          path="/account/generalTrade/edit/:id"
-          component={GeneralTradeEdit}
-        />
-        <Route
-          exact
-          path="/account/general_trade_product"
-          component={GeneralTradeGoods}
-        />
-        <Route
-          exact
-          path="/account/c_product_title"
-          component={CgoodsExplain}
-        />
-        <Route
-          exact
-          path="/account/event_exchange_products"
-          component={ActExchangeGoods}
-        />
-        <Route
-          exact
-          path="/account/add_act_exchange_goods/:id?"
-          component={AddActExchangeGoods}
-        />
+        <Route exact path="/account/descriptInfo/:id?" component={DescriptInfo}/>
+        <Route exact path="/account/cross_border_product" component={CrossBorderGoods}/>
+        <Route exact path="/account/CrossBorder/log/:id" component={CrossBorderLog}/>
+        <Route exact path="/account/CrossBorder/edit/:id" component={CrossBorderEdit}/>
+        <Route exact path="/account/CrossBorder/info/:id" component={CrossBorderInfo}/>
+        <Route exact path="/account/generalTrade/log/:id" component={GeneralTradeLog}/>
+        <Route exact path="/account/generalTrade/info/:id" component={GeneralTradeInfo}/>
+        <Route exact path="/account/generalTrade/edit/:id" component={GeneralTradeEdit}/>
+        <Route exact path="/account/general_trade_product" component={GeneralTradeGoods}/>
+        <Route exact path="/account/c_product_title" component={CgoodsExplain}/>
+        <Route exact path="/account/event_exchange_products" component={ActExchangeGoods}/>
+        <Route exact path="/account/add_act_exchange_goods/:id?" component={AddActExchangeGoods}/>
         <Route exact path="/account/c_label" component={GoodLabel} />
         {/* ----------------------------------  订单中心   ---------------------------------------*/}
         <Route exact path="/account/purchaseOrder" component={PurchaseIn} />
-        <Route
-          exact
-          path="/account/add_purchasein/:id?"
-          component={AddPurchaseIn}
-        />
-        <Route
-          exact
-          path="/account/purchaseOrderInDetail/:id"
-          component={PurchaseInDetail}
-        />
-        <Route
-          exact
-          path="/account/purchaseRefundOrder"
-          component={PurchaseOut}
-        />
-        <Route
-          exact
-          path="/account/purchaseRefundOrderOutDetail/:id"
-          component={PurchaseOutDetail}
-        />
-        <Route
-          exact
-          path="/account/add_purchaseOut/:id?"
-          component={AddPurchaseOut}
-        />
+        <Route exact path="/account/add_purchasein/:id?" component={AddPurchaseIn}/>
+        <Route exact path="/account/purchaseOrderInDetail/:id" component={PurchaseInDetail}/>
+        <Route exact path="/account/purchaseRefundOrder" component={PurchaseOut}/>
+        <Route exact path="/account/purchaseRefundOrderOutDetail/:id" component={PurchaseOutDetail}/>
+        <Route exact path="/account/add_purchaseOut/:id?" component={AddPurchaseOut}/>
         <Route exact path="/account/channel_orders" component={ShopOrder} />
-        <Route
-          exact
-          path="/account/channel_orders/detail/:id?"
-          component={ShopOrderDetail}
-        />
-        <Route
-          exact
-          path="/account/shopOrder/add/:type"
-          component={ShopOrderAdd}
-        />
-        <Route
-          exact
-          path="/account/channel_refund_orders"
-          component={ShopReturnOrder}
-        />
-        <Route
-          exact
-          path="/account/channel_refund_orders/detail/:id?"
-          component={ShopReturnOrderDetail}
-        />
-        <Route
-          exact
-          path="/account/shopReturn/add"
-          component={ShopReturnOrderAdd}
-        />
-        <Route
-          exact
-          path="/account/subscriber_refund_orders"
-          component={UserReturn}
-        />
-        <Route
-          exact
-          path="/account/allReturn_infos/:id?"
-          component={AllReturnInfo}
-        />
-        <Route
-          exact
-          path="/account/auditReturn_info/:id?"
-          component={AuditReturnInfo}
-        />
-        <Route
-          exact
-          path="/account/unlawful_orders"
-          component={AbnormalOrder}
-        />
-        <Route
-          exact
-          path="/account/abnormalOrder_info/:id?"
-          component={AbnormalOrderInfo}
-        />
-        <Route
-          exact
-          path="/account/agency_delivery_orders/:id?"
-          component={ReplaceOrder}
-        />
-        <Route
-          exact
-          path="/account/get_purchasein_order"
-          component={GetPurchaseInOrder}
-        />
-        <Route
-          exact
-          path="/account/shortage_sku_order_detail"
-          component={ShortageOrder}
-        />
-        <Route
-          exact
-          path="/account/addUserOrder_returnOrder"
-          component={AddReturnOrder}
-        />
-        <Route
-          exact
-          path="/account/user_order_infos/:id"
-          component={UserOrderInfo}
-        />
-        <Route
-          exact
-          path="/account/user_bondedOrder_infos/:id"
-          component={BondedOrderInfo}
-        />
+        <Route exact path="/account/channel_orders/detail/:id?" component={ShopOrderDetail}/>
+        <Route exact path="/account/shopOrder/add/:type" component={ShopOrderAdd}/>
+        <Route exact path="/account/channel_refund_orders" component={ShopReturnOrder}/>
+        <Route exact path="/account/channel_refund_orders/detail/:id?" component={ShopReturnOrderDetail}/>
+        <Route exact path="/account/shopReturn/add" component={ShopReturnOrderAdd}/>
+        <Route exact path="/account/subscriber_refund_orders" component={UserReturn}/>
+        <Route exact path="/account/allReturn_infos/:id?" component={AllReturnInfo}/>
+        <Route exact path="/account/auditReturn_info/:id?" component={AuditReturnInfo}/>
+        <Route exact path="/account/unlawful_orders" component={AbnormalOrder}/>
+        <Route exact path="/account/abnormalOrder_info/:id?" component={AbnormalOrderInfo}/>
+        <Route exact path="/account/agency_delivery_orders/:id?" component={ReplaceOrder}/>
+        <Route exact path="/account/get_purchasein_order" component={GetPurchaseInOrder}/>
+        <Route exact path="/account/shortage_sku_order_detail" component={ShortageOrder}/>
+        <Route exact path="/account/addUserOrder_returnOrder" component={AddReturnOrder}/>
+        <Route exact path="/account/user_order_infos/:id" component={UserOrderInfo}/>
+        <Route exact path="/account/user_bondedOrder_infos/:id" component={BondedOrderInfo}/>
         <Route exact path="/account/subscriber_orders" component={UserOrder} />
         <Route exact path="/account/orderBonded" component={BondedOrder} />
         {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
         {/* ----------------------------------  合作中心   ---------------------------------------*/}
-        <Route
-          exact
-          path="/account/supplierManage/add/:id"
-          component={SupplierManageAdd}
-        />
+        <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
         <Route exact path="/account/supplier" component={SupplierManage} />
         <Route exact path="/account/channel" component={ShopManage} />
-        <Route
-          exact
-          path="/account/shopManage_edit/:id?"
-          component={AddShopManage}
-        />
-        <Route
-          exact
-          path="/account/shopManage_infos/:id?"
-          component={ShopManageInfo}
-        />
+        <Route exact path="/account/shopManage_edit/:id?" component={AddShopManage}/>
+        <Route exact path="/account/shopManage_infos/:id?" component={ShopManageInfo}/>
         {/* ----------------------------------  营销中心   ---------------------------------------*/}
-        <Route
-          exact
-          path="/account/c_preferential_promotion"
-          component={CtipActivity}
-        />
-        <Route
-          exact
-          path="/account/ctipActivity/add/:id?"
-          component={CtipActivityAdd}
-        />
-        <Route
-          exact
-          path="/account/ctipActivity/addTwo/:id"
-          component={CtipActivityAddTwo}
-        />
-        <Route
-          exact
-          path="/account/ctipActivity/info/:id"
-          component={CtipActivityInfo}
-        />
+        <Route exact path="/account/c_preferential_promotion" component={CtipActivity}/>
+        <Route exact path="/account/ctipActivity/add/:id?" component={CtipActivityAdd}/>
+        <Route exact path="/account/ctipActivity/addTwo/:id" component={CtipActivityAddTwo}/>
+        <Route exact path="/account/ctipActivity/info/:id" component={CtipActivityInfo}/>
         <Route exact path="/account/coupon_centre" component={CouponCenter} />
         <Route exact path="/account/coupon/info/:id" component={CouponInfo} />
         <Route exact path="/account/coupon/add" component={CouponAdd} />
-        <Route
-          exact
-          path="/account/couponRecord/:id?"
-          component={CouponRecord}
-        />
-        <Route
-          exact
-          path="/account/pos_preferential_promotion"
-          component={PosActivity}
-        />
-        <Route
-          exact
-          path="/account/posActivity/add/:id?"
-          component={PosActivityAdd}
-        />
-        <Route
-          exact
-          path="/account/posActivity/info/:id"
-          component={PosActivityInfo}
-        />
-        <Route
-          exact
-          path="/account/posActivity/addTwo/:id"
-          component={PosActivityAddTwo}
-        />
-        <Route
-          exact
-          path="/account/c_sales_promotion_check"
-          component={CtipAudit}
-        />
+        <Route exact path="/account/couponRecord/:id?" component={CouponRecord}/>
+        <Route exact path="/account/pos_preferential_promotion" component={PosActivity}/>
+        <Route exact path="/account/posActivity/add/:id?" component={PosActivityAdd}/>
+        <Route exact path="/account/posActivity/info/:id" component={PosActivityInfo}/>
+        <Route exact path="/account/posActivity/addTwo/:id" component={PosActivityAddTwo}/>
+        <Route exact path="/account/c_sales_promotion_check" component={CtipAudit}/>
         <Route exact path="/account/ctipAudit" component={CtipAudit} />
-        <Route
-          exact
-          path="/account/ctipAudit/edit/:id/:auditId"
-          component={CtipAuditEdit}
-        />
-        <Route
-          exact
-          path="/account/pos_sales_promotion_check"
-          component={PosAudit}
-        />
-        <Route
-          exact
-          path="/account/posAudit/edit/:id/:auditId"
-          component={PosAuditEdit}
-        />
-        <Route
-          exact
-          path="/account/b_limited_promotion"
-          component={BossActivity}
-        />
-        <Route
-          exact
-          path="/account/bossActivity/add/:id?"
-          component={BossActivityAdd}
-        />
-        <Route
-          exact
-          path="/account/bossActivity/info/:id"
-          component={BossActivityInfo}
+        <Route exact path="/account/ctipAudit/edit/:id/:auditId" component={CtipAuditEdit}/>
+        <Route exact path="/account/pos_sales_promotion_check" component={PosAudit}/>
+        <Route exact path="/account/posAudit/edit/:id/:auditId" component={PosAuditEdit}/>
+        <Route exact path="/account/b_limited_promotion" component={BossActivity}/>
+        <Route exact path="/account/bossActivity/add/:id?" component={BossActivityAdd}/>
+        <Route exact path="/account/bossActivity/info/:id" component={BossActivityInfo}
         />
         {/*----------------------------内容中心----------------------------------------------------*/}
-        <Route
-          exact
-          path="/account/home_page_configuration"
-          component={CtipContent}
-        />
-        <Route
-          exact
-          path="/account/CtipContent/add/:id"
-          component={CtipContentAdd}
-        />
-        <Route
-          exact
-          path="/account/cbannerSet/:id?"
-          component={BannerSetCtip}
-        />
+        <Route exact path="/account/home_page_configuration" component={CtipContent}/>
+        <Route exact path="/account/CtipContent/add/:id" component={CtipContentAdd}/>
+        <Route exact path="/account/cbannerSet/:id?" component={BannerSetCtip}/>
         <Route exact path="/account/cIconSet/:id?" component={IconSetCtip} />
-        <Route
-          exact
-          path="/account/cMorePicSet/:id"
-          component={MorePicSetCtip}
-        />
-        <Route
-          exact
-          path="/account/cNewUserSet/:id"
-          component={NewUserSetCtip}
-        />
-        <Route
-          exact
-          path="/account/cThemeSet/:id"
-          component={ThemeActivitySetCtip}
-        />
+        <Route exact path="/account/cMorePicSet/:id" component={MorePicSetCtip}/>
+        <Route exact path="/account/cNewUserSet/:id" component={NewUserSetCtip}/>
+        <Route exact path="/account/cThemeSet/:id" component={ThemeActivitySetCtip}/>
         <Route exact path="/account/cMoreGoodSet/:id" component={MoreGoodSet} />
-        <Route
-          exact
-          path="/account/commodityFlow/:id"
-          component={CommodityFlow}
-        />
-        <Route
-          exact
-          path="/account/singleGoods/:id"
-          component={SingleGoodsSet}
-        />
+        <Route exact path="/account/commodityFlow/:id" component={CommodityFlow}/>
+        <Route exact path="/account/singleGoods/:id" component={SingleGoodsSet}/>
 
         {/* ----------------------------------  数据中心   ---------------------------------------*/}
         <Route exact path="/account/product_data" component={GoodsData} />
@@ -549,11 +294,7 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/warehouse_data" component={WarehouseData} />
         <Route exact path="/account/app_data" component={AppData} />
         <Route exact path="/account/channel_data" component={StoreData} />
-        <Route
-          exact
-          path="/account/channel_data/StoreInventory/Distribution/:id"
-          component={InventoryDistribution}
-        />
+        <Route exact path="/account/channel_data/StoreInventory/Distribution/:id" component={InventoryDistribution}/>
 
         {/* ----------------------------------  运营中心   ---------------------------------------*/}
         <Route exact path="/account/add_bpush/:id?" component={AddBPush} />
@@ -569,131 +310,47 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/b_question" component={Banswer} />
         <Route exact path="/account/add_b_answer/:id?" component={AddBanswer} />
         {/* ----------------------------------  渠道管理   ---------------------------------------*/}
-        <Route
-          exact
-          path="/account/bridge_statistics"
-          component={ChannelStatistic}
-        />
-        <Route
-          exact
-          path="/account/bridge_statistics_infos"
-          component={ChannelStatisticInfos}
-        />
+        <Route exact path="/account/bridge_statistics" component={ChannelStatistic}/>
+        <Route exact path="/account/bridge_statistics_infos" component={ChannelStatisticInfos}/>
 
         {/* ----------------------------------  客服中心   ---------------------------------------*/}
-        <Route
-          exact
-          path="/account/channel_feedback"
-          component={StoreFeedback}
-        />
-        <Route
-          exact
-          path="/account/channel_feedback/detail/:id?"
-          component={StoreFeedbackDetail}
-        />
+        <Route exact path="/account/channel_feedback" component={StoreFeedback}/>
+        <Route exact path="/account/channel_feedback/detail/:id?" component={StoreFeedbackDetail}/>
         <Route exact path="/account/user_feedback" component={UserFeedback} />
-        <Route
-          exact
-          path="/account/user_feedback/detail/:id?"
-          component={UserFeedbackDetail}
-        />
+        <Route exact path="/account/user_feedback/detail/:id?" component={UserFeedbackDetail}/>
         {/* ----------------------------------  财务中心   ---------------------------------------*/}
-        <Route
-          exact
-          path="/account/treasurer_recharge"
-          component={ShoperRecharge}
-        />
-        <Route
-          exact
-          path="/account/rechargeInfos/:id"
-          component={RechargeInfo}
-        />
+        <Route exact path="/account/treasurer_recharge" component={ShoperRecharge}/>
+        <Route exact path="/account/rechargeInfos/:id" component={RechargeInfo}/>
         <Route exact path="/account/cash_withdrawal" component={Withdraw} />
-        <Route
-          exact
-          path="/account/withdrawDetail/:id"
-          component={WithdrawInfo}
-        />
-        <Route
-          exact
-          path="/account/treasurer_definite"
-          component={ShopkeeperInOut}
-        />
+        <Route exact path="/account/withdrawDetail/:id" component={WithdrawInfo}/>
+        <Route exact path="/account/treasurer_definite" component={ShopkeeperInOut}/>
         <Route exact path="/account/sale_definite" component={SaleInOut} />
-        <Route
-          exact
-          path="/account/profit_manager"
-          component={ShareInProfitManager}
-        />
+        <Route exact path="/account/profit_manager" component={ShareInProfitManager}/>
         <Route exact path="/account/finance_data" component={FinancialData} />
-        <Route
-          exact
-          path="/account/account_balance_b"
-          component={AccountBanlance}
-        />
+        <Route exact path="/account/account_balance_b" component={AccountBanlance}/>
         {/* ----------------------------------  用户中心   ---------------------------------------*/}
         <Route exact path="/account/c_work_order" component={WorkOrderC} />
-        <Route
-          exact
-          path="/account/c_work_order/detail/:id?"
-          component={WorkOrderCDetail}
-        />
+        <Route exact path="/account/c_work_order/detail/:id?" component={WorkOrderCDetail}/>
         <Route exact path="/account/work_order" component={WorkOrder} />
-        <Route
-          exact
-          path="/account/work_order/detail/:id?"
-          component={WorkOrderDetail}
-        />
+        <Route exact path="/account/work_order/detail/:id?" component={WorkOrderDetail}/>
         <Route exact path="/account/pos_user" component={PosUserOrder} />
         <Route exact path="/account/c_user" component={CuserOrder} />
 
         {/* ----------------------------------  会员中心   ---------------------------------------*/}
-        <Route
-          exact
-          path="/account/growth_task_configuration"
-          component={TaskGrowthValue}
-        />
-        <Route
-          exact
-          path="/account/growth_task_configuration/detail/:id?"
-          component={TaskGrowthValueDetail}
-        />
+        <Route exact path="/account/growth_task_configuration" component={TaskGrowthValue}/>
+        <Route exact path="/account/growth_task_configuration/detail/:id?" component={TaskGrowthValueDetail}/>
 
         {/* ----------------------------------  渠道管理   ---------------------------------------*/}
-        <Route
-          exact
-          path="/account/bridge_manager_control"
-          component={ChannelManage}
-        />
-        <Route
-          exact
-          path="/account/bridge_manager_control/offline_store/level_2/:id?"
-          component={OfflineStoreLevelTwo}
-        />
-        <Route
-          exact
-          path="/account/bridge_manager_control/market_promotion/level_2/:id?"
-          component={MarketPromotionLevelTwo}
-        />
+        <Route exact path="/account/bridge_manager_control" component={ChannelManage}/>
+        <Route exact path="/account/bridge_manager_control/offline_store/level_2/:id?" component={OfflineStoreLevelTwo}/>
+        <Route exact path="/account/bridge_manager_control/market_promotion/level_2/:id?" component={MarketPromotionLevelTwo}/>
         {/* ----------------------------------  仓库管理   ---------------------------------------*/}
         <Route exact path="/account/warehouse_manager" component={StoreMange} />
         <Route exact path="/account/stock_erp" component={ErpStock} />
         <Route exact path="/account/stock_channel" component={ShopStock} />
-        <Route
-          exact
-          path="/account/stock_bonded"
-          component={CrossBorderStock}
-        />
-        <Route
-          exact
-          path="/account/stocking_change_b"
-          component={BstockAdjust}
-        />
-        <Route
-          exact
-          path="/account/stocking_change_bonded"
-          component={CrossBorderAdjust}
-        />
+        <Route exact path="/account/stock_bonded" component={CrossBorderStock}/>
+        <Route exact path="/account/stocking_change_b" component={BstockAdjust}/>
+        <Route exact path="/account/stocking_change_bonded" component={CrossBorderAdjust}/>
 
         <Route component={NotFound} />
       </Switch>

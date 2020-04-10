@@ -86,6 +86,7 @@ class ShopKeepRecharge extends Component {
         clearForm();
       }
     );
+    this.searchData(this.state.inputValues)
   };
 
   render() {

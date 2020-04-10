@@ -26,7 +26,7 @@ const Columns = [
     render: (text, record) => {
       return (
         <div>
-          <Link className="theme-color" to={`/account/taskInfo/${record.pdTaskTimeId}`}>
+          <Link className="theme-color" to={`/account/timerInfo/${record.pdTaskTimeId}`}>
             查看
           </Link>　
           <Link className="theme-color" to={`/account/addTimer/${record.pdTaskTimeId}`}>
