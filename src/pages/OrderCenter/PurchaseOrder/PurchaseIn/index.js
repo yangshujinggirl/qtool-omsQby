@@ -75,11 +75,13 @@ function handleOperateClick(record, _this) {
     stockingCode: record.stockingCode,
   });
 }
-function onClear(_this) {
+function onClear(_this, type) {
   _this.setState({
     auditModalVisible: false,
   });
-  _this.refreshDataList();
+  if (type != "cancel") {
+    _this.refreshDataList();
+  }
 }
 
 /**
@@ -138,7 +140,7 @@ const PurchaseInOrderList = QbaseList(
           columns={Columns}
           select={true}
           dataSource={dataList}
-          onOperateClick={(record) => handleOperateClick(record,_this)}
+          onOperateClick={(record) => handleOperateClick(record, _this)}
           rowSelection={_this.getTableRowSelection({
             type: "radio",
           })}
@@ -166,7 +168,7 @@ const PurchaseInOrderList = QbaseList(
           <AuditModal
             visible={auditModalVisible}
             stockingCode={stockingCode}
-            onClear={() => onClear(_this)}
+            onClear={(type) => onClear(_this, type)}
           />
         )}
       </div>
