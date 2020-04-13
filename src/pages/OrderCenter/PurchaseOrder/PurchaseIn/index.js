@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal } from "antd";
+import { Modal, message } from "antd";
 import { Link } from "react-router-dom";
 import {
   QbaseList,
@@ -10,7 +10,7 @@ import {
   ConfirmModal,
 } from "common/index";
 import FilterForm from "./components/FilterForm";
-import AuditModal from './components/AuditModal'
+import AuditModal from "./components/AuditModal";
 import Columns from "./column";
 import "./index.less";
 import {
@@ -29,36 +29,20 @@ import {
 function showForceCompleteModalClick(_this) {
   _this.showLoading();
   PushPurchaseInOrderForceComplete(_this.state.selectedRowKeys)
-    .then((rep) => {
-      _this.refreshDataList();
-      if (rep.result != null) {
-        let resultData = JSON.parse(rep.result);
-        if (resultData != null && resultData["failList"].length > 0) {
-          //存在失败数据，显示失败弹窗
-          Modal.info({
-            title: "提示",
-            content: (
-              <div>
-                <span>
-                  以下采购单强制完成失败，失败原因：采购单未审核通过或已收货
-                </span>
-                <br />
-                <br />
-                {resultData["failList"].map((item) => (
-                  <span>{item}</span>
-                ))}
-              </div>
-            ),
-          });
-        }
-      } else {
-        Qmessage.success("所选采购单已强制完成");
+    .then((res) => {
+      if (res.httpCode == 200) {
+        console.log(111);
+
+        _this.refreshDataList();
+        _this.setState({
+          selectedRowKeys: [],
+        });
+        message.success("强制完成", 0.8);
       }
       _this.hideLoading();
     })
     .catch((e) => {
       _this.hideLoading();
-      Qmessage.warn(e.message != null ? e.message : "");
     });
 }
 
@@ -70,6 +54,7 @@ function showModalClick(_this) {
   if (_this.state.selectedRowKeys.length === 0) {
     Qmessage.warn("请至少选择一个采购单");
   } else {
+    console.log(111);
     _this.setState({
       showModal: true,
     });
@@ -84,17 +69,17 @@ function onModalCancelClick(_this) {
     showModal: false,
   });
 }
-function onOperateClick(_this,record){
-    _this.setState({
-        auditModalVisible:true,
-        stockingCode:record.stockingCode,
-    })
+function handleOperateClick(record, _this) {
+  _this.setState({
+    auditModalVisible: true,
+    stockingCode: record.stockingCode,
+  });
 }
-function onClear(_this){
-    _this.setState({
-        auditModalVisible:false,
-    })
-    _this.refreshDataList()
+function onClear(_this) {
+  _this.setState({
+    auditModalVisible: false,
+  });
+  _this.refreshDataList();
 }
 
 /**
@@ -116,7 +101,8 @@ const PurchaseInOrderList = QbaseList(
       total,
       searchCriteriaList,
       auditModalVisible,
-      stockingCode
+      stockingCode,
+      showLoadingStatus,
     } = _this.state;
     return (
       <div className="oms-common-index-pages-wrap">
@@ -152,8 +138,10 @@ const PurchaseInOrderList = QbaseList(
           columns={Columns}
           select={true}
           dataSource={dataList}
-          onOperateClick={(recode) => onOperateClick(_this, recode)}
-          rowSelection={_this.getTableRowSelection()}
+          onOperateClick={(record) => handleOperateClick(record,_this)}
+          rowSelection={_this.getTableRowSelection({
+            type: "radio",
+          })}
         />
         <Qpagination
           data={{ everyPage, currentPage, total }}
@@ -163,21 +151,24 @@ const PurchaseInOrderList = QbaseList(
           <ConfirmModal
             visible={_this.state.showModal}
             title="强制完成"
-            onOk={showForceCompleteModalClick(_this)}
-            onCancel={onModalCancelClick(_this)}
-            confirmLoading={_this.showLoading}
+            onOk={() => showForceCompleteModalClick(_this)}
+            onCancel={() => onModalCancelClick(_this)}
+            confirmLoading={showLoadingStatus}
             okText="确认"
             cancelText="取消"
           >
             <div className="tips">
-              {" "}
               强制完成后，所选采购单状态将变更成“已收货”，是否确定强制完成？
             </div>
           </ConfirmModal>
         )}
-        {auditModalVisible&&
-            <AuditModal visible={auditModalVisible} stockingCode={stockingCode} onClear={()=>onClear(_this)}/>
-        }
+        {auditModalVisible && (
+          <AuditModal
+            visible={auditModalVisible}
+            stockingCode={stockingCode}
+            onClear={() => onClear(_this)}
+          />
+        )}
       </div>
     );
   },

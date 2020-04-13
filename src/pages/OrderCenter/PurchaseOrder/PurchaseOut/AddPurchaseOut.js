@@ -4,7 +4,8 @@ import {
   GetPurchaseOutOrderDetailApi,
   addPurchaseOutApi,
   getOrderInfoApi,
-  searchStoreApi
+  searchStoreApi,
+  getProvinceListApi
 } from "api/home/OrderCenter/PurchaseOrder/PurchaseOut";
 import { Qbtn } from "common";
 import Editable from "./components/Editable";

@@ -8,7 +8,7 @@ const AuditModal = (props) => {
   const [form] = Form.useForm();
   const { stockingCode, visible } = props;
   useEffect(() => {
-    form.setFields({status:null});
+    form.setFieldsValue({status:null});
   },[]);
   //审核通过、不通过
   const onOk = deBounce(async () => {

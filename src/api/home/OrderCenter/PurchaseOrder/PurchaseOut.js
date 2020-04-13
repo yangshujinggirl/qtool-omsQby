@@ -66,5 +66,11 @@ export function addPurchaseOutApi(values) {
       params: { ...values }
     });
   }
+    /**
+   * 搜索仓库
+   */
+  export function getProvinceListApi(values) {
+    return omsAjax.get("city/find");
+  }
 
 
