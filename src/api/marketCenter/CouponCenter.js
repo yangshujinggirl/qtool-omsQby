@@ -18,7 +18,7 @@ export function GetInfoApi(couponId) {
 export function GetAddNumApi(values) {
   return appAjax.get('/couponManager/reissue',{params:{...values}})
 }
-//注券
+//注券api
 export function GetInjectApi(values) {
   return appAjax.post('/couponDetail',{...values})
 }
