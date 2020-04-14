@@ -4,20 +4,20 @@ import { GetInfoApi } from "api/home/Brand";
 import moment from "moment";
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 12 }
+  wrapperCol: { span: 12 },
 };
 class BrandInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      infos: {}
+      infos: {},
     };
   }
   componentDidMount() {
     const { id } = this.props.match.params;
-    GetInfoApi({ brandId: id }).then(res => {
+    GetInfoApi({ brandId: id }).then((res) => {
       this.setState({
-        infos: res.result
+        infos: res.result,
       });
     });
   }
@@ -54,7 +54,9 @@ class BrandInfo extends React.Component {
             )}
           </Form.Item>
           <Form.Item label="品牌logo">
-            <img className="brand_infos_logo" src={fileDomain+infos.logo} />
+            {infos.logo && (
+              <img className="brand_infos_logo" src={fileDomain + infos.logo} />
+            )}
           </Form.Item>
           <Form.Item label="品牌简介">{infos.brandIntroduce}</Form.Item>
         </Form>

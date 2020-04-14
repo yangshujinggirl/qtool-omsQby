@@ -1,6 +1,7 @@
 const Columns1 = [{
      title: '简称',
      dataIndex: 'name',
+     width:100,
      render:(text,record)=>{
        return(
           text && text.length>15
@@ -13,6 +14,7 @@ const Columns1 = [{
    },{
      title: '详细说明',
      dataIndex: 'text',
+     width:150,
      render:(text,record)=>{
        return(
           text && text.length>100
@@ -24,16 +26,20 @@ const Columns1 = [{
      }
    }, {
      title:'状态',
-     dataIndex:'statusStr'
+     dataIndex:'statusStr',
+     width:100,
    },{
      title: '权重',
-     dataIndex: 'rank'
+     dataIndex: 'rank',
+     width:100,
    },{
      title: '最后修改人',
-     dataIndex: 'userName'
+     dataIndex: 'userName',
+     width:100,
    },{
      title: '操作',
      dataIndex: '',
+     width:100,
      render:(text, record)=>{
        return(
          <div>

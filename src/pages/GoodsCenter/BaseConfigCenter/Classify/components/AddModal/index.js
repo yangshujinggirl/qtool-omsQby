@@ -203,7 +203,7 @@ class AddModal extends React.Component {
               name="categoryName"
               rules={[{ required: true, message: "请输入一级类目名称" }]}
             >
-              <Input placeholder="最多20个字符" autoComplete="off" />
+              <Input placeholder="最多20个字符" autoComplete="off" maxLength={20}/>
             </FormItem>
             <FormItem
               label="状态"
@@ -229,7 +229,7 @@ class AddModal extends React.Component {
               name="categoryName"
               rules={[{ required: true, message: "请输入二级类目名称" }]}
             >
-              <Input placeholder="最多20个字符" autoComplete="off" />
+              <Input placeholder="最多20个字符" autoComplete="off" maxLength={20}/>
             </FormItem>
             <FormItem
               label="所属一级类目名称"
@@ -268,7 +268,7 @@ class AddModal extends React.Component {
               name="categoryName"
               rules={[{ required: true, message: "请输入三级类目名称" }]}
             >
-              <Input placeholder="最多20个字符" autoComplete="off" />
+              <Input placeholder="最多20个字符" autoComplete="off" maxLength={20}/>
             </FormItem>
             <FormItem
               label="所属一级类目名称"
@@ -321,7 +321,7 @@ class AddModal extends React.Component {
               name="categoryName"
               rules={[{ required: true, message: "请输入四级类目名称" }]}
             >
-              <Input placeholder="最多20个字符" autoComplete="off" />
+              <Input placeholder="最多20个字符" autoComplete="off" maxLength={20}/>
             </FormItem>
             <FormItem
               label="所属一级类目"
