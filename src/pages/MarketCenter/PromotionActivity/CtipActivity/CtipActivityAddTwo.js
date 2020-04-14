@@ -167,7 +167,7 @@ const CtipActivityAddTwo=({...props})=> {
   }
   //保存并预览
   const handSubmit = async(type) => {
-    const { promotionId, promotionType,pdScope } = currentdata;
+    const { promotionType,pdScope } = currentdata;
     if(pdScope!=1){
       if (products.length == 0) {
         Qmessage.error("请至少添加一个活动商品");

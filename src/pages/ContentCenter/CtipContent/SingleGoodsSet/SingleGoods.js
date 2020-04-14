@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetActivityInfoApi, GetActivityListApi, GetSaveGoodsApi } from 'api/contentCenter/SingleGoodsSet';
 import MainMod from './components/MainMod';
 
@@ -24,7 +24,6 @@ const formItemLayout = {
 const MoreGoodSet=({...props})=> {
   const [form] = Form.useForm();
   let { params } =props;//时段参数
-  console.log(params)
   let [goods,setGoods]=useState({listOne:[],listTwo:[]});
   let [list,setList]=useState([]);
   let [totalData,setTotalData]=useState({});
@@ -104,7 +103,7 @@ const MoreGoodSet=({...props})=> {
     })
     pdSpuList = pdSpuList ? pdSpuList : [];
     pdSpuList.map((el, index) => (el.key = index));
-    setList(pdSpuList);
+    upDateList(pdSpuList);
   }
   const selectId=(key)=> {
     setActivityId(key)
@@ -179,7 +178,8 @@ const MoreGoodSet=({...props})=> {
           <MainMod
             form={form}
             upDateList={upDateList}
-            goods={goods} list={list}
+            goods={goods}
+            list={list}
             params={params}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={submit}>保存</Qbtn>

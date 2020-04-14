@@ -28,21 +28,21 @@ const AddModal=({...props})=> {
           text = formatVal(text);
           items = { type, text };
           props.onOk(items);
-          form.resetFields(['text','template','pdCode','rowcode']);
+          props.form.resetFields(['text','template','pdCode','rowcode']);
           break;
         case 2:
-          GetSearchApi({codes:[pdCode,rowcode]})
+          let codes = rowcode?`${pdCode},${rowcode}`:`${pdCode}`;
+          GetSearchApi({codes})
           .then((res)=> {
-            props.onOk(items);
-            form.resetFields(['text','template','pdCode','rowcode']);
-            // items = { type, pdCode, rowcode }
+            props.onOk({...res.result,type });
+            props.form.resetFields(['text','template','pdCode','rowcode']);
           })
           break;
         case 3:
         case 4:
           items = { type, text }
           props.onOk(items);
-          form.resetFields(['text','template','pdCode','rowcode']);
+          props.form.resetFields(['text','template','pdCode','rowcode']);
           break;
         default:
       }
