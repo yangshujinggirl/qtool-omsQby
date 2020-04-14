@@ -8,9 +8,9 @@ export function GetEditInfoApi(homepageId){
 export function GetSearchFlowPdApi(pdFlowTabId){
     return appAjax.get(`/content/pdFlowTab/campFlowProduct/${pdFlowTabId}`)
 }
-// export function GetSavePicApi(values){
-//     return appAjax.get('/homepage/camp/list',{params:{...values}})
-// }
+export function GetChangeStatusApi(values){
+    return appAjax.post('/homePageModule/update',{...values})
+}
 // export function GeSearchPicApi(values){
 //     return appAjax.get('/homepage/camp/list',{params:{...values}})
 // }

@@ -25,7 +25,7 @@ class BrandMod extends React.Component {
     })
   };
   //结果数据处理
-  handleResult=(fileDomain,moduleBackColor,contentPicUrl)=>{
+  handleResult=(moduleBackColor,contentPicUrl)=>{
     let fileList = [];
     if(contentPicUrl){
       fileList=[{
@@ -49,8 +49,10 @@ class BrandMod extends React.Component {
   render() {
     const { visible, fileList, color, loading } = this.state;
     let { homepageModuleId, moduleBackColor, contentPicUrl, isDisplay } = this.props.info;
+
     return (
       <CommonMod
+        toggleShow={this.props.toggleShow}
         goEdit={this.onEdit}
         hasDisplayBtn={true}
         isDisplay={isDisplay}

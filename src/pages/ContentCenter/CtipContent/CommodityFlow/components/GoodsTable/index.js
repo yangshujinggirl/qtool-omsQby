@@ -79,6 +79,7 @@ const GoodsTable=({...props})=>{
       let idx = newList.findIndex((el) => el.FixedPdSpuId == result.pdSpuId);
       if(idx != -1) {
         message.error('商品重复，请重新添加');
+        return;
       } else {
         newList = newList.map((el,idx) => {
           if(el.key == record.key) {

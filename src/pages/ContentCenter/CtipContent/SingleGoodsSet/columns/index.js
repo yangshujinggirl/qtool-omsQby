@@ -1,4 +1,5 @@
-import { Input, Form, Select, Button, Tooltip, Icon } from 'antd';
+import { Input, Form, Select, Button, Tooltip } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Sessions } from 'utils';
 const FormItem = Form.Item;
@@ -13,16 +14,16 @@ let tagsTit =(
 );
 
 const sellingPoints =(<Tooltip placement="top" title='选填项，如填写则前端将会展示卖点，而不是商品名称'>
-                商品卖点&nbsp;<Icon type="exclamation-circle-o" />
+                商品卖点&nbsp;<ExclamationCircleOutlined />
               </Tooltip>);
 const pdSpuInv =(<Tooltip placement="top" title='即为仓库库存。若库存不为0，则所有用户都可以买这个商品。'>
-                B端在售库存&nbsp;<Icon type="exclamation-circle-o" />
+                B端在售库存&nbsp;<ExclamationCircleOutlined />
               </Tooltip>);
 const outOfStockShopNum =(<Tooltip placement="top" title='即为该门店没有此商品，若B端在售库存为0，则选择此门店的用户会看到补货中'>
-              缺货门店&nbsp;<Icon type="exclamation-circle-o" />
+              缺货门店&nbsp;<ExclamationCircleOutlined />
               </Tooltip>);
 const tags =(<Tooltip placement="top" title={tagsTit}>
-              商品标签&nbsp;<Icon type="exclamation-circle-o" />
+              商品标签&nbsp;<ExclamationCircleOutlined />
               </Tooltip>);
 export function columnsFun(handleBlur,type){
   let fixedArr = [

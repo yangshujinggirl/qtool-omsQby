@@ -20,7 +20,7 @@ export function GetAddNumApi(values) {
 }
 //注券
 export function GetInjectApi(values) {
-  return appAjax.post('/couponManager/create',{...values})
+  return appAjax.post('/couponDetail',{...values})
 }
 
 //熔断

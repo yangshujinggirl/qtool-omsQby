@@ -1,8 +1,8 @@
-import { Form, Col, Input, Radio, message, Button } from "antd";
+import { Form, Checkbox, Col, Input, Radio, message, Button } from "antd";
 import { useState, useEffect } from 'react';
 import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
-import { GetSaveSetApi } from 'api/contentCenter/ThemeActivitySetCtip';
+import { GetSaveSetApi } from 'api/contentCenter/SingleGoodsSet';
 
 const FormItem = Form.Item;
 
@@ -45,14 +45,14 @@ const ModuleSet=({...props})=> {
       <Form form={form} {...formItemLayout} className="common-addEdit-form">
         <FormItem label="模块标题名称">
           <FormItem name="title" rules={[{ required: true, message: '请输入模块标题名称' } ]} noStyle>
-            <Input  placeholder="请输入模块标题名称" autoComplete="off"/>
+            <Input  placeholder="请输入模块标题名称" autoComplete="off" maxLength={4}/>
           </FormItem>
-          模块名称2-4个字符，将在C端App和小程序中展示
+          将在C端App和小程序中展示
         </FormItem>
         <FormItem label="标题栏样式" name="titleColor" rules={[{ required: true, message: '请选择' } ]}>
           <Radio.Group>
-            <Radio value={0}>黑色</Radio>
-            <Radio value={1}>白色</Radio>
+            <Radio value={'0'}>黑色</Radio>
+            <Radio value={'1'}>白色</Radio>
           </Radio.Group>
         </FormItem>
         <FormItem label="是否展示查看更多" name="isDisplayMore" rules={[{ required: true, message: '请选择' } ]}>
@@ -67,7 +67,16 @@ const ModuleSet=({...props})=> {
             <Radio value={0}>隐藏</Radio>
           </Radio.Group>
         </FormItem>
-        <FormItem label="设置模块背景色号" name="moduleBackColor">
+        <FormItem label="倒计时插件">
+          <FormItem name="isDisplayCountdown" noStyle>
+            <Radio.Group>
+              <Radio value={1}>展示</Radio>
+              <Radio value={0}>不展示</Radio>
+            </Radio.Group>
+          </FormItem>
+          仅活动商品支持倒计时插件，倒计时计算当前时间-活动结束时间
+        </FormItem>
+        <FormItem label="模块背景色号" name="moduleBackColor">
           <Input type='color' style={{ width: "60px",height:"32px" }}/>
         </FormItem>
         <Col offset={4}>

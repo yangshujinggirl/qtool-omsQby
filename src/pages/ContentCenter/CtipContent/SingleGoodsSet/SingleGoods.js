@@ -49,8 +49,8 @@ const MoreGoodSet=({...props})=> {
   }
   const submit=async()=> {
     try {
-      if(list.length< 6) {
-        message.error('请至少配置6个商品');
+      if(list.length< 8) {
+        message.error('请至少配置8个商品');
         return;
       }
       let  values = await form.validateFields();
@@ -61,7 +61,10 @@ const MoreGoodSet=({...props})=> {
       } else if(fieldsOne) {
         pdSpuList = fieldsOne;
       }
-      let params= { homepageModuleId, pdSpuList };
+      let params= { homepageModuleId, pdSpuList, pdListDisplayCfgId:params.pdListDisplayCfgId};
+      if(params.type == 1) {
+        params = {...params,activityId}
+      }
       GetSaveGoodsApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
@@ -70,6 +73,7 @@ const MoreGoodSet=({...props})=> {
       console.log('Failed:', errorInfo);
     }
   }
+  //导入更新
   const upDateFileList=(res)=> {
     let { pdSpuList, noImportSpuCode, noImportSpu } = res.result;
     Modal.error({
@@ -146,20 +150,23 @@ const MoreGoodSet=({...props})=> {
           <Form.Item label="时间段">
             {totalData.beginTime}~{totalData.endTime}
           </Form.Item>
-          <Form.Item label="选择活动">
-            <Form.Item noStyle name="activityId">
-              <Select  onSelect={selectId}>
-              {
-                activityList.map((el) =>(
-                  <Select.Option value={el.activityId} key={el.activityId}>
-                    {el.activityName}
-                  </Select.Option>
-                ))
-              }
-              </Select>
+          {
+            params.type==1&&
+            <Form.Item label="选择活动">
+              <Form.Item noStyle name="activityId">
+                <Select  onSelect={selectId}>
+                {
+                  activityList.map((el) =>(
+                    <Select.Option value={el.activityId} key={el.activityId}>
+                      {el.activityName}
+                    </Select.Option>
+                  ))
+                }
+                </Select>
+              </Form.Item>
+              请先选择你要展示的商品所在的活动
             </Form.Item>
-            请先选择你要展示的商品所在的活动
-          </Form.Item>
+          }
           <QupLoadAndDownLoad
             noLabel={true}
             data={{type:params.type, activityId}}

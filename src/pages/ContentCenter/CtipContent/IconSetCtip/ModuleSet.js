@@ -30,10 +30,10 @@ const ModuleSet=({...props})=> {
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   return (
     <Form form={form}>
-      <FormItem label="设置模块背景色号" name="moduleBackColor">
+      <FormItem label="模块背景色号" name="moduleBackColor">
         <Input type='color' style={{ width: "60px",height:"32px" }}/>
       </FormItem>
-      <FormItem label="设置模块背景色号" name="titleColor">
+      <FormItem label="Icon名称样式" name="titleColor">
         <Radio.Group>
           <Radio value="0">黑色</Radio>
           <Radio value="1">白色</Radio>

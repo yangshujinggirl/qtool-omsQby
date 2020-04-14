@@ -10,7 +10,7 @@ export function GetProListApi(pdFlowTabId){
 }
 //分类添加
 export function GetAddClassProApi(values){
-    return appAjax.post(`/content/pdFlowTab/spuCategoryAdd`,{...values})
+    return appAjax.get(`/content/pdFlowTab/spuCategoryAdd`,{params:{...values}})
 }
 //code查询商品信息
 export function GetSearchSpuidApi(pdSpuId){

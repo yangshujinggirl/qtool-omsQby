@@ -73,7 +73,7 @@ const disabledDateTime = (date) => {
 
 class ReleaseModalF extends Component {
   render() {
-    const { getFieldDecorator } =this.props.form;
+    // const { getFieldDecorator } =this.props.form;
     const { confirmLoading, type } =this.props;
 
     return(
@@ -87,23 +87,19 @@ class ReleaseModalF extends Component {
           {
             type == '2'?
             <div>
-              <Form.Item label="定时发布时间" {...formItemLayout}>
-                {getFieldDecorator('timingReleaseTime',{
-                  rules:[{
-                    required:true,message:'请设定发布时间'
-                  }]
-                })(
-                  <DatePicker
-                    format={dateFormat}
-                    disabledDate={disabledDate}
-                    disabledTime={disabledDateTime}
-                    allowClear={false}
-                    showTime={{
-                      hideDisabledOptions: true,
-                      defaultValue: moment('00:00:00', 'HH:mm:ss'),
-                    }}
-                    />
-                )}
+              <Form.Item
+                label="定时发布时间"
+                name="timingReleaseTime"
+                rules={[{required:true,message:'请设定发布时间'}]}>
+                <DatePicker
+                  format={dateFormat}
+                  disabledDate={disabledDate}
+                  disabledTime={disabledDateTime}
+                  allowClear={false}
+                  showTime={{
+                    hideDisabledOptions: true,
+                    defaultValue: moment('00:00:00', 'HH:mm:ss'),
+                  }}/>
               </Form.Item>
               <p>亲，建议定时发布时间避开流量高峰哦</p>
             </div>
@@ -117,5 +113,4 @@ class ReleaseModalF extends Component {
     )
   }
 }
-// const ReleaseModal = Form.create()(ReleaseModalF);
 export default ReleaseModalF;

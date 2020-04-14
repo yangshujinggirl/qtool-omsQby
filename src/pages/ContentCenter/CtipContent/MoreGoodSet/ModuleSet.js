@@ -2,7 +2,7 @@ import { Form, Col, Input, Radio, message, Button } from "antd";
 import { useState, useEffect } from 'react';
 import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
-import { GetSaveSetApi } from 'api/contentCenter/ThemeActivitySetCtip';
+import { GetSaveSetApi } from 'api/contentCenter/MoreGoodSet';
 
 const FormItem = Form.Item;
 

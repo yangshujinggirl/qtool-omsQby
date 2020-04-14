@@ -14,7 +14,7 @@ const NewUserMod=({...props})=> {
   return (
     <CommonMod
       hasDisplayBtn={true}
-      toggleShow={()=>{}}
+      toggleShow={props.toggleShow}
       goEdit={goEdit}
       isDisplay={isDisplay}
       homepageModuleId={ homepageModuleId }
