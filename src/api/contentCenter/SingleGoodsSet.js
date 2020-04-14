@@ -26,3 +26,13 @@ export function GetSaveGoodsApi(values){
 export function GetSearCodeApi(values){
     return appAjax.get(`/pdListDisplay/singleline/query`,{params:{...values}})
 }
+
+
+//设置查询
+export function GetModalInfoApi(homepageModuleId){
+    return appAjax.get(`/homePageModule/get/${homepageModuleId}`)
+}
+//设置保存
+export function GetSaveSetApi(values){
+    return appAjax.post(`/homePageModule/update`,{...values})
+}

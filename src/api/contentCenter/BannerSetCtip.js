@@ -7,7 +7,7 @@ export function GetListApi(values){
 export function GetSaveApi(values){
     return appAjax.post(`/module/banner/save`,{...values})
 }
-//查设置详情（通用
+//查设置详情（通用)
 export function GetModalInfoApi(homepageModuleId){
     return appAjax.get(`/homePageModule/get/${homepageModuleId}`)
 }

@@ -429,6 +429,18 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                     </Form.Item>
                   }}
                 </Form.Item>
+                <Form.Item label="是否预售" name="isBeforeSales" rules={[{ required: true, message: '请选择是否预售' }]}>
+                  <Radio.Group>
+                    <Radio value={true} key={true}>是</Radio>
+                    <Radio value={false} key={false}>否</Radio>
+                  </Radio.Group>
+                </Form.Item>
+                <Form.Item label="是否直邮" name="isDirectSales" rules={[{ required: true, message: '请选择是否直邮' }]}>
+                  <Radio.Group>
+                    <Radio value={true} key={true}>是</Radio>
+                    <Radio value={false} key={false}>否</Radio>
+                  </Radio.Group>
+                </Form.Item>
               </Card>
               <Card title="仓管信息">
                 <Form.Item

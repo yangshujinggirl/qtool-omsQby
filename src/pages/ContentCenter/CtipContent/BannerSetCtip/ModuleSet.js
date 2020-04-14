@@ -29,14 +29,31 @@ const ModuleSet=({...props})=> {
   const upDateList=(array)=> {
     setList(array)
   }
-  const handleSubmit =()=> {
-    GetSaveSetApi({
-      homepageModuleId,
-      backgroupPicUrl:list[0].response.result
-    })
-    .then(res => {
-      Qmessage.success('保存成功')
-    })
+  //格式化参数
+  const formatVal=(val)=> {
+    if(val&&val[0].response) {
+      let urlPath = val[0].response.result;
+      val = urlPath;
+    } else {
+      val = val.path;
+    }
+    return val;
+  }
+  const handleSubmit =async()=> {
+    try {
+      let  values = await form.validateFields();
+      let { backgroundPicUrl } = values;
+      backgroundPicUrl = formatVal(backgroundPicUrl);
+      GetSaveSetApi({
+        homepageModuleId,
+        backgroundPicUrl:list[0].response.result
+      })
+      .then(res => {
+        Qmessage.success('保存成功')
+      })
+    } catch (errorInfo) {
+      console.log('Failed:', errorInfo);
+    }
   }
   useEffect(()=>{ initPage() },[homepageModuleId]);
   useEffect(()=>{ form.setFieldsValue({backgroundPicUrl: list}) },[list])

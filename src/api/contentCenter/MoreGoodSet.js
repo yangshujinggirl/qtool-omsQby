@@ -12,3 +12,7 @@ export function GetInfoApi(homePageModuleId){
 export function GetSearchPdspuApi(pdSpuId){
     return appAjax.get(`/pdListDisplay/multilineSpu/${pdSpuId}/queryById`,{params:{type:1}})
 }
+//保存设置
+export function GetSaveSetApi(values){
+    return appAjax.post(`/homePageModule/update`,{...values})
+}

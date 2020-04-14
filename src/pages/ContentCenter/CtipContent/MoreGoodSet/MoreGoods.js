@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetInfoApi, GetSaveApi } from 'api/contentCenter/MoreGoodSet';
 import MainMod from './components/MainMod';
 const { RangePicker } = DatePicker;
@@ -30,14 +30,15 @@ const MoreGoodSet=({...props})=> {
     GetInfoApi(homepageModuleId)
     .then((res)=> {
       let { pdSpuList } = res.result;
-      pdSpuList=pdSpuList?pdSpuList:[]
-      setList(pdSpuList);
+      pdSpuList=pdSpuList?pdSpuList:[];
+      pdSpuList.map((el)=>el.key = el.pdSpuId);
+      upDateList(pdSpuList)
     })
   }
   const submit=async()=> {
     try {
       if(list.length< 6) {
-        message.error('请至少配置6个商品');
+        Qmessage.error('请至少配置6个商品');
         return;
       }
       let  values = await form.validateFields();

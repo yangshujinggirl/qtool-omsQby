@@ -7,7 +7,7 @@ import CommonMod from '../CommonMod';
 import SearchEdit from "./components/Edit";
 import "./index.less";
 
-let fileDomain = Sessions.get('fileDomain');
+
 
 class SearchMod extends Component {
   constructor(props) {
@@ -81,9 +81,10 @@ class SearchMod extends Component {
     this.setState({ visible: false });
   };
   render() {
+    let fileDomain = Sessions.get('fileDomain');
     const { visible, fileList,fileList2,fileList3, loading } = this.state;
     let { backgroundPicUrl, homepageModuleId } = this.props.info;
-    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+    backgroundPicUrl = `${fileDomain}/${backgroundPicUrl}`;
     return (
       <CommonMod
         goEdit={this.onEdit}

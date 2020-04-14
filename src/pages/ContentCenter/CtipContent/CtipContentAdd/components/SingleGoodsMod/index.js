@@ -21,73 +21,77 @@ class GoodsMod extends React.Component {
     this.props.history.push(`/account/singleGoods/${homepageModuleId}`);
   };
   render() {
-    let { titleColor, title, preHeatIcon, isDisplayCountdown, displayEndTime, isDisplayMore,
+    let { isDisplaySplitLine, titleColor, title, preHeatIcon, isDisplayCountdown, displayEndTime, isDisplayMore,
       homepageModuleId, moduleContent, moduleBackColor, isDisplay } = this.props.info;
     const fileDomain = Sessions.get('fileDomain');
     const endDate = new Date("2019-8-24"); // Christmas, yay
     return (
-      <CommonMod
-        goEdit={this.goEdit}
-        hasDisplayBtn={true}
-        isDisplay={isDisplay}
-        homepageModuleId={homepageModuleId}
-        className={`goods-mod ${!isDisplay ? "hiddle-module" : ""}`}
-        style={{ backgroundColor: moduleBackColor }}>
-        <div className="mod-wrap">
-          <div
-            className={
-              titleColor == 0
-                ? "black-title mod-common-head"
-                : "white-title mod-common-head"
-            }>
-            <div className="hd-item">
-              <span>{title}</span>
-              {
-                preHeatIcon?preHeatIcon
-                  :
-                  (
-                    !!isDisplayCountdown &&
-                    displayEndTime && (
-                      <Countdown date={displayEndTime} />
+      <div>
+        {!!isDisplaySplitLine&&<Line />}
+        <CommonMod
+          goEdit={this.goEdit}
+          hasDisplayBtn={true}
+          toggleShow={this.props.toggleShow}
+          isDisplay={isDisplay}
+          homepageModuleId={homepageModuleId}
+          className={`goods-mod ${!isDisplay ? "hiddle-module" : ""}`}
+          style={{ backgroundColor: moduleBackColor }}>
+          <div className="mod-wrap">
+            <div
+              className={
+                titleColor == 0
+                  ? "black-title mod-common-head"
+                  : "white-title mod-common-head"
+              }>
+              <div className="hd-item">
+                <span>{title}</span>
+                {
+                  preHeatIcon?preHeatIcon
+                    :
+                    (
+                      !!isDisplayCountdown &&
+                      displayEndTime && (
+                        <Countdown date={displayEndTime} />
+                      )
                     )
-                  )
-                }
-            </div>
-            {!!isDisplayMore && <p className="hd-item">查看更多</p>}
-          </div>
-          {moduleContent && moduleContent.length > 0 ? (
-            <div className="swiper-container goods-swiper-container">
-              <div className="swiper-wrapper">
-                {moduleContent.map((el, index) => (
-                  <div className="swiper-slide" key={`${el.pdSpuId}/${index}`}>
-                    <div className="item-icon">
-                      <div className="pic-wrap">
-                        <img src={`${fileDomain}${el.pdPic}`} />
-                        {el.tags && (
-                          <span className="tags-icon">{el.tags}</span>
-                        )}
-                      </div>
-                      <p className="title-level-one textOneLine">
-                        {el.sellingPoints ? el.sellingPoints : el.name}
-                      </p>
-                      <p className="price">
-                        ¥{el.showPrice}
-                        {el.hiddenPrice && (
-                          <span className="hiddle-price">
-                            ¥{el.hiddenPrice}
-                          </span>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  }
               </div>
+              {!!isDisplayMore && <p className="hd-item">查看更多</p>}
             </div>
-          ) : (
-            <div className="no-module-data goods-no-module">商品模块</div>
-          )}
-        </div>
-      </CommonMod>
+            {moduleContent && moduleContent.length > 0 ? (
+              <div className="swiper-container goods-swiper-container">
+                <div className="swiper-wrapper">
+                  {moduleContent.map((el, index) => (
+                    <div className="swiper-slide" key={`${el.pdSpuId}/${index}`}>
+                      <div className="item-icon">
+                        <div className="pic-wrap">
+                          <img src={`${fileDomain}${el.pdPic}`} />
+                          {el.tags && (
+                            <span className="tags-icon">{el.tags}</span>
+                          )}
+                        </div>
+                        <p className="title-level-one textOneLine">
+                          {el.sellingPoints ? el.sellingPoints : el.name}
+                        </p>
+                        <p className="price">
+                          ¥{el.showPrice}
+                          {el.hiddenPrice && (
+                            <span className="hiddle-price">
+                              ¥{el.hiddenPrice}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="no-module-data goods-no-module">商品模块</div>
+            )}
+          </div>
+        </CommonMod>
+      </div>
     );
   }
 }

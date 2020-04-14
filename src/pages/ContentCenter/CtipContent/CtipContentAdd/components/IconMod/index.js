@@ -14,8 +14,9 @@ const IconMod=({...props})=> {
   return(
     <CommonMod
       hasDisplayBtn={true}
-      toggleShow={()=>{}}
+      toggleShow={props.toggleShow}
       goEdit={goEdit}
+      isDisplay={isDisplay}
       homepageModuleId={homepageModuleId}
       className={`icon-mod hasLine ${!isDisplay?'hiddle-module':''}`}
       style={{'backgroundColor':moduleBackColor}}>

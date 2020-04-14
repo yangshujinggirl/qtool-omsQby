@@ -9,5 +9,5 @@ export function GetSaveApi(values){
 }
 //保存设置
 export function GetSaveSetApi(values){
-    return appAjax.post(`/module/picture/setting`,{...values})
+    return appAjax.post(`/homePageModule/update`,{...values})
 }

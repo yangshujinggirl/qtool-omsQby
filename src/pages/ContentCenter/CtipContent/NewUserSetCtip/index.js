@@ -3,6 +3,7 @@ import {
   Input,Spin,Form,Select,Table,Card,
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
+import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetListApi, GetSaveApi } from 'api/contentCenter/NewUserSetCtip';
@@ -43,21 +44,38 @@ const NewUserGift=({...props})=> {
   const submit=async()=> {
     try {
       let  values = await form.validateFields();
-      let { newComerPicUrl, couponPopUpPicUrl, time, ...params } =valus;
+      let { newComerPicUrl, couponPopUpPicUrl, time, ...params } =values;
+      newComerPicUrl = formatVal(newComerPicUrl);
+      couponPopUpPicUrl = formatVal(couponPopUpPicUrl);
       params.beginTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss')
       params.endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
-      console.log(params);
-      // GetSaveApi(params)
-      // .then((res)=> {
-      //   Qmessage.success('保存成功');
-      //   func&&typeof func == 'function'?func():getList(activiKey)
-      // })
+      params = {...params, newComerPicUrl, couponPopUpPicUrl, homepageModuleId };
+      GetSaveApi(params)
+      .then((res)=> {
+        Qmessage.success('保存成功');
+      })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
   }
-  const onValuesChange=()=> {
-
+  //格式化参数
+  const formatVal=(val)=> {
+    if(val&&val[0].response) {
+      let urlPath = val[0].response.result;
+      val = urlPath;
+    } else {
+      val = val.path;
+    }
+    return val;
+  }
+  const onSelect=(value,index)=> {
+    let currentItem=couponList.find((el)=>el.couponId == value);
+    list[index] = {
+      ...list[index],
+      ...currentItem
+    };
+    list=[...list]
+    setList(list)
   }
   const upDateList=(array)=> {
     setList(array)
@@ -71,12 +89,12 @@ const NewUserGift=({...props})=> {
     setTotalData(totalData)
   }
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
-  useEffect(()=> {getInfo()},[homepageModuleId])
+  useEffect(()=> {getInfo()},[homepageModuleId]);
+
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
         <Form
-          onValuesChange={onValuesChange}
           className="common-addEdit-form"
           form={form}
           {...formItemLayout}>
@@ -111,7 +129,7 @@ const NewUserGift=({...props})=> {
                 btnText="新增"
                 dataSource={list}
                 upDateList={upDateList}
-                columns={ColumnsAdd(couponList)}/>
+                columns={ColumnsAdd(couponList, onSelect)}/>
             </FormItem>
           </Card>
           <Card title="模块设置">

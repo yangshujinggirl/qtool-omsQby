@@ -56,8 +56,8 @@ function* fetchTotal(action){
     })
     let specOne = attrList[0].attributeValueList
     let specTwo = attrList[1]?attrList[1].attributeValueList:[];
-    pdSpu.pdType1Id = attrList[0].attributeName;
-    pdSpu.pdType2Id = attrList[1]?attrList[1].attributeName:'';
+    pdSpu.pdType1Id = attrList[0].attributeId;
+    pdSpu.pdType2Id = attrList[1]?attrList[1].attributeId:'';
     yield call(getSpec,{payload:{specData:{ specOne, specTwo }}});
     yield call(getLoad,{payload:false})
   }

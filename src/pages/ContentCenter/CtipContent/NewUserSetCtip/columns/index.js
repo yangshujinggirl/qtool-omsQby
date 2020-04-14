@@ -2,7 +2,7 @@
 import { Input, Form, DatePicker, Select, Button } from 'antd';
 const FormItem = Form.Item;
 
-const ColumnsAdd=(optionSource)=>{
+const ColumnsAdd=(optionSource, onSelect)=>{
   return [
     {
       title: '序号',
@@ -20,11 +20,11 @@ const ColumnsAdd=(optionSource)=>{
       width:'10%',
       render:(text,record,index)=> {
         return <FormItem name={['couponIds',index]} rules={[{ required:true,message:'请输入名称'}]}>
-                <Select placeholder="请选择你要发放的优惠券">
+                <Select placeholder="请选择你要发放的优惠券" onSelect={(value,option)=>onSelect(value,index)}>
                   {optionSource && optionSource.map(item => (
-                    <Option key={item.couponId} value={item.couponId} >
+                    <Select.Option key={item.couponId} value={item.couponId} >
                       {item.couponName}
-                    </Option>
+                    </Select.Option>
                   ))}
                 </Select>
               </FormItem>
