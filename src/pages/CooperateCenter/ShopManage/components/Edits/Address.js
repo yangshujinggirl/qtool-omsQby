@@ -2,16 +2,30 @@ import { Input, Cascader, Form } from "antd";
 import React, { useEffect, useState } from "react";
 import { getProvinceListApi } from "api/home/CooperateCenter/ShopManage";
 
-const Address = props => {
+const Address = (props) => {
   const [options, setOptions] = useState([]);
   useEffect(() => {
     //获取省市区
-    getProvinceListApi().then(res => {
+    getProvinceListApi().then((res) => {
       if (res.httpCode == 200) {
         setOptions(res.result);
       }
     });
   }, []);
+  //比例自定义校验
+  const validatorLng = (rule, value) => {
+    if (value <= 180 && value >= -180) {
+      return Promise.resolve();
+    }
+    return Promise.reject("请输入正确的经度");
+  };
+  //比例自定义校验
+  const validatorLat = (rule, value) => {
+    if (value <= 90 && value >= -90) {
+      return Promise.resolve();
+    }
+    return Promise.reject("请输入正确的纬度");
+  };
   return (
     <React.Fragment>
       <Form.Item
@@ -31,14 +45,20 @@ const Address = props => {
       <Form.Item
         name="warp"
         label="门店经度"
-        rules={[{ required: true, message: "请输入门店经度" }]}
+        rules={[
+          { required: true, message: "请输入门店经度" },
+          { validator: validatorLng },
+        ]}
       >
         <Input placeholder="请输入门店经度" autoComplete="off" />
       </Form.Item>
       <Form.Item
         name="weft"
         label="门店纬度"
-        rules={[{ required: true, message: "请输入门店纬度" }]}
+        rules={[
+          { required: true, message: "请输入门店纬度" },
+          { validator: validatorLat },
+        ]}
       >
         <Input placeholder="请输入门店纬度" autoComplete="off" />
       </Form.Item>

@@ -134,6 +134,7 @@ const subColumns = [
     )
   }
 ];
+//编辑页的sku信息
 const editColumns = [
   {
     title: "SKU编码",
@@ -150,7 +151,10 @@ const editColumns = [
   },
   {
     title: "SKU图片",
-    dataIndex: "img"
+    dataIndex: "img",
+    render:(text,record,index)=>(
+      <img src={sessionStorage.getItem('oms_fileDomain')+record.image} style={{'width':'80px','height':'80px'}}/>
+    )
   },
   {
     title: "掌柜售价(元)",

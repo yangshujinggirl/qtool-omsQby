@@ -8,7 +8,7 @@ const AuditModal = (props) => {
   const [form] = Form.useForm();
   const { stockingCode, visible } = props;
   useEffect(() => {
-    form.setFields({status:null});
+    form.setFieldsValue({status:null});
   },[]);
   //审核通过、不通过
   const onOk = deBounce(async () => {
@@ -16,7 +16,7 @@ const AuditModal = (props) => {
     values.stockingCodeList = [stockingCode];
     PushPurchaseInOrderBatchReview(values).then((res) => {
       if (res.httpCode == 200) {
-        props.onClear();
+        props.onClear('ok');
       }
     });
   }, 500);
@@ -26,7 +26,7 @@ const AuditModal = (props) => {
         title="采购单审核"
         visible={visible}
         onOk={onOk}
-        onCancel={() => props.onClear()}
+        onCancel={() => props.onClear('cancel')}
       >
         <Form form={form}>
           <FormItem

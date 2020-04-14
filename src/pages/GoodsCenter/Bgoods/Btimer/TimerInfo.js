@@ -41,7 +41,15 @@ const TimerInfo = props => {
         labelCol={{ span: 3, offset: 1 }}
         wrapperCol={{ span: 8 }}
       >
-        {infos.extraField == 0 ? "上架" : "下架"}
+          <div>
+          {infos.statusnew == 1 ? <span>上新　</span> : <span>下新　</span>}
+          {infos.statushot == 1 ? (
+            <span>上畅销　</span>
+          ) : (
+            <span>下畅销　</span>
+          )}
+          {infos.salestatus == 1 ? <span>上架　</span> : <span>下架　</span>}
+        </div>
       </FormItem>
 
       <FormItem

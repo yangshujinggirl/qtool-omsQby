@@ -19,7 +19,7 @@ class Btimer extends Component {
       taskList: [],
       everyPage: 20,
       currentPage: 0,
-      totalCount: 0,
+      total: 0,
       inputValues: {}
     };
   }
@@ -33,7 +33,7 @@ class Btimer extends Component {
     const params = { ...this.state.inputValues, ...values };
     GetTimeListsApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, totalCount } = res.result;
+        let { result, everyPage, currentPage, total } = res.result;
         const taskList = result.map(item => {
           item.key = item.id;
           return item;
@@ -42,7 +42,7 @@ class Btimer extends Component {
           taskList,
           everyPage,
           currentPage,
-          totalCount
+          total
         });
       }
     });
@@ -80,6 +80,7 @@ class Btimer extends Component {
       res => {
         if (res.httpCode == 200) {
           message.success("强制失效完毕", 0.8);
+          this.searchData(this.state.inputValues)
         }
         this.setState({
           visible: false,
@@ -102,7 +103,7 @@ class Btimer extends Component {
       taskList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
       visible,
       taskName
     } = this.state;
@@ -123,7 +124,7 @@ class Btimer extends Component {
           onOperateClick={this.handleOperateClick}
         />
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
         {visible && (

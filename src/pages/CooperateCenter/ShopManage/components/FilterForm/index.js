@@ -44,11 +44,11 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <Form.Item
-                name="provinceId"
+                name="province"
                 label="省份"
                 {...this.formItemLayout}
               >
-                <Cascader options={this.state.options} />
+                <Cascader options={this.state.options} changeOnSelect/> 
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -83,7 +83,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col span={24}>
               <Form.Item className="oms-condition-operate">
-                <Qbtn type="primary" onClick={this.handleSubmit.bind(this)}>
+                <Qbtn type="primary" onClick={this.handleSubmit}>
                   搜索
                 </Qbtn>
               </Form.Item>

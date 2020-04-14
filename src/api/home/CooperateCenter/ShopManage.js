@@ -25,3 +25,10 @@ export function getProvinceListApi(values) {
     ...values
   });
 }
+//密码重置
+export function resetPwdApi(values) {
+  return omsAjax.get("/channel/resetPwd", {
+    params:values
+  });
+}
+
