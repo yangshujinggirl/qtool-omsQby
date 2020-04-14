@@ -1,30 +1,41 @@
 import { Input, Radio, Form, Upload }from 'antd';
 import { useState } from 'react';
+import { Sessions } from 'utils';
 import { PlusOutlined, LoadingOutlined, DownOutlined,UpOutlined, CloseOutlined } from '@ant-design/icons';
 import { QupLoadImgLimt, Qbtn } from 'common';
 import { GetSearchApi } from 'api/contentCenter/PageSetCtip';
+import AddModal from  '../AddModal';
 import ruleTitle from '../../img/rule_title.png';
 import './index.less';
 
 const ImageTextEdit=({...props})=> {
-  let { detailImg, upDateList } =props;
+  let { detailImg } =props;
   let newArray = [...detailImg];
   let [deKey,setDeKey] = useState(newArray.length);
   let [funcType,setFuncType] = useState(1);
   let [fileList,setFileList] = useState([]);
   let [loading,setLoad] = useState(false);
+  let [visible,setVisible] = useState(false);
+  let [currentItem,setCurrentItem] = useState({text:[],type:1});
+  let fileDomain=Sessions.get("fileDomain");
 
+  const handleEdit=(record,index)=> {
+    setVisible(true);
+    setCurrentItem(record);
+  }
   const handlAdd=(type)=> {
     deKey++;
     // let item = { type, content:type==1?[]:'', key: deKey };
     // newArray.push(item);
     // upDateList(newArray);
     setDeKey(deKey);
-    setFuncType(type)
+    // setFuncType(type)
+    setVisible(true);
+    setCurrentItem({type, text:type==1?[]:'', key: deKey});
   }
   const handleDelete=(index)=> {
     newArray.splice(index,1);
-    upDateList(newArray);
+    props.upDateList(newArray);
   }
   const handleUp=(index)=> {
     let item = newArray[index];
@@ -46,11 +57,30 @@ const ImageTextEdit=({...props})=> {
   const handleChange = (e,index) => {
     let value = e.target.value;
     newArray[index] = {...newArray[index],content: value };
-    upDateList(newArray);
+    props.upDateList(newArray);
   };
-  const handleChangeFile = (imageUrl,index) => {
+  const handleChangeFile = (newArray) => {
+    console.log("newArray",newArray)
     setFileList(newArray);
   };
+  const onOk=(items)=> {
+    newArray.push(items);
+    props.upDateList(newArray);
+    setVisible(false);
+  }
+  const onCancel=()=> {
+    setVisible(false);
+  }
+  //格式化参数
+  const formatVal=(val)=> {
+    if(val&&val[0].response) {
+      let urlPath = val[0].response.result;
+      val = urlPath;
+    } else {
+      val = val.path;
+    }
+    return val;
+  }
   const onSubmit=async()=> {
     try{
       const values = await props.form.validateFields(['text','template','pdCode','rowcode']);
@@ -58,7 +88,8 @@ const ImageTextEdit=({...props})=> {
       let items;
       switch (funcType) {
         case 1:
-          items = { type:funcType, text, pdCode }
+          text = formatVal(text);
+          items = { type:funcType, text }
           break;
         case 2:
           GetSearchApi({codes:[pdCode,rowcode]})
@@ -72,8 +103,9 @@ const ImageTextEdit=({...props})=> {
           break;
         default:
       }
+      console.log(items)
       newArray.push(items);
-      upDateList(newArray);
+      props.upDateList(newArray);
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
@@ -83,12 +115,7 @@ const ImageTextEdit=({...props})=> {
     switch (el.type) {
       case 1:
         mod= <div className="uploadImg-content">
-              <QupLoadImgLimt
-              name={['productDetailImgList',index,'content']}
-              fileList={el.content}
-              limit="1"
-              upDateList={(fileList)=>handleChangeFile(fileList,index)}
-              rules={[{ required: true, message: '请上传图片' } ]}/>
+              <img src={`${fileDomain}/${el.text}`}/>
             </div>
         break;
       case 2:
@@ -221,7 +248,7 @@ const ImageTextEdit=({...props})=> {
                             <div className="btns-action">
                               <span className="icon-wrap" onClick={()=>handleDown(idx)}><DownOutlined /></span>
                               <span className="icon-wrap" onClick={()=>handleUp(idx)}><UpOutlined /></span>
-                              <span className="icon-wrap" onClick={()=>handleUp(idx)}>编辑</span>
+                              <span className="icon-wrap" onClick={()=>handleEdit(el,idx)}>编辑</span>
                               <span className="icon-wrap" onClick={()=>handleDelete(idx)}><CloseOutlined /></span>
                             </div>
                           </div>
@@ -230,13 +257,19 @@ const ImageTextEdit=({...props})=> {
               }
             </div>
           </div>
-          <div className="right-are">
+          {/*<div className="right-are">
             <p className="tit-par">商品编辑区</p>
             <div className="content-par">
               {funcEdit()}
               <Qbtn onClick={onSubmit}>确定</Qbtn>
             </div>
-          </div>
+          </div>*/}
+          <AddModal
+            form={props.form}
+            currentItem={currentItem}
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}/>
         </div>
 }
 export default ImageTextEdit;

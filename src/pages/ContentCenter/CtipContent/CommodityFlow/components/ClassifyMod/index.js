@@ -76,20 +76,20 @@ const ClassifyMod=({...props})=> {
     }
     GetAddClassProApi({categoryAddStr:paramsStr})
     .then((res) => {
-      let { spuList, code } =res;
+      let { result } =res;
         let differenceLen = Number(100)-Number(goodsList.length);
         for(var i=0;i< goodsList.length;i++){
-            for(var j = 0;j< spuList.length;j++){
-              if(goodsList[i].pdSpuId == spuList[j].pdSpuId) {
-                spuList.splice(j,1);
+            for(var j = 0;j< result.length;j++){
+              if(goodsList[i].pdSpuId == result[j].pdSpuId) {
+                result.splice(j,1);
               }
             }
         }
-        if(spuList.length > differenceLen) {
+        if(result.length > differenceLen) {
           message.error('表格仅支持添加100个商品，超出的商品添加失败',4);
-          spuList = spuList.slice(0,differenceLen)
+          result = result.slice(0,differenceLen)
         }
-        goodsList =[...goodsList,...spuList]
+        goodsList =[...goodsList,...result]
         goodsList.map((el,index) => {
           el.FixedPdSpuId = el.pdSpuId;
           el.key = index;

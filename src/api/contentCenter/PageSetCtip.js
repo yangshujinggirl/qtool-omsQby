@@ -13,5 +13,5 @@ export function GetInfoApi(pdConfigureId){
 }
 
 export function GetSearchApi(values){
-    return appAjax.get(`/pdConfigure/code`,{params:{...values}})
+    return appAjax.post(`/pdConfigure/code`,{...values})
 }

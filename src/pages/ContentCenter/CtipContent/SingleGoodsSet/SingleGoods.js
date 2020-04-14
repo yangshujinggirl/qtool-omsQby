@@ -24,6 +24,7 @@ const formItemLayout = {
 const MoreGoodSet=({...props})=> {
   const [form] = Form.useForm();
   let { params } =props;//时段参数
+  console.log(params)
   let [goods,setGoods]=useState({listOne:[],listTwo:[]});
   let [list,setList]=useState([]);
   let [totalData,setTotalData]=useState({});
@@ -61,11 +62,11 @@ const MoreGoodSet=({...props})=> {
       } else if(fieldsOne) {
         pdSpuList = fieldsOne;
       }
-      let params= { homepageModuleId, pdSpuList, pdListDisplayCfgId:params.pdListDisplayCfgId};
-      if(params.type == 1) {
-        params = {...params,activityId}
+      let val= { homepageModuleId, pdSpuList, pdListDisplayCfgId:params.pdListDisplayCfgId};
+      if(val.type == 1) {
+        val = {...val,activityId}
       }
-      GetSaveGoodsApi(params)
+      GetSaveGoodsApi(val)
       .then((res)=> {
         Qmessage.success('保存成功');
       })
