@@ -17,8 +17,9 @@ import {
   GetPurchaseInOrderListApi,
   PushPurchaseInOrderForceComplete,
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
+import {GetLodop} from './components/PrintOrder/print';
 import {
-  ErpExportApi,
+  OmsExportApi,
   EXPORT_TYPE_PURCHASE_ORDER_IN,
   getExportData,
 } from "../../../../api/Export";
@@ -52,9 +53,8 @@ function showForceCompleteModalClick(_this) {
 function showModalClick(_this) {
   //判断是否有选择
   if (_this.state.selectedRowKeys.length === 0) {
-    Qmessage.warn("请至少选择一个采购单");
+    message.warning("请至少选择一个采购单", 0.8);
   } else {
-    console.log(111);
     _this.setState({
       showModal: true,
     });
@@ -82,6 +82,25 @@ function onClear(_this, type) {
   if (type != "cancel") {
     _this.refreshDataList();
   }
+}
+//打印采购单
+function printCgorder(_this) {
+  const {selectedRowKeys,selectedRows} = _this.state;
+  if (selectedRowKeys.length < 1) {
+    message.error("请选择采购单", 0.8);
+    return;
+  }
+  for (var i = 0; i < selectedRows.length; i++) {
+    GetLodop(
+      selectedRows[i].wsAsnId,
+      "wsAsnOrder",
+      selectedRows[i].asnNo
+    );
+  }
+  _this.setState({
+    selectedRowKeys:[],
+    selectedRows:[]
+  })
 }
 
 /**
@@ -119,11 +138,13 @@ const PurchaseInOrderList = QbaseList(
           <Qbtn size="free" onClick={() => showModalClick(_this)}>
             强制完成
           </Qbtn>
-          <Qbtn size="free">打印采购单</Qbtn>
+          <Qbtn size="free" onClick={()=>printCgorder(_this)}>
+            打印采购单
+          </Qbtn>
           <Qbtn
             size="free"
             onClick={() =>
-              new ErpExportApi(
+              OmsExportApi(
                 getExportData(
                   searchCriteriaList.stime,
                   searchCriteriaList.etime,
