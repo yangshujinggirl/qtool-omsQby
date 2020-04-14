@@ -111,7 +111,7 @@ class AddShopManage extends Component {
   };
   //保存
   handleSubmit = async () => {
-     this.f ,ormRef.current.scrollToField(err=>{
+     this.formRef.current.scrollToField(err=>{
       consle.log(err)
     });
     const values = await this.formRef.current.validateFields();
