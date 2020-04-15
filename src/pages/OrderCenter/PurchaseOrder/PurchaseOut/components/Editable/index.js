@@ -1,28 +1,33 @@
-import { Form, Table, Button, Input } from "antd";
+import { Form, Table, Input, Popover } from "antd";
+import { QuestionCircleFilled } from "@ant-design/icons";
 import NP from "number-precision";
-import { useEffect } from "react";
-
-const EditTable = props => {
+const content = "可退数量=该商品的已收货总数量-该商品的已创建采退的总数量";
+const EditTable = (props) => {
   const Columns = [
     {
       title: "SKU编码",
       dataIndex: "itemCode",
-      width: 100
+      width: 100,
     },
     {
       title: "商品名称",
       dataIndex: "itemName",
-      width: 100
+      width: 100,
     },
     {
       title: "商品规格",
       dataIndex: "salesAttributeName",
-      width: 100
+      width: 100,
     },
     {
-      title: "可退数量",
+      title: (
+        <Popover content={content}>
+          可退数量
+          <QuestionCircleFilled style={{color:'#efefef'}}/>
+        </Popover>
+      ),
       dataIndex: "returnableNum",
-      width: 100
+      width: 100,
     },
     {
       title: "采退数量",
@@ -40,17 +45,17 @@ const EditTable = props => {
                   return Promise.resolve();
                 }
                 return Promise.reject("需小于可退数量");
-              }
-            }
+              },
+            },
           ]}
         >
           <Input
             placeholder="采购数量"
             autoComplete="off"
-            onBlur={e => onChange(e, record, "amount")}
+            onBlur={(e) => onChange(e, record, "amount")}
           />
         </Form.Item>
-      )
+      ),
     },
     {
       title: "采退单价",
@@ -61,22 +66,22 @@ const EditTable = props => {
           name={["goodList", index, "price"]}
           rules={[
             { required: true, message: "请输入" },
-            { pattern: /^\d+(\.\d{0,4})?$/, message: "请输入≥0的数字" }
+            { pattern: /^\d+(\.\d{0,4})?$/, message: "请输入≥0的数字" },
           ]}
         >
           <Input
             placeholder="采购单价"
             autoComplete="off"
-            onBlur={e => onChange(e, record, "price")}
+            onBlur={(e) => onChange(e, record, "price")}
           />
         </Form.Item>
-      )
+      ),
     },
     {
       title: "金额小计",
       dataIndex: "total",
       width: 100,
-    }
+    },
   ];
 
   /**数量或者单价变化时
@@ -88,15 +93,15 @@ const EditTable = props => {
     const { value } = e.target;
     const newData = [...props.dataSource];
     if (value.trim()) {
-      const index = newData.findIndex(item => item.key == record.key);
+      const index = newData.findIndex((item) => item.key == record.key);
       let item = newData[index];
       if (type == "price") {
         let total = NP.times(Number(item.amount), Number(value)).toFixed(2);
-        item = {...item,total,price:value};
+        item = { ...item, total, price: value };
       }
       if (type == "amount") {
         let total = NP.times(Number(value), Number(item.price)).toFixed(2);
-        item = {...item,total,amount:value}
+        item = { ...item, total, amount: value };
       }
       newData.splice(index, 1, item);
       props.changeDataSource(newData);

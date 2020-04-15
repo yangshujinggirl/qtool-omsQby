@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { AUDIT_STATUS_NO_PASS } from "../config";
+import { AUDIT_STATUS_NO_PASS,AUDIT_STATUS_WAIT } from "../config";
 import React from "react";
 
 const Columns = [
@@ -56,11 +56,10 @@ const Columns = [
         {record.status === AUDIT_STATUS_NO_PASS ? (
           <Link
             to={`/account/add_purchaseOut/${record.stockingReCode}`}
-            className="link-color action-left"
-          >
-            修改
-          </Link>
+            className="link-color"
+          >修改</Link>
         ) : null}
+         {record.status === AUDIT_STATUS_WAIT ? <a className='theme-color' onClick={()=>record.onOperateClick()}>审核</a> : null}
       </div>
     )
   }

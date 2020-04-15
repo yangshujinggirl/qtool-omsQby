@@ -26,7 +26,7 @@ class Qpagination extends Component {
     return(
       <div className="common-pagination-components">
         <Pagination
-          showTotal={totalCount => `共${totalCount}条`}
+          showTotal={total => `共${total}条`}
           total={total}
           pageSize={everyPage}
           current={currentPage}

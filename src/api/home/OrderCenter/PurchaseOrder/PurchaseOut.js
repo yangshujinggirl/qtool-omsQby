@@ -26,7 +26,7 @@ export function PushPurchaseOutOrderBatchReview(values, status) {
 export function GetPurchaseOutOrderDetailApi(stockingReCode) {
     return omsAjax.get('/thinkStockingRefund/getStockRefundDetail', {
         params: {
-            stockingReCode: stockingReCode
+            stockingReCode
         }
     })
 }
@@ -72,5 +72,12 @@ export function addPurchaseOutApi(values) {
   export function getProvinceListApi(values) {
     return omsAjax.get("city/find");
   }
+     /**
+   * 搜索仓库
+   */
+  export function getPurchaseOutAudtiApi(values) {
+    return omsAjax.post("/thinkStockingRefund/thinkStockingReCheck",values);
+  }
+
 
 

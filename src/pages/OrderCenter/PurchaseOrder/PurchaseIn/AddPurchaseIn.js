@@ -61,7 +61,7 @@ const AddPurchaseIn = props => {
   const getValueFormat = res => {
     if (res.httpCode == 200) {
       const { data,suppliersCode, ...infos } = res.result;
-      infos.predictCtimeStr = moment(infos.predictCtimeStr);
+      infos.predictCtimeStr = infos.predictCtimeStr?moment(infos.predictCtimeStr):null;
       setLogisticsType(infos.logisticsType);
       data.map(item => {
         item.key = item.id;

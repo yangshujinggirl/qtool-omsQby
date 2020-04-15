@@ -102,6 +102,7 @@ function QbaseList(
      * @param everyPage 每页数量
      */
     changePage = (currentPage, everyPage) => {
+      debugger
       this.searchDataList(
         this.state.searchCriteriaList,
         false,

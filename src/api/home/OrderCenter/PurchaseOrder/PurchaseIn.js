@@ -5,7 +5,7 @@ import { omsAjax } from "../../../Req";
  */
 export function GetPurchaseInOrderListApi(values) {
   return omsAjax.get("/thinkStocking/searchByQbc", {
-    params: { ...values }
+    params: { ...values },
   });
 }
 
@@ -14,7 +14,7 @@ export function GetPurchaseInOrderListApi(values) {
  */
 export function PushPurchaseInOrderForceComplete(values) {
   return omsAjax.post("/thinkStocking/purchaseComplete", {
-    stockingCodeList: values
+    stockingCodeList: values,
   });
 }
 
@@ -22,14 +22,14 @@ export function PushPurchaseInOrderForceComplete(values) {
  * 推送批量审核数据
  */
 export function PushPurchaseInOrderBatchReview(values) {
-  return omsAjax.post("/thinkStocking/thinkStockingCheck",values);
+  return omsAjax.post("/thinkStocking/thinkStockingCheck", values);
 }
 /**
  * 新建、修改
  */
 export function addPurchaseinApi(values) {
   return omsAjax.post("/thinkStocking/createAndUpdateThinkStocking", {
-    ...values
+    ...values,
   });
 }
 /**
@@ -37,7 +37,7 @@ export function addPurchaseinApi(values) {
  */
 export function searchSupplierApi(values) {
   return omsAjax.get("/supplier/rummageSupplierInfo", {
-    params: { ...values }
+    params: { ...values },
   });
 }
 /**
@@ -45,7 +45,7 @@ export function searchSupplierApi(values) {
  */
 export function searchStoreApi(values) {
   return omsAjax.get("/warehouse/usableWarehouse", {
-    params: { ...values }
+    params: { ...values },
   });
 }
 /**
@@ -53,7 +53,7 @@ export function searchStoreApi(values) {
  */
 export function searchPriceApi(values) {
   return omsAjax.get("/items/skuSimpleInfoByCode", {
-    params: { ...values }
+    params: { ...values },
   });
 }
 
@@ -64,8 +64,8 @@ export function searchPriceApi(values) {
 export function GetPurchaseInOrderDetailApi(values) {
   return omsAjax.get("/thinkStocking/getThinkStockingDetail", {
     params: {
-      ...values
-    }
+      ...values,
+    },
   });
 }
 
@@ -76,7 +76,25 @@ export function GetPurchaseInOrderDetailApi(values) {
 export function GetPurchaseInOrderOptionsLogsApi(stockingCode) {
   return omsAjax.get("/thinkStocking/getStockingLog", {
     params: {
-      orderCode: stockingCode
-    }
+      orderCode: stockingCode,
+    },
+  });
+}
+/**
+ *
+ * @param {获取打印页数} values
+ */
+export function getPrintPage(values) {
+  return omsAjax.get("/thinkStocking/getPrintPage", {
+    params: values,
+  });
+}
+/**
+ *
+ * @param {获取打印的html页面} values
+ */
+export function getPrintHtml(values) {
+  return omsAjax.get("/thinkStocking/printData", {
+    params: values,
   });
 }

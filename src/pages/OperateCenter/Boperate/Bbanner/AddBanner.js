@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Select, Radio, Button } from "antd";
-import Upload from "common/QupLoadImgLimt";
+import QupLoadImgLimt from "common/QupLoadImgLimt";
 import { Qbtn } from "common";
 import {
   saveApi,
@@ -16,7 +16,6 @@ const Bpush = props => {
   const [form] = Form.useForm();
   const [jumpCode, setJumpCode] = useState(0);
   const [fileList, setFileList] = useState([]);
-  const [imgUrl, setImgUrl] = useState('');
   const { id } = props.match.params;
   //修改时初始化数据
   useEffect(() => {
@@ -28,14 +27,24 @@ const Bpush = props => {
             url,
            ...infos
           } = res.result;
-          const fileList = [{
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url:sessionStorage.getItem('oms__fileDomain')+url
-          }]
+          let fileList = []
+          if(url){
+            fileList = [{
+              uid: '-1',
+              name: 'image.png',
+              status: 'done',
+              url:sessionStorage.getItem('oms_fileDomain')+url,
+              img:url
+            }]
+          }
+          if(infos.configureCode){
+            infos.jumpCode = 1;
+          }
+          if(infos.configureUrl){
+            infos.jumpCode = 2;
+          }
+          infos.url = fileList;
           setFileList(fileList)
-          setImgUrl(url)
           form.setFieldsValue(infos);
         }
       });
@@ -56,6 +65,9 @@ const Bpush = props => {
   //保存
   const handleSubmit = async e => {
     const values = await form.validateFields();
+    if(fileList.length==0){
+      return message.error('请上传图片',.8)
+    }
     const params = formatValue(values);
     saveApi(params).then(res => {
       if (res.httpCode == 200) {
@@ -65,7 +77,8 @@ const Bpush = props => {
   };
   //请求数据格式化
   const formatValue = values => {
-    values.url = imgUrl;
+    const {url} = values;
+    values.url = url[0]&&url[0].response?url[0].response.result:url[0].img;
     values.type = 10;
     if(id){
       values.pdBannerId = id;
@@ -80,9 +93,6 @@ const Bpush = props => {
   };
   const upDateList = fileList => {
     setFileList(fileList);
-    if(fileList[0]&&fileList[0].response&&fileList[0].response.httpCode== 200){
-      setImgUrl(fileList[0].response.result[0])
-    }
   };
   const radioStyle = {
     display: "block",
@@ -90,6 +100,7 @@ const Bpush = props => {
     lineHeight: "30px",
     marginBottom: "20px"
   };
+  console.log(fileList)
   return (
     <div className="oms-common-addEdit-pages">
       <Form
@@ -174,7 +185,8 @@ const Bpush = props => {
         <Form.Item label="展示App">Q掌柜App</Form.Item>
         <Form.Item label="banner图片">
           <div className="add_b_banner">
-            <Upload
+            <QupLoadImgLimt
+              name='url'
               action="/qtoolsErp/upload/img?type=banner"
               limit={1}
               fileList={fileList}
