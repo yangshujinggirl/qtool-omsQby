@@ -44,53 +44,24 @@ function EditImg({...props}) {
     if(!pdConfigureId) {
       return;
     }
-    setLoading(true)
+    // setLoading(true)
     GetInfoApi(pdConfigureId)
     .then((res) => {
-      // let { spuImgList, productDetailImgList, skuList,...pdSpu } =res.result;
-      // spuImgList =spuImgList?spuImgList:[]
-      // productDetailImgList =productDetailImgList?productDetailImgList:[{key:0,type:2}]
-      // skuList =skuList?skuList:[];
-      // spuImgList = spuImgList.map((el,index)=> {
-      //   let item = {
-      //         uid: index,
-      //         name: 'image.png',
-      //         status: 'done',
-      //         path:el,
-      //         url:`${fileDomain}${el}`
-      //       }
-      //   return item;
-      // })
-      // skuList = skuList.map((el,index)=> {
-      //   let item = {
-      //         uid: index,
-      //         name: 'image.png',
-      //         status: 'done',
-      //         path:el.skuImg,
-      //         url:`${fileDomain}${el.skuImg}`
-      //       }
-      //   el.skuImg = el.skuImg?[item]:[];
-      //   el.key = index;
-      //   return el;
-      // })
-      // productDetailImgList = productDetailImgList.map((el,index)=> {
-      //   if(el.type==2) {
-      //     let item = {
-      //           uid: index,
-      //           name: 'image.png',
-      //           status: 'done',
-      //           path:el.content,
-      //           url:`${fileDomain}${el.content}`
-      //         }
-      //     el.content = el.content?[item]:[];
-      //   }
-      //   return el;
-      // })
-      // setLoading(false)
-      // setTotal(pdSpu);
-      // setFileList(spuImgList);
-      // setSkuList(skuList);
-      // setDetailImg(productDetailImgList);
+      let { pdConfigureConfigList,...val } =res.result;
+      pdConfigureConfigList = pdConfigureConfigList.map((el,index)=> {
+        if(el.type == 1) {
+          el.fileList = {
+                uid: index,
+                name: 'image.png',
+                status: 'done',
+                path:el.text,
+                url:`${fileDomain}${el.text}`
+              }
+        }
+        return el;
+      })
+      setTotal(val);
+      setDetailImg(pdConfigureConfigList)
     })
   }
   const goReturn=()=> {
@@ -114,21 +85,9 @@ function EditImg({...props}) {
       let { shareFriendImg, shareFriendCircleImg, productDetailImgList, ..._val } =values;
       shareFriendImg = formatList(shareFriendImg);
       shareFriendCircleImg = formatList(shareFriendCircleImg);
-      productDetailImgList = productDetailImgList.map((el,index) => {
-        detailImg.map((item,idx)=> {
-          if(index==idx) {
-            el.type = item.type;
-            if(el.type==1) {
-              el.content = formatList(el.content);
-              el.content = el.content[0];
-            }
-          }
-        })
-        return el;
-      })
       let params={
         ..._val,
-        pdConfigureConfigList:productDetailImgList,
+        pdConfigureConfigList:detailImg,
         shareFriendImg:shareFriendImg[0],
         shareFriendCircleImg:shareFriendCircleImg[0]
       }
@@ -158,8 +117,8 @@ function EditImg({...props}) {
   useEffect(()=>{ getInfo() },[pdConfigureId])
   useEffect(()=>{ form.setFieldsValue({shareFriendImg:imgList}) },[imgList])
   useEffect(()=>{ form.setFieldsValue({shareFriendCircleImg:imgCircleList}) },[imgCircleList])
-  useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg]);
-
+  // useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg]);
+  console.log(detailImg);
   return <Spin tip="加载中..." spinning={loading}>
     <div className="oms-common-addEdit-pages baseGeneralTrade-editImg-pages">
       <Form {...formItemLayout} form={form}>

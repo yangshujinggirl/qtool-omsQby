@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetActivityInfoApi, GetActivityListApi, GetSaveGoodsApi } from 'api/contentCenter/SingleGoodsSet';
 import MainMod from './components/MainMod';
 
@@ -61,11 +61,11 @@ const MoreGoodSet=({...props})=> {
       } else if(fieldsOne) {
         pdSpuList = fieldsOne;
       }
-      let params= { homepageModuleId, pdSpuList, pdListDisplayCfgId:params.pdListDisplayCfgId};
-      if(params.type == 1) {
-        params = {...params,activityId}
+      let val= { homepageModuleId, pdSpuList, pdListDisplayCfgId:params.pdListDisplayCfgId};
+      if(val.type == 1) {
+        val = {...val,activityId}
       }
-      GetSaveGoodsApi(params)
+      GetSaveGoodsApi(val)
       .then((res)=> {
         Qmessage.success('保存成功');
       })
@@ -103,7 +103,7 @@ const MoreGoodSet=({...props})=> {
     })
     pdSpuList = pdSpuList ? pdSpuList : [];
     pdSpuList.map((el, index) => (el.key = index));
-    setList(pdSpuList);
+    upDateList(pdSpuList);
   }
   const selectId=(key)=> {
     setActivityId(key)
@@ -178,7 +178,8 @@ const MoreGoodSet=({...props})=> {
           <MainMod
             form={form}
             upDateList={upDateList}
-            goods={goods} list={list}
+            goods={goods}
+            list={list}
             params={params}/>
           <div className="handle-operate-save-action">
             <Qbtn onClick={submit}>保存</Qbtn>

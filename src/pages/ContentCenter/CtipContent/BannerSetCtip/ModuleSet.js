@@ -44,10 +44,7 @@ const ModuleSet=({...props})=> {
       let  values = await form.validateFields();
       let { backgroundPicUrl } = values;
       backgroundPicUrl = formatVal(backgroundPicUrl);
-      GetSaveSetApi({
-        homepageModuleId,
-        backgroundPicUrl:list[0].response.result
-      })
+      GetSaveSetApi({ homepageModuleId, backgroundPicUrl })
       .then(res => {
         Qmessage.success('保存成功')
       })

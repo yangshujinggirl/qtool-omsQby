@@ -47,6 +47,7 @@ class CommodityFlow extends React.Component {
   //查询tabs
   getTabsList() {
     const { id } =this.props.match.params;
+    const { selectkey } =this.state;
     GetTabListApi({homepageModuleId:id})
     .then((res)=> {
       let { result } =res;
@@ -54,7 +55,7 @@ class CommodityFlow extends React.Component {
         result.map((el,index)=> el.key = index);
         let currentItem = result.find((el) => el.key == selectkey);
         this.setState({ tabs:result })
-        getProductList(currentItem.tabId);
+        this.getProductList(currentItem.tabId);
       }
     })
   }

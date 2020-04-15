@@ -467,7 +467,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                       <Form.Item label="效期类型" name="batchProcessingType" rules={[{ required: true, message: '请选择效期类型' }]}>
                         <Radio.Group>
                           <Radio value={1} key={1}>生产日期</Radio>
-                          <Radio value={0} key={0}>到期日期</Radio>
+                          <Radio value={2} key={2}>到期日期</Radio>
                         </Radio.Group>
                       </Form.Item>
                       <Form.Item label="禁止入库天数" name="lotLimitInDay" rules={[

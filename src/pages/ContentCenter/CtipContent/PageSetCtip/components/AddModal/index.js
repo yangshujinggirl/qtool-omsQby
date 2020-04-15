@@ -1,40 +1,65 @@
 import { Modal, Radio, Form, Input, } from 'antd';
+import { useState } from 'react';
+import { GetSearchApi } from 'api/contentCenter/PageSetCtip';
 import { QupLoadImgLimt } from 'common';
 
 const AddModal=({...props})=> {
-  const { visible,type, Form  } =props;
+  const { type, text, template, pdCode, rowcode } =props.currentItem;
+  let [fileList,setFileList]=useState(text);
+  const { visible  } =props;
+
+  //格式化参数
+  const formatVal=(val)=> {
+    if(val&&val[0].response) {
+      let urlPath = val[0].response.result;
+      val = urlPath;
+    } else {
+      val = val.path;
+    }
+    return val;
+  }
   const onSubmit=async()=> {
     try{
       const values = await props.form.validateFields(['text','template','pdCode','rowcode']);
-      let { text, pdCode } =values;
+      let { text, pdCode, rowcode } =values;
       let items;
-      switch (funcType) {
+      switch (type) {
         case 1:
-          items = { type:funcType, text, pdCode }
+          text = formatVal(text);
+          items = { type, text };
+          props.onOk(items);
+          props.form.resetFields(['text','template','pdCode','rowcode']);
           break;
         case 2:
-          GetSearchApi({codes:[pdCode,rowcode]})
+          let codes = rowcode?`${pdCode},${rowcode}`:`${pdCode}`;
+          GetSearchApi({codes})
           .then((res)=> {
-            items = { type:funcType, pdCode, rowcode }
+            props.onOk({...res.result,type });
+            props.form.resetFields(['text','template','pdCode','rowcode']);
           })
           break;
         case 3:
         case 4:
-          items = { type:funcType, text }
+          items = { type, text }
+          props.onOk(items);
+          props.form.resetFields(['text','template','pdCode','rowcode']);
           break;
         default:
       }
-      console.log(items)
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
   }
+  const handleChangeFile=(arr)=> {
+    setFileList(arr)
+  }
   const handleCancel=()=> {
-
+    props.onCancel();
+    form.resetFields(['text','template','pdCode','rowcode']);
   }
   const funcEdit=()=> {
     let mod;
-    switch(funcType) {
+    switch(type) {
       case 1:
         mod = <div>
                 <QupLoadImgLimt
@@ -83,11 +108,11 @@ const AddModal=({...props})=> {
     return mod;
   }
   return <Modal
-          title="Basic Modal"
+          title="新增"
           visible={visible}
           onOk={onSubmit}
           onCancel={handleCancel}>
-          {funcEdit()}
+            {funcEdit()}
         </Modal>
 }
 

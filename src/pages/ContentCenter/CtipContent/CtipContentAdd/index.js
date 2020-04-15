@@ -16,8 +16,9 @@ import ReleaseModal from "./components/ReleaseModal";
 import './index.less';
 
 const CtipContentAdd=({...props})=> {
-  let [urlCodeWx,setCodeWx] =useState('');
   let [visible,setVisible] =useState(false);
+  let [issueContent,setIssue] =useState({});
+  let [urlCodeWx,setCodeWx] =useState('');
   let [urlCodeApp,setCodeApp] =useState('');
   let [totalData, setTotalData] =useState({});
   let [searchInfo, setSearchInfo] =useState({});
@@ -28,7 +29,8 @@ const CtipContentAdd=({...props})=> {
   let [themeInfo, setThemeInfo] =useState([]);
   let [moreGoods, setMoreGoods] =useState({moduleContent:[]});
   let [brandInfo, setBrandInfo] =useState({moduleContent:[]});
-  let [flowProduct, setFlowProduct] =useState({moduleContent:[],flowProductList:[]});
+  let [classifyInfo, setClassifyInfo] =useState({moduleContent:[]});
+  let [classifyList, setFlowProductList] =useState([]);
   let [singleGoods, setSingleGoods] =useState({moduleContent:[]});
   let homepageId=props.match.params.id;
 
@@ -49,14 +51,17 @@ const CtipContentAdd=({...props})=> {
       setThemeInfo(themeActivity);
       setMoreGoods(multilineProduct);
       setBrandInfo(brandDisplay);
-      setFlowProduct(flowProduct);
+      setClassifyInfo(flowProduct);
       setSingleGoods(productDisplay);
     })
   }
   const getFlowProduct=(id)=> {
     GetSearchFlowPdApi(id)
     .then((res)=>{
-      setFlowProduct({...flowProduct,flowProductList:[]})
+      let { result } =res;
+      result = result?result:[];
+      result.map((el,index)=>el.key=index);
+      setFlowProductList(result)
     })
   }
   const handleDisplay=(homepageModuleId,isDisplay)=> {
@@ -76,7 +81,10 @@ const CtipContentAdd=({...props})=> {
       },
     });
   }
-  const releaseHome=()=>{}
+  const releaseHome=(value)=>{
+    setVisible(true)
+    setIssue({type:value})
+  }
   const onCancel=()=>{}
   const onOk=()=>{}
   //二维码生成
@@ -147,7 +155,7 @@ const CtipContentAdd=({...props})=> {
             <MorePicMod info={morePicInfo} {...props}/>
             <MoreGoodsMod info={moreGoods} {...props}/>
             <ThemeMod info={themeInfo} {...props}/>
-            <ClassifyMod info={moreGoods} {...props}/>
+            <ClassifyMod info={{...classifyInfo,flowProductList:classifyList}} {...props}/>
           </div>
           <ReleaseModal
             visible={visible}
