@@ -1,13 +1,14 @@
 import react, { Component } from "react";
 import { Input, Button, message } from "antd";
 import { SearchOutlined, ScanOutlined } from "@ant-design/icons";
-import { Sessions } from 'utils';
+import { Sessions, CommonUtils } from 'utils';
 import { GetSavePicApi, GetListApi } from "api/contentCenter/SearchSetCtip";
 import CommonMod from '../CommonMod';
 import SearchEdit from "./components/Edit";
 import "./index.less";
 
 
+let fileDomain = Sessions.get('fileDomain');
 
 class SearchMod extends Component {
   constructor(props) {
@@ -24,39 +25,17 @@ class SearchMod extends Component {
     const { homepageModuleId } = this.props.info;
     GetListApi({ homepageModuleId })
     .then(res => {
-      const { backgroundPicUrl=[],contentPicUrl=[],noFullScreenBackGroundPic=[] } = res.result;
-      this.handleResult( backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic);
-    });
-  };
-  //结果数据处理
-  handleResult = (backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic) => {
-    let [fileList,fileList2,fileList3] = [[],[],[]]
-    if (backgroundPicUrl) {
-      fileList = [{
-          uid: "-1",
-          status: "done",
-          path:backgroundPicUrl,
-          url: fileDomain + backgroundPicUrl
-        }];
-    }
-    if (contentPicUrl) {//小程序
-      fileList3 = [{
-          uid: "-1",
-          status: "done",
-          path:contentPicUrl,
-          url: fileDomain + contentPicUrl
-        }];
-    }
-    if (noFullScreenBackGroundPic) {//非全面屏
-      fileList2 = [{
-          uid: "-1",
-          status: "done",
-          path:noFullScreenBackGroundPic,
-          url: fileDomain + noFullScreenBackGroundPic
-        }];
-    }
-    this.setState({ fileList, fileList2, fileList3 },() => {
-        this.setState({ visible: true });
+      let { backgroundPicUrl=[],contentPicUrl=[],noFullScreenBackGroundPic=[] } = res.result;
+      backgroundPicUrl = CommonUtils.formatToFilelist(backgroundPicUrl);
+      contentPicUrl = CommonUtils.formatToFilelist(contentPicUrl);
+      noFullScreenBackGroundPic = CommonUtils.formatToFilelist(noFullScreenBackGroundPic);
+      this.setState({
+        fileList:backgroundPicUrl,
+        fileList2:noFullScreenBackGroundPic,
+        fileList3:contentPicUrl
+      },() => {
+          this.setState({ visible: true });
+      });
     });
   };
   //更新数据
@@ -81,12 +60,12 @@ class SearchMod extends Component {
     this.setState({ visible: false });
   };
   render() {
-    let fileDomain = Sessions.get('fileDomain');
     const { visible, fileList,fileList2,fileList3, loading } = this.state;
     let { backgroundPicUrl, homepageModuleId } = this.props.info;
     backgroundPicUrl = `${fileDomain}/${backgroundPicUrl}`;
     return (
       <CommonMod
+        checkResult={this.props.checkResult}
         goEdit={this.onEdit}
         homepageModuleId={homepageModuleId}
         className="search-mod hasLine"

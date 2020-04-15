@@ -15,6 +15,7 @@ const MoreGoodsMod =({...props})=> {
     <div>
       {!!isDisplaySplitLine&&<Line />}
       <CommonMod
+        checkResult={props.checkResult}
         goEdit={goEdit}
         homepageModuleId={homepageModuleId}
         className="more-goods-mod"

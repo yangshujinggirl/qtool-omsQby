@@ -1,5 +1,6 @@
 import { Modal, Radio, Form, Input, } from 'antd';
 import { useState } from 'react';
+import { Sessions,  CommonUtils } from 'utils';
 import { GetSearchApi } from 'api/contentCenter/PageSetCtip';
 import { QupLoadImgLimt } from 'common';
 
@@ -8,35 +9,20 @@ const AddModal=({...props})=> {
   let [fileList,setFileList]=useState(text);
   const { visible  } =props;
 
-  //格式化参数
-  const formatVal=(val)=> {
-    if(val&&val[0].response) {
-      let urlPath = val[0].response.result;
-      val = urlPath;
-    } else {
-      val = val.path;
-    }
-    return val;
-  }
   const onSubmit=async()=> {
     try{
       const values = await props.form.validateFields(['text','template','pdCode','rowcode']);
-      let { text, pdCode, rowcode } =values;
+      let { text, pdCode, rowcode, template } =values;
       let items;
       switch (type) {
         case 1:
-          text = formatVal(text);
+          text = CommonUtils.formatToUrlPath(text);
           items = { type, text };
           props.onOk(items);
           props.form.resetFields(['text','template','pdCode','rowcode']);
           break;
         case 2:
-          let codes = rowcode?`${pdCode},${rowcode}`:`${pdCode}`;
-          GetSearchApi({codes})
-          .then((res)=> {
-            props.onOk({...res.result,type });
-            props.form.resetFields(['text','template','pdCode','rowcode']);
-          })
+          getPdSpu(pdCode, rowcode, type, template)
           break;
         case 3:
         case 4:
@@ -49,6 +35,28 @@ const AddModal=({...props})=> {
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
+  }
+  const getPdSpu=(pdCode, rowcode, type, template)=> {
+    let item, pdSpu,rowPdSpu;
+    GetSearchApi({code:pdCode})
+    .then((res)=> {
+      let { result } =res;
+      item = {...res.result,type, pdSpu:result };
+      if(template == 2) {
+        let { result } =res;
+        GetSearchApi({code:rowcode})
+        .then((res)=> {
+          item = {...item, rowPdSpu:result };
+          props.onOk(item);
+          props.form.resetFields(['text','template','pdCode','rowcode']);
+        })
+      } else {
+        props.onOk(item);
+        props.form.resetFields(['text','template','pdCode','rowcode']);
+      }
+
+    })
+
   }
   const handleChangeFile=(arr)=> {
     setFileList(arr)

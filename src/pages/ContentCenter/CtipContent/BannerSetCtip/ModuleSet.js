@@ -1,5 +1,6 @@
 import { Form, message, Button } from "antd";
 import { useState, useEffect } from 'react';
+import { CommonUtils } from 'utils';
 import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi, GetSaveSetApi } from 'api/contentCenter/BannerSetCtip';
 const FormItem = Form.Item;
@@ -12,38 +13,18 @@ const ModuleSet=({...props})=> {
     GetModalInfoApi(homepageModuleId)
     .then(res => {
       let { backgroundPicUrl } =res.result;
-      if(backgroundPicUrl) {
-        backgroundPicUrl=[{
-           uid: '-1',
-           name: 'image.png',
-           status: 'done',
-           path:backgroundPicUrl,
-           url:`${res.fileDomain}${backgroundPicUrl}`
-        }]
-      } else {
-        backgroundPicUrl=[]
-      }
+      backgroundPicUrl = CommonUtils.formatToFilelist(backgroundPicUrl)
       setList(backgroundPicUrl)
     });
   };
   const upDateList=(array)=> {
     setList(array)
   }
-  //格式化参数
-  const formatVal=(val)=> {
-    if(val&&val[0].response) {
-      let urlPath = val[0].response.result;
-      val = urlPath;
-    } else {
-      val = val.path;
-    }
-    return val;
-  }
   const handleSubmit =async()=> {
     try {
       let  values = await form.validateFields();
       let { backgroundPicUrl } = values;
-      backgroundPicUrl = formatVal(backgroundPicUrl);
+      backgroundPicUrl = CommonUtils.formatToUrlPath(backgroundPicUrl);
       GetSaveSetApi({ homepageModuleId, backgroundPicUrl })
       .then(res => {
         Qmessage.success('保存成功')

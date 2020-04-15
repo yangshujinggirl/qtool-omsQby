@@ -38,10 +38,10 @@ const GoodsTable=({...props})=>{
   const onOperateClick=(record,type)=> {
     switch(type) {
       case 'delete':
-        this.handleDelete(record);
+        handleDelete(record);
         break;
       case 'toggle':
-        this.handleToggleStatus(record);
+        handleToggleStatus(record);
         break;
     }
   }

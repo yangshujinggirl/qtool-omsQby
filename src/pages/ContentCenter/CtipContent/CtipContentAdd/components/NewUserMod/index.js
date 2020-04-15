@@ -13,6 +13,7 @@ const NewUserMod=({...props})=> {
 
   return (
     <CommonMod
+      checkResult={props.checkResult}
       hasDisplayBtn={true}
       toggleShow={props.toggleShow}
       goEdit={goEdit}

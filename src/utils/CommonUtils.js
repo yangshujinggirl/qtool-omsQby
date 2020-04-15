@@ -1,4 +1,7 @@
 import NP from 'number-precision'
+import { Sessions } from 'utils';
+
+
 
 const CommonUtils = {
   clearEmptyObj(obj) {
@@ -9,6 +12,30 @@ const CommonUtils = {
       }
     }
     return newPdSpu;
+  },
+  formatToUrlPath(val) {
+    if(val&&val[0].response) {
+      let urlPath = val[0].response.result;
+      val = urlPath;
+    } else {
+      val = val[0].path;
+    }
+    return val;
+  },
+  formatToFilelist(url) {
+    let fileDomain = Sessions.get('fileDomain');
+    let fileList;
+    if (url) {
+      fileList = [{
+          uid: "-1",
+          status: "done",
+          path:url,
+          url: fileDomain + url
+        }];
+    } else {
+      fileList = []
+    }
+    return fileList;
   },
     /**
      * 数据差值比较，主要终于对 要比较的数据以及原始数据之间的差值的百分比，并返回

@@ -29,6 +29,7 @@ class GoodsMod extends React.Component {
       <div>
         {!!isDisplaySplitLine&&<Line />}
         <CommonMod
+          checkResult={this.props.checkResult}
           goEdit={this.goEdit}
           hasDisplayBtn={true}
           toggleShow={this.props.toggleShow}

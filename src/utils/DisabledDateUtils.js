@@ -30,7 +30,7 @@ const formatHoursRange =(date)=> {
 const formatMinutesRange =(date)=> {
   let minute = moment().minute();
   let currentDate = moment().format('YYYY-MM-DD HH');
-  
+
   let setDate, disabledMinutes;
   if(date instanceof Array === true) {
     setDate = moment(date[0]).format('YYYY-MM-DD HH');
@@ -112,6 +112,10 @@ const disabledDateTime = (date) => {
   };
 };
 
-export {
-  disabledDate, disabledDateTimeRange, disabledDateTime
+const DisabledDateUtils = {
+  disabledDate,disabledDateTimeRange,disabledDateTime
 }
+export default DisabledDateUtils;
+// export {
+//   disabledDate, disabledDateTimeRange, disabledDateTime
+// }

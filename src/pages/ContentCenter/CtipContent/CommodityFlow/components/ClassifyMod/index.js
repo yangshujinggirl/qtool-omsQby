@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, Select, Col, Row, Input, Button, Radio, message } from 'antd';
+import { Form, Modal, Select, Col, Row, Input, Button, Radio, message } from 'antd';
 import lodash from 'lodash';
 import { QupLoadAndDownLoad, Qbtn, Qmessage } from 'common';
 import { GetCategoryApi } from "api/home/BaseGoods";
@@ -100,25 +100,30 @@ const ClassifyMod=({...props})=> {
   //导入
   const upDateFileList=(response)=> {
     let { unImportSpuArr,notExistSpuArr,pdFlowTabSpus }=response.result;
+    let content;
     if(unImportSpuArr&&unImportSpuArr.length>0) {
-      let content = <div className="import-error-modal">
+      content = <div className="import-error-modal">
       商品已导入超过100个，以下商品导入失败<br/>
       SPUID:
         {
           unImportSpuArr.map((el,index) => el = `${el}${index==(unImportSpuArr.length-1)?'':'/'}`)
         }
       </div>
-      Qmessage.error(content)
     }
     if(notExistSpuArr&&notExistSpuArr.length>0) {
-      let content = <div className="import-error-modal">
+      content = <div className="import-error-modal">
       以下商品不存在，导入失败<br/>
       SPUID:
         {
           notExistSpuArr.map((el,index) => el = `${el}${index==(notExistSpuArr.length-1)?'':'/'}`)
         }
       </div>
-      Qmessage.error(content)
+    }
+    if(content) {
+      Modal.error({
+        title: '以下商品导入失败',
+        content: content,
+      });
     }
     pdFlowTabSpus= pdFlowTabSpus?pdFlowTabSpus:[];
     pdFlowTabSpus.map((el,index) =>{

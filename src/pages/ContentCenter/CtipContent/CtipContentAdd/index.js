@@ -1,6 +1,7 @@
 import { Dropdown, Menu, Modal, Popover, Button, message, Form } from "antd";
 import { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
+import { Qmessage } from 'common';
 import { GetEditInfoApi, GetChangeStatusApi, GetSearchFlowPdApi } from 'api/contentCenter/CtipContentAdd';
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
@@ -18,6 +19,7 @@ import './index.less';
 const CtipContentAdd=({...props})=> {
   let [visible,setVisible] =useState(false);
   let [issueContent,setIssue] =useState({});
+  let [checkResult,setCheckResult] =useState([]);
   let [urlCodeWx,setCodeWx] =useState('');
   let [urlCodeApp,setCodeApp] =useState('');
   let [totalData, setTotalData] =useState({});
@@ -83,10 +85,22 @@ const CtipContentAdd=({...props})=> {
   }
   const releaseHome=(value)=>{
     setVisible(true)
-    setIssue({type:value})
+    setIssue({type:value.key,homepageId})
   }
-  const onCancel=()=>{}
-  const onOk=()=>{}
+  const onOk=(res)=> {
+    let msg = issueContent.type=='1'?'发布成功':'立即发布设置成功';
+    let { httpCode, result } =res;
+    if( httpCode=='200') {
+      Qmessage.success(msg);
+      props.history.push('/account/home_page_configuration');
+    } else if( httpCode=='260'){
+      setCheckResult(result)
+    }
+  }
+  const onCancel=()=>{
+    setVisible(false);
+    setIssue({})
+  }
   //二维码生成
   const goPreview=()=> {
     let baseUrl = window.location.href;
@@ -146,18 +160,19 @@ const CtipContentAdd=({...props})=> {
             </div>
           </div>
           <div className="part-mods">
-            <SearchMod info={searchInfo} callback={getInfo}/>
-            <BannerMod info={bannerInfo} {...props}/>
-            <BrandMod info={brandInfo} {...props} callback={getInfo}  toggleShow={handleDisplay}/>
-            <IconMod info={iconInfo} {...props} toggleShow={handleDisplay}/>
-            <NewUserMod info={newUserInfo} {...props} toggleShow={handleDisplay}/>
-            <SingleGoodsMod info={singleGoods} {...props} toggleShow={handleDisplay}/>
-            <MorePicMod info={morePicInfo} {...props}/>
-            <MoreGoodsMod info={moreGoods} {...props}/>
-            <ThemeMod info={themeInfo} {...props}/>
-            <ClassifyMod info={{...classifyInfo,flowProductList:classifyList}} {...props}/>
+            <SearchMod info={searchInfo} callback={getInfo} checkResult={checkResult}/>
+            <BannerMod info={bannerInfo} {...props} checkResult={checkResult}/>
+            <BrandMod info={brandInfo} {...props} callback={getInfo}  toggleShow={handleDisplay} checkResult={checkResult}/>
+            <IconMod info={iconInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+            <NewUserMod info={newUserInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+            <SingleGoodsMod info={singleGoods} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+            <MorePicMod info={morePicInfo} {...props} checkResult={checkResult}/>
+            <MoreGoodsMod info={moreGoods} {...props} checkResult={checkResult}/>
+            <ThemeMod info={themeInfo} {...props} checkResult={checkResult}/>
+            <ClassifyMod info={{...classifyInfo,flowProductList:classifyList}} {...props} checkResult={checkResult}/>
           </div>
           <ReleaseModal
+            content={issueContent}
             visible={visible}
             onCancel={onCancel}
             onOk={onOk}/>

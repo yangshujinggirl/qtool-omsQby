@@ -1,6 +1,6 @@
 import { Input,Spin,Upload, Select,Col,Checkbox,Button,Radio,AutoComplete,Form } from 'antd';
 import { useState, useEffect } from 'react';
-import { Sessions } from 'utils';
+import { Sessions, CommonUtils } from 'utils';
 import { GetInfoApi, GetSaveApi } from 'api/contentCenter/PageSetCtip';
 import { QupLoadImgLimt, Qmessage, Qtable, Qbtn } from 'common';
 import ImageTextEdit from './components/ImageTextEdit';
@@ -50,13 +50,7 @@ function EditImg({...props}) {
       let { pdConfigureConfigList,...val } =res.result;
       pdConfigureConfigList = pdConfigureConfigList.map((el,index)=> {
         if(el.type == 1) {
-          el.fileList = {
-                uid: index,
-                name: 'image.png',
-                status: 'done',
-                path:el.text,
-                url:`${fileDomain}${el.text}`
-              }
+          el.fileList =CommonUtils.formatToFilelist(el.text)
         }
         return el;
       })
@@ -82,17 +76,15 @@ function EditImg({...props}) {
   const onSubmit=async()=> {
     try {
       const values = await form.validateFields();
-      let { shareFriendImg, shareFriendCircleImg, productDetailImgList, ..._val } =values;
-      shareFriendImg = formatList(shareFriendImg);
-      shareFriendCircleImg = formatList(shareFriendCircleImg);
-      let params={
-        ..._val,
-        pdConfigureConfigList:detailImg,
-        shareFriendImg:shareFriendImg[0],
-        shareFriendCircleImg:shareFriendCircleImg[0]
+      let { isShare, shareFriendImg, shareFriendCircleImg, productDetailImgList, ..._val } =values;
+      let params={ ..._val, pdConfigureConfigList:detailImg };
+      if(_val.isShare==1) {
+        shareFriendImg = CommonUtils.formatToUrlPath(shareFriendImg);
+        shareFriendCircleImg = CommonUtils.formatToUrlPath(shareFriendCircleImg);
+        params={ ...params, shareFriendImg, shareFriendCircleImg }
       }
       if(pdConfigureId) {
-        params={...params, pdConfigureId}
+        params={...params, pdConfigureId }
       }
       GetSaveApi(params)
       .then((res)=> {

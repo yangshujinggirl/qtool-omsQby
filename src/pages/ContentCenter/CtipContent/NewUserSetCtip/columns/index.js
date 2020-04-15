@@ -19,7 +19,7 @@ const ColumnsAdd=(optionSource, onSelect)=>{
       align:'center',
       width:'10%',
       render:(text,record,index)=> {
-        return <FormItem name={['couponIds',index]} rules={[{ required:true,message:'请输入名称'}]}>
+        return <FormItem name={['couponIds',index,'couponId']} rules={[{ required:true,message:'请输入名称'}]}>
                 <Select placeholder="请选择你要发放的优惠券" onSelect={(value,option)=>onSelect(value,index)}>
                   {optionSource && optionSource.map(item => (
                     <Select.Option key={item.couponId} value={item.couponId} >

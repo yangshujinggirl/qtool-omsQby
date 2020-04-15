@@ -5,8 +5,7 @@ import 'swiper/css/swiper.min.css';
 import './index.less';
 
 const CommonMod=({...props})=>{
-  let { style, homepageModuleId, checkResult,isDisplay, className } = props;
-  checkResult=checkResult?checkResult:[]
+  let { style, homepageModuleId, checkResult, isDisplay, className } = props;
   let currentItem = checkResult.find((el) => el.homepageModuleId == homepageModuleId );
   currentItem=currentItem?currentItem:{};
   return(

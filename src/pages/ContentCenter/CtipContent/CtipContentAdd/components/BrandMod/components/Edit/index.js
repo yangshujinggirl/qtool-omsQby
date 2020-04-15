@@ -1,5 +1,6 @@
 import { Modal,Form, Input } from "antd";
 import { useEffect } from 'react';
+import { Sessions, CommonUtils } from 'utils';
 import { QupLoadImgLimt, Qmessage } from 'common';
 import { GetSaveApi } from "api/contentCenter/BrandSetCtip";
 
@@ -14,7 +15,7 @@ const Search=({...props})=> {
     try {
       let  values = await form.validateFields(['moduleBackColor','contentPicUrl']);
       let { contentPicUrl, moduleBackColor } =values;
-      contentPicUrl=formatVal(contentPicUrl);
+      contentPicUrl = CommonUtils.formatToUrlPath(contentPicUrl);
       let params={ homepageModuleId, contentPicUrl, moduleBackColor }
       GetSaveApi(params)
       .then((res)=> {
@@ -26,16 +27,6 @@ const Search=({...props})=> {
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
-  }
-  //格式化参数
-  const formatVal=(val)=> {
-    if(val&&val[0].response) {
-      let urlPath = val[0].response.result;
-      val = urlPath;
-    } else {
-      val = val.path;
-    }
-    return val;
   }
   const onCancel=()=> {
     props.onCancel();

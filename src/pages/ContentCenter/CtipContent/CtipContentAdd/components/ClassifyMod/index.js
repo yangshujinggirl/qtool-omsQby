@@ -35,6 +35,7 @@ class ClassifyMod extends Component {
       <div>
         <Line />
         <CommonMod
+          checkResult={this.props.checkResult}
           goEdit={this.goEdit}
           homepageModuleId={homepageModuleId}
           className="classify-mod">

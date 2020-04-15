@@ -26,6 +26,7 @@ const MorePicMod=({...props})=> {
     <div>
       {!!isDisplaySplitLine&&<Line />}
       <CommonMod
+        checkResult={props.checkResult}
         goEdit={goEdit}
         homepageModuleId={homepageModuleId}
         className="common-sty morePic-mod"
