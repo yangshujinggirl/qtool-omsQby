@@ -15,7 +15,15 @@ const ShopOrderDetail = (props) => {
   const getInfo=()=> {
     GetOrderInfoApi(orderNo)
     .then((res)=> {
-      console.log(res);
+      let { spOrder, orderLogs, wsOrderNos, expressInfos } =res.result;
+      wsOrderNos = wsOrderNos?wsOrderNos:[];
+      orderLogs = orderLogs?orderLogs:[];
+      expressInfos = expressInfos?expressInfos:[];
+      orderLogs.map((el,index)=>el.key=index)
+      expressInfos.map((el,index)=>el.key=index)
+      setDataInfo(spOrder);
+      setOrderLogs(orderLogs)
+      setOutList(expressInfos)
     })
   }
   //返回
@@ -24,23 +32,33 @@ const ShopOrderDetail = (props) => {
   }
 
   useEffect(() => { getInfo() }, []);
+  const  baseInfo=()=> {
+    let  dataInfo=[
+            {key:'订单号',value:totalData.orderNo},
+            {key:'下单门店',value:totalData.shopName},
+            {key:'订单状态',value:totalData.statusStr},
+            {key:'商品数量',value:totalData.qtySum},
+            {key:'订单金额',value:totalData.amountSum},
+            {key:'订单标签',value:`${totalData.sendType==2?"代发,":""}${totalData.preSellStatus==1?"预售":""}`},
+            {key:'下单原因',value:totalData.createTypeStr},
+            {key:'订单创建人',value:totalData.itemCount},
+            {key:'创建时间',value:totalData.createTime},
+            {key:'订单备注',value:totalData.remark},
+          ]
+    if(goodsList.length>0) {
+      let wsOrderNos = goodsList;
+      dataInfo.push({key:'对应配货单',value:wsOrderNos.join(' ')})
+    }
+    if(totalData.status == 30){
+        dataInfo.push({key:'取消原因', value:totalData.cancelReason});
+    };
+    return dataInfo;
+  }
   return (
       <div className="oms-common-addEdit-pages bgood_add">
           <Card title="门店订单信息">
             <QbaseInfo
-              dataInfo={[
-                {key:'订单号',value:totalData.orderNo},
-                {key:'下单门店',value:totalData.procurementTarget},
-                {key:'订单状态',value:totalData.statusStr},
-                {key:'商品数量',value:totalData.warehouseName},
-                {key:'订单金额',value:totalData.statusStr},
-                {key:'订单标签',value:totalData.stepStr},
-                {key:'下单原因',value:totalData.createTypeStr},
-                {key:'订单创建人',value:totalData.itemCount},
-                {key:'创建时间',value:totalData.createTime},
-                {key:'订单备注',value:totalData.remark},
-                {key:'对应配货单',value:totalData.dataInfowsOrderNos},
-              ]}/>
+              dataInfo={baseInfo()}/>
           </Card>
           <Card title="订购商品">
               <Qtable columns={GoodsColumns} dataSource={goodsList}/>
@@ -48,7 +66,7 @@ const ShopOrderDetail = (props) => {
           <Card title="收货信息">
             <QbaseInfo
               dataInfo={[
-                {key:'收货人',value:totalData.dataInfowsOrderNos},
+                {key:'收货人',value:totalData.recName},
                 {key:'联系电话',value:totalData.recTel},
                 {key:'收货地址',value:totalData.recAddress},
               ]}/>

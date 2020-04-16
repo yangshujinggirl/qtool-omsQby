@@ -50,7 +50,7 @@ const MoreGoodSet=({...props})=> {
   const submit=async()=> {
     try {
       if(list.length< 8) {
-        message.error('请至少配置8个商品');
+        Qmessage.error('请至少配置8个商品');
         return;
       }
       let  values = await form.validateFields();

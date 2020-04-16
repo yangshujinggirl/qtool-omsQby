@@ -102,10 +102,8 @@ const CtipActivityAdd =({...props})=> {
         let datas={
           beginTime:values.beginTime,
           endTime:values.endTime,
-          pdKind:values.pdKind,
-          promotionId:values.promotionId,
+          promotionId,
           promotionType,
-          createUser:activityInfo.createUser
         }
         props.history.push({pathname:`/account/posActivity/addTwo/${promotionId}`,state:datas})
       })
@@ -158,7 +156,6 @@ const CtipActivityAdd =({...props})=> {
     if(currentKey == 'promotionType') {
       if(allValues.promotionScope==2&&allValues.promotionType!=22) {
         allValues.pdScope=2;
-        allValues.pdKind=null;
       }
       if(allValues.promotionType==10) {
         allValues.bannerTitle=null;

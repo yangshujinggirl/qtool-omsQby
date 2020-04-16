@@ -94,6 +94,9 @@ const ShopOrderAdd=({...props})=> {
   }
   //查询商品
   const onBlurCode=(value,index)=> {
+    if(!value) {
+      return;
+    }
     GetSpuInfoApi(value)
     .then((res)=> {
       let { subList } =res.result;

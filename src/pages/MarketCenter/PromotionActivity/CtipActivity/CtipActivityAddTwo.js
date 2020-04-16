@@ -1,16 +1,22 @@
 import { Spin, Card,Modal,  Form } from 'antd';
 import { useEffect, useState } from 'react';
-import { Qbtn, Qtable, Qmessage } from 'common';
+import { QupLoadAndDownLoad, Qbtn, Qtable, Qmessage } from 'common';
 import { Sessions } from 'utils';
 import { GetSaveGoodsApi, GetDiscountInfoApi } from 'api/marketCenter/CtipActivity';
 import SetTitle from './components/SetGoods/Title';
-import ExportFile from "./components/SetGoods/ExportFile";
 import DiscountOne from "./components/SetGoods/DiscountOne";
 import DiscountTwo from "./components/SetGoods/DiscountTwo";
 import StepMod from '../components/StepMod';
 import EditModal from "./components/SetGoods/EditModal";
 import {InitColumns} from './columns';
 
+let fileMap={
+  "11":"singleZeng",
+  "20":"cYuanZeng",
+  "21":"cJianZeng",
+  "22":"cYuanLow",
+  "23":"cJianLow",
+}
 const CtipActivityAddTwo=({...props})=> {
   const [form] = Form.useForm();
   let [proRules,setRules] = useState([]);
@@ -19,47 +25,16 @@ const CtipActivityAddTwo=({...props})=> {
   let [singleRules,setSingleRules] = useState([]);//单行满件赠规则
   let [visible, setVisible] = useState(false);
   let [currentItem, setCurrentItem] = useState({});
-  let promotionId = props.match.params.id;
-
+  const { pdScope, promotionType, beginTime, endTime, pdKind } = currentdata;
+  const promotionId = props.match.params.id;
+  //接收参数处理
   const staticPar =()=> {
     let { state } = props.location;
     if(state) {
       Sessions.set("currentdata",JSON.stringify(state));
     }
   }
-  const onOperateClick=(record,type)=> {
-    let handIndex = products.findIndex((el)=>el.pdCode==record.pdCode);
-    switch(type){
-      case "delete":
-        handleDelete(handIndex);
-        break;
-      case "edit":
-        handleEdit(record,handIndex);
-        break;
-    }
-  }
-  //编辑
-  const handleEdit = (record,index) => {
-    record = {...record,index};
-    setCurrentItem(record);
-    setVisible(true);
-  };
-  //删除
-  const handleDelete = (index) => {
-    Modal.confirm({
-      title: '是否删除此商品?',
-      content: '是否删除此商品?',
-      okText:"确认删除",
-      cancelText:"暂不删除",
-      onOk() {
-        products.splice(index, 1);
-        products=[...products]
-        setProducts(products);
-      },
-      onCancel() {},
-    });
-  };
-  const onCancel = () => { setVisible(false)};
+  //商品详情
   const initPage=()=>{
     GetDiscountInfoApi(promotionId)
     .then((res)=> {
@@ -162,6 +137,40 @@ const CtipActivityAddTwo=({...props})=> {
       setProducts(promotionProducts);
     })
   }
+  //表格操作
+  const onOperateClick=(record,type)=> {
+    let handIndex = products.findIndex((el)=>el.pdCode==record.pdCode);
+    switch(type){
+      case "delete":
+        handleDelete(handIndex);
+        break;
+      case "edit":
+        handleEdit(record,handIndex);
+        break;
+    }
+  }
+  //编辑
+  const handleEdit = (record,index) => {
+    record = {...record,index};
+    setCurrentItem(record);
+    setVisible(true);
+  };
+  //删除
+  const handleDelete = (index) => {
+    Modal.confirm({
+      title: '是否删除此商品?',
+      content: '是否删除此商品?',
+      okText:"确认删除",
+      cancelText:"暂不删除",
+      onOk() {
+        products.splice(index, 1);
+        products=[...products]
+        setProducts(products);
+      },
+      onCancel() {},
+    });
+  };
+  const onCancel = () => { setVisible(false)};
   const goback=()=> {
     props.history.push(`/account/ctipActivity/add/${promotionId}`)
   }
@@ -200,6 +209,99 @@ const CtipActivityAddTwo=({...props})=> {
       };
     });
   };
+  //上传商品
+  const upDateFieList=(response)=> {
+    let {
+      promotionProducts,successSize,
+      noPro,formatWrong,priceGapWrong,
+      productKindWrong,huchiWrong,
+      enableEnjoyActivityWrong,purChaseWrong,
+      paramWrong,requiredWrong,repeatWrong
+    } = response.result;
+    Modal.success({
+      title: "",
+      content: (
+        <div>
+          <p className='import_error'>共成功导入商品  {successSize}  条</p>
+          {noPro.length>0 && (
+            <p  className='import_error'>
+              {noPro.map(
+                (item, index) =>`${item}${index == noPro.length - 1 ? "" : "/ "}`
+              )} 商品不存在
+            </p>
+          )}
+          {formatWrong.length>0 && (
+            <p className='import_error'>
+              {formatWrong.map(
+                (item, index) =>`${item}${index == formatWrong.length - 1 ? "" : "/ "}`
+              )} 商品填写格式错误或商品C端售价为空
+            </p>
+          )}
+          {priceGapWrong.length>0 && (
+            <p className='import_error'>
+              {priceGapWrong.map(
+                (item, index) =>`${item}${index == priceGapWrong.length - 1 ? "" : "/ "}`
+              )} 商品填写格式错误
+            </p>
+          )}
+          {productKindWrong.length>0 && (
+            <p className='import_error'>
+              {productKindWrong.map(
+                (item, index) =>`${item}${index == productKindWrong.length - 1 ? "" : "/ "}`
+              )} 商品不符合活动商品范围
+            </p>
+          )}
+           {huchiWrong.length>0 && (
+            <p className='import_error'>
+              {huchiWrong.map(
+                (item, index) =>`${item}${index == huchiWrong.length - 1 ? "" : "/ "}`
+              )}
+              商品已参加其他和此活动互斥的活动
+            </p>
+          )}
+          {purChaseWrong.length>0 && (
+            <p className='import_error'>
+              {purChaseWrong.map(
+                (item, index) =>`${item}${index == purChaseWrong.length - 1 ? "" : "/ "}`
+              )} 商品限购数量的大小关系不对
+            </p>
+          )}
+          {enableEnjoyActivityWrong.length>0 && (
+            <p className='import_error'>
+              {enableEnjoyActivityWrong.map(
+                (item, index) =>`${item}${index == enableEnjoyActivityWrong.length - 1 ? "" : "/ "}`
+              )} 商品为保税商品，不能参与单品满件赠活动
+            </p>
+          )}
+          {paramWrong.length>0 && (
+            <p className='import_error'>
+              {paramWrong.map(
+                (item, index) =>`${item}${index == paramWrong.length - 1 ? "" : "/ "}`
+              )} 商品填写格式错误
+            </p>
+          )}
+          {requiredWrong.length>0 && (
+            <p className='import_error'>
+              {requiredWrong.map(
+                (item, index) =>`${item}${index == requiredWrong.length - 1 ? "" : "/ "}`
+              )} 必填项未填写完整
+            </p>
+          )}
+          {repeatWrong.length>0 && (
+            <p className='import_error'>
+              {repeatWrong.map(
+                (item, index) =>`${item}${index == repeatWrong.length - 1 ? "" : "/ "}`
+              )} 商品重复
+            </p>
+          )}
+        </div>
+      ),
+      footer: null
+    });
+    promotionProducts = promotionProducts?promotionProducts:[];
+    promotionProducts.map((el,index)=>el.key=index);
+    setProducts(promotionProducts)
+  }
   //更新规则
   const upDateRuleList=(array)=> {
     setRules(array)
@@ -213,8 +315,9 @@ const CtipActivityAddTwo=({...props})=> {
     return ()=>{ Sessions.remove('currentdata') }
   },[]);
 
-  const { pdScope, promotionType, beginTime, endTime, pdKind } = currentdata;
 
+  const dataParams={ type: promotionType, beginTime, endTime, pdKind,promotionId }
+  const downLoadFileName=fileMap[promotionType];
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
@@ -253,10 +356,13 @@ const CtipActivityAddTwo=({...props})=> {
                     <SetTitle type={promotionType}/>
                   )}
                 </div>
-                <ExportFile
-                  upDateList={upDateProductList}
-                  currentdata={currentdata}
-                  promotionId={promotionId}/>
+                <QupLoadAndDownLoad
+                  data={dataParams}
+                  fileName={downLoadFileName}
+                  action="/qtoolsApp/promotions/product/import"
+                  upDateList={upDateFieList}>
+                  <span className="tips">注：导入为覆盖导入，即第二次导入的商品将覆盖前一次导入的所有商品</span>
+                </QupLoadAndDownLoad>
                 <div className="act_setGoods">
                   <div className="batch_set_box">
                     共{products.length}条数据

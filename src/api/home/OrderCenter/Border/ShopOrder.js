@@ -16,7 +16,7 @@ export function GetOrderInfoApi(orderNo) {
 取消订单
  */
 export function GetCancelApi(spOrderId) {
-    return erpAjax.get(`/cancel/${spOrderId}`);
+    return erpAjax.get(`/spOrder/cancel/${spOrderId}`);
 }
 /**
  * 新建门订

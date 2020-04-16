@@ -21,7 +21,7 @@ const Columns = [
       render:(text,record,index)=> {
         return<span>
           {record.preSellStatus==1&&"预售"}&nbsp;
-          {record.sendType==1&&"代发"}
+          {record.sendType==2&&"代发"}
         </span>
       }
     },
@@ -97,18 +97,17 @@ const ColumnsAdd=(onBlur)=>{
           }]
 };
 const OrderLogsColumns = [
-    {title: "操作", dataIndex: "operateName", key: "1"},
+    {title: "操作", dataIndex: "operateName"},
     {
       title: "操作时间",
       dataIndex: "operateTime",
-      key: "2",
       render: (text) => (
           <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
       )
     },
-    {title: "订单状态", dataIndex: "statusVal", key: "3"},
-    {title: "操作人", dataIndex: "operateUser", key: "4"},
-    {title: "备注", dataIndex: "remark", key: "5"},
+    {title: "订单状态", dataIndex: "statusStr"},
+    {title: "操作人", dataIndex: "operateUser"},
+    {title: "备注", dataIndex: "remark"},
 ];
 const GoodsColumns = [
     {title: "SKU编码", dataIndex: "spuCode", key: "1"},
@@ -120,10 +119,10 @@ const GoodsColumns = [
 ];
 const ShippingInformationColumns = [
 
-    {title: "物流/快递单号", dataIndex: "expressCode", key: "1"},
-    {title: "物流/快递公司", dataIndex: "expressCompany", key: "3"},
-    {title: "运费", dataIndex: "expressFee", key: "4"},
-    {title: "状态 ", dataIndex: "status", key: "5"},
+    {title: "物流/快递单号", dataIndex: "trackingNumber"},
+    {title: "物流/快递公司", dataIndex: "carrier"},
+    {title: "运费", dataIndex: "freightPrice"},
+    {title: "状态 ", dataIndex: "status"},
 ];
 const ColumnsReturnAdd=(handleBlur)=> {
   return [{

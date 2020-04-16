@@ -4,5 +4,12 @@ let filePathOptions={
   "activityCoupon":"../../static/coupon_good.xlsx",//b端直降
   "commodityFlow":"../../static/pdSpuFlow.xlsx",//商品流
   "moreGoods":"../../static/MultilLine_In.xlsx",//多行商品
+  "singleDown":"../../static/market/c_down.xlsx",//单品直降
+  "singleDown":"../../static/market/c_down.xlsx",//单品直降
+  "singleZeng":"../../static/market/c_single_give.xlsx",//单品多级满赠
+  "cYuanZeng":"../../static/market/c_yuan_zeng.xlsx",//专区多级满元赠（例：满AB送C）
+  "cJianZeng":"../../static/market/c_jian_zeng.xlsx",//专区多级满件赠（例：满AB送C）
+  "cYuanLow":"../../static/market/c_yuan_low.xlsx",//专区多级满元减（例：满300减30）
+  "cJianLow":"../../static/market/c_jian_low.xlsx",//专区满件减免
 }
 export default filePathOptions;
