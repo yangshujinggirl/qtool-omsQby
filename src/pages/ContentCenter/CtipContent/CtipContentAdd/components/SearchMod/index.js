@@ -65,6 +65,7 @@ class SearchMod extends Component {
     backgroundPicUrl = `${fileDomain}/${backgroundPicUrl}`;
     return (
       <CommonMod
+        pageType={this.props.pageType}
         checkResult={this.props.checkResult}
         goEdit={this.onEdit}
         homepageModuleId={homepageModuleId}

@@ -44,6 +44,7 @@ class BrandMod extends React.Component {
 
     return (
       <CommonMod
+        pageType={this.props.pageType}
         checkResult={this.props.checkResult}
         toggleShow={this.props.toggleShow}
         goEdit={this.onEdit}

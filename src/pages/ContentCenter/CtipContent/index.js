@@ -28,13 +28,10 @@ class CtipContent extends React.Component{
     this.searchList()
   };
   //查询列表
-  searchList=(values)=> {
+  searchList=()=> {
     let { fields, dataPagation } =this.state;
     this.setState({ loading:true })
     let params={...fields,everyPage:dataPagation.everyPage,currentPage:dataPagation.currentPage};
-    if(values) {
-      params = {...params,...values};
-    }
     GetListApi(params)
     .then((res)=> {
       let { result, everyPage, currentPage, total } =res.result;
@@ -51,19 +48,19 @@ class CtipContent extends React.Component{
     this.setState({
       dataPagation:{everyPage,currentPage},
     },()=> {
-      this.searchList(currentPage, everyPage)
+      this.searchList()
     })
   };
   onShowSizeChange = (currentPage, everyPage) => {
     this.setState({
       dataPagation:{everyPage,currentPage},
     },()=> {
-      this.searchList(currentPage, everyPage)
+      this.searchList()
     })
   };
   onSubmit = params => {
     this.setState({ fields:params },()=> {
-      this.searchList(currentPage, everyPage)
+      this.searchList()
     })
   };
   //操作区

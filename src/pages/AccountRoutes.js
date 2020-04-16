@@ -113,6 +113,7 @@ import CommodityFlow from "./ContentCenter/CtipContent/CommodityFlow"; //两行�
 import SingleGoodsSet from "./ContentCenter/CtipContent/SingleGoodsSet"; //单行商品
 import PageSetCtip from './ContentCenter/CtipContent/PageSetCtip';//页面配置
 import PageSetEditCtip from './ContentCenter/CtipContent/PageSetCtip/PageSetEditCtip';//页面配置
+import CtipContentLog from './ContentCenter/CtipContent/CtipContentLog';//页面配置
 /************************************   数据中心   *******************************************/
 import GoodsData from "./DataCenter/BaseData/GoodsData"; /*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData"; /*** 订单数据*/
@@ -279,7 +280,9 @@ class HomeRoutes extends React.Component {
         />
         {/*----------------------------内容中心----------------------------------------------------*/}
         <Route exact path="/account/home_page_configuration" component={CtipContent}/>
-        <Route exact path="/account/CtipContent/add/:id" component={CtipContentAdd}/>
+        <Route exact path="/account/ctipContent/log/:id" component={CtipContentLog}/>
+        <Route exact path="/account/ctipContent/add/:id" component={CtipContentAdd}/>
+        <Route exact path="/account/ctipContent/info/:id/:pageType" component={CtipContentAdd}/>
         <Route exact path="/account/cbannerSet/:id?" component={BannerSetCtip}/>
         <Route exact path="/account/cIconSet/:id?" component={IconSetCtip} />
         <Route exact path="/account/cMorePicSet/:id" component={MorePicSetCtip}/>

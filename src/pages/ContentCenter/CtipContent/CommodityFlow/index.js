@@ -143,7 +143,7 @@ class CommodityFlow extends React.Component {
         Qmessage.error('tab名称不能为空');
         return;
       }
-      if(goodsList.length< 20) {
+      if(goodsList.length< 1) {
         Qmessage.error('商品数量至少20个');
         return;
       }

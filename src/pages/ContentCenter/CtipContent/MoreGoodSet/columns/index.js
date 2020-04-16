@@ -83,7 +83,7 @@ export function columnsFun(handleBlur){
       width:'8%',
     },
     {
-      title:'sellingPoints',
+      title:sellingPoints,
       dataIndex: 'sellingPoints',
       key: 'sellingPoints',
       align:'center',
@@ -94,7 +94,7 @@ export function columnsFun(handleBlur){
               </FormItem>
       }
     },{
-      title:'tags',
+      title:tags,
       dataIndex: 'tags',
       key: 'tags',
       align:'center',
@@ -106,13 +106,13 @@ export function columnsFun(handleBlur){
       }
     },
     {
-      title:'pdSpuInv',
+      title:pdSpuInv,
       dataIndex: 'pdSpuInv',
       key: 'pdSpuInv',
       width:'10%',
     },
     {
-      title:'outOfStockShopNum',
+      title:outOfStockShopNum,
       dataIndex: 'outOfStockShopNum',
       key: 'outOfStockShopNum',
       width:'8%',

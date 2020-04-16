@@ -38,7 +38,7 @@ const Columns = [
       return (
         <div>
           {true &&
-            <Link to="/account/ctipContent/info">查看</Link>
+            <Link to={`/account/ctipContent/info/${record.homepageId}/2`}>查看</Link>
           }
           { record.status == 1&&
             <Link to={`/account/ctipContent/add/${record.homepageId}`}>编辑</Link>
@@ -57,6 +57,19 @@ const Columns = [
     }
   }
 ];
-export {
-  Columns,
- };
+const ColumnsLog = [
+  {
+    title: "操作类型",
+    dataIndex: "operateTypeStr"
+  },{
+    title: "操作描述",
+    dataIndex: "operateContent",
+    width: "15%"
+  },{
+    title: "操作时间",
+    dataIndex: "operateTime"
+  },{
+    title: "操作人",
+    dataIndex: "operateUser"
+  }];
+export { Columns,ColumnsLog };

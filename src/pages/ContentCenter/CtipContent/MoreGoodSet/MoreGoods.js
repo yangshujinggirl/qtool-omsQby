@@ -1,6 +1,6 @@
 
 import {
-  Input,Spin,Form,Select,Table,Card,
+  Input,Spin,Form,Select,Table,Card,Modal,
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import { useState, useEffect } from 'react';
@@ -59,7 +59,20 @@ const MoreGoodSet=({...props})=> {
     }
   }
   const upDateFileList=(response)=> {
-    let { pdSpuList } =response.result;
+    let { pdSpuList,noImportSpu } =response.result;
+    if(noImportSpu&&noImportSpu.length>0) {
+      let content = <div className="import-error-modal">
+      以下商品导入失败<br/>
+      SPUID:
+        {
+          noImportSpu.map((el,index) => el = `${el}${index==(noImportSpu.length-1)?'':'/'}`)
+        }
+      </div>
+      Modal.error({
+        title:'以下商品导入失败',
+        content:content
+      })
+    }
     pdSpuList&&pdSpuList.map((el)=>el.key=el.pdSpuId)
     upDateList(pdSpuList);
   }

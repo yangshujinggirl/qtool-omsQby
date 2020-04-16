@@ -35,6 +35,7 @@ class BannerMod extends React.Component {
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
       <CommonMod
+        pageType={this.props.pageType}
         checkResult={this.props.checkResult}
         goEdit={this.goEdit}
         homepageModuleId={homepageModuleId}

@@ -145,8 +145,7 @@ const CtipActivityAddTwo=({...props})=> {
         Qmessage.success("提交审核成功");
         GetAuditApi({promotionId,createUser:currentdata.createUser})
         .then(res=>{
-          let datas={ createUser:currentdata.createUser}
-          props.history.push({pathname:`/account/posAudit/edit/${promotionId}/${result.approvalId}`,state:datas})
+          props.history.push({pathname:`/account/posAudit/edit/${promotionId}/${result}`})
         });
       };
       if (type == "save") {//回到查看页

@@ -26,6 +26,7 @@ class ThemeMod extends Component {
       <div>
         {!!isDisplaySplitLine&&<Line />}
         <CommonMod
+          pageType={this.props.pageType}
           checkResult={this.props.checkResult}
           goEdit={this.goEdit}
           homepageModuleId={homepageModuleId}

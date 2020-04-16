@@ -35,6 +35,7 @@ const CtipContentAdd=({...props})=> {
   let [classifyList, setFlowProductList] =useState([]);
   let [singleGoods, setSingleGoods] =useState({moduleContent:[]});
   let homepageId=props.match.params.id;
+  let pageType=props.match.params.pageType;
 
   const getInfo=()=> {
     GetEditInfoApi(homepageId)
@@ -147,36 +148,41 @@ const CtipContentAdd=({...props})=> {
   )
   useEffect(()=>{getInfo();goPreview()},[homepageId]);
 
-  return <div className="home-configuration-edit-pages">
-          <div className="part-head">
-            <p className="pl">{totalData.versionName}</p>
-            <div className="pr">
-              <Popover content={urlContent} title={null} trigger="click">
-                <p className="preview" onClick={goPreview}>预览</p>
-              </Popover>
-                <Dropdown overlay={menu} trigger={["click"]}>
-                  <p>|保存并发布</p>
-                </Dropdown>
-            </div>
-          </div>
-          <div className="part-mods">
-            <SearchMod info={searchInfo} callback={getInfo} checkResult={checkResult}/>
-            <BannerMod info={bannerInfo} {...props} checkResult={checkResult}/>
-            <BrandMod info={brandInfo} {...props} callback={getInfo}  toggleShow={handleDisplay} checkResult={checkResult}/>
-            <IconMod info={iconInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
-            <NewUserMod info={newUserInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
-            <SingleGoodsMod info={singleGoods} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
-            <MorePicMod info={morePicInfo} {...props} checkResult={checkResult}/>
-            <MoreGoodsMod info={moreGoods} {...props} checkResult={checkResult}/>
-            <ThemeMod info={themeInfo} {...props} checkResult={checkResult}/>
-            <ClassifyMod info={{...classifyInfo,flowProductList:classifyList}} {...props} checkResult={checkResult}/>
-          </div>
-          <ReleaseModal
-            content={issueContent}
-            visible={visible}
-            onCancel={onCancel}
-            onOk={onOk}/>
+  return (
+    <div className="home-configuration-edit-pages">
+      <div className="part-head">
+        <p className="pl">{totalData.versionName}</p>
+        <div className="pr">
+          <Popover content={urlContent} title={null} trigger="click">
+            <p className="preview" onClick={goPreview}>预览</p>
+          </Popover>
+          {
+            !pageType&&
+            <Dropdown overlay={menu} trigger={["click"]}>
+              <p>|保存并发布</p>
+            </Dropdown>
+          }
         </div>
+      </div>
+      <div className="part-mods">
+        <SearchMod  pageType={pageType} info={searchInfo} callback={getInfo} checkResult={checkResult}/>
+        <BannerMod  pageType={pageType} info={bannerInfo} {...props} checkResult={checkResult}/>
+        <BrandMod  pageType={pageType} info={brandInfo} {...props} callback={getInfo}  toggleShow={handleDisplay} checkResult={checkResult}/>
+        <IconMod  pageType={pageType} info={iconInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+        <NewUserMod  pageType={pageType} info={newUserInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+        <SingleGoodsMod  pageType={pageType} info={singleGoods} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+        <MorePicMod  pageType={pageType} info={morePicInfo} {...props} checkResult={checkResult}/>
+        <MoreGoodsMod  pageType={pageType} info={moreGoods} {...props} checkResult={checkResult}/>
+        <ThemeMod  pageType={pageType} info={themeInfo} {...props} checkResult={checkResult}/>
+        <ClassifyMod  pageType={pageType} info={{...classifyInfo,flowProductList:classifyList}} {...props} checkResult={checkResult}/>
+      </div>
+      <ReleaseModal
+        content={issueContent}
+        visible={visible}
+        onCancel={onCancel}
+        onOk={onOk}/>
+    </div>
+  )
 }
 
 export default CtipContentAdd;
