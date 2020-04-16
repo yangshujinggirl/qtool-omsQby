@@ -25,7 +25,7 @@ const AuditReturnInfo = props => {
    * 提交
    */
   const handleSubmit = async () => {
-    const values = await form.vaildateFields();
+    const values = await form.validateFields();
     values.operation = 2;
     values.orderNo = id;
     handelAbnormalApi(values).then(res => {

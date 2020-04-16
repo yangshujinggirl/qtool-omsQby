@@ -7,9 +7,9 @@ import { getListApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 
 /**
- *退单审核
+ *待审核退单 zhy
  */
-class ReturnAudit extends Component {
+class AuditReturn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,15 +65,9 @@ class ReturnAudit extends Component {
   };
 
   //点击分页
-  changePage = (current, limit) => {
-    const currentPage = current - 1;
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues,currentPage, everyPage };
     this.searchData(values);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    const params = { currentPage, limit, ...this.state.inputValues };
-    this.searchData(params);
   };
 
   render() {
@@ -93,7 +87,6 @@ class ReturnAudit extends Component {
             <Qpagination
               data={{ everyPage, currentPage, total }}
               onChange={this.changePage}
-              onShowSizeChange={this.onShowSizeChange}
             />
           ) : null}
         </div>
@@ -102,4 +95,4 @@ class ReturnAudit extends Component {
   }
 }
 
-export default ReturnAudit;
+export default AuditReturn;

@@ -207,6 +207,7 @@ class AddShopManage extends Component {
   };
   render() {
     const { loading, contractPic, channelPic } = this.state;
+    const {id} = this.props.match.params;
     return (
       <Spin spinning={loading}>
         <div className="oms-common-addEdit-pages">
@@ -217,8 +218,8 @@ class AddShopManage extends Component {
           >
             <Card title="基本信息">
               <BaseEdit
+                {...{channelPic,id}}
                 upDateChannelPicList={this.upDateChannelPicList}
-                channelPic={channelPic}
               />
             </Card>
             <Card title="地址信息">

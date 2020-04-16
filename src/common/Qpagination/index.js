@@ -10,7 +10,8 @@ class Qpagination extends Component {
     }
   }
   onShowSizeChange(currentPage,everyPage) {
-    this.props.onShowSizeChange && this.props.onShowSizeChange(currentPage,everyPage)
+    currentPage=1;
+    this.props.onChange && this.props.onChange(currentPage,everyPage)
   }
   initPageSize() {
     const { sizeOptions } = this.state;

@@ -10,10 +10,10 @@ import { OmsExportApi } from "api/Export";
 import SendModal from "./components/SendModal";
 
 /**
- *（周虹烨）
+ * zhy
  * 保税订单
  */
-class ReplaceOrder extends Component {
+class BondedOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,15 +74,9 @@ class ReplaceOrder extends Component {
   };
 
   //点击分页
-  changePage = (current, limit) => {
-    const currentPage = current - 1;
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    const params = { currentPage, limit, ...this.state.inputValues };
-    this.searchData(params);
   };
   //导出数据
   exportData = () => {
@@ -141,7 +135,6 @@ class ReplaceOrder extends Component {
           <Qpagination
             data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
-            onShowSizeChange={this.onShowSizeChange}
           />
         ) : null}
         {
@@ -159,4 +152,4 @@ class ReplaceOrder extends Component {
     );
   }
 }
-export default ReplaceOrder;
+export default BondedOrder;

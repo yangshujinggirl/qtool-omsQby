@@ -81,7 +81,6 @@ const PurchaseOutOrderList = QbaseList(
         <Qpagination
           data={{ everyPage, currentPage, total }}
           onChange={_this.changePage}
-          onShowSizeChange={_this.changePage}
         />
         {auditModalVisible && (
           <AuditModal

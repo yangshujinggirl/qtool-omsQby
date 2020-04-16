@@ -8,6 +8,9 @@ import {Columns} from "./columns";
 import { AppExportApi } from "api/Export";
 import moment from "moment";
 
+/**
+ * 用户订单 zhy
+ */
 class UserOrder extends Component {
   constructor(props) {
     super(props);
@@ -66,14 +69,9 @@ class UserOrder extends Component {
   };
 
   //点击分页
-  changePage = (currentPage, limit) => {
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    const params = { currentPage, limit, ...this.state.inputValues };
-    this.searchData(params);
   };
   //导出数据
   exportData = () => {

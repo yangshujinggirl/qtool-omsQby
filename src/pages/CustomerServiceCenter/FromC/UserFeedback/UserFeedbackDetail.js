@@ -62,7 +62,8 @@ const UserFeedbackDetail = (props) => {
      * 操作取消
      */
     const optionsCancel = () => {
-        Qmessage.success("操作取消");
+        // Qmessage.success("操作取消");
+        props.history.push('/account/user_feedback')
     };
 
     /**
@@ -77,7 +78,8 @@ const UserFeedbackDetail = (props) => {
             operator: sessionStorage.getItem("oms_userName") != null ? sessionStorage.getItem("oms_userName") : ""
         }).then(rep => {
             baseDetailComponent.hideLoading();
-            Qmessage.success("更新成功");
+            // Qmessage.success("更新成功");
+            props.history.push('/account/user_feedback')
         })
     };
 
@@ -117,7 +119,7 @@ const UserFeedbackDetail = (props) => {
                 dataInfo={
                     [{key: "反馈内容", value: contentRemark},
                         {
-                            key: "反馈图片", value: picList.map((item, index) => {
+                            key: "反馈图片", value: picList&&picList.length>0&&picList.map((item, index) => {
                                 return (
                                     <QenlargeImg
                                         url={sessionStorage.getItem("oms_fileDomain") + item.imgPath}

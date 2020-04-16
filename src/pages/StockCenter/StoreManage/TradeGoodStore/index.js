@@ -6,9 +6,9 @@ import Columns from "./columns";
 import { getListApi } from "api/home/StockCenter/StoreManage";
 
 /**
- *跨境商品仓
+ *一般贸易商品仓 zhy
  */
-class CrossGoodStore extends Component {
+class TradeGoodStore extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,8 +53,8 @@ class CrossGoodStore extends Component {
   };
 
   //点击分页
-  changePage = (currentPage, limit) => {
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
   };
 
@@ -77,4 +77,4 @@ class CrossGoodStore extends Component {
   }
 }
 
-export default CrossGoodStore;
+export default TradeGoodStore;

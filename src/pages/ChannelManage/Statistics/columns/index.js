@@ -104,7 +104,7 @@ const columnsOnlinePrimary = [
     title: "操作",
     dataIndex: "remark",
     render: (text, record, index) => {
-      return <Link to={`/account/bridge_statistics_infos?id=${record.channelPopularizeId}&source=1`}>查看二级渠道</Link>;
+      return <Link to={`/account/bridge_statistics_infos?id=${record.channelPopularizeId}&source=2`}>查看二级渠道</Link>;
     }
   }
 ];
