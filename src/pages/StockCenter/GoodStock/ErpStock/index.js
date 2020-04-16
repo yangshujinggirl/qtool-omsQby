@@ -6,6 +6,9 @@ import FilterForm from "./components/FilterForm/index";
 import Columns from "./columns";
 import { AppExportApi } from "api/Export";
 
+/**
+ * erp库存  zhy
+ */
 class ErpStock extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +16,9 @@ class ErpStock extends Component {
       everyPage: 0,
       currentPage: 0,
       dataList: [],
-      inputValues: {},
+      inputValues: {
+        warehouseType:1
+      },
       loading: false
     };
   }
@@ -25,7 +30,8 @@ class ErpStock extends Component {
     this.setState({
       loading: true
     });
-    getListApi(values)
+    const params = {...this.state.inputValues,...values}
+    getListApi(params)
       .then(res => {
         this.setState({
           loading: false
@@ -48,19 +54,13 @@ class ErpStock extends Component {
           loading: false
         });
       });
-    this.setState({ inputValues: values });
+    this.setState({ inputValues: params });
   };
 
   //点击分页
-  changePage = (current, limit) => {
-    const currentPage = current - 1;
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    const params = { currentPage, limit, ...this.state.inputValues };
-    this.searchData(params);
   };
   //导出数据
   exportData = () => {

@@ -24,6 +24,7 @@ class ReplaceOrder extends Component {
       visible: false,
       orderDetailNo: "",
       loading: false,
+      confirmLoading: false,
     };
   }
   componentWillMount() {
@@ -76,15 +77,9 @@ class ReplaceOrder extends Component {
   };
 
   //点击分页
-  changePage = (current, limit) => {
-    const currentPage = current - 1;
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    const params = { currentPage, limit, ...this.state.inputValues };
-    this.searchData(params);
   };
   //导出数据
   exportData = () => {
@@ -101,15 +96,27 @@ class ReplaceOrder extends Component {
   };
   //发货保存
   onOk = (values, resetForm) => {
-    sendGoodsApi(values).then((res) => {
-      if (res.httpCode == 200) {
-        this.searchData({ ...this.state.inputValues });
-        this.setState({
-          visible: false,
-        });
-        resetForm();
-      }
+    this.setState({
+      confirmLoading: true,
     });
+    sendGoodsApi(values)
+      .then((res) => {
+        if (res.httpCode == 200) {
+          this.searchData({ ...this.state.inputValues });
+          this.setState({
+            visible: false,
+          });
+          resetForm();
+          this.setState({
+            confirmLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          confirmLoading: false,
+        });
+      });
   };
   //发货取消
   onCancel = () => {
@@ -177,11 +184,11 @@ class ReplaceOrder extends Component {
             <Qpagination
               data={{ everyPage, currentPage, total }}
               onChange={this.changePage}
-              onShowSizeChange={this.onShowSizeChange}
             />
           ) : null}
           {visible && (
             <SendModal
+              confirmLoading={confirmLoading}
               onOk={this.onOk}
               onCancel={this.onCancel}
               visible={visible}

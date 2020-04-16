@@ -4,8 +4,7 @@ import {TableItemShowTime} from "common/QdisabledDateTime";
 const Columns = [
     {
         title: '反馈状态', dataIndex: 'toStatusStr', key: '1',
-        render: (text, record) => <a
-            href="javascript:">{record.fromStatusStr}-{record.toStatusStr}</a>
+        render: (text, record) => <a>{record.fromStatusStr}-{record.toStatusStr}</a>
     },
     {title: '处理备注', dataIndex: 'remark', key: '2'},
     {title: '处理人', dataIndex: 'operator', key: '3'},

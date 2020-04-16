@@ -5,6 +5,9 @@ import OffLineStatistic from "./OffLine";
 
 const { TabPane } = Tabs;
 
+/**
+ * 渠道统计 zhy
+ */
 class ChangelStatictic extends Component {
   constructor(props) {
     super(props);

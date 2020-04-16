@@ -24,7 +24,7 @@ const BpushDetail = props => {
       <p className="tail">推送时间：　　{infos.pushTime}</p>
       <p className="tail">推送内容：　　{infos.msgContent}</p>
       <p className="tail">推送类型：　　{infos.alertTypeStr}</p>
-      <p className="tail">推送详情：　　{infos.pushContent}</p>
+      <p className="tail">推送详情：　　{infos.alertTypeContent}</p>
       <p className="tail">推送人群：　　{infos.pushMan}</p>
     </div>
   );

@@ -57,13 +57,6 @@ class Btimer extends Component {
   onSubmit = params => {
     this.searchData(params);
   };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    this.props.dispatch({
-      type: "cTimer/fetchList",
-      payload: { currentPage, limit, ...this.state.inputValues }
-    });
-  };
   //修改
   handleOperateClick = (record) => {
     this.setState({

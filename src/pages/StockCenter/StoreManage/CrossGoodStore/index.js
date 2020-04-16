@@ -6,7 +6,7 @@ import Columns from "./columns";
 import { saveStoreApi,getListApi  } from "api/home/StockCenter/StoreManage";
 import AddStoreModal from "./components/AddStoreModal";
 /**
- *跨境商品仓
+ *跨境商品仓 zhy
  */
 class CrossGoodStore extends Component {
   constructor(props) {
@@ -59,8 +59,8 @@ class CrossGoodStore extends Component {
   };
 
   //点击分页
-  changePage = (currentPage, limit) => {
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
   };
   //新建仓库

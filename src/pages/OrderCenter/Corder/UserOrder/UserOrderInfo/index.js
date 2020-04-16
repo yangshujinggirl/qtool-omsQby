@@ -5,6 +5,10 @@ import { GoodColumns, handleLogColumns, giftSkuColumns } from "../columns";
 import StoreOutInfo from "./components/StoreOutInfo";
 import { getInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
 
+/**
+ * 
+ * 用户订单详情
+ */
 const UserOrderInfo = (props) => {
   const [orderInfo, setOrderInfo] = useState({});
   const [userInfo, setUserInfo] = useState({});

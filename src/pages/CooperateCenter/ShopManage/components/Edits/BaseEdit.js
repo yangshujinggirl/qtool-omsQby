@@ -2,6 +2,7 @@ import { Input, Form } from "antd";
 import UploadImg from "common/QupLoadImgLimt";
 
 const BaseEdit = props => {
+  const {id} = props;
   return (
     <React.Fragment>
       <Form.Item label="门店图片">
@@ -17,7 +18,7 @@ const BaseEdit = props => {
         label="门店名称"
         rules={[{ required: true, message: "请输入门店名称" }]}
       >
-        <Input placeholder="请输入门店名称" autoComplete="off" />
+        <Input disabled={id} placeholder="请输入门店名称" autoComplete="off" />
       </Form.Item>
       <Form.Item
         name="channelJName"
@@ -52,7 +53,7 @@ const BaseEdit = props => {
         label="店主手机"
         rules={[{ required: true, message: "请输入店主手机" }]}
       >
-        <Input placeholder="请输入店主手机" autoComplete="off" />
+        <Input disabled={id} placeholder="请输入店主手机" autoComplete="off" />
       </Form.Item>
       <Form.Item
         name="channelPhone"

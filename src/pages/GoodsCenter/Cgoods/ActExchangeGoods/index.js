@@ -39,15 +39,9 @@ class ActExchangeGoods extends Component {
   };
 
   //点击分页
-  changePage = (current, limit) => {
-    const currentPage = current - 1;
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    const params = { currentPage, limit, ...this.state.inputValues };
-    this.searchData(params);
   };
   //改变弹窗确认的loading
   changeLoading = value => {
@@ -111,7 +105,6 @@ class ActExchangeGoods extends Component {
           <Qpagination
             data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
-            onShowSizeChange={this.onShowSizeChange}
           />
         ) : null}
       </div>

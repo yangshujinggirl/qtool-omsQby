@@ -31,7 +31,7 @@ const Columns = [
     render: (text, record) => {
       return (
         <div>
-          {status == 0 && (
+          {record.status == 0 && (
             <a
               className="theme-color"
               onClick={() => record.onOperateClick()}
@@ -39,8 +39,8 @@ const Columns = [
               待审核
             </a>
           )}
-          {status == 1 && <a>审核通过</a>}
-          {status == 2 && <a>审核不通过</a>}
+          {record.status == 1 && <span>审核通过</span>}
+          {record.status == 2 && <span>审核不通过</span>}
         </div>
       );
     },

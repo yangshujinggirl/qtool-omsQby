@@ -9,7 +9,7 @@ import moment from "moment";
 import { OmsExportApi } from "api/Export";
 
 /**
- *全部退单
+ *全部退单 zhy
  */
 class AllReturn extends Component {
   constructor(props) {
@@ -75,15 +75,9 @@ class AllReturn extends Component {
   };
 
   //点击分页
-  changePage = (current, limit) => {
-    const currentPage = current - 1;
-    const values = { ...this.state.inputValues, currentPage, limit };
+  changePage = (currentPage, everyPage) => {
+    const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
-  };
-  //pageSize改变时的回调
-  onShowSizeChange = ({ currentPage, limit }) => {
-    const params = { currentPage, limit, ...this.state.inputValues };
-    this.searchData(params);
   };
   //确认收货或取消退款
   operateClick = operateType => {
@@ -193,7 +187,6 @@ class AllReturn extends Component {
           <Qpagination
             data={{ everyPage, currentPage, total }}
             onChange={this.changePage}
-            onShowSizeChange={this.onShowSizeChange}
           />
         ) : null}
       </div>

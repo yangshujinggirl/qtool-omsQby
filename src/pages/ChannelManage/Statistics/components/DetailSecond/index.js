@@ -10,6 +10,9 @@ import {
 import {AppExportApi} from 'api/Export'
 import FilterForm from "./FilterForm";
 
+/**
+ * 二级渠道
+ */
 class DetailSecond extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +48,7 @@ class DetailSecond extends Component {
       ...this.state.inputValues,
       ..._values
     };
-    if (source == 2) {
+    if (source == 2) {//source:2 市场推广      source:1线下店
       this.getList(params,getMarketListApi);
     } else {
       this.getList(params,getOffLineListApi);
@@ -74,9 +77,8 @@ class DetailSecond extends Component {
   /**
    * 修改分页
    */
-  changePage = (currentPage, limit) => {
-    currentPage--;
-    let paramsObj = { currentPage, ...this.state.inputValues };
+  changePage = (currentPage, everyPage) => {
+    let paramsObj = { currentPage,everyPage, ...this.state.inputValues };
     this.searchData(paramsObj);
   };
   /**

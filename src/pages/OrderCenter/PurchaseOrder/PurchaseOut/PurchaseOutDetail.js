@@ -90,7 +90,7 @@ const PurchaseOutDetail = (props) => {
                         {key: "联系电话", value: dataInfo.phone},
                         {key: "收货地址", value: dataInfo.address},]
                 }/>
-            </Card>>
+            </Card>
             <Card title="发货信息">
                 <Qtable columns={ShippingInformationColumns} dataSource={outList}/>
             </Card>

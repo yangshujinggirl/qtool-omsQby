@@ -16,8 +16,10 @@ import "./index.less";
 import {
   GetPurchaseInOrderListApi,
   PushPurchaseInOrderForceComplete,
+  getPrintPage,
+  getPrintHtml,
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
-import {GetLodop} from './components/PrintOrder/print';
+import { PrintOneURL } from "./components/PrintOrder/print";
 import {
   OmsExportApi,
   EXPORT_TYPE_PURCHASE_ORDER_IN,
@@ -85,22 +87,29 @@ function onClear(_this, type) {
 }
 //打印采购单
 function printCgorder(_this) {
-  const {selectedRowKeys,selectedRows} = _this.state;
+  const { selectedRowKeys, selectedRows } = _this.state;
   if (selectedRowKeys.length < 1) {
     message.error("请选择采购单", 0.8);
     return;
   }
-  for (var i = 0; i < selectedRows.length; i++) {
-    GetLodop(
-      selectedRows[i].wsAsnId,
-      "wsAsnOrder",
-      selectedRows[i].asnNo
-    );
-  }
+  const { stockingCode } = selectedRows[0];
+  getPrintPage({ stockingCode }).then((res) => {
+    if (res.httpCode == 200) {
+      const page = res.result; //获取到打印几页
+      for (var i = 0; i < page; i++) {
+        getPrintHtml({ stockingCode, page: i + 1 }).then((res) => {
+          if (res.httpCode == 200) {
+            PrintOneURL(res.result, stockingCode);
+          }
+        });
+      }
+    }
+  });
+
   _this.setState({
-    selectedRowKeys:[],
-    selectedRows:[]
-  })
+    selectedRowKeys: [],
+    selectedRows: [],
+  });
 }
 
 /**
@@ -138,7 +147,7 @@ const PurchaseInOrderList = QbaseList(
           <Qbtn size="free" onClick={() => showModalClick(_this)}>
             强制完成
           </Qbtn>
-          <Qbtn size="free" onClick={()=>printCgorder(_this)}>
+          <Qbtn size="free" onClick={() => printCgorder(_this)}>
             打印采购单
           </Qbtn>
           <Qbtn

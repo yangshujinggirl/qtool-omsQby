@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, message, Select, Cascader, Spin } from "antd";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   GetPurchaseOutOrderDetailApi,
   addPurchaseOutApi,
@@ -26,6 +27,7 @@ const AddPurchaseOut = (props) => {
   const [goodList, setGoodList] = useState([]);
   const [options, setOptions] = useState([]);
   const [suppliersName, setSuppliersName] = useState("");
+  const { id } = props.match.params;
   useEffect(() => {
     getStoreList();
     initPage();
@@ -35,13 +37,14 @@ const AddPurchaseOut = (props) => {
    * 初始化
    */
   const initPage = () => {
-    const { id } = props.match.params;
     if (id) {
       setLoading(false);
-      GetPurchaseOutOrderDetailApi({ stockingCode: id }).then((res) => {
+      GetPurchaseOutOrderDetailApi(id).then((res) => {
         setLoading(false);
         if (res.httpCode == 200) {
           const { detailList, ...infos } = res.result;
+          const {province,area,city} = infos;
+          infos.provinces = [province,city,area]
           countPrice(detailList);
           form.setFieldsValue({ goodList: detailList, ...infos });
         }
@@ -99,6 +102,7 @@ const AddPurchaseOut = (props) => {
   const handleSubmit = async () => {
     const values = await form.validateFields();
     const { provinces, goodList: data, ..._values } = values;
+    debugger
     if (provinces) {
       _values.province = provinces[0];
       _values.city = provinces[1];
@@ -107,7 +111,7 @@ const AddPurchaseOut = (props) => {
     goodList.map((item, index) => {
       if (props.match.params.id) {
         data[index].id = goodList[index].id;
-      };
+      }
       data[index].thinkCode = goodList[index].thinkCode;
       data[index].itemCode = goodList[index].itemCode;
     });
@@ -156,6 +160,18 @@ const AddPurchaseOut = (props) => {
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_purchase">
         <Form className="common-addEdit-form" form={form} {...formItemLayout}>
+          <Form.Item wrapperCol={{span:20,offset:3}}>
+            <div className="add_purchaseout_tips">
+              <p>
+                <ExclamationCircleFilled  style={{ color: "orange" }} />
+                1、下单请确保采退商品的在售库存充足；
+              </p>
+              <p>
+                2、商品过多时，可按下键盘“Crtl”键 +
+                “F”键，进行快速检索（苹果系统按“Command”键 + “F”键）；
+              </p>
+            </div>
+          </Form.Item>
           <Form.Item className="item_required" label="采购单号">
             <Form.Item
               noStyle
@@ -163,10 +179,12 @@ const AddPurchaseOut = (props) => {
               rules={[{ required: true, message: "请填写采购单号" }]}
             >
               <Input
+                disabled={id}
                 placeholder="请输入采购单号"
                 onBlur={searchInfo}
                 onPressEnter={searchInfo}
                 autoComplete="off"
+                maxLength="30"
               />
             </Form.Item>
             <span>{suppliersName}</span>

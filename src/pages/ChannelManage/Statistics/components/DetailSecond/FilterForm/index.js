@@ -5,6 +5,9 @@ import { Qbtn, BaseFilter } from "common";
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
+/**
+ * 二级渠道的搜索部分
+ */
 class NormalForm extends BaseFilter {
   formRef = React.createRef();
   render() {

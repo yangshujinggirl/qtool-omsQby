@@ -11,6 +11,10 @@ import {
 } from "./columns";
 import { getBonedInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
 
+/**
+ * 保税订单详情
+ * @param {*} props 
+ */
 const BondedOrderInfo = props => {
   const [orderInfo, setOrderInfo] = useState({});
   const [receiveInfo, setReceiveInfo] = useState({});
