@@ -50,7 +50,7 @@ function EditImg({...props}) {
       let { pdConfigureConfigList,...val } =res.result;
       pdConfigureConfigList = pdConfigureConfigList.map((el,index)=> {
         if(el.type == 1) {
-          el.fileList =CommonUtils.formatToFilelist(el.text)
+          el.text =CommonUtils.formatToFilelist(el.text)
         }
         return el;
       })
@@ -76,7 +76,7 @@ function EditImg({...props}) {
   const onSubmit=async()=> {
     try {
       const values = await form.validateFields();
-      let { isShare, shareFriendImg, shareFriendCircleImg, productDetailImgList, ..._val } =values;
+      let { shareFriendImg, shareFriendCircleImg, productDetailImgList, ..._val } =values;
       let params={ ..._val, pdConfigureConfigList:detailImg };
       if(_val.isShare==1) {
         shareFriendImg = CommonUtils.formatToUrlPath(shareFriendImg);

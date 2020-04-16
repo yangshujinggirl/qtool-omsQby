@@ -5,8 +5,8 @@ import { GetSearchApi } from 'api/contentCenter/PageSetCtip';
 import { QupLoadImgLimt } from 'common';
 
 const AddModal=({...props})=> {
-  const { type, text, template, pdCode, rowcode } =props.currentItem;
-  let [fileList,setFileList]=useState(text);
+  const { type, text, template, pdCode, rowcode,fileList } =props.currentItem;
+  let [newFileList,setFileList]=useState(text);
   const { visible  } =props;
 
   const onSubmit=async()=> {
@@ -41,12 +41,12 @@ const AddModal=({...props})=> {
     GetSearchApi({code:pdCode})
     .then((res)=> {
       let { result } =res;
-      item = {...res.result,type, pdSpu:result };
+      item = {...res.result, template, type, pdCode, pdSpu:result };
       if(template == 2) {
         let { result } =res;
         GetSearchApi({code:rowcode})
         .then((res)=> {
-          item = {...item, rowPdSpu:result };
+          item = {...item, rowcode, rowPdSpu:result };
           props.onOk(item);
           props.form.resetFields(['text','template','pdCode','rowcode']);
         })
@@ -63,7 +63,7 @@ const AddModal=({...props})=> {
   }
   const handleCancel=()=> {
     props.onCancel();
-    form.resetFields(['text','template','pdCode','rowcode']);
+    props.form.resetFields(['text','template','pdCode','rowcode']);
   }
   const funcEdit=()=> {
     let mod;
@@ -73,7 +73,7 @@ const AddModal=({...props})=> {
                 <QupLoadImgLimt
                   label="图片"
                   name="text"
-                  fileList={fileList}
+                  fileList={newFileList}
                   limit="1"
                   upDateList={(fileList)=>handleChangeFile(fileList)}
                   rules={[{ required: true, message: '请上传图片' } ]}/>
@@ -116,6 +116,7 @@ const AddModal=({...props})=> {
     return mod;
   }
   return <Modal
+          destroyOnClose={true}
           title="新增"
           visible={visible}
           onOk={onSubmit}
