@@ -4,13 +4,14 @@ import {
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import moment from 'moment';
+import { Sessions,  CommonUtils } from 'utils';
 import { useState, useEffect } from 'react';
-import { BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { Qmessage, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetListApi, GetSaveApi } from 'api/contentCenter/NewUserSetCtip';
 import ColumnsAdd from './columns';
+
 const { RangePicker } = DatePicker;
 let FormItem = Form.Item;
-
 const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -21,6 +22,7 @@ const formItemLayout = {
       sm: { span: 20 },
     },
   };
+let fileDomain = Sessions.get('fileDomain');
 
 const NewUserGift=({...props})=> {
   const [form] = Form.useForm();
@@ -32,10 +34,12 @@ const NewUserGift=({...props})=> {
     GetListApi({homepageModuleId})
     .then((res)=> {
       let { couponList, couponSourceList,...totalData } = res.result;
-      totalData.newComerPicUrl=totalData.newComerPicUrl?totalData.newComerPicUrl:[]
-      totalData.couponPopUpPicUrl=totalData.couponPopUpPicUrl?totalData.couponPopUpPicUrl:[]
+      totalData.newComerPicUrl=CommonUtils.formatToFilelist(totalData.newComerPicUrl);
+      totalData.couponPopUpPicUrl=CommonUtils.formatToFilelist(totalData.couponPopUpPicUrl);
       couponList=couponList?couponList:[]
-      couponSourceList=couponSourceList?couponSourceList:[]
+      couponSourceList=couponSourceList?couponSourceList:[];
+      couponList.map((el,index)=>el.key=index);
+      totalData.time=[moment(totalData.beginTime),moment(totalData.endTime)]
       setTotalData(totalData);
       setList(couponList);
       setCouponList(couponSourceList);
@@ -44,12 +48,13 @@ const NewUserGift=({...props})=> {
   const submit=async()=> {
     try {
       let  values = await form.validateFields();
-      let { newComerPicUrl, couponPopUpPicUrl, time, ...params } =values;
-      newComerPicUrl = formatVal(newComerPicUrl);
-      couponPopUpPicUrl = formatVal(couponPopUpPicUrl);
+      let { newComerPicUrl, couponPopUpPicUrl, time, couponIds, ...params } =values;
+      newComerPicUrl = CommonUtils.formatToUrlPath(newComerPicUrl);
+      couponPopUpPicUrl = CommonUtils.formatToUrlPath(couponPopUpPicUrl);
+      couponIds = couponIds&&couponIds.map((el)=> {return el.couponId;})
       params.beginTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss')
       params.endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
-      params = {...params, newComerPicUrl, couponPopUpPicUrl, homepageModuleId };
+      params = {...params, couponIds, newComerPicUrl, couponPopUpPicUrl, homepageModuleId };
       GetSaveApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
@@ -58,16 +63,7 @@ const NewUserGift=({...props})=> {
       console.log('Failed:', errorInfo);
     }
   }
-  //格式化参数
-  const formatVal=(val)=> {
-    if(val&&val[0].response) {
-      let urlPath = val[0].response.result;
-      val = urlPath;
-    } else {
-      val = val.path;
-    }
-    return val;
-  }
+
   const onSelect=(value,index)=> {
     let currentItem=couponList.find((el)=>el.couponId == value);
     list[index] = {
@@ -89,7 +85,8 @@ const NewUserGift=({...props})=> {
     setTotalData(totalData)
   }
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
-  useEffect(()=> {getInfo()},[homepageModuleId]);
+  useEffect(()=>{ form.setFieldsValue({couponIds: list}) },[list])
+  useEffect(()=>{ getInfo() },[homepageModuleId]);
 
   return (
     <Spin tip="加载中..." spinning={false}>
@@ -121,7 +118,7 @@ const NewUserGift=({...props})=> {
               upDateList={upDateListPop}>
               <span>图片宽高比为69:70，支持png格式，大小在2m以内</span>
             </QupLoadImgLimt>
-            <FormItem label="模块展示时间" name="time">
+            <FormItem label="模块展示时间" name="time" rules={[{ required: true, message: '请选择展示时间' } ]}>
               <RangePicker format="YYYY-MM-DD HH:mm"/>
             </FormItem>
             <FormItem label="选择优惠券">

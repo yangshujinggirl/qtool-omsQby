@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import moment from 'moment';
 import lodash from 'lodash';
 import { Qbtn } from 'common';
-import { disabledDate, disabledDateTimeRange, } from '../dateSet';
+import { DisabledDateUtils } from 'utils';
+
 
 const { RangePicker } = DatePicker;
 //绑定方法
@@ -51,8 +52,8 @@ const BaseEditTable=({...props})=> {
             <Form.Item name={['fields',index,'time']} rules={[{required:true,message:'请选择时间'}]}>
               <RangePicker
                 format={"YYYY-MM-DD HH:mm:ss"}
-                disabledDate={disabledDate}
-                disabledTime={disabledDateTimeRange}
+                disabledDate={DisabledDateUtils.disabledDate}
+                disabledTime={DisabledDateUtils.disabledDateTimeRange}
                 showTime={{
                   hideDisabledOptions: true,
                   defaultValue: moment('00:00', 'HH:mm'),

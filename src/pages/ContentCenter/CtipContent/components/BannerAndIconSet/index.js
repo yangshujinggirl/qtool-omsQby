@@ -1,6 +1,7 @@
 import { Tabs, Button, Form, Modal } from 'antd';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import { CommonUtils } from 'utils';
 import {Qmessage, Qbtn } from 'common';
 import FrameModal from './components/FrameModal';
 import BannerIconPicTables from './components/BannerIconPicTables';
@@ -30,16 +31,7 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
         dataList=dataList?dataList:[];
         dataList =dataList.map((el,index)=> {
           el.key=index;
-          if(el.picUrl) {
-            let fileLis=[{
-               uid: '-1',
-               name: 'image.png',
-               status: 'done',
-               path:el.picUrl,
-               url:`${res.fileDomain}${el.picUrl}`
-            }]
-            el.picUrl=fileLis;
-          }
+          el.picUrl = CommonUtils.formatToFilelist(el.picUrl)
           if(el.beginTime) {
             el.beginTime = moment(el.beginTime)
           }
@@ -60,12 +52,7 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
     const upDateList=(array)=>{setList(array)}
     //格式化参数
     const formatVal=(values)=> {
-      if(values.picUrl&&values.picUrl[0].response) {
-        let urlPath = values.picUrl[0].response.result;
-        values.picUrl = urlPath;
-      } else {
-        values.picUrl = values.picUrl[0].path;
-      }
+      values.picUrl = CommonUtils.formatToUrlPath(values.picUrl);
       if(values.beginTime) {
         values.beginTime = moment(values.beginTime).format("YYYY-MM-DD HH:mm");
       }
@@ -104,7 +91,6 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
           })
           return el;
         })
-        console.log('newArray,newArray')
         setList(newArray);
       }
     }

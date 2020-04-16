@@ -45,9 +45,11 @@ class CommodityFlow extends React.Component {
     this.getTabsList()
   }
   //查询tabs
-  getTabsList() {
+  getTabsList(selectkey) {
     const { id } =this.props.match.params;
-    const { selectkey } =this.state;
+    selectkey = selectkey?selectkey:0;
+    this.setState({ selectkey })
+    // const { selectkey } =this.state;
     GetTabListApi({homepageModuleId:id})
     .then((res)=> {
       let { result } =res;
@@ -60,15 +62,22 @@ class CommodityFlow extends React.Component {
     })
   }
   //查询商品list
-  getProductList=(tabId,key)=> {
-    if(key!=null) {
-      this.setState({ selectkey:key })
-    }
+  getProductList=(tabId)=> {
     GetProListApi(tabId)
     .then((res)=> {
-      if(!res.result) {
-        this.resetPage()
+      let { result } =res;
+      if(!result) {
+        this.resetPage();
+        return;
       }
+      let { spuList, sortRule, ...vals} = result;
+      spuList=spuList?spuList:[];
+      spuList.map((el,index)=>el.key=index);
+      vals={...vals, ...sortRule };
+      if(vals.time) {
+        vals.time = [moment(vals.time[0]),moment(vals.time[1])]
+      }
+      this.setState({ totalData: vals, goodsList:spuList });
     })
   }
   resetPage=()=> {
@@ -110,18 +119,20 @@ class CommodityFlow extends React.Component {
   //切换保存
   onOkToggle=(value,index)=> {
     const { tabId, key } =value;
-    this.onSubmit(()=>this.getProductList(tabId,key))
+    this.onSubmit(()=>this.getTabsList(key))
   }
   //切换不保存
   onCancel=(value,index)=> {
     const { tabId, key } =value;
-    this.getProductList(tabId,key);
+    this.setState({ selectkey:key },()=> {
+      this.getProductList(tabId);
+    })
   }
   //提交
   onSubmit= async(func)=> {
     try {
       let  values = await this.formRef.current.validateFields();
-      let { goodsList, tabs } =this.state;
+      let { goodsList, tabs,  selectkey} =this.state;
       let isEmpty;
       tabs.map((el,index) => {
         if(!el.tabName) {
@@ -132,7 +143,7 @@ class CommodityFlow extends React.Component {
         Qmessage.error('tab名称不能为空');
         return;
       }
-      if(goodsList.length< 20) {
+      if(goodsList.length< 1) {
         Qmessage.error('商品数量至少20个');
         return;
       }
@@ -140,7 +151,7 @@ class CommodityFlow extends React.Component {
       GetSaveApi(params)
       .then((res) => {
         Qmessage.success('保存成功',1);
-        func&&typeof func == 'function'?func():this.getTabsList();
+        func&&typeof func == 'function'?func():this.getTabsList(selectkey);
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);

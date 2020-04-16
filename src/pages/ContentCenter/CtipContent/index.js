@@ -8,47 +8,70 @@ import FilterForm from './components/FilterForm';
 import AddModal from './components/AddModal';
 
 const { confirm } = Modal;
-const CtipContent=({...props})=> {
-  const [dataList,setDataList] =useState([]);
-  const [visible,setVisible] =useState(false);
-  const [loading,setLoading] =useState([]);
-  const [dataPagation,setDataPagation] =useState({everyPage:15, currentPage:1, total:0});
-  const [fields,setFields]=useState({});
+class CtipContent extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataList:[],
+      visible:false,
+      loading:false,
+      dataPagation:{
+        everyPage:15,
+        currentPage: 1,
+        total:0
+      },
+      fields: {},
+    };
+  }
+  //搜索列表
+  componentDidMount (){
+    this.searchList()
+  };
   //查询列表
-  const searchList=(values)=> {
-    setLoading(true)
+  searchList=()=> {
+    let { fields, dataPagation } =this.state;
+    this.setState({ loading:true })
     let params={...fields,everyPage:dataPagation.everyPage,currentPage:dataPagation.currentPage};
-    if(values) {
-      params = {...params,...values};
-    }
     GetListApi(params)
     .then((res)=> {
       let { result, everyPage, currentPage, total } =res.result;
       result = result?result:[];
       result.map((el,index)=>el.key = index);
-      setDataList(result);
-      setDataPagation({everyPage,currentPage,total});
-      setLoading(false)
+      this.setState({
+        dataList:result,
+        dataPagation:{everyPage,currentPage,total},
+        loading:false,
+      })
     })
   }
-  const changePage = (currentPage, everyPage) => {
-    searchList(currentPage, everyPage)
+  changePage = (currentPage, everyPage) => {
+    this.setState({
+      dataPagation:{everyPage,currentPage},
+    },()=> {
+      this.searchList()
+    })
   };
-  const onShowSizeChange = (currentPage, everyPage) => {
-    searchList(currentPage, everyPage)
+  onShowSizeChange = (currentPage, everyPage) => {
+    this.setState({
+      dataPagation:{everyPage,currentPage},
+    },()=> {
+      this.searchList()
+    })
   };
-  const onSubmit = params => {
-    setFields(params)
+  onSubmit = params => {
+    this.setState({ fields:params },()=> {
+      this.searchList()
+    })
   };
   //操作区
-  const handleOperateClick=(record, type)=> {
+  handleOperateClick=(record, type)=> {
     switch (type) {
       case "ban"://禁用
-        goForcedEnd(record);
+        this.goForcedEnd(record);
         break;
     }
   }
-  const goForcedEnd=(record)=> {
+  goForcedEnd=(record)=> {
     let contentTips = record.status == 2 ?
           <span>
             当前版本处于待发布状态，禁用后将不会发布到线上，您确定禁用此版本么？
@@ -70,31 +93,37 @@ const CtipContent=({...props})=> {
       },
     });
   }
-  const handleAdd=()=>{ setVisible(true); }
-  const onCancel=()=>{ setVisible(false); }
-  const onOk=()=>{ setVisible(false);searchList();}
-  useEffect(()=>{searchList()},[fields]);
-
-  return <Spin tip="加载中..." spinning={loading}>
-          <div className="oms-common-index-pages-wrap">
-            <FilterForm onSubmit={onSubmit}/>
-            <div className="handle-operate-btn-action">
-              <Qbtn size="free" onClick={handleAdd}>新增首页版本</Qbtn>
-            </div>
-            <Qtable
-              columns={Columns}
-              dataSource={dataList}
-              onOperateClick={handleOperateClick}/>
-            <Qpagination
-              data={dataPagation}
-              onChange={changePage}
-              onShowSizeChange={onShowSizeChange}/>
-            <AddModal
-              onOk={onOk}
-              onCancel={onCancel}
-              visible={visible}
-              {...props}/>
+  handleAdd=()=>{ this.setState({ visible:true }) }
+  onCancel=()=>{ this.setState({ visible:false }) }
+  onOk=()=>{
+    this.setState({ visible:false });
+    this.searchList();
+  }
+  render() {
+    const { loading, dataList, dataPagation, visible } =this.state;
+    return (
+      <Spin tip="加载中..." spinning={loading}>
+        <div className="oms-common-index-pages-wrap">
+          <FilterForm onSubmit={this.onSubmit}/>
+          <div className="handle-operate-btn-action">
+            <Qbtn size="free" onClick={this.handleAdd}>新增首页版本</Qbtn>
           </div>
-        </Spin>
+          <Qtable
+            columns={Columns}
+            dataSource={dataList}
+            onOperateClick={this.handleOperateClick}/>
+          <Qpagination
+            data={dataPagation}
+            onChange={this.changePage}
+            onShowSizeChange={this.onShowSizeChange}/>
+          <AddModal
+            onOk={this.onOk}
+            onCancel={this.onCancel}
+            visible={visible}
+            {...this.props}/>
+        </div>
+      </Spin>
+    )
+  }
 }
 export default CtipContent;

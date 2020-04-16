@@ -49,6 +49,8 @@ const ShopOrderAdd=({...props})=> {
       listDetail = listDetail?listDetail:[];
       listDetail.map((el,index)=> {
         el.key=index;
+        let canReturn = el.returnQty?el.returnQty:0;
+        el.qty = NP.minus(el.qty,canReturn)
         el.returnQty=null;
       })
       setTotal(values)

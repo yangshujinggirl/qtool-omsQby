@@ -46,7 +46,7 @@ const Field=({...props})=> {
     newTabs = newTabs.filter(item => item.key !== record.key);
     if(selectkey==record.key&&newTabs.length>0) {
       selectkey = newTabs[0].key
-      props.onCancel(tabs[0].tabId,selectkey)
+      props.onCancel({tabId:tabs[0].tabId,key:selectkey})
     }
     props.upDateList(newTabs)
   }

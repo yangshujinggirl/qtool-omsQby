@@ -50,7 +50,7 @@ const MoreGoodSet=({...props})=> {
   const submit=async()=> {
     try {
       if(list.length< 8) {
-        message.error('请至少配置8个商品');
+        Qmessage.error('请至少配置8个商品');
         return;
       }
       let  values = await form.validateFields();
@@ -76,31 +76,34 @@ const MoreGoodSet=({...props})=> {
   //导入更新
   const upDateFileList=(res)=> {
     let { pdSpuList, noImportSpuCode, noImportSpu } = res.result;
-    Modal.error({
-      title:'以下商品导入失败',
-      content:(
-        <div>
-          {
-            noImportSpu &&noImportSpu.length>0&&
-            <p style={{"wordWrap": "break-word" }}>
-              SPUID:　
-              {noImportSpu.map((item,index) => (
-                `${item}${index==noImportSpu.length-1?'':'/'}`
-              ))}
-            </p>
-          }
-          {
-            noImportSpuCode &&noImportSpuCode.length>0&&
-            <p style={{ "wordWrap": "break-word" }}>
-              商品编码:　
-              {noImportSpuCode.map((item,index) => (
-                `${item}${index==noImportSpuCode.length-1?'':'/'}`
-              ))}
-            </p>
-          }
-        </div>
-      )
-    })
+    if((noImportSpu &&noImportSpu.length>0)||(noImportSpuCode &&noImportSpuCode.length>0)) {
+      Modal.error({
+        title:'以下商品导入失败',
+        content:(
+          <div>
+            {
+              noImportSpu &&noImportSpu.length>0&&
+              <p style={{"wordWrap": "break-word" }}>
+                SPUID:　
+                {noImportSpu.map((item,index) => (
+                  `${item}${index==noImportSpu.length-1?'':'/'}`
+                ))}
+              </p>
+            }
+            {
+              noImportSpuCode &&noImportSpuCode.length>0&&
+              <p style={{ "wordWrap": "break-word" }}>
+                商品编码:　
+                {noImportSpuCode.map((item,index) => (
+                  `${item}${index==noImportSpuCode.length-1?'':'/'}`
+                ))}
+              </p>
+            }
+          </div>
+        )
+      })
+    }
+
     pdSpuList = pdSpuList ? pdSpuList : [];
     pdSpuList.map((el, index) => (el.key = index));
     upDateList(pdSpuList);

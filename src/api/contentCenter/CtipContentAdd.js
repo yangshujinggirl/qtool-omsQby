@@ -11,6 +11,7 @@ export function GetSearchFlowPdApi(pdFlowTabId){
 export function GetChangeStatusApi(values){
     return appAjax.post('/homePageModule/update',{...values})
 }
-// export function GeSearchPicApi(values){
-//     return appAjax.get('/homepage/camp/list',{params:{...values}})
-// }
+//发布
+export function GetPushApi(values){
+    return appAjax.post('/homepage/releaseVersion',{...values})
+}

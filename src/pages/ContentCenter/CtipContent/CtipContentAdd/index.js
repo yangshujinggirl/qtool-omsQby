@@ -1,6 +1,7 @@
 import { Dropdown, Menu, Modal, Popover, Button, message, Form } from "antd";
 import { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
+import { Qmessage } from 'common';
 import { GetEditInfoApi, GetChangeStatusApi, GetSearchFlowPdApi } from 'api/contentCenter/CtipContentAdd';
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
@@ -18,6 +19,7 @@ import './index.less';
 const CtipContentAdd=({...props})=> {
   let [visible,setVisible] =useState(false);
   let [issueContent,setIssue] =useState({});
+  let [checkResult,setCheckResult] =useState([]);
   let [urlCodeWx,setCodeWx] =useState('');
   let [urlCodeApp,setCodeApp] =useState('');
   let [totalData, setTotalData] =useState({});
@@ -33,6 +35,7 @@ const CtipContentAdd=({...props})=> {
   let [classifyList, setFlowProductList] =useState([]);
   let [singleGoods, setSingleGoods] =useState({moduleContent:[]});
   let homepageId=props.match.params.id;
+  let pageType=props.match.params.pageType;
 
   const getInfo=()=> {
     GetEditInfoApi(homepageId)
@@ -83,10 +86,22 @@ const CtipContentAdd=({...props})=> {
   }
   const releaseHome=(value)=>{
     setVisible(true)
-    setIssue({type:value})
+    setIssue({type:value.key,homepageId})
   }
-  const onCancel=()=>{}
-  const onOk=()=>{}
+  const onOk=(res)=> {
+    let msg = issueContent.type=='1'?'发布成功':'立即发布设置成功';
+    let { httpCode, result } =res;
+    if( httpCode=='200') {
+      Qmessage.success(msg);
+      props.history.push('/account/home_page_configuration');
+    } else if( httpCode=='260'){
+      setCheckResult(result)
+    }
+  }
+  const onCancel=()=>{
+    setVisible(false);
+    setIssue({})
+  }
   //二维码生成
   const goPreview=()=> {
     let baseUrl = window.location.href;
@@ -133,35 +148,41 @@ const CtipContentAdd=({...props})=> {
   )
   useEffect(()=>{getInfo();goPreview()},[homepageId]);
 
-  return <div className="home-configuration-edit-pages">
-          <div className="part-head">
-            <p className="pl">{totalData.versionName}</p>
-            <div className="pr">
-              <Popover content={urlContent} title={null} trigger="click">
-                <p className="preview" onClick={goPreview}>预览</p>
-              </Popover>
-                <Dropdown overlay={menu} trigger={["click"]}>
-                  <p>|保存并发布</p>
-                </Dropdown>
-            </div>
-          </div>
-          <div className="part-mods">
-            <SearchMod info={searchInfo} callback={getInfo}/>
-            <BannerMod info={bannerInfo} {...props}/>
-            <BrandMod info={brandInfo} {...props} callback={getInfo}  toggleShow={handleDisplay}/>
-            <IconMod info={iconInfo} {...props} toggleShow={handleDisplay}/>
-            <NewUserMod info={newUserInfo} {...props} toggleShow={handleDisplay}/>
-            <SingleGoodsMod info={singleGoods} {...props} toggleShow={handleDisplay}/>
-            <MorePicMod info={morePicInfo} {...props}/>
-            <MoreGoodsMod info={moreGoods} {...props}/>
-            <ThemeMod info={themeInfo} {...props}/>
-            <ClassifyMod info={{...classifyInfo,flowProductList:classifyList}} {...props}/>
-          </div>
-          <ReleaseModal
-            visible={visible}
-            onCancel={onCancel}
-            onOk={onOk}/>
+  return (
+    <div className="home-configuration-edit-pages">
+      <div className="part-head">
+        <p className="pl">{totalData.versionName}</p>
+        <div className="pr">
+          <Popover content={urlContent} title={null} trigger="click">
+            <p className="preview" onClick={goPreview}>预览</p>
+          </Popover>
+          {
+            !pageType&&
+            <Dropdown overlay={menu} trigger={["click"]}>
+              <p>|保存并发布</p>
+            </Dropdown>
+          }
         </div>
+      </div>
+      <div className="part-mods">
+        <SearchMod  pageType={pageType} info={searchInfo} callback={getInfo} checkResult={checkResult}/>
+        <BannerMod  pageType={pageType} info={bannerInfo} {...props} checkResult={checkResult}/>
+        <BrandMod  pageType={pageType} info={brandInfo} {...props} callback={getInfo}  toggleShow={handleDisplay} checkResult={checkResult}/>
+        <IconMod  pageType={pageType} info={iconInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+        <NewUserMod  pageType={pageType} info={newUserInfo} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+        <SingleGoodsMod  pageType={pageType} info={singleGoods} {...props} toggleShow={handleDisplay} checkResult={checkResult}/>
+        <MorePicMod  pageType={pageType} info={morePicInfo} {...props} checkResult={checkResult}/>
+        <MoreGoodsMod  pageType={pageType} info={moreGoods} {...props} checkResult={checkResult}/>
+        <ThemeMod  pageType={pageType} info={themeInfo} {...props} checkResult={checkResult}/>
+        <ClassifyMod  pageType={pageType} info={{...classifyInfo,flowProductList:classifyList}} {...props} checkResult={checkResult}/>
+      </div>
+      <ReleaseModal
+        content={issueContent}
+        visible={visible}
+        onCancel={onCancel}
+        onOk={onOk}/>
+    </div>
+  )
 }
 
 export default CtipContentAdd;

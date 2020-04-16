@@ -1,5 +1,6 @@
 import { Modal,Form } from "antd";
 import { useEffect } from 'react';
+import { Sessions, CommonUtils } from 'utils';
 import { QupLoadImgLimt, Qmessage } from 'common';
 import { GetSaveApi } from "api/contentCenter/SearchSetCtip";
 
@@ -14,9 +15,9 @@ const Search=({...props})=> {
     try {
       let  values = await form.validateFields(['backgroundPicUrl','noFullScreenBackGroundPic','contentPicUrl']);
       let { backgroundPicUrl, noFullScreenBackGroundPic, contentPicUrl } =values;
-      backgroundPicUrl=formatVal(backgroundPicUrl);
-      noFullScreenBackGroundPic=formatVal(noFullScreenBackGroundPic);
-      contentPicUrl=formatVal(contentPicUrl);
+      backgroundPicUrl=CommonUtils.formatToUrlPath(backgroundPicUrl);
+      noFullScreenBackGroundPic=CommonUtils.formatToUrlPath(noFullScreenBackGroundPic);
+      contentPicUrl=CommonUtils.formatToUrlPath(contentPicUrl);
       let params={ backgroundPicUrl,noFullScreenBackGroundPic,contentPicUrl,homepageModuleId }
       GetSaveApi(params)
       .then((res)=> {
@@ -28,16 +29,6 @@ const Search=({...props})=> {
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
-  }
-  //格式化参数
-  const formatVal=(val)=> {
-    if(val&&val[0].response) {
-      let urlPath = val[0].response.result;
-      val = urlPath;
-    } else {
-      val = val.path;
-    }
-    return val;
   }
   const onCancel=()=> {
     props.onCancel();

@@ -1,9 +1,8 @@
 import { Spin, Modal, Card, Form } from 'antd';
 import { useEffect, useState } from 'react';
-import { Qmessage, Qbtn, Qtable } from 'common';
+import { QupLoadAndDownLoad, Qmessage, Qbtn, Qtable } from 'common';
 import { Sessions } from 'utils';
 import { GetAuditApi, GetSaveGoodsApi, GetGoodsInfoApi } from 'api/marketCenter/PosActivity';
-import ExportFile from "./components/ExportFile";
 import StepMod from '../components/StepMod';
 import EditModal from './components/EditModal';
 import columnsAdd from './columns';
@@ -31,6 +30,62 @@ const CtipActivityAddTwo=({...props})=> {
       setProducts(promotionProducts);
       setCurrentdata(JSON.parse(Sessions.get("currentdata")))
     })
+  }
+  //上传文件
+  const upDateFieList=(response)=> {
+    let {
+      promotionProducts,successSize,
+      noPro,priceGapWrong,
+      huchiWrong,requiredWrong,repeatWrong
+    } = response.result;
+    Modal.success({
+      title: "",
+      content: (
+        <div>
+          <p className='import_error'>共成功导入商品  {successSize}  条</p>
+          {noPro.length>0 && (
+            <p  className='import_error'>
+              {noPro.map(
+                (item, index) =>`${item}${index == noPro.length - 1 ? "" : "/ "}`
+              )} 商品不存在
+            </p>
+          )}
+          {priceGapWrong.length>0 && (
+            <p className='import_error'>
+              {priceGapWrong.map(
+                (item, index) =>`${item}${index == priceGapWrong.length - 1 ? "" : "/ "}`
+              )} 商品填写格式错误
+            </p>
+          )}
+           {huchiWrong.length>0 && (
+            <p className='import_error'>
+              {huchiWrong.map(
+                (item, index) =>`${item}${index == huchiWrong.length - 1 ? "" : "/ "}`
+              )}
+              商品已参加其他和此活动互斥的活动
+            </p>
+          )}
+          {requiredWrong.length>0 && (
+            <p className='import_error'>
+              {requiredWrong.map(
+                (item, index) =>`${item}${index == requiredWrong.length - 1 ? "" : "/ "}`
+              )} 必填项未填写完整
+            </p>
+          )}
+          {repeatWrong.length>0 && (
+            <p className='import_error'>
+              {repeatWrong.map(
+                (item, index) =>`${item}${index == repeatWrong.length - 1 ? "" : "/ "}`
+              )} 商品重复
+            </p>
+          )}
+        </div>
+      ),
+      footer: null
+    });
+    promotionProducts=promotionProducts?promotionProducts:[]
+    promotionProducts.map((el,index)=>el.key=index);
+    setProducts(promotionProducts);
   }
   //更新商品列表
   const upDateProductList=(array)=> {
@@ -76,7 +131,7 @@ const CtipActivityAddTwo=({...props})=> {
   const onCancel = () => { setVisible(false)};
   //保存
   const handSubmit = async(type) => {
-    const { promotionId, promotionType } = currentdata;
+    const { promotionType } = currentdata;
     if (products.length == 0) {
       Qmessage.error("请至少添加一个活动商品");
       return
@@ -90,8 +145,7 @@ const CtipActivityAddTwo=({...props})=> {
         Qmessage.success("提交审核成功");
         GetAuditApi({promotionId,createUser:currentdata.createUser})
         .then(res=>{
-          let datas={ createUser:currentdata.createUser}
-          props.history.push({pathname:`/account/posAudit/edit/${promotionId}/${result.approvalId}`,state:datas})
+          props.history.push({pathname:`/account/posAudit/edit/${promotionId}/${result}`})
         });
       };
       if (type == "save") {//回到查看页
@@ -105,7 +159,8 @@ const CtipActivityAddTwo=({...props})=> {
     staticPar();
     return ()=>{ Sessions.remove('currentdata') }
   },[]);
-  const { promotionType } = currentdata;
+  const { promotionType,...paramsVal } = currentdata;
+  const dataParams={ ...paramsVal, type:promotionType, promotionId }
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
@@ -113,10 +168,13 @@ const CtipActivityAddTwo=({...props})=> {
         <Form form={form}>
           <Card title="选择商品">
             <div>
-              <ExportFile
-                upDateList={upDateProductList}
-                currentdata={currentdata}
-                promotionId={promotionId}/>
+              <QupLoadAndDownLoad
+                data={dataParams}
+                fileName="singleDown"
+                action="/qtoolsErp/import/excel"
+                upDateList={upDateFieList}>
+                <span>注：导入为覆盖导入，即第二次导入的商品将覆盖前一次导入的所有商品</span>
+              </QupLoadAndDownLoad>
               <Qtable
                 scroll={{ x: 140 }}
                 columns={columnsAdd}

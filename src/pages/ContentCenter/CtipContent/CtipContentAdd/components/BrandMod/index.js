@@ -1,5 +1,5 @@
 import EditModal from "./components/Edit";
-import { Sessions } from 'utils';
+import { Sessions, CommonUtils } from 'utils';
 import CommonMod from '../CommonMod';
 import { GetListApi } from "api/contentCenter/BrandSetCtip";
 
@@ -21,23 +21,15 @@ class BrandMod extends React.Component {
     GetListApi({homepageModuleId})
     .then(res=>{
       const { moduleBackColor,contentPicUrl } = res.result;
-      this.handleResult( moduleBackColor,contentPicUrl );
+      contentPicUrl = CommonUtils.formatToFilelist(contentPicUrl);
+      this.setState({
+        fileList:contentPicUrl,
+        color:moduleBackColor
+      },() => {
+        this.setState({ visible: true });
+      });
     })
   };
-  //结果数据处理
-  handleResult=(moduleBackColor,contentPicUrl)=>{
-    let fileList = [];
-    if(contentPicUrl){
-      fileList=[{
-        uid: "-1",
-        status: "done",
-        url: fileDomain + contentPicUrl
-      }]
-    }
-    this.setState({ fileList, color:moduleBackColor},() => {
-      this.setState({ visible: true });
-    });
-  }
   //保存
   onOk = () => { this.props.callback() };
   //取消保存
@@ -52,6 +44,8 @@ class BrandMod extends React.Component {
 
     return (
       <CommonMod
+        pageType={this.props.pageType}
+        checkResult={this.props.checkResult}
         toggleShow={this.props.toggleShow}
         goEdit={this.onEdit}
         hasDisplayBtn={true}

@@ -76,11 +76,11 @@ const ImageTextEdit=({...props})=> {
                 el.template==1?
                 <div className="single">
                   <div className="item-gods">
-                    <div className="img-l"><img src={`${fileDomain}/${el.url}`} /></div>
+                    <div className="img-l"><img src={`${fileDomain}/${el.pdSpu.url}`} /></div>
                     <div className="text-con">
-                      <p className="title">{el.name}</p>
+                      <p className="title">{el.pdSpu.name}</p>
                       <div className="row-bottom">
-                        <p className="">¥{el.price}</p>
+                        <p className="">¥{el.pdSpu.price}</p>
                         <p className="goBuy">立即购买</p>
                       </div>
                     </div>
@@ -89,21 +89,21 @@ const ImageTextEdit=({...props})=> {
                 :
                 <div className="multipleCol">
                   <div className="item-gods">
-                    <div className="img-l"><img src={`${fileDomain}/${el.url}`} /></div>
+                    <div className="img-l"><img src={`${fileDomain}/${el.pdSpu.url}`} /></div>
                     <div className="text-con">
-                      <p className="title">{el.name}</p>
+                      <p className="title">{el.pdSpu.name}</p>
                       <div className="row-bottom">
-                        <p className="">¥{el.price}</p>
+                        <p className="">¥{el.pdSpu.price}</p>
                         <p className="goBuy">立即购买</p>
                       </div>
                     </div>
                   </div>
                   <div className="item-gods">
-                    <div className="img-l"><img src={el.name} /></div>
+                    <div className="img-l"><img src={`${fileDomain}/${el.rowPdSpu.url}`} /></div>
                     <div className="text-con">
-                      <p className="title">{el.name}</p>
+                      <p className="title">{el.rowPdSpu.name}</p>
                       <div className="row-bottom">
-                        <p className="">¥{el.price}</p>
+                        <p className="">¥{el.rowPdSpu.price}</p>
                         <p className="goBuy">立即购买</p>
                       </div>
                     </div>
