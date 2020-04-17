@@ -90,21 +90,12 @@ const BaseInfoSet=({...props})=> {
     initCategory(level, value);
   };
 
-
   //品牌搜索
   const handleSearch=(value)=> {
     GetBrandApi({brandName:value})
     .then((res)=> {
       let { result } =res;
       result=result?result:[];
-      // result = result.map((el)=>{
-      //   let item={}
-      //   item.key =el.id;
-      //   item.value =el.brandNameCn;
-      //   // item.brandCountry =el.brandCountry;
-      //   item.text =el.brandCountry;
-      //   return item;
-      // })
       setBrandlIst(result);
     })
   }

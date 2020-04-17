@@ -14,6 +14,12 @@ const CommonUtils = {
     return newPdSpu;
   },
   formatToUrlPath(val) {
+    if(!val) {
+      return val;
+    }
+    if(val.length==0) {
+      return null;
+    }
     if(val&&val[0].response) {
       let urlPath = val[0].response.result;
       val = urlPath;

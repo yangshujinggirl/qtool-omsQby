@@ -12,7 +12,8 @@ const CtipContentLog=({...props})=> {
     .then((res)=> {
       let { result } =res;
       result = result?result:[];
-      setList(list);
+      result.map((el,index)=>el.key=index)
+      setList(result);
     })
   }
   useEffect(()=> { getList() },[id])

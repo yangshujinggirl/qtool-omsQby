@@ -12,7 +12,7 @@ export function GetDeleteApi(values) {
 }
 //c端活动列表撤销审核
 export function GetApprovalsApi(values) {
-  return appAjax.put('/approval/cannel',{...values})
+  return appAjax.put('/approval/cancel',{...values})
 }
 // //c端活动列表作废，强制结束
 export function GetEnableApi(values) {

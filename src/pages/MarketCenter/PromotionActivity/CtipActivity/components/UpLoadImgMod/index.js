@@ -92,31 +92,21 @@ class UpLoadImg extends Component {
       return Promise.reject(false)
     })
   }
-  handleChange = info => {
-    this.setState({ loading: true })
-    if (info.file.status === 'done') {
+  handleChange = ({file,fileList}) => {
+    this.setState({ loading: true });
+    if (file.status === 'done'||file.status === "removed") {
       this.setState({ loading: false });
-      this.props.upDateList([...info.file]);
+      this.props.upDateList&&this.props.upDateList([...fileList]);
     }
   };
   normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
     };
-    if((e.fileList[0] && e.fileList[0].status) || !e.fileList[0]){
-      return e && e.file;
-    };
+    return e && e.fileList;
   }
-  uploadButton =()=> {
-    return <div>
-            {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div className="ant-upload-text">添加图片</div>
-          </div>
-  };
   render() {
      let { fileList,name, formItemLayout, label, rules, width, height, imgTypeMap, ruleTypeMap, imgType, ruleType } = this.props;
-     let fileDomain = Sessions.get('fileDomain');
-     let fileListArr = (fileList&&fileList!=''&&(typeof fileList == 'string'))?[`${fileList}`]:[];
      let tipsShow=()=> {
        if(width&&height) {
          return <span className="ant-form-text-tips">
@@ -128,25 +118,27 @@ class UpLoadImg extends Component {
                 </span>
        }
      }
+     const uploadButton =(
+            <div>
+               {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+               <div className="ant-upload-text">添加图片</div>
+             </div>
+     )
+
      return(
-       <FormItem label={label} {...formItemLayout} className="ant-form-tips-wrap">
+       <FormItem label={label} {...formItemLayout}>
          <FormItem
            rules={rules?rules:[]}
-           valuePropName='file'
+           valuePropName='fileList'
            getValueFromEvent={this.normFile}
            name={name}>
              <Upload
-              showUploadList={false}
               action='/qtoolsOms/upload/img'
               listType="picture-card"
               className="avatar-uploader set-upload-wrap"
               beforeUpload={this.beforeUpload}
               onChange={this.handleChange}>
-              {fileListArr&&fileListArr.length>0?
-                <img src={`${fileDomain}${fileList}`} alt="avatar" />
-                :
-                this.uploadButton()
-              }
+              {fileList.length>0? null:uploadButton }
             </Upload>
          </FormItem>
        {tipsShow()}
