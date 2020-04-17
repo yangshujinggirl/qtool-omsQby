@@ -113,8 +113,7 @@ class ShopKeepRecharge extends Component {
         {visible && (
           <AuditModal
             onClear={this.onClear}
-            spVoucherId={spVoucherId}
-            visible={visible}
+            {...{spVoucherId,visible}}
           />
         )}
       </div>
