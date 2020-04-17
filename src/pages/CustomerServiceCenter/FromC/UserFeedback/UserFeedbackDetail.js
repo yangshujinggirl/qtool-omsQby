@@ -145,7 +145,7 @@ const UserFeedbackDetail = (props) => {
                             </Select>
                         },
                         {
-                            key: "处理备注", value: <TextArea rows={4} value={dataInfo.editRemark}
+                            key: "处理备注", value: <TextArea rows={4} value={contentRemark}
                                                             onChange={editRemarkInfo}
                                                             placeholder='备注信息，最多200字，方便其他人了解，非必填'
                                                             maxLength='200'/>
