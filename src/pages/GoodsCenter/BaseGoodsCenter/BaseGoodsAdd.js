@@ -7,11 +7,12 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Qtable, Qmessage, Qbtn } from 'common';
 import { BatchListGenreal,BatchListCross, ColumnsAddGeneral,ColumnsAddCross } from './columns';
-import { GetWarehouseApi, GetOriginApi, GetAttributeApi, GetEditApi, GetBrandApi } from 'api/home/BaseGoods';
+import { GetOriginApi, GetEditApi } from 'api/home/BaseGoods';
 import Creatlabel from './components/Creatlabel';
 import EditableCell from './components/EditableCell';
 import StandardsMod from './components/StandardsMod';
 import ResetModal from './components/ResetModal';
+import BaseInfoSet from './components/BaseInfoSet';
 import './BaseGoodsAdd.less';
 
 let FormItem = Form.Item;
@@ -52,10 +53,10 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   const [wareList,setWareList] =useState([])
   //初始化
   const initPage=()=> {
-    props.dispatch({
-      type:'baseGoodsAdd/fetchCategory',
-      payload:{level:1,parentId:''}
-    })
+    // props.dispatch({
+    //   type:'baseGoodsAdd/fetchCategory',
+    //   payload:{level:1,parentId:''}
+    // })
     if(spuCode) {
       props.dispatch({
         type:'baseGoodsAdd/fetchTotal',
@@ -82,53 +83,6 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
     props.dispatch({
       type:'baseGoodsAdd/fetchCategory',
       payload:{level,parentId:selected }
-    })
-  }
-  //品牌搜索
-  const handleSearch=(value)=> {
-    GetBrandApi({brandName:value})
-    .then((res)=> {
-      let { result } =res;
-      result=result?result:[];
-      result = result.map((el)=>{
-        let item={}
-        item.key =el.id;
-        item.value =el.id;
-        item.brandCountry =el.brandCountry;
-        item.text =el.brandNameCn;
-        return item;
-      })
-      setBrandlIst(result);
-    })
-  }
-  //产地搜索
-  const handleOriginSearch=(value)=> {
-    GetOriginApi({countryName:value})
-    .then((res)=> {
-      let { result } =res;
-      result=result?result:[];
-      result = result.map((el)=>{
-        let item={}
-        item.key =el.countryCode;
-        item.value =el.countryName;
-        return item;
-      })
-      setOriginList(result);
-    })
-  }
-  //产地选中事件
-  const autoOriginSelect=(value,option)=> {
-    props.dispatch({
-      type:'baseGoodsAdd/getTotalState',
-      payload:{countryCode:option.key}
-    })
-  }
-  //品牌，国家选中事件
-  const autoSelect=(value, option)=> {
-    let item = brandList.find((el)=> el.value== value);
-    props.dispatch({
-      type:'baseGoodsAdd/getTotalState',
-      payload:{brandAddress:item.brandCountry}
     })
   }
   //返回
@@ -236,19 +190,29 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
+    let { sendType, list } = changedValues;
     if(currentKey!='list') {
+      if(sendType == 2) {
+        changedValues['isBeforeSales'] =true;
+      }
       props.dispatch({
         type:'baseGoodsAdd/getTotalState',
         payload:changedValues
       })
+    } else if(currentKey=='list') {
+      goodsList = goodsList.map((el,index)=> {
+        list.map((item,idx)=> {
+          if(index == idx) {
+            el = {...el,...item}
+          }
+        })
+        return el;
+      })
+      props.dispatch({
+        type:'baseGoodsAdd/getListState',
+        payload:{ goodsList }
+      })
     }
-  }
-  //保税仓
-  const getWarehouse=()=> {
-    GetWarehouseApi({warehouseType:3})
-    .then((res)=> {
-      setWareList(res.result)
-    })
   }
   useEffect(()=>{
     initPage();
@@ -259,11 +223,6 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
     };
   },[spuCode])
-  useEffect(()=>{
-    if(productNature == 2) {
-      getWarehouse()
-    }
-  },[])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList]);
 
@@ -275,116 +234,11 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
           className="common-addEdit-form"
           form={form}
           {...formItemLayout}>
-          <Card title="基础信息">
-            {
-              isEdit&&
-                <Form.Item label="spu编码">
-                  {totalData.spuCode}
-                </Form.Item>
-            }
-            <Form.Item
-              label="商品名称"
-              name="productName"
-              rules={ [{ required: true, message: '请输入商品名称'}]}>
-              <Input placeholder="请输入商品名称，60字以内" autoComplete="off" maxLength={60}/>
-            </Form.Item>
-            <FormItem label='品牌' {...formItemLayout}
-              name="brandId"
-              rules={[{ required: true, message: '请选择商品品牌'}]}>
-              <AutoComplete
-               autoComplete="off"
-               options={brandList}
-               onSearch={handleSearch}
-               onSelect={(value, option)=>autoSelect(value, option)}
-               placeholder="请选择商品品牌"/>
-            </FormItem>
-            <Form.Item
-              label="品牌归属地"
-              name="brandAddress"
-              rules={[{ required: true, message: '请选择商品品牌'}]}>
-              <Input disabled autoComplete="off" placeholder="请输入品牌归属地"/>
-            </Form.Item>
-            <Form.Item
-              label='产地'
-              name="country">
-              <AutoComplete
-               autoComplete="off"
-               options={originList}
-               onSearch={handleOriginSearch}
-               onSelect={(value, option)=>autoOriginSelect(value, option)}
-               placeholder="请输入产地"/>
-            </Form.Item>
-            {
-              productNature==1?
-              <div>
-                <Form.Item label="商品类型" name="productType" rules={[{ required: true, message: '请选择商品类型' }]}>
-                  <Radio.Group>
-                    <Radio value={1}>普通商品</Radio>
-                    <Radio value={2}>赠品</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item label="采购主体" name="procurementTarget" rules={[{ required: true, message: '请选择采购主体'}]}>
-                  <Select placeholder="请选择后台一级类目" disabled={isEdit}>
-                    <Option value={1} key={1}>淮安</Option>
-                    <Option value={2} key={2}>苏州蔻兔</Option>
-                  </Select>
-                </Form.Item>
-              </div>
-              :
-              <Form.Item label="保税仓" name="bondedWarehouseId" rules={[{ required: true, message: '请选择保税仓'}]}>
-                <Select placeholder="请选择保税仓" disabled={isEdit}>
-                  {
-                    wareList.map((el)=>(
-                      <Option value={el.id} key={el.id}>{el.warehouseName}</Option>
-                    ))
-                  }
-                </Select>
-              </Form.Item>
-            }
-            <Form.Item label="一级类目" name="categoryId" rules={[{ required: true, message: '请选择一级类目'}]}>
-              <Select placeholder="请选择后台一级类目" disabled={isEdit} onChange={(select)=>handleChangeLevel(1,select)}>
-              {
-                categoryData.categoryLevelOne.map((el) => (
-                  <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                ))
-              }
-              </Select>
-            </Form.Item>
-            <Form.Item label="二级类目" name="categoryId2" rules={[{ required: true, message: '请选择二级类目'}]}>
-              <Select
-                disabled={isEdit||categoryData.isLevelTwo}
-                placeholder="请选择二级类目"
-                onChange={(select)=>handleChangeLevel(2,select)}>
-                {
-                  categoryData.categoryLevelTwo.map((el) => (
-                    <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                  ))
-                }
-              </Select>
-            </Form.Item>
-            <Form.Item label="三级类目" name="categoryId3" rules={[{ required: true, message: '请选择三级类目'}]}>
-              <Select
-              disabled={isEdit||categoryData.isLevelThr}
-              placeholder="请选择三级类目"
-              onChange={(select)=>handleChangeLevel(3,select)}>
-              {
-                categoryData.categoryLevelThr.map((el) => (
-                  <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                ))
-              }
-              </Select>
-            </Form.Item>
-            <Form.Item label="四级类目" name="categoryId4" rules={[{ required: true, message: '请选择四级类目'}]}>
-              <Select
-              disabled={isEdit||categoryData.isLevelFour} placeholder="请选择四级类目">
-              {
-                categoryData.categoryLevelFour.map((el) => (
-                  <Option value={el.id} key={el.id}>{el.categoryName}</Option>
-                ))
-              }
-              </Select>
-            </Form.Item>
-          </Card>
+          <BaseInfoSet
+            {...props}
+            isEdit={isEdit}
+            form={form}
+            productNature={productNature}/>
           {
             productNature==1&&
             <div>
@@ -432,7 +286,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                 <Form.Item label="是否预售" name="isBeforeSales" rules={[{ required: true, message: '请选择是否预售' }]}>
                   <Radio.Group>
                     <Radio value={true} key={true}>是</Radio>
-                    <Radio value={false} key={false}>否</Radio>
+                    <Radio value={false} key={false} disabled={totalData.sendType==2?true:false}>否</Radio>
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item label="是否直邮" name="isDirectSales" rules={[{ required: true, message: '请选择是否直邮' }]}>

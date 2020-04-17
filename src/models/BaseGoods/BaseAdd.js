@@ -65,26 +65,26 @@ function* fetchTotal(action){
   pdSpu = CommonUtils.clearEmptyObj(pdSpu);
   yield call(getTotalState,{payload:pdSpu})
   yield call(getListState,{payload:{goodsList:list}});
-  const [levelTwo,levelThr,levelFour] = yield all([
-    call(GetCategoryApi,{level:'2',parentId:categoryDetail.categoryId}),
-    call(GetCategoryApi,{level:'3',parentId:categoryDetail.categoryId2}),
-    call(GetCategoryApi,{level:'4',parentId:categoryDetail.categoryId3}),
-  ])
-  const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
-  yield put({
-    type: 'BASEGOODSADD_CATEGORY',
-    payload: {
-      categoryData:{
-        categoryLevelOne:categoryData.categoryLevelOne,
-        categoryLevelTwo:levelTwo.result?levelTwo.result:[],
-        categoryLevelThr:levelThr.result?levelThr.result:[],
-        categoryLevelFour:levelFour.result?levelFour.result:[],
-        isLevelTwo:false,
-        isLevelThr:false,
-        isLevelFour:false
-      }
-    }
-  })
+  // const [levelTwo,levelThr,levelFour] = yield all([
+  //   call(GetCategoryApi,{level:'2',parentId:categoryDetail.categoryId}),
+  //   call(GetCategoryApi,{level:'3',parentId:categoryDetail.categoryId2}),
+  //   call(GetCategoryApi,{level:'4',parentId:categoryDetail.categoryId3}),
+  // ])
+  // const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
+  // yield put({
+  //   type: 'BASEGOODSADD_CATEGORY',
+  //   payload: {
+  //     categoryData:{
+  //       categoryLevelOne:categoryData.categoryLevelOne,
+  //       categoryLevelTwo:levelTwo.result?levelTwo.result:[],
+  //       categoryLevelThr:levelThr.result?levelThr.result:[],
+  //       categoryLevelFour:levelFour.result?levelFour.result:[],
+  //       isLevelTwo:false,
+  //       isLevelThr:false,
+  //       isLevelFour:false
+  //     }
+  //   }
+  // })
 };
 //查询分类
 function* fetchCategory(action){

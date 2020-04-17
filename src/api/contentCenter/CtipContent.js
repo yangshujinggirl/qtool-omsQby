@@ -16,5 +16,5 @@ export function GetBitApi(homepageId){
 }
 //日志
 export function GetLogApi(homepageId){
-    return appAjax.get(`/homepage/prohibit/${homepageId}`)
+    return appAjax.get(`/homeLog/getList/${homepageId}`)
 }
