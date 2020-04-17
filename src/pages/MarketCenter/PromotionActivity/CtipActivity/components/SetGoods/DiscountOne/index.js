@@ -239,7 +239,7 @@ const DiscountOne =({...props})=> {
                     rules={[{ required: true, message: "请填写优惠内容" },{ validator: (rule, value)=>validatorTwo(rule, value,index)}]}
                     noStyle>
                     <Input
-                      onChange={(e)=> this.onChange(e, index)}
+                      onChange={(e)=> onChange(e, index)}
                       autoComplete="off"
                       style={{ width: "100px" }}/>
                   </FormItem>

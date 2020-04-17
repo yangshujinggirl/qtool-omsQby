@@ -48,15 +48,8 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   let batchList = productNature==1?BatchListGenreal:BatchListCross;
   const [visible,setVisible] =useState(false)
   const [deletedList,setDeletedList] =useState([])
-  const [brandList,setBrandlIst] =useState([])
-  const [originList,setOriginList] =useState([])
-  const [wareList,setWareList] =useState([])
   //初始化
   const initPage=()=> {
-    // props.dispatch({
-    //   type:'baseGoodsAdd/fetchCategory',
-    //   payload:{level:1,parentId:''}
-    // })
     if(spuCode) {
       props.dispatch({
         type:'baseGoodsAdd/fetchTotal',

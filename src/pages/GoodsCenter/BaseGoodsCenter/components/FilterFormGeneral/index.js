@@ -44,43 +44,38 @@ class Search extends BaseFilter {
     return (
       <div className="qtoolOms-condition">
         <Form
+        {...this.formItemLayout}
           ref={this.formRef}
           initialValues={{...initialValues}}
           className="serach-common-form">
           <Row gutter={24}>
             <Col {...this.colspans}>
-              <FormItem
-              label="商品名称"
-              {...this.formItemLayout}
-              name="productName">
+              <FormItem label="商品名称" name="productName">
                 <Input placeholder="请输入商品名称" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="SPU编码" {...this.formItemLayout} name="spuCode">
+              <FormItem label="SPU编码" name="spuCode">
                 <Input placeholder="请输入spu编码" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="SKU编码" {...this.formItemLayout} name="skuCode">
+              <FormItem label="SKU编码" name="skuCode">
                 <Input placeholder="请输入sku编码" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="商品条码" {...this.formItemLayout} name="productName">
+              <FormItem label="商品条码" name="barCode">
                 <Input placeholder="请输入商品品牌" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="商品品牌" {...this.formItemLayout} name="brandId">
+              <FormItem label="商品品牌" name="brandId">
                 <Input placeholder="请输入商品品牌" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem
-                label="一级类目"
-                {...this.formItemLayout}
-                name="categoryCode1">
+              <FormItem label="一级类目" name="categoryCode1">
                 <Select placeholder="请选择" allowClear={true} onChange={this.onChangeCategoryCode}>
                   {catagoryList.map(item => (
                     <Option value={item.id} key={item.id}>
@@ -91,10 +86,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem
-                label="二级类目"
-                {...this.formItemLayout}
-                name="categoryCode2">
+              <FormItem label="二级类目" name="categoryCode2">
                 <Select
                   placeholder="请选择"
                   disabled={!catagoryList2.length > 0}
@@ -108,7 +100,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="商品类型" name="productType" {...this.formItemLayout}>
+              <FormItem label="商品类型" name="productType">
                 <Select placeholder="请选择" allowClear={true}>
                   <Option value={1}>普通商品</Option>
                   <Option value={2}>赠品</Option>

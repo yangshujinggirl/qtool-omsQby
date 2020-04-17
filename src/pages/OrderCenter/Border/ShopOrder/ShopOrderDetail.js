@@ -15,15 +15,18 @@ const ShopOrderDetail = (props) => {
   const getInfo=()=> {
     GetOrderInfoApi(orderNo)
     .then((res)=> {
-      let { spOrder, orderLogs, wsOrderNos, expressInfos } =res.result;
+      let { spOrder, orderLogs, listDetails, wsOrderNos, expressInfos } =res.result;
+      listDetails = listDetails?listDetails:[];
       wsOrderNos = wsOrderNos?wsOrderNos:[];
       orderLogs = orderLogs?orderLogs:[];
       expressInfos = expressInfos?expressInfos:[];
       orderLogs.map((el,index)=>el.key=index)
       expressInfos.map((el,index)=>el.key=index)
+      listDetails.map((el,index)=>el.key=index)
       setDataInfo(spOrder);
       setOrderLogs(orderLogs)
       setOutList(expressInfos)
+      setGoodsList(listDetails)
     })
   }
   //返回

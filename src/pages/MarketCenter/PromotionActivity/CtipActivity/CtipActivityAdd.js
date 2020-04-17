@@ -6,6 +6,7 @@ import {
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
+import { CommonUtils } from 'utils';
 import { Qtable, Qmessage, Qbtn } from 'common';
 import { ColumnsAddGeneral,ColumnsAddCross } from './columns';
 import { GetSuppliApi, GetBaseInfoApi, GetSaveActivApi } from 'api/marketCenter/CtipActivity';
@@ -42,7 +43,13 @@ const formItemLayoutBig = {
 
 const CtipActivityAdd =({...props})=> {
   const [form] = Form.useForm();
-  let [activityInfo, setTotalData] =useState({websiteBanner:{}});
+  let [activityInfo, setTotalData] =useState({
+        pdDetailBannerPic:[],
+        logoPic:[],
+        websiteBanner:[],
+        shareWechatPic:[],
+        shareWechatCfPic:[]
+      });
   let [ratioList, setRatioList] =useState([]);
   let [tagsList, setTagsList] =useState([]);
   let [couponList, setCouponList] =useState([]);
@@ -81,6 +88,11 @@ const CtipActivityAdd =({...props})=> {
           return el;
         });
       }
+      resData.websiteBanner=CommonUtils.formatToFilelist(resData.websiteBanner);
+      resData.pdDetailBannerPic=CommonUtils.formatToFilelist(resData.pdDetailBannerPic);
+      resData.logoPic=CommonUtils.formatToFilelist(resData.logoPic);
+      resData.shareWechatPic=CommonUtils.formatToFilelist(resData.shareWechatPic);
+      resData.shareWechatCfPic=CommonUtils.formatToFilelist(resData.shareWechatCfPic);
       resData.time=[moment(resData.beginTime),moment(resData.endTime)];
       resData.bannerBeginTime=resData.bannerBeginTime?moment(resData.bannerBeginTime):null;
       resData.logoBeginTime=resData.logoBeginTime?moment(resData.logoBeginTime):null;
@@ -117,8 +129,17 @@ const CtipActivityAdd =({...props})=> {
     }
   }
   const formatParams=(values)=> {
-    let { time, warmUpBeginTime, bannerBeginTime, logoBeginTime, costApportion, autoComplete, bearers, ...paramsVal} =values;
-    // const { activityInfo, ratioList, data,tagsCouponList} =this.props;
+    let {
+      pdDetailBannerPic,
+      logoPic,
+      websiteBanner,
+      shareWechatPic,
+      shareWechatCfPic,
+      time,
+      warmUpBeginTime,
+      bannerBeginTime,
+      logoBeginTime, costApportion, autoComplete, bearers, ...paramsVal} =values;
+
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
       paramsVal.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
@@ -132,6 +153,11 @@ const CtipActivityAdd =({...props})=> {
     if(logoBeginTime) {
       paramsVal.logoBeginTime = moment(logoBeginTime).format('YYYY-MM-DD HH:mm:ss');
     }
+    pdDetailBannerPic=CommonUtils.formatToUrlPath(pdDetailBannerPic);
+    logoPic=CommonUtils.formatToUrlPath(logoPic);
+    websiteBanner=CommonUtils.formatToUrlPath(websiteBanner);
+    shareWechatPic=CommonUtils.formatToUrlPath(shareWechatPic);
+    shareWechatCfPic=CommonUtils.formatToUrlPath(shareWechatCfPic)
     if(ratioList.length>0) {
       paramsVal.bearers = ratioList.map((el) => {
         let item={};
@@ -151,11 +177,8 @@ const CtipActivityAdd =({...props})=> {
     paramsVal = {
       ...paramsVal,
       platformType:2,
-      pdDetailBannerPic: activityInfo.pdDetailBannerPic,
-      logoPic: activityInfo.logoPic,
-      websiteBanner: activityInfo.websiteBanner,
-      shareWechatPic: activityInfo.shareWechatPic,
-      shareWechatCfPic: activityInfo.shareWechatCfPic,
+      pdDetailBannerPic,logoPic,
+      websiteBanner,shareWechatPic,shareWechatCfPic,
       activityNotUseCoupons:activityNotUseCoupons
     }
     if(promotionId) {
@@ -187,41 +210,6 @@ const CtipActivityAdd =({...props})=> {
     if(currentKey == 'time') {
       allValues.warmUpBeginTime=null;
     }
-    if(pdDetailBannerPic) {
-      if(pdDetailBannerPic.status == 'done') {
-        if(pdDetailBannerPic.response.httpCode == '200') {
-          allValues.pdDetailBannerPic = pdDetailBannerPic.response.result;
-        }
-      }
-    }
-    if(logoPic) {
-      if(logoPic.status == 'done') {
-        if(logoPic.response.httpCode == '200') {
-          allValues.logoPic = logoPic.response.result;
-        }
-      }
-    }
-    if(websiteBanner) {
-      if(websiteBanner.status == 'done') {
-        if(websiteBanner.response.httpCode == '200') {
-          allValues.websiteBanner = websiteBanner.response.result;
-        }
-      }
-    }
-    if(shareWechatPic) {
-      if(shareWechatPic.status == 'done') {
-        if(shareWechatPic.response.httpCode == '200') {
-          allValues.shareWechatPic = shareWechatPic.response.result;
-        }
-      }
-    }
-    if(shareWechatCfPic) {
-      if(shareWechatCfPic.status == 'done') {
-        if(shareWechatCfPic.response.httpCode == '200') {
-          allValues.shareWechatCfPic = shareWechatCfPic.response.result;
-        }
-      }
-    }
     activityInfo = {...activityInfo,...allValues};
     setTotalData(activityInfo)
   }
@@ -229,6 +217,7 @@ const CtipActivityAdd =({...props})=> {
   useEffect(()=>{ initPage() },[promotionId])
   useEffect(()=>{ form.setFieldsValue(activityInfo) },[activityInfo])
   useEffect(()=>{ form.setFieldsValue({bearers:ratioList}) },[ratioList]);
+
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">

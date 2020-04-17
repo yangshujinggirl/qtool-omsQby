@@ -196,13 +196,14 @@ const CtipActivityAddTwo=({...props})=> {
         return ;
       };
     };
-    values={...values,type}
+    values={...values,type};
+    console.log(values);
     GetSaveGoodsApi(values)
     .then(res => {
       if (type == "2") {
         Qmessage.success("提交审核成功");
         let datas={ createUser:currentdata.createUser}
-        props.history.push({pathname:`/account/ctipAudit/edit/${promotionId}/${result.approvalId}`,state:datas})
+        props.history.push(`/account/c_preferential_promotion`)
       };
       if (type == "1") {//回到查看页
         props.history.push(`/account/ctipActivity/info/${promotionId}`)

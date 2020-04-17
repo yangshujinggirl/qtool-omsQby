@@ -110,12 +110,12 @@ const OrderLogsColumns = [
     {title: "备注", dataIndex: "remark"},
 ];
 const GoodsColumns = [
-    {title: "SKU编码", dataIndex: "spuCode", key: "1"},
-    {title: "商品名称", dataIndex: "spuName", key: "2"},
-    {title: "商品规格", dataIndex: "pdSkuType", key: "3"},
+    {title: "SKU编码", dataIndex: "skuCode", key: "1"},
+    {title: "商品名称", dataIndex: "productName", key: "2"},
+    {title: "商品规格", dataIndex: "salesAttributeName", key: "3"},
     {title: "订购数量", dataIndex: "qty", key: "4"},
-    {title: "订购单价", dataIndex: "retailPrice", key: "5"},
-    {title: "门店总价", dataIndex: "amount", key: "6"},
+    {title: "订购单价", dataIndex: "price", key: "5"},
+    {title: "门店总价", dataIndex: "allAmount", key: "6"},
 ];
 const ShippingInformationColumns = [
 

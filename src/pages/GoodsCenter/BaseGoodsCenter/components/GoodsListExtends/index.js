@@ -14,6 +14,7 @@ function withSubscription(FilterFormMod,productNature){
       this.state = {
         goodLists:[],
         everyPage:15,
+        total:0,
         currentPage: 1,
         inputValues: {},
         loading:false
@@ -34,9 +35,9 @@ function withSubscription(FilterFormMod,productNature){
       this.setState({loading:true})
       GetGoodsApi(_values)
       .then((res)=> {
-        let { result, everyPage, currentPage, totalCount } =res.result;
+        let { result, everyPage, currentPage, total } =res.result;
         result && result.map(item =>item.key = item.spuId)
-        this.setState({goodLists:result,everyPage, currentPage, totalCount, loading:false})
+        this.setState({goodLists:result,everyPage, currentPage, total, loading:false})
       })
     };
     changePage = (currentPage, everyPage) => {
@@ -61,7 +62,8 @@ function withSubscription(FilterFormMod,productNature){
        this.props.history.push(`/account/baseGoodsAdd/${productNature}`);
     }
     render() {
-      const { goodLists,loading, everyPage, currentPage, totalCount } = this.state;
+      const { goodLists,loading, everyPage, currentPage, total } = this.state;
+      console.log(total)
       let columnIndex = productNature==1?ColumnsGeneral:ColumnsCross;
       return (
           <Spin tip="加载中..." spinning={loading}>
@@ -80,7 +82,7 @@ function withSubscription(FilterFormMod,productNature){
               {
                 goodLists.length>0&&
                 <Qpagination
-                  data={{everyPage, currentPage, totalCount}}
+                  data={{everyPage, currentPage, total}}
                   onChange={this.changePage}
                   onShowSizeChange={this.onShowSizeChange}/>
               }
