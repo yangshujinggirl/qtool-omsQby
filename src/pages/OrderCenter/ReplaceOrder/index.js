@@ -145,6 +145,7 @@ class ReplaceOrder extends Component {
       visible,
       orderDetailNo,
       loading,
+      confirmLoading
     } = this.state;
     const rowSelection = {
       type: "checkbox",
