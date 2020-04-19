@@ -9,6 +9,9 @@ import {
 import moment from "moment";
 const TextArea = Input.TextArea;
 
+/**
+ * 审核  zhy
+ */
 const AuditReturnInfo = props => {
   const [form] = Form.useForm();
   const [status, setStatus] = useState("");
@@ -18,8 +21,14 @@ const AuditReturnInfo = props => {
   useEffect(() => {
     getInfoApi({ reOrderNo: id }).then(res => {
       if (res.httpCode == 200) {
-        setInfos(res.result);
-        setDetailList(res.result.detailList);
+        const {detailList,...infos} = result;
+        setInfos(infos);
+        if(detailList&&detailList.length>0){
+          detailList.map((item,index)=>{
+            item.key = index
+          })
+          setDetailList(detailList);
+        }
       }
     });
   }, []);

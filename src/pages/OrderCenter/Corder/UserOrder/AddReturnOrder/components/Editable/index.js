@@ -5,9 +5,17 @@ import getColumns from "./columns";
 import "./index.less";
 
 const ReturnGoods = props => {
-  const [parentId, setParentId] = useState(""); //出库单的唯一标识
-  const [expressStatus, setExpressStatus] = useState("");
-  const [selectedRowKeys, setSelectedRowKeys] = useState("");
+  const {parentId,expressStatus,selectedRowKeys} = props
+  // const [parentId, setParentId] = useState(""); //出库单的唯一标识
+  // const [expressStatus, setExpressStatus] = useState("");
+  // const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  // useEffect(()=>{
+  //   setParentId('')
+  //   setExpressStatus('')
+  //   setSelectedRowKeys([])
+  //   console.log(111)
+  // },[props.deliveryList])
+
   useEffect(() => {
     const arr = [...props.deliveryList];
     arr.map(item => {
@@ -21,16 +29,31 @@ const ReturnGoods = props => {
   const rowSelection = {
     selectedRowKeys,
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(selectedRows)
-      setSelectedRowKeys(selectedRowKeys);
+      // setSelectedRowKeys(selectedRowKeys);
+      props.dispatch({
+        type:'addReturn/setSelectRowKeys',
+        payload:selectedRowKeys
+      });
       if (selectedRows && selectedRows[0]) {
-        setParentId(selectedRows[0].parentId);
-        setExpressStatus(selectedRows[0].expressStatus);
+        // setParentId(selectedRows[0].parentId);
+        // setExpressStatus(selectedRows[0].expressStatus);
+        props.dispatch({
+          type:'addReturn/setParentId',
+          payload:selectedRows[0].parentId
+        });
+        props.dispatch({
+          type:'addReturn/setExpressStatus',
+          payload:selectedRows[0].expressStatus
+        });
       } else {
-        setParentId("");
+        // setParentId("");
+        props.dispatch({
+          type:'addReturn/setParentId',
+          payload:''
+        });
       };
       props.dispatch({
-        type:'addReturn/getSlectRows',
+        type:'addReturn/setSelectRows',
         payload:selectedRows
       });
     },
@@ -68,12 +91,13 @@ const ReturnGoods = props => {
     }
     return false;
   };
+  const Columns = getColumns(props)
   console.log(props)
-  const Columns = getColumns(props);
+  const list = [...props.deliveryList]
   return (
     <div>
-      {props.deliveryList.length > 0 &&
-        props.deliveryList.map((item, index) => (
+      {list.length > 0 &&
+        list.map((item, index) => (
           <Table
             rowClassName={(record, index) =>
               record.disabled ? "return_disabled_row" : ""

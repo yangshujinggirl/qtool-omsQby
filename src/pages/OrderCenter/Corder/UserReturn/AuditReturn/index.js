@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 import { Qtable, Qpagination } from "common"; //表单
 import FilterForm from "./FilterForm/index";
 import { Columns } from "./columns";
@@ -69,7 +69,14 @@ class AuditReturn extends Component {
     const values = { ...this.state.inputValues,currentPage, everyPage };
     this.searchData(values);
   };
-
+  //审核
+  handleOperateClick=(record)=>{
+    if(record.status==20){
+      this.searchData({})
+      return message.warning('该退单已被审核',.8)
+    };
+    this.props.history.push(`/account/auditReturn_info/${record.reOrderNo}`)
+  }
   render() {
     const {
       dataList,
@@ -82,7 +89,7 @@ class AuditReturn extends Component {
       <Spin spinning={loading}>
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.searchData} />
-          <Qtable dataSource={dataList} columns={Columns} />
+          <Qtable dataSource={dataList} columns={Columns} onOperateClick={this.handleOperateClick}/>
           {dataList.length > 0 ? (
             <Qpagination
               data={{ everyPage, currentPage, total }}
