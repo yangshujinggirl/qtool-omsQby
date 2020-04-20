@@ -47,6 +47,9 @@ const ActivityAdd=({...props})=> {
   }
   //查询商品
   const onBlurCode=(value,index)=> {
+    if(!value) {
+      return;
+    }
     GetSpuCodeApi(value)
     .then((res)=> {
       let { result } =res;

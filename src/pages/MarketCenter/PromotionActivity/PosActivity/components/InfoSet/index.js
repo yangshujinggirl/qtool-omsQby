@@ -3,7 +3,8 @@ import moment from 'moment';
 import NP from 'number-precision';
 import lodash from 'lodash';
 import { Card, Tag, Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
-import { disabledDate, disabledDateTimeRange } from '../../../components/dateSet';
+// import { disabledDate, disabledDateTimeRange } from '../../../components/dateSet';
+import { DisabledDateUtils } from 'utils';
 import { purposeTypesOption,singleShareOption, levelOption } from '../../../components/optionMap.js';
 import { GetValidCoupon } from 'api/marketCenter/CtipActivity';
 
@@ -39,8 +40,8 @@ const InfoSet=({...props})=> {
               disabled={isEdit}
               className="ant-input-fixed"
               format={format}
-              disabledDate={disabledDate}
-              disabledTime={disabledDateTimeRange}
+              disabledDate={DisabledDateUtils.disabledDate}
+              disabledTime={DisabledDateUtils.disabledDateTimeRange}
               showTime={{
                 hideDisabledOptions: true,
                 defaultValue: moment('00:00', 'HH:mm'),

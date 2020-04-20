@@ -12,7 +12,7 @@ const ColumnsPar =[
     },
     {
       title: "商品类型",
-      dataIndex: "productType"
+      dataIndex: "productTypeStr"
     },
     {
       title: "后台类目",

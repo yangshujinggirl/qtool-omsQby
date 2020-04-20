@@ -25,7 +25,10 @@ function withSubscription(WrapComponents,handleType ) {//
         let { result } =res;
         let { costApportions, ...val } =result;
         costApportions=costApportions?costApportions:[];
-        costApportions.map((el,index)=>el.key=index);
+        costApportions.map((el,index)=>{
+          el.key=index;
+          el.budget = val.budget;
+        });
         val={...val,costApportions}
         setTotalData(val);
       })

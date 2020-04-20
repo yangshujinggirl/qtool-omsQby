@@ -2,7 +2,8 @@ import React , { Component } from 'react';
 import moment from 'moment';
 import NP from 'number-precision';
 import { Card, Tag, Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
-import { disabledDate, disabledDateTimeRange } from '../../../components/dateSet.js';
+import { DisabledDateUtils } from 'utils';
+// import { disabledDate, disabledDateTimeRange } from '../../../components/dateSet.js';
 import {
   pdScopeOption,singleOption,promotionScopeOption,
   prefectureOption, purposeTypesOption,pdKindOption,
@@ -53,8 +54,8 @@ const InfoSet=({...props})=> {
               disabled={isEdit}
               className="ant-input-fixed"
               format={format}
-              disabledDate={disabledDate}
-              disabledTime={disabledDateTimeRange}
+              disabledDate={DisabledDateUtils.disabledDate}
+              disabledTime={DisabledDateUtils.disabledDateTimeRange}
               showTime={{
                 hideDisabledOptions: true,
                 defaultValue: moment('00:00', 'HH:mm'),

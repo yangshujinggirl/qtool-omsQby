@@ -114,6 +114,7 @@ import SingleGoodsSet from "./ContentCenter/CtipContent/SingleGoodsSet"; //单�
 import PageSetCtip from './ContentCenter/CtipContent/PageSetCtip';//页面配置
 import PageSetEditCtip from './ContentCenter/CtipContent/PageSetCtip/PageSetEditCtip';//页面配置
 import CtipContentLog from './ContentCenter/CtipContent/CtipContentLog';//页面配置
+import BillLoad from './ContentCenter/CtipContent/BillLoad';//页面配置
 /************************************   数据中心   *******************************************/
 import GoodsData from "./DataCenter/BaseData/GoodsData"; /*** 商品数据*/
 import OrderData from "./DataCenter/BaseData/OrderData"; /*** 订单数据*/
@@ -293,6 +294,7 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/singleGoods/:id" component={SingleGoodsSet}/>
         <Route exact path="/account/page_configuration" component={PageSetCtip}/>
         <Route exact path="/account/cPageSet/edit/:id?" component={PageSetEditCtip}/>
+        <Route exact path="/account/extract_page_message" component={BillLoad}/>
 
         {/* ----------------------------------  数据中心   ---------------------------------------*/}
         <Route exact path="/account/product_data" component={GoodsData} />

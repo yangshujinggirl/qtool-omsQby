@@ -104,7 +104,7 @@ const BaseInfoSet=({...props})=> {
     let item = brandList.find((el)=> el.brandNameCn== value);
     props.dispatch({
       type:'baseGoodsAdd/getTotalState',
-      payload:{brandAddress:item.brandCountry}
+      payload:{brandAddress:item.brandCountry,brandId:option.key}
     })
   }
   //产地搜索
@@ -159,7 +159,7 @@ const BaseInfoSet=({...props})=> {
       <Form.Item label="商品名称" name="productName" rules={ [{ required: true, message: '请输入商品名称'}]}>
         <Input placeholder="请输入商品名称，60字以内" autoComplete="off" maxLength={60}/>
       </Form.Item>
-      <Form.Item label='品牌' name="brandId" rules={[{ required: true, message: '请选择商品品牌'}]}>
+      <Form.Item label='品牌' name="brandName" rules={[{ required: true, message: '请选择商品品牌'}]}>
         <AutoComplete
          autoComplete="off"
          onSearch={handleSearch}

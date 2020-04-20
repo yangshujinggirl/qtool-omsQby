@@ -109,9 +109,6 @@ const DiscountOne =({...props})=> {
       newSource[index].param.leastQty = value;
     }
     props.upDateList(newSource);
-    // const m = new Map();
-    // m.set(`Top[${index}].price`, value);
-    // props.form.setFieldsValue(m);
   };
   //新增赠品确认
   const handleOk = (values) => {
@@ -214,7 +211,7 @@ const DiscountOne =({...props})=> {
                 <FormItem>
                   阶梯{index + 1}：<span style={{color:'red'}}>*</span>单笔订单满　
                   <FormItem
-                    name={`Top[${index}].price`}
+                    name={['ruleField',index,'param','leastAmount']}
                     getValueFromEvent={(event)=>{
                       return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
                     }}
@@ -232,7 +229,7 @@ const DiscountOne =({...props})=> {
                 <FormItem>
                   阶梯{index + 1}：*单笔订单满　
                   <FormItem
-                    name={`Top[${index}].price`}
+                    name={['ruleField',index,'param','leastQty']}
                     getValueFromEvent={(event)=>{
                       return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
                     }}
