@@ -106,9 +106,15 @@ const AddReturnOrder = (props) => {
     values.expressAmount = expressAmount;
     let details = [];
     selectedRows.map((item) => {
-      const { channelOrderDetailNo, skuCode, num, isGift } = item;
-      details.push({ channelOrderDetailNo, skuCode, num, isGift });
+      const { channelOrderDetailNo, skuCode, isGift } = item;
+      //为了解决用户先勾选后输入退货数量
+      const tempArr = deliveryList[item.parentId]['details'];
+      const tempIndex = tempArr.findIndex(temp=>temp.key == item.key);
+      const num = tempArr[tempIndex]['num'];
+      //为了解决用户先勾选后输入退货数量
+      details.push({ channelOrderDetailNo, skuCode,num, isGift });
     });
+
     values.details = details;
     return values;
   };
@@ -184,6 +190,7 @@ const AddReturnOrder = (props) => {
       });
     }
   };
+  console.log(deliveryList)
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_toC_return">
