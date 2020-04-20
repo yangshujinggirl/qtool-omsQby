@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Tabs } from "antd";
+import { Card, Tabs,Form } from "antd";
 import { Qtable } from "common";
 const { TabPane } = Tabs;
 import { GoodColumns, LogColumns } from "./columns";

@@ -70,20 +70,22 @@ class SearchForm extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem name="productType" label="出货仓">
+              <FormItem name="deliveryWarehouseType" label="出货仓">
                 <Select placeholder="请选择" allowClear={true}>
-                  <Option value={1}>混合出仓</Option>
-                  <Option value={2}>门店</Option>
-                  <Option value={2}>大仓</Option>
+                  <Option value={2}>混合出仓</Option>
+                  <Option value={0}>门店</Option>
+                  <Option value={1}>大仓</Option>
                 </Select>
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem name="flowStatus" label="流程状态">
+              <FormItem name="cancelType" label="取消类型">
                 <Select placeholder="请选择" allowClear={true}>
-                  <Option value={1}>混合出仓</Option>
-                  <Option value={2}>门店</Option>
-                  <Option value={2}>大仓</Option>
+                  <Option value={1}>用户支付前取消</Option>
+                  <Option value={2}>用户超时未支付</Option>
+                  <Option value={5}>用户超时支付</Option>
+                  <Option value={3}>用户发货前整单取消</Option>
+                  <Option value={4}>其他</Option>
                 </Select>
               </FormItem>
             </Col>
@@ -106,7 +108,7 @@ class SearchForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem name="time" label="下单时间">
-                <RangePicker />
+                <RangePicker showTime/>
               </FormItem>
             </Col>
             <Col span={24}>

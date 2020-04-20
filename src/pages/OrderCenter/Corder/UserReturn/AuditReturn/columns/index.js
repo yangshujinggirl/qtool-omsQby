@@ -37,7 +37,7 @@ const Columns = [
     title: "操作",
     dataIndex: "operate",
     render: (text, record, index) => (
-      <Link to={`/account/auditReturn_info/${record.reOrderNo}`}>{text}</Link>
+      <a onClick={record.onOperateClick.bind(this)}>审核</a>
     )
   }
 ];

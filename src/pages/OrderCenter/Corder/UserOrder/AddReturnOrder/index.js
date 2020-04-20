@@ -28,6 +28,7 @@ const AddReturnOrder = (props) => {
   const [deliveryList, setDeliveryList] = useState([]);
   const [visible, setVisible] = useState(false);
   const [giftList, setGiftList] = useState([]);
+  const [allNotReturnLength,setAllNotReturnLength] = useState(0)
   useEffect(() => {
     getTotalAmount(selectedRows);
   }, [props.selectedRows]);
@@ -52,33 +53,40 @@ const AddReturnOrder = (props) => {
   };
   //判断加不加上运费
   const isAddExpressFee = () => {
-    const isOnlyOne = deliveryList.length == 1;
-    const isAllSelect = deliveryList[0].details.length == selectedRows.length;
-    const isAllnoSend = selectedRows.every((item) => item.expressStatus == 0); //所有的都是未发货
-    let [totalReturnNum, totalHadReturnNum, totalBuyNum] = [0, 0, 0];
-    selectedRows.map((item) => {
-      totalReturnNum += item.num;
-      totalHadReturnNum += item.alreadyReturnNum;
-      totalBuyNum += item.buyNum;
-    });
-    const isAllReturn = totalHadReturnNum + totalReturnNum == totalBuyNum;
-    console.log(
-      isOnlyOne + "-" + isAllSelect + "-" + isAllnoSend + "-" + isAllReturn
-    );
-    return isOnlyOne && isAllSelect && isAllnoSend && isAllReturn;
+    const isAllSelect = allNotReturnLength == selectedRows.length;//没有全退的是否都勾选了
+    let [isAllNotSend,isAllReturn,totalReturnNum, totalHadReturnNum, totalBuyNum] = [null,null,0, 0, 0];
+    deliveryList.map(arr=>{
+      isAllNotSend = arr['details'].every(temp=>temp.expressStatus==0)//是否全部未发货
+      arr['details'].map((item) => {
+        totalReturnNum += item.num;
+        totalHadReturnNum += item.alreadyReturnNum;
+        totalBuyNum += item.buyNum;
+        isAllReturn = totalReturnNum+totalHadReturnNum == totalBuyNum//是否全退了
+      });
+      
+  })
+    console.log(isAllSelect + "-" + isAllNotSend + "-" + isAllReturn );
+    return isAllSelect && isAllNotSend && isAllReturn;
   };
   // 提交
   const handleSubmit = async () => {
     const values = await form.validateFields();
+    if (selectedRows.length == 0) {
+      return message.warning("请选择退货商品");
+    }
     const _values = formatValues(values);
     setLoading(true);
     addReturnOrderApi(_values)
       .then((res) => {
         setLoading(false);
         if (res.httpCode == 200) {
+          props.dispatch({
+            type: "addReturn/setSelectRows",
+            payload: [],
+          });
           goBack();
         }
-        if (res.httpCode == 300) {
+        if (res.httpCode == 'E_9020') {
           setGiftList(res.result);
           setVisible(true);
         }
@@ -91,9 +99,6 @@ const AddReturnOrder = (props) => {
   //数据格式化
   const formatValues = (_values) => {
     const { goodList0, goodList1, ...values } = _values;
-    if (selectedRows.length == 0) {
-      return message.warning("请选择退货商品");
-    }
     const { channelOrderNo, orderType, isDelivery, expressAmount } = infos;
     values.channelOrderNo = channelOrderNo;
     values.orderType = orderType;
@@ -101,15 +106,21 @@ const AddReturnOrder = (props) => {
     values.expressAmount = expressAmount;
     let details = [];
     selectedRows.map((item) => {
-      const { channelOrderDetailNo, skuCode, num, isGift } = item;
-      details.push({ channelOrderDetailNo, skuCode, num, isGift });
+      const { channelOrderDetailNo, skuCode, isGift } = item;
+      //为了解决用户先勾选后输入退货数量
+      const tempArr = deliveryList[item.parentId]['details'];
+      const tempIndex = tempArr.findIndex(temp=>temp.key == item.key);
+      const num = tempArr[tempIndex]['num'];
+      //为了解决用户先勾选后输入退货数量
+      details.push({ channelOrderDetailNo, skuCode,num, isGift });
     });
+
     values.details = details;
     return values;
   };
   //取消
   const goBack = () => {
-    props.history.push("/account/purchaseOrder");
+    props.history.push("/account/subscriber_orders");
   };
   //更改商品信息
   const changeDataSource = (list) => {
@@ -117,11 +128,30 @@ const AddReturnOrder = (props) => {
   };
   //输入订单子单号回车
   const getDetail = (e) => {
+    //重置页面数据
+    form.resetFields();
+    props.dispatch({
+      type: "addReturn/setSelectRows",
+      payload: [],
+    });
+    props.dispatch({
+      type: "addReturn/setParentId",
+      payload: "",
+    });
+    props.dispatch({
+      type: "addReturn/setExpressStatus",
+      payload: "",
+    });
+    props.dispatch({
+      type: "addReturn/setSelectRowKeys",
+      payload: [],
+    });
+    //重置页面数据
     const { value } = e.target;
-    // if (value && /^[0-9]*$/.test(Number(value)) {
     if (value.trim()) {
       getReturnInfoApi({ channelOrderNo: value.trim() }).then((res) => {
         if (res.httpCode == 200) {
+          let NotReturnLength = 0;
           const { deliveryList, ...infos } = res.result;
           const { orderType, isDelivery } = infos;
           setInfos(infos);
@@ -150,17 +180,22 @@ const AddReturnOrder = (props) => {
                 subItem.num = 0;
                 subItem.returnPrice = 0;
               }
+              if(Number(subItem.num)+subItem.alreadyReturnNum!=subItem.buyNum){
+                NotReturnLength+=1
+              }
               return subItem;
             });
             const name = "goodList" + index;
-            form.setFieldsValue({ [name]: item.details });
+            form.setFieldsValue({ [name]: item.details, ...infos });
             return item;
           });
           setDeliveryList(deliveryList);
+          setAllNotReturnLength(NotReturnLength)
         }
       });
     }
   };
+  console.log(allNotReturnLength)
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_toC_return">
@@ -215,7 +250,8 @@ const AddReturnOrder = (props) => {
                 />
               </Form.Item>
               {selectedRows.length == 0 ||
-              selectedRows[0].expressStatus == 1 ? (
+              (selectedRows.length > 0 &&
+                selectedRows[0].expressStatus == 1) ? (
                 <Form.Item label="退款方式">
                   <Form.Item
                     noStyle

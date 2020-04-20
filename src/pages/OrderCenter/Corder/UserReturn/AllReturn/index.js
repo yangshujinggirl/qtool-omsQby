@@ -4,6 +4,7 @@ import { Modal, message,Spin } from "antd";
 import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import FilterForm from "./FilterForm/index";
 import {Columns} from "./columns";
+import {deBounce} from 'utils/tools'
 import { getListApi,operateReturnApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 import { OmsExportApi } from "api/Export";
@@ -114,7 +115,7 @@ class AllReturn extends Component {
     });
   };
   //确定收货||取消退单  
-  onOk = () => {
+  onOk = deBounce(() => {
     const {selectedRowKeys,operateType} = this.state;
     const values = {reOrderNo:selectedRowKeys[0],operation:operateType==0?3:2}
     operateReturnApi(values).then(res => {
@@ -127,7 +128,7 @@ class AllReturn extends Component {
         this.setState({ isPushVisible: false, selectedRowKeys: [] });
       }
     });
-  };
+  },500);
   //确定收货||取消退单
   onCancel = () => {
     this.setState({ visible: false, selectedRowKeys: [], selectedRow: [] });

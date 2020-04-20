@@ -61,7 +61,7 @@ const getColumns = props => {
           <Form.Item
             name={[`goodList${record.parentId}`, index, "num"]}
             rules={[
-              { required: record.disabled?false:true, message: "请填写退款数量" },
+              { required: isRequired(record)?true:false, message: "请填写退款数量" },
               { validator: (rule, value) => validatorNum(rule, value, record) }
             ]}
           >
@@ -92,6 +92,10 @@ const getColumns = props => {
       )
     }
   ];
+//退款数量是否必填ß
+  const isRequired=(record)=>{
+    return !record.disabled&&props.selectedRowKeys.find(e=>e==record.key)
+  }
   //计算退款金额
   const changeList = (e, record) => {
     const { value } = e.target;
