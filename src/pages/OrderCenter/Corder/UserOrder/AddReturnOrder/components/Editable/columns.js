@@ -92,9 +92,8 @@ const getColumns = props => {
       )
     }
   ];
-//退款数量是否必填
+//退款数量是否必填ß
   const isRequired=(record)=>{
-    console.log(props.selectedRowKeys.find(e=>e==record.key))
     return !record.disabled&&props.selectedRowKeys.find(e=>e==record.key)
   }
   //计算退款金额

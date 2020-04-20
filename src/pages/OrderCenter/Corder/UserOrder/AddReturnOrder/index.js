@@ -28,6 +28,7 @@ const AddReturnOrder = (props) => {
   const [deliveryList, setDeliveryList] = useState([]);
   const [visible, setVisible] = useState(false);
   const [giftList, setGiftList] = useState([]);
+  const [allNotReturnLength,setAllNotReturnLength] = useState(0)
   useEffect(() => {
     getTotalAmount(selectedRows);
   }, [props.selectedRows]);
@@ -52,21 +53,20 @@ const AddReturnOrder = (props) => {
   };
   //判断加不加上运费
   const isAddExpressFee = () => {
-    const isOnlyOne = deliveryList.length == 1;
-    const isAllSelect = deliveryList[0].details.length == selectedRows.length;
-    const isAllnoSend = selectedRows.every((item) => item.expressStatus == 0); //所有的都是未发货
-    let [totalReturnNum, totalHadReturnNum, totalBuyNum] = [0, 0, 0];
-    selectedRows.map((item) => {
-      totalReturnNum += item.num;
-      totalHadReturnNum += item.alreadyReturnNum;
-      totalBuyNum += item.buyNum;
-    });
-    console.log(totalHadReturnNum + "-" + totalReturnNum + "-" + totalBuyNum);
-    const isAllReturn = totalHadReturnNum + totalReturnNum == totalBuyNum;
-    console.log(
-      isOnlyOne + "-" + isAllSelect + "-" + isAllnoSend + "-" + isAllReturn
-    );
-    return isOnlyOne && isAllSelect && isAllnoSend && isAllReturn;
+    const isAllSelect = allNotReturnLength == selectedRows.length;//没有全退的是否都勾选了
+    let [isAllNotSend,isAllReturn,totalReturnNum, totalHadReturnNum, totalBuyNum] = [null,null,0, 0, 0];
+    deliveryList.map(arr=>{
+      isAllNotSend = arr['details'].every(temp=>temp.expressStatus==0)//是否全部未发货
+      arr['details'].map((item) => {
+        totalReturnNum += item.num;
+        totalHadReturnNum += item.alreadyReturnNum;
+        totalBuyNum += item.buyNum;
+        isAllReturn = totalReturnNum+totalHadReturnNum == totalBuyNum//是否全退了
+      });
+      
+  })
+    console.log(isAllSelect + "-" + isAllNotSend + "-" + isAllReturn );
+    return isAllSelect && isAllNotSend && isAllReturn;
   };
   // 提交
   const handleSubmit = async () => {
@@ -151,6 +151,7 @@ const AddReturnOrder = (props) => {
     if (value.trim()) {
       getReturnInfoApi({ channelOrderNo: value.trim() }).then((res) => {
         if (res.httpCode == 200) {
+          let NotReturnLength = 0;
           const { deliveryList, ...infos } = res.result;
           const { orderType, isDelivery } = infos;
           setInfos(infos);
@@ -179,6 +180,9 @@ const AddReturnOrder = (props) => {
                 subItem.num = 0;
                 subItem.returnPrice = 0;
               }
+              if(Number(subItem.num)+subItem.alreadyReturnNum!=subItem.buyNum){
+                NotReturnLength+=1
+              }
               return subItem;
             });
             const name = "goodList" + index;
@@ -186,11 +190,12 @@ const AddReturnOrder = (props) => {
             return item;
           });
           setDeliveryList(deliveryList);
+          setAllNotReturnLength(NotReturnLength)
         }
       });
     }
   };
-  console.log(deliveryList)
+  console.log(allNotReturnLength)
   return (
     <Spin spinning={loading}>
       <div className="oms-common-addEdit-pages add_toC_return">
