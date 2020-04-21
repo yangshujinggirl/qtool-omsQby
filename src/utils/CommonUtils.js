@@ -20,20 +20,30 @@ const CommonUtils = {
     if(val.length==0) {
       return null;
     }
-    if(val&&val[0].response) {
-      let urlPath = val[0].response.result;
-      val = urlPath;
-    } else {
-      val = val[0].path;
+    if( val instanceof Array == true) {//单张图片
+      if(val&&val[0].response) {
+        let urlPath = val[0].response.result;
+        val = urlPath;
+      } else {
+        val = val[0].path;
+      }
+    } else {//多张图片
+      if(val&&val.response) {
+        let urlPath = val.response.result;
+        val = urlPath;
+      } else {
+        val = val.path;
+      }
     }
+
     return val;
   },
-  formatToFilelist(url) {
+  formatToFilelist(url,index) {
     let fileDomain = Sessions.get('fileDomain');
     let fileList;
     if (url) {
       fileList = [{
-          uid: "-1",
+          uid: `-1/${index}`,
           status: "done",
           path:url,
           url: fileDomain + url

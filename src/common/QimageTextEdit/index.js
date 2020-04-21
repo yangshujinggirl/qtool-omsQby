@@ -1,5 +1,5 @@
 import { Input, Form, Upload }from 'antd';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PlusOutlined, LoadingOutlined, DownOutlined,UpOutlined, CloseOutlined } from '@ant-design/icons';
 import QupLoadImgLimt from '../QupLoadImgLimt';
 import './index.less';
@@ -9,6 +9,7 @@ const ImageTextEdit=({...props})=> {
   let newArray = [...detailImg];
   let [deKey,setDeKey] = useState(newArray.length);
   let [loading,setLoad] = useState(false);
+  let fieldName = props.name?props.name:'productDetailImgList';
 
   const handlAdd=(type)=> {
     deKey++;
@@ -47,7 +48,9 @@ const ImageTextEdit=({...props})=> {
     newArray[index] = {...newArray[index],content: imageUrl}
     upDateList(newArray);
   };
-
+  useEffect(()=>{
+    props.form&&props.form.setFieldsValue({[fieldName]:newArray}) 
+  },[newArray]);
   return <div className="image-text-function-are">
           <div className="left-are">
             <p className="tit-par">功能组件</p>
@@ -65,12 +68,12 @@ const ImageTextEdit=({...props})=> {
                           <div className="wrap-item">
                             {
                               el.type==1?
-                              <Form.Item name={['productDetailImgList',idx,'content']} rules={[{ required: true, message: '请输入文本' } ]}>
+                              <Form.Item name={[fieldName,idx,'content']} rules={[{ required: true, message: '请输入文本' } ]}>
                                 <Input.TextArea/>
                               </Form.Item>
                               :
                               <QupLoadImgLimt
-                                name={['productDetailImgList',idx,'content']}
+                                name={[fieldName,idx,'content']}
                                 fileList={el.content}
                                 limit="1"
                                 upDateList={(fileList)=>handleChangeFile(fileList,idx)}

@@ -1,7 +1,7 @@
 import React from 'react'
 import {QbaseList, Qpagination, Qtable} from "common/index";
 import {GetDataListApi} from "../../../../api/home/MemberCenter/ConfigurationItem/TaskGrowthValue";
-import Columns from "./column";
+import {Columns} from "./column";
 
 /**
  * 功能作用：成长值任务

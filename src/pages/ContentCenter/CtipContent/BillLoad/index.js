@@ -66,18 +66,15 @@ const BillLoad=({...props})=> {
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages supplier-Manage-addEdit-pages">
         <Form className="common-addEdit-form" form={form} {...formItemLayout}>
-          <div className="part-wrap">
-            <p className="title-wrap"><span className="title-name">基础信息</span></p>
-            <Form.Item label="国内仓提单页提示" name={['fieldList',0,'text']}>
-              <Input.TextArea rows={3} placeholder="100字以内" autoComplete="off" maxLength={100}/>
-            </Form.Item>
-            <Form.Item label="保税仓提单页提示" name={['fieldList',1,'text']}>
-              <Input.TextArea rows={3} placeholder="100字以内" autoComplete="off"  maxLength={100}/>
-            </Form.Item>
-            <Form.Item label="品牌直供提单页提示" name={['fieldList',2,'text']}>
-              <Input.TextArea rows={3} placeholder="100字以内" autoComplete="off"  maxLength={100}/>
-            </Form.Item>
-          </div>
+          <Form.Item label="国内仓提单页提示" name={['fieldList',0,'text']}>
+            <Input.TextArea rows={3} placeholder="100字以内" autoComplete="off" maxLength={100}/>
+          </Form.Item>
+          <Form.Item label="保税仓提单页提示" name={['fieldList',1,'text']}>
+            <Input.TextArea rows={3} placeholder="100字以内" autoComplete="off"  maxLength={100}/>
+          </Form.Item>
+          <Form.Item label="品牌直供提单页提示" name={['fieldList',2,'text']}>
+            <Input.TextArea rows={3} placeholder="100字以内" autoComplete="off"  maxLength={100}/>
+          </Form.Item>
           <div className="handle-operate-save-action">
             <Qbtn onClick={onSubmit}> 保存 </Qbtn>
           </div>

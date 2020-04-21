@@ -5,7 +5,7 @@ import {QbaseList, Qbtn, Qmessage, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
 import {Columns} from "./column";
 import { GetListApi, GetCancelApi } from "api/home/OrderCenter/Border/ShopReturnOrder";
-import {AppExportApi} from "api/Export";
+import {OmsExportApi} from "api/Export";
 
 
 const ShopReturnOrder = QbaseList((_this) => {
@@ -33,7 +33,10 @@ const ShopReturnOrder = QbaseList((_this) => {
       })
     }
     const handleExport=()=> {
-      return new AppExportApi(searchCriteriaList)
+      OmsExportApi({
+        exportType:"8",
+        reOrderExport:searchCriteriaList
+      },'/export/commonExport')
     }
     return (
       <div className="oms-common-index-pages-wrap">

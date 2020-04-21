@@ -176,6 +176,7 @@ import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDe
 /************************************   会员中心   *******************************************/
 import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue"; /*** 成长值任务*/
 import TaskGrowthValueDetail from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail"; /*** 成长值任务详情*/
+import TaskGrowthEdit from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrouthEdit";
 
 /************************************   渠道管理   *******************************************/
 import ChannelManage from "./ChannelManage/Manage"; /*** 渠道管理*/
@@ -348,6 +349,7 @@ class HomeRoutes extends React.Component {
         {/* ----------------------------------  会员中心   ---------------------------------------*/}
         <Route exact path="/account/growth_task_configuration" component={TaskGrowthValue}/>
         <Route exact path="/account/growth_task_configuration/detail/:id?" component={TaskGrowthValueDetail}/>
+        <Route exact path="/account/taskGrowth/edit/:id?" component={TaskGrowthEdit}/>
 
         {/* ----------------------------------  渠道管理   ---------------------------------------*/}
         <Route exact path="/account/bridge_manager_control" component={ChannelManage}/>

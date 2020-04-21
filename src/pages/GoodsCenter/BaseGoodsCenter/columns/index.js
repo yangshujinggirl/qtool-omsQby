@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Input,Form,Select } from 'antd';
-import QupLoadImgLimt from '../components/QupLoadImgLimt';
+import { QupLoadImgLimt } from 'common';
 
 import { Link } from 'react-router-dom';
 let FormItem = Form.Item;
@@ -57,6 +57,7 @@ const ColumnsGeneral = [
           to={`/account/baseGoodsAdd/1/${record.spuCode}`}>
           编辑商品
         </Link>
+        &nbsp;&nbsp;
         <Link
           className="link-color"
           to={`/account/baseGoodsEditImg/${record.spuCode}`}>
@@ -237,11 +238,10 @@ const ColumnsEditImgGeneral=(upDateSkuList)=>{
     textWrap: 'word-break',
     width: 100,
     render:(text,record,index)=> {
-              let fileList = record.skuImg?record.skuImg:[];
       return  <QupLoadImgLimt
                 rules={[{ required: true, message: '请上传图片' } ]}
                 name={['skuImgList',index,'skuImg']}
-                fileList={fileList}
+                fileList={record.skuImg}
                 limit="1"
                 upDateList={(fileList)=>upDateSkuList(fileList,index)}/>
     }

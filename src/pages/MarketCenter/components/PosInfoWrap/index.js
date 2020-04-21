@@ -49,7 +49,7 @@ function withSubscription(WrapComponents,handleType ) {//
               <DetailBase info={totalData} formItemLayout={formItemLayout}/>
             </Panel>
             <Panel header="活动商品" key="2">
-              <DetailGoods info={dataList}/>
+              <DetailGoods info={dataList} promotionId={promotionId}/>
             </Panel>
             {WrapComponents({...props})}
         </Collapse>
