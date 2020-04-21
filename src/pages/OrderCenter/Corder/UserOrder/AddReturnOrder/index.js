@@ -54,17 +54,12 @@ const AddReturnOrder = (props) => {
   //判断加不加上运费
   const isAddExpressFee = () => {
     const isAllSelect = allNotReturnLength == selectedRows.length;//没有全退的是否都勾选了
-    let [isAllNotSend,isAllReturn,totalReturnNum, totalHadReturnNum, totalBuyNum] = [null,null,0, 0, 0];
-    deliveryList.map(arr=>{
-      isAllNotSend = arr['details'].every(temp=>temp.expressStatus==0)//是否全部未发货
-      arr['details'].map((item) => {
-        totalReturnNum += item.num;
-        totalHadReturnNum += item.alreadyReturnNum;
-        totalBuyNum += item.buyNum;
-        isAllReturn = totalReturnNum+totalHadReturnNum == totalBuyNum//是否全退了
-      });
-      
-  })
+    const isAllNotSend = deliveryList.reduce(function(isNotSend,item){
+      return isNotSend && item['details'].every(temp=>temp.expressStatus==0)//是否全部未发货
+    },true)
+    const isAllReturn = deliveryList.reduce(function(isReturn,item){
+      return isNotSend && item['details'].every(temp=>temp.num+temp.alreadyReturnNum==temp.buyNum)//是否全退了
+    },true)
     console.log(isAllSelect + "-" + isAllNotSend + "-" + isAllReturn );
     return isAllSelect && isAllNotSend && isAllReturn;
   };
@@ -80,15 +75,19 @@ const AddReturnOrder = (props) => {
       .then((res) => {
         setLoading(false);
         if (res.httpCode == 200) {
-          props.dispatch({
-            type: "addReturn/setSelectRows",
-            payload: [],
-          });
-          goBack();
-        }
-        if (res.httpCode == 'E_9020') {
-          setGiftList(res.result);
-          setVisible(true);
+          if(res.result.code == 200){
+            props.dispatch({
+              type: "addReturn/setSelectRows",
+              payload: [],
+            });
+            goBack();
+          }
+          if(res.result.code == 'E_9020'){
+            setGiftList(res.result);
+            setVisible(true);
+          }else{
+            message.error(res.result.windowMessage)
+          }
         }
       })
       .catch((err) => {

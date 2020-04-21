@@ -148,6 +148,11 @@ module.exports = {
         target:'http://192.168.2.36:8023',
         pathRewrite: {"^/qtoolsApp" : ""},
         changeOrigin: true,
+      },
+      '/qtools-report': {
+        target:'http://192.168.2.36:8023',
+        pathRewrite: {"^/qtools-report" : ""},
+        changeOrigin: true,
       }
       
     }

@@ -57,7 +57,7 @@ const UnderBond = QbaseList((_this) => {
 }, getUnderBondListApi, false,null,null,(_this,params)=>{
     console.log(params)
     return{
-        orderType:5,
+        orderType:2,
         ...params
     }
 });

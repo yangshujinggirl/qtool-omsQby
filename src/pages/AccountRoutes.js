@@ -115,14 +115,20 @@ import PageSetCtip from './ContentCenter/CtipContent/PageSetCtip';//页面配置
 import PageSetEditCtip from './ContentCenter/CtipContent/PageSetCtip/PageSetEditCtip';//页面配置
 import CtipContentLog from './ContentCenter/CtipContent/CtipContentLog';//页面配置
 /************************************   数据中心   *******************************************/
-import GoodsData from "./DataCenter/BaseData/GoodsData"; /*** 商品数据*/
-import OrderData from "./DataCenter/BaseData/OrderData"; /*** 订单数据*/
-import PurchasingData from "./DataCenter/BaseData/PurchasingData"; /*** 采购数据*/
-import WarehouseData from "./DataCenter/BaseData/WarehouseData"; /*** 仓库数据*/
-import FinancialData from "./DataCenter/BaseData/FinancialData"; /*** 财务数据*/
-import AppData from "./DataCenter/FromC/AppData"; /*** App数据*/
-import StoreData from "./DataCenter/FromB/StoreData"; /*** 门店数据*/
-import InventoryDistribution from "./DataCenter/FromB/StoreData/StoreInventory/InventoryDistribution"; /*** 门店库存分布页面*/
+import GoodsAnalysis from "./DataCenter/GoodsData/GoodsAnalysis"; // 商品数据-->商品分析
+import ClassifyAnalysis from "./DataCenter/GoodsData/ClassifyAnalysis"; //商品数据-->分类分析
+import GoodsDataList from "./DataCenter/GoodsData/GoodsDataList"; //商品数据-->商品数据
+import CommodityExpirySate from "./DataCenter/GoodsData/CommodityExpirySate"; //商品数据-->商品效期
+import GoodHotColdData from './DataCenter/GoodsData/GoodsAnalysis/GoodList'//商品数据-->商品分析-->热销滞销商品列表
+import ShopOrderData from "./DataCenter/OrderData/Shop"; //订单数据-->门店订单
+import PosOrderData from "./DataCenter/OrderData/POS"; //订单数据-->pos订单
+import PurchasingAnalysis from "./DataCenter/PurchasingData/PurchasingAnalysis"; //采购数据
+import SaleData from "./DataCenter/ShopData/SaleData"; //门店数据-->销售数据
+import JointOperationShareProportion from "./DataCenter/ShopData/JointOperationShareProportion"; //门店数据-->联营分成
+import CostAccounting from "./DataCenter/FinancialData/CostAccounting"; //财务数据-->门店成本
+import CostOfStores from "./DataCenter/FinancialData/CostOfStores"; //财务数据-->成本核算
+import AppData from "./DataCenter/AppData"; //App数据
+
 
 /************************************   渠道管理   *******************************************/
 import ChannelStatistic from "./ChannelManage/Statistics";
@@ -295,13 +301,21 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/cPageSet/edit/:id?" component={PageSetEditCtip}/>
 
         {/* ----------------------------------  数据中心   ---------------------------------------*/}
-        <Route exact path="/account/product_data" component={GoodsData} />
-        <Route exact path="/account/order_data" component={OrderData} />
-        <Route exact path="/account/purchase_data" component={PurchasingData} />
-        <Route exact path="/account/warehouse_data" component={WarehouseData} />
+        <Route exact path="/account/commodity_item_analysis" component={GoodsAnalysis} />
+        <Route exact path="/account/classification_analysis" component={ClassifyAnalysis} />
+        <Route exact path="/account/commodity_data_information" component={GoodsDataList} />
+        <Route exact path="/account/validity_of_products" component={CommodityExpirySate} />
+        <Route exact path="/account/hot_cold_good/:id" component={GoodHotColdData} />
+        <Route exact path="/account/store_order_information" component={ShopOrderData} />
+        <Route exact path="/account/pos_order_information" component={PosOrderData} />
+        <Route exact path="/account/purchase_data" component={PurchasingAnalysis} />
+        <Route exact path="/account/sales_data_information" component={SaleData} />
+        <Route exact path="/account/pool_components_data" component={JointOperationShareProportion} />
+        <Route exact path="/account/pstores_cost_data" component={CostAccounting} />
+        <Route exact path="/account/cost_accounting_data" component={CostOfStores} />
         <Route exact path="/account/app_data" component={AppData} />
-        <Route exact path="/account/channel_data" component={StoreData} />
-        <Route exact path="/account/channel_data/StoreInventory/Distribution/:id" component={InventoryDistribution}/>
+        
+        
 
         {/* ----------------------------------  运营中心   ---------------------------------------*/}
         <Route exact path="/account/add_bpush/:id?" component={AddBPush} />
@@ -333,7 +347,6 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/treasurer_definite" component={ShopkeeperInOut}/>
         <Route exact path="/account/sale_definite" component={SaleInOut} />
         <Route exact path="/account/profit_manager" component={ShareInProfitManager}/>
-        <Route exact path="/account/finance_data" component={FinancialData} />
         <Route exact path="/account/account_balance_b" component={AccountBanlance}/>
         {/* ----------------------------------  用户中心   ---------------------------------------*/}
         <Route exact path="/account/c_work_order" component={WorkOrderC} />
