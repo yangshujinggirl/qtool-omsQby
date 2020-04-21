@@ -20,12 +20,18 @@ const Columns2 = [
   { title: "可售库存", dataIndex: "invQty" },
 ];
 const GoodListTable = (props) => {
-  const { id } = props.match.params;
+  console.log(props)
+  const url = props.location.search.substr(0).split('&');
+  const obj = {};
+  url.map(item=>{
+    obj[item.split('=')[0]]=item.split('=')[1]
+  });
+  const {id,type} = obj;
   const [goodList,setGoodList] = useState([])
   useEffect(() => {
     if (id == 1) {
       //热销
-      getHotSaleList().then((res) => {
+      getHotSaleList({type}).then((res) => {
         if (res.httpCode == 200) {
           setGoodList(res.result);
         }
@@ -33,7 +39,7 @@ const GoodListTable = (props) => {
     }
     if (id == 2) {
       //滞销
-      getColdSaleList().then((res) => {
+      getColdSaleList({type}).then((res) => {
         if (res.httpCode == 200) {
           setGoodList(res.result);
         }

@@ -214,18 +214,17 @@ const Store = (props) => {
 	 * @param params
 	 */
 	const getChartDataList = (params) => {
-		GetStoreChartsData().then((res) => {
+		GetStoreChartsData(params).then((res) => {
 			if (res.httpCode == 200) {
 				const shopOrderData = res.result;
 				const [xdata, data1, data2] = [];
 				if (shopOrderData && shopOrderData.length > 0) {
 					for (let i = 0; i < shopOrderData.length; i++) {
 						if (params.startDate === params.endDate) {
-							xdata.push(shopOrderData[i].rpDateTime);
+							xdata.push(shopOrderData[i].rpDateTm);
 						} else {
-							xdata.push(shopOrderData[i].rpDate);
+							xdata.push(shopOrderData[i].rpDateMd);
 						}
-
 						data1.push(shopOrderData[i].qtySum); //订单数
 						data2.push(shopOrderData[i].amountSum); //销售额
 					}
@@ -234,7 +233,7 @@ const Store = (props) => {
 					chartsDataList['订单金额'] = data2;
 					setChartsData({
 						...chartsData,
-						chartsDataList: chartsDataList,
+						chartsDataList,
 						xdata: xdata,
 					});
 				}
@@ -261,7 +260,7 @@ const Store = (props) => {
 					<TopTitleDesHeader updateTime={dataInfo.updateTime} desInfoClick={desInfo} />
 					<Qcards data={dataInfo.datalist1} />
 					<Qcards data={dataInfo.datalist2} />
-					{/* <Qcharts
+					<Qcharts
 						chartsType={CHARTS_TYPE_LINEAR}
 						chartsTitle="订单变化趋势图"
 						chartsLevel={1}
@@ -270,7 +269,7 @@ const Store = (props) => {
 						chartsData={chartsData.chartsDataList}
 						refreshDataList={refreshDataList}
 						selectTimeProps={{ startTimeName: 'startDate', endDate: 'endRpDate' }}
-					/> */}
+					/>
 					<div>订单变化数据</div>
 					<div className="oms-common-index-pages-wrap">
 						<div style={{ marginTop: '10px', marginBottom: '10px' }}>

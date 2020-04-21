@@ -308,7 +308,7 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/classification_analysis" component={ClassifyAnalysis} />
         <Route exact path="/account/commodity_data_information" component={GoodsDataList} />
         <Route exact path="/account/validity_of_products" component={CommodityExpirySate} />
-        <Route exact path="/account/hot_cold_good/:id" component={GoodHotColdData} />
+        <Route exact path="/account/hot_cold_good" component={GoodHotColdData} />
         <Route exact path="/account/store_order_information" component={ShopOrderData} />
         <Route exact path="/account/pos_order_information" component={PosOrderData} />
         <Route exact path="/account/purchase_data" component={PurchasingAnalysis} />

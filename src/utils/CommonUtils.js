@@ -63,7 +63,7 @@ const CommonUtils = {
   dataDifferenceValueComparison(currentValue, oldValue) {
     const a = currentValue == null ? 0 : currentValue;
     const b = oldValue == null ? 0 : oldValue;
-    let rate = Math.round(NP.divide(NP.minus(a - b), b) * 100);
+    let rate = Math.round(NP.divide(NP.minus(a , b), b) * 100);
     return rate;
   },
 

@@ -44,6 +44,11 @@ class SearchForm extends BaseFilter {
         >
           <Row gutter={24}>
             <Col {...this.colspans}>
+              <FormItem name="channelName" label="门店名称">
+                <Input placeholder="请输入门店名称" autoComplete="off" />
+              </FormItem>
+            </Col>
+            <Col {...this.colspans}>
               <FormItem name="productName" label="商品名称">
                 <Input placeholder="请输入商品名称" autoComplete="off" />
               </FormItem>
@@ -56,14 +61,6 @@ class SearchForm extends BaseFilter {
             <Col {...this.colspans}>
               <FormItem name="spuCode" label="SPU编码">
                 <Input placeholder="请输入SPU编码" autoComplete="off" />
-              </FormItem>
-            </Col>
-            <Col {...this.colspans}>
-              <FormItem name="productType" label="商品类型">
-                <Select placeholder="请选择" allowClear={true}>
-                  <Option value={1}>正常销售品</Option>
-                  <Option value={2}>赠品</Option>
-                </Select>
               </FormItem>
             </Col>
             <Col {...this.colspans}>

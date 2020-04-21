@@ -8,4 +8,10 @@ export function getListApi(values){
        params:{...values}
     })
 }
+//仓库列表
+export function getStoreListApi(values){
+    return omsAjax.get('/warehouse/usableWarehouse',{
+       params:{...values}
+    })
+}
 

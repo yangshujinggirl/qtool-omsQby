@@ -57,7 +57,8 @@ class RangeTime extends Component {
 class FilterSearchRangeTime extends Component {
 	constructor(props) {
 		super(props);
-		this.formatType = this.props.showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
+		console.log(this.props)
+		this.formatType = this.props.showTime==null ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
 	}
 	/**
 	 * 第一次渲染结束回调

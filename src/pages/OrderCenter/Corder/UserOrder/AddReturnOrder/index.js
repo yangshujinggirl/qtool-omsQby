@@ -58,7 +58,7 @@ const AddReturnOrder = (props) => {
       return isNotSend && item['details'].every(temp=>temp.expressStatus==0)//是否全部未发货
     },true)
     const isAllReturn = deliveryList.reduce(function(isReturn,item){
-      return isNotSend && item['details'].every(temp=>temp.num+temp.alreadyReturnNum==temp.buyNum)//是否全退了
+      return isReturn && item['details'].every(temp=>temp.num+temp.alreadyReturnNum==temp.buyNum)//是否全退了
     },true)
     console.log(isAllSelect + "-" + isAllNotSend + "-" + isAllReturn );
     return isAllSelect && isAllNotSend && isAllReturn;
