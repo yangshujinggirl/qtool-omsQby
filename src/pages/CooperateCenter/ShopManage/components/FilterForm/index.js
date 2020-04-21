@@ -29,7 +29,7 @@ class NormalForm extends BaseFilter {
         <Form className="serach-common-form" ref={this.formRef}>
           <Row gutter={24}>
             <Col {...this.colspans}>
-              <Form.Item name="name" label="门店名称" {...this.formItemLayout}>
+              <Form.Item name="channelName" label="门店名称" {...this.formItemLayout}>
                 <Input placeholder="请输入门店名称" autoComplete="off" />
               </Form.Item>
             </Col>
@@ -53,7 +53,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <Form.Item
-                name="shopType"
+                name="channelStatus"
                 label="营业状态"
                 {...this.formItemLayout}
               >
@@ -72,7 +72,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <Form.Item
-                name="shopType"
+                name="channelType"
                 label="门店类型"
                 {...this.formItemLayout}
               >
