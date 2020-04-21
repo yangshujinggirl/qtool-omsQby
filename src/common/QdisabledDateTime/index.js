@@ -85,6 +85,9 @@ class FilterSearchRangeTime extends Component {
 			if (values && values[0]) {
 				orderTimes[startTimeName] = moment(values[0]).format(this.formatType);
 				orderTimes[endTimeName] = moment(values[1]).format(this.formatType);
+			}else{
+				orderTimes[startTimeName] = '';
+				orderTimes[endTimeName] = '';
 			}
 			selectTimeChange(orderTimes, false);
 		}
