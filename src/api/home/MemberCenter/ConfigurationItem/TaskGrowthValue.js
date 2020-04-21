@@ -12,6 +12,9 @@ export function GetDataListApi(values) {
  * @param id 成长值任务id
  * @constructor
  */
-export function GetDataDetail(id) {
+export function GetInfoApi(id) {
     return appAjax.get("/userMember/task/detail/" + id);
+}
+export function GetSaveApi(values) {
+    return appAjax.put("/userMember/task",{...values});
 }

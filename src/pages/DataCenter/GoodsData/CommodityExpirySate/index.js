@@ -1,7 +1,7 @@
 import React from 'react';
 import { QbaseList, Qbtn, Qpagination, Qtable } from 'common/index';
 import { GetCommodityExpirySateList } from 'api/home/DataCenter/BaseData/WarehouseData';
-import { dataEmptyInterceptorsAjax } from 'api/Export';
+import { DataExportApi } from 'api/Export';
 import { deBounce } from 'utils/tools';
 import FilterForm from './components/FilterForm';
 import Columns from './column';
@@ -12,7 +12,7 @@ import Columns from './column';
  * 注释创建人：LorenWang（王亮）
  */
 const exportData = deBounce(function () {
-	dataEmptyInterceptorsAjax(searchDataList, '');
+	DataExportApi(searchDataList, '');
 }, 500);
 const CommodityExpirySate = QbaseList(
 	(_this) => {

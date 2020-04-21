@@ -60,28 +60,6 @@ class UpLoadImg extends Component {
         return Promise.reject(false);
       });
   };
-  isSize = file => {
-    return new Promise((resolve, reject) => {
-      let width = this.props.width;
-      let height = this.props.height;
-      let _URL = window.URL || window.webkitURL;
-      let img = new Image();
-      img.onload = function() {
-        // let valid = img.width / img.height == width / height;
-        let valid = img.width == width && img.height == height;
-        valid ? resolve() : reject();
-      };
-      img.src = _URL.createObjectURL(file);
-    }).then(
-      () => {
-        return file;
-      },
-      () => {
-        message.error(file.name + "图片尺寸不符合要求，请修改后重新上传！");
-        return Promise.reject();
-      }
-    );
-  };
   handleChange = ({file,fileList}) => {
     this.props.upDateList&&this.props.upDateList([...fileList]);
   };

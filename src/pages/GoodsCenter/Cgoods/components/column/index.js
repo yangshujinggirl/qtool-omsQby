@@ -12,7 +12,7 @@ const ColumnsPar =[
     },
     {
       title: "商品类型",
-      dataIndex: "productType"
+      dataIndex: "productTypeStr"
     },
     {
       title: "后台类目",
@@ -36,17 +36,16 @@ const ColumnsPar =[
         let link = record.productNature==1?'generalTrade':'crossBorder';
         return <div>
           <Link
-            className="link-color action-left"
             to={`/account/${link}/info/${record.spuCode}`}>
             查看
           </Link>
+          &nbsp;
           <Link
-            className="link-color"
             to={`/account/${link}/edit/${record.spuCode}`}>
             编辑
           </Link>
+          &nbsp;
           <Link
-            className="link-color"
             to={`/account/${link}/log/${record.spuCode}`}>
             日志
           </Link>

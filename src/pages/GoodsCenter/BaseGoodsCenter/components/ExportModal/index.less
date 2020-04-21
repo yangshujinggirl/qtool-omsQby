@@ -1,0 +1,30 @@
+.export-modal-wrap {
+  .row-wrap {
+    margin-bottom: 20px;
+  }
+  .title {
+    position: relative;
+    padding-left: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #333;
+    &:before {
+      content:'';
+      width: 4px;
+      height: 100%;
+      background: #666;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .ant-tag {
+    margin-bottom: 6px;
+  }
+  .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+     margin: 0;
+     margin-top: 10px;
+  }
+}

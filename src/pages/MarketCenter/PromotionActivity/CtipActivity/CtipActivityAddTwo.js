@@ -22,7 +22,6 @@ const CtipActivityAddTwo=({...props})=> {
   let [proRules,setRules] = useState([]);
   let [products,setProducts] = useState([]);
   let [currentdata,setCurrentdata] = useState({});
-  let [singleRules,setSingleRules] = useState([]);//单行满件赠规则
   let [visible, setVisible] = useState(false);
   let [currentItem, setCurrentItem] = useState({});
   const { pdScope, promotionType, beginTime, endTime, pdKind } = currentdata;
@@ -130,7 +129,12 @@ const CtipActivityAddTwo=({...props})=> {
           break;
 
       }
-      promotionRules && promotionRules.map((item,index)=>item.key = index);
+      promotionRules && promotionRules.map((item,index)=>{
+        item.key = index;
+        if(item.promotionGifts) {
+          item.promotionGifts.map((el,idx)=>el.key=idx)
+        }
+      });
       promotionProducts &&promotionProducts.map((item,index)=>item.key = index);
       setCurrentdata(JSON.parse(Sessions.get("currentdata")))
       setRules(promotionRules);
@@ -197,7 +201,7 @@ const CtipActivityAddTwo=({...props})=> {
       };
     };
     values={...values,type};
-    console.log(values);
+
     GetSaveGoodsApi(values)
     .then(res => {
       if (type == "2") {
@@ -310,6 +314,7 @@ const CtipActivityAddTwo=({...props})=> {
   const upDateProductList=(array)=> {
     setProducts(array)
   }
+  useEffect(()=>{ form.setFieldsValue({ruleField:proRules}) },[proRules]);
   useEffect(()=>{ initPage() },[promotionId]);
   useEffect(()=>{
     staticPar();

@@ -4,8 +4,9 @@ import moment from 'moment';
 import { Qpagination, Qbtn, Qtable} from "common";
 import { ColumnsGeneral, ColumnsCross } from "../../columns";
 import { GetGoodsApi } from "api/home/BaseGoods";
-import GoodsListExtends from '../GoodsListExtends';
-import { AppExportApi } from "api/Export";
+// import GoodsListExtends from '../GoodsListExtends';
+import ExportModal from '../ExportModal';
+import { OmsExportApi } from "api/Export";
 
 function withSubscription(FilterFormMod,productNature){
   return class BaseGoods extends React.Component {
@@ -17,7 +18,8 @@ function withSubscription(FilterFormMod,productNature){
         total:0,
         currentPage: 1,
         inputValues: {},
-        loading:false
+        loading:false,
+        visible:false
       };
     }
     //搜索列表
@@ -55,15 +57,21 @@ function withSubscription(FilterFormMod,productNature){
         this.getList()
       })
     };
-    export =()=> {
-      AppExportApi({...this.state.inputValues,type:1})
+    handExport=()=> { this.setState({ visible:true }) }
+    onOkExport =(values)=> {
+      this.setState({ visible:false });
+      OmsExportApi({
+        exportType:1,
+        skuExport:{...this.state.inputValues,productNature},
+        exportColumnJson:values
+      })
     }
+    onCancel =(values)=> { this.setState({ visible:false }) }
     addTrade=()=> {
        this.props.history.push(`/account/baseGoodsAdd/${productNature}`);
     }
     render() {
-      const { goodLists,loading, everyPage, currentPage, total } = this.state;
-      console.log(total)
+      const { goodLists,loading, everyPage, currentPage, total, visible } = this.state;
       let columnIndex = productNature==1?ColumnsGeneral:ColumnsCross;
       return (
           <Spin tip="加载中..." spinning={loading}>
@@ -73,7 +81,7 @@ function withSubscription(FilterFormMod,productNature){
                 inputValues={this.state.inputValues}/>
               <div className="handle-operate-btn-action">
                 <Qbtn size="free" onClick={this.addTrade}>新增商品</Qbtn>
-                <Qbtn size="free" onClick={this.export}>导出商品</Qbtn>
+                <Qbtn size="free" onClick={this.handExport}>导出商品</Qbtn>
               </div>
               <Qtable
                 columns={columnIndex}
@@ -86,6 +94,11 @@ function withSubscription(FilterFormMod,productNature){
                   onChange={this.changePage}
                   onShowSizeChange={this.onShowSizeChange}/>
               }
+              <ExportModal
+                productNature={productNature}
+                visible={visible}
+                onCancel={this.onCancel}
+                onOk={this.onOkExport}/>
           </div>
         </Spin>
       );

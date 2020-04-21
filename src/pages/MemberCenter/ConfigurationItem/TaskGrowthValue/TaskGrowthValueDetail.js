@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qtable} from "common/index";
 import {Card} from "antd";
-import {LogColumns, SubheadingColumns} from "./column/DetailLog";
-import {GetDataDetail} from "../../../../api/home/MemberCenter/ConfigurationItem/TaskGrowthValue";
+import {LogColumns, SubheadingColumns} from "./column";
+import {GetInfoApi} from "../../../../api/home/MemberCenter/ConfigurationItem/TaskGrowthValue";
 import TableDataListUtil from "utils/TableDataListUtil";
 
 /**
@@ -25,7 +25,7 @@ const TaskGrowthValueDetail = (props) => {
      */
     const baseDetailComponentCallback = (_this) => {
         const {id} = props.match.params;
-        new GetDataDetail(id).then(rep => {
+        new GetInfoApi(id).then(rep => {
             const {growthTaskDetail, taskLogList} = rep.result;
             setDataInfo(growthTaskDetail);
             const {subTitleField1, subTitleField2, subTitleField3} = growthTaskDetail;

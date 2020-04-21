@@ -114,6 +114,7 @@ import SingleGoodsSet from "./ContentCenter/CtipContent/SingleGoodsSet"; //单�
 import PageSetCtip from './ContentCenter/CtipContent/PageSetCtip';//页面配置
 import PageSetEditCtip from './ContentCenter/CtipContent/PageSetCtip/PageSetEditCtip';//页面配置
 import CtipContentLog from './ContentCenter/CtipContent/CtipContentLog';//页面配置
+import BillLoad from './ContentCenter/CtipContent/BillLoad';//页面配置
 /************************************   数据中心   *******************************************/
 import GoodsAnalysis from "./DataCenter/GoodsData/GoodsAnalysis"; // 商品数据-->商品分析
 import ClassifyAnalysis from "./DataCenter/GoodsData/ClassifyAnalysis"; //商品数据-->分类分析
@@ -181,6 +182,7 @@ import WorkOrderDetail from "./CustomerServiceCenter/FromC/WorkOrder/WorkOrderDe
 /************************************   会员中心   *******************************************/
 import TaskGrowthValue from "./MemberCenter/ConfigurationItem/TaskGrowthValue"; /*** 成长值任务*/
 import TaskGrowthValueDetail from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrowthValueDetail"; /*** 成长值任务详情*/
+import TaskGrowthEdit from "./MemberCenter/ConfigurationItem/TaskGrowthValue/TaskGrouthEdit";
 
 /************************************   渠道管理   *******************************************/
 import ChannelManage from "./ChannelManage/Manage"; /*** 渠道管理*/
@@ -299,6 +301,7 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/singleGoods/:id" component={SingleGoodsSet}/>
         <Route exact path="/account/page_configuration" component={PageSetCtip}/>
         <Route exact path="/account/cPageSet/edit/:id?" component={PageSetEditCtip}/>
+        <Route exact path="/account/extract_page_message" component={BillLoad}/>
 
         {/* ----------------------------------  数据中心   ---------------------------------------*/}
         <Route exact path="/account/commodity_item_analysis" component={GoodsAnalysis} />
@@ -359,6 +362,7 @@ class HomeRoutes extends React.Component {
         {/* ----------------------------------  会员中心   ---------------------------------------*/}
         <Route exact path="/account/growth_task_configuration" component={TaskGrowthValue}/>
         <Route exact path="/account/growth_task_configuration/detail/:id?" component={TaskGrowthValueDetail}/>
+        <Route exact path="/account/taskGrowth/edit/:id?" component={TaskGrowthEdit}/>
 
         {/* ----------------------------------  渠道管理   ---------------------------------------*/}
         <Route exact path="/account/bridge_manager_control" component={ChannelManage}/>

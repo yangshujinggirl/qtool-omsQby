@@ -13,7 +13,7 @@ class SupplierManage extends React.Component {
       list:[],
       everyPage:15,
       currentPage: 0,
-      totalCount:0,
+      total:0,
       inputValues: {
         name:null,
         status:null,
@@ -32,9 +32,9 @@ class SupplierManage extends React.Component {
     let params = { everyPage, currentPage, ...inputValues };
     GetListApi(params)
     .then((res)=> {
-      let { resultList, totalCount, everyPage, currentPage } =res.result;
-      resultList&&resultList.map((el)=>el.key = el.id)
-      this.setState({ list:resultList, totalCount, everyPage, currentPage})
+      let { result, total, everyPage, currentPage } =res.result;
+      result&&result.map((el)=>el.key = el.id)
+      this.setState({ list:result, total, everyPage, currentPage})
     })
   };
   changePage = (currentPage) => {
@@ -79,7 +79,7 @@ class SupplierManage extends React.Component {
     OmsExportApi({...this.state.inputValues,type:1})
   }
   render() {
-    const { list, totalCount, everyPage, currentPage } = this.state;
+    const { list, total, everyPage, currentPage } = this.state;
 
     return (
         <div className="oms-common-index-pages-wrap">
@@ -95,7 +95,7 @@ class SupplierManage extends React.Component {
           />
           {list.length>0&&
             <Qpagination
-              data={{ totalCount, everyPage, currentPage }}
+              data={{ total, everyPage, currentPage }}
               onChange={this.changePage}
               onShowSizeChange={this.onShowSizeChange}/>}
       </div>

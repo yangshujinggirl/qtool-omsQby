@@ -6,8 +6,8 @@ import {
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { GetImgInfoApi, GetEditImgApi } from 'api/home/BaseGoods';
-import { Qmessage, QimageTextEdit, Qtable, Qbtn } from 'common';
-import QupLoadImgLimt from './components/QupLoadImgLimt';
+import { QupLoadImgLimt, Qmessage, QimageTextEdit, Qtable, Qbtn } from 'common';
+import { CommonUtils } from 'utils';
 
 import { ColumnsEditImgGeneral } from './columns';
 import './BaseGoodsEditImg.less';
@@ -43,7 +43,6 @@ function EditImg({...props}) {
   let [skuList, setSkuList] = useState([]);
   let [detailImg, setDetailImg] = useState([]);
   let spuCode = props.match.params.id;
-  let fileDomain="https://qtltestfiles.oss-cn-shanghai.aliyuncs.com/";
   const getInfo=()=> {
     setLoading(true)
     GetImgInfoApi({spuCode})
@@ -52,38 +51,20 @@ function EditImg({...props}) {
       spuImgList =spuImgList?spuImgList:[]
       productDetailImgList =productDetailImgList?productDetailImgList:[{key:0,type:2}]
       skuList =skuList?skuList:[];
+
       spuImgList = spuImgList.map((el,index)=> {
-        let item = {
-              uid: index,
-              name: 'image.png',
-              status: 'done',
-              path:el,
-              url:`${fileDomain}${el}`
-            }
-        return item;
+        el = CommonUtils.formatToFilelist(el,index);
+        el = el[0]?el[0]:[]
+        return el;
       })
       skuList = skuList.map((el,index)=> {
-        let item = {
-              uid: index,
-              name: 'image.png',
-              status: 'done',
-              path:el.skuImg,
-              url:`${fileDomain}${el.skuImg}`
-            }
-        el.skuImg = el.skuImg?[item]:[];
+        el.skuImg = CommonUtils.formatToFilelist(el.skuImg);
         el.key = index;
         return el;
       })
       productDetailImgList = productDetailImgList.map((el,index)=> {
         if(el.type==2) {
-          let item = {
-                uid: index,
-                name: 'image.png',
-                status: 'done',
-                path:el.content,
-                url:`${fileDomain}${el.content}`
-              }
-          el.content = el.content?[item]:[];
+          el.content = CommonUtils.formatToFilelist(el.content);
         }
         return el;
       })
@@ -97,26 +78,16 @@ function EditImg({...props}) {
   const goReturn=()=> {
     props.history.push('/account/items_list')
   }
-  const formatList=(arr)=> {
-    arr = arr.map((el,index) => {
-      if(el.status=='done') {
-        if(el.response&&el.response.httpCode=='200') {
-          return el.response.result;
-        } else {
-          return el.path;
-        }
-      }
-    })
-    return arr;
-  }
   const onSubmit=async()=> {
     try {
       const values = await form.validateFields();
-      let { spuImgList, skuImgList, productDetailImgList } =values;
-      spuImgList = formatList(spuImgList);
+      let { spuImgList, skuImgList, textImgField } =values;
+      spuImgList =spuImgList.map((el)=> {
+        el = CommonUtils.formatToUrlPath(el);
+        return el;
+      })
       skuImgList = skuImgList.map((el,index) => {
-        el.skuImg = formatList(el.skuImg);
-        el.skuImg = el.skuImg[0];
+        el.skuImg = CommonUtils.formatToUrlPath(el.skuImg);
         skuList.map((item,idx)=> {
           if(index==idx) {
             el = {skuCode:item.skuCode,...el }
@@ -124,19 +95,18 @@ function EditImg({...props}) {
         })
         return el;
       })
-      productDetailImgList = productDetailImgList.map((el,index) => {
+      textImgField = textImgField.map((el,index) => {
         detailImg.map((item,idx)=> {
           if(index==idx) {
             el.type = item.type;
             if(el.type==2) {
-              el.content = formatList(el.content);
-              el.content = el.content[0];
+              el.content = CommonUtils.formatToUrlPath(el.content);
             }
           }
         })
         return el;
       })
-      let params={ spuCode, spuImgList, skuImgList, productDetailImgList}
+      let params={ spuCode, spuImgList, skuImgList, productDetailImgList:textImgField}
       GetEditImgApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
@@ -153,22 +123,37 @@ function EditImg({...props}) {
   }
   const upDateDetailImg=(list)=> {
     setDetailImg(list);
-    form.setFieldsValue({productDetailImgList:list})
+    // form.setFieldsValue({productDetailImgList:list})
   }
   const upDateGoodsList=(list)=> {
     setFileList(list);
   }
+  //表单change事件
+  const onValuesChange=(changedValues, allValues)=> {
+    let currentKey = Object.keys(changedValues)[0];
+    let { textImgField } = changedValues;
 
-  useEffect(()=>{
-    getInfo();
-  },[spuCode])
+    if(currentKey=='textImgField') {
+      detailImg = detailImg.map((el,index) => {
+        textImgField.map((item,idx) => {
+          if(index == idx) {
+            el = {...el, ...item }
+          }
+        })
+        return el;
+      })
+      setDetailImg(detailImg)
+    }
+  }
+
+  useEffect(()=>{ getInfo() },[spuCode])
   useEffect(()=>{ form.setFieldsValue({spuImgList:fileList}) },[fileList])
   useEffect(()=>{ form.setFieldsValue({skuImgList:skuList}) },[skuList])
-  useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg]);
+
 
   return <Spin tip="加载中..." spinning={loading}>
     <div className="oms-common-addEdit-pages baseGeneralTrade-editImg-pages">
-      <Form {...formItemLayout} form={form}>
+      <Form {...formItemLayout} form={form} onValuesChange={onValuesChange}>
         <Form.Item label="spu编码">
           {totalData.spuCode}
         </Form.Item>
@@ -188,7 +173,11 @@ function EditImg({...props}) {
             columns={ColumnsEditImgGeneral(upDateSkuList)}/>
         </Form.Item>
         <Form.Item label="商品详情" {...formItemLayoutBig}>
-          <QimageTextEdit detailImg={detailImg} upDateList={upDateDetailImg}/>
+          <QimageTextEdit
+            form={form}
+            detailImg={detailImg}
+            upDateList={upDateDetailImg}
+            name="textImgField"/>
         </Form.Item>
         <div className="handle-operate-save-action">
           <Qbtn onClick={goReturn}>

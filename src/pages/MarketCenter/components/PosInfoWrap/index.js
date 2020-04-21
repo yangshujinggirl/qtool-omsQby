@@ -25,7 +25,10 @@ function withSubscription(WrapComponents,handleType ) {//
         let { result } =res;
         let { costApportions, ...val } =result;
         costApportions=costApportions?costApportions:[];
-        costApportions.map((el,index)=>el.key=index);
+        costApportions.map((el,index)=>{
+          el.key=index;
+          el.budget = val.budget;
+        });
         val={...val,costApportions}
         setTotalData(val);
       })
@@ -46,7 +49,7 @@ function withSubscription(WrapComponents,handleType ) {//
               <DetailBase info={totalData} formItemLayout={formItemLayout}/>
             </Panel>
             <Panel header="活动商品" key="2">
-              <DetailGoods info={dataList}/>
+              <DetailGoods info={dataList} promotionId={promotionId}/>
             </Panel>
             {WrapComponents({...props})}
         </Collapse>

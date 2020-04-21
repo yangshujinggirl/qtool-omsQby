@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 import {Link} from "react-router-dom";
-import {QbaseList, Qbtn, Qpagination, Qtable} from "common/index";
+import { Qmessage, QbaseList, Qbtn, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
 import {Columns} from "./column";
 import { GetListApi,GetCancelApi } from "api/home/OrderCenter/Border/ShopOrder";

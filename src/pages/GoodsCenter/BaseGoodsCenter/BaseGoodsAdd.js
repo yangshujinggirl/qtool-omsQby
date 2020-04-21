@@ -143,7 +143,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   const submit = async (saveType) => {
     try {
       const values = await form.validateFields();
-      let { country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      let { brandName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
       list = list&&list.map((el,index)=> {
         goodsList.map((item,idx) => {
           if(index == idx) {
@@ -158,6 +158,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       paramsVal = {
         ...paramsVal,
         country:totalData.countryCode,
+        brandId:totalData.brandId,
         categoryId:categoryId4,
         productNature,
         saveType,

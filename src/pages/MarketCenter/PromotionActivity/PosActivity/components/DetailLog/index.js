@@ -15,7 +15,7 @@ const columns = [
   },
   {
     title: '操作人',
-    dataIndex: 'operateUser',
+    dataIndex: 'operateUserId',
   },
 ];
 

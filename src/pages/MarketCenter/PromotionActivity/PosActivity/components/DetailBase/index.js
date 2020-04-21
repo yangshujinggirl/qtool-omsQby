@@ -1,4 +1,5 @@
 import { Row, Form, Col, Table } from "antd";
+import moment from 'moment';
 import { columnsCreatInfo } from "./columns";
 import { QbaseInfo } from 'common';
 import {
@@ -67,7 +68,7 @@ function DetailBase({ ...props }) {
     { key:'活动ID',value:info.promotionId },
     { key:'活动状态',value:info.statusStr },
     { key:'活动名称',value:info.name },
-    { key:'活动时间',value:`${info.beginTime}至 ${info.endTime}` },
+    { key:'活动时间',value:`${moment(info.beginTime).format('YYYY-MM-DD HH:mm')}至${moment(info.endTime).format('YYYY-MM-DD HH:mm')}` },
     { key:'活动目的',value:purposeVal },
     { key:'活动级别',value:levelVal },
     { key:'活动端',value:'门店POS' },
