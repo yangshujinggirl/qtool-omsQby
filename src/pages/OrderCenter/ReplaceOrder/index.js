@@ -126,7 +126,7 @@ class ReplaceOrder extends Component {
   };
   //批量发货模板
   batchFahuo = () => {
-    window.open("src/static/fahuo.xls");
+    window.open("/static/fahuo.xls");
   };
   //
   getPurchaseOrder = () => {

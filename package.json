@@ -90,14 +90,5 @@
     "menu-dark-bg": "#1A1D26",
     "layout-sider-background": "#1A1D26",
     "table-padding-horizontal": "10px"
-  },
-  "eslintConfig": {
-    "extends": "com.qtool.qby",
-    "plugins": [
-      "react-hooks"
-    ],
-    "rules": {
-      "react-hooks/rules-of-hooks": "error"
-    }
   }
 }

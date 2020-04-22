@@ -86,7 +86,7 @@ const subColumns = [
         />
       ) : (
         <img
-          src="/src/static/nogoods.png"
+          src="/static/nogoods.png"
           style={{ width: "80px", height: "80px" }}
         />
       ),
@@ -186,7 +186,7 @@ const editColumns = [
         />
       ) : (
         <img
-          src="/src/static/nogoods.png"
+          src="/static/nogoods.png"
           style={{ width: "80px", height: "80px" }}
         />
       ),
