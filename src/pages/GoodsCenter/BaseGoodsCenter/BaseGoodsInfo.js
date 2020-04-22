@@ -7,7 +7,12 @@ import { useState, useEffect } from 'react';
 import { Qtable, Qmessage, Qbtn } from 'common';
 import { ColumnsInfoGeneral,ColumnsInfoCross } from './columns';
 import { GetEditInfoApi } from 'api/home/BaseGoods';
-// import './BaseGoodsAdd.less';
+import {
+  sendTypeOptions,profitsOptions,
+  productTypeOptions, procurementTargetOptions, isBeforeSalesOptions,
+  isDirectSalesOptions, batchProcessingStatusOptions, batchProcessingTypeOptions
+} from './components/options';
+
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -44,8 +49,9 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
     setLoading(true)
     GetEditInfoApi({spuCode})
     .then((res) => {
-      let { list, attrList,...pdSpu} =res.result;
+      let { list, attrList, categoryDetail, ...pdSpu} =res.result;
       list&&list.map((el)=>el.key=el.id);
+      pdSpu = {...pdSpu,...categoryDetail}
       setTotalData(pdSpu)
       setGoodsList(list);
       setLoading(false)
@@ -62,7 +68,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       setGoodsList([])
     };
   },[spuCode])
-  console.log(goodsList)
+
   return (
     <Spin tip="加载中..." spinning={loading}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
@@ -86,28 +92,36 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
               totalData.productNature==1?
               <div>
                 <Form.Item label="商品类型">
-                  {totalData.productType}
+                  {
+                    productTypeOptions.map((el)=>(
+                      el.key == totalData.productType&&el.value
+                    ))
+                  }
                 </Form.Item>
                 <Form.Item label="采购主体">
-                  {totalData.procurementTarget}
+                  {
+                    procurementTargetOptions.map((el)=>(
+                      el.key == totalData.procurementTarget&&el.value
+                    ))
+                  }
                 </Form.Item>
               </div>
               :
               <Form.Item label="保税仓">
-                {totalData.bondedWarehouseId}
+                {totalData.bondedWarehouseName}
               </Form.Item>
             }
             <Form.Item label="一级类目">
-              {totalData.categoryId}
+              {totalData.categoryName}
             </Form.Item>
             <Form.Item label="二级类目">
-              {totalData.categoryId2}
+              {totalData.categoryName2}
             </Form.Item>
             <Form.Item label="三级类目">
-              {totalData.categoryId3}
+              {totalData.categoryName3}
             </Form.Item>
             <Form.Item label="四级类目">
-              {totalData.categoryId4}
+              {totalData.categoryName4}
             </Form.Item>
           </Card>
           {
@@ -115,13 +129,21 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
             <div>
               <Card title="销售信息">
                 <Form.Item label="联营分成类别">
-                  {totalData.profits}
+                  {
+                    profitsOptions.map((el)=>(
+                      el.key == totalData.profits&&el.value
+                    ))
+                  }
                 </Form.Item>
                 <Form.Item label="B端销售箱规">
                   {totalData.minBoxSpecification}
                 </Form.Item>
                 <Form.Item label="是否代发">
-                  {totalData.sendType}
+                  {
+                    sendTypeOptions.map((el)=>(
+                      el.key == totalData.sendType&&el.value
+                    ))
+                  }
                 </Form.Item>
                 {
                   totalData.sendType=='1'&&
@@ -135,13 +157,21 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                   {totalData.basicsBoxSpecification}
                 </Form.Item>
                 <Form.Item label="效期管理">
-                  {totalData.batchProcessingStatus}
+                  {
+                    batchProcessingStatusOptions.map((el)=>(
+                      el.key == totalData.batchProcessingStatus&&el.value
+                    ))
+                  }
                 </Form.Item>
                 {
                   totalData.batchProcessingStatus==2&&
                   <div>
                     <Form.Item label="效期类型">
-                      {totalData.batchProcessingType}
+                      {
+                        batchProcessingTypeOptions.map((el)=>(
+                          el.key == totalData.batchProcessingType&&el.value
+                        ))
+                      }
                     </Form.Item>
                     <Form.Item label="禁止入库天数">
                       {totalData.lotLimitInDay}

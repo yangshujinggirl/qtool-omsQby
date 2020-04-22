@@ -1,7 +1,7 @@
 import '@ant-design/compatible/assets/index.css';
-import { Input, Select, DatePicker, Row, Col, Form } from "antd";
+import { AutoComplete, Input, Select, DatePicker, Row, Col, Form } from "antd";
 import { BaseFilter, Qbtn } from "common";
-import { GetSupplierApi } from "api/home/BaseGoods";
+import { GetSupplierApi, GetBrandApi } from "api/home/BaseGoods";
 import moment from 'moment';
 
 const FormItem = Form.Item;
@@ -13,6 +13,7 @@ class Search extends BaseFilter {
     super(props);
     this.state = {
       supplierList: [],
+      brandList: []
     }
   }
   componentDidMount(){
@@ -26,8 +27,17 @@ class Search extends BaseFilter {
       });
     });
   }
+  //品牌搜索
+  handleSearch=(value)=> {
+    GetBrandApi({brandName:value})
+    .then((res)=> {
+      let { result } =res;
+      result=result?result:[];
+      this.setState({ brandList:result });
+    })
+  }
   render() {
-    const { supplierList } = this.state;
+    const { supplierList, brandList } = this.state;
     let  initialValues = this.props.inputValues;
     return (
       <div className="qtoolOms-condition">
@@ -64,7 +74,18 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="商品品牌"  name="brandId">
-                <Input placeholder="请输入商品品牌" autoComplete="off" />
+                <AutoComplete
+                 autoComplete="off"
+                 onSearch={this.handleSearch}
+                 placeholder="请选择商品品牌">
+                 {
+                   brandList.map((el)=> (
+                     <Option key={el.id} value={el.brandNameCn}>
+                        {el.brandNameCn}
+                     </Option>
+                   ))
+                 }
+                </AutoComplete>
               </FormItem>
             </Col>
             <Col {...this.colspans}>

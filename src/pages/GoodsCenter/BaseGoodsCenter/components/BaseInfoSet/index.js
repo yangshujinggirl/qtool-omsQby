@@ -1,7 +1,7 @@
 import { Input,Form,Select,Card,Checkbox,Radio,AutoComplete} from 'antd';
 import { useState, useEffect } from 'react';
 import { GetOriginApi, GetBrandApi, GetWarehouseApi, GetCategoryApi } from "api/home/BaseGoods";
-
+import { productTypeOptions, procurementTargetOptions } from '../options';
 let Option = Select.Option;
 
 const BaseInfoSet=({...props})=> {
@@ -190,14 +190,20 @@ const BaseInfoSet=({...props})=> {
         <div>
           <Form.Item label="商品类型" name="productType" rules={[{ required: true, message: '请选择商品类型' }]}>
             <Radio.Group>
-              <Radio value={1}>普通商品</Radio>
-              <Radio value={2}>赠品</Radio>
+              {
+                productTypeOptions.map((el)=>(
+                <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                ))
+              }
             </Radio.Group>
           </Form.Item>
           <Form.Item label="采购主体" name="procurementTarget" rules={[{ required: true, message: '请选择采购主体'}]}>
             <Select placeholder="请选择后台一级类目" disabled={isEdit}>
-              <Option value={1} key={1}>淮安</Option>
-              <Option value={2} key={2}>苏州蔻兔</Option>
+              {
+                procurementTargetOptions.map((el)=>(
+                <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                ))
+              }
             </Select>
           </Form.Item>
         </div>
@@ -240,7 +246,7 @@ const BaseInfoSet=({...props})=> {
         onChange={(select)=>handleChangeLevel(3,select)}>
         {
           list3.map((el) => (
-            <Option value={el.id} key={el.id}>{el.categoryName}</Option>
+            <Select.Option value={el.id} key={el.id}>{el.categoryName}</Select.Option>
           ))
         }
         </Select>
@@ -250,7 +256,7 @@ const BaseInfoSet=({...props})=> {
         disabled={isEdit||list4.length==0} placeholder="请选择四级类目">
         {
           list4.map((el) => (
-            <Option value={el.id} key={el.id}>{el.categoryName}</Option>
+            <Select.Option value={el.id} key={el.id}>{el.categoryName}</Select.Option>
           ))
         }
         </Select>

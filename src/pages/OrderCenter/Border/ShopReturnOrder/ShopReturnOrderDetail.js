@@ -38,7 +38,7 @@ const ShopReturnOrderDetail = (props) => {
                       {key:"申请数量", value:dataInfo.returnQty},
                       {key:"到货数量", value:dataInfo.itemCount},
                       {key:"到货商品金额", value:dataInfo.reArriveAmount},
-                      {key:"快递费用", value:dataInfo.itemCount},
+                      {key:"快递费用", value:dataInfo.rePostage},
                       {key:"实退金额", value:dataInfo.refundMoney},
                       {key:"订单创建人", value:dataInfo.createBy},
                       {key:"创建时间", value:moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")},

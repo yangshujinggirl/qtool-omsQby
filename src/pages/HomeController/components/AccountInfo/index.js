@@ -57,7 +57,7 @@ class AccountInfo extends Component {
         <span className="account-center">
           <Dropdown overlay={menu} trigger={['click']}>
             <a className="ant-dropdown-link" href="#">
-              Qtools | {userName} 1234<DownOutlined />
+              Qtools | {userName}<DownOutlined />
             </a>
           </Dropdown>
         </span>

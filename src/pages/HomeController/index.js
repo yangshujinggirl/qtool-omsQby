@@ -25,7 +25,11 @@ class HomeController extends React.Component {
     GetMenuApi()
     .then((res) => {
       let { result,fileDomain } = res;
-      Sessions.set('fileDomain',fileDomain)
+      result= result?result:[];
+      let openKeys=[result[1].id,result[1].subActions[1].id]
+      Sessions.set('fileDomain',fileDomain);
+      Sessions.set('openMenuKeys',JSON.stringify(openKeys));
+      Sessions.set('selectedMenuKeys',JSON.stringify(result[1].subActions[1].subActions[0].id));
       result = [...result];
       this.setState({ menuList:result});
     })

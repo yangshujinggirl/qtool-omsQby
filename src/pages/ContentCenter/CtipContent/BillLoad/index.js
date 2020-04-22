@@ -9,7 +9,7 @@ import {
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Qtable, Qbtn, Qmessage } from 'common';
-import { GetSaveApi, GetInfoApi } from 'api/home/SupplierManage';
+import { GetSaveApi, GetInfoApi } from 'api/contentCenter/BillLoad';
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -29,11 +29,13 @@ const BillLoad=({...props})=> {
   const [list,setList]=useState([])
 
   const getInfo=()=> {
-    // GetInfoApi()
-    // .then((res)=> {
-    //   // const { result } =res;
-    //   // setTotal(result)
-    // })
+    GetInfoApi()
+    .then((res)=> {
+      let { result } =res;
+      result=result?result:[];
+      result.map((el,index)=>el.key=index);
+      setList(result)
+    })
   }
   const onSubmit = async () => {
     try {
@@ -50,11 +52,10 @@ const BillLoad=({...props})=> {
         })
         return el;
       })
-      console.log(fieldList)
-      // GetSaveApi({configurelist:fieldList})
-      // .then((res)=> {
-      //   Qmessage.success('保存成功')
-      // })
+      GetSaveApi({configurelist:fieldList})
+      .then((res)=> {
+        Qmessage.success('保存成功')
+      })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }

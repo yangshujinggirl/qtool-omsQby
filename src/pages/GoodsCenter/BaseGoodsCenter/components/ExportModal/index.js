@@ -16,7 +16,16 @@ const ExportModal =({...props})=> {
     setIndeterminate(true)
   }
   const handleOk=()=> {
-    props.onOk(checkedList);
+    let itemObj={};
+    checkedList.map((el)=> {
+      plainOptions.map((item) => {
+        if(el == item.label) {
+          itemObj[el] = item.value;
+        }
+      })
+    })
+    itemObj = JSON.stringify(itemObj);
+    props.onOk(itemObj);
     resetPsge()
   }
   const handleCancel=()=> {
