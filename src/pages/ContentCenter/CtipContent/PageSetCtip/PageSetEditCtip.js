@@ -57,7 +57,7 @@ function EditImg({...props}) {
     })
   }
   const goReturn=()=> {
-    props.history.push('/account/items_list')
+    props.history.push('/account/page_configuration')
   }
   const onSubmit=async()=> {
     try {
@@ -95,8 +95,8 @@ function EditImg({...props}) {
   useEffect(()=>{ getInfo() },[pdConfigureId])
   useEffect(()=>{ form.setFieldsValue({shareFriendImg:imgList}) },[imgList])
   useEffect(()=>{ form.setFieldsValue({shareFriendCircleImg:imgCircleList}) },[imgCircleList])
-  // useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg]);
-  console.log(detailImg);
+  useEffect(()=>{ form.setFieldsValue(totalData) },[totalData]);
+
   return <Spin tip="加载中..." spinning={loading}>
     <div className="oms-common-addEdit-pages baseGeneralTrade-editImg-pages">
       <Form {...formItemLayout} form={form}>

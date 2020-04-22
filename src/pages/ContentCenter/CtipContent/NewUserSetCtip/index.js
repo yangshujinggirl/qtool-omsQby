@@ -39,7 +39,7 @@ const NewUserGift=({...props})=> {
       couponList=couponList?couponList:[]
       couponSourceList=couponSourceList?couponSourceList:[];
       couponList.map((el,index)=>el.key=index);
-      totalData.time=[moment(totalData.beginTime),moment(totalData.endTime)]
+      totalData.time=totalData.beginTime?[moment(totalData.beginTime),moment(totalData.endTime)]:[]
       setTotalData(totalData);
       setList(couponList);
       setCouponList(couponSourceList);
