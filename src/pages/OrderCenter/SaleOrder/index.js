@@ -29,7 +29,7 @@ class SaleOrder extends React.Component {
       type: "saleOrder/fetchList",
       payload: params
     });
-    this.setState({ inputValues: params });
+    
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -47,6 +47,7 @@ class SaleOrder extends React.Component {
     const {channelCode,..._values} = params;
     _values.channelCode = channelCode.join(',');
     this.searchData(_values);
+    this.setState({ inputValues: _values });
   };
   setVisible=()=>{
     this.setState({

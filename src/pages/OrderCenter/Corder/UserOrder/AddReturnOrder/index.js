@@ -83,7 +83,7 @@ const AddReturnOrder = (props) => {
             goBack();
           }
           if(res.result.code == 'E_9020'){
-            setGiftList(res.result);
+            setGiftList(res.result.needReturnGifts);
             setVisible(true);
           }else{
             message.error(res.result.windowMessage)

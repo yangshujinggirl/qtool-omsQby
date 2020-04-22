@@ -107,9 +107,9 @@ class NormalForm extends BaseFilter {
                 {...formItemLayout}
               >
                 <Select allowClear={true} placeholder="请选择订单状态">
-                  <Option value={1}>待发货</Option>
-                  <Option value={2}>已发货</Option>
-                  <Option value={3}>已取消</Option>
+                  <Option value={210}>待发货</Option>
+                  <Option value={230}>已发货</Option>
+                  <Option value={911}>已取消</Option>
                 </Select>
               </Form.Item>
             </Col>

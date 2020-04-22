@@ -50,7 +50,7 @@ class ShopKeepRecharge extends Component {
         });
       }
     });
-    this.setState({ inputValues: params });
+   
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -68,6 +68,7 @@ class ShopKeepRecharge extends Component {
       _values.voucherDateEnd = "";
     }
     this.searchData(_values);
+    this.setState({ inputValues: _values });
   };
   handleOperateClick = (record) => {
     this.setState({

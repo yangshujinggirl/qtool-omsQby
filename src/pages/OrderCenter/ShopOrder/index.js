@@ -49,7 +49,7 @@ class SupplierOrder extends React.Component {
     //   type:'baseGoods/fetchList',
     //   payload:params
     // })
-    this.setState({inputValues: values});
+    
   };
   changePage = (currentPage, everyPage) => {
     // this.props.dispatch({
@@ -73,6 +73,7 @@ class SupplierOrder extends React.Component {
   };
   onSubmit = params => {
     this.searchData(params);
+    this.setState({inputValues: params});
   };
   handleOperateClick = (record,type) => {
     // this.audit(record);

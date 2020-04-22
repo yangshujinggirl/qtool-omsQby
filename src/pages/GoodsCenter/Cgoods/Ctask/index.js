@@ -45,7 +45,7 @@ class Ctask extends Component {
         });
       }
     });
-    this.setState({ inputValues: params });
+   
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -55,6 +55,7 @@ class Ctask extends Component {
   //搜索查询
   onSubmit = params => {
     this.searchData(params);
+    this.setState({ inputValues: params });
   };
   //修改
   handleOperateClick = (record, type) => {

@@ -61,7 +61,6 @@ class ShopManage extends Component {
           loading: false,
         });
       });
-    this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -71,6 +70,7 @@ class ShopManage extends Component {
   //搜索查询
   onSubmit = (params) => {
     this.searchData(params);
+    this.setState({ inputValues: params });
   };
 
   render() {

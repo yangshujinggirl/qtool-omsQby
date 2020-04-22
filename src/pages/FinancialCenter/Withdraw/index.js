@@ -47,7 +47,7 @@ class Withdraw extends Component {
         });
       }
     });
-    this.setState({ inputValues: params });
+    
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -65,6 +65,7 @@ class Withdraw extends Component {
       _values.dateEnd = "";
     }
     this.searchData(_values);
+    this.setState({ inputValues: _values });
   };
   showModalClick = () => {
     this.setState({

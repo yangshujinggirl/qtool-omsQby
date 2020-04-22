@@ -32,6 +32,7 @@ const GiftModal = props => {
       closable={false}
       maskClosable={false}
     >
+      <div style={{padding:'10px',background:'lightyellow','marginBottom':'10px'}}>当前申请退款的商品金额导致订单中其他商品无法参加组合满赠活动，以下赠品需一并退回。</div>
       <Qtable columns={Columns} dataSource={dataSource} />
     </Modal>
   );

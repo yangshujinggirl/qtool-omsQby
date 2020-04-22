@@ -52,7 +52,7 @@ class NormalForm extends BaseFilter {
               <Form.Item name="isInvented" label="退款方式">
                 <Select allowClear={true} placeholder="请选择流程状态">
                   <Option value={1}>仅退款</Option>
-                  <Option value={2}>退货退款</Option>
+                  <Option value={0}>退货退款</Option>
                 </Select>
               </Form.Item>
             </Col>

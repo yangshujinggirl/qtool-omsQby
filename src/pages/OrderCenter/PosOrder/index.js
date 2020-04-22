@@ -36,7 +36,7 @@ class PosOrder extends React.Component {
       type: "posOrder/fetchList",
       payload: params
     });
-    this.setState({ inputValues: params });
+   
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -54,6 +54,7 @@ class PosOrder extends React.Component {
     const {channelCode,..._values} = params;
     _values.channelCode = channelCode.join(',');
     this.searchData(_values);
+    this.setState({ inputValues: _values });
   };
   setVisible=()=>{
     this.setState({
