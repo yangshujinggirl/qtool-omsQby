@@ -17,7 +17,7 @@ class NormalForm extends BaseFilter {
                 label="门店名称"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入门店名称" autoComplete="off" />
+                <Input placeholder="请输入门店名称" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -57,12 +57,12 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspans} name="carryCashNo" >
               <Form.Item label="提现单号" {...this.formItemLayout}>
-                <Input placeholder="请输入提现单号" autoComplete="off" />
+                <Input placeholder="请输入提现单号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item label="提现时间" name="time" {...this.formItemLayout}>
-                <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                <RangePicker allowClear={true} showTime format="YYYY-MM-DD HH:mm:ss" />
               </Form.Item>
             </Col>
             <Col span={24}>

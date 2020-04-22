@@ -37,7 +37,7 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader,isInt
           return {result,httpCode,fileDomain};
       }, error => {
           // window.location.href= '/';
-          sessionStorage.clear();
+          // sessionStorage.clear();                   暂时修改
           Qmessage.error('服务异常');
           setTimeout(()=> {
               // window.location.href= '/';
@@ -53,9 +53,11 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader,isInt
 const omsAjax = new request({baseURL:'/qtoolsOms'});
 const erpAjax = new request({baseURL:'/qtoolsErp'});
 const appAjax = new request({baseURL:'/qtoolsApp'});
+const dataAjax = new request({baseURL:'/qtools-report'});
 const omsEmptyInterceptorsAjax = new request({baseURL:'/qtoolsOms',isInterceptors:false});
 const erpEmptyInterceptorsAjax = new request({baseURL:'/qtoolsErp',isInterceptors:false});
 const appEmptyInterceptorsAjax = new request({baseURL:'/qtoolsApp',isInterceptors:false});
+const dataEmptyInterceptorsAjax = new request({baseURL:'/qtools-report',isInterceptors:false});
 export {
-  omsAjax,erpAjax,appAjax,omsEmptyInterceptorsAjax,erpEmptyInterceptorsAjax,appEmptyInterceptorsAjax
+  omsAjax,erpAjax,appAjax,dataAjax,omsEmptyInterceptorsAjax,erpEmptyInterceptorsAjax,appEmptyInterceptorsAjax,dataEmptyInterceptorsAjax
 }

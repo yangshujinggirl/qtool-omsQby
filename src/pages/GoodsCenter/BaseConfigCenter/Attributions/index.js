@@ -33,7 +33,6 @@ class Attributions extends React.Component {
       type: "attribution/fetchList",
       payload: params
     });
-    this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -45,6 +44,7 @@ class Attributions extends React.Component {
   //搜索查询
   onSubmit = params => {
     this.searchData(params);
+    this.setState({ inputValues: params });
   };
   //新增属性
   addAtr = () => {

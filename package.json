@@ -27,6 +27,7 @@
     "autoprefixer": "^9.7.5",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^6.0.3",
     "css-loader": "^3.4.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -89,14 +90,5 @@
     "menu-dark-bg": "#1A1D26",
     "layout-sider-background": "#1A1D26",
     "table-padding-horizontal": "10px"
-  },
-  "eslintConfig": {
-    "extends": "com.qtool.qby",
-    "plugins": [
-      "react-hooks"
-    ],
-    "rules": {
-      "react-hooks/rules-of-hooks": "error"
-    }
   }
 }

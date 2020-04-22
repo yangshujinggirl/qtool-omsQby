@@ -5,7 +5,7 @@ import FilterForm from "./components/FilterForm";
 import "./index.less";
 import Columns from "./column";
 import {
-  ErpExportApi,
+  OmsExportApi,
   EXPORT_TYPE_PURCHASE_ORDER_OUT,
   getExportData,
 } from "../../../../api/Export";
@@ -45,7 +45,9 @@ const PurchaseOutOrderList = QbaseList(
       total,
       auditModalVisible,
       stockingReCode,
+      searchCriteriaList,
     } = _this.state;
+    const {stime,etime,...inputValues} = searchCriteriaList;
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm
@@ -59,12 +61,12 @@ const PurchaseOutOrderList = QbaseList(
           <Qbtn
             size="free"
             onClick={() =>
-              new ErpExportApi(
+              new OmsExportApi(
                 getExportData(
-                  this.state.searchCriteriaList.stime,
-                  this.state.searchCriteriaList.etime,
+                  stime,
+                  etime,
                   EXPORT_TYPE_PURCHASE_ORDER_OUT,
-                  this.state.searchCriteriaList
+                  inputValues
                 )
               )
             }

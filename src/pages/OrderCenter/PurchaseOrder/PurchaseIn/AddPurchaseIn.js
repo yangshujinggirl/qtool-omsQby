@@ -169,8 +169,8 @@ const AddPurchaseIn = props => {
    * @param {*} record
    */
   const getPrice = (e, record) => {
-    if (e.target.value) {
-      searchPriceApi({ skuCode: e.target.value }).then(res => {
+    if (e.target.value.trim()) {
+      searchPriceApi({ skuCode: (e.target.value).trim() }).then(res => {
         if (res.httpCode == 200) {
           const { purchasePrice, ...reset } = res.result;
           const newData = [...goodList];

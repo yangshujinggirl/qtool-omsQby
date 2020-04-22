@@ -3,6 +3,7 @@ import { Form, Card } from "antd";
 import { Qtable, QenlargeImg } from "common";
 import { getInfosApi } from "api/home/FinancialCenter/Recharge";
 import Columns from "./columns";
+import {TableItemShowTime} from "common/QdisabledDateTime";
 
 const RechargeInfo = (props) => {
   const { id } = props.match.params;
@@ -28,7 +29,7 @@ const RechargeInfo = (props) => {
         <Form.Item label="充值编码">{infos.carryCashNo}</Form.Item>
         <Form.Item label="审核状态">{infos.statusStr}</Form.Item>
         <Form.Item label="门店名称">{infos.statusStr}</Form.Item>
-        <Form.Item label="充值时间">{infos.createTime}</Form.Item>
+        <Form.Item label="充值时间"><TableItemShowTime showTime={infos.createTime}/></Form.Item>
       </Card>
       <Card>
         <Form.Item label="充值金额">{infos.carryCashNo}</Form.Item>

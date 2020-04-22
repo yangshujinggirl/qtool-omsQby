@@ -100,11 +100,11 @@ const GoodEditForm = function(props) {
   const downLoadTemp = () => {
     // const taskType = props.location.search.substr(1).split("=")[1];
     // if (taskType == 1 || taskType == 2) {
-    //   window.open("src/static/goods_tips.xlsx");
+    //   window.open("/static/goods_tips.xlsx");
     // } else {
-    //   window.open("src/static/goods_label.xlsx");
+    //   window.open("/static/goods_label.xlsx");
     // }
-    window.open("src/static/batchTask.xlsx");
+    window.open("/static/batchTask.xlsx");
   };
   const goback = () => {
     props.history.push("/account/c_batch_task");

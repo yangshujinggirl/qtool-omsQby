@@ -78,7 +78,7 @@ const AddTimer = props => {
    * 下载模板
    */
   const downLoadTemp = () => {
-    window.open("src/static/timing.xlsx");
+    window.open("/static/timing.xlsx");
   };
   
   /**

@@ -52,7 +52,7 @@ class Brand extends React.Component {
           loading: false
         });
       });
-    this.setState({ inputValues: params });
+   
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -62,6 +62,7 @@ class Brand extends React.Component {
   //搜索查询
   onSubmit = params => {
     this.searchData(params);
+    this.setState({ inputValues: params });
   };
   render() {
     const { brandLists, everyPage, currentPage, total, loading } = this.state;

@@ -24,7 +24,7 @@ const Columns = [
   },
   {
     title: "退款金额",
-    dataIndex: "refundMoney"
+    dataIndex: "totalPrice"
   },
   {
     title: "创建时间",

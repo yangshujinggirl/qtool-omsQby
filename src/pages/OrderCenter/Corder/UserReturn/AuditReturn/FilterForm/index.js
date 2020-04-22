@@ -18,17 +18,17 @@ class NormalForm extends BaseFilter {
           <Row>
             <Col {...this.colspan}>
               <Form.Item name="reOrderNo" label="退单号">
-                <Input placeholder="请输入退单号" autoComplete="off" />
+                <Input placeholder="请输入退单号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="channelOrderNo" label="用户订单号">
-                <Input placeholder="请输入用户订单号" autoComplete="off" />
+                <Input placeholder="请输入用户订单号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="phone" label="用户手机号">
-                <Input placeholder="请输入用户手机号" autoComplete="off" />
+                <Input placeholder="请输入用户手机号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
@@ -53,7 +53,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspan}>
               <Form.Item label="创建时间" name="rangePicker">
-                <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                <RangePicker allowClear={true} showTime format="YYYY-MM-DD HH:mm:ss" />
               </Form.Item>
             </Col>
           </Row>

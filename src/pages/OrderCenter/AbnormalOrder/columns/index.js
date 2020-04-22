@@ -18,7 +18,7 @@ const Columns = [
   },
   {
     title: "异常原因",
-    dataIndex: "abnormalCause"
+    dataIndex: "orderStatusStr"
   },
   {
     title: "商品数量",

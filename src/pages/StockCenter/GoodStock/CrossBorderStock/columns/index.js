@@ -22,8 +22,8 @@ const Columns = [
     key: "4"
   },
   {
-    title: "商品类型",
-    dataIndex: "phone",
+    title: "保税仓",
+    dataIndex: "warehouse_name",
     key: "5"
   },
   {
@@ -32,15 +32,10 @@ const Columns = [
     key: "6"
   },
   {
-    title: "ERP库存数",
-    dataIndex: "actualStock",
+    title: "可用库存",
+    dataIndex: "availableStock",
     key: "7"
   },
-  {
-    title: "可售库存数",
-    dataIndex: "availableStock",
-    key: "8"
-  }
 ];
 
 export default Columns;

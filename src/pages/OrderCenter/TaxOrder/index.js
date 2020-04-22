@@ -32,7 +32,7 @@ class TaxOrder extends React.Component {
       type: "taxOrder/fetchList",
       payload: params
     });
-    this.setState({ inputValues: params });
+    
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -48,6 +48,7 @@ class TaxOrder extends React.Component {
   //搜索查询
   onSubmit = params => {
     this.searchData(params);
+    this.setState({ inputValues: params });
   };
   setVisible=()=>{
     this.setState({

@@ -3,6 +3,14 @@ import {Card} from 'antd';
 import {CaretDownOutlined, CaretUpOutlined} from '@ant-design/icons';
 import './index.css'
 
+/**
+ * props.data{
+ *  title:'',
+ *  value:'',
+ *  rate:'',
+ *  type:0下降1上升
+ * }
+ */
 export default class Qcards extends React.Component {
     render() {
         return (

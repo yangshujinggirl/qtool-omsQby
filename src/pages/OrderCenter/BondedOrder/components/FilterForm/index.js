@@ -50,7 +50,7 @@ class NormalForm extends BaseFilter {
                 label="订单号"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入订单号" autoComplete="off" />
+                <Input placeholder="请输入订单号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -59,7 +59,7 @@ class NormalForm extends BaseFilter {
                 label="渠道订单号"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入渠道订单号" autoComplete="off" />
+                <Input placeholder="请输入渠道订单号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -68,12 +68,12 @@ class NormalForm extends BaseFilter {
                 label="第三方商品编码"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入第三方商品编码" autoComplete="off" />
+                <Input placeholder="请输入第三方商品编码" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="skuCode" label="商品编码" {...formItemLayout}>
-                <Input placeholder="请输入商品编码" autoComplete="off" />
+                <Input placeholder="请输入商品编码" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -82,22 +82,22 @@ class NormalForm extends BaseFilter {
                 label="商品名称"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入商品名称" autoComplete="off" />
+                <Input placeholder="请输入商品名称" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="consignee" label="收货人" {...formItemLayout}>
-                <Input placeholder="请输入收货人" autoComplete="off" />
+                <Input placeholder="请输入收货人" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="phone" label="联系电话" {...formItemLayout}>
-                <Input placeholder="请输入联系电话" autoComplete="off" />
+                <Input placeholder="请输入联系电话" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="idNumber" label="身份证号" {...formItemLayout}>
-                <Input placeholder="请输入身份证号" autoComplete="off" />
+                <Input placeholder="请输入身份证号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -107,9 +107,9 @@ class NormalForm extends BaseFilter {
                 {...formItemLayout}
               >
                 <Select allowClear={true} placeholder="请选择订单状态">
-                  <Option value={1}>待发货</Option>
-                  <Option value={2}>已发货</Option>
-                  <Option value={3}>已取消</Option>
+                  <Option value={210}>待发货</Option>
+                  <Option value={230}>已发货</Option>
+                  <Option value={911}>已取消</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -119,7 +119,7 @@ class NormalForm extends BaseFilter {
                 name="warehouseCode"
                 {...formItemLayout}
               >
-                <Select placeholder="请选择收货仓库">
+                <Select allowClear={true} placeholder="请选择收货仓库">
                   {storeList.length > 0 &&
                     storeList.map((item) => (
                       <Select.Option value={item.warehouseCode} key={item.id}>
@@ -131,7 +131,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <Form.Item label="生成时间" name="time" {...formItemLayout}>
-                <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                <RangePicker allowClear={true} showTime format="YYYY-MM-DD HH:mm:ss" />
               </Form.Item>
             </Col>
             <Col span={24}>

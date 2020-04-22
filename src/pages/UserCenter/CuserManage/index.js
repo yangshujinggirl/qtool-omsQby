@@ -28,16 +28,7 @@ class CuserManage extends Component {
   };
   //搜索列表
   searchData = values => {
-    const {time,..._values} = values;
-    if (time && time[0]) {
-      _values.createTimeST = moment(time[0]).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-      _values.createTimeET = moment(time[1]).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-    }
-    const params = { ...this.state.inputValues, ..._values };
+    const params = { ...this.state.inputValues, ...values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;
@@ -52,7 +43,6 @@ class CuserManage extends Component {
         });
       }
     });
-    this.setState({ inputValues: params });
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -70,6 +60,7 @@ class CuserManage extends Component {
       _values.dateEnd = ''
     };
     this.searchData(_values);
+    this.setState({ inputValues: _values });
   };
   render() {
     const {

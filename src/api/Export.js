@@ -1,4 +1,4 @@
-import {appEmptyInterceptorsAjax, erpEmptyInterceptorsAjax, omsEmptyInterceptorsAjax} from "./Req";
+import {appEmptyInterceptorsAjax, erpEmptyInterceptorsAjax, omsEmptyInterceptorsAjax,dataEmptyInterceptorsAjax} from "./Req";
 import {Qmessage} from "common/index";
 
 /**
@@ -29,6 +29,15 @@ export function ErpExportApi(data, url) {
  */
 export function AppExportApi(data, url) {
     new ExportApi(data, url, appEmptyInterceptorsAjax);
+}
+/**
+ * 数据中心相关导出数据调用
+ * @param data 请求数据体
+ * @param url 请求url，可为空，为空时使用通用接口
+ * @constructor
+ */
+export function DataExportApi(data, url) {
+    new ExportApi(data, url, dataEmptyInterceptorsAjax);
 }
 
 /**

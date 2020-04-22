@@ -38,15 +38,15 @@ const Columns = [
   },
   {
     title: "原订单支付金额",
-    dataIndex: "totalPrice",
+    dataIndex: "orderTotal",
   },
   {
     title: "退款商品数",
-    dataIndex: "reNum",
+    dataIndex: "returnQty",
   },
   {
     title: "退款总金额",
-    dataIndex: "refundMoney",
+    dataIndex: "totalPrice",
   },
   {
     title: "订单类型",
