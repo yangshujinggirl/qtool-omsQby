@@ -30,7 +30,7 @@ export default class SearchForm extends BaseFilter {
                 name="stockingCode"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入采购单号" autoComplete="off" />
+                <Input placeholder="请输入采购单号" autoComplete="off"  allowClear={true} />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
@@ -39,7 +39,7 @@ export default class SearchForm extends BaseFilter {
                 label="供应商名称"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入供应商名称" autoComplete="off" />
+                <Input placeholder="请输入供应商名称" autoComplete="off"  allowClear={true} />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
@@ -48,7 +48,7 @@ export default class SearchForm extends BaseFilter {
                 label="商品编码"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入商品编码" autoComplete="off" />
+                <Input placeholder="请输入商品编码" autoComplete="off"  allowClear={true} />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
@@ -57,7 +57,7 @@ export default class SearchForm extends BaseFilter {
                 name="itemName"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入商品名称" autoComplete="off" />
+                <Input placeholder="请输入商品名称" autoComplete="off"  allowClear={true} />
               </FormItem>
             </Col>
             <Col {...this.colspans}>

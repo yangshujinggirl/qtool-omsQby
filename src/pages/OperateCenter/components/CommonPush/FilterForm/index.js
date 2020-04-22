@@ -18,12 +18,12 @@ class NormalForm extends BaseFilter {
           <Row>
             <Col {...this.colspan}>
               <Form.Item name="title" label="推送标题">
-                <Input placeholder="推送标题" autoComplete="off" />
+                <Input placeholder="推送标题" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="creater" label="创建人">
-                <Input placeholder="请输入创建人" autoComplete="off" />
+                <Input placeholder="请输入创建人" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>

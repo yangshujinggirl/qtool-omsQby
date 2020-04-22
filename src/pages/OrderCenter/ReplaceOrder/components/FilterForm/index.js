@@ -14,7 +14,7 @@ class NormalForm extends BaseFilter {
           <Row>
             <Col {...this.colspan}>
               <Form.Item name="orderNo" label="订单号" {...this.formItemLayout}>
-                <Input placeholder="请输入订单号" autoComplete="off" />
+                <Input placeholder="请输入订单号" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
@@ -23,7 +23,7 @@ class NormalForm extends BaseFilter {
                 label="门店名称"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入门店名称" autoComplete="off" />
+                <Input placeholder="请输入门店名称" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
@@ -32,7 +32,7 @@ class NormalForm extends BaseFilter {
                 label="SKU编码"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入SKU编码" autoComplete="off" />
+                <Input placeholder="请输入SKU编码" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
@@ -41,7 +41,7 @@ class NormalForm extends BaseFilter {
                 label="商品名称"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入商品名称" autoComplete="off" />
+                <Input placeholder="请输入商品名称" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
@@ -50,12 +50,12 @@ class NormalForm extends BaseFilter {
                 label="收货人"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入收货人" autoComplete="off" />
+                <Input placeholder="请输入收货人" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="phone" label="联系电话" {...this.formItemLayout}>
-                <Input placeholder="请输入联系电话" autoComplete="off" />
+                <Input placeholder="请输入联系电话" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
 
@@ -77,7 +77,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspan}>
               <Form.Item label="生成时间" name="time" {...this.formItemLayout2}>
-                <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                <RangePicker allowClear={true} showTime format="YYYY-MM-DD HH:mm:ss" />
               </Form.Item>
             </Col>
             <Col span={24}>

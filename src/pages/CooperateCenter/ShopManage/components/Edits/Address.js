@@ -40,7 +40,7 @@ const Address = (props) => {
         label="门店地址"
         rules={[{ required: true, message: "请输入门店地址" }]}
       >
-        <Input placeholder="请输入门店地址" autoComplete="off" />
+        <Input placeholder="请输入门店地址" autoComplete="off"  allowClear={true} />
       </Form.Item>
       <Form.Item
         name="warp"
@@ -50,7 +50,7 @@ const Address = (props) => {
           { validator: validatorLng },
         ]}
       >
-        <Input placeholder="请输入门店经度" autoComplete="off" />
+        <Input placeholder="请输入门店经度" autoComplete="off"  allowClear={true} />
       </Form.Item>
       <Form.Item
         name="weft"
@@ -60,7 +60,7 @@ const Address = (props) => {
           { validator: validatorLat },
         ]}
       >
-        <Input placeholder="请输入门店纬度" autoComplete="off" />
+        <Input placeholder="请输入门店纬度" autoComplete="off"  allowClear={true} />
       </Form.Item>
       <Form.Item
         name="shAreacode"
@@ -74,7 +74,7 @@ const Address = (props) => {
         label="收货地址"
         rules={[{ required: true, message: "请输入收货地址" }]}
       >
-        <Input placeholder="请输入收货地址" />
+        <Input placeholder="请输入收货地址" autoComplete="off" allowClear={true}/>
       </Form.Item>
     </React.Fragment>
   );

@@ -17,12 +17,12 @@ class NormalForm extends BaseFilter {
           <Row>
             <Col {...this.colspan}>
               <Form.Item name="title" label="问答标题">
-                <Input placeholder="请输入问答标题" autoComplete="off" />
+                <Input placeholder="请输入问答标题" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="userName" label="最后修改人">
-                <Input placeholder="请输入最后修改人" autoComplete="off" />
+                <Input placeholder="请输入最后修改人" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>

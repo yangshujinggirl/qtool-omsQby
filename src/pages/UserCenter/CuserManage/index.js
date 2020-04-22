@@ -28,16 +28,7 @@ class CuserManage extends Component {
   };
   //搜索列表
   searchData = values => {
-    const {time,..._values} = values;
-    if (time && time[0]) {
-      _values.createTimeST = moment(time[0]).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-      _values.createTimeET = moment(time[1]).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-    }
-    const params = { ...this.state.inputValues, ..._values };
+    const params = { ...this.state.inputValues, ...values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;

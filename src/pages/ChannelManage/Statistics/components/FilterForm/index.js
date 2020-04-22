@@ -47,7 +47,7 @@ class NormalForm extends BaseFilter {
                 label="一级渠道名称"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入一级渠道名称" autoComplete="off" />
+                <Input placeholder="请输入一级渠道名称" autoComplete="off"  allowClear={true}/>
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -56,7 +56,7 @@ class NormalForm extends BaseFilter {
                 label="一级渠道ID"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入一级渠道ID" autoComplete="off" />
+                <Input placeholder="请输入一级渠道ID" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             {type == 1 && (
@@ -100,7 +100,7 @@ class NormalForm extends BaseFilter {
             )}
             <Col {...this.colspans}>
               <Form.Item label="统计时间" name="time" {...this.formItemLayout}>
-                <RangePicker format="YYYY-MM-DD" disabledDate={disabledDate} />
+                <RangePicker format="YYYY-MM-DD" disabledDate={disabledDate} allowClear={true} />
               </Form.Item>
             </Col>
             <Col span={24}>

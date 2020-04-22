@@ -12,12 +12,12 @@ class NormalForm extends BaseFilter {
           <Row gutter={24}>
             <Col {...this.colspans}>
               <Form.Item name="channelCode" label="门店编码">
-                <Input placeholder="请输入门店编码" autoComplete="off" />
+                <Input placeholder="请输入门店编码" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="channelName" label="门店名称">
-                <Input placeholder="请输入门店名称" autoComplete="off" />
+                <Input placeholder="请输入门店名称" autoComplete="off"  allowClear={true} />
               </Form.Item>
             </Col>
             <Col span={24}>
