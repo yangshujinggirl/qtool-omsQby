@@ -109,7 +109,7 @@ const Editable = props => {
     }
   ];
   const downLoadTemp = () => {
-    window.open("src/static/purchase_in.xlsx");
+    window.open("/static/purchase_in.xlsx");
   };
   return (
     <div>

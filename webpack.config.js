@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const theme = require('./package.json').theme;
 
@@ -83,6 +84,9 @@ module.exports = {
   },
   plugins:[
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([
+      {from :'./src/static',to:path.resolve(__dirname,'dist','static')}
+    ]),
     new HtmlWebpackPlugin({
       title: 'QOMS',
       template:'./src/index.html',
