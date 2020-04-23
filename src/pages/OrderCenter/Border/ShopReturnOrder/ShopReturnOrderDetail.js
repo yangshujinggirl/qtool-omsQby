@@ -35,7 +35,7 @@ const ShopReturnOrderDetail = (props) => {
                       {key:"收货仓库", value:dataInfo.warehouseName},
                       {key:"发货快递", value:dataInfo.courierCompany},
                       {key:"快递单号", value:dataInfo.expressNo},
-                      {key:"申请数量", value:dataInfo.returnQty},
+                      {key:"申请数量", value:dataInfo.reNum},
                       {key:"到货数量", value:dataInfo.itemCount},
                       {key:"到货商品金额", value:dataInfo.reArriveAmount},
                       {key:"快递费用", value:dataInfo.rePostage},
