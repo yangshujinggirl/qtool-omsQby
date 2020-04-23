@@ -92,9 +92,9 @@ class Search extends BaseFilter {
               <FormItem label="保税仓" name="bondedWarehouseId">
                 <Select placeholder="请选择" allowClear={true} onChange={this.onChangeCategoryCode}>
                   {supplierList.map(item => (
-                    <Option value={item.id} key={item.id}>
+                    <Select.Option value={item.id} key={item.id}>
                       {item.name}
-                    </Option>
+                    </Select.Option>
                   ))}
                 </Select>
               </FormItem>

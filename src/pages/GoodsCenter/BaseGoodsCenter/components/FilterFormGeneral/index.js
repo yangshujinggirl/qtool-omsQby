@@ -100,9 +100,9 @@ class Search extends BaseFilter {
               <FormItem label="一级类目" name="categoryCode1">
                 <Select placeholder="请选择" allowClear={true} onChange={this.onChangeCategoryCode}>
                   {catagoryList.map(item => (
-                    <Option value={item.categoryCode} key={item.categoryCode}>
+                    <Select.Option value={item.categoryCode} key={item.categoryCode}>
                       {item.categoryName}
-                    </Option>
+                    </Select.Option>
                   ))}
                 </Select>
               </FormItem>
@@ -114,9 +114,9 @@ class Search extends BaseFilter {
                   disabled={!catagoryList2.length > 0}
                   allowClear={true}>
                   {catagoryList2.map(item => (
-                    <Option value={item.categoryCode} key={item.categoryCode}>
+                    <Select.Option value={item.categoryCode} key={item.categoryCode}>
                       {item.categoryName}
-                    </Option>
+                    </Select.Option>
                   ))}
                 </Select>
               </FormItem>
@@ -124,8 +124,8 @@ class Search extends BaseFilter {
             <Col {...this.colspans}>
               <FormItem label="商品类型" name="productType">
                 <Select placeholder="请选择" allowClear={true}>
-                  <Option value={1}>普通商品</Option>
-                  <Option value={2}>赠品</Option>
+                  <Select.Option value={1}>普通商品</Select.Option>
+                  <Select.Option value={2}>赠品</Select.Option>
                 </Select>
               </FormItem>
             </Col>
