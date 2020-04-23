@@ -12,14 +12,18 @@ const { SubMenu } = Menu;
 class SiderBarController extends React.Component {
   state = {
     collapsed: 'false',
+    selectKeys:this.props.selectKeys,
     defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')),
     defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys')),
   };
   static getDerivedStateFromProps(props, state) {
-    return {
-      defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')),
-      defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys'))
+    if(props.selectKeys!==state.selectKeys) {
+      return {
+        defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')),
+        defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys'))
+      }
     }
+    return null;
   }
 
   toggleCollapsed = () => {
@@ -36,7 +40,7 @@ class SiderBarController extends React.Component {
       Sessions.set('openMenuKeys',JSON.stringify(openKeys));
       this.setState({ defaultOpenKeys:openKeys,defaultSelectedKeys:[] });
     } else {
-      Sessions.set('openMenuKeys',JSON.stringify(latestOpenKey));
+      Sessions.set('openMenuKeys',JSON.stringify([latestOpenKey]));
       this.setState({
         defaultSelectedKeys:[],
         defaultOpenKeys: latestOpenKey ? [latestOpenKey] : [],
@@ -50,7 +54,7 @@ class SiderBarController extends React.Component {
   render(){
     const { menuList } = this.props;
     const { defaultSelectedKeys, defaultOpenKeys } = this.state;
-    console.log(defaultSelectedKeys,defaultOpenKeys)
+
     return (
       <div className="oms-sider-controller">
         <div className="slider-logo">

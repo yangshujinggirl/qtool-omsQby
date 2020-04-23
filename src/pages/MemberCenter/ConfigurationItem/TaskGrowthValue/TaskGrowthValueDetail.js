@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QenlargeImg, Qtable} from "common/index";
 import {Card} from "antd";
 import {LogColumns, SubheadingColumns} from "./column";
 import {GetInfoApi} from "../../../../api/home/MemberCenter/ConfigurationItem/TaskGrowthValue";

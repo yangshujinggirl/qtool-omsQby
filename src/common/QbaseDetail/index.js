@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Spin} from "antd";
-import './index.css'
+import './index.less'
 
 /**
  * 功能作用：基础详情页面,使用方式参见客服中心详情，当前主要为了统一加载中
@@ -54,4 +54,3 @@ export default class QbaseDetail extends React.Component {
         </Spin>
     }
 }
-

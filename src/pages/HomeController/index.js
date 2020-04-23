@@ -16,10 +16,10 @@ const { Header, Footer, Sider, Content } = Layout;
 
 class HomeController extends React.Component {
   state = {
-    menuList:[]
+    menuList:[],
+    selectKeys:''
   };
   componentDidMount(){
-    console.log(React)
     this.getMenuList()
   }
   getMenuList() {
@@ -27,23 +27,24 @@ class HomeController extends React.Component {
     .then((res) => {
       let { result,fileDomain } = res;
       result= result?result:[];
-      let openKeys=[result[1].id,result[1].subActions[1].id]
+      let openKeys=[result[1].id,result[1].subActions[1].id];
+      let selectedKeys = result[1].subActions[1].subActions[0].id;
       Sessions.set('fileDomain',fileDomain);
       Sessions.set('openMenuKeys',JSON.stringify(openKeys));
       Sessions.set('selectedMenuKeys',JSON.stringify(result[1].subActions[1].subActions[0].id));
       result = [...result];
-      this.setState({ menuList:result});
+      this.setState({ menuList:result, selectKeys: selectedKeys});
     })
   }
   render() {
-    const { menuList } =this.state;
+    const { menuList, selectKeys } =this.state;
     return(
       <div className="oms-pages-wrap">
         <Layout>
           <Sider
             width="220"
             className="oms-slider-wrap">
-            <SiderBarController menuList={menuList}/>
+            <SiderBarController menuList={menuList} selectKeys={selectKeys}/>
           </Sider>
           <Layout className="oms-part-r">
             <Header className="oms-header-wrap">

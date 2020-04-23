@@ -5,7 +5,7 @@ import {
     GetUserFeedbackDetail,
     EditUserFeedbackData
 } from "../../../../api/home/CustomerServiceCenter/FromC";
-import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
     FEEDBACK_STATUS_END,
     FEEDBACK_STATUS_IN_HAND,

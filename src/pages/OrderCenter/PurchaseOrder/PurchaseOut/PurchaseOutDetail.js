@@ -5,7 +5,7 @@ import {
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseOut";
 import {Card} from "antd";
 import moment from "moment";
-import {QbaseInfo, QdetailBaseInfo, Qtable} from "common/index";
+import {QbaseInfo, Qtable} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "../PurchaseIn/column/OrderLogs";
 import ShippingInformationColumns from "./column/ShippingInformation";
