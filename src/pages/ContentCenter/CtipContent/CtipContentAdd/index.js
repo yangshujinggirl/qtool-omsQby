@@ -91,11 +91,11 @@ const CtipContentAdd=({...props})=> {
   const onOk=(res)=> {
     let msg = issueContent.type=='1'?'发布成功':'立即发布设置成功';
     let { httpCode, result } =res;
-    if( httpCode=='200') {
+    if(result&&result.length>0) {
+      setCheckResult(result)
+    } else {
       Qmessage.success(msg);
       props.history.push('/account/home_page_configuration');
-    } else if( httpCode=='260'){
-      setCheckResult(result)
     }
   }
   const onCancel=()=>{

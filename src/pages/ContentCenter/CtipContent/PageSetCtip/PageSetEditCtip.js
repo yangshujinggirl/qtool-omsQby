@@ -47,31 +47,17 @@ function EditImg({...props}) {
     // setLoading(true)
     GetInfoApi(pdConfigureId)
     .then((res) => {
-      let { pdConfigureConfigList,...val } =res.result;
-      pdConfigureConfigList = pdConfigureConfigList.map((el,index)=> {
-        if(el.type == 1) {
-          el.text =CommonUtils.formatToFilelist(el.text)
-        }
-        return el;
-      })
+      let { shareFriendImg, shareFriendCircleImg, pdConfigureConfigList,...val } =res.result;
+      shareFriendImg = CommonUtils.formatToFilelist(shareFriendImg);
+      shareFriendCircleImg = CommonUtils.formatToFilelist(shareFriendCircleImg);
+      setImgList(shareFriendImg);
+      setImgCircleList(shareFriendCircleImg);
       setTotal(val);
       setDetailImg(pdConfigureConfigList)
     })
   }
   const goReturn=()=> {
-    props.history.push('/account/items_list')
-  }
-  const formatList=(arr)=> {
-    arr = arr.map((el,index) => {
-      if(el.status=='done') {
-        if(el.response&&el.response.httpCode=='200') {
-          return el.response.result;
-        } else {
-          return el.path;
-        }
-      }
-    })
-    return arr;
+    props.history.push('/account/page_configuration')
   }
   const onSubmit=async()=> {
     try {
@@ -109,8 +95,8 @@ function EditImg({...props}) {
   useEffect(()=>{ getInfo() },[pdConfigureId])
   useEffect(()=>{ form.setFieldsValue({shareFriendImg:imgList}) },[imgList])
   useEffect(()=>{ form.setFieldsValue({shareFriendCircleImg:imgCircleList}) },[imgCircleList])
-  // useEffect(()=>{ form.setFieldsValue({productDetailImgList:detailImg}) },[detailImg]);
-  console.log(detailImg);
+  useEffect(()=>{ form.setFieldsValue(totalData) },[totalData]);
+
   return <Spin tip="加载中..." spinning={loading}>
     <div className="oms-common-addEdit-pages baseGeneralTrade-editImg-pages">
       <Form {...formItemLayout} form={form}>

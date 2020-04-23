@@ -37,7 +37,7 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader,isInt
           return {result,httpCode,fileDomain};
       }, error => {
           // window.location.href= '/';
-          // sessionStorage.clear();                   暂时修改
+          // sessionStorage.clear();
           Qmessage.error('服务异常');
           setTimeout(()=> {
               // window.location.href= '/';

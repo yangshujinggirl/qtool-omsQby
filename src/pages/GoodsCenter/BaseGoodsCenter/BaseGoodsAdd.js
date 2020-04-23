@@ -13,6 +13,11 @@ import EditableCell from './components/EditableCell';
 import StandardsMod from './components/StandardsMod';
 import ResetModal from './components/ResetModal';
 import BaseInfoSet from './components/BaseInfoSet';
+import {
+  sendTypeOptions,profitsOptions,
+  isBeforeSalesOptions, isDirectSalesOptions,
+  batchProcessingStatusOptions, batchProcessingTypeOptions
+} from './components/options';
 import './BaseGoodsAdd.less';
 
 let FormItem = Form.Item;
@@ -239,8 +244,11 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
               <Card title="销售信息">
                 <Form.Item label="联营分成类别" name="profits" rules={[{ required: true, message: '请选择联营分成类别' }]}>
                   <Radio.Group>
-                    <Radio value={2} key={2}>食品类</Radio>
-                    <Radio value={1} key={1}>非食品类</Radio>
+                    {
+                      profitsOptions.map((el)=> (
+                        <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                      ))
+                    }
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item
@@ -254,8 +262,11 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                 </Form.Item>
                 <Form.Item label="是否代发" name="sendType" rules={[{ required: true, message: '请选择是否代发' }]}>
                   <Radio.Group>
-                    <Radio value={2} key={2}>是</Radio>
-                    <Radio value={1} key={1}>否</Radio>
+                    {
+                      sendTypeOptions.map((el,index)=> (
+                        <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                      ))
+                    }
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item
@@ -277,16 +288,22 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                     </Form.Item>
                   }}
                 </Form.Item>
-                <Form.Item label="是否预售" name="isBeforeSales" rules={[{ required: true, message: '请选择是否预售' }]}>
+                <Form.Item label="是否预售" name="isBeforeSalesInt" rules={[{ required: true, message: '请选择是否预售' }]}>
                   <Radio.Group>
-                    <Radio value={true} key={true}>是</Radio>
-                    <Radio value={false} key={false} disabled={totalData.sendType==2?true:false}>否</Radio>
+                    {
+                      isBeforeSalesOptions.map((el,index)=> (
+                        <Radio value={el.key} key={el.key} disabled={totalData.sendType==2&&index==1?true:false}>{el.value}</Radio>
+                      ))
+                    }
                   </Radio.Group>
                 </Form.Item>
-                <Form.Item label="是否直邮" name="isDirectSales" rules={[{ required: true, message: '请选择是否直邮' }]}>
+                <Form.Item label="是否直邮" name="isDirectSalesInt" rules={[{ required: true, message: '请选择是否直邮' }]}>
                   <Radio.Group>
-                    <Radio value={true} key={true}>是</Radio>
-                    <Radio value={false} key={false}>否</Radio>
+                    {
+                      isDirectSalesOptions.map((el,index)=> (
+                        <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                      ))
+                    }
                   </Radio.Group>
                 </Form.Item>
               </Card>
@@ -302,8 +319,11 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                 </Form.Item>
                 <Form.Item label="效期管理" name="batchProcessingStatus" rules={[{ required: true, message: '请选择效期管理' }]}>
                   <Radio.Group>
-                    <Radio value={2} key={2}>是</Radio>
-                    <Radio value={1} key={1}>否</Radio>
+                    {
+                      batchProcessingStatusOptions.map((el,index)=> (
+                        <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                      ))
+                    }
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item
@@ -314,8 +334,11 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                     <div>
                       <Form.Item label="效期类型" name="batchProcessingType" rules={[{ required: true, message: '请选择效期类型' }]}>
                         <Radio.Group>
-                          <Radio value={1} key={1}>生产日期</Radio>
-                          <Radio value={2} key={2}>到期日期</Radio>
+                          {
+                            batchProcessingTypeOptions.map((el,index)=> (
+                              <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                            ))
+                          }
                         </Radio.Group>
                       </Form.Item>
                       <Form.Item label="禁止入库天数" name="lotLimitInDay" rules={[

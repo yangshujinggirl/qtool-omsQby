@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Card, Input, Select} from "antd";
-import {QbaseDetail, QbaseInfo, QdetailBaseInfo, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, Qmessage, Qtable} from "common/index";
 import Columns from "../UserFeedback/column/DetailLog";
 import {TableItemShowTime} from "common/QdisabledDateTime";
 import {WORK_ORDER_STATUS_END, WORK_ORDER_STATUS_IN_HAND, WORK_ORDER_STATUS_WAIT} from "./config";

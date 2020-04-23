@@ -5,11 +5,11 @@ import {Popover} from "antd";
 
 
 const GoodsColumns = [
-    {title: "SKU编码", dataIndex: "itemCode", key: "1"},
-    {title: "商品名称", dataIndex: "itemName", key: "2"},
+    {title: "SKU编码", dataIndex: "skuCode", key: "1"},
+    {title: "商品名称", dataIndex: "productName", key: "2"},
     {title: "商品规格", dataIndex: "salesAttributeName", key: "3"},
-    {title: "申请数量", dataIndex: "amount", key: "5"},
-    {title: "到货数量", dataIndex: "changeNum", key: "6"},
+    {title: "申请数量", dataIndex: "reNum", key: "5"},
+    {title: "到货数量", dataIndex: "reArriveNum", key: "6"},
     {title: "退货单价", dataIndex: "price", key: "7"},
     {title: "到货金额", dataIndex: "totalPrice", key: "8"},
 ];
@@ -42,10 +42,10 @@ const Columns = [
       )
     },
     {title: "退货门店", dataIndex: "channelName", key: "2"},
-    {title: "申请数量", dataIndex: "reNum", key: "3"},
+    {title: "申请数量", dataIndex: "returnQty", key: "3"},
     {title: "申请总金额", dataIndex: "totalPrice", key: "4"},
-    {title: "到货数量", dataIndex: "receiveCount", key: "5"},
-    {title: "实退金额", dataIndex: "refundMoney", key: "6"},
+    {title: "到货数量", dataIndex: "itemCount", key: "5"},
+    {title: "实退金额", dataIndex: "reArriveAmount", key: "6"},
     {title: "退单类型", dataIndex: "inventedStr", key: "7"},
     {title: "订单状态", dataIndex: "statusStr", key: "8"},
     {
@@ -59,15 +59,7 @@ const Columns = [
               <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
           </div>
       )
-    },
-    {
-        title: "操作",
-        key: "11",
-        render: (text, record) => (
-            <span className="pointerSty" onClick={()=>record.onOperateClick('cancel')}>取消退单</span>
-        )
-    }
-];
+    }];
 export  {
   Columns,OrderLogsColumns,GoodsColumns
 };

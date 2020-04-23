@@ -259,7 +259,7 @@ class HomeRoutes extends React.Component {
         {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
         {/* ----------------------------------  合作中心   ---------------------------------------*/}
-        <Route exact path="/account/supplierManage/add/:id" component={SupplierManageAdd}/>
+        <Route exact path="/account/supplierManage/add/:id?" component={SupplierManageAdd}/>
         <Route exact path="/account/supplier" component={SupplierManage} />
         <Route exact path="/account/channel" component={ShopManage} />
         <Route exact path="/account/shopManage_edit/:id?" component={AddShopManage}/>
@@ -317,8 +317,8 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/pstores_cost_data" component={CostAccounting} />
         <Route exact path="/account/cost_accounting_data" component={CostOfStores} />
         <Route exact path="/account/app_data" component={AppData} />
-        
-        
+
+
 
         {/* ----------------------------------  运营中心   ---------------------------------------*/}
         <Route exact path="/account/add_bpush/:id?" component={AddBPush} />

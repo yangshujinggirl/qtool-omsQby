@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Card, Select, Input, Button} from "antd";
 import moment from "moment";
-import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
     EditStoreFeedbackDta,
     GetStoreFeedbackDetail

@@ -73,7 +73,7 @@ class SupplierManage extends React.Component {
     });
   };
   addTrade=()=> {
-    this.props.history.push('/account/baseGoodsAdd')
+    this.props.history.push('/account/supplierManage/add/')
   }
   export =()=> {
     OmsExportApi({...this.state.inputValues,type:1})
@@ -86,7 +86,6 @@ class SupplierManage extends React.Component {
           <FilterForm onSubmit={this.onSubmit} inputValues={this.state.inputValues}/>
           <div className="handle-operate-btn-action">
             <Qbtn size="free" onClick={this.addTrade}>新建供应商</Qbtn>
-            <Qbtn size="free">批量审核</Qbtn>
           </div>
           <Qtable
             columns={Columns}

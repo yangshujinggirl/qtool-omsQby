@@ -4,7 +4,7 @@ import {
     GetPurchaseInOrderOptionsLogsApi
 } from "../../../../api/home/OrderCenter/PurchaseOrder/PurchaseIn";
 import {Card, Col, Form, Row} from "antd";
-import {Qtable, QdetailBaseInfo, QbaseInfo} from "common/index";
+import {Qtable, QbaseInfo} from "common/index";
 import GoodsColumns from "./column/Goods";
 import OrderLogsColumns from "./column/OrderLogs";
 import {

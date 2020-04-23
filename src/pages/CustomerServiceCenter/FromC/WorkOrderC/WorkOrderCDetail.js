@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Card} from "antd";
-import {QbaseDetail, QbaseInfo, QdetailBaseInfo, QenlargeImg, Qtable} from "common/index";
+import {QbaseDetail, QbaseInfo, QenlargeImg, Qtable} from "common/index";
 import Columns from "./column/DetailLog";
 import './WorkOrderCDetail.css'
 import {GetWorkOrderCDetail} from "../../../../api/home/CustomerServiceCenter/FromC";
