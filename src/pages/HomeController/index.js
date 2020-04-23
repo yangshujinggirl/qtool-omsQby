@@ -19,6 +19,7 @@ class HomeController extends React.Component {
     menuList:[]
   };
   componentDidMount(){
+    console.log(React)
     this.getMenuList()
   }
   getMenuList() {

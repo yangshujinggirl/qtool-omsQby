@@ -15,6 +15,12 @@ class SiderBarController extends React.Component {
     defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')),
     defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys')),
   };
+  static getDerivedStateFromProps(props, state) {
+    return {
+      defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')),
+      defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys'))
+    }
+  }
 
   toggleCollapsed = () => {
     this.setState({
@@ -44,6 +50,7 @@ class SiderBarController extends React.Component {
   render(){
     const { menuList } = this.props;
     const { defaultSelectedKeys, defaultOpenKeys } = this.state;
+    console.log(defaultSelectedKeys,defaultOpenKeys)
     return (
       <div className="oms-sider-controller">
         <div className="slider-logo">
