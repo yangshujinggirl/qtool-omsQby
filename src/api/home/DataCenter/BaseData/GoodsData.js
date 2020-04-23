@@ -24,7 +24,7 @@ export function GetGoodsAnalysisChartData(values) {
  * @constructor
  */
 export function GetClassifyAnalysis(values) {
-    return dataAjax.get('/goods/shopSellTendencyChart',{
+    return dataAjax.get('/goods/classifyAnalysis',{
         params:values
     })
 }
@@ -46,6 +46,12 @@ export function getHotSaleList(values){
 }
 //建议采购和掌柜滞销商品列表
 export function getColdSaleList(values){
+    return dataAjax.get('/goods/queryProposalAndUnsaleGoodsList',{
+        params:values
+    })
+}
+//商品效期列表
+export function GetCommodityExpirySateList(values){
     return dataAjax.get('/goods/queryProposalAndUnsaleGoodsList',{
         params:values
     })

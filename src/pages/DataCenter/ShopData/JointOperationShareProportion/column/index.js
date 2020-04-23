@@ -13,7 +13,7 @@ const Columns = [
         title: '下载', dataIndex: 'notIntoAmountsss', key: '7',
         render: (text, record) => {
             return (
-                <span className="link-color">下载</span>
+                <span className="link-color" onClick={record.onOperateClick}>下载</span>
             );
         }
     }];

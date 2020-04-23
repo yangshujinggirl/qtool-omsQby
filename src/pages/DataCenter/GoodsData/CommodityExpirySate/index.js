@@ -1,6 +1,6 @@
 import React from 'react';
 import { QbaseList, Qbtn, Qpagination, Qtable } from 'common/index';
-import { GetCommodityExpirySateList } from 'api/home/DataCenter/BaseData/WarehouseData';
+import { GetCommodityExpirySateList } from 'api/home/DataCenter/BaseData/GoodsData';
 import { DataExportApi } from 'api/Export';
 import { deBounce } from 'utils/tools';
 import FilterForm from './components/FilterForm';
@@ -24,14 +24,23 @@ const CommodityExpirySate = QbaseList(
 					<Qbtn onClick={() => exportData(searchDataList)}>导出数据</Qbtn>
 				</div>
 				<Qtable columns={Columns} dataSource={dataList} />
-				<Qpagination
-					data={{ everyPage, currentPage, total}}
-					onChange={_this.changePage}
-				/>
+				<Qpagination data={{ everyPage, currentPage, total }} onChange={_this.changePage} />
 			</div>
 		);
 	},
 	GetCommodityExpirySateList,
-	true
+	true,
+	null,
+	null,
+	function (_this,values) {
+		values = values||{};
+		const {expireType} = values;
+		if (expireType) {
+			values.expireType = expireType;
+		} else {
+			values.expireType = 40;
+		}
+		return values;
+	}
 );
 export default CommodityExpirySate;

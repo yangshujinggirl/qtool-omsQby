@@ -4,7 +4,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { GetGoodsAnalysis } from "api/home/DataCenter/BaseData/GoodsData";
 import CommonUtils from "utils/CommonUtils";
 import { QcardList, Qcards } from "common/index";
-import GoodsDataAnalysisCharts from "../components/Charts/GoodsDataAnalysisCharts";
+import GoodsDataAnalysisCharts from "./components/GoodsDataAnalysisCharts";
 import TopTitleDesHeader from "../../components/TopTitleDesHeader";
 import moment from 'moment'
 
@@ -12,28 +12,15 @@ import moment from 'moment'
  * 功能作用：商品分析
  * 初始注释时间： 2020/3/14 21:56
  * 注释创建人：LorenWang（王亮）
- * 方法介绍：
- * 思路：
- * 修改人：
- * 修改时间：
- * 备注：
  */
 export default class GoodsAnalysis extends React.Component {
   state = {
     updateTime: "",
-    /**
-     * 基础信息
-     */
     data: [],
-    /**
-     * 列表数据
-     */
     listData: [],
   };
 
-  /**
-   * 第一次渲染结束操作
-   */
+  //头部数据请求
   componentDidMount() {
     GetGoodsAnalysis().then((res) => {
       if (res.httpCode == 200) {
@@ -153,7 +140,6 @@ export default class GoodsAnalysis extends React.Component {
       onOk() {},
     });
   };
-
   render() {
     return (
       <div>
@@ -170,7 +156,7 @@ export default class GoodsAnalysis extends React.Component {
             marginTop: "30px",
           }}
         >
-          <GoodsDataAnalysisCharts type="1" />
+          <GoodsDataAnalysisCharts/>
         </div>
       </div>
     );

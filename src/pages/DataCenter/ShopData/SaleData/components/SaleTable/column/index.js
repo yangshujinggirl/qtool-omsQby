@@ -1,4 +1,3 @@
-import React from "react";
 
 const Columns = [
     {title: '门店编号', dataIndex: 'no', key: '1'},

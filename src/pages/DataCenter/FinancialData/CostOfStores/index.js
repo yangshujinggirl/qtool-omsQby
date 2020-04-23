@@ -2,7 +2,7 @@ import React from 'react'
 import {QbaseList, Qpagination, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
 import Columns from "./column";
-import {GetCostOfStoreDataList} from "api/home/DataCenter/BaseData/FinancialData";
+import {GetCostOfStoreDataList} from "api/home/DataCenter/FinancialData";
 
 /**
  * 功能作用：成本核算数据列表

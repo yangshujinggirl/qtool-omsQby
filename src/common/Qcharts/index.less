@@ -1,11 +1,32 @@
 /*图表容器*/
 .charts-container {
     position: relative;
-}
-
-/*图片容器内部的时间选择器*/
-.charts-container .ant-picker-range {
-    width: 290px;
+    .sale_qty{
+        width: 150px;
+        border: 1px solid #e8e8e8;
+    }
+    .sale_btn_container {
+        position: absolute;
+        right: 50px;
+        top: 40px;
+        z-index: 1000;
+    }
+    .good_code {
+        position: absolute;
+        left: 300px;
+        top: 40px;
+        z-index: 1000;
+    }
+    .time {
+        position: absolute;
+        left: 0px;
+        top: 40px;
+        z-index: 1000;
+    }
+    /*图片容器内部的时间选择器*/
+    .ant-picker-range {
+        width: 290px;
+    }
 }
 
 /*图片内部的切换选择按钮选中*/
@@ -31,3 +52,4 @@
     text-align: center;
     cursor: pointer;
 }
+

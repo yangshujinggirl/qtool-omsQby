@@ -1,7 +1,7 @@
 import React from "react";
 import {QbaseList, Qpagination, Qbtn, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
-import {GetStoresTheInvoiceList} from "api/home/DataCenter/BaseData/FinancialData";
+import {GetStoresTheInvoiceList} from "api/home/DataCenter/FinancialData";
 
 /**
  * 功能作用：财务中心门店发票页面
@@ -34,7 +34,6 @@ const StoresTheInvoice = QbaseList((_this) => {
         );
     }, GetStoresTheInvoiceList, false, null, {tableShowColumns: []}
     , null, null, (_this, rep) => {
-        console.log("xxx", rep)
         //默认表格字段
         const defaultTableColumns = [
             {title: '门店名称', dataIndex: 'name', width: 300},
