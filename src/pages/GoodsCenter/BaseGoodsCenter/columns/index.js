@@ -239,7 +239,6 @@ const ColumnsEditImgGeneral=(upDateSkuList)=>{
     width: 100,
     render:(text,record,index)=> {
       return  <QupLoadImgLimt
-                rules={[{ required: true, message: '请上传图片' } ]}
                 name={['skuImgList',index,'skuImg']}
                 fileList={record.skuImg}
                 limit="1"

@@ -29,7 +29,7 @@ const SupplierManageAdd=({...props})=> {
   const [form] = Form.useForm();
   const supplierId = props.match.params.id;
   const goReturn=()=> {
-    props.history.push('/account/supplierManage')
+    props.history.push('/account/supplier')
   }
   const [totalData, setTotal] = useState({cooperationStatus:1});
   const onSubmit = async () => {
@@ -50,22 +50,20 @@ const SupplierManageAdd=({...props})=> {
     }
   };
   useEffect(()=>{
-    GetDetailApi({supplierId})
-    .then((res)=> {
-      const { result } =res;
-      setTotal(result)
-    })
-  },[])
-  useEffect(()=>{
-    form.setFieldsValue(totalData);
-  },[totalData])
+    if(supplierId) {
+      GetDetailApi({supplierId})
+      .then((res)=> {
+        const { result } =res;
+        setTotal(result)
+      })
+    }
+  },[supplierId])
+  useEffect(()=>{ form.setFieldsValue(totalData); },[totalData])
 
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages supplier-Manage-addEdit-pages">
         <Form className="common-addEdit-form" form={form} {...formItemLayout} initialValues={{...totalData}}>
-          <div className="part-wrap">
-            <p className="title-wrap"><span className="title-name">基础信息</span></p>
             <Form.Item
               label="供应商名称"
               name="name"
@@ -140,7 +138,6 @@ const SupplierManageAdd=({...props})=> {
               name="remark">
               <Input.TextArea placeholder="请输入供应商备注" rows={4} autoComplete="off"/>
             </Form.Item>
-          </div>
           <div className="handle-operate-save-action">
             <Qbtn onClick={goReturn}>
               返回
