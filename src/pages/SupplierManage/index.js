@@ -1,9 +1,10 @@
 import { Table, Spin, Button } from "antd";
 import FilterForm from "./components/FilterForm";
-import { QsubTable, Qpagination, QbyConnect, Qbtn, Qtable} from "common";
+import { Qmessage, QsubTable, Qpagination, QbyConnect, Qbtn, Qtable} from "common";
 import { Columns } from "./column";
 import { GetListApi } from "api/home/SupplierManage";
 import { OmsExportApi } from "api/Export";
+import AuditModal from './components/AuditModal';
 import moment from 'moment'
 
 class SupplierManage extends React.Component {
@@ -14,6 +15,8 @@ class SupplierManage extends React.Component {
       everyPage:15,
       currentPage: 0,
       total:0,
+      selectedRowKeys:[],
+      visible:false,
       inputValues: {
         name:null,
         status:null,
@@ -49,28 +52,9 @@ class SupplierManage extends React.Component {
     })
   };
   onSubmit = params => {
-    this.searchData(params);
-  };
-  handleOperateClick = (record,type) => {
-    // debugger
-    // console.log(record)
-    // switch(type){
-    //   case "edit":
-    //     this.props.history.push(`/account/supplierManage/${record.id}`)
-    //     break;
-    //   case "info":
-    //     this.props.history.push(`/account/supplierManage/${record.id}`)
-    //     break;
-    // }
-  };
-  //审核
-  audit = (record, type) => {
-    console.log(typeof record.skuCode);
-    this.setState({ status: type, skuCode: record.skuCode }, () => {
-      this.setState({
-        visible: true
-      });
-    });
+    this.setState({ inputValues: params },()=> {
+      this.searchData();
+    })
   };
   addTrade=()=> {
     this.props.history.push('/account/supplierManage/add/')
@@ -78,25 +62,51 @@ class SupplierManage extends React.Component {
   export =()=> {
     OmsExportApi({...this.state.inputValues,type:1})
   }
+  goAudit=()=> {
+    if(this.state.selectedRowKeys.length==0) {
+      Qmessage.error('请选择供应商')
+      return;
+    }
+    this.setState({ visible:true });
+  }
+  onOk=()=> {
+    this.onCancel();
+    this.searchData();
+  }
+  onCancel=()=> {
+    this.setState({ visible:false, selectedRowKeys:[] });
+  }
+  onSelectChange = selectedRowKeys => {
+    this.setState({ selectedRowKeys });
+  };
   render() {
-    const { list, total, everyPage, currentPage } = this.state;
-
+    const { visible, list, total, everyPage, currentPage, selectedRowKeys } = this.state;
+    const rowSelection = {
+     selectedRowKeys,
+     onChange: this.onSelectChange,
+   };
     return (
         <div className="oms-common-index-pages-wrap">
-          <FilterForm onSubmit={this.onSubmit} inputValues={this.state.inputValues}/>
+          <FilterForm onSubmit={this.onSubmit}/>
           <div className="handle-operate-btn-action">
             <Qbtn size="free" onClick={this.addTrade}>新建供应商</Qbtn>
+            <Qbtn size="free" onClick={this.goAudit}>批量审核</Qbtn>
           </div>
           <Qtable
             columns={Columns}
             dataSource={list}
-            onOperateClick={this.handleOperateClick}
-          />
+            select={true}
+            rowSelection={rowSelection}/>
           {list.length>0&&
             <Qpagination
               data={{ total, everyPage, currentPage }}
               onChange={this.changePage}
               onShowSizeChange={this.onShowSizeChange}/>}
+              <AuditModal
+                selectedRowKeys={selectedRowKeys}
+                visible={visible}
+                onOk={this.onOk}
+                onCancel={this.onCancel}/>
       </div>
     );
   }

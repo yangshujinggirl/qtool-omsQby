@@ -1,6 +1,7 @@
 import '@ant-design/compatible/assets/index.css';
 import { Input, Select, Row, Col, Form } from "antd";
 import { BaseFilter, Qbtn } from "common";
+import { cooperationStatus, accountsType, statusOption } from '../../options';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -28,9 +29,11 @@ class Search extends BaseFilter {
                 {...this.formItemLayout}
                 name="status">
                 <Select placeholder="请选择" allowClear={true}>
-                  <Option value={0} key={0}>待审核</Option>
-                  <Option value={1} key={1}>已审核</Option>
-                  <Option value={2} key={2}>审核不通过</Option>
+                {
+                  statusOption.map((el)=>(
+                    <Option value={el.key} key={el.key}>{el.value}</Option>
+                  ))
+                }
                 </Select>
               </FormItem>
             </Col>
@@ -40,9 +43,11 @@ class Search extends BaseFilter {
                 {...this.formItemLayout}
                 name="cooperationStatus">
                 <Select placeholder="请选择" allowClear={true}>
-                  <Option value={1} key={1}>合作中</Option>
-                  <Option value={2} key={2}>待合作</Option>
-                  <Option value={3} key={3}>停止合作</Option>
+                  {
+                    cooperationStatus.map((el)=> (
+                      <Option value={el.key} key={el.key}>{el.value}</Option>
+                    ))
+                  }
                 </Select>
               </FormItem>
             </Col>
@@ -52,9 +57,11 @@ class Search extends BaseFilter {
                 {...this.formItemLayout}
                 name="accountsType">
                 <Select placeholder="请选择" allowClear={true}>
-                  <Option value={1} key={1}>现结</Option>
-                  <Option value={2} key={2}>货到</Option>
-                  <Option value={3} key={3}>票到</Option>
+                {
+                  accountsType.map((el)=> (
+                    <Option value={el.key} key={el.key}>{el.value}</Option>
+                  ))
+                }
                 </Select>
               </FormItem>
             </Col>

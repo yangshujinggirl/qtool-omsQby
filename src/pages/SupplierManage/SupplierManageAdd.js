@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { Qtable, Qbtn, Qmessage } from 'common';
 import { GetDetailApi,GetAddApi,GetEditApi} from 'api/home/SupplierManage';
 import './SupplierManageAdd.less';
+import { cooperationStatus, accountsType } from './options';
 
 let FormItem = Form.Item;
 let Option = Select.Option;
@@ -107,16 +108,18 @@ const SupplierManageAdd=({...props})=> {
             <Form.Item label="账期类型">
               <Form.Item name="accountsType" rules={[{ required: true, message: '请选择' }]}>
                 <Radio.Group placeholder="请选择" allowClear={true}>
-                  <Radio value={1} key={1}>现结</Radio>
-                  <Radio value={2} key={2}>货到</Radio>
-                  <Radio value={3} key={3}>票到</Radio>
+                  {
+                    accountsType.map((el)=> (
+                      <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                    ))
+                  }
                 </Radio.Group>
               </Form.Item>
               <Form.Item
                 noStyle
                 shouldUpdate={(prevValues, currentValues) => prevValues.accountsType !== currentValues.accountsType}>
                 {({ getFieldValue }) => {
-                  return getFieldValue('accountsType') !== 1&&
+                  return (getFieldValue('accountsType')&&getFieldValue('accountsType') !== 1)&&
                   <Form.Item>
                     <Form.Item name="accountsDay" noStyle rules={[{ required: true, message: '请输入' }]}>
                       <Input autoComplete="off" className="short-input"/>
@@ -128,9 +131,11 @@ const SupplierManageAdd=({...props})=> {
             </Form.Item>
             <Form.Item label="合作状态" name="cooperationStatus" rules={[{ required: true, message: '请选择'}]}>
               <Select placeholder="请选择" allowClear={true}>
-                <Option value={1} key={1}>合作中</Option>
-                <Option value={2} key={2}>待合作</Option>
-                <Option value={3} key={3}>停止合作</Option>
+                {
+                  cooperationStatus.map((el)=> (
+                    <Option value={el.key} key={el.key}>{el.value}</Option>
+                  ))
+                }
               </Select>
             </Form.Item>
             <Form.Item

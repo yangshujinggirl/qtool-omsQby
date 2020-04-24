@@ -75,6 +75,7 @@ import BondedOrder from "./OrderCenter/BondedOrder"; //保税订单
 /************************************  合作中心  ********************************************/
 import SupplierManage from "./SupplierManage"; //供应商管理
 import SupplierManageAdd from "./SupplierManage/SupplierManageAdd"; //供应商管理
+import SupplierManageInfo from "./SupplierManage/SupplierManageInfo"; //供应商管理
 import ShopManage from "./CooperateCenter/ShopManage";
 import AddShopManage from "./CooperateCenter/ShopManage/AddShopManage";
 import ShopManageInfo from "./CooperateCenter/ShopManage/ShopManageInfo";
@@ -259,6 +260,7 @@ class HomeRoutes extends React.Component {
         {/* ----------------------------------  仓库管理   ---------------------------------------*/}
 
         {/* ----------------------------------  合作中心   ---------------------------------------*/}
+        <Route exact path="/account/supplierManage/info/:id" component={SupplierManageInfo}/>
         <Route exact path="/account/supplierManage/add/:id?" component={SupplierManageAdd}/>
         <Route exact path="/account/supplier" component={SupplierManage} />
         <Route exact path="/account/channel" component={ShopManage} />

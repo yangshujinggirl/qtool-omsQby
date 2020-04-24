@@ -256,7 +256,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                 name="minBoxSpecification"
                 rules={[
                   { required: true, message: '请输入大于0的整数' },
-                  { pattern:/^[1-9]+$/,message:'请输入大于0的整数' },
+                  { pattern:/^[1-9]+\d*$/,message:'请输入大于0的整数' },
                 ]}>
                   <Input placeholder="请输入大于0的整数" autoComplete="off"/>
                 </Form.Item>
@@ -280,7 +280,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                         name="distributionDays"
                         rules={[
                           { required: true, message: '请输入大于0的整数' },
-                          { pattern:/^[1-9]+$/,message:'请输入大于0的整数' },
+                          { pattern:/^[1-9]+\d*$/,message:'请输入大于0的整数' },
                         ]}>
                           <Input placeholder="请输入大于0的整数" className="short-input" autoComplete="off"/>
                       </Form.Item>
@@ -311,7 +311,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                 <Form.Item
                   label="基础箱规"
                   name="basicsBoxSpecification"
-                  rules={[ { pattern:/^[1-9]+$/,message:'请输入大于0的整数' },]}>
+                  rules={[ { pattern:/^[1-9]+\d*$/,message:'请输入大于0的整数' },]}>
                   <Input placeholder="请输入大于0的整数" autoComplete="off"/>
                 </Form.Item>
                 <Form.Item label="效期管理" name="batchProcessingStatus" rules={[{ required: true, message: '请选择效期管理' }]}>
@@ -340,7 +340,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                       </Form.Item>
                       <Form.Item label="禁止入库天数" name="lotLimitInDay" rules={[
                         { required: true, message: '请输入大于0的整数' },
-                        { pattern:/^[1-9]+$/,message:'请输入大于0的整数' },
+                        { pattern:/^[1-9]+\d*$/,message:'请输入大于0的整数' },
                       ]}>
                         <Input placeholder="请输入大于0的整数" autoComplete="off"/>
                       </Form.Item>

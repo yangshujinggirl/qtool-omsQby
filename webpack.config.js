@@ -12,7 +12,7 @@ const extractLeSS = new ExtractTextPlugin({
   allChunks:true,
 });
 //生产环增压缩js;
-let UglifyArray = [], sourceMap="inline-source-map";
+let UglifyArray = [], sourceMap="cheap-module-eval-source-map";
 console.log(process.env.NODE_ENV === 'production')
 if(process.env.NODE_ENV === 'production'){
   UglifyArray.push(new UglifyJSPlugin({
@@ -24,8 +24,9 @@ if(process.env.NODE_ENV === 'production'){
       }
     }
   }));
-  sourceMap="source-map"
+  sourceMap="none"
 }
+console.log(sourceMap)
 console.log(JSON.stringify(process.env.NODE_ENV))
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -157,7 +158,7 @@ module.exports = {
         target:'http://192.168.2.155:8081',
         changeOrigin: true,
       }
-      
+
     }
   }
 };

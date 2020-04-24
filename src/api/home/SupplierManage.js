@@ -31,3 +31,10 @@ export function GetAddApi(values){
 export function GetEditApi(values){
     return omsAjax.post('/supplier/updateSupplierInfo',{...values})
 }
+/**
+ *
+ * 审核
+ */
+export function GeAuditApi(values){
+    return omsAjax.post('/supplier/bachUpdateStatus',{...values})
+}
