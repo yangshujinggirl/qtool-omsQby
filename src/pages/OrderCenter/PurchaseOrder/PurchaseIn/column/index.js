@@ -36,7 +36,7 @@ const Columns = [
     key: "10",
     render: (text, record) => (
       <div>
-        <span>{record.modifyBy}</span>
+        <span>{record.user}</span>
         <br />
         <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
       </div>

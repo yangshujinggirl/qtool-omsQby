@@ -32,17 +32,17 @@ class NormalForm extends BaseFilter {
 					<Row>
 						<Col {...this.colspans}>
 							<Form.Item name="userId" label="用户id" {...this.formItemLayout}>
-								<Input placeholder="请输入用户id" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入用户id" autoComplete="off" />
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
 							<Form.Item name="name" label="Qtools昵称" {...this.formItemLayout}>
-								<Input placeholder="请输入Qtools昵称" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入Qtools昵称" autoComplete="off" />
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
 							<Form.Item name="mobile" label="手机号" {...this.formItemLayout}>
-								<Input placeholder="请输入手机号" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入手机号" autoComplete="off" />
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
@@ -72,7 +72,6 @@ class NormalForm extends BaseFilter {
 										style={{ width: '120px' }}
 										placeholder="请输入初始值"
 										autoComplete="off"
-										allowClear={true}
 									/>
 								</Form.Item>
 								　 -　
@@ -81,7 +80,6 @@ class NormalForm extends BaseFilter {
 										style={{ width: '120px' }}
 										placeholder="请输入峰值"
 										autoComplete="off"
-										allowClear={true}
 									/>
 								</Form.Item>
 							</Form.Item>
@@ -93,7 +91,6 @@ class NormalForm extends BaseFilter {
 										style={{ width: '120px' }}
 										placeholder="请输入初始值"
 										autoComplete="off"
-										allowClear={true}
 									/>
 								</Form.Item>
 								　 -　
@@ -102,7 +99,6 @@ class NormalForm extends BaseFilter {
 										style={{ width: '120px' }}
 										placeholder="请输入峰值"
 										autoComplete="off"
-										allowClear={true}
 									/>
 								</Form.Item>
 							</Form.Item>
@@ -114,7 +110,6 @@ class NormalForm extends BaseFilter {
 										style={{ width: '120px' }}
 										placeholder="请输入初始值"
 										autoComplete="off"
-										allowClear={true}
 									/>
 								</Form.Item>
 								　 -　
@@ -123,7 +118,6 @@ class NormalForm extends BaseFilter {
 										style={{ width: '120px' }}
 										placeholder="请输入峰值"
 										autoComplete="off"
-										allowClear={true}
 									/>
 								</Form.Item>
 							</Form.Item>

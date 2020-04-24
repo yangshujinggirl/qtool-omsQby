@@ -135,8 +135,8 @@ function QbaseList(
     searchDataList = (
       values,
       isUseRecord = true,
-      currentPage = null,
-      everyPage = null
+      currentPage = 1,
+      everyPage = 15
     ) => {
       this.showLoading();
       //先合并记录数据

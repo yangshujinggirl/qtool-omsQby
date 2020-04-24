@@ -50,7 +50,7 @@ class NormalForm extends BaseFilter {
                 label="订单号"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入订单号" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入订单号" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -59,7 +59,7 @@ class NormalForm extends BaseFilter {
                 label="渠道订单号"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入渠道订单号" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入渠道订单号" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -68,12 +68,12 @@ class NormalForm extends BaseFilter {
                 label="第三方商品编码"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入第三方商品编码" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入第三方商品编码" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="skuCode" label="商品编码" {...formItemLayout}>
-                <Input placeholder="请输入商品编码" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入商品编码" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -82,22 +82,22 @@ class NormalForm extends BaseFilter {
                 label="商品名称"
                 {...formItemLayout}
               >
-                <Input placeholder="请输入商品名称" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入商品名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="consignee" label="收货人" {...formItemLayout}>
-                <Input placeholder="请输入收货人" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入收货人" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="phone" label="联系电话" {...formItemLayout}>
-                <Input placeholder="请输入联系电话" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入联系电话" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
               <Form.Item name="idNumber" label="身份证号" {...formItemLayout}>
-                <Input placeholder="请输入身份证号" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入身份证号" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>

@@ -2,7 +2,7 @@ import moment from 'moment'
 const Columns = [
   {
     title: "操作",
-    dataIndex: "operateName",
+    dataIndex: "operateAction",
     key: "1"
   },
   {

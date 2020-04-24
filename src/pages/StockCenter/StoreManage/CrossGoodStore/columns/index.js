@@ -16,7 +16,7 @@ const Columns = [
     title: "推送平台",
     dataIndex: "pushPlatform",
     render:(text,record,index)=>(
-      <span>{text==1?'无':(text==2?'管易':(text==3?'丰趣':'芳星'))}</span>
+      <span>{(text==1||text==null)?'无':(text==2?'管易':(text==3?'丰趣':(text==4&&'芳星')))}</span>
     )
   },
   {

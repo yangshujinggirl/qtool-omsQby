@@ -52,7 +52,7 @@ export function getColdSaleList(values){
 }
 //商品效期列表
 export function GetCommodityExpirySateList(values){
-    return dataAjax.get('/goods/queryProposalAndUnsaleGoodsList',{
+    return dataAjax.get('/wh/goodsExpireDate',{
         params:values
     })
 }

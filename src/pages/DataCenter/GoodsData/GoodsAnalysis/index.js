@@ -78,28 +78,28 @@ export default class GoodsAnalysis extends React.Component {
             value: analysis.posHotSell,
             type: "1",
             bg: "#949494",
-            linkToPage: "/account/hot_cold_good/?id=1&type=1",
+            linkToPage: "/account/hot_cold_good/?id=1&sellType=1",
           },
           {
             title: "掌柜热销商品",
             value: analysis.keeperHotSell,
             type: "2",
             bg: "#ABDB7D",
-            linkToPage: "/account/hot_cold_good/?id=1&type=1",
+            linkToPage: "/account/hot_cold_good/?id=1&sellType=2",
           },
           {
             title: "建议采购商品",
             value: analysis.proposalQty,
             type: "3",
             bg: "#71A6F1",
-            linkToPage: "/account/hot_cold_good/?id=2&type=1",
+            linkToPage: "/account/hot_cold_good/?id=2&sellType=1",
           },
           {
             title: "掌柜滞销商品",
             value: analysis.unsalableQty,
             type: "4",
             bg: "#BC2739",
-            linkToPage: "/account/hot_cold_good/?id=2&type=2",
+            linkToPage: "/account/hot_cold_good/?id=2&sellType=2",
           },
         ];
         this.setState({

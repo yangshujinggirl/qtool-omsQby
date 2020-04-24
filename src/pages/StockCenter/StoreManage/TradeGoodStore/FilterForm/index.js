@@ -23,13 +23,12 @@ class NormalForm extends BaseFilter {
             <Col {...this.colspan}>
               <Form.Item
                 name="warehouseType"
-                label="推送平台"
+                label="仓库类型"
                 {...this.formItemLayout}
               >
                 <Select allowClear={true} placeholder="请选择推送平台">
-                  <Option value={1}>大仓</Option>
+                  <Option value={1}>大仓</Option>ßß
                   <Option value={2}>门店仓</Option>
-                  <Option value={3}>保税仓</Option>
                 </Select>
               </Form.Item>
             </Col>

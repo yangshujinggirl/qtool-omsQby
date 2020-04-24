@@ -14,7 +14,7 @@ const ShopTable = () => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
 	const exportData = () => {
-		DataExportApi('', inputValues);
+		DataExportApi(inputValues,'/order/shopOrderDataTendencyChartExport');
 	};
 	//数据初始化
 	useEffect(() => {

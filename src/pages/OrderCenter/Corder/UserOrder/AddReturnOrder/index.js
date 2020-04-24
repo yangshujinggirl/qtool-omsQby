@@ -203,7 +203,6 @@ const AddReturnOrder = (props) => {
 								onPressEnter={getDetail}
 								placeholder="请输入普通订单订单号或保税订单子单号"
 								autoComplete="off"
-								allowClear={true}
 							/>
 						</Form.Item>
 						<Form.Item noStyle>
@@ -321,7 +320,7 @@ const AddReturnOrder = (props) => {
 									},
 								]}
 							>
-								<Input placeholder="请输入退单原因，50字以内" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入退单原因，50字以内" autoComplete="off"/>
 							</Form.Item>
 						</React.Fragment>
 					)}

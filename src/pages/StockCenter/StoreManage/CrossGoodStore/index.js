@@ -13,7 +13,7 @@ class CrossGoodStore extends Component {
     super(props);
     this.state = {
       dataList: [],
-      inputValues: { status: 10, sourceType: 2 },
+      inputValues: { warehouseType:3 },
       everyPage: 0,
       currentPage: 0,
       total: 0,
@@ -30,7 +30,8 @@ class CrossGoodStore extends Component {
     this.setState({
       loading: true
     });
-    getListApi(values)
+    const params = {...this.state.inputValues,...values}
+    getListApi(params)
       .then(res => {
         this.setState({
           loading: false
@@ -55,13 +56,11 @@ class CrossGoodStore extends Component {
           loading: false
         });
       });
-    this.setState({ inputValues: values });
   };
 
   //点击分页
   changePage = (currentPage, everyPage) => {
-    const values = { ...this.state.inputValues, currentPage, everyPage };
-    this.searchData(values);
+    this.searchData({currentPage, everyPage});
   };
   //新建仓库
   addStore = () => {
@@ -100,12 +99,16 @@ class CrossGoodStore extends Component {
       visible:true
     })
   }
+  onSubmit=(values)=>{
+    this.searchData(values)
+    this.setState({inputValues:{...this.state.inputValues,...values}})
+  }
   render() {
     const { dataList, everyPage, currentPage, total, loading,visible,id } = this.state;
     return (
       <Spin spinning={loading}>
         <div className="oms-common-index-pages-wrap">
-          <FilterForm onSubmit={this.searchData} />
+          <FilterForm onSubmit={this.onSubmit} />
           <div className="handle-operate-btn-action">
             <Qbtn onClick={this.addStore}>新建仓库</Qbtn>
           </div>

@@ -19,22 +19,22 @@ class NormalForm extends BaseFilter {
           <Row>
             <Col {...this.colspan}>
               <Form.Item name="orderNo" label="订单号">
-                <Input placeholder="请输入订单号" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入订单号" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="channelName" label="门店名称">
-                <Input placeholder="请输入门店名称" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入门店名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="consignee" label="收货人">
-                <Input placeholder="请输入收货人" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入收货人" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>
               <Form.Item name="phone" label="联系电话">
-                <Input placeholder="请输入联系电话人" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入联系电话人" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspan}>

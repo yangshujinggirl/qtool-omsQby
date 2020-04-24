@@ -28,7 +28,7 @@ const Columns = [
   },
   {
     title: "商品分类",
-    dataIndex: "productTypeStr",
+    dataIndex: "categoryInfo",
     key: "6"
   },
   {

@@ -14,22 +14,22 @@ class NormalForm extends BaseFilter {
 					<Row gutter={24}>
 						<Col {...this.colspans}>
 							<Form.Item name="spShopName" label="门店名称" {...this.formItemLayout}>
-								<Input placeholder="请输入门店名称" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入门店名称" autoComplete="off" />
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
 							<Form.Item name="mbCardName" label="会员名称" {...this.formItemLayout}>
-								<Input placeholder="请输入会员名称" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入会员名称" autoComplete="off" />
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
 							<Form.Item name="mbCardMobile" label="会员电话" {...this.formItemLayout}>
-								<Input placeholder="请输入会员电话" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入会员电话" autoComplete="off" />
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
 							<Form.Item name="mbCardNo" label="会员卡号" {...this.formItemLayout}>
-								<Input placeholder="请输入会员卡号" autoComplete="off" allowClear={true} />
+								<Input placeholder="请输入会员卡号" autoComplete="off" />
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>

@@ -26,7 +26,7 @@ const RechargeInfo = (props) => {
   return (
     <div className="oms-common-addEdit-pages base_info">
       <Card title="凭证信息">
-        <Form.Item label="充值编码">{infos.carryCashNo}</Form.Item>
+        <Form.Item label="充值编码">{infos.voucherNo}</Form.Item>
         <Form.Item label="审核状态">{infos.statusStr}</Form.Item>
         <Form.Item label="门店名称">{infos.statusStr}</Form.Item>
         <Form.Item label="充值时间"><TableItemShowTime showTime={infos.createTime}/></Form.Item>

@@ -18,7 +18,7 @@ export default class SearchForm extends BaseFilter {
                     <Row gutter={24}>
                         <Col {...this.colspans}>
                             <FormItem label="门店名称" name="shopName" {...this.formItemLayout}>
-                                <Input placeholder="请输入门店名称" autoComplete="off"  allowClear={true}/>
+                                <Input placeholder="请输入门店名称" autoComplete="off"/>
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>

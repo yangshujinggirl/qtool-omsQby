@@ -23,12 +23,12 @@ const Columns = [
   },
   {
     title: "商品类型",
-    dataIndex: "phone",
+    dataIndex: "productTypeStr",
     key: "5"
   },
   {
     title: "商品分类",
-    dataIndex: "productTypeStr",
+    dataIndex: "categoryInfo",
     key: "6"
   },
   {
