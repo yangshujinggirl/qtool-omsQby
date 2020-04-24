@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import {Form, Row, Col, DatePicker, AutoComplete, Input, Select} from "antd";
 import {BaseFilter, Qbtn} from "common";
-import {GetStoreIntelligentSearchList} from "api/home/DataCenter/BaseData/FinancialData";
+import {GetStoreIntelligentSearchList} from "api/home/DataCenter/FinancialData";
 
 const FormItem = Form.Item;
 

@@ -2,7 +2,7 @@ import React from "react";
 import {QbaseList, Qpagination, Qbtn, Qtable} from "common/index";
 import FilterForm from "./components/FilterForm";
 import Columns from "./column";
-import {GetPurchasingTheArrivalOfTheGoodsDataList} from "api/home/DataCenter/BaseData/FinancialData";
+import {GetPurchasingTheArrivalOfTheGoodsDataList} from "api/home/DataCenter/FinancialData";
 
 /**
  * 功能作用：财务中心采购到货页面

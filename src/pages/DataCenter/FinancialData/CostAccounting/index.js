@@ -1,7 +1,7 @@
 import React from 'react'
 import {QbaseList, Qpagination, Qtable} from "common/index";
 import Columns from "./column";
-import {GetCostAccountingDataList} from "api/home/DataCenter/BaseData/FinancialData";
+import {GetCostOfStoreDataList} from "api/home/DataCenter/FinancialData";
 
 /**
  * 功能作用：门店成本数据列表
@@ -22,8 +22,8 @@ const CostAccounting = QbaseList((_this) => {
             columns={Columns}
             dataSource={dataList}/>
         <Qpagination
-            data={{everyPage: everyPage, currentPage: currentPage, total: total}}
+            data={{everyPage, currentPage, total}}
             onChange={_this.changePage}/>
     </div>
-}, GetCostAccountingDataList, true);
+}, GetCostOfStoreDataList, true);
 export default CostAccounting;
