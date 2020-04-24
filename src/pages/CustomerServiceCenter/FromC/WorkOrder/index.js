@@ -25,7 +25,7 @@ function showCreateWorkOrder(_this) {
  */
 async function createWorkOrderConfirm(_this) {
     _this.showLoading();
-    new CreateWorkOrder(CommonUtils.paramsFormValues(formRef)).then(rep => {
+    new CreateWorkOrder(await CommonUtils.paramsFormValues(formRef)).then(rep => {
         createWorkOrderCancel(_this);
         //刷新数据
         _this.refreshDataList();
