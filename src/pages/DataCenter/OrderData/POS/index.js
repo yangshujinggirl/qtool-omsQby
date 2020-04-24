@@ -4,6 +4,8 @@ import TopTitleDesHeader from '../../components/TopTitleDesHeader';
 import { GetPosHeaderData } from 'api/home/DataCenter/OrderData';
 import { Qcards } from 'common/index';
 import formatData from './components/formatData';
+import PosEcharts from './components/PosEcharts';
+import PosTable from './components/PosTable'
 
 /**
  * 功能作用：POS订单数据列表页面

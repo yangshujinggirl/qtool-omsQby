@@ -36,8 +36,8 @@ class ShopEcharts extends Component {
 				} else {
 					xdata.push(item.rpDateMd);
 				}
-				data1.push(item.qtySum); //订单数
-				data2.push(item.amountSum); //销售额
+				data1.push(item.orderQty); //订单数
+				data2.push(item.orderAmount); //销售额
 				return item;
 			});
 			this.setState(

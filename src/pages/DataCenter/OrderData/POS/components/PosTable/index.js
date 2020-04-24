@@ -4,7 +4,7 @@ import { Qtable } from 'common';
 import moment from 'moment';
 import Columns from './column';
 import { DataExportApi } from 'api/Export';
-import { GetPosData } from 'api/home/DataCenter/ShopData';
+import { GetPosData } from 'api/home/DataCenter/OrderData';
 const { RangePicker } = DatePicker;
 const formatType = 'YYYY-MM-DD';
 const startDate = moment().format(formatType);
@@ -13,8 +13,9 @@ const startDate = moment().format(formatType);
 const PosTable = () => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
+	//导出数据
 	const exportData = () => {
-		DataExportApi('', inputValues);
+		DataExportApi('posOrderDataTendencyChartExport', inputValues);
 	};
 	//数据初始化
 	useEffect(() => {
@@ -42,6 +43,7 @@ const PosTable = () => {
 			getList({ startDate, endDate });
 		}
 	};
+
 	return (
 		<div>
 			<RangePicker defaultValue={[moment(), moment()]} format={formatType} onChange={onChange} />

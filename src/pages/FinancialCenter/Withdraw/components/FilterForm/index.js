@@ -17,7 +17,7 @@ class NormalForm extends BaseFilter {
                 label="门店名称"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入门店名称" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入门店名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -57,7 +57,7 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspans} name="carryCashNo" >
               <Form.Item label="提现单号" {...this.formItemLayout}>
-                <Input placeholder="请输入提现单号" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入提现单号" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>

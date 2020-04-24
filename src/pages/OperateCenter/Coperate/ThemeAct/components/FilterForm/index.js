@@ -17,7 +17,7 @@ class NormalForm extends BaseFilter {
                 label="主题名称"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入主题名称" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入主题名称" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>
@@ -26,7 +26,7 @@ class NormalForm extends BaseFilter {
                 label="最后修改人"
                 {...this.formItemLayout}
               >
-                <Input placeholder="请输入最后修改人" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入最后修改人" autoComplete="off" />
               </Form.Item>
             </Col>
             <Col {...this.colspans}>

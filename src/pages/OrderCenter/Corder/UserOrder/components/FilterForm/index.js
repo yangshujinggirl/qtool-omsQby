@@ -18,27 +18,27 @@ class SearchForm extends BaseFilter {
           <Row gutter={24}>
             <Col {...this.colspans}>
               <FormItem name="spShopName" label="门店名称">
-                <Input placeholder="请输入门店名称" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入门店名称" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem name="orderNo" label="订单号">
-                <Input placeholder="请输入订单号" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入订单号" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem name="productName" label="商品名称">
-                <Input placeholder="请输入商品名称" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入商品名称" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem name="skuCode" label="商品编码">
-                <Input placeholder="请输入商品编码" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入商品编码" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem name="mobilePhone" label="用户电话">
-                <Input placeholder="请输入用户电话" autoComplete="off"  allowClear={true} />
+                <Input placeholder="请输入用户电话" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>

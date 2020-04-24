@@ -37,7 +37,7 @@ export function UpdataBrandApi(values){
 }
 //品牌归属地查询
 export function BrandAddressApi(values){
-    return omsAjax.get('/brand/brandCountry',{
+    return omsAjax.get('/country/getListByName',{
         params:{...values}
     })
 }

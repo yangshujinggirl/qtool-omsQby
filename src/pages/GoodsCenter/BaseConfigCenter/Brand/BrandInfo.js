@@ -48,10 +48,16 @@ class BrandInfo extends React.Component {
           <Form.Item label="授权有效期">
             {infos.validityStart && (
               <span>
-                {moment(infos.validityStart).format("YYYY-MM-DD HH:mm:ss")} —
-                {moment(infos.validityEnd).format("YYYY-MM-DD HH:mm:ss")}
+                {moment(infos.validityStart).format("YYYY-MM-DD")} —
+                {moment(infos.validityEnd).format("YYYY-MM-DD")}
               </span>
             )}
+          </Form.Item>
+          <Form.Item label="是否转授权">
+            {infos.isTransfer ? "是" : "否"}
+          </Form.Item>
+          <Form.Item label="授权级别">
+            <span>{infos.transLevel}级授权</span>
           </Form.Item>
           <Form.Item label="品牌logo">
             {infos.logo && (

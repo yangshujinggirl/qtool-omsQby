@@ -25,7 +25,7 @@ export function GetSpData(values) {
  * 获取Pos订单数据基础数据
  * @constructor
  */
-export function GetPosHeaderData() {
+export function GetPosHeaderData(values) {
 	return dataAjax.get('order/queryPosOrderDataHead', {
 		params: values,
 	});

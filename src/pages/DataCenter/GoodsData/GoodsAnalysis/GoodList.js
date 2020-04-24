@@ -25,33 +25,19 @@ const GoodListTable = (props) => {
 	url.map((item) => {
 		obj[item.split('=')[0]] = item.split('=')[1];
 	});
-	const { id, type } = obj;
+	const { id, sellType } = obj;
 	const [goodList, setGoodList] = useState([]);
-	useEffect(() => {
-		if (id == 1) {
-			//热销
-			getHotSaleList({ type }).then((res) => {
-				if (res.httpCode == 200) {
-					const { result } = res;
-					if (result && result.length > 0) {
-						result.map((item, index) => (item.key = index));
-					}
-					setGoodList(result);
+	useEffect(() => {//id 1:热销 2:滞销
+		const RequestUrl = id == 1 ? getHotSaleList : getColdSaleList;
+		RequestUrl({ sellType }).then((res) => {
+			if (res.httpCode == 200) {
+				const { result } = res.result;
+				if (result && result.length > 0) {
+					result.map((item, index) => (item.key = index));
 				}
-			});
-		}
-		if (id == 2) {
-			//滞销
-			getColdSaleList({ type }).then((res) => {
-				if (res.httpCode == 200) {
-					const { result } = res;
-					if (result && result.length > 0) {
-						result.map((item, index) => (item.key = index));
-					}
-					setGoodList(result);
-				}
-			});
-		}
+				setGoodList(result);
+			}
+		});
 	}, []);
 	return <Qtable columns={id == 1 ? Columns : Columns2} dataSource={goodList} />;
 };

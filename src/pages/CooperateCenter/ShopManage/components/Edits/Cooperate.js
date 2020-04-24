@@ -25,7 +25,6 @@ const Cooperate = (props) => {
 						placeholder="请输入食品尿不湿"
 						suffix="%"
 						autoComplete="off"
-						allowClear={true}
 					/>
 				</Form.Item>
 				<Form.Item name="divideIntoB">
@@ -34,7 +33,6 @@ const Cooperate = (props) => {
 						placeholder="请输入非食品尿不湿"
 						suffix="%"
 						autoComplete="off"
-						allowClear={true}
 					/>
 				</Form.Item>
 			</Form.Item>

@@ -27,6 +27,6 @@ const Columns = [
     },{
         title: '退款销售额',
         dataIndex: 'returnAmount'
-    }];
+    }]
 ];
 export default Columns;

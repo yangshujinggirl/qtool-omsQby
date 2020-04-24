@@ -2,7 +2,7 @@ import moment from 'moment';
 const renderDefault = (record, text, variableName) => {
 	return (
 		<div>
-			{record.status == 1 || record.status == 3 ? (//待审核和审核不通过 显示一行值（）
+			{record.skuStatus == 1 || record.skuStatus == 3 ? (//待审核和审核不通过 显示一行值（）
         <span style={{ color: 'red' }}>{
           text == record[variableName]?text:record[variableName]
         }</span>
