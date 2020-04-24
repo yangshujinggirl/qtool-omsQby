@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Card, Select, Input, Button} from "antd";
+import {Link} from "react-router-dom";
 import moment from "moment";
 import {QbaseDetail, QbaseInfo, QenlargeImg, Qmessage, Qtable} from "common/index";
 import {
@@ -8,12 +9,12 @@ import {
 } from "../../../../api/home/CustomerServiceCenter/FromB";
 import {
     FEEDBACK_STATUS_END,
-    FEEDBACK_STATUS_IN_HAND,
+    FEEDBACK_STATUS_IN_HAND, FEEDBACK_STATUS_SHOW_TEXT_MAP,
     FEEDBACK_STATUS_WAIT,
     FEEDBACK_TYPE_ATTRACT_INVESTMENT,
     FEEDBACK_TYPE_DESIGN,
     FEEDBACK_TYPE_GOODS,
-    FEEDBACK_TYPE_OPERATION, FEEDBACK_TYPE_OTHER, FEEDBACK_TYPE_SYSTEM
+    FEEDBACK_TYPE_OPERATION, FEEDBACK_TYPE_OTHER, FEEDBACK_TYPE_SHOW_TEXT_MAP, FEEDBACK_TYPE_SYSTEM
 } from "./config";
 import Columns from './column/DetailLog'
 import TableDataListUtil from "utils/TableDataListUtil";
@@ -46,7 +47,7 @@ const StoreFeedbackDetail = (props) => {
     const handleTypeSelectChange = (e) => {
         setDataInfo({
             ...dataInfo,
-            type: e.target.value
+            type: e
         })
     };
 
@@ -57,7 +58,7 @@ const StoreFeedbackDetail = (props) => {
     const handleStatusSelectChange = (e) => {
         setDataInfo({
             ...dataInfo,
-            status: e.target.value
+            status: e
         })
     };
 
@@ -92,6 +93,7 @@ const StoreFeedbackDetail = (props) => {
         }).then(rep => {
             baseDetailComponent.hideLoading();
             Qmessage.success("更新成功");
+            props.history.push("/account/channel_feedback")
         })
     };
 
@@ -134,7 +136,7 @@ const StoreFeedbackDetail = (props) => {
                         {
                             key: "反馈图片", value: picList.map((item, index) => {
                                 return (
-                                    <QenlargeImg url={item.url} key={index} placement="inline"/>
+                                    <QenlargeImg url={sessionStorage.getItem("oms_fileDomain") + item.url} key={index} placement="inline"/>
                                 )
                             })
                         }]
@@ -149,21 +151,21 @@ const StoreFeedbackDetail = (props) => {
                             onChange={handleTypeSelectChange}
                             style={{width: '200px'}}
                             value={dataInfo.type}>
-                            <Option value={FEEDBACK_TYPE_OPERATION}>运营相关问题</Option>
-                            <Option value={FEEDBACK_TYPE_GOODS}>商品相关问题</Option>
-                            <Option value={FEEDBACK_TYPE_DESIGN}>设计相关问题</Option>
-                            <Option value={FEEDBACK_TYPE_ATTRACT_INVESTMENT}>招商相关问题</Option>
-                            <Option value={FEEDBACK_TYPE_SYSTEM}>系统相关问题</Option>
-                            <Option value={FEEDBACK_TYPE_OTHER}>其他</Option>
+                            <Option value={FEEDBACK_TYPE_OPERATION}>{FEEDBACK_TYPE_SHOW_TEXT_MAP[FEEDBACK_TYPE_OPERATION]}</Option>
+                            <Option value={FEEDBACK_TYPE_GOODS}>{FEEDBACK_TYPE_SHOW_TEXT_MAP[FEEDBACK_TYPE_GOODS]}</Option>
+                            <Option value={FEEDBACK_TYPE_DESIGN}>{FEEDBACK_TYPE_SHOW_TEXT_MAP[FEEDBACK_TYPE_DESIGN]}</Option>
+                            <Option value={FEEDBACK_TYPE_ATTRACT_INVESTMENT}>{FEEDBACK_TYPE_SHOW_TEXT_MAP[FEEDBACK_TYPE_ATTRACT_INVESTMENT]}</Option>
+                            <Option value={FEEDBACK_TYPE_SYSTEM}>{FEEDBACK_TYPE_SHOW_TEXT_MAP[FEEDBACK_TYPE_SYSTEM]}</Option>
+                            <Option value={FEEDBACK_TYPE_OTHER}>{FEEDBACK_TYPE_SHOW_TEXT_MAP[FEEDBACK_TYPE_OTHER]}</Option>
                         </Select>
                     }, {
                         key: "反馈状态", value: <Select
                             onChange={handleStatusSelectChange}
                             style={{width: '200px'}}
                             value={dataInfo.status}>
-                            <Option value={FEEDBACK_STATUS_WAIT}>待处理</Option>
-                            <Option value={FEEDBACK_STATUS_IN_HAND}>处理中</Option>
-                            <Option value={FEEDBACK_STATUS_END}>已处理</Option>
+                            <Option value={FEEDBACK_STATUS_WAIT}>{FEEDBACK_STATUS_SHOW_TEXT_MAP[FEEDBACK_STATUS_WAIT]}</Option>
+                            <Option value={FEEDBACK_STATUS_IN_HAND}>{FEEDBACK_STATUS_SHOW_TEXT_MAP[FEEDBACK_STATUS_IN_HAND]}</Option>
+                            <Option value={FEEDBACK_STATUS_END}>{FEEDBACK_STATUS_SHOW_TEXT_MAP[FEEDBACK_STATUS_END]}</Option>
                         </Select>
                     }, {
                         key: "处理备注", value: <TextArea rows={4} value={dataInfo.editRemark}
@@ -178,8 +180,11 @@ const StoreFeedbackDetail = (props) => {
             <Qtable columns={Columns} dataSource={logList}/>
         </Card>
         <div style={{marginBottom: 0, textAlign: "center"}}>
-            <Button style={{marginRight: '30px'}}
-                    onClick={optionsCancel}>取消</Button>
+            <Button style={{marginRight: '30px'}}>
+                <Link to={`/account/channel_feedback`}>
+                    取消
+                </Link>
+            </Button>
             <Button htmlType="submit" type="primary"
                     onClick={optionsConfirm}>确定</Button>
         </div>

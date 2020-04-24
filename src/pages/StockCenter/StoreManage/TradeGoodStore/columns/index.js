@@ -28,13 +28,13 @@ const Columns = [
   {
     title: "联系电话",
     dataIndex: "phone",
-    
+
   },{
     title: "仓库地址",
     dataIndex: "address",
   },{
     title: "创建人",
-    dataIndex: "createTime",
+    dataIndex: "modifyBy",
   }
 ];
 
