@@ -22,10 +22,19 @@ const StandardsMod=({...props})=> {
   const handleChangeType=(type,option)=> {
     //重置商品规格id,商品属性
     if(option==0&&type=='one') {
-      // this.props.form.setFieldsValue({
-      //   pdSkus:undefined
-      // })
+      props.dispatch({
+        type:'baseGoodsAdd/getTotalState',
+        payload:{pdType2Id:0}
+      })
     }
+    props.dispatch({
+      type:'baseGoodsAdd/getListState',
+      payload:{ goodsList:[{key:'0/0'}] }
+    })
+    props.dispatch({
+      type:'baseGoodsAdd/getSpec',
+      payload:{ specData:{specOne:[],specTwo:[]} }
+    })
   }
   //删除商品属性
   const deleteGoodsLabel=(removedTags,type)=> {
@@ -79,6 +88,9 @@ const StandardsMod=({...props})=> {
         if(el.salesAttributeName.indexOf(item.salesAttributeName)!='-1') {
           newGoodsList.splice(index,1);
         }
+        if(item.key == '0/0') {//去除无规格
+          newGoodsList.splice(index,1);
+        }
       })
     })
     newGoodsList = [...newGoodsList,...newArr];
@@ -101,7 +113,7 @@ const StandardsMod=({...props})=> {
                 placeholder="请选择商品规格1"
                 autoComplete="off"
                 onChange={(selected)=>handleChangeType('one',selected)}>
-                <Option value={0} key={0}>无</Option>
+                <Option value={'0'} key={'0'}>无</Option>
                 {
                   attributeArray.length>0 &&
                   attributeArray.map((ele,index) => (
@@ -121,10 +133,10 @@ const StandardsMod=({...props})=> {
           <Form.Item label='商品规格2'>
             <Form.Item name="pdType2Id" rules={ [{ required: true, message: '请选择'}]}>
               <Select
-                disabled={totalData.spuCode?true:false}
+                disabled={(totalData.pdType1Id==0||totalData.spuCode)?true:false}
                 placeholder="商品规格2" autoComplete="off"
                 onChange={(selected)=>handleChangeType('two',selected)}>
-                <Option value={0} key={0}>无</Option>
+                <Option value={'0'} key={'0'}>无</Option>
                 {
                   attributeArray.length>0 &&
                   attributeArray.map((ele,index) => (
@@ -136,7 +148,7 @@ const StandardsMod=({...props})=> {
               </Select>
             </Form.Item>
             <Creatlabel
-               disabled={totalData.pdType2Id?false:true}
+               disabled={(totalData.pdType2Id!='0'&&totalData.pdType2Id)?false:true}
                deleteGoodsLabel={deleteGoodsLabel}
                addGoodsLabel={addGoodsLabel}
                level="two"/>

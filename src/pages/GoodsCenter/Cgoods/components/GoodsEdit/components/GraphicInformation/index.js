@@ -8,7 +8,7 @@ function GraphicInformation({...props}) {
   let { picUrlObj } =props;
   let mainPicUrlList = picUrlObj&&picUrlObj.mainPicUrlList?picUrlObj.mainPicUrlList:[];
   let imageListCList = picUrlObj&&picUrlObj.imageListCList?picUrlObj.imageListCList:[];
-  console.log(picUrlObj)
+
   return  <div className="part-wrap graphic-information-components">
             <p className="title-wrap"><span className="title-name">图文信息</span></p>
             <FormItem label='商品主图' {...props.formItemLayout}>

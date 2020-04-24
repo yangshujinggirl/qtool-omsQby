@@ -167,9 +167,9 @@ const BaseInfoSet=({...props})=> {
          placeholder="请选择商品品牌">
          {
            brandList.map((el)=> (
-             <Option key={el.id} value={el.brandNameCn} text={el.brandCountry}>
+             <AutoComplete.Option key={el.id} value={el.brandNameCn} text={el.brandCountry}>
                 {el.brandNameCn}
-             </Option>
+             </AutoComplete.Option>
            ))
          }
         </AutoComplete>
@@ -201,7 +201,7 @@ const BaseInfoSet=({...props})=> {
             <Select placeholder="请选择后台一级类目" disabled={isEdit}>
               {
                 procurementTargetOptions.map((el)=>(
-                <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                <Option value={el.key} key={el.key}>{el.value}</Option>
                 ))
               }
             </Select>
@@ -246,7 +246,7 @@ const BaseInfoSet=({...props})=> {
         onChange={(select)=>handleChangeLevel(3,select)}>
         {
           list3.map((el) => (
-            <Select.Option value={el.id} key={el.id}>{el.categoryName}</Select.Option>
+            <Option value={el.id} key={el.id}>{el.categoryName}</Option>
           ))
         }
         </Select>
@@ -256,7 +256,7 @@ const BaseInfoSet=({...props})=> {
         disabled={isEdit||list4.length==0} placeholder="请选择四级类目">
         {
           list4.map((el) => (
-            <Select.Option value={el.id} key={el.id}>{el.categoryName}</Select.Option>
+            <Option value={el.id} key={el.id}>{el.categoryName}</Option>
           ))
         }
         </Select>

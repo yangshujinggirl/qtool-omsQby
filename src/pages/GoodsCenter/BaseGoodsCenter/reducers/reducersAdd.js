@@ -1,20 +1,11 @@
 const index = (state = {
   loading: false,
-  totalData:{isSave:true},
+  totalData:{isSave:true,pdType1Id:0,pdType2Id:0},
   allGoods:[],
-  goodsList:[],//商品数据
+  goodsList:[{key:'0/0'}],//商品数据
   specData:{
     specOne:[],
     specTwo:[],
-  },
-  categoryData:{
-    categoryLevelOne:[],
-    categoryLevelTwo:[],
-    categoryLevelThr:[],
-    categoryLevelFour:[],
-    isLevelTwo:true,
-    isLevelThr:true,
-    isLevelFour:true
   },
 }, action) => {
   switch (action.type) {
@@ -23,8 +14,6 @@ const index = (state = {
     case "BASEGOODSADD_GOODSLIST":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_TOTALDATA":
-      return { ...state,loading: false,...action.payload };
-    case "BASEGOODSADD_CATEGORY":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_RESETPAGE":
       return { ...state,loading: false,...action.payload };

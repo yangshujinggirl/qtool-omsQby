@@ -65,111 +65,15 @@ function* fetchTotal(action){
   pdSpu = CommonUtils.clearEmptyObj(pdSpu);
   yield call(getTotalState,{payload:pdSpu})
   yield call(getListState,{payload:{goodsList:list}});
-  // const [levelTwo,levelThr,levelFour] = yield all([
-  //   call(GetCategoryApi,{level:'2',parentId:categoryDetail.categoryId}),
-  //   call(GetCategoryApi,{level:'3',parentId:categoryDetail.categoryId2}),
-  //   call(GetCategoryApi,{level:'4',parentId:categoryDetail.categoryId3}),
-  // ])
-  // const categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
-  // yield put({
-  //   type: 'BASEGOODSADD_CATEGORY',
-  //   payload: {
-  //     categoryData:{
-  //       categoryLevelOne:categoryData.categoryLevelOne,
-  //       categoryLevelTwo:levelTwo.result?levelTwo.result:[],
-  //       categoryLevelThr:levelThr.result?levelThr.result:[],
-  //       categoryLevelFour:levelFour.result?levelFour.result:[],
-  //       isLevelTwo:false,
-  //       isLevelThr:false,
-  //       isLevelFour:false
-  //     }
-  //   }
-  // })
-};
-//查询分类
-function* fetchCategory(action){
-  let params = action.payload;
-  const res = yield call(GetCategoryApi,params);
-  let { result } =res;
-  result=result?result:[]
-  result.length>0&&result.map((el)=>el.key =el.id);
-  const { level, parentId } =params;
-  let categoryData = yield select(state => state.BaseGoodsAddReducers.categoryData);
-  let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
-  let { categoryLevelOne,categoryLevelTwo,
-    categoryLevelThr,categoryLevelFour,
-    isLevelTwo,isLevelThr,isLevelFour } =categoryData;
-  switch(level) {
-    case 1:
-      categoryLevelOne = result
-      isLevelTwo=true;
-      isLevelThr=true;
-      isLevelFour=true;
-      break;
-    case 2:
-      categoryLevelTwo = result
-      isLevelTwo=false;
-      isLevelThr=true;
-      isLevelFour=true;
-      totalData.categoryCode = parentId;
-      totalData.categoryCode2=undefined;
-      totalData.categoryCode3=undefined;
-      totalData.categoryCode4=undefined;
-      break;
-    case 3:
-      categoryLevelThr = result
-      isLevelTwo=false;
-      isLevelThr=false;
-      isLevelFour=true;
-      totalData.categoryCode2 = parentId;
-      totalData.categoryCode3=undefined;
-      totalData.categoryCode4=undefined;
-      break;
-    case 4:
-      totalData.categoryCode3 = parentId;
-      categoryLevelFour = result
-      isLevelTwo=false;
-      isLevelThr=false;
-      isLevelFour=false;
-      break;
-  }
-  // console.log('action')
-  yield put({
-    type: 'BASEGOODSADD_TOTALDATA',
-    payload: {totalData}
-  })
-  yield put({
-    type: 'BASEGOODSADD_CATEGORY',
-    payload: {
-      categoryData:{
-        categoryLevelOne,
-        categoryLevelTwo,
-        categoryLevelThr,
-        categoryLevelFour,
-        isLevelTwo,
-        isLevelThr,
-        isLevelFour
-      }
-    }
-  })
 };
 function* resetPages(action){
   let data = {
     loading: false,
-    totalData:{isSave:true},
-    goodsList:[],
+    totalData:{isSave:true,pdType1Id:0,pdType2Id:0},
+    goodsList:[{key:'0/0'}],
     specData:{
       specOne:[],
       specTwo:[],
-    },
-    categoryData:{
-      categoryLevelOne:[],
-      categoryLevelTwo:[],
-      categoryLevelThr:[],
-      categoryLevelFour:[],
-      isLevelTwo:false,
-      isLevelThr:false,
-      isLevelFour:false
     },
   }
   yield put({
@@ -182,7 +86,6 @@ export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchTotal', fetchTotal)
   yield takeEvery('baseGoodsAdd/getTotalState', getTotalState)
   yield takeEvery('baseGoodsAdd/getListState', getListState)
-  yield takeEvery('baseGoodsAdd/fetchCategory', fetchCategory)
   yield takeEvery('baseGoodsAdd/resetPage', resetPages)
   yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

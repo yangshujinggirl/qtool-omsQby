@@ -32,16 +32,17 @@ class Search extends BaseFilter {
   initPage(){
     GetCategoryApi({ level: 1, parentId: "" })
     .then(res => {
-      this.setState({
-        catagoryList: res.result
-      });
+      let { result } =res;
+      result=result?result:[];
+      this.setState({ catagoryList: result });
     });
   }
   onChangeCategoryCode = (value) => {
     this.formRef.current.resetFields(['categoryCode2']);
     this.setState({catagoryList2:[]});
     if (value) {
-      GetCategoryApi({ level: -1, parentId: value }).then(res => {
+      GetCategoryApi({ level: -1, parentId: value })
+      .then(res => {
         this.setState({
           catagoryList2: res.result || []
         });

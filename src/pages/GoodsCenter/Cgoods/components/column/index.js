@@ -1,5 +1,8 @@
 import moment from "moment";
 import { Link } from 'react-router-dom';
+import { QenlargeImg } from 'common';
+import { Sessions } from 'utils';
+const fileDomain = Sessions.get('fileDomain');
 
 const ColumnsPar =[
     {
@@ -61,6 +64,9 @@ const ColumnsSub = [
   {
     title: "商品图片",
     dataIndex: "image",
+    render:(text,record,index)=> {
+      return <QenlargeImg url={`${fileDomain}/${record.image}`}/>
+    }
   },
   {
     title: "规格",
@@ -83,12 +89,9 @@ const ColumnsSub = [
     render: (text,record,index) => (
       <span>
       {
-        record.upperStatus?
-        <span className="pointerSty" onClick={()=>record.onOperateClick('sale')}>立即{record.upperStatusStr=='下架'?"上架":'下架'}</span>
-        :
-        <span className="pointerSty" onClick={()=>record.onOperateClick('sale')}>立即{record.upperStatusStr=='下架'?"上架":'下架'}</span>
+        !!record.upperStatusStr&&
+        <span className="pointerSty" onClick={()=>record.onOperateClick('sale')}>立即{(record.upperStatusStr=='下架'||record.upperStatusStr=='待引用')?"上架":'下架'}</span>
       }
-
       </span>
     )
   }

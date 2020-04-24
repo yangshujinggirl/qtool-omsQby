@@ -27,14 +27,14 @@ class HomeController extends React.Component {
     .then((res) => {
       let { result,fileDomain } = res;
       result= result?result:[];
-      let openKeys=[result[1].id,result[1].subActions[1].id];
-      let selectedKeys = result[1].subActions[1].subActions[0].id;
       Sessions.set('fileDomain',fileDomain);
+      let openKeys=[result[1].id,result[1].subActions[0].id];
+      let selectedKeys = result[1].subActions[0].subActions[0].id;
       let defaultSelectedKeys = JSON.parse(Sessions.get('selectedMenuKeys'));
       let defaultOpenKeys = JSON.parse(Sessions.get('openMenuKeys'));
       if(!defaultSelectedKeys||!defaultOpenKeys) {
         Sessions.set('openMenuKeys',JSON.stringify(openKeys));
-        Sessions.set('selectedMenuKeys',JSON.stringify(result[1].subActions[1].subActions[0].id));
+        Sessions.set('selectedMenuKeys',JSON.stringify(selectedKeys));
       }
       result = [...result];
       this.setState({ menuList:result, selectKeys: selectedKeys});
