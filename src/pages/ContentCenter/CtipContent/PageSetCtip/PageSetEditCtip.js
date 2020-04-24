@@ -5,7 +5,6 @@ import { GetInfoApi, GetSaveApi } from 'api/contentCenter/PageSetCtip';
 import { QupLoadImgLimt, Qmessage, Qtable, Qbtn } from 'common';
 import ImageTextEdit from './components/ImageTextEdit';
 
-import { ColumnsEditImgGeneral } from './columns';
 import './PageSetEditCtip.less';
 
 let FormItem = Form.Item;
