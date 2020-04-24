@@ -63,7 +63,6 @@ export default class SearchForm extends BaseFilter {
             spShopId: data.spShopId
         })
     }
-
     render() {
         return (
             <div className="qtoolOms-condition">

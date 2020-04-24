@@ -69,7 +69,7 @@ class SearchForm extends BaseFilter {
 									{storeList &&
 										storeList.length > 0 &&
 										storeList.map((item) => (
-											<Option value={item.warehouseCode}>{item.warehouseName}</Option>
+											<Option value={item.warehouseCode} key={item.warehouseCode}>{item.warehouseName}</Option>
 										))}
 								</Select>
 							</FormItem>

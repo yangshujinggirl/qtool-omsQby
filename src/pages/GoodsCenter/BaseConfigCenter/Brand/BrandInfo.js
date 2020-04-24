@@ -1,6 +1,7 @@
-import { Form } from "@ant-design/compatible";
-import "@ant-design/compatible/assets/index.css";
+import { Form } from "antd";
+import {QenlargeImg} from 'common'
 import { GetInfoApi } from "api/home/Brand";
+
 import moment from "moment";
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -38,11 +39,7 @@ class BrandInfo extends React.Component {
           <Form.Item label="授权书">
             {infos.introduceImgList &&
               infos.introduceImgList.map((item, index) => (
-                <img
-                  key={index}
-                  src={fileDomain + item}
-                  className="brand_infos_introImg"
-                />
+                <QenlargeImg key={index} url={fileDomain + item}/>
               ))}
           </Form.Item>
           <Form.Item label="授权有效期">
@@ -61,7 +58,7 @@ class BrandInfo extends React.Component {
           </Form.Item>
           <Form.Item label="品牌logo">
             {infos.logo && (
-              <img className="brand_infos_logo" src={fileDomain + infos.logo} />
+              <QenlargeImg url={fileDomain + infos.logo}/>
             )}
           </Form.Item>
           <Form.Item label="品牌简介">{infos.brandIntroduce}</Form.Item>

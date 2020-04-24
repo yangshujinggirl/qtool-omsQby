@@ -23,12 +23,12 @@ const Columns = [
   },
   {
     title: "保税仓",
-    dataIndex: "warehouse_name",
+    dataIndex: "warehouseName",
     key: "5"
   },
   {
     title: "商品分类",
-    dataIndex: "productTypeStr",
+    dataIndex: "categoryInfo",
     key: "6"
   },
   {
