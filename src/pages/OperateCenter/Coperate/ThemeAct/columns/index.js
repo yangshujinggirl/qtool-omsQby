@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import React from "react";
+import {TableItemShowTime} from "common/QdisabledDateTime";
 const Columns = [
   {
     title: "主题名称",
@@ -10,7 +12,8 @@ const Columns = [
   },
   {
     title: "主题状态",
-    dataIndex: "themeStatusStr"
+    dataIndex: "themeStatus",
+      render:(text)=>(<span>{text === 4 ? "上线" : (text === 5 ? "下线" : "")}</span>)
   },
   {
     title: "预览链接",
@@ -33,7 +36,8 @@ const Columns = [
   },
   {
     title: "创建时间",
-    dataIndex: "createTime"
+    dataIndex: "createTime",
+      render: (text) => (<TableItemShowTime showTime={text}/>)
   },
   {
     title: "最后修改人",
