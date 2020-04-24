@@ -28,6 +28,16 @@ export const FEEDBACK_TYPE_SYSTEM = 5;
  * @type {number}
  */
 export const FEEDBACK_TYPE_OTHER = 6;
+
+/**
+ * 意见反馈显示文本
+ */
+export const FEEDBACK_TYPE_SHOW_TEXT_MAP = {
+    1: "运营相关问题", 2: "商品相关问题", 3: "设计相关问题",
+    4: "招商相关问题", 5: "系统相关问题", 6: "其他"
+}
+
+
 /**
  * 意见反馈状态待处理
  * @type {number}
@@ -43,6 +53,15 @@ export const FEEDBACK_STATUS_IN_HAND = 20;
  * @type {number}
  */
 export const FEEDBACK_STATUS_END = 30;
+
+/**
+ * 意见反馈状态显示文本
+ */
+export const FEEDBACK_STATUS_SHOW_TEXT_MAP = {
+    10: "待处理", 20: "处理中", 30: "已处理",
+}
+
+
 /**
  * 意见反馈处理时长（0-5h）
  * @type {number}
