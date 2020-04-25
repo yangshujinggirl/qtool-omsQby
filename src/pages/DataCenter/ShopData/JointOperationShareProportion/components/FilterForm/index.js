@@ -3,6 +3,7 @@ import moment from "moment";
 import {Form, Row, Col, DatePicker, AutoComplete, Input, Select} from "antd";
 import {BaseFilter, Qbtn} from "common";
 import {GetStoreIntelligentSearchList} from "api/home/DataCenter/FinancialData";
+const {RangerPicker} = DatePicker
 
 const FormItem = Form.Item;
 
@@ -36,6 +37,7 @@ export default class SearchForm extends BaseFilter {
         this.setState({
             spShopId: null
         });
+        const {} = value;
         let values = {name: value};
         new GetStoreIntelligentSearchList(values)
             .then(rep => {
@@ -79,7 +81,7 @@ export default class SearchForm extends BaseFilter {
                             </FormItem>
                         </Col>
                         <FormItem name="codes" label="选择时间" {...this.formItemLayout}>
-                            <DatePicker
+                            <RangerPicker
                                 format={"YYYY-MM"}
                                 allowClear={false}
                             />

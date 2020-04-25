@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal } from 'antd';
 import { QcardList, Qcards } from 'common';
 import TopTitleDesHeader from '../../components/TopTitleDesHeader';
-import SaleTable from './components/SaleTable';
 import SaleEcharts from './components/SaleEcharts';
 import { GetStoreSaleBaseData } from 'api/home/DataCenter/ShopData';
 import formatData from './components/formatData';
@@ -76,7 +75,6 @@ export default class SaleData extends React.Component {
 				<Qcards data={data} />
 				<QcardList data={listData} />
 				<SaleEcharts />
-				<SaleTable />
 			</div>
 		);
 	}

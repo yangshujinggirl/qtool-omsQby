@@ -130,6 +130,9 @@ import JointOperationShareProportion from "./DataCenter/ShopData/JointOperationS
 import CostAccounting from "./DataCenter/FinancialData/CostAccounting"; //财务数据-->门店成本
 import CostOfStores from "./DataCenter/FinancialData/CostOfStores"; //财务数据-->成本核算
 import AppData from "./DataCenter/AppData"; //App数据
+import SpLearning from "./DataCenter/ShopData/SaleData/SpLearning"; //门店学习
+import SpRanking from "./DataCenter/ShopData/SaleData/SpRanking"; //门店排行
+import SpNotice from "./DataCenter/ShopData/SaleData/SpNotice"; //门店注意
 
 
 /************************************   渠道管理   *******************************************/
@@ -319,6 +322,9 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/pstores_cost_data" component={CostAccounting} />
         <Route exact path="/account/cost_accounting_data" component={CostOfStores} />
         <Route exact path="/account/app_data" component={AppData} />
+        <Route exact path="/account/shopData/sp_learning/:id" component={SpLearning} />
+        <Route exact path="/account/shopData/sp_ranking" component={SpRanking} />
+        <Route exact path="/account/shopData/sp_notice" component={SpNotice} />
 
 
 

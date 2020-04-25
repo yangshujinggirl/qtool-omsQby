@@ -1,6 +1,10 @@
 import { Component } from 'react';
 import Qcharts from 'common/Qcharts';
-import { GetSpChartsData } from 'api/home/DataCenter/ShopData';
+import { Button } from 'antd';
+import { Qtable } from 'common';
+import Columns from './column';
+import { DataExportApi } from 'api/Export';
+import { GetSpChartsData,GetSpTableData } from 'api/home/DataCenter/ShopData';
 
 //销售数据折线图
 class SaleDataEcharts extends Component {
@@ -13,7 +17,8 @@ class SaleDataEcharts extends Component {
 			data3: [],
 			data4: [],
 			type: 1,
-			searchFilterList:{}
+			searchFilterList:{},
+			analysisData:[]
 		};
 	}
 	//请求数据
@@ -25,11 +30,22 @@ class SaleDataEcharts extends Component {
 				this.formatValue(analysisData,params);
 			}
 		});
+		GetSpTableData(params).then(res=>{
+			if(res.httpCode==200){
+				const {result} = res.result;
+				if(result&&result.length){
+					result.map((item,index)=>(item.key=index))
+					this.setState({
+						analysisData:result
+					})
+				}
+			}
+		})
 	};
 	//数据格式化
 	formatValue = (analysisData,params) => {
 		const [xdata, data1, data2, data3, data4] = [[], [], [], [], []];
-		analysisData.map((item) => {
+		analysisData.map((item,index) => {
             if(params.startDate == params.endDate){
                 xdata.push(item.rpDateTm);
             }else{
@@ -67,9 +83,11 @@ class SaleDataEcharts extends Component {
 			}
 		);
 	};
+	exportData = () => {
+		DataExportApi('/shop/querySaleDataExport', {});
+	};
 	render() {
-		console.log(this.state.searchFilterList);
-		const { xdata, type, data1, data2, data3, data4 } = this.state;
+		const { xdata, type, data1, data2, data3, data4 ,analysisData} = this.state;
 		const title = '门店销售趋势图';
 		const legend = {
 			data: [
@@ -97,12 +115,18 @@ class SaleDataEcharts extends Component {
 		];
 		const btnText = ['销售数量', '销售金额'];
 		return (
-			<Qcharts
-				{...{ title, type, xdata, legend, series, isHaveGoodSearch: true, btnText }}
-				getDataList={this.getDataList}
-				changeType={this.changeType}
-				ref="Qcharts"
-			/>
+			<div>
+				<Qcharts
+					{...{ title, type, xdata, legend, series, isHaveGoodSearch: false, btnText }}
+					getDataList={this.getDataList}
+					changeType={this.changeType}
+					ref="Qcharts"
+				/>
+				<Button style={{ marginLeft: '10px', marginBottom: '10px' }} type="primary" onClick={this.exportData}>
+					导出数据
+				</Button>
+				<Qtable columns={Columns} dataSource={analysisData} />
+			</div>
 		);
 	}
 }

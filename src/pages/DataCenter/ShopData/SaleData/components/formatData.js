@@ -53,24 +53,28 @@ const formatData = (shopSaleData) => {
 			value: shopSaleData.shopRank,
 			type: '1',
 			bg: '#949494',
+			linkToPage:'/account/shopData/sp_ranking'
 		},
 		{
 			title: '学习门店',
 			value: shopSaleData.studyShop,
 			type: '2',
 			bg: '#ABDB7D',
+			linkToPage:'/account/shopData/sp_learning/1'
 		},
 		{
 			title: '指导门店',
 			value: shopSaleData.guidanceShop,
 			type: '3',
 			bg: '#71A6F1',
+			linkToPage:'/account/shopData/sp_learning/2'
 		},
 		{
 			title: '注意门店',
 			value: shopSaleData.carefulShop,
 			type: '4',
 			bg: '#BC2739',
+			linkToPage:'/account/shopData/sp_notice'
 		},
 	];
 	return { data, listData };
