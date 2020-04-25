@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Form, Input } from 'antd';
+import moment from 'moment';
+
 const FormItem= Form.Item;
 
 const Columns = [
@@ -24,7 +26,7 @@ const Columns = [
      title: '活动时间',
      dataIndex: '',
      render:(text,record,index)=>(
-       <div>{record.beginTime} ~ {record.endTime}</div>
+       <div>{moment(record.beginTime).format('YYYY-MM-DD HH:mm')} ~ {moment(record.endTime).format('YYYY-MM-DD HH:mm')}</div>
      )
    },{
      title: '操作',

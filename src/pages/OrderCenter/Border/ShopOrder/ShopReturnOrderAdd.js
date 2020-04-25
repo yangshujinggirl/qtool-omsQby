@@ -115,7 +115,7 @@ const ShopOrderAdd=({...props})=> {
             <Form.Item label="退货原因" name="reason" rules={[{ required: true, message: '请输入退货原因' }]}>
               <Input.TextArea placeholder='请输入退货原因' maxLength='50' rows={4} autoComplete="off"/>
             </Form.Item>
-            <Form.Item label="退单类型" name="returnType">
+            <Form.Item label="退单类型" name="returnType" rules={[{ required: true, message: '请选择退单类型' }]}>
               <Radio.Group>
                 <Radio value={10}>退货退款</Radio>
                 <Radio value={20}>仅退款</Radio>
@@ -156,7 +156,9 @@ const ShopOrderAdd=({...props})=> {
                  ) : null;
                }}
              </Form.Item>
-
+             <Form.Item label="订单备注" name="remarks" >
+               <Input.TextArea placeholder='请输入快递单号' maxLength='100' rows={4} autoComplete="off"/>
+             </Form.Item>
           </Card>
           <div className="handle-operate-save-action">
             <Qbtn onClick={goReturn}>
