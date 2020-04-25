@@ -63,3 +63,30 @@ export function GetDivideCostList(values) {
        params:values
    })
 }
+/**
+ * 获取门店排行
+ * @constructor
+ */
+export function GetSpRankingList(values) {
+    return dataAjax.get('/shop/queryShopRank',{
+        params:values
+    })
+ }
+ /**
+ * 获取门店学习与指导列表
+ * @constructor
+ */
+export function GetSpLearningList(values) {
+    return dataAjax.get('/shop/queryStudyAndGuideShop',{
+        params:values
+    })
+ }
+  /**
+ * 获取注意门店列表
+ * @constructor
+ */
+export function GetSpNoticeList(values) {
+    return dataAjax.get('/shop/queryBecarfulShop',{
+        params:values
+    })
+ }
