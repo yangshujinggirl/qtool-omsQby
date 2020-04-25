@@ -23,6 +23,7 @@ const ShopOrderDetail = (props) => {
       orderLogs.map((el,index)=>el.key=index)
       expressInfos.map((el,index)=>el.key=index)
       listDetails.map((el,index)=>el.key=index)
+      spOrder={...spOrder,wsOrderNos}
       setDataInfo(spOrder);
       setOrderLogs(orderLogs)
       setOutList(expressInfos)
@@ -49,7 +50,7 @@ const ShopOrderDetail = (props) => {
             {key:'订单备注',value:totalData.remark},
           ]
     if(goodsList.length>0) {
-      let wsOrderNos = goodsList;
+      let wsOrderNos = totalData.wsOrderNos;
       dataInfo.push({key:'对应配货单',value:wsOrderNos.join(' ')})
     }
     if(totalData.status == 30){

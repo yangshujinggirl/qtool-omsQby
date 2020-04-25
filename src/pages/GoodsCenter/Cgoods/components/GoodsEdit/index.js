@@ -62,10 +62,10 @@ const MainComponent=({...props})=> {
               {totalData.deliveryDesc}
             </Form.Item>
             <FormItem label='C端商品名称' name="productCname" rules={[{ required: true, message: '请输入C端商品名称'}]}>
-               <Input autoComplete="off" placeholder="请输入C端商品名称"/>
+               <Input autoComplete="off" placeholder="请输入C端商品名称" maxLength={54}/>
             </FormItem>
             <Form.Item label="C端商品卖点" name="sellingPoint">
-              <Input autoComplete="off" placeholder="请输入C端商品名称"/>
+              <Input autoComplete="off" placeholder="请输入C端商品名称" maxLength={54}/>
             </Form.Item>
             {
               descList.length>0&&
@@ -140,7 +140,7 @@ function withSubscription(WrappedComponent,productNature) {
       .then((res) => {
         let { descriptAttributeList, subList,...pdSpu} =res.result;
         let serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo;
-        pdSpu.serviceInfo = serviceInfo==""?[]:serviceInfo.split('-');
+        pdSpu.serviceInfo = serviceInfo==""?['1','2','3']:serviceInfo.split('-');
         descriptAttributeList&&descriptAttributeList.map((el,idx) =>el.key=`${el.descriptAttributeId}${idx}`)
         subList&&subList.map((el)=>el.key=el.pdSkuId);
         setTotal(pdSpu)

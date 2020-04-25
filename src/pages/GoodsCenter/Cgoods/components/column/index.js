@@ -10,6 +10,10 @@ const ColumnsPar =[
       dataIndex: "spuCode",
     },
     {
+      title: "SpuId",
+      dataIndex: "pdSpuId",
+    },
+    {
       title: "商品名称",
       dataIndex: "productName",
     },

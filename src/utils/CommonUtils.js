@@ -5,7 +5,7 @@ const CommonUtils = {
   clearEmptyObj(obj) {
     let newPdSpu = {};
     for (let key in obj) {
-      if (obj[key]) {
+      if (obj[key]!=null) {
         newPdSpu[key] = obj[key];
       }
     }

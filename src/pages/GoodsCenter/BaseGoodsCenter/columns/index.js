@@ -1,10 +1,45 @@
 import moment from "moment";
 import { Input,Form,Select } from 'antd';
 import { QupLoadImgLimt } from 'common';
+import { RegExpUtil } from 'utils';
 
 import { Link } from 'react-router-dom';
 let FormItem = Form.Item;
 let Option = Select.Option;
+
+let commonColumns = {
+  renderAction:(text,record,index)=>{
+    return <span>
+          {
+            record.skuCode?"-":
+            <span className="pointerSty" onClick={()=>record.onOperateClick('delete')}>删除</span>
+          }
+    </span>
+  },
+  renderSkuCode:(text,record,index)=> {
+    return <span>{record.skuCode?record.skuCode:'-'}</span>
+  },
+  renderBarCode:(text,record,index)=> {
+    return  <Form.Item name={['list',index,'barCode']} rules={ [{ required: true, message: '请输入'}]}>
+              <Input disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
+            </Form.Item>
+  },
+  renderPurchasePrice:(text,record,index)=> {
+    return  <Form.Item
+              name={['list',index,'purchasePrice']}
+              rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyFourFloat,message:'请输入数字'}]}>
+              <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
+            </Form.Item>
+  },
+  renderCustomerPrice:(text,record,index)=> {
+    return  <Form.Item
+              name={['list',index,'customerPrice']}
+              rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+              <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
+            </Form.Item>
+
+  }
+}
 
 const ColumnsGeneral = [
   {
@@ -73,30 +108,18 @@ const ColumnsAddGeneral=[
     width: 100,
     textWrap: 'word-break',
     fixed: 'left',
-    render:(text,record,index)=> {
-      return <span>
-            {
-              record.skuCode?"-":
-              <span className="pointerSty" onClick={()=>record.onOperateClick('delete')}>删除</span>
-            }
-      </span>
-    }
+    render:(text,record,index)=>commonColumns.renderAction(text,record,index)
   },{
     title: "sku编码",
     dataIndex: "skuCode",
     width: 100,
     textWrap: 'word-break',
-    render:(text,record,index)=> {
-      return <span>{record.skuCode?record.skuCode:'-'}</span>
-    }
+    render:(text,record,index)=>commonColumns.renderSkuCode(text,record,index)
   },{
     title: "规格",
     dataIndex: "salesAttributeName",
     width: 100,
-    textWrap: 'word-break',
-    render:(text,record,index)=> {
-      return record.salesAttributeName
-    }
+    textWrap: 'word-break'
   },{
     title: "审核状态",
     dataIndex: "statusStr",
@@ -112,7 +135,7 @@ const ColumnsAddGeneral=[
     textWrap: 'word-break',
     render:(text,record,index)=> {
       return  <Form.Item name={['list',index,'oldStatus']} rules={ [{ required: true, message: '请选择'}]}>
-                <Select disabled={record.isExamine}>
+                <Select disabled={record.isExamine} autoComplete="off">
                   <Option value={3}>正常商品</Option>
                   <Option value={5}>淘汰商品</Option>
                 </Select>
@@ -123,29 +146,23 @@ const ColumnsAddGeneral=[
     dataIndex: "barCode",
     textWrap: 'word-break',
     width: 100,
-    render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'barCode']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input disabled={record.isExamine} className="goods-name" key={index}/>
-              </Form.Item>
-    }
+    render:(text,record,index)=>commonColumns.renderBarCode(text,record,index)
   },{
     title: "*采购价",
     width: 100,
     textWrap: 'word-break',
     dataIndex: "purchasePrice",
-    render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'purchasePrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.purchasePrice}/>
-              </Form.Item>
-    }
+    render:(text,record,index)=>commonColumns.renderPurchasePrice(text,record,index)
   },{
     title: "*B端售价",
     width: 100,
     textWrap: 'word-break',
     dataIndex: "businessPrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'businessPrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.businessPrice}/>
+      return  <Form.Item
+                name={['list',index,'businessPrice']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
     }
@@ -154,20 +171,17 @@ const ColumnsAddGeneral=[
     width: 100,
     textWrap: 'word-break',
     dataIndex: "customerPrice",
-    render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'customerPrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.customerPrice}/>
-              </Form.Item>
-
-    }
+    render:(text,record,index)=>commonColumns.renderCustomerPrice(text,record,index)
   },{
     title: "*建议零售价",
     width: 100,
     textWrap: 'word-break',
     dataIndex: "proposalPrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'proposalPrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.proposalPrice}/>
+      return  <Form.Item
+                name={['list',index,'proposalPrice']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
      }
@@ -177,8 +191,10 @@ const ColumnsAddGeneral=[
     textWrap: 'word-break',
     dataIndex: "bonusRate",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'bonusRate']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.bonusRate}/>
+      return  <Form.Item
+                name={['list',index,'bonusRate']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
      }
@@ -188,8 +204,10 @@ const ColumnsAddGeneral=[
     textWrap: 'word-break',
     dataIndex: "taxRate",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'taxRate']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.taxRate}/>
+      return  <Form.Item
+                name={['list',index,'taxRate']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
     }
@@ -199,8 +217,10 @@ const ColumnsAddGeneral=[
     textWrap: 'word-break',
     dataIndex: "shelfLife",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'shelfLife']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.shelfLife}/>
+      return  <Form.Item
+                  name={['list',index,'shelfLife']}
+                  rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.qty,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
     }
@@ -210,8 +230,10 @@ const ColumnsAddGeneral=[
     width: 100,
     textWrap: 'word-break',
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'weight']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.weight}/>
+      return  <Form.Item
+                name={['list',index,'weight']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
     }
@@ -383,30 +405,18 @@ const ColumnsAddCross=[
     width: 100,
     textWrap: 'word-break',
     fixed: 'left',
-    render:(text,record,index)=> {
-      return <span>
-            {
-              record.skuCode?"-":
-              <span className="pointerSty" onClick={()=>record.onOperateClick('delete')}>删除</span>
-            }
-      </span>
-    }
+    render:(text,record,index)=>commonColumns.renderAction(text,record,index)
   },{
     title: "sku编码",
     dataIndex: "skuCode",
     width: 100,
     textWrap: 'word-break',
-    render:(text,record,index)=> {
-      return <span>{record.skuCode?record.skuCode:'-'}</span>
-    }
+    render:(text,record,index)=>commonColumns.renderSkuCode(text,record,index)
   },{
     title: "规格",
     dataIndex: "salesAttributeName",
     width: 100,
-    textWrap: 'word-break',
-    render:(text,record,index)=> {
-      return record.salesAttributeName
-    }
+    textWrap: 'word-break'
   },{
     title: "*第三方商品编码",
     dataIndex: "outerProductCode",
@@ -414,7 +424,7 @@ const ColumnsAddCross=[
     textWrap: 'word-break',
     render:(text,record,index)=> {
       return  <Form.Item name={['list',index,'outerProductCode']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input className="goods-name" key={index}/>
+                <Input className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
     }
   },{
@@ -422,29 +432,23 @@ const ColumnsAddCross=[
     dataIndex: "barCode",
     textWrap: 'word-break',
     width: 100,
-    render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'barCode']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input disabled={record.isExamine} className="goods-name" key={index}/>
-              </Form.Item>
-    }
+    render:(text,record,index)=>commonColumns.renderBarCode(text,record,index)
   },{
     title: "*采购价",
     width: 100,
     textWrap: 'word-break',
     dataIndex: "purchasePrice",
-    render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'purchasePrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.purchasePrice}/>
-              </Form.Item>
-    }
+    render:(text,record,index)=>commonColumns.renderPurchasePrice(text,record,index)
   },{
     title: "*到货价",
     width: 100,
     textWrap: 'word-break',
     dataIndex: "dhPrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'dhPrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.businessPrice}/>
+      return  <Form.Item
+                name={['list',index,'dhPrice']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
     }
@@ -454,8 +458,10 @@ const ColumnsAddCross=[
     textWrap: 'word-break',
     dataIndex: "ckPrice",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'ckPrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.customerPrice}/>
+      return  <Form.Item
+              name={['list',index,'ckPrice']}
+              rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
     }
@@ -464,20 +470,17 @@ const ColumnsAddCross=[
     width: 100,
     textWrap: 'word-break',
     dataIndex: "customerPrice",
-    render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'customerPrice']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.proposalPrice}/>
-              </Form.Item>
-
-     }
+    render:(text,record,index)=>commonColumns.renderCustomerPrice(text,record,index)
   },{
     title: "*分成比例（%）",
     width: 100,
     textWrap: 'word-break',
     dataIndex: "bonusRate",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'bonusRate']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.bonusRate}/>
+      return  <Form.Item
+                name={['list',index,'bonusRate']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
      }
@@ -487,8 +490,10 @@ const ColumnsAddCross=[
     textWrap: 'word-break',
     dataIndex: "taxRate",
     render:(text,record,index)=> {
-      return  <Form.Item name={['list',index,'taxRate']} rules={ [{ required: true, message: '请输入'}]}>
-                <Input  disabled={record.isExamine} className="goods-name" key={index} value={record.taxRate}/>
+      return  <Form.Item
+                name={['list',index,'taxRate']}
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
     }

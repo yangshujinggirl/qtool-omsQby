@@ -149,6 +149,10 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
     try {
       const values = await form.validateFields();
       let { brandName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      if((pdType1Id!=0||pdType2Id!=0)&&(specData.specOne.length==0||specData.specTwo.length==0)) {
+        Qmessage.error('请添加属性');
+        return;
+      }
       list = list&&list.map((el,index)=> {
         goodsList.map((item,idx) => {
           if(index == idx) {
@@ -224,7 +228,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   },[spuCode])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList]);
-
+  console.log(totalData)
   return (
     <Spin tip="加载中..." spinning={props.loading}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
@@ -372,6 +376,9 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                   ))
                 }
               </div>
+            </Form.Item>
+            <Form.Item label="修改说明" name="remarks">
+              <Input.TextArea placeholder="请输入大于0的整数" autoComplete="off" maxLength={400} rows={5}/>
             </Form.Item>
           </Card>
           <div className="handle-operate-save-action">
