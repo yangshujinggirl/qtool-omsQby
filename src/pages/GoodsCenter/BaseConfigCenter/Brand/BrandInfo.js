@@ -43,7 +43,7 @@ class BrandInfo extends React.Component {
               ))}
           </Form.Item>
           <Form.Item label="授权有效期">
-            {infos.validityStart && (
+            {infos.isSq && infos.validityStart && (
               <span>
                 {moment(infos.validityStart).format("YYYY-MM-DD")} —
                 {moment(infos.validityEnd).format("YYYY-MM-DD")}
