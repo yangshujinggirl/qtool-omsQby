@@ -4,6 +4,7 @@ import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { useState, useEffect } from 'react';
 import lodash from 'lodash';
+import { Qmessage } from 'common'
 import DragableBodyRow from '../DragField';
 import { GetSearchPdspuApi } from 'api/contentCenter/MoreGoodSet';
 import { columnsFun, columnsTwoFun } from '../../columns';
@@ -59,21 +60,19 @@ const Mod=({...props})=> {
     if(value == record.FixedPdSpuId) { return; }
     GetSearchPdspuApi(value)
     .then((res) => {
-      if(res.code==0) {
-        let { spuInfo } =res;
-        let idx = newList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
-        if(idx != -1) {
-          message.error('商品重复，请重新添加');
-        } else {
-          newList = newList.map((el,idx) => {
-            if(el.key == record.key) {
-              el.FixedPdSpuId = spuInfo.pdSpuId;
-              el = {...el,...spuInfo};
-            };
-            return el
-          });
-          props.upDateList(newList);
-        }
+      let { result } =res;
+      let idx = newList.findIndex((el) => el.FixedPdSpuId == result.pdSpuId);
+      if(idx != -1) {
+        Qmessage.error('商品重复，请重新添加');
+      } else {
+        newList = newList.map((el,idx) => {
+          if(el.key == record.key) {
+            el.FixedPdSpuId = result.pdSpuId;
+            el = {...el,...result};
+          };
+          return el
+        });
+        props.upDateList(newList);
       }
     })
   }
@@ -89,7 +88,7 @@ const Mod=({...props})=> {
   let listTwo = processData(goods.listTwo)
   let listOne = processData(goods.listOne)
   let len = newList.length;
-
+  console.log(newList)
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="drag-tables-component">

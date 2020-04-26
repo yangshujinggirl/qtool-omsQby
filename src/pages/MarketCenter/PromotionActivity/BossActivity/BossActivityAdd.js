@@ -75,7 +75,7 @@ const ActivityAdd=({...props})=> {
       let { time,productList,...params } =values;
       if(time) {
         params.beginTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
-        params.endTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
+        params.endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
       }
       params = { ...params, type:2, productList:goodsList }
       if(activityId) { params= {...params, params }};

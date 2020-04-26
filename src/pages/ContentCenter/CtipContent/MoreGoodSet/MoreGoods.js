@@ -100,7 +100,9 @@ const MoreGoodSet=({...props})=> {
     } else {
       goods['listTwo'] = allValues['fieldsTwo'];
     }
-    goods = {...goods}
+    goods = {...goods};
+    let array = [...goods['listOne'],...goods['listTwo']];
+    setList(array)
     setGoods(goods);
   }
   useEffect(()=> { getInfo() },[homepageModuleId]);
