@@ -20,32 +20,34 @@ const StandardsMod=({...props})=> {
   };
   //商品规格change
   const handleChangeType=(type,option)=> {
-    let { specData,goodsList, pdType1Id, pdType2Id } =props;
+    let { specData,goodsList, pdType1Id, pdType2Id, totalData } =props;
     let { specTwo, specOne } =specData;
+    goodsList = [{ key:'0/0', taxRate:totalData.taxRate}];
     //重置商品规格id,商品属性
     if(option=='0'&&(pdType1Id==0||pdType2Id==0)){
-      props.dispatch({
-        type:'baseGoodsAdd/getListState',
-        payload:{ goodsList:[{key:'0/0'}] }
-      })
-    }else if(option=='0'&&type=='one') {
+      specData = {specTwo:[], specOne:[] };
+    }else if(type=='one') {
       specData = {...specData, specOne:[] };
-      goodsList = specTwo.length>0&&specTwo.map((el) => {
-        return {
-          name:el.name,
-          key:el.key,
-          salesAttributeName:el.name,
-        }
-      })
-    }else if(option=='0'&&type=='two') {
+      if(specTwo.length>0) {
+        goodsList = specTwo.map((el) => {
+          return {
+            name:el.name,
+            key:el.key,
+            salesAttributeName:el.name,
+          }
+        })
+      }
+    }else if(type=='two') {
       specData = {...specData, specTwo:[] };
-      goodsList = specOne.length>0&&specOne.map((el) => {
-        return {
-          salesAttributeName:el.name,
-          key:el.key,
-          name:el.name
-        }
-      })
+      if(specOne.length>0) {
+        goodsList = specOne.map((el) => {
+          return {
+            salesAttributeName:el.name,
+            key:el.key,
+            name:el.name
+          }
+        })
+      }
     }
     props.dispatch({
       type:'baseGoodsAdd/getListState',
@@ -56,12 +58,36 @@ const StandardsMod=({...props})=> {
       payload:{ specData  }
     })
   }
+  // const countList=()=> {
+  //   if(type=='one') {
+  //     specData = {...specData, specOne:[] };
+  //     goodsList = specTwo.length>0&&specTwo.map((el) => {
+  //       return {
+  //         name:el.name,
+  //         key:el.key,
+  //         salesAttributeName:el.name,
+  //       }
+  //     })
+  //   }else if(type=='two') {
+  //     specData = {...specData, specTwo:[] };
+  //     goodsList = specOne.length>0&&specOne.map((el) => {
+  //       return {
+  //         salesAttributeName:el.name,
+  //         key:el.key,
+  //         name:el.name
+  //       }
+  //     })
+  //   }
+  // }
   //删除商品属性
   const deleteGoodsLabel=(removedTags,type)=> {
     let { specData,goodsList } =props;
     let newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
     if(type == 'one') {
       let specOne = specData.specOne.filter(judgeTags => judgeTags.name !== removedTags.name);
+      if(specOne.length = 0) {
+        
+      }
       specData={...specData,specOne };
     } else {
       let specTwo = specData.specTwo.filter(judgeTags => judgeTags.name !== removedTags.name);
