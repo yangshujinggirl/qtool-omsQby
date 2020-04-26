@@ -21,19 +21,36 @@ const StandardsMod=({...props})=> {
   //商品规格change
   const handleChangeType=(type,option)=> {
     let { specData,goodsList, pdType1Id, pdType2Id } =props;
+    let { specTwo, specOne } =specData;
     //重置商品规格id,商品属性
-    if(option=='0'&&(pdType1Id=='0'||pdType2Id=='0')) {
+    if(option=='0'&&(pdType1Id==0||pdType2Id==0)){
       props.dispatch({
         type:'baseGoodsAdd/getListState',
         payload:{ goodsList:[{key:'0/0'}] }
-      });
-      return;
+      })
     }else if(option=='0'&&type=='one') {
       specData = {...specData, specOne:[] };
+      goodsList = specTwo.length>0&&specTwo.map((el) => {
+        return {
+          name:el.name,
+          key:el.key,
+          salesAttributeName:el.name,
+        }
+      })
     }else if(option=='0'&&type=='two') {
       specData = {...specData, specTwo:[] };
+      goodsList = specOne.length>0&&specOne.map((el) => {
+        return {
+          salesAttributeName:el.name,
+          key:el.key,
+          name:el.name
+        }
+      })
     }
-    // let newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
+    props.dispatch({
+      type:'baseGoodsAdd/getListState',
+      payload:{ goodsList }
+    })
     props.dispatch({
       type:'baseGoodsAdd/getSpec',
       payload:{ specData  }
@@ -108,7 +125,7 @@ const StandardsMod=({...props})=> {
   }
 
   useEffect(()=>{ fetchAttribute()},[]);
-  console.log(props.goodsList)
+  console.log(props.goodsList,props.specData)
   return <div>
           <Form.Item label='商品规格1'>
             <Form.Item name="pdType1Id" rules={ [{ required: true, message: '请选择'}]}>

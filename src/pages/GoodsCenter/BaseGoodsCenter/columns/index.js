@@ -210,7 +210,7 @@ const ColumnsAddGeneral=[
     render:(text,record,index)=> {
       return  <Form.Item
                 name={['list',index,'taxRate']}
-                rules={ [{ required: true, message: '请输入'},{pattern:/^(\d|[1-9]\d|100)(\.\d{1,2})?$/,message:'请输入数字'}]}>
+                rules={ [{ required: true, message: '请输入'},{ pattern:RegExpUtil.taxRatePercent, message:'请输入数字'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
@@ -492,7 +492,7 @@ const ColumnsAddCross=[
     render:(text,record,index)=> {
       return  <Form.Item
                 name={['list',index,'bonusRate']}
-                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.taxRatePercent,message:'请输入数字'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
@@ -505,7 +505,7 @@ const ColumnsAddCross=[
     render:(text,record,index)=> {
       return  <Form.Item
                 name={['list',index,'taxRate']}
-                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.taxRatePercent,message:'请输入数字'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
