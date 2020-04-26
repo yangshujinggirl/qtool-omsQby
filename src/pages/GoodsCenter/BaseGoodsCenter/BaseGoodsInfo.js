@@ -151,6 +151,20 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                       {totalData.distributionDays}个工作日内发货
                   </Form.Item>
                 }
+                <Form.Item label="是否预售">
+                  {
+                    isBeforeSalesOptions.map((el)=>(
+                      el.key == totalData.isBeforeSalesInt&&el.value
+                    ))
+                  }
+                </Form.Item>
+                <Form.Item label="是否直邮">
+                  {
+                    isDirectSalesOptions.map((el)=>(
+                      el.key == totalData.isDirectSalesInt&&el.value
+                    ))
+                  }
+                </Form.Item>
               </Card>
               <Card title="仓管信息">
                 <Form.Item label="基础箱规">

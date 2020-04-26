@@ -90,9 +90,10 @@ class Search extends BaseFilter {
                 <Select
                   placeholder="请选择"
                   allowClear={true}>
-                  <Option value={0}>全部</Option>
+                  <Option value={-1}>全部</Option>
                   <Option value={1}>上架</Option>
                   <Option value={2}>下架</Option>
+                  <Option value={0}>待引用</Option>
                 </Select>
               </FormItem>
             </Col>

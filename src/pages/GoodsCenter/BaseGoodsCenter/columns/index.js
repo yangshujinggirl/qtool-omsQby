@@ -2,6 +2,7 @@ import moment from "moment";
 import { Input,Form,Select } from 'antd';
 import { QupLoadImgLimt } from 'common';
 import { RegExpUtil } from 'utils';
+import { oldStatusOptions } from '../components/options';
 
 import { Link } from 'react-router-dom';
 let FormItem = Form.Item;
@@ -44,7 +45,7 @@ let commonColumns = {
 const ColumnsGeneral = [
   {
     title: "商品主图",
-    dataIndex: "productImg",
+    dataIndex: "centralImg",
     render: text => <img src={text} style={{ width: "90px", height: "90px" }} />
   },
   {
@@ -136,8 +137,11 @@ const ColumnsAddGeneral=[
     render:(text,record,index)=> {
       return  <Form.Item name={['list',index,'oldStatus']} rules={ [{ required: true, message: '请选择'}]}>
                 <Select disabled={record.isExamine} autoComplete="off">
-                  <Option value={3}>正常商品</Option>
-                  <Option value={5}>淘汰商品</Option>
+                {
+                  oldStatusOptions.map((el) => (
+                    <Option value={el.key} key={el.key}>{el.value}</Option>
+                  ))
+                }
                 </Select>
               </Form.Item>
     }
@@ -254,6 +258,15 @@ const ColumnsEditImgGeneral=(upDateSkuList)=>{
     dataIndex: "label",
     width: 120,
     textWrap: 'word-break',
+    render:(text,record,index)=> {
+      return <span>
+          {
+            oldStatusOptions.map((el)=>(
+              el.key == record.label&&el.value
+            ))
+          }
+      </span>
+    }
   },{
     title: "*SKU图片",
     dataIndex: "skuImg",
@@ -338,7 +351,7 @@ const ColumnsInfoGeneral=[
 const ColumnsCross = [
   {
     title: "商品主图",
-    dataIndex: "productImg",
+    dataIndex: "centralImg",
     render: text => <img src={text} style={{ width: "90px", height: "90px" }} />
   },
   {

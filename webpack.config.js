@@ -137,16 +137,14 @@ module.exports = {
     port: 3030,
     open: true,
     proxy: {
-      '/erpWebRest': {
-        changeOrigin: true,
-        target: 'http://v6.qby.test.qtoolsbaby.net:81',
-      },
       '/qtoolsOms': {
-        target:'http://192.168.2.37:8001',
+        target:'http://192.168.2.36:8061',
         pathRewrite: {"^/qtoolsOms" : ""},
+        changeOrigin: true,
       },
       '/qtoolsErp': {
-        target:'http://v6.oms.testin.qtoolsbaby.net:81',
+        target:'http://192.168.2.36:8078',
+        pathRewrite: {"^/qtoolsErp" : ""},
         changeOrigin: true,
       },
       '/qtoolsApp': {

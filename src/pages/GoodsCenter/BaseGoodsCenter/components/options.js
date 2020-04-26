@@ -5,6 +5,13 @@ const productTypeOptions =[{
   key:2,
   value:'赠品'
 }];
+const oldStatusOptions =[{
+  key:3,
+  value:'正常商品'
+},{
+  key:5,
+  value:'淘汰商品'
+}];
 
 const procurementTargetOptions =[{
   key:1,
@@ -56,7 +63,7 @@ const batchProcessingTypeOptions =[{
   value:"到期日期"
 }];
 export {
-  sendTypeOptions,profitsOptions,
+  sendTypeOptions,profitsOptions,oldStatusOptions,
   productTypeOptions, procurementTargetOptions, isBeforeSalesOptions,
   isDirectSalesOptions, batchProcessingStatusOptions, batchProcessingTypeOptions
 }
