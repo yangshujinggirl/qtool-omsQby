@@ -69,7 +69,7 @@ function* fetchTotal(action){
 function* resetPages(action){
   let data = {
     loading: false,
-    totalData:{isSave:true,pdType1Id:'0',pdType2Id:'0',minBoxSpecification:'1'},
+    totalData:{isSave:true,pdType1Id:'0',pdType2Id:'0',minBoxSpecification:'1',procurementTarget:1},
     goodsList:[{key:'0/0'}],
     specData:{
       specOne:[],

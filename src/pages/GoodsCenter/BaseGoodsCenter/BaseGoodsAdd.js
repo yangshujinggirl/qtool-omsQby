@@ -45,14 +45,24 @@ const formItemLayoutBig = {
 
 const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境商品
   const [form] = Form.useForm();
+  const [visible,setVisible] =useState(false)
+  const [deletedList,setDeletedList] =useState([])
+  let productNature = props.match.params.type;
   let { specData, categoryData, goodsList, totalData } =props;
   let spuCode = props.match.params.id;
   let isEdit = spuCode?true:false;
-  let productNature = props.match.params.type;
   let columnsAdd = productNature==1?ColumnsAddGeneral:ColumnsAddCross;
   let batchList = productNature==1?BatchListGenreal:BatchListCross;
-  const [visible,setVisible] =useState(false)
-  const [deletedList,setDeletedList] =useState([])
+  goodsList = goodsList.map((el) => {
+    console.log('qwertttyy')
+    if(productNature==1) {
+      el.taxRate = el.taxRate?el.taxRate:'13'
+    } else {
+      el.taxRate = el.taxRate?el.taxRate:'9.1'
+    }
+    return el;
+  })
+
   //初始化
   const initPage=()=> {
     if(spuCode) {

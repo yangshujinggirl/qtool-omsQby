@@ -135,10 +135,10 @@ const  DescriptAddF=({...props})=> {
   return(
     <div className="oms-common-addEdit-pages">
       <Form form={form} {...formItemLayout} name="formPar">
-        <FormItem label="属性名称" {...formItemLayout} name="attributeName">
-          <Input placeholder="请输入属性名称" autoComplete="off" />
+        <FormItem label="属性名称" name="attributeName" rules={[{ required: true, message: '请输入属性名称' }]}>
+          <Input placeholder="请输入属性名称" autoComplete="off" maxLength={8}/>
         </FormItem>
-        <FormItem label="关联后台类目" >
+        <FormItem label="关联后台类目" className="common-required-formItem">
           <Qbtn type="primary" size="free" onClick={handleChange}>
             选择后台类目
           </Qbtn>

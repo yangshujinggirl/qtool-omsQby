@@ -45,6 +45,8 @@ const CouponCenter=({...props})=> {
       setDataSource(result);
       setDataPagation({everyPage,currentPage,total});
       setLoading(false)
+    },(err)=> {
+      setLoading(false)
     })
   }
   const successCallback=()=> {

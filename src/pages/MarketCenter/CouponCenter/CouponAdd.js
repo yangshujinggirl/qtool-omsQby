@@ -27,7 +27,7 @@ const formItemLayout = {
     };
 const CouponAdd=({...props})=> {
   const [form] = Form.useForm();
-  let [totalData, setTotalData]=useState({couponUseScope:"4"});
+  let [totalData, setTotalData]=useState({couponUseScope:"4",couponValid:1,spuScope:0});
   let [goodsList, setGoodsList] =useState([]);//商品信息
   let [tagsList, setTagsList] =useState([]);//分成
   let [ratioList, setRatioList] =useState([]);//成本比例
@@ -167,7 +167,7 @@ const CouponAdd=({...props})=> {
   useEffect(()=>{ form.setFieldsValue({bearers:ratioList}) },[ratioList]);
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData]);
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList]);
-  console.log(ratioList)
+
   return(
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">
@@ -177,8 +177,7 @@ const CouponAdd=({...props})=> {
           form={form}
           {...formItemLayout}>
           <Card title="优惠券信息">
-            <FormItem
-              label="优惠券名称">
+            <FormItem label="优惠券名称" className="common-required-formItem">
               <FormItem
                 name="couponName"
                 rules={[{ required: true, message: "请输入优惠券名称" }]} noStyle>
@@ -189,7 +188,7 @@ const CouponAdd=({...props})=> {
               </FormItem>
                 该名称将在前端给用户展示，请谨慎填写
             </FormItem>
-            <FormItem label="优惠券说明">
+            <FormItem label="优惠券说明" className="common-required-formItem">
               <FormItem
                 name="couponExplain"
                 rules={[{ required: true, message: "请输入优惠券说明" }]} noStyle>
@@ -209,8 +208,7 @@ const CouponAdd=({...props})=> {
                 <Radio value="2">线上线下通用</Radio>
               </RadioGroup>
             </FormItem>
-            <FormItem
-              label="优惠券金额">
+            <FormItem label="优惠券金额" className="common-required-formItem">
               <FormItem
                 noStyle
                 name="couponMoney"
@@ -221,11 +219,11 @@ const CouponAdd=({...props})=> {
               </FormItem>
                 　元
             </FormItem>
-            <FormItem label="使用门槛">
+            <FormItem label="使用门槛" className="common-required-formItem">
               <FormItem
                 noStyle
                 name="couponFullAmount"
-                rules={[{ required: true, message: "请输入优惠券金额" },{ pattern: /^([1-9]\d*|[0]{1,1})$/, message: "请输入正整数" }]}>
+                rules={[{ required: true, message: "请输入使用门槛" },{ pattern: /^([1-9]\d*|[0]{1,1})$/, message: "请输入正整数" }]}>
                 <Input autoComplete="off" />
               </FormItem>
               元可用,只可输入0，正整数
@@ -237,7 +235,7 @@ const CouponAdd=({...props})=> {
               tagsList={tagsList}
               ratioList={ratioList}
               form={form}/>
-            <FormItem label="优惠券有效期">
+            <FormItem label="优惠券有效期" className="common-required-formItem">
               <FormItem
                 name="couponValid"
                 rules={[{ required: true, message: "请选择券有效期" }]}>
@@ -269,10 +267,10 @@ const CouponAdd=({...props})=> {
                 }}
               </FormItem>
             </FormItem>
-            <FormItem label="发放方式">
+            <FormItem label="发放方式" className="common-required-formItem">
               <FormItem
                 name="couponUseScene"
-                rules={[{ required: true, message: "请选择使用商品范围" }]}>
+                rules={[{ required: true, message: "请选择发放方式" }]}>
                 <RadioGroup onChange={handleChangeType}>
                   <Radio value={1}>注册领取</Radio>
                   <Radio value={3}>手动领取</Radio>
@@ -284,7 +282,7 @@ const CouponAdd=({...props})=> {
                 <p>{tipsMap(totalData.couponUseScene)}</p>
               </div>
             </FormItem>
-            <FormItem label="预计发放张数">
+            <FormItem label="预计发放张数" className="common-required-formItem">
               <FormItem
                 name="isSend"
                 rules={[{ required: true, message: "请选择预计发放张数" }]}>
