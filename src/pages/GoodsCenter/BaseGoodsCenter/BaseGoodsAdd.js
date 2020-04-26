@@ -103,6 +103,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   }
   //恢复
   const goReset=()=> {
+    const { goodsList, specData } =props;
     let { specOne, specTwo } =specData;
     let newGoodsLIst = [...goodsList];
     if(specOne.length>0&&specTwo.length>0) {
