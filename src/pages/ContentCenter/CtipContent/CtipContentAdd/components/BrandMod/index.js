@@ -20,7 +20,7 @@ class BrandMod extends React.Component {
     const {homepageModuleId} = this.props.info;
     GetListApi({homepageModuleId})
     .then(res=>{
-      const { moduleBackColor,contentPicUrl } = res.result;
+      let { moduleBackColor,contentPicUrl } = res.result;
       contentPicUrl = CommonUtils.formatToFilelist(contentPicUrl);
       this.setState({
         fileList:contentPicUrl,

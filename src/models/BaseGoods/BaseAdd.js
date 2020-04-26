@@ -5,6 +5,27 @@ import {
 } from "api/home/BaseGoods";
 import { CommonUtils } from 'utils';
 
+//初始化商品模板 productNature：1一般贸易，2：跨境商品
+function* getGoodsTemplte({payload:{ productNature }}){
+  let goodsList = yield select(state => state.BaseGoodsAddReducers.goodsList);
+  let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
+  let taxRate;
+  if(productNature==1) {
+    taxRate = "13"
+  } else {
+    taxRate = "9.1"
+  }
+  goodsList.map((el) => el.taxRate = taxRate)
+  yield put({
+    type: 'BASEGOODSADD_GOODSLIST',
+    payload: { goodsList }
+  })
+  totalData={...totalData, productNature };
+  yield put({
+    type: 'BASEGOODSADD_TOTALDATA',
+    payload: { totalData }
+  })
+}
 //属性--商品
 function* getSpec({payload:{ specData }}){
   yield put({
@@ -66,26 +87,28 @@ function* fetchTotal(action){
   yield call(getTotalState,{payload:pdSpu})
   yield call(getListState,{payload:{goodsList:list}});
 };
-function* resetPages(action){
-  let data = {
-    loading: false,
-    totalData:{isSave:true,pdType1Id:'0',pdType2Id:'0',minBoxSpecification:'1',procurementTarget:1},
-    goodsList:[{key:'0/0'}],
-    specData:{
-      specOne:[],
-      specTwo:[],
-    },
-  }
-  yield put({
-    type: 'BASEGOODSADD_RESETPAGE',
-    payload: data
-  })
-};
+// function* resetPages(action){
+//   let data = {
+//     loading: false,
+//
+//     totalData:{isSave:true,pdType1Id:'0',pdType2Id:'0',minBoxSpecification:'1',procurementTarget:1},
+//     goodsList:[{key:'0/0'}],
+//     specData:{
+//       specOne:[],
+//       specTwo:[],
+//     },
+//   }
+//   yield put({
+//     type: 'BASEGOODSADD_RESETPAGE',
+//     payload: data
+//   })
+// };
 
 export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchTotal', fetchTotal)
   yield takeEvery('baseGoodsAdd/getTotalState', getTotalState)
   yield takeEvery('baseGoodsAdd/getListState', getListState)
-  yield takeEvery('baseGoodsAdd/resetPage', resetPages)
+  // yield takeEvery('baseGoodsAdd/resetPage', resetPages)
+  yield takeEvery('baseGoodsAdd/getGoodsTemplte', getGoodsTemplte)
   yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

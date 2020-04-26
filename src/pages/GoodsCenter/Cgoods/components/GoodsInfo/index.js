@@ -12,9 +12,10 @@ import {
   AutoComplete,
   Descriptions,
 } from 'antd';
-import { Qtable, Qbtn } from 'common';
+import { Qtable, Qbtn, QenlargeImg } from 'common';
 import { GetDetailApi, GetEditApi } from 'api/cTip/GeneralTradeGoods';
 import { serviceOption } from '../optionMap';
+import { ColumnsInfo } from '../column';
 import GraphicInformation from '../GoodsEdit/components/GraphicInformation';
 
 
@@ -30,29 +31,6 @@ const formItemLayout = {
         sm: { span: 12 },
       },
     };
-const columns = [
-  {
-    title: 'sku编码',
-    dataIndex: 'skuCode',
-  },{
-    title: '规格',
-    dataIndex: 'salesAttributeName',
-  },{
-    title: '商品条码',
-    dataIndex: 'barCode',
-  },{
-    title: 'C端售价',
-    dataIndex: 'customerPrice',
-  },{
-    title: 'sku图片',
-    dataIndex: 'image',
-  },{
-    title: '商品提示',
-    dataIndex: 'skuTips',
-  },{
-    title: '商品保质期',
-    dataIndex: 'skuShelfLife',
-  }];
 class GoodsInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -83,7 +61,6 @@ class GoodsInfo extends React.Component {
   }
   render() {
     const { totalData, subList, descriptAttributeList } =this.state;
-    console.log(totalData)
     return(
       <Spin tip="加载中..." spinning={false}>
         <div className="oms-common-addEdit-pages general-trade-edit-pages">
@@ -148,7 +125,7 @@ class GoodsInfo extends React.Component {
             <div className="part-wrap">
               <p className="title-wrap"><span className="title-name">SKU信息</span></p>
               <Qtable
-                columns={columns}
+                columns={ColumnsInfo}
                 dataSource={subList}/>
             </div>
             <GraphicInformation {...totalData} formItemLayout={formItemLayout}/>

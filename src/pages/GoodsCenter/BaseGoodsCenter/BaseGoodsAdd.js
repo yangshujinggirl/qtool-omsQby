@@ -53,15 +53,6 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   let isEdit = spuCode?true:false;
   let columnsAdd = productNature==1?ColumnsAddGeneral:ColumnsAddCross;
   let batchList = productNature==1?BatchListGenreal:BatchListCross;
-  goodsList = goodsList.map((el) => {
-    console.log('qwertttyy')
-    if(productNature==1) {
-      el.taxRate = el.taxRate?el.taxRate:'13'
-    } else {
-      el.taxRate = el.taxRate?el.taxRate:'9.1'
-    }
-    return el;
-  })
 
   //初始化
   const initPage=()=> {
@@ -69,6 +60,11 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       props.dispatch({
         type:'baseGoodsAdd/fetchTotal',
         payload:{spuCode}
+      })
+    } else {
+      props.dispatch({
+        type:'baseGoodsAdd/getGoodsTemplte',
+        payload:{productNature}
       })
     }
   }
@@ -227,18 +223,10 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
     }
   }
-  useEffect(()=>{
-    initPage();
-    return () => {
-      props.dispatch({
-        type:'baseGoodsAdd/resetPage',
-        payload:{}
-      })
-    };
-  },[spuCode])
+  useEffect(()=>{ initPage() },[spuCode])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList]);
-  console.log(totalData)
+
   return (
     <Spin tip="加载中..." spinning={props.loading}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">

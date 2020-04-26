@@ -101,4 +101,30 @@ const ColumnsSub = [
   }
 ];
 
-export { ColumnsPar, ColumnsSub };
+const ColumnsInfo = [
+  {
+    title: 'sku编码',
+    dataIndex: 'skuCode',
+  },{
+    title: '规格',
+    dataIndex: 'salesAttributeName',
+  },{
+    title: '商品条码',
+    dataIndex: 'barCode',
+  },{
+    title: 'C端售价',
+    dataIndex: 'customerPrice',
+  },{
+    title: 'sku图片',
+    dataIndex: 'image',
+    render:(text,record,index) => {
+      return <QenlargeImg  url={`${fileDomain}/${record.image}`}/>
+    }
+  },{
+    title: '商品提示',
+    dataIndex: 'skuTips',
+  },{
+    title: '商品保质期',
+    dataIndex: 'skuShelfLife',
+  }];
+export { ColumnsPar, ColumnsSub, ColumnsInfo };
