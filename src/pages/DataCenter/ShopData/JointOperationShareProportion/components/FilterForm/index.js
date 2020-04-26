@@ -50,7 +50,7 @@ export default class SearchForm extends BaseFilter {
                     })
                 }
                 this.setState({
-                    dataSources: dataSources
+                    dataSources,
                 });
             });
     }
@@ -82,7 +82,7 @@ export default class SearchForm extends BaseFilter {
                         </Col>
                         <FormItem name="codes" label="选择时间" {...this.formItemLayout}>
                             <RangerPicker
-                                format={"YYYY-MM"}
+                                format={"YYYY-MM-DD HH:mm:ss"}
                                 allowClear={false}
                             />
                         </FormItem>

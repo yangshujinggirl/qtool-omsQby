@@ -38,7 +38,7 @@ const PurchaseOutDetail = (props) => {
             //设置普通数据
             setDataInfo(res.result);
             //设置发货信息
-            setOutList(TableDataListUtil.addKeyAndResultList(res.result.outList, null));
+            setOutList(TableDataListUtil.addKeyAndResultList(res.result.wtList, null));
             //设置采退商品信息
             setDetailList(TableDataListUtil.addKeyAndResultList(res.result.detailList, null));
         });

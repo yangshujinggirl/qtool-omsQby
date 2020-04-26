@@ -34,7 +34,7 @@ const Columns = [
   },
   {
     title: "出货仓",
-    dataIndex: "shipmentStr",
+    dataIndex: "deliveryWarehouseTypeStr",
     key: "6"
   },
   {
@@ -65,11 +65,6 @@ const Columns = [
   {
     title: "优惠金额",
     dataIndex: "discountAmount",
-    key: "10"
-  },
-  {
-    title: "流程状态",
-    dataIndex: "flowStatusStr",
     key: "10"
   },
   {

@@ -1,20 +1,22 @@
 import moment from "moment";
-const renderDefault = (record, text, variableName) => {
-  return (
-    <div>
-      {record.status == 1 || record.status == 3 ? (
-        <span style={{ color: "red" }}>{text}</span>
-      ) : record[variableName] && record[variableName] == text ? (
-        <span>{text}</span>
-      ) : (
-        <div>
-          <span style={{ color: "red" }}>{text}</span>
-          <br />
-          {`(${record[variableName]})`}
-        </div>
-      )}
-    </div>
-  );
+const renderDefault = (record, text, variableName,suffix) => {
+	return (
+		<div>
+			{record.skuStatus == 1 || record.skuStatus == 3 ? (//待审核和审核不通过 显示一行值（）
+        <span style={{ color: 'red' }}>{
+          text!==null && text+suffix
+        }</span>
+			) : record[variableName]!==null && record[variableName] == text ? (//审核通过4 如果修改前后价格一致显示一行
+        <span>{text}{suffix}</span>
+			) : (//审核通过 如果修改前后不一致显示两行
+				<div>
+					<span style={{ color: 'red' }}>{text!==null&&text+suffix}</span>
+					<br />
+					{record[variableName]!==null && <span>({record[variableName]+suffix})</span>}
+				</div>
+			)}
+		</div>
+	);
 };
 const Columns = [
   {
@@ -66,23 +68,23 @@ const Columns = [
     key: "6",
     width: 100,
     render: (text, record, index) =>
-      renderDefault(record, text, "exPurchasePrice"),
+      renderDefault(record, text, "exPurchasePrice",''),
   },
   {
     title: "到货价",
-    dataIndex: "businessPrice",
+    dataIndex: "dhPrice",
     key: "7",
     width: 100,
     render: (text, record, index) =>
-      renderDefault(record, text, "exBusinessPrice"),
+      renderDefault(record, text, "exDhPrice",''),
   },
   {
     title: "出库价",
-    dataIndex: "businessProfit",
+    dataIndex: "ckPrice",
     key: "8",
     width: 100,
     render: (text, record, index) =>
-      renderDefault(record, text, "exBusinessProfit"),
+      renderDefault(record, text, "exCkPrice",''),
   },
   {
     title: "C端售价",
@@ -90,23 +92,23 @@ const Columns = [
     key: "9",
     width: 100,
     render: (text, record, index) =>
-      renderDefault(record, text, "exCustomerPrice"),
+      renderDefault(record, text, "exCustomerPrice",''),
   },
   {
     title: "分成比例",
-    dataIndex: "customerProfit",
+    dataIndex: "bonusRate",
     key: "10",
     width: 100,
     render: (text, record, index) =>
-      renderDefault(record, text, "exCustomerProfit"),
+      renderDefault(record, text, "exBonusRate",'%'),
   },
   {
     title: "跨境综合税",
-    dataIndex: "proposalPrice",
+    dataIndex: "taxRate",
     key: "11",
     width: 100,
     render: (text, record, index) =>
-      renderDefault(record, text, "exProposalPrice"),
+      renderDefault(record, text, "exTaxRate",'%'),
   },
   {
     title: "修改说明",

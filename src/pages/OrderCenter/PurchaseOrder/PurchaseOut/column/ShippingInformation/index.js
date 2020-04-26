@@ -1,5 +1,5 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
 /**
  * 功能作用：发货信息标题列表说明
@@ -12,9 +12,14 @@ import moment from "moment";
  * 备注：
  */
 const ShippingInformationColumns = [
-    {title: "物流/快递单号", dataIndex: "trackingNumber", key: "1"},
-    {title: "物流/快递公司", dataIndex: "carrier", key: "2"},
-    {title: "运费", dataIndex: "freightPrice", key: "3"},
-    {title: "状态 ", dataIndex: "status", key: "4"},
+	{ title: '物流/快递单号', dataIndex: 'trackingNumber', key: '1' },
+	{ title: '物流/快递公司', dataIndex: 'carrier', key: '2' },
+	{ title: '运费', dataIndex: 'freightPrice', key: '3' },
+	{
+		title: '状态 ',
+		dataIndex: 'status',
+		render: (text, record, index) => <span>{text == 1 ? '未完成' : '已完成'}</span>,
+		key: '4',
+	},
 ];
 export default ShippingInformationColumns;

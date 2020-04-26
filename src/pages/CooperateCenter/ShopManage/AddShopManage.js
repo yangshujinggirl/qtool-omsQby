@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Form, Spin, Button, Modal } from "antd";
+import { Card, Form, Spin, Button, Modal, message } from "antd";
 import BaseEdit from "./components/Edits/BaseEdit";
 import Address from "./components/Edits/Address";
 import Shop from "./components/Edits/Shop";
@@ -127,6 +127,9 @@ class AddShopManage extends Component {
         if (res.httpCode == 200) {
           if (!_values.id) {
             this.resetModal(res, _values.id);
+          }else{
+            message.success('门店修改成功',.8)
+            this.goBack()
           }
         }
       })
@@ -144,11 +147,15 @@ class AddShopManage extends Component {
       _values.channelPic = channelPic[0].response
         ? channelPic[0].response.result
         : channelPic[0].img;
+    }else{
+      _values.channelPic=''
     }
     if (contractPic.length) {
       _values.contractPic = contractPic[0].response
         ? contractPic[0].response.result
         : contractPic[0].img;
+    }else{
+      _values.contractPic = ''
     }
     if (openingTime) {
       _values.openingTime = moment(openingTime).format("YYYY-MM-DD HH:mm:ss");

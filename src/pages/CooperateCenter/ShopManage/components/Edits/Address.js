@@ -74,7 +74,7 @@ const Address = (props) => {
         label="收货地址"
         rules={[{ required: true, message: "请输入收货地址" }]}
       >
-        <Input placeholder="请输入收货地址" autoComplete="off" allowClear={true}/>
+        <Input placeholder="请输入收货地址" autoComplete="off"/>
       </Form.Item>
     </React.Fragment>
   );

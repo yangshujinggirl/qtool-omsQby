@@ -44,7 +44,7 @@ export function GetPurchasingTheArrivalOfTheGoodsDataList(values) {
  * @constructor
  */
 export function GetStoresTheInvoiceList(values) {
-	return dataAjax.get('/finance/queryPurchaseArrivalGoods', {
+	return dataAjax.get('/finance/queryShopBill', {
 		params: values,
 	});
 }

@@ -34,6 +34,7 @@ const StoresTheInvoice = QbaseList((_this) => {
         );
     }, GetStoresTheInvoiceList, false, null, {tableShowColumns: []}
     , null, null, (_this, rep) => {
+    debugger
         //默认表格字段
         const defaultTableColumns = [
             {title: '门店名称', dataIndex: 'name', width: 300},
