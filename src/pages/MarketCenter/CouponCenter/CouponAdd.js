@@ -134,9 +134,17 @@ const CouponAdd=({...props})=> {
   //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
-    if(currentKey == 'bearers') {
-      let newArray = [...allValues['bearers']];
-      setRatioList(newArray);
+    let { bearers } =allValues;
+    if(currentKey == 'bearers'){
+      ratioList = ratioList.map((el,index) => {
+          bearers.map((item,idx) => {
+            if(index == idx) {
+              el ={...el, ...item}
+            }
+          })
+          return el;
+      })
+      setRatioList(ratioList);
     }
     if(currentKey=='list') {
       return;

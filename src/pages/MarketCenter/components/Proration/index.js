@@ -158,7 +158,7 @@ const Proration=({...props})=> {
     props.upDateRatioList(ratioList);
   }
   let blColumns = ColumnsCreat(validatorRatio,ratioList);
-
+  console.log(ratioList)
   return <div>
             <FormItem label='活动成本承担方' className="common-required-formItem">
               <FormItem name="costApportion" rules={[{ required: true, message: '请选择活动成本承担方'}]} noStyle>
