@@ -11,9 +11,9 @@ const Columns = [
 		render: (text, record, index) => {
 			return (
 				<div>
-					{record.statusnew == 1 ? <span>上新　</span> : <span>下新　</span>}
-					{record.statushot == 1 ? <span>上畅销　</span> : <span>下畅销　</span>}
-					{record.salestatus == 1 ? <span>上架　</span> : <span>下架　</span>}
+					<span>{record.salestatusStr}</span>
+					<span>{record.statusnewStr}</span>
+					<span>{record.statushotStr}</span>
 				</div>
 			);
 		},
