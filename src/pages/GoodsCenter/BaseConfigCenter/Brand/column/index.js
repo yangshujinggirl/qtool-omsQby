@@ -20,7 +20,7 @@ const Columns = [
 	},
 	{
 		title: '品牌归属地',
-		dataIndex: 'brandCountry',
+		dataIndex: 'brandCountryName',
 		key: '4',
 	},
 

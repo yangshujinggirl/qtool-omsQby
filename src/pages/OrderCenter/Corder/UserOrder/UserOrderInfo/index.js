@@ -4,6 +4,7 @@ import { Qtable } from "common";
 import { GoodColumns, handleLogColumns, giftSkuColumns } from "../columns";
 import StoreOutInfo from "./components/StoreOutInfo";
 import { getInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
+import Utils from 'utils/CommonUtils'
 
 /**
  * 
@@ -32,10 +33,10 @@ const UserOrderInfo = (props) => {
         } = res.result;
         setOrderInfo(orderInfo);
         setUserInfo(userInfo);
-        setSkuList(skuList);
+        setSkuList(Utils.addKey(skuList));
         setSpShopInfo(spShopInfo);
-        setOrderPackageList(orderPackageList);
-        setOrderOperateLogList(orderOperateLogList);
+        setOrderPackageList(Utils.addKey(orderPackageList));
+        setOrderOperateLogList(Utils.addKey(orderOperateLogList));
         setGiftSkuList(giftSkuList);
       }
     });

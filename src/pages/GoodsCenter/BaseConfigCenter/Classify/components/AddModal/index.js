@@ -406,7 +406,7 @@ class AddModal extends React.Component {
           cancelText="取消"
           okText="确定"
         >
-          <Form ref={this.formRef} {...formLayout}>
+          <Form initialValues={{status:1}} ref={this.formRef} {...formLayout}>
             {this.renderForm()}
           </Form>
         </Modal>

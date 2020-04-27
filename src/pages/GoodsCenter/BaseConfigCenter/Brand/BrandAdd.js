@@ -194,7 +194,7 @@ class BrandAdd extends React.Component {
 		const { logo, isSq, introduceImg, addressList } = this.state;
 		return (
 			<div className="oms-common-addEdit-pages add_brand">
-				<Form ref={this.formRef} className="common-addEdit-form" {...formItemLayout}>
+				<Form ref={this.formRef} className="common-addEdit-form" initialValues={{status:1}} {...formItemLayout}>
 					<Form.Item className="item_required" style={{ marginBottom: 0 }} label="品牌中文名称">
 						<Form.Item name="brandNameCn" style={{ display: 'inline-block', marginRight: '10px' }}>
 							<Input
@@ -216,7 +216,7 @@ class BrandAdd extends React.Component {
 					</Form.Item>
 					<Form.Item
 						label="品牌归属地"
-						name="brandCountry"
+						name="brandCountryName"
 						rules={[{ required: true, message: '请输入品牌归属地' }]}
 					>
 						<AutoComplete onSearch={this.onSearch} onSelect={this.onSelect} placeholder="请选择">

@@ -55,6 +55,15 @@ class NormalForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <Form.Item
+                name="shipmentId"
+                label="保税订单号"
+                {...formItemLayout}
+              >
+                <Input placeholder="请输入保税订单号" autoComplete="off" />
+              </Form.Item>
+            </Col>
+            <Col {...this.colspans}>
+              <Form.Item
                 name="channelOrderNo"
                 label="渠道订单号"
                 {...formItemLayout}

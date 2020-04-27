@@ -1,8 +1,16 @@
 import moment from 'moment'
+import {Link} from 'react-router-dom'
 const Columns = [
   {
     title: "订单号",
     dataIndex: "orderDetailNo"
+  },
+  {
+    title: "保税订单号",
+    dataIndex: "shipmentId",
+    render:(text,record,index)=>(
+      <Link to={`/account/user_bondedOrder_infos/${record.channelOrderNo}`}>{text}</Link>
+    )
   },
   {
     title: "渠道订单号",

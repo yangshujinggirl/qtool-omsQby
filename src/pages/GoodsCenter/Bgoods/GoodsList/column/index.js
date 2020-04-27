@@ -76,7 +76,7 @@ const subColumns = [
   },
   {
     title: "商品图片",
-    dataIndex: "img",
+    dataIndex: "image",
     key: "2",
     render: (text, record, index) =>
       text ? (
