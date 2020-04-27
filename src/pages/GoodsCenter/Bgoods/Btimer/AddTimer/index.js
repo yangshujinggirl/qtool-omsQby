@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getTimeInfoApi, AddTimeApi } from "api/home/GoodsCenter/Bgoods/Btimer";
+import { getTimeInfoApi, AddTimeApi,editTimeApi } from "api/home/GoodsCenter/Bgoods/Btimer";
 import Columns from "./column";
 import { Form, Input, Button, message, Radio, Modal } from "antd";
 import moment from "moment";
@@ -16,10 +16,10 @@ const AddTimer = props => {
   const [goodList, setGoodList] = useState([]);
   const [visible, setVisible] = useState(false);
   const [errMessage, setErrMessage] = useState("");
+  const { id } = props.match.params;
 
   //初始化数据
   useEffect(() => {
-    const { id } = props.match.params;
     if (id) {
       getTimeInfoApi({ pdTaskTimeId: id }).then(res => {
         if (res.httpCode == 200) {
@@ -41,7 +41,7 @@ const AddTimer = props => {
    */
   const handleSubmit = async e => {
     const { salestatus, statusnew, statushot } = form.getFieldsValue(["salestatus", "statusnew", "statushot"]);
-    if (!(salestatus || statusnew || statushot)) {
+    if (!(String(salestatus) || String(statusnew) || String(tatushot))) {
       form.setFields([{ name: ["salestatus"], errors: ["请选择调整状态"] }]);
     };
     const values = await form.validateFields();
@@ -49,6 +49,16 @@ const AddTimer = props => {
       let { taskTime, ..._values } = values;
       _values.taskTime = moment(taskTime).format("YYYY-MM-DD HH:mm:ss");
       _values.codes = goodList;
+      if(id){
+        _values.pdTaskTimeId = id;
+        editTimeApi(_values).then(res => {
+          if (res.httpCode == "200") {
+            message.success("修改成功", 0.8);
+            goback();
+          }
+        });
+        return;
+      }
       AddTimeApi(_values).then(res => {
         if (res.httpCode == "200") {
           message.success("保存成功", 0.8);

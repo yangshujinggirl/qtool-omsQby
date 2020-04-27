@@ -26,7 +26,8 @@ const parColumns = [
         {record.isNew ? "新/" : ""}
         {record.isHot ? "畅/" : ""}
         {record.isBeforeSales ? "预/" : ""}
-        {record.isMultipleSpec ? "新/" : ""}
+        {record.isDirectSales ? "直/" : ""}
+        {record.isMultipleSpec ? "多/" : ""}
         {record.isComplete ? "缺/" : ""}
       </span>
     ),
@@ -76,7 +77,7 @@ const subColumns = [
   },
   {
     title: "商品图片",
-    dataIndex: "img",
+    dataIndex: "image",
     key: "2",
     render: (text, record, index) =>
       text ? (

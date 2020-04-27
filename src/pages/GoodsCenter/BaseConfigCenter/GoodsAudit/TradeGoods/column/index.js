@@ -1,20 +1,32 @@
 import moment from 'moment';
+import accounting from 'accounting';
 const renderDefault = (record, text, variableName, suffix) => {
+	const symbol = '';
+	let precision = 2;
+	if (variableName == 'exPurchasePrice') {
+		precision = 4;
+	}
 	return (
 		<div>
 			{record.skuStatus == 1 || record.skuStatus == 3 ? ( //待审核和审核不通过 显示一行值（）
-				<span style={{ color: 'red' }}>{text !== null && text + suffix}</span>
+				<span style={{ color: 'red' }}>
+					{text !== null && accounting.formatMoney(text, { symbol, precision }) + suffix}
+				</span>
 			) : record[variableName] !== null && record[variableName] == text ? ( //审核通过4 如果修改前后价格一致显示一行
 				<span>
-					{text}
+					{accounting.formatMoney(text, { symbol, precision })}
 					{suffix}
 				</span>
 			) : (
 				//审核通过 如果修改前后不一致显示两行
 				<div>
-					<span style={{ color: 'red' }}>{text !== null && text + suffix}</span>
+					<span style={{ color: 'red' }}>
+						{text !== null && accounting.formatMoney(text, { symbol, precision }) + suffix}
+					</span>
 					<br />
-					{record[variableName] !== null && <span>({record[variableName] + suffix})</span>}
+					{record[variableName] !== null && (
+						<span>({accounting.formatMoney(record[variableName], { symbol, precision }) + suffix})</span>
+					)}
 				</div>
 			)}
 		</div>
@@ -36,7 +48,7 @@ const Columns = [
 			return (
 				<div>
 					<div>{text}</div>
-					<div style={{ color:'#b5b5b5' }}>SPU编码:{record.spuCode}</div>
+					<div style={{ color: '#b5b5b5' }}>SPU编码:{record.spuCode}</div>
 				</div>
 			);
 		},

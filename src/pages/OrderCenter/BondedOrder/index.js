@@ -22,7 +22,7 @@ class BondedOrder extends Component {
 			selectedRows: [],
 			selectedRowKeys: [],
 			visible: false,
-			channelOrderNo: '',
+			shipmentId: '',
 			loading: false,
 		};
 	}
@@ -81,7 +81,7 @@ class BondedOrder extends Component {
 	handleOperateClick = (record) => {
 		this.setState({
 			visible: true,
-			channelOrderNo: record.channelOrderNo,
+			shipmentId: record.shipmentId,
 		});
 	};
 	//发货保存
@@ -115,7 +115,7 @@ class BondedOrder extends Component {
 		this.setState({ inputValues: _values });
 	};
 	render() {
-		const { dataList, everyPage, currentPage, total, visible, channelOrderNo, loading } = this.state;
+		const { dataList, everyPage, currentPage, total, visible, shipmentId, loading } = this.state;
 		return (
 			<Spin spinning={loading}>
 				<div className="oms-common-index-pages-wrap">
@@ -134,7 +134,7 @@ class BondedOrder extends Component {
 							onOk={this.onOk}
 							onCancel={this.onCancel}
 							visible={visible}
-							channelOrderNo={channelOrderNo}
+							shipmentId={shipmentId}
 						/>
 					)}
 				</div>
