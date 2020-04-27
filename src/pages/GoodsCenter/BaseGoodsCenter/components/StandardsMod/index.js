@@ -55,42 +55,49 @@ const StandardsMod=({...props})=> {
     })
     props.dispatch({
       type:'baseGoodsAdd/getSpec',
-      payload:{ specData  }
+      payload:{ specData }
     })
   }
-  // const countList=()=> {
-  //   if(type=='one') {
-  //     specData = {...specData, specOne:[] };
-  //     goodsList = specTwo.length>0&&specTwo.map((el) => {
-  //       return {
-  //         name:el.name,
-  //         key:el.key,
-  //         salesAttributeName:el.name,
-  //       }
-  //     })
-  //   }else if(type=='two') {
-  //     specData = {...specData, specTwo:[] };
-  //     goodsList = specOne.length>0&&specOne.map((el) => {
-  //       return {
-  //         salesAttributeName:el.name,
-  //         key:el.key,
-  //         name:el.name
-  //       }
-  //     })
-  //   }
-  // }
+
   //删除商品属性
   const deleteGoodsLabel=(removedTags,type)=> {
     let { specData,goodsList } =props;
-    let newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
+    let newArray;
     if(type == 'one') {
       let specOne = specData.specOne.filter(judgeTags => judgeTags.name !== removedTags.name);
-      if(specOne.length = 0) {
-        
+      if(specOne.length == 0) {
+        if(specData.specTwo.length>0) {
+          newArray = specData.specTwo.map((el) => {
+            return {
+              name:el.name,
+              key:el.key,
+              salesAttributeName:el.name,
+            }
+          })
+        } else {
+          newArray = [{ key:'0/0', taxRate:totalData.taxRate}];
+        }
+      } else {
+        newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
       }
       specData={...specData,specOne };
     } else {
       let specTwo = specData.specTwo.filter(judgeTags => judgeTags.name !== removedTags.name);
+      if(specTwo.length == 0) {
+        if(specData.specOne.length>0) {
+          newArray = specData.specOne.map((el) => {
+            return {
+              name:el.name,
+              key:el.key,
+              salesAttributeName:el.name,
+            }
+          })
+        } else {
+          newArray = [{ key:'0/0', taxRate:totalData.taxRate}];
+        }
+      } else {
+        newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
+      }
       specData={...specData,specTwo };
     }
     props.dispatch({
@@ -151,7 +158,7 @@ const StandardsMod=({...props})=> {
   }
 
   useEffect(()=>{ fetchAttribute()},[]);
-  console.log(props.goodsList,props.specData)
+
   return <div>
           <Form.Item label='商品规格1'>
             <Form.Item name="pdType1Id" rules={ [{ required: true, message: '请选择'}]}>
@@ -172,7 +179,7 @@ const StandardsMod=({...props})=> {
               </Select>
             </Form.Item>
             <Creatlabel
-              disabled={totalData.pdType1Id?false:true}
+              disabled={(totalData.pdType1Id!='0'&&totalData.pdType1Id)?false:true}
               deleteGoodsLabel={deleteGoodsLabel}
               addGoodsLabel={addGoodsLabel}
               level="one"/>

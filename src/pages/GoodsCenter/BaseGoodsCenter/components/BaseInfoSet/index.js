@@ -177,7 +177,7 @@ const BaseInfoSet=({...props})=> {
       <Form.Item label="品牌归属地" name="brandAddress" rules={[{ required: true, message: '请选择商品品牌'}]}>
         <Input disabled autoComplete="off" placeholder="请输入品牌归属地"/>
       </Form.Item>
-      <Form.Item label='产地' name="country">
+      <Form.Item label='产地' name="countryName">
         <AutoComplete
          autoComplete="off"
          options={originList}
