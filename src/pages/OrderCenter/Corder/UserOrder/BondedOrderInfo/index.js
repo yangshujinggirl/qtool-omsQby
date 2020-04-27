@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from "react";
 import { Card, Form } from "antd";
 import { Qtable } from "common";
+import Utils from 'utils/CommonUtils'
 import {
   GoodColumns,
   SubOrderColumns,
   ExpressColumns,
   OrderLogsColumns,
-  HangzhouOrderLogsColumns,
   HangzhouClearLogsColumns
 } from "./columns";
 import { getBonedInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
@@ -15,6 +15,7 @@ import { getBonedInfoApi } from "api/home/OrderCenter/Corder/UserOrder";
  * 保税订单详情
  * @param {*} props 
  */
+console.log(GoodColumns)
 const BondedOrderInfo = props => {
   const [orderInfo, setOrderInfo] = useState({});
   const [receiveInfo, setReceiveInfo] = useState({});
@@ -38,14 +39,15 @@ const BondedOrderInfo = props => {
         } = res.result;
         setOrderInfo(orderInfo);
         setReceiveInfo(receiveInfo);
-        setSkuList(skuList);
+        setSkuList(Utils.addKey(skuList));
         setPackageList(packageList);
         setExpressInfo(expressInfo);
-        setOrderOperateLogList(orderOperateLogList);
+        setOrderOperateLogList(Utils.addKey(orderOperateLogList));
         setOtherOperateLogList(otherOperateLogList);
       }
     });
   }, []);
+  console.log(orderOperateLogList)
   return (
     <div>
       <Card title="订单信息" className="base_info">
@@ -72,7 +74,7 @@ const BondedOrderInfo = props => {
         <Qtable columns={GoodColumns} dataSource={skuList} />
       </Card>
 
-      {packageList.length > 0 &&
+      {packageList.length>0 &&
         packageList.map((item, index) => (
           <Card title={`子单${index + 1}信息`} className="base_info">
             <div>
@@ -95,10 +97,10 @@ const BondedOrderInfo = props => {
       </Card>
 
       <Card title="杭州仓审核日志">
-        <Qtable columns={HangzhouOrderLogsColumns} dataSource={skuList} />
+        <Qtable columns={HangzhouClearLogsColumns} dataSource={skuList} />
       </Card>
 
-      {otherOperateLogList.length > 0 &&
+      {otherOperateLogList.length>0&&
         otherOperateLogList.map((item, index) => (
           <Card title={`${item.titleName}（子单${index + 1}）`}>
             <Qtable columns={HangzhouClearLogsColumns} dataSource={item.operateLogList} />

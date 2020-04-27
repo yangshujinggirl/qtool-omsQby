@@ -13,7 +13,7 @@ export const deBounce = (func, wait) => {
   };
 };
 //所有input前后去空格
-window.removeSpace = value => {
+export const removeSpace = value => {
   for (let i in value) {
     if (typeof value[i] == "string") {
       value[i] = value[i].trim();
@@ -65,3 +65,4 @@ export function disabledDateTime(date) {
     disabledSeconds: () => []
   };
 }
+

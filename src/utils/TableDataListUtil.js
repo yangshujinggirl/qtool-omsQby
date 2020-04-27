@@ -20,7 +20,7 @@ const TableDataListUtil = {
         const resultList = [];
         //开始遍历
         try {
-            if (list != null) {
+            if (list&&list.length) {
                 list.forEach((item, index) => {
                     resultList.push({
                         key: keyStr != null && keyStr !== "" ? item[keyStr] : index,

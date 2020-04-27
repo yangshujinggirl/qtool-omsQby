@@ -156,7 +156,6 @@ module.exports = {
         target:'http://192.168.2.155:8081',
         changeOrigin: true,
       }
-
     }
   }
 };

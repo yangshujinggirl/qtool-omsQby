@@ -16,6 +16,9 @@ const formItemLayout = {
  *
  * 新建退单 zhy
  */
+let allNotNeedReturnLength = 0;//所有不需要退款的单子
+let totalListLength = 0;//所有订单数量
+
 const AddReturnOrder = (props) => {
 	const [form] = Form.useForm();
 	const { selectedRows } = props;
@@ -25,10 +28,9 @@ const AddReturnOrder = (props) => {
 	const [deliveryList, setDeliveryList] = useState([]);
 	const [visible, setVisible] = useState(false);
 	const [giftList, setGiftList] = useState([]);
-	const [allNotReturnLength, setAllNotReturnLength] = useState(0);
-	const [setIsAddExpress,isAddExpress] = useState(false);
+	const [isAddExpress,setIsAddExpress] = useState(false);
 	useEffect(() => {
-		getTotalAmount(selectedRows);
+		getTotalAmount(selectedRows)
 	}, [props.selectedRows]);
 	//物流费用发生改变
 	const onRadioChange = (e) => {
@@ -52,7 +54,7 @@ const AddReturnOrder = (props) => {
 	};
 	//判断加不加上运费
 	const isAddExpressFee = () => {
-		const isAllSelect = allNotReturnLength == selectedRows.length; //没有全退的是否都勾选了
+		const isAllSelect = totalListLength-allNotNeedReturnLength == selectedRows.length; //没有全退的是否都勾选了
 		const isAllNotSend = deliveryList.reduce(function (isNotSend, item) {
 			return isNotSend && item['details'].every((temp) => temp.expressStatus == 0); //是否全部未发货
 		}, true);
@@ -149,13 +151,13 @@ const AddReturnOrder = (props) => {
 		if (value.trim()) {
 			getReturnInfoApi({ channelOrderNo: value.trim() }).then((res) => {
 				if (res.httpCode == 200) {
-					let NotReturnLength = 0;
 					const { deliveryList, ...infos } = res.result;
 					const { orderType, isDelivery } = infos;
 					setInfos(infos);
 					deliveryList.map((item, index) => {
 						item.key = index;
 						item.details.map((subItem) => {
+							++totalListLength;
 							subItem.isDelivery = isDelivery;
 							subItem.orderType = orderType;
 							subItem.channelOrderDetailNo = item.channelOrderDetailNo;
@@ -171,8 +173,8 @@ const AddReturnOrder = (props) => {
 								subItem.num = 0;
 								subItem.returnPrice = 0;
 							}
-							if (Number(subItem.num) + subItem.alreadyReturnNum != subItem.buyNum) {
-								NotReturnLength += 1;
+							if (subItem.alreadyReturnNum == subItem.buyNum) {
+								++allNotNeedReturnLength;
 							}
 							return subItem;
 						});
@@ -181,12 +183,13 @@ const AddReturnOrder = (props) => {
 						return item;
 					});
 					setDeliveryList(deliveryList);
-					setAllNotReturnLength(NotReturnLength);
+
 				}
 			});
 		}
 	};
-	console.log(allNotReturnLength);
+	console.log(allNotNeedReturnLength);
+	console.log(totalListLength);
 	return (
 		<Spin spinning={loading}>
 			<div className="oms-common-addEdit-pages add_toC_return">

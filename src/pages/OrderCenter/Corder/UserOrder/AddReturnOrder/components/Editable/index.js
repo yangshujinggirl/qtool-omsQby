@@ -92,7 +92,6 @@ const ReturnGoods = props => {
     return false;
   };
   const Columns = getColumns(props)
-  console.log(props)
   const list = [...props.deliveryList]
   return (
     <div>

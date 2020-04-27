@@ -20,7 +20,7 @@ export function AddTimeApi(values) {
 export function editTimeApi(values) {
   const {pdTaskTimeId,..._values} = values;
   return erpAjax.put("taskTime/"+pdTaskTimeId+"/update", {
-    ..._values
+    ...values
   });
 }
 //查询定时
@@ -34,6 +34,6 @@ export function getTimeInfoApi(values) {
 export function goInvalidApi(values) {
   const {pdTaskTimeId,..._values} = values;
   return erpAjax.put("/taskTime/"+pdTaskTimeId+"/fail", {
-    ..._values 
+    ...values 
   });
 }

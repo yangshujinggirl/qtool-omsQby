@@ -85,6 +85,18 @@ const CommonUtils = {
     }
     return values;
   },
+  //给list添加key值
+  addKey(list,keyStr=null){
+    if(list&&list.length){
+      list.map((item,index)=>{
+        item.key = keyStr?keyStr:index;
+        if(item.constructor == Array){
+          this.addKey(item)
+        }
+      })
+    }
+    return list;
+  }
 };
 
 export default CommonUtils;

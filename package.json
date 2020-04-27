@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.2",
+    "accounting": "^0.4.1",
     "antd": "^4.1.0",
     "axios": "^0.19.2",
     "echarts": "^4.7.0",
