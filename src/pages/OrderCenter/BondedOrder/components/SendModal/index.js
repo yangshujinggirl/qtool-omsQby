@@ -7,7 +7,7 @@ const formLayout = {
 }
 const SendModal = props => {
   const [form] = Form.useForm();
-  const { visible,channelOrderNo } = props;
+  const { visible,shipmentId } = props;
   const [ expressList, setExpressList ] = useState([]);
   useEffect(() => {
     getExpressListApi().then(res => {
@@ -19,7 +19,7 @@ const SendModal = props => {
   //onOk
   const onOk = async () => {
     const values = await form.validateFields();
-    values.channelOrderNo = channelOrderNo;
+    values.shipmentId = shipmentId;
     props.onOk(values, resetForm);
   };
   const resetForm = () => {
@@ -34,7 +34,7 @@ const SendModal = props => {
     <Modal title="发货" visible={visible} onOk={onOk} onCancel={onCancel}>
       <Form form={form} {...formLayout} >
         <Form.Item label="保税单号">
-          {channelOrderNo}
+          {shipmentId}
         </Form.Item>
         <Form.Item label="快递公司" name="logisticsCode">
           <Select placeholder="请选择快递公司" allowClear={true}>
