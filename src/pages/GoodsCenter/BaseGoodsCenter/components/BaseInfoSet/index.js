@@ -104,7 +104,7 @@ const BaseInfoSet=({...props})=> {
     let item = brandList.find((el)=> el.brandNameCn== value);
     props.dispatch({
       type:'baseGoodsAdd/getTotalState',
-      payload:{brandAddress:item.brandCountry,brandId:option.key}
+      payload:{brandAddress:item.brandCountryName,brandId:option.key}
     })
   }
   //产地搜索
