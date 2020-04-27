@@ -85,7 +85,7 @@ const BgoodsAdd = (props) => {
           <Row>
             <Col span={12}>
               <Form.Item label="供货方式">
-                代发（下单后7个工作日发货）
+              {infos.sendType==1?'非代发':'代发'}（下单后{infos.distributionDays}个工作日发货）
               </Form.Item>
             </Col>
           </Row>

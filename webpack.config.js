@@ -138,8 +138,8 @@ module.exports = {
     open: true,
     proxy: {
       '/qtoolsOms': {
-        target:'http://192.168.2.36:8061',
-        pathRewrite: {"^/qtoolsOms" : ""},
+        target:'http://v1.oms.test.qtoolsbaby.net:81/',
+        // pathRewrite: {"^/qtoolsOms" : ""},
         changeOrigin: true,
       },
       '/qtoolsErp': {

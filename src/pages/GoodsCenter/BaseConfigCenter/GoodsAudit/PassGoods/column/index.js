@@ -30,6 +30,14 @@ const Columns = [
     dataIndex: "productName",
     key: "2",
     width: 150,
+    render:(text,record,index)=>{
+      return(
+        <div>
+          <div>{text}</div>
+          <div style={{color:'#b5b5b5'}}>SPU编码:{record.spuCode}</div>
+        </div>
+      )
+    }
   },
   {
     title: "规格",
