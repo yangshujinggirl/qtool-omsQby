@@ -46,9 +46,11 @@ const Columns = [
 							编辑
 						</Link>
 					)}
-					<a className="theme-color" onClick={() => record.onOperateClick()}>
-						强制无效
-					</a>
+					{record.status == 1 && (
+						<a className="theme-color" onClick={() => record.onOperateClick()}>
+							强制无效
+						</a>
+					)}
 				</div>
 			);
 		},
