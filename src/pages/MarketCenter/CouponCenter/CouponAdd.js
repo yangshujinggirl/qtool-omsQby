@@ -111,6 +111,9 @@ const CouponAdd=({...props})=> {
       let values = await form.validateFields();
       let { bearers, costApportion, ..._val} =values;
       let proportionList = ratioList.map((el)=> {
+        if(el.budget) {
+          _val.budget = el.budget
+        }
         return {
           bearer:el.bearer,
           proportion:el.proportion,

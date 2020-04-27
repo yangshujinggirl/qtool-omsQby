@@ -34,15 +34,16 @@ const Columns = [
                 <div>
                 {
                   record.status == '0'&&
-                  <div>
                     <Link to={`/account/bossActivity/add/${record.activityId}`}>
                        修改
+                       &nbsp;
                     </Link>
-                    &nbsp;
+                }
+                {
+                  (record.status == '0'||record.status == '1')&&
                     <span className="pointerSty" onClick={() => record.onOperateClick('lose')}>
                        强制失效
                     </span>
-                  </div>
                 }
                 </div>
 

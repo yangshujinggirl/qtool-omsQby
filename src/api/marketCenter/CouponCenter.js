@@ -16,7 +16,7 @@ export function GetInfoApi(couponId) {
 }
 //追加数量
 export function GetAddNumApi(values) {
-  return appAjax.get('/couponManager/reissue',{params:{...values}})
+  return appAjax.post('/couponManager/reissue',{...values})
 }
 //注券api
 export function GetInjectApi(values) {
