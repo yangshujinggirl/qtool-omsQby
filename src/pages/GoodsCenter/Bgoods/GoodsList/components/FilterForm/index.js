@@ -96,7 +96,7 @@ class SearchForm extends BaseFilter {
 						<Col {...this.colspans}>
 							<FormItem name="productTag" label="商品标签" {...this.formItemLayout}>
 								<Select placeholder="请选择" allowClear={true}>
-									<Option value={}>全部</Option>
+									<Option value="">全部</Option>
 									<Option value={1}>新品</Option>
 									<Option value={2}>畅销</Option>
 									<Option value={3}>预售</Option>
