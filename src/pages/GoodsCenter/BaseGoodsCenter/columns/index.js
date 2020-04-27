@@ -1,19 +1,28 @@
 import moment from "moment";
 import { Input,Form,Select } from 'antd';
 import { QupLoadImgLimt } from 'common';
-import { RegExpUtil } from 'utils';
+import { RegExpUtil, Sessions } from 'utils';
 import { oldStatusOptions } from '../components/options';
 
 import { Link } from 'react-router-dom';
 let FormItem = Form.Item;
 let Option = Select.Option;
+let fileDomain = Sessions.get('fileDomain');
 
 let commonColumns = {
   renderAction:(text,record,index)=>{
+    let isSingle=true;
+    if(record.salesAttributeName) {
+      let splitArr = record.salesAttributeName.split('/');
+      isSingle = splitArr.length>1?false:true;
+    }
     return <span>
           {
             record.skuCode?"-":
-            <span className="pointerSty" onClick={()=>record.onOperateClick('delete')}>删除</span>
+            (isSingle ?'-'
+              :
+              <span className="pointerSty" onClick={()=>record.onOperateClick('delete')}>删除</span>
+            )
           }
     </span>
   },
@@ -46,7 +55,7 @@ const ColumnsGeneral = [
   {
     title: "商品主图",
     dataIndex: "centralImg",
-    render: text => <img src={text} style={{ width: "90px", height: "90px" }} />
+    render: text => <img src={`${fileDomain}${text}`} style={{ width: "90px", height: "90px" }} />
   },
   {
     title: "商品名称",
@@ -352,7 +361,7 @@ const ColumnsCross = [
   {
     title: "商品主图",
     dataIndex: "centralImg",
-    render: text => <img src={text} style={{ width: "90px", height: "90px" }} />
+    render: text => <img src={`${fileDomain}${text}`} style={{ width: "90px", height: "90px" }} />
   },
   {
     title: "商品名称",

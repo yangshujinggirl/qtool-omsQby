@@ -157,7 +157,7 @@ const ShopOrderAdd=({...props})=> {
                }}
              </Form.Item>
              <Form.Item label="订单备注" name="remarks" >
-               <Input.TextArea placeholder='请输入快递单号' maxLength='100' rows={4} autoComplete="off"/>
+               <Input.TextArea placeholder='请输入订单备注' maxLength='100' rows={4} autoComplete="off"/>
              </Form.Item>
           </Card>
           <div className="handle-operate-save-action">

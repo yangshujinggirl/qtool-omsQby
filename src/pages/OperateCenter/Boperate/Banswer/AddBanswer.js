@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Select, Button } from "antd";
 import { QimageTextEdit } from "common";
+import { CommonUtils } from 'utils';
 import { saveApi, getInfosApi } from "api/home/OperateCenter/Boperate/Banswer";
 import "./index.less";
 const formItemLayout = {
@@ -15,7 +16,8 @@ const formItemLayout = {
 const AddBanswer = props => {
   const [form] = Form.useForm();
   const { id } = props.match.params;
-  const [detailImg, setDetailImg] = useState([]);
+  let [detailImg, setDetailImg] = useState([]);
+  let [totalData, setTotalData] = useState({});
   const [pdAnswerConfigId, setPdAnswerConfigId] = useState('');
   /**
    * 修改时初始化数据
@@ -31,19 +33,20 @@ const AddBanswer = props => {
           list.map(item => {
             if (item.type == 2) {
               item.img = item.content;
-              item.content = [
-                {
-                  uid: "-1",
-                  name: "image.png",
-                  status: "done",
-                  url: sessionStorage.getItem("oms_fileDomain") + item.content
-                }
-              ];
+              item.content = CommonUtils.formatToFilelist(item.content);
+              // item.content = [
+              //   {
+              //     uid: "-1",
+              //     name: "image.png",
+              //     status: "done",
+              //     url: sessionStorage.getItem("oms_fileDomain") + item.content
+              //   }
+              // ];
             }
           });
+          setTotalData(infos);
           setDetailImg(list);
           setPdAnswerConfigId(pdAnswerConfig.pdAnswerConfigId);
-          form.setFieldsValue({ ...infos, productDetailImgList: list });
         }
       });
     }
@@ -54,7 +57,6 @@ const AddBanswer = props => {
    */
   const upDateDetailImg = list => {
     setDetailImg(list);
-    form.setFieldsValue({ productDetailImgList: list });
   };
   /**
    *
@@ -98,9 +100,31 @@ const AddBanswer = props => {
   const goBack = () => {
     props.history.push("/account/b_question");
   };
+  //表单change事件
+  const onValuesChange=(changedValues, allValues)=> {
+    let currentKey = Object.keys(changedValues)[0];
+    let { productDetailImgList } = changedValues;
+
+    if(currentKey=='productDetailImgList') {
+      detailImg = detailImg.map((el,index) => {
+        productDetailImgList.map((item,idx) => {
+          if(index == idx) {
+            el = {...el, ...item }
+          }
+        })
+        return el;
+      })
+      setDetailImg(detailImg)
+    }
+  }
+  useEffect(()=>{ form.setFieldsValue({ productDetailImgList: detailImg }); },[detailImg])
+  useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   return (
     <div className="oms-common-addEdit-pages">
-      <Form form={form} {...formItemLayout} className="common-addEdit-form">
+      <Form
+        onValuesChange={onValuesChange}
+        form={form} {...formItemLayout}
+        className="common-addEdit-form">
         <Form.Item
           label="问题类型"
           name="type"

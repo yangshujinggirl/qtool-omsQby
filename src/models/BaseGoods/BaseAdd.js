@@ -87,11 +87,27 @@ function* fetchTotal(action){
   yield call(getTotalState,{payload:pdSpu})
   yield call(getListState,{payload:{goodsList:list}});
 };
+function* resetPages(action){
+  let data = {
+    loading: false,
 
+    totalData:{isSave:true,pdType1Id:'0',pdType2Id:'0',minBoxSpecification:'1',procurementTarget:1},
+    goodsList:[{key:'0/0'}],
+    specData:{
+      specOne:[],
+      specTwo:[],
+    },
+  }
+  yield put({
+    type: 'BASEGOODSADD_RESETPAGE',
+    payload: data
+  })
+};
 export default function* rootSagas () {
   yield takeEvery('baseGoodsAdd/fetchTotal', fetchTotal)
   yield takeEvery('baseGoodsAdd/getTotalState', getTotalState)
   yield takeEvery('baseGoodsAdd/getListState', getListState)
   yield takeEvery('baseGoodsAdd/getGoodsTemplte', getGoodsTemplte)
+  yield takeEvery('baseGoodsAdd/resetPage', resetPages)
   yield takeEvery('baseGoodsAdd/getSpec', getSpec)
 }

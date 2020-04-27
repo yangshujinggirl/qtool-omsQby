@@ -155,8 +155,12 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   const submit = async (saveType) => {
     try {
       const values = await form.validateFields();
-      let { brandName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
-      if((pdType1Id!=0||pdType2Id!=0)&&(specData.specOne.length==0||specData.specTwo.length==0)) {
+      let { brandName, countryName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      if((pdType1Id!='0')&&specData.specOne.length==0) {
+        Qmessage.error('请添加属性');
+        return;
+      }
+      if((pdType2Id!='0')&&(specData.specTwo.length==0)) {
         Qmessage.error('请添加属性');
         return;
       }
@@ -224,7 +228,14 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
     }
   }
-  useEffect(()=>{ initPage() },[spuCode])
+  useEffect(()=>{ initPage()
+    return () => {
+      props.dispatch({
+        type:'baseGoodsAdd/resetPage',
+        payload:{}
+      })
+    };
+  },[spuCode])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({list:goodsList}) },[goodsList]);
 
@@ -377,7 +388,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
               </div>
             </Form.Item>
             <Form.Item label="修改说明" name="remarks">
-              <Input.TextArea placeholder="请输入大于0的整数" autoComplete="off" maxLength={400} rows={5}/>
+              <Input.TextArea placeholder="请输入修改说明" autoComplete="off" maxLength={400} rows={5}/>
             </Form.Item>
           </Card>
           <div className="handle-operate-save-action">
