@@ -21,12 +21,12 @@ export default class SearchForm extends BaseFilter {
     };
 
     componentDidMount() {
-        const params = {month: moment()};
+        const params = {startDate: moment()};
         //设置默认数据
         this.formRef.current.setFieldsValue(params);
         //初次请求
         if (this.props.selectTimeChange != null) {
-            this.props.selectTimeChange(params, true)
+            this.props.selectTimeChange({startDate: moment().format('YYYY-MM-DD')}, true)
         }
         //初始化智能搜索数据
         this.handleSearch()
@@ -81,7 +81,7 @@ export default class SearchForm extends BaseFilter {
                                     filterOption={(inputValue, option) => option.value != null && option.value.toString().toUpperCase().indexOf(inputValue.toString().toUpperCase()) !== -1}/>
                             </FormItem>
                         </Col>
-                        <FormItem name="month" label="选择时间" {...this.formItemLayout}>
+                        <FormItem name="startDate" label="选择时间" {...this.formItemLayout}>
                             <DatePicker
                                 format={"YYYY-MM"}
                                 allowClear={false}

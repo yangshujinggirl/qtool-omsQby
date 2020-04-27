@@ -35,12 +35,27 @@ const Columns = [
   },{
     title: "创建人",
     dataIndex: "createTime",
+    render:(text,record,index)=>{
+      return(
+        <div>
+          <div>{record.createBy}</div>
+          <div>{text&&moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')}</div>
+        </div>
+      )
+    }
   },{
     title: "最后修改人",
-    dataIndex: "createTime",
+    dataIndex: "lastUpdateTime",
+    render:(text,record,index)=>{
+      return(
+        <div>
+          <div>{record.modifyBy}</div>
+          <div>{text&&moment(record.lastUpdateTime).format('YYYY-MM-DD HH:mm:ss')}</div>
+        </div>
+      )
+    }
   },{
     title: "操作",
-    dataIndex: "createTime",
     render:(text,record,index)=>(
       <a onClick={()=>{record.onOperateClick()}}>修改</a>
     )

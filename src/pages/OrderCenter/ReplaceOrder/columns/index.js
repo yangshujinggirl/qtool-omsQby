@@ -1,10 +1,6 @@
 import moment from "moment";
 const Columns = [
   {
-    title: "订单号",
-    dataIndex: "orderNo",
-  },
-  {
     title: "渠道订单号",
     dataIndex: "channelOrderNo",
   },

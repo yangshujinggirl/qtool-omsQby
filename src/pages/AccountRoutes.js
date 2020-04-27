@@ -127,12 +127,13 @@ import PosOrderData from "./DataCenter/OrderData/POS"; //订单数据-->pos订�
 import PurchasingAnalysis from "./DataCenter/PurchasingData/PurchasingAnalysis"; //采购数据
 import SaleData from "./DataCenter/ShopData/SaleData"; //门店数据-->销售数据
 import JointOperationShareProportion from "./DataCenter/ShopData/JointOperationShareProportion"; //门店数据-->联营分成
-import CostAccounting from "./DataCenter/FinancialData/CostAccounting"; //财务数据-->门店成本
-import CostOfStores from "./DataCenter/FinancialData/CostOfStores"; //财务数据-->成本核算
 import AppData from "./DataCenter/AppData"; //App数据
 import SpLearning from "./DataCenter/ShopData/SaleData/SpLearning"; //门店学习
 import SpRanking from "./DataCenter/ShopData/SaleData/SpRanking"; //门店排行
 import SpNotice from "./DataCenter/ShopData/SaleData/SpNotice"; //门店注意
+import PurchasingTheArrivalOfTheGoods from "./DataCenter/FinancialData/PurchasingTheArrivalOfTheGoods"; //财务数据--->采购到货
+import StoresTheInvoice from "./DataCenter/FinancialData/StoresTheInvoice"; //财务数据--->门店发票
+
 
 
 /************************************   渠道管理   *******************************************/
@@ -319,12 +320,13 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/purchase_data" component={PurchasingAnalysis} />
         <Route exact path="/account/sales_data_information" component={SaleData} />
         <Route exact path="/account/pool_components_data" component={JointOperationShareProportion} />
-        <Route exact path="/account/pstores_cost_data" component={CostAccounting} />
-        <Route exact path="/account/cost_accounting_data" component={CostOfStores} />
         <Route exact path="/account/app_data" component={AppData} />
         <Route exact path="/account/shopData/sp_learning/:id" component={SpLearning} />
         <Route exact path="/account/shopData/sp_ranking" component={SpRanking} />
         <Route exact path="/account/shopData/sp_notice" component={SpNotice} />
+        <Route exact path="/account/cost_accounting_data" component={StoresTheInvoice} />
+        <Route exact path="/account/stores_cost_data" component={PurchasingTheArrivalOfTheGoods} />
+
 
 
 
