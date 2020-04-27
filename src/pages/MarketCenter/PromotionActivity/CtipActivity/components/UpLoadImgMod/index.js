@@ -126,7 +126,7 @@ class UpLoadImg extends Component {
      )
 
      return(
-       <FormItem label={label} {...formItemLayout}>
+       <FormItem label={label} {...formItemLayout} className={`${rules?'common-required-formItem':''}`}>
          <FormItem
            rules={rules?rules:[]}
            valuePropName='fileList'

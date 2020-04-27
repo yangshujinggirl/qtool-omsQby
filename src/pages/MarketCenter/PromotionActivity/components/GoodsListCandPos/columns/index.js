@@ -58,6 +58,7 @@ const Columns=(activityType)=> {
                   to={`/account/${activityType=="POS"?'posActivity':'ctipActivity'}/add/${record.promotionId}`}>
                   编辑
                 </Link>
+                &nbsp;
                 <span
                   className="pointerSty"
                   onClick={()=>record.onOperateClick('delete')}>
@@ -72,6 +73,7 @@ const Columns=(activityType)=> {
                 to={null}
                 onClick={()=>record.onOperateClick('cancel')}>
                 撤销审核
+                &nbsp;
               </span>
             }
             {
@@ -80,6 +82,7 @@ const Columns=(activityType)=> {
                 className="pointerSty"
                 onClick={()=>record.onOperateClick('zuofei')}>
                 作废
+                &nbsp;
               </span>
             }
             {

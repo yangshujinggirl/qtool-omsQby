@@ -1,4 +1,4 @@
-import { Qtable, Qbtn } from 'common';
+import { QreturnBtn, Qtable, Qbtn } from 'common';
 import { useState, useEffect } from 'react';
 import { GetLogApi } from 'api/cTip/GeneralTradeGoods';
 
@@ -18,10 +18,7 @@ const columns = [{
 const  GeneralTradeLog =({...props})=> {
   let [list, setList] = useState([]);
   let spuCode = props.match.params.id;
-  const goReturn=()=> {
-    let link = props.productNature == 1?'general_trade_product':'cross_border_product';
-    props.history.push(`/account/${link}`)
-  }
+
   useEffect(()=>{
     GetLogApi(spuCode)
     .then((res) => {
@@ -37,9 +34,7 @@ const  GeneralTradeLog =({...props})=> {
         columns={columns}
         dataSource={list}/>
       <div className="handle-operate-save-action">
-        <Qbtn onClick={goReturn}>
-          返回
-        </Qbtn>
+        <QreturnBtn {...props} />
       </div>
     </div>
   )

@@ -6,7 +6,7 @@ import {
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { GetImgInfoApi, GetEditImgApi } from 'api/home/BaseGoods';
-import { QupLoadImgLimt, Qmessage, QimageTextEdit, Qtable, Qbtn } from 'common';
+import { QreturnBtn, QupLoadImgLimt, Qmessage, QimageTextEdit, Qtable, Qbtn } from 'common';
 import { CommonUtils } from 'utils';
 
 import { ColumnsEditImgGeneral } from './columns';
@@ -180,9 +180,7 @@ function EditImg({...props}) {
             name="textImgField"/>
         </Form.Item>
         <div className="handle-operate-save-action">
-          <Qbtn onClick={goReturn}>
-            返回
-          </Qbtn>
+          <QreturnBtn {...props} />
           <Qbtn onClick={onSubmit}>
             保存
           </Qbtn>

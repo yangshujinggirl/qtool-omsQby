@@ -49,8 +49,11 @@ const ImageTextEdit=({...props})=> {
     upDateList(newArray);
   };
   useEffect(()=>{
-    props.form&&props.form.setFieldsValue({[fieldName]:newArray}) 
+    if(props.form) {
+      props.form.setFieldsValue({[fieldName]:newArray})
+    }
   },[newArray]);
+
   return <div className="image-text-function-are">
           <div className="left-are">
             <p className="tit-par">功能组件</p>

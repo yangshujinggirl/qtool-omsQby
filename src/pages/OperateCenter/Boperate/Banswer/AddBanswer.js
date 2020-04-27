@@ -13,6 +13,8 @@ const formItemLayout = {
  * 新增B端问答
  *
  */
+const Option = Select.Option;
+
 const AddBanswer = props => {
   const [form] = Form.useForm();
   const { id } = props.match.params;
@@ -34,14 +36,6 @@ const AddBanswer = props => {
             if (item.type == 2) {
               item.img = item.content;
               item.content = CommonUtils.formatToFilelist(item.content);
-              // item.content = [
-              //   {
-              //     uid: "-1",
-              //     name: "image.png",
-              //     status: "done",
-              //     url: sessionStorage.getItem("oms_fileDomain") + item.content
-              //   }
-              // ];
             }
           });
           setTotalData(infos);
@@ -57,6 +51,7 @@ const AddBanswer = props => {
    */
   const upDateDetailImg = list => {
     setDetailImg(list);
+    form.setFieldsValue({ productDetailImgList: list })
   };
   /**
    *
@@ -80,9 +75,7 @@ const AddBanswer = props => {
     detailImg.map(item => {
       const obj = {type:item.type};
       if (item.type == 2) {
-        obj.content = item.content[0].response
-          ? item.content[0].response.result
-          : item.img;
+        obj.content = CommonUtils.formatToUrlPath(item.content);
       } else {
         obj.content = item.content;
       }
@@ -117,8 +110,10 @@ const AddBanswer = props => {
       setDetailImg(detailImg)
     }
   }
+
   useEffect(()=>{ form.setFieldsValue({ productDetailImgList: detailImg }); },[detailImg])
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
+
   return (
     <div className="oms-common-addEdit-pages">
       <Form

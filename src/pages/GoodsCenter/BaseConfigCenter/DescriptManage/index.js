@@ -85,7 +85,7 @@ class List extends React.Component {
           {
             goodLists.length>0&&
             <Qpagination
-              data={{currentPage, everyPage, totalCount:total}}
+              data={{currentPage, everyPage, total}}
               onChange={this.changePage}
               onShowSizeChange={this.onShowSizeChange}/>
           }

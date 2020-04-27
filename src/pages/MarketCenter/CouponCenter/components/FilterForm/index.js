@@ -21,12 +21,12 @@ class Search extends BaseFilter {
               <FormItem
               label="优惠券名称"
               name="couponName">
-                <Input placeholder="请输入商品名称" autoComplete="off" />
+                <Input placeholder="请输入优惠券名称" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="优惠券批次号"  name="couponCode">
-                <Input placeholder="请输入spu编码" autoComplete="off" />
+                <Input placeholder="请输入优惠券批次号" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
@@ -45,19 +45,18 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="优惠券状态"  name="status">
-                <Select allowClear={true} placeholder="请选择发放方式">
-                  <Option value='1'>注册领取</Option>
-                  <Option value='3'>手动领取</Option>
-                  <Option value='2'>注券</Option>
+                <Select allowClear={true} placeholder="请选择优惠券状态">
+                  <Option value='1'>发放中</Option>
+                  <Option value='2'>发放完</Option>
+                  <Option value='3'>熔断</Option>
                 </Select>
               </FormItem>
             </Col>
             <Col {...this.colspans}>
               <FormItem label="是否过期"  name="isExpire">
-                <Select allowClear={true} placeholder="请选择发放方式">
-                  <Option value='1'>注册领取</Option>
-                  <Option value='3'>手动领取</Option>
-                  <Option value='2'>注券</Option>
+                <Select allowClear={true} placeholder="请选择是否过期">
+                  <Option value='1'>是</Option>
+                  <Option value='2'>否</Option>
                 </Select>
               </FormItem>
             </Col>

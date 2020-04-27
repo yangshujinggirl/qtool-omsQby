@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import NP from 'number-precision';
 import { useState, useEffect } from 'react';
-import { QupLoadAndDownLoad, Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
+import { QreturnBtn, QupLoadAndDownLoad, Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
 import {
   GetSaveApi, GetSaveFreeApi,
   GetShopAddressApi, GetShopListApi,
@@ -224,9 +224,7 @@ const ShopOrderAdd=({...props})=> {
             </Form.Item>
           </div>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={goReturn}>
-              返回
-            </Qbtn>
+            <QreturnBtn {...props} />
             <Qbtn onClick={()=>onSubmit()}>
               保存
             </Qbtn>

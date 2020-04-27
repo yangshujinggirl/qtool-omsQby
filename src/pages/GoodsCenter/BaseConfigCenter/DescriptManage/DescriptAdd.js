@@ -1,7 +1,7 @@
 import '@ant-design/compatible/assets/index.css';
 import { useState, useEffect } from 'react';
 import { Form, Input, Select, DatePicker, Row, Col } from "antd";
-import { Qbtn, Qtable, Qmessage } from "common";
+import { QreturnBtn, Qbtn, Qtable, Qmessage } from "common";
 import { ColumnsEdit } from './column';
 import AddDescModal from './components/AddDescModal';
 import { GetDetailApi,GetTreeApi,GetEditApi } from 'api/cTip/DescriptManage';
@@ -147,9 +147,7 @@ const  DescriptAddF=({...props})=> {
             dataSource={desclist}/>
         </FormItem>
         <div className="handle-operate-save-action">
-          <Qbtn onClick={goReturn}>
-            返回
-          </Qbtn>
+          <QreturnBtn {...props} />
           <Qbtn onClick={onSubmit}>
             保存
           </Qbtn>

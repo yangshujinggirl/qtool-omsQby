@@ -245,7 +245,7 @@ const ColumnsAddGeneral=[
     render:(text,record,index)=> {
       return  <Form.Item
                 name={['list',index,'weight']}
-                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.qty,message:'请输入数字'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
@@ -388,12 +388,7 @@ const ColumnsCross = [
   },
   {
     title: "保税仓",
-    dataIndex: "bondedWarehouseName",
-  },
-  {
-    title: "商品类型",
-    dataIndex: "productType",
-    render: text => (text == 1 ? "普通商品" : "赠品")
+    dataIndex: "warehouseName",
   },
   {
     title: "创建人",

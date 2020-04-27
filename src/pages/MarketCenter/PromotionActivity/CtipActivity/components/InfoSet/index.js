@@ -37,7 +37,7 @@ const InfoSet=({...props})=> {
            className="ant-input-fixed"
            placeholder="请输入活动名称" maxLength='30' autoComplete="off"/>
         </FormItem>
-        <FormItem label='C端活动名称'>
+        <FormItem label='C端活动名称' className="common-required-formItem">
           <FormItem name="cname" rules={[{ required: true, message: '请输入C端活动名称'}]}>
            <Input
              disabled={isEdit}
@@ -48,7 +48,7 @@ const InfoSet=({...props})=> {
             如展示活动商品横幅条则会出现在C端活动预告中，请谨慎填写
           </span>
         </FormItem>
-        <FormItem label='活动时间'>
+        <FormItem label='活动时间' className="common-required-formItem">
           <FormItem name="time" rules={[{ required: true, message: '请选择活动时间'}]}>
             <RangePicker
               disabled={isEdit}
@@ -89,7 +89,7 @@ const InfoSet=({...props})=> {
              </FormItem>
           }}
         </Form.Item>
-        <FormItem label='活动级别'>
+        <FormItem label='活动级别' className="common-required-formItem">
           <FormItem name="level" rules={[{ required: true, message: '请选择活动级别'}]}>
             <Radio.Group >
                 {
@@ -143,7 +143,7 @@ const InfoSet=({...props})=> {
         }
         {
           activityInfo.pdScope == 2 && activityInfo.promotionScope == 2 &&
-          <FormItem label='商品种类'>
+          <FormItem label='商品种类' className="common-required-formItem">
             <FormItem name="pdKind" rules={[{ required: true, message: '请选择商品种类'}]}>
                <Radio.Group disabled={isEdit}>
                   {

@@ -20,7 +20,7 @@ class Search extends BaseFilter {
           <Row gutter={24}>
             <Col {...this.colspans}>
               <FormItem label="优惠券批次号"  name="couponCode">
-                <Input placeholder="请输入spu编码" autoComplete="off" />
+                <Input placeholder="请输入优惠券批次号" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>
@@ -30,7 +30,7 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="注券人"  name="voucher">
-                <Input placeholder="请输入联系人" autoComplete="off" />
+                <Input placeholder="请输入注券人" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>

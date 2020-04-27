@@ -21,8 +21,10 @@ import _Qcharts from './Qcharts';
 import _QbaseInfo from './QbaseInfo';
 import _ImageFlex from './ImageFlex';//图片放大
 import _QupLoadAndDownLoad from './QupLoadAndDownLoad';//导入下载
+import _QreturnBtn from './QreturnBtn';//返回上一页
 
 
+export const QreturnBtn = _QreturnBtn;
 export const QupLoadAndDownLoad = _QupLoadAndDownLoad;
 export const ImageFlex = _ImageFlex;
 export const QbaseInfo = _QbaseInfo;

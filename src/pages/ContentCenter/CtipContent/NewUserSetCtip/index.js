@@ -1,6 +1,6 @@
 
 import {
-  Input,Spin,Form,Select,Table,Card,
+  Input,Spin,Form,Select,Table,Card,Modal,
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import moment from 'moment';
@@ -29,6 +29,7 @@ const NewUserGift=({...props})=> {
   let [totalData,setTotalData]=useState({newComerPicUrl:[],couponPopUpPicUrl:[]});
   let [list,setList]=useState([]);
   let [couponList,setCouponList]=useState([]);
+  let [visible,setVisible]=useState(false);
   let homepageModuleId = props.match.params.id;
   const getInfo=()=> {
     GetListApi({homepageModuleId})
@@ -36,7 +37,7 @@ const NewUserGift=({...props})=> {
       let { couponList, couponSourceList,...totalData } = res.result;
       totalData.newComerPicUrl=CommonUtils.formatToFilelist(totalData.newComerPicUrl);
       totalData.couponPopUpPicUrl=CommonUtils.formatToFilelist(totalData.couponPopUpPicUrl);
-      couponList=couponList?couponList:[]
+      couponList=couponList?couponList:[{key:0}]
       couponSourceList=couponSourceList?couponSourceList:[];
       couponList.map((el,index)=>el.key=index);
       totalData.time=totalData.beginTime?[moment(totalData.beginTime),moment(totalData.endTime)]:[]
@@ -84,6 +85,13 @@ const NewUserGift=({...props})=> {
     totalData={...totalData,couponPopUpPicUrl:array}
     setTotalData(totalData)
   }
+  const lookExample = () => {
+    setVisible(true)
+  };
+  const onCancel = () => {
+    setVisible(false)
+  };
+
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ form.setFieldsValue({couponIds: list}) },[list])
   useEffect(()=>{ getInfo() },[homepageModuleId]);
@@ -116,7 +124,12 @@ const NewUserGift=({...props})=> {
               height={70}
               limit="1"
               upDateList={upDateListPop}>
-              <span>图片宽高比为69:70，支持png格式，大小在2m以内</span>
+              <div>
+                <span>图片宽高比为69:70，支持png格式，大小在2m以内&nbsp;&nbsp;</span>
+                <span className="pointerSty" onClick={lookExample}>
+                  查看示例
+                </span>
+              </div>
             </QupLoadImgLimt>
             <FormItem label="模块展示时间" name="time" rules={[{ required: true, message: '请选择展示时间' } ]}>
               <RangePicker format="YYYY-MM-DD HH:mm"/>
@@ -138,6 +151,9 @@ const NewUserGift=({...props})=> {
             <Qbtn onClick={submit}>保存</Qbtn>
           </div>
         </Form>
+        <Modal visible={visible} onCancel={onCancel} footer={null}>
+          <img src={require("./img/ex4.png")} style={{ width: "472px" }}/>
+        </Modal>
       </div>
     </Spin>
   )

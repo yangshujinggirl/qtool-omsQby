@@ -1,4 +1,6 @@
 import { Table,Input,Form } from 'antd';
+import { QenlargeImg } from 'common';
+import { Sessions } from 'utils';
 
 
 class EditTable extends React.Component {
@@ -12,7 +14,12 @@ class EditTable extends React.Component {
                <Input autoComplete="off" placeholder="请输入商品保质期"/>
             </Form.Item>
   }
+  renderImage =(text,record,index)=> {
+        const fileDomain = Sessions.get('fileDomain');
+    return <QenlargeImg url={`${fileDomain}/${record.image}`}/>
+  }
   render() {
+
     return(
       <Table
         dataSource={this.props.dataSource}
@@ -23,7 +30,7 @@ class EditTable extends React.Component {
           <Table.Column title="规格" dataIndex ='salesAttributeName'/>
           <Table.Column title="商品条码" dataIndex ='barCode'/>
           <Table.Column title="C端售价" dataIndex ='customerPrice'/>
-          <Table.Column title="sku图片" dataIndex ='image' />
+          <Table.Column title="sku图片" dataIndex ='image' render={this.renderImage}/>
           <Table.Column title="商品提示" dataIndex ='skuTips' render={this.renderSkuTips}/>
           <Table.Column title="商品保质期" dataIndex ='skuShelfLife' render={this.renderSkuShelfLife}/>
       </Table>

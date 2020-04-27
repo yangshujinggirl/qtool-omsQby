@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn } from 'common';
+import { QreturnBtn, Qtable, Qmessage, Qbtn } from 'common';
 import { ColumnCb, ColumnGoods } from './columns';
 import { GetInfoApi } from "api/marketCenter/CouponCenter";
 
@@ -157,7 +157,7 @@ const CouponInfo =({...props})=> {
             </FormItem>
           </Card>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={goReturn}> 返回 </Qbtn>
+            <QreturnBtn {...props} />
           </div>
       </div>
     </Spin>

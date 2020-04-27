@@ -38,6 +38,7 @@ const Columns = [
                     <Link to={`/account/bossActivity/add/${record.activityId}`}>
                        修改
                     </Link>
+                    &nbsp;
                     <span className="pointerSty" onClick={() => record.onOperateClick('lose')}>
                        强制失效
                     </span>

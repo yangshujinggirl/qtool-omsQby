@@ -81,7 +81,7 @@ const Columns = [
               </span>
             )}
           &nbsp;
-          {record.status !== 3 && record.fuse && (
+          {record.status !== 3 && (
             <span
               className="pointerSty"
               onClick={()=>record.onOperateClick('fusing')}>

@@ -30,6 +30,24 @@ const MoreGoodSet=({...props})=> {
   let [activityList,setActivityList]=useState([]);
   let [activityId,setActivityId]=useState();
   let homepageModuleId = props.match.params.id;
+  //格式化数据
+  const upDateList=(array)=> {
+    let listOne=[], listTwo=[], goodsObj;
+    if(array.length>0) {
+      if(array.length>=6) {
+        listOne = array.slice(0,8);
+        listTwo = array.slice(8);
+      } else {
+        listOne = array;
+      }
+      goodsObj = { listOne, listTwo };
+    } else {
+      goodsObj = { listOne, listTwo };
+    }
+    setList(array)
+    setGoods(goodsObj)
+  }
+  //获取信息
   const getInfo =()=> {
     let pdListDisplayCfgId = params.pdListDisplayCfgId;
     GetActivityInfoApi(pdListDisplayCfgId)
@@ -37,7 +55,8 @@ const MoreGoodSet=({...props})=> {
       let { pdSpuList,...val } =res.result;
       pdSpuList =pdSpuList?pdSpuList:[];
       pdSpuList.map((el,index)=>el.key=index);
-      setList(pdSpuList)
+
+      upDateList(pdSpuList)
       setTotalData(val)
     })
     GetActivityListApi(pdListDisplayCfgId)
@@ -47,6 +66,7 @@ const MoreGoodSet=({...props})=> {
       setActivityList(activitys);
     })
   }
+  //提交
   const submit=async()=> {
     try {
       if(list.length< 8) {
@@ -111,22 +131,7 @@ const MoreGoodSet=({...props})=> {
   const selectId=(key)=> {
     setActivityId(key)
   }
-  const upDateList=(array)=> {
-    let listOne=[], listTwo=[], goodsObj;
-    if(array.length>0) {
-      if(array.length>=6) {
-        listOne = array.slice(0,6);
-        listTwo = array.slice(6);
-      } else {
-        listOne = array;
-      }
-      goodsObj = { listOne, listTwo };
-    } else {
-      goodsObj = { listOne, listTwo };
-    }
-    setList(array)
-    setGoods(goodsObj)
-  }
+
   //表单change事件
   const onValuesChange=(changedValues, allValues)=> {
     let currentKey = Object.keys(changedValues)[0];
@@ -135,7 +140,9 @@ const MoreGoodSet=({...props})=> {
     } else {
       goods['listTwo'] = allValues['fieldsTwo'];
     }
-    goods = {...goods}
+    goods = {...goods};
+    let array = [...goods['listOne'],...goods['listTwo']];
+    setList(array)
     setGoods(goods);
   }
   useEffect(()=> { getInfo() },[homepageModuleId]);
@@ -170,20 +177,46 @@ const MoreGoodSet=({...props})=> {
               请先选择你要展示的商品所在的活动
             </Form.Item>
           }
-          <QupLoadAndDownLoad
-            noLabel={true}
-            data={{type:params.type, activityId}}
-            fileName="singleGoods"
-            action="/qtoolsApp/pdListDisplay/singleLineSpuImport"
-            upDateList={upDateFileList}>
-            <span>注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充</span>
-          </QupLoadAndDownLoad>
-          <MainMod
-            form={form}
-            upDateList={upDateList}
-            goods={goods}
-            list={list}
-            params={params}/>
+          {
+              params.type==1?
+              (
+                activityId?
+                <div>
+                  <QupLoadAndDownLoad
+                    noLabel={true}
+                    data={{type:params.type, activityId}}
+                    fileName="singleGoods"
+                    action="/qtoolsApp/pdListDisplay/singleLineSpuImport"
+                    upDateList={upDateFileList}>
+                    <span>注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充</span>
+                  </QupLoadAndDownLoad>
+                  <MainMod
+                    form={form}
+                    upDateList={upDateList}
+                    goods={goods}
+                    list={list}
+                    params={params}/>
+                </div>
+                :null
+              )
+              :
+              <div>
+                <QupLoadAndDownLoad
+                  noLabel={true}
+                  data={{type:params.type, activityId}}
+                  fileName="singleGoods"
+                  action="/qtoolsApp/pdListDisplay/singleLineSpuImport"
+                  upDateList={upDateFileList}>
+                  <span>注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充</span>
+                </QupLoadAndDownLoad>
+                <MainMod
+                  form={form}
+                  upDateList={upDateList}
+                  goods={goods}
+                  list={list}
+                  params={params}/>
+              </div>
+          }
           <div className="handle-operate-save-action">
             <Qbtn onClick={submit}>保存</Qbtn>
           </div>

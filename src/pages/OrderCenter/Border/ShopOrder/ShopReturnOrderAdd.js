@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import NP from 'number-precision';
 import { useState, useEffect } from 'react';
-import { QupLoadAndDownLoad, Qtable, Qbtn, BaseEditTable, Qmessage } from 'common';
+import { QreturnBtn, QupLoadAndDownLoad, Qtable, Qbtn, BaseEditTable, Qmessage } from 'common';
 import { GetExpressApi, GetSaveReturnApi, GetSearchShopApi} from 'api/home/OrderCenter/Border/ShopOrder';
 import { ColumnsReturnAdd } from './column';
 
@@ -161,9 +161,7 @@ const ShopOrderAdd=({...props})=> {
              </Form.Item>
           </Card>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={goReturn}>
-              返回
-            </Qbtn>
+            <QreturnBtn {...props} />
             <Qbtn onClick={()=>onSubmit()}>
               保存
             </Qbtn>

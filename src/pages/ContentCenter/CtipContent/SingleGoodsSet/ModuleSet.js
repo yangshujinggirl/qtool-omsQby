@@ -1,4 +1,4 @@
-import { Form, Checkbox, Col, Input, Radio, message, Button } from "antd";
+import { Form, Checkbox, Modal, Col, Input, Radio, message, Button } from "antd";
 import { useState, useEffect } from 'react';
 import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
@@ -21,6 +21,7 @@ const ModuleSet=({...props})=> {
   const [form] = Form.useForm();
   let [totalData,setTotalData]=useState([]);
   let homepageModuleId = props.match.params.id;
+  let [visible,setVisible]=useState(false);
   const initPage = () => {
     GetModalInfoApi(homepageModuleId)
     .then(res => {
@@ -38,22 +39,33 @@ const ModuleSet=({...props})=> {
       console.log('Failed:', errorInfo);
     }
   }
+  const lookExample = () => {
+    setVisible(true)
+  };
+  const onCancel = () => {
+    setVisible(false)
+  };
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   useEffect(()=>{ initPage() },[homepageModuleId])
   return (
     <div className="oms-common-addEdit-pages">
       <Form form={form} {...formItemLayout} className="common-addEdit-form">
-        <FormItem label="模块标题名称">
+        <FormItem label="模块标题名称" className="common-required-formItem">
           <FormItem name="title" rules={[{ required: true, message: '请输入模块标题名称' } ]} noStyle>
             <Input  placeholder="请输入模块标题名称" autoComplete="off" maxLength={4}/>
           </FormItem>
           将在C端App和小程序中展示
         </FormItem>
-        <FormItem label="标题栏样式" name="titleColor" rules={[{ required: true, message: '请选择' } ]}>
-          <Radio.Group>
-            <Radio value={'0'}>黑色</Radio>
-            <Radio value={'1'}>白色</Radio>
-          </Radio.Group>
+        <FormItem label="标题栏样式" className="common-required-formItem">
+          <FormItem name="titleColor" rules={[{ required: true, message: '请选择' } ]} noStyle>
+            <Radio.Group>
+              <Radio value={'0'}>黑色</Radio>
+              <Radio value={'1'}>白色</Radio>
+            </Radio.Group>
+          </FormItem>
+          <span className="pointerSty" onClick={lookExample}>
+            查看示例
+          </span>
         </FormItem>
         <FormItem label="是否展示查看更多" name="isDisplayMore" rules={[{ required: true, message: '请选择' } ]}>
           <Radio.Group>
@@ -83,6 +95,9 @@ const ModuleSet=({...props})=> {
           <Qbtn onClick={handleSubmit}> 保存设置</Qbtn>
         </Col>
       </Form>
+      <Modal visible={visible} onCancel={onCancel} footer={null}>
+        <img src={require("./img/ex3.png")} style={{ width: "472px" }}/>
+      </Modal>
     </div>
   );
 }

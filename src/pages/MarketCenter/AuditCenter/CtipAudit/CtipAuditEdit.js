@@ -20,17 +20,11 @@ const formItemLayout = {
 const Audit=({...props})=> {
   const [form] = Form.useForm();
   let approvalId = props.match.params.auditId;
-  const staticPar =()=> {
-    let { state } = props.location;
-    if(state) {
-      Sessions.set("auditData",JSON.stringify(state));
-    }
-  }
+
   const submit = async (saveType) => {
     try {
       let values = await form.validateFields();
-      let auditData= JSON.parse(Sessions.get("auditData"));
-      let params={...values,approvalId,createUser:auditData.createUser};
+      let params={...values,approvalId};
       GetSaveApprovalsApi(params)
       .then((res)=> {
         props.history.push('/account/posAudit')
@@ -39,13 +33,9 @@ const Audit=({...props})=> {
       console.log('Failed:', errorInfo);
     }
   }
-  useEffect(()=>{
-    staticPar();
-    return ()=>{ Sessions.remove('auditData') }
-  },[]);
-  console.log(JSON.parse(Sessions.get("auditData")))
+
   return(
-    <Panel header="审核结果" key="3">
+    <Panel header="审核结果" key="6">
       <Form form={form} {...formItemLayout}>
         <Form.Item label="审核结果" name="isPass" rules={[{ required: true, message: '请填写审核结果'}]}>
           <Radio.Group>

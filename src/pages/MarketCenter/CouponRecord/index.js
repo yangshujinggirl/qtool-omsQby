@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Columns } from './columns';
 import { Qmessage, Qpagination, Qbtn, Qtable} from "common";
 import FilterForm from './components/FilterForm'
-import { GetListApi } from "api/marketCenter/CouponCenter";
+import { GetCouponListApi } from "api/marketCenter/CouponCenter";
 
 const CouponRecord=({...props})=> {
   let couponCode=props.match.params.id;
@@ -25,7 +25,7 @@ const CouponRecord=({...props})=> {
       _vals.voucherTimeStart =  moment(time[0]).format('YYYY-MM-DD HH:mm:ss');;
       _vals.voucherTimeEnd = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
     }
-    GetListApi(_vals)
+    GetCouponListApi(_vals)
     .then((res)=> {
       let { result, everyPage, currentPage, total } =res.result;
       result = result?result:[];

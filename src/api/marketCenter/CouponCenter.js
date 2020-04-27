@@ -35,3 +35,7 @@ export function GetBrandApi(values) {
 export function GetSpuCodeApi(values) {
   return appAjax.post(`/couponManager/pdCode/query`,{...values});
 }
+//注券记录
+export function GetCouponListApi(values) {
+  return appAjax.get(`/couponDetail/couponDetails`,{params:{...values}});
+}

@@ -187,7 +187,7 @@ const StandardsMod=({...props})=> {
           <Form.Item label='商品规格2'>
             <Form.Item name="pdType2Id" rules={ [{ required: true, message: '请选择'}]}>
               <Select
-                disabled={(totalData.pdType1Id==0||totalData.spuCode)?true:false}
+                disabled={(totalData.spuCode)?true:false}
                 placeholder="商品规格2" autoComplete="off"
                 onChange={(selected)=>handleChangeType('two',selected)}>
                 <Option value={'0'} key={'0'}>无</Option>
@@ -195,6 +195,7 @@ const StandardsMod=({...props})=> {
                   attributeArray.length>0 &&
                   attributeArray.map((ele,index) => (
                     <Option
+                      disabled={ele.attributeId == totalData.pdType1Id?true:false}
                       value={ele.attributeId}
                       key={ele.attributeId}>{ele.attributeName}</Option>
                   ))

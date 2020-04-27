@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn } from 'common';
+import { QreturnBtn, Qtable, Qmessage, Qbtn } from 'common';
 import { BatchListGenreal,BatchListCross, ColumnsAddGeneral,ColumnsAddCross } from './columns';
 import { GetOriginApi, GetEditApi } from 'api/home/BaseGoods';
 import Creatlabel from './components/Creatlabel';
@@ -387,12 +387,16 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                 }
               </div>
             </Form.Item>
-            <Form.Item label="修改说明" name="remarks">
-              <Input.TextArea placeholder="请输入修改说明" autoComplete="off" maxLength={400} rows={5}/>
-            </Form.Item>
+            {
+              spuCode?
+              <Form.Item label="修改说明" name="remarks">
+                <Input.TextArea placeholder="请输入修改说明" autoComplete="off" maxLength={400} rows={5}/>
+              </Form.Item>
+              :null
+            }
           </Card>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={goReturn}> 返回 </Qbtn>
+            <QreturnBtn {...props} />
             {
               totalData.isSave&&<Qbtn onClick={()=>submit(0)}>保存</Qbtn>
             }

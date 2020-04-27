@@ -12,7 +12,7 @@ import {
   AutoComplete,
   Descriptions,
 } from 'antd';
-import { Qtable, Qbtn, QenlargeImg } from 'common';
+import { QreturnBtn, Qtable, Qbtn, QenlargeImg } from 'common';
 import { GetDetailApi, GetEditApi } from 'api/cTip/GeneralTradeGoods';
 import { serviceOption } from '../optionMap';
 import { ColumnsInfo } from '../column';
@@ -130,9 +130,7 @@ class GoodsInfo extends React.Component {
             </div>
             <GraphicInformation {...totalData} formItemLayout={formItemLayout}/>
             <div className="handle-operate-save-action">
-              <Qbtn onClick={this.goReturn}>
-                返回
-              </Qbtn>
+              <QreturnBtn {...this.props} />
             </div>
           </Form>
         </div>

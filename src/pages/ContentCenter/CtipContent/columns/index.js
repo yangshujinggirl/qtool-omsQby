@@ -37,18 +37,15 @@ const Columns = [
     render: (text, record, index) => {
       return (
         <div>
-          {true &&
-            <Link to={`/account/ctipContent/info/${record.homepageId}/2`}>查看</Link>
-          }
+          <Link to={`/account/ctipContent/info/${record.homepageId}/2`}>查看</Link>
+          &nbsp;
           { record.status == 1&&
-            <Link to={`/account/ctipContent/add/${record.homepageId}`}>编辑</Link>
+            <Link to={`/account/ctipContent/add/${record.homepageId}`}>编辑&nbsp;</Link>
           }
           {(record.status == 1 || record.status == 2)&&
-            <span
-              className="pointerSty"
-              onClick={() => record.onOperateClick("ban")}
-            >
+            <span className="pointerSty" onClick={() => record.onOperateClick("ban")}>
               禁用
+              &nbsp;
             </span>
           }
           <Link to={`/account/ctipContent/log/${record.homepageId}`}>日志</Link>

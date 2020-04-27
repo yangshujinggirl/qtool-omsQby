@@ -2,7 +2,7 @@ import {
   Input,Spin,Form,Upload,Select,Table,Card,Tag,
   Row,Col,Checkbox,Button,Radio,AutoComplete,DatePicker
 } from 'antd';
-import { Qbtn, Qmessage, BaseEditTable, QupLoadAndDownLoad } from 'common';
+import { QreturnBtn, Qbtn, Qmessage, BaseEditTable, QupLoadAndDownLoad } from 'common';
 import { useState, useEffect } from 'react';
 import Proration from '../components/Proration';
 import { GetBrandApi, GetAddApi, GetSpuCodeApi } from 'api/marketCenter/CouponCenter';
@@ -398,7 +398,7 @@ const CouponAdd=({...props})=> {
             </FormItem>
           </Card>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={goReturn}> 返回 </Qbtn>
+            <QreturnBtn {...props} />
             <Qbtn size="free" onClick={()=>submit(1)}>保存并继续</Qbtn>
           </div>
         </Form>

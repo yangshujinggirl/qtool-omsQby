@@ -1,4 +1,5 @@
 import {Modal,Form,Input,message} from 'antd';
+import moment from 'moment';
 import { Qmessage } from 'common';
 import { GetLoseApi } from "api/marketCenter/BossActivity";
 const FormItem = Form.Item;
@@ -43,7 +44,7 @@ const LoseModal=({...props})=>{
             {record.name}
           </FormItem>
           <FormItem label='生效时间'>
-            {record.beginTime} ~ {record.endTime}
+            {moment(record.beginTime).format('YYYY-MM-DD HH:mm')} ~ {moment(record.endTime).format('YYYY-MM-DD HH:mm')}
           </FormItem>
           <FormItem label='强制失效原因' name="reason" rules={[{required:true,message:"请输入强制失效原因"}]}>
             <TextArea

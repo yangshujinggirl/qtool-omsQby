@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button,Radio,AutoComplete,
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { Qtable, Qmessage, Qbtn } from 'common';
+import { QreturnBtn, Qtable, Qmessage, Qbtn } from 'common';
 import { ColumnsInfoGeneral,ColumnsInfoCross } from './columns';
 import { GetEditInfoApi } from 'api/home/BaseGoods';
 import {
@@ -57,10 +57,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       setLoading(false)
     })
   }
-  //返回
-  const goReturn=()=> {
-    props.history.push('/account/items_list')
-  }
+
   useEffect(()=>{
     initPage();
     return () => {
@@ -202,7 +199,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
               columns={columnsInfo}/>
           </Card>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={goReturn}> 返回 </Qbtn>
+            <QreturnBtn {...props} />
           </div>
       </div>
     </Spin>

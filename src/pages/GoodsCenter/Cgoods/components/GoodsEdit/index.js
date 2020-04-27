@@ -8,7 +8,7 @@ import {
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ColumnsAdd } from '../column';
-import { Qtable, Qbtn, Qmessage } from 'common';
+import { QreturnBtn, Qtable, Qbtn, Qmessage } from 'common';
 import { GetDetailApi, GetEditApi,GetLabelApi } from 'api/cTip/GeneralTradeGoods';
 import EditTable from './components/EditTable';
 import GraphicInformation from './components/GraphicInformation';
@@ -30,7 +30,7 @@ const formItemLayout = {
 
 const MainComponent=({...props})=> {
   let { goodsList,totalData, descList,labelList,
-          form,goReturn,onSubmit } =props;
+          form,onSubmit } =props;
   return(
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages general-trade-edit-pages">
@@ -111,9 +111,7 @@ const MainComponent=({...props})=> {
           </div>
           <GraphicInformation formItemLayout={formItemLayout} {...totalData}/>
           <div className="handle-operate-save-action">
-            <Qbtn onClick={goReturn}>
-              返回
-            </Qbtn>
+            <QreturnBtn {...props} />
             <Qbtn onClick={onSubmit}>
               保存
             </Qbtn>

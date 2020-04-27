@@ -1,5 +1,5 @@
 
-import { Table, Form, Spin, Button } from "antd";
+import { Table, Modal, Form, Spin, Button } from "antd";
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -29,7 +29,7 @@ const CouponCenter=({...props})=> {
   const [visible,setVisible] =useState(false);
   const [visibleInject,setVisibleInject] =useState(false);
   const [currentItem,setCurrentItem] =useState({});
-  const [dataPagation,setDataPagation] =useState({everyPage:0, currentPage:1, total:0});
+  const [dataPagation,setDataPagation] =useState({everyPage:15, currentPage:1, total:0});
   //查询列表
   const searchList=(values)=> {
     setLoading(true)
@@ -86,7 +86,7 @@ const CouponCenter=({...props})=> {
       okText:"确认熔断",
       cancelText:"暂不熔断",
       onOk() {
-        GetBreakApi({ couponId:record.couponId })
+        GetBreakApi(record.couponId)
         .then(res => {
           Qmessage.success("熔断成功");
           searchList();

@@ -89,7 +89,7 @@ class UpLoadImg extends Component {
       </div>
     );
     return (
-      <Form.Item label={label}>
+      <Form.Item label={label} className={`${rules?'common-required-formItem':null}`}>
         <Form.Item
           valuePropName="fileList"
           getValueFromEvent={this.normFile}
