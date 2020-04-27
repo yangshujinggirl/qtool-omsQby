@@ -26,6 +26,7 @@ const AddReturnOrder = (props) => {
 	const [visible, setVisible] = useState(false);
 	const [giftList, setGiftList] = useState([]);
 	const [allNotReturnLength, setAllNotReturnLength] = useState(0);
+	const [setIsAddExpress,isAddExpress] = useState(false);
 	useEffect(() => {
 		getTotalAmount(selectedRows);
 	}, [props.selectedRows]);
@@ -42,6 +43,7 @@ const AddReturnOrder = (props) => {
 			});
 			if (isAddExpressFee()) {
 				totalReturnAmount = totalReturnAmount + infos.expressAmount;
+				setIsAddExpress(true)
 			}
 			form.setFieldsValue({ totalReturnAmount });
 		} else {
@@ -99,7 +101,7 @@ const AddReturnOrder = (props) => {
 		values.channelOrderNo = channelOrderNo;
 		values.orderType = orderType;
 		values.isDelivery = isDelivery;
-		values.expressAmount = expressAmount;
+		values.expressAmount = isAddExpress?expressAmount:0;
 		let details = [];
 		selectedRows.map((item) => {
 			const { channelOrderDetailNo, skuCode, isGift } = item;
