@@ -110,7 +110,6 @@ const BondedOrderInfo = (props) => {
 				<Qtable columns={OrderLogsColumns} dataSource={orderOperateLogList} />
 			</Card>
 
-
 			{otherOperateLogList.length > 0 &&
 				otherOperateLogList.map((item, index) => (
 					<Card title={`${item.titleName}`}>
