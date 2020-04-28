@@ -53,11 +53,11 @@ class CuserManage extends Component {
   onSubmit = params => {
     const {time,..._values} = params;
     if(time&&time[0]){
-      _values.dateStart = moment(time[0]).formate('YYYY-MM-DD HH:mm:ss')
-      _values.dateEnd = moment(time[1]).formate('YYYY-MM-DD HH:mm:ss')
+      _values.createTimeST = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
+      _values.createTimeET = moment(time[1]).format('YYYY-MM-DD HH:mm:ss')
     }else{
-      _values.dateStart = ''
-      _values.dateEnd = ''
+      _values.createTimeST = ''
+      _values.createTimeET = ''
     };
     this.searchData(_values);
     this.setState({ inputValues: _values });
