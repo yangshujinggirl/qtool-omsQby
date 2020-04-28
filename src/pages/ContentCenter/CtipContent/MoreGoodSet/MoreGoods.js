@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { QreturnBtn, Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetInfoApi, GetSaveApi } from 'api/contentCenter/MoreGoodSet';
 import MainMod from './components/MainMod';
 const { RangePicker } = DatePicker;
@@ -126,6 +126,7 @@ const MoreGoodSet=({...props})=> {
           </QupLoadAndDownLoad>
           <MainMod form={form} upDateList={upDateList} goods={goods} list={list}/>
           <div className="handle-operate-save-action">
+            <QreturnBtn {...props} />
             <Qbtn onClick={submit}>保存</Qbtn>
           </div>
         </Form>

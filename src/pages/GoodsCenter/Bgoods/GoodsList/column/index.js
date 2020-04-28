@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { QenlargeImg } from 'common';
+
 const parColumns = [
   { title: "SPU编码", dataIndex: "spuCode", key: "1" },
   {
@@ -79,18 +81,7 @@ const subColumns = [
     title: "商品图片",
     dataIndex: "image",
     key: "2",
-    render: (text, record, index) =>
-      text ? (
-        <img
-          src={sessionStorage.getItem("oms_fileDomain") + record.image}
-          style={{ width: "80px", height: "80px" }}
-        />
-      ) : (
-        <img
-          src="/static/nogoods.png"
-          style={{ width: "80px", height: "80px" }}
-        />
-      ),
+    render: (text, record, index) =><QenlargeImg url={record.image}/>
   },
   {
     title: "规格",
@@ -179,18 +170,7 @@ const editColumns = [
   {
     title: "SKU图片",
     dataIndex: "image",
-    render: (text, record, index) =>
-      text ? (
-        <img
-          src={sessionStorage.getItem("oms_fileDomain") + record.image}
-          style={{ width: "80px", height: "80px" }}
-        />
-      ) : (
-        <img
-          src="/static/nogoods.png"
-          style={{ width: "80px", height: "80px" }}
-        />
-      ),
+    render: (text, record, index) =><QenlargeImg url={record.image}/>
   },
   {
     title: "掌柜售价(元)",

@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { QreturnBtn, Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetActivityInfoApi, GetActivityListApi, GetSaveGoodsApi } from 'api/contentCenter/SingleGoodsSet';
 import MainMod from './components/MainMod';
 
@@ -13,7 +13,7 @@ let FormItem = Form.Item;
 const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 2 },
+      sm: { span: 4 },
     },
     wrapperCol: {
       xs: { span: 24 },
@@ -34,7 +34,7 @@ const MoreGoodSet=({...props})=> {
   const upDateList=(array)=> {
     let listOne=[], listTwo=[], goodsObj;
     if(array.length>0) {
-      if(array.length>=6) {
+      if(array.length>=8) {
         listOne = array.slice(0,8);
         listTwo = array.slice(8);
       } else {
@@ -185,7 +185,7 @@ const MoreGoodSet=({...props})=> {
                   <QupLoadAndDownLoad
                     noLabel={true}
                     data={{type:params.type, activityId}}
-                    fileName="singleGoods"
+                    fileName="singleActivity"
                     action="/qtoolsApp/pdListDisplay/singleLineSpuImport"
                     upDateList={upDateFileList}>
                     <span>注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充</span>
@@ -204,7 +204,7 @@ const MoreGoodSet=({...props})=> {
                 <QupLoadAndDownLoad
                   noLabel={true}
                   data={{type:params.type, activityId}}
-                  fileName="singleGoods"
+                  fileName="singleNew"
                   action="/qtoolsApp/pdListDisplay/singleLineSpuImport"
                   upDateList={upDateFileList}>
                   <span>注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充</span>
@@ -218,6 +218,7 @@ const MoreGoodSet=({...props})=> {
               </div>
           }
           <div className="handle-operate-save-action">
+            <QreturnBtn {...props} />
             <Qbtn onClick={submit}>保存</Qbtn>
           </div>
         </Form>

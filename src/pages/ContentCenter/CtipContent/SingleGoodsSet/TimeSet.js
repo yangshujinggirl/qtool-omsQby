@@ -1,7 +1,7 @@
 import { Form, Modal, Spin, Radio, DatePicker } from 'antd';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
-import { Qmessage } from 'common';
+import { Qmessage, QreturnBtn } from 'common';
 import TimeTable from './components/TimeTable';
 import { GetDeleteTimeApi, GetTimeInfoApi, GetSaveTimeApi } from 'api/contentCenter/SingleGoodsSet';
 
@@ -75,7 +75,7 @@ const TimeSet=({...props})=> {
     GetSaveTimeApi(params)
     .then((res)=> {
       Qmessage.success('保存成功');
-      getInfo()
+      getInfo(totalData.type)
     })
   }
   const goGoodSet=(record)=> {
@@ -94,7 +94,7 @@ const TimeSet=({...props})=> {
           GetDeleteTimeApi(record.pdListDisplayCfgId,{homepageModuleId})
           .then((res)=> {
             Qmessage.success('删除成功');
-            getInfo()
+            getInfo(totalData.type)
           })
         },
         onCancel() {
@@ -151,6 +151,9 @@ const TimeSet=({...props})=> {
               dataSource={list}
               upDateList={upDateList}/>
           </Form.Item>
+          <div className="handle-operate-save-action">
+            <QreturnBtn {...props} />
+          </div>
         </Form>
       </div>
     </Spin>

@@ -8,22 +8,23 @@ import { CommonUtils } from 'utils';
 //初始化商品模板 productNature：1一般贸易，2：跨境商品
 function* getGoodsTemplte({payload:{ productNature }}){
   let goodsList = yield select(state => state.BaseGoodsAddReducers.goodsList);
-  let totalData = yield select(state => state.BaseGoodsAddReducers.totalData);
-  let taxRate;
+  let item;
   if(productNature==1) {
-    taxRate = "13"
+    item = {taxRate: "13", oldStatus:3 }
   } else {
-    taxRate = "9.1"
+    item = {taxRate: "9.1"}
   }
-  goodsList.map((el) => el.taxRate = taxRate)
+  goodsList = goodsList.map((el) => {
+    el={...el, ...item}
+    return el
+  })
   yield put({
     type: 'BASEGOODSADD_GOODSLIST',
     payload: { goodsList }
   })
-  totalData={...totalData, productNature };
   yield put({
-    type: 'BASEGOODSADD_TOTALDATA',
-    payload: { totalData }
+    type: 'BASEGOODSADD_SKUINITDATA',
+    payload: { skuInitData:item }
   })
 }
 //属性--商品

@@ -1,6 +1,6 @@
 import { Col, Modal, Form, Radio, Input, message, Button } from "antd";
 import { useState, useEffect } from 'react';
-import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
+import { QreturnBtn, QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
 import { GetSaveSetApi } from 'api/contentCenter/MorePicSetCtip';
 const FormItem = Form.Item;
@@ -15,7 +15,7 @@ const formItemLayout = {
         sm: { span: 20 },
       },
     };
-    
+
 const ModuleSet=({...props})=> {
   const [form] = Form.useForm();
   let [totalData,setTotalData]=useState({});
@@ -51,8 +51,8 @@ const ModuleSet=({...props})=> {
   useEffect(()=>{ form.setFieldsValue(totalData) },[totalData])
   return (
     <div className="oms-common-addEdit-pages">
-      <Form form={form} className="common-addEdit-form">
-        <FormItem label="模块标题名称" {...formItemLayout} >
+      <Form form={form} className="common-addEdit-form" {...formItemLayout} >
+        <FormItem label="模块标题名称">
           <FormItem name="title" rules={[{ required: true, message: '请输入模块标题名称' } ]} noStyle>
             <Input  placeholder="请输入模块标题名称" autoComplete="off"/>
           </FormItem>
@@ -78,11 +78,12 @@ const ModuleSet=({...props})=> {
         <FormItem label="设置模块背景色号" name="moduleBackColor">
           <Input type='color' style={{ width: "60px",height:"32px" }}/>
         </FormItem>
-        <Col offset={4}>
+        <div className="handle-operate-save-action">
+          <QreturnBtn {...props} />
           <Qbtn onClick={handleSubmit}>
             保存设置
           </Qbtn>
-        </Col>
+        </div>
       </Form>
       <Modal visible={visible} onCancel={onCancel} footer={null}>
         <img src={require("./img/ex3.png")} style={{ width: "472px" }}/>

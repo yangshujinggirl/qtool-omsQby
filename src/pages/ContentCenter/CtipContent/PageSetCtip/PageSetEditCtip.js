@@ -2,7 +2,7 @@ import { Input,Spin,Upload, Select,Col,Checkbox,Button,Radio,AutoComplete,Form }
 import { useState, useEffect } from 'react';
 import { Sessions, CommonUtils } from 'utils';
 import { GetInfoApi, GetSaveApi } from 'api/contentCenter/PageSetCtip';
-import { QupLoadImgLimt, Qmessage, Qtable, Qbtn } from 'common';
+import { QreturnBtn, QupLoadImgLimt, Qmessage, Qtable, Qbtn } from 'common';
 import ImageTextEdit from './components/ImageTextEdit';
 
 import './PageSetEditCtip.less';
@@ -142,9 +142,7 @@ function EditImg({...props}) {
           <ImageTextEdit detailImg={detailImg} upDateList={upDateDetailImg} form={form}/>
         </Form.Item>
         <div className="handle-operate-save-action">
-          <Qbtn onClick={goReturn}>
-            返回
-          </Qbtn>
+          <QreturnBtn {...props} />
           <Qbtn onClick={onSubmit}>
             保存
           </Qbtn>

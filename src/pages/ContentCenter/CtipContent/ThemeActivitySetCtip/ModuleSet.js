@@ -1,6 +1,6 @@
 import { Form, Col, Modal, Input, Radio, message, Button } from "antd";
 import { useState, useEffect } from 'react';
-import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
+import { QreturnBtn, QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
 import { GetSaveSetApi } from 'api/contentCenter/ThemeActivitySetCtip';
 
@@ -83,9 +83,10 @@ const ModuleSet=({...props})=> {
         <FormItem label="设置模块背景色号" name="moduleBackColor">
           <Input type='color' style={{ width: "60px",height:"32px" }}/>
         </FormItem>
-        <Col offset={4}>
+        <div className="handle-operate-save-action">
+          <QreturnBtn {...props} />
           <Qbtn onClick={handleSubmit}> 保存设置</Qbtn>
-        </Col>
+        </div>
       </Form>
       <Modal visible={visible} onCancel={onCancel} footer={null}>
         <img src={require("./img/ex3.png")} style={{ width: "472px" }}/>

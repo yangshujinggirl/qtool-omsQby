@@ -6,7 +6,7 @@ import {
 import moment from 'moment';
 import { Sessions,  CommonUtils } from 'utils';
 import { useState, useEffect } from 'react';
-import { Qmessage, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
+import { QreturnBtn, Qmessage, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetListApi, GetSaveApi } from 'api/contentCenter/NewUserSetCtip';
 import ColumnsAdd from './columns';
 
@@ -148,6 +148,7 @@ const NewUserGift=({...props})=> {
             </FormItem>
           </Card>
           <div className="handle-operate-save-action">
+            <QreturnBtn {...props} />
             <Qbtn onClick={submit}>保存</Qbtn>
           </div>
         </Form>

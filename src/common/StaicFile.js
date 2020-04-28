@@ -11,5 +11,7 @@ let filePathOptions={
   "cJianZeng":"../../static/market/c_jian_zeng.xlsx",//专区多级满件赠（例：满AB送C）
   "cYuanLow":"../../static/market/c_yuan_low.xlsx",//专区多级满元减（例：满300减30）
   "cJianLow":"../../static/market/c_jian_low.xlsx",//专区满件减免
+  "singleActivity":"../../static/home_add_goods.xlsx",//首页单品 活动
+  "singleNew":"../../static/MultilLine_In.xlsx",//首页单品 上新
 }
 export default filePathOptions;

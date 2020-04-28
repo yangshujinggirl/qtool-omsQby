@@ -4,7 +4,7 @@ import {
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
 import { useState, useEffect } from 'react';
-import { BaseEditTable, Qmessage, QupLoadImgLimt, Qbtn } from 'common';
+import { QreturnBtn, BaseEditTable, Qmessage, QupLoadImgLimt, Qbtn } from 'common';
 import { GetListApi, GetSaveApi } from 'api/contentCenter/ThemeActivitySetCtip';
 import ColumnsAdd from './columns';
 const { RangePicker } = DatePicker;
@@ -86,6 +86,7 @@ const ThemeActivitySet=({...props})=> {
             upDateList={upDateList}
             columns={ColumnsAdd(themeList,onselect)}/>
           <div className="handle-operate-save-action">
+            <QreturnBtn {...props} />
             <Qbtn onClick={submit} disabled={showThemeList.length< 4}>保存</Qbtn>
           </div>
         </Form>
