@@ -103,7 +103,7 @@ class NormalForm extends BaseFilter {
 								</Form.Item>
 							</Form.Item>
 						</Col>
-						<Col {...this.colspans2}>
+						<Col {...this.colspans}>
 							<Form.Item label="累计购买次数" className="special_input" {...this.formItemLayout}>
 								<Form.Item name="purchaseTimesSt" noStyle>
 									<Input
@@ -122,7 +122,7 @@ class NormalForm extends BaseFilter {
 								</Form.Item>
 							</Form.Item>
 						</Col>
-						<Col {...this.colspans}>
+						<Col {...this.colspans2}>
 							<Form.Item label="注册时间" name="time" {...this.formItemLayout}>
 								<RangePicker
 									defaultValue={[moment().subtract(30, 'days'), moment()]}
