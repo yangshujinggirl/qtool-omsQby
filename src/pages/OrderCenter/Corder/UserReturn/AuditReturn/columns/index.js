@@ -60,7 +60,7 @@ const AbnormalGoodsColumns = [
   },
   {
     title: "实付金额",
-    dataIndex: "totalPrice"
+    dataIndex: "reArriveAmount"
   },
   {
     title: "退款数量",
@@ -68,7 +68,7 @@ const AbnormalGoodsColumns = [
   },
   {
     title: "退款金额",
-    dataIndex: "refundMoney"
+    dataIndex: "totalPrice"
   }
 ];
 export { Columns, AbnormalGoodsColumns };

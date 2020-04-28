@@ -15,7 +15,7 @@ class NormalForm extends BaseFilter {
           className="serach-common-form"
           {...this.formItemLayout}
         >
-          <Row>
+          <Row gutter={24}>
             <Col {...this.colspan}>
               <Form.Item name="reOrderNo" label="退单号">
                 <Input placeholder="请输入退单号" autoComplete="off"  allowClear={true} />
