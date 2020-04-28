@@ -40,11 +40,11 @@ class NormalForm extends BaseFilter {
               <Form.Item name="status" label="退款状态">
                 <Select allowClear={true} placeholder="请选择流程状态">
                   <Option value={10}>待审核</Option>
-                  <Option value={50}>待收货</Option>
-                  <Option value={60}>处理中</Option>
+                  <Option value={20}>待收货</Option>
+                  <Option value={41}>退款中</Option>
                   <Option value={70}>已退款</Option>
-                  <Option value={40}>已取消</Option>
-                  <Option value={30}>已拒绝</Option>
+                  <Option value={90}>已取消</Option>
+                  <Option value={99}>已拒绝</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -61,7 +61,7 @@ class NormalForm extends BaseFilter {
                 <Select allowClear={true} placeholder="请选择订单类型">
                   <Option value={1}>仓库直邮</Option>
                   <Option value={2}>保税订单</Option>
-                  <Option value={3}>保税订单</Option>
+                  <Option value={3}>代发订单</Option>
                   <Option value={4}>混合单</Option>
                   <Option value={5}>快递邮寄</Option>
                   <Option value={6}>门店自提</Option>
