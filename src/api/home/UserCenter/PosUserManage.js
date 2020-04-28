@@ -13,7 +13,7 @@ export function getInfosApi(values) {
 }
 //消费记录
 export function getLogsApi(values) {
-  return erpAjax.post("/qposUser/detail", {
+  return erpAjax.get("/qposUser/detail", {
     params:values
   });
 }
