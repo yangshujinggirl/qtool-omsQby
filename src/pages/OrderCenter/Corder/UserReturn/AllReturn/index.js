@@ -151,7 +151,7 @@ class AllReturn extends Component {
 		return (
 			<Spin spinning={loading}>
 				<div className="oms-common-index-pages-wrap">
-					<FilterForm onSubmit={this.searchData} />
+					<FilterForm onSubmit={this.onSubmit} />
 					<div className="handle-operate-btn-action">
 						<Qbtn onClick={() => this.operateClick(0)}>确认收货</Qbtn>
 						<Qbtn onClick={() => this.operateClick(1)}>取消退单</Qbtn>

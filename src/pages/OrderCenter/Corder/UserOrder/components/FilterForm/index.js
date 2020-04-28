@@ -46,7 +46,7 @@ class SearchForm extends BaseFilter {
                 <Select allowClear={true} placeholder="请选择" allowClear={true}>
                   <Option value={10}>待付款</Option>
                   <Option value={11}>待发货</Option>
-                  <Option value={2}>部分发货</Option>
+                  <Option value={12}>部分发货</Option>
                   <Option value={13}>已发货</Option>
                   <Option value={14}>已完成</Option>
                   <Option value={-1}>已取消</Option>
