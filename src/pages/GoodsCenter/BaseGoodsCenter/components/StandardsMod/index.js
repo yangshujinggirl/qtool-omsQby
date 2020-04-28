@@ -136,6 +136,8 @@ const StandardsMod=({...props})=> {
           let item = {...el,salesAttributeName:`${el.name}/${inputValue}`};
           newArr.push(item);
         })
+      }else {
+        newArr.push({salesAttributeName:inputValue,key:inputValue,...skuInitData});
       }
       specData={ ...specData, specTwo }
     }
