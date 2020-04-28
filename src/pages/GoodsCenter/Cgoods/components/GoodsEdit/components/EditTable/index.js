@@ -16,7 +16,7 @@ class EditTable extends React.Component {
   }
   renderImage =(text,record,index)=> {
         const fileDomain = Sessions.get('fileDomain');
-    return <QenlargeImg url={`${fileDomain}/${record.image}`}/>
+    return <QenlargeImg url={`${record.image}`}/>
   }
   render() {
 

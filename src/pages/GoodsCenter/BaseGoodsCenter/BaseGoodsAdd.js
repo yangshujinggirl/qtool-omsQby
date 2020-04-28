@@ -51,7 +51,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   let { specData, categoryData, goodsList, totalData } =props;
   let spuCode = props.match.params.id;
   let isEdit = spuCode?true:false;
-  let columnsAdd = productNature==1?ColumnsAddGeneral:ColumnsAddCross;
+  let columnsAdd = productNature==1?ColumnsAddGeneral(goodsList):ColumnsAddCross(goodsList);
   let batchList = productNature==1?BatchListGenreal:BatchListCross;
 
   //初始化
@@ -155,7 +155,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   const submit = async (saveType) => {
     try {
       const values = await form.validateFields();
-      let { brandName, countryName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      let { brandAddressName, brandName, countryName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
       if((pdType1Id!='0')&&specData.specOne.length==0) {
         Qmessage.error('请添加属性');
         return;

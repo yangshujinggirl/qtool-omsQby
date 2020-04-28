@@ -104,7 +104,7 @@ const BaseInfoSet=({...props})=> {
     let item = brandList.find((el)=> el.brandNameCn== value);
     props.dispatch({
       type:'baseGoodsAdd/getTotalState',
-      payload:{brandAddress:item.brandCountryName,brandId:option.key}
+      payload:{brandAddressName:item.brandCountryName,brandId:option.key}
     })
   }
   //产地搜索
@@ -174,7 +174,7 @@ const BaseInfoSet=({...props})=> {
          }
         </AutoComplete>
       </Form.Item>
-      <Form.Item label="品牌归属地" name="brandAddress" rules={[{ required: true, message: '请选择商品品牌'}]}>
+      <Form.Item label="品牌归属地" name="brandAddressName" rules={[{ required: true, message: '请选择商品品牌'}]}>
         <Input disabled autoComplete="off" placeholder="请输入品牌归属地"/>
       </Form.Item>
       <Form.Item label='产地' name="countryName">

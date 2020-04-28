@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Input,Form,Select } from 'antd';
-import { QupLoadImgLimt } from 'common';
+import { QupLoadImgLimt, QenlargeImg } from 'common';
 import { RegExpUtil, Sessions } from 'utils';
 import { oldStatusOptions } from '../components/options';
 
@@ -10,7 +10,8 @@ let Option = Select.Option;
 let fileDomain = Sessions.get('fileDomain');
 
 let commonColumns = {
-  renderAction:(text,record,index)=>{
+  renderAction:(text,record,index, list)=>{
+
     let isSingle=true;
     if(record.salesAttributeName) {
       let splitArr = record.salesAttributeName.split('/');
@@ -18,8 +19,8 @@ let commonColumns = {
     }
     return <span>
           {
-            record.skuCode?"-":
-            (isSingle ?'-'
+            (record.skuCod||list.length==1)?"-":
+            (isSingle||list.length==1 ?'-'
               :
               <span className="pointerSty" onClick={()=>record.onOperateClick('delete')}>删除</span>
             )
@@ -51,11 +52,14 @@ let commonColumns = {
   }
 }
 
+/*
+一般贸易index
+ */
 const ColumnsGeneral = [
   {
     title: "商品主图",
     dataIndex: "centralImg",
-    render: text => <img src={`${fileDomain}${text}`} style={{ width: "90px", height: "90px" }} />
+    render: text => <QenlargeImg url={text}/>
   },
   {
     title: "商品名称",
@@ -112,13 +116,16 @@ const ColumnsGeneral = [
     )
   }
 ];
-const ColumnsAddGeneral=[
-  {
+/*
+一般贸易编辑商品
+ */
+const ColumnsAddGeneral=(list)=>{
+  return [{
     title: "操作",
     width: 100,
     textWrap: 'word-break',
     fixed: 'left',
-    render:(text,record,index)=>commonColumns.renderAction(text,record,index)
+    render:(text,record,index)=>commonColumns.renderAction(text,record,index,list)
   },{
     title: "sku编码",
     dataIndex: "skuCode",
@@ -250,7 +257,10 @@ const ColumnsAddGeneral=[
               </Form.Item>
 
     }
-  }]
+  }]}
+/*
+一般贸易编辑图文
+ */
 const ColumnsEditImgGeneral=(upDateSkuList)=>{
   return [{
     title: "sku编码",
@@ -289,6 +299,9 @@ const ColumnsEditImgGeneral=(upDateSkuList)=>{
                 upDateList={(fileList)=>upDateSkuList(fileList,index)}/>
     }
   }]}
+/*
+一般贸易详情=
+ */
 const ColumnsInfoGeneral=[
   {
       title: "sku编码",
@@ -356,12 +369,14 @@ const ColumnsInfoGeneral=[
       width: 100,
       textWrap: 'word-break'
     }];
-
+/*
+跨境index
+ */
 const ColumnsCross = [
   {
     title: "商品主图",
     dataIndex: "centralImg",
-    render: text => <img src={`${fileDomain}${text}`} style={{ width: "90px", height: "90px" }} />
+    render: text => <QenlargeImg url={text}/>
   },
   {
     title: "商品名称",
@@ -416,13 +431,16 @@ const ColumnsCross = [
     )
   }
 ];
-const ColumnsAddCross=[
-  {
+/*
+跨境编辑商品
+*/
+const ColumnsAddCross=(list)=>{
+  return [{
     title: "操作",
     width: 100,
     textWrap: 'word-break',
     fixed: 'left',
-    render:(text,record,index)=>commonColumns.renderAction(text,record,index)
+    render:(text,record,index)=>commonColumns.renderAction(text,record,index,list)
   },{
     title: "sku编码",
     dataIndex: "skuCode",
@@ -514,7 +532,10 @@ const ColumnsAddCross=[
               </Form.Item>
 
     }
-  }];
+  }]};
+/*
+跨境详情
+*/
 const ColumnsInfoCross=[
   {
     title: "sku编码",
@@ -607,6 +628,7 @@ const BatchListCross=[
     value:'跨境综合税',
     key:'taxRate'
   }]
+
 export {
   BatchListGenreal,
   BatchListCross,

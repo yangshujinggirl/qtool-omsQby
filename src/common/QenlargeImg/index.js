@@ -1,5 +1,7 @@
 import { Modal } from 'antd';
 import React, { Component } from 'react';
+import { Sessions } from 'utils'
+import noUrlImg from '../../imgs/nogoods.png';
 import './index.less';
 
 class QenlargeImg extends Component {
@@ -25,19 +27,28 @@ class QenlargeImg extends Component {
   render() {
     const { visible } =this.state;
     const { url, placement } =this.props;
-    let diySty = `${placement}-arrange enlarge-img-components`
+    let diySty = `${placement}-arrange enlarge-img-components`;
+    let fileDomain = Sessions.get('fileDomain');
+
     return (
-      <div className={diySty}>
-        <img src={url} onClick={this.onShow}/>
-        <Modal
-          onOk={this.onCancel}
-          onCancel={this.onCancel}
-          visible={visible}
-          footer={null}>
+      <div  className={diySty}>
+        {
+          url?
           <div>
-            <img src={url}/>
+            <img src={`${fileDomain}${url}`} onClick={this.onShow}/>
+            <Modal
+              onOk={this.onCancel}
+              onCancel={this.onCancel}
+              visible={visible}
+              footer={null}>
+              <div>
+                <img src={`${fileDomain}${url}`}/>
+              </div>
+            </Modal>
           </div>
-        </Modal>
+          :
+          <img src={noUrlImg} />
+        }
       </div>
     )
   }

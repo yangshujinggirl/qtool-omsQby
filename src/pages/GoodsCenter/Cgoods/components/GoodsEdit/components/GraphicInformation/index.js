@@ -1,4 +1,5 @@
 import { Form } from '@ant-design/compatible';
+import { QenlargeImg } from 'common';
 import '@ant-design/compatible/assets/index.css';
 import './index.less';
 let FormItem = Form.Item;
@@ -15,7 +16,7 @@ function GraphicInformation({...props}) {
             {
               mainPicUrlList.map((el,index) => (
                 <span className="main-image" key={index}>
-                  <img src={`${fileDomain}${el}`}></img>
+                  <QenlargeImg url={`${el}`}/>
                 </span>
               ))
             }
@@ -24,7 +25,7 @@ function GraphicInformation({...props}) {
             {
               imageListCList.map((el,index) => (
                 <span className="main-desc" key={index}>
-                  <img src={`${fileDomain}${el}`}></img>
+                  <QenlargeImg src={`${fileDomain}${el}`} className="desc-img"/>
                 </span>
               ))
             }

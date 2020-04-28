@@ -68,10 +68,10 @@ export default class SearchForm extends BaseFilter {
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
-                            <FormItem label="是否代发" name="step" {...this.formItemLayout}>
+                            <FormItem label="是否代发" name="sendType" {...this.formItemLayout}>
                                 <Select placeholder="请选择" allowClear={true}>
-                                    <Option value={1}>是</Option>
-                                    <Option value={0}>否</Option>
+                                    <Option value={2}>是</Option>
+                                  <Option value={1}>否</Option>
                                 </Select>
                             </FormItem>
                         </Col>

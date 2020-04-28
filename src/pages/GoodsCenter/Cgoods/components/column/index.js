@@ -69,7 +69,7 @@ const ColumnsSub = [
     title: "商品图片",
     dataIndex: "image",
     render:(text,record,index)=> {
-      return <QenlargeImg url={`${fileDomain}/${record.image}`}/>
+      return <QenlargeImg url={record.image}/>
     }
   },
   {
@@ -118,7 +118,7 @@ const ColumnsInfo = [
     title: 'sku图片',
     dataIndex: 'image',
     render:(text,record,index) => {
-      return <QenlargeImg  url={`${fileDomain}/${record.image}`}/>
+      return <QenlargeImg  url={`${record.image}`}/>
     }
   },{
     title: '商品提示',

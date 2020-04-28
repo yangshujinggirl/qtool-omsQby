@@ -31,7 +31,7 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="创建人"  name="creater">
-                <Input placeholder="请输入sku编码" autoComplete="off" />
+                <Input placeholder="请输入创建人" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>

@@ -172,6 +172,7 @@ const StandardsMod=({...props})=> {
                   attributeArray.length>0 &&
                   attributeArray.map((ele,index) => (
                     <Option
+                      disabled={ele.attributeId == totalData.pdType2Id?true:false}
                       value={ele.attributeId}
                       key={ele.attributeId}>{ele.attributeName}</Option>
                   ))
