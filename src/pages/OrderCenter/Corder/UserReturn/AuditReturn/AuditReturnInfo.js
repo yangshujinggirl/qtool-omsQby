@@ -21,7 +21,7 @@ const AuditReturnInfo = props => {
   useEffect(() => {
     getInfoApi({ reOrderNo: id }).then(res => {
       if (res.httpCode == 200) {
-        const {detailList,...infos} = result;
+        const {detailList,...infos} = res.result;
         setInfos(infos);
         if(detailList&&detailList.length>0){
           detailList.map((item,index)=>{
@@ -59,11 +59,11 @@ const AuditReturnInfo = props => {
         <Form.Item label="关联用户订单">{infos.channelOrderNo}</Form.Item>
         <Form.Item label="订单类型">{infos.deliveryTypeStr}</Form.Item>
         <Form.Item label="用户手机号">{infos.phone}</Form.Item>
-        <Form.Item label="用户昵称">{infos.subject}</Form.Item>
+        {/*<Form.Item label="用户昵称">{infos.subject}</Form.Item>*/}
         <Form.Item label="退款类型">{infos.refundTypeStr}</Form.Item>
-        <Form.Item label="退款运费">{infos.sync}</Form.Item>
-        <Form.Item label="退款商品金额">{infos.price}</Form.Item>
-        <Form.Item label="退款总金额">{infos.refundMoney}</Form.Item>
+        <Form.Item label="退款运费">{infos.rePostage}</Form.Item>
+        <Form.Item label="退款商品金额">{infos.totalPrice}</Form.Item>
+        <Form.Item label="退款总金额">{infos.totalPrice}</Form.Item>
         <Form.Item label="创建时间">
           {infos.createTime &&
             moment(infos.createTime).format("YYYY-MM-DD HH:mm:ss")}
