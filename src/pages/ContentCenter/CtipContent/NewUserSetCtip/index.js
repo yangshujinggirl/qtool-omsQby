@@ -1,8 +1,9 @@
 
 import {
-  Input,Spin,Form,Select,Table,Card,Modal,
+  Input,Spin,Form,Select,Table,Card,Modal,Tooltip,
   Row,Col,Checkbox,Button,DatePicker
 } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Sessions,  CommonUtils } from 'utils';
 import { useState, useEffect } from 'react';
@@ -96,6 +97,14 @@ const NewUserGift=({...props})=> {
   useEffect(()=>{ form.setFieldsValue({couponIds: list}) },[list])
   useEffect(()=>{ getInfo() },[homepageModuleId]);
 
+  const timeTips = (
+    <span>
+      <span style={{ paddingRight: "5px" }}>模块展示时间</span>
+      <Tooltip title="在模块展示时间内，新用户首页将出现领取优惠券的入口">
+        <QuestionCircleOutlined style={{ color: "#35BAB0" }}/>
+      </Tooltip>
+    </span>
+  );
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
@@ -131,7 +140,7 @@ const NewUserGift=({...props})=> {
                 </span>
               </div>
             </QupLoadImgLimt>
-            <FormItem label="模块展示时间" name="time" rules={[{ required: true, message: '请选择展示时间' } ]}>
+            <FormItem label={timeTips} name="time" rules={[{ required: true, message: '请选择展示时间' } ]}>
               <RangePicker format="YYYY-MM-DD HH:mm"/>
             </FormItem>
             <FormItem label="选择优惠券">

@@ -170,7 +170,7 @@ const CtipActivityAddTwo=({...props})=> {
             <div>
               <QupLoadAndDownLoad
                 data={dataParams}
-                fileName="singleDown"
+                fileName="activityPos"
                 action="/qtoolsErp/import/excel"
                 upDateList={upDateFieList}>
                 <span>注：导入为覆盖导入，即第二次导入的商品将覆盖前一次导入的所有商品</span>

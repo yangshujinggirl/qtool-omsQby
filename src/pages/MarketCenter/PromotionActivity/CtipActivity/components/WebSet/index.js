@@ -98,8 +98,8 @@ class WebSet extends Component {
                     maxLength='14'
                     autoComplete="off"/>
                 </FormItem>
-                <FormItem label='横幅条副标题'>
-                  <FormItem name="bannerSubtitle" rules={[{ required: true, message: '请输入横幅条副标题'}]}>
+                <FormItem label='横幅条副标题' className="common-required-formItem">
+                  <FormItem name="bannerSubtitle" rules={[{ required: true, message: '请输入横幅条副标题'}]} noStyle>
                     <Input
                       className="ant-input-fixed"
                       placeholder="请输入横幅条副标题，18字符以内"

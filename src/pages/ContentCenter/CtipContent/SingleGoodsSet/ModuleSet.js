@@ -9,11 +9,11 @@ const FormItem = Form.Item;
 const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 4 },
+        sm: { span: 5 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 20 },
+        sm: { span: 19 },
       },
     };
 
@@ -54,7 +54,12 @@ const ModuleSet=({...props})=> {
         {...formItemLayout}
         className="common-addEdit-form">
         <FormItem label="模块标题名称" className="common-required-formItem">
-          <FormItem name="title" rules={[{ required: true, message: '请输入模块标题名称' } ]} noStyle>
+          <FormItem
+            name="title"
+            rules={[
+              { required: true, message: '请输入模块标题名称'},
+              { pattern: /^.{2,4}$/, message: '请输入2-4个字符'}
+            ]} noStyle>
             <Input  placeholder="请输入模块标题名称" autoComplete="off" maxLength={4}/>
           </FormItem>
           将在C端App和小程序中展示

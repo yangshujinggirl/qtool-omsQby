@@ -48,10 +48,10 @@ const linkOptionTwo =[{
       },{
         key:6,
         value:'去保税专区页'
-      },{
+      },/*{
         key:7,
         value:'去品牌馆页'
-      },{
+      },*/{
         key:8,
         value:'去商品分类'
       },{
@@ -83,10 +83,10 @@ const linkIconOption =[//icon页的跳转链接
       },{
         key:6,
         value:'去保税专区页'
-      },{
+      },/*{
         key:7,
         value:'去品牌馆页'
-      },{
+      },*/{
         key:9,
         value:'去全部商品分类页'
       },{

@@ -51,7 +51,7 @@ const SupplierManageInfo=({...props})=> {
               {key:'开户银行',value:totalData.bank},
               {key:'银行卡号',value:totalData.bankCard},
               {key:'开户名',value:totalData.bankUserName},
-              {key:'账期类型',value:`${accountsTypeVal}${accountsType!=1?`${totalData.accountsDay}个工作日`:null}`},
+              {key:'账期类型',value:`${accountsTypeVal}${totalData.accountsType!=1?`${totalData.accountsDay}个工作日`:''}`},
               {key:'合作状态',value:cooperationVal},
               {key:'供应商备注',value:totalData.remark},
             ]}/>

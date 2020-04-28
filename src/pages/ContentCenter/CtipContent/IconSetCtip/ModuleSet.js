@@ -55,7 +55,7 @@ const ModuleSet=({...props})=> {
         <FormItem label="模块背景色号" name="moduleBackColor">
           <Input type='color' style={{ width: "60px",height:"32px" }}/>
         </FormItem>
-        <FormItem label="Icon名称样式" className="common-addEdit-form">
+        <FormItem label="Icon名称样式" className="common-required-formItem">
           <FormItem name="titleColor" rules={[{ required: true, message: '请选择' } ]} noStyle>
             <Radio.Group>
               <Radio value="0">黑色</Radio>

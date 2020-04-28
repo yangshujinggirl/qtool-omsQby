@@ -41,7 +41,7 @@ class Search extends BaseFilter {
     this.formRef.current.resetFields(['categoryCode2']);
     this.setState({catagoryList2:[]});
     if (value) {
-      GetCategoryApi({ level: -1, parentId: value })
+      GetCategoryApi({ level: 2, parentId: value })
       .then(res => {
         this.setState({
           catagoryList2: res.result || []
