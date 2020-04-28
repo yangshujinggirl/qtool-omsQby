@@ -30,7 +30,7 @@ const AuditReturnInfo = props => {
     values.orderNo = id;
     handelAbnormalApi(values).then(res => {
       if (res.httpCode == 200) {
-        props.history.push("/account/subscriber_refund_orders");
+        props.history.push("/account/unlawful_orders");
       }
     });
   };

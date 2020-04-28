@@ -71,7 +71,7 @@ const PurchaseInDetail = (props) => {
             <Card title="采购单信息">
                 <QbaseInfo dataInfo={
                     [{key: "采购单号", value: dataInfo.stockingCode},
-                        {key: "采购主体", value: dataInfo.procurementTarget},
+                        {key: "采购主体", value: '淮安'},
                         {key: "供应商名称", value: dataInfo.suppliersName},
                         {
                             key: "单据类型",

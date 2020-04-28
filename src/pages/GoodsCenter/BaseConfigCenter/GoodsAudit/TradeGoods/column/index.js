@@ -110,7 +110,7 @@ const Columns = [
 		dataIndex: 'businessProfit',
 		key: '8',
 		width: 100,
-		render: (text, record, index) => renderDefault(record, text, 'exBusinessProfit', ''),
+		render: (text, record, index) => renderDefault(record, text, 'exBusinessProfit', '%'),
 	},
 	{
 		title: 'C端售价',
@@ -124,7 +124,7 @@ const Columns = [
 		dataIndex: 'customerProfit',
 		key: '10',
 		width: 100,
-		render: (text, record, index) => renderDefault(record, text, 'exCustomerProfit', ''),
+		render: (text, record, index) => renderDefault(record, text, 'exCustomerProfit', '%'),
 	},
 	{
 		title: '建议零售价',

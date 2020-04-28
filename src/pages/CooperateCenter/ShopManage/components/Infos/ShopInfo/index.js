@@ -31,7 +31,7 @@ const ShopInfo = (props) => {
         </React.Fragment>
       </Form.Item>
       <Form.Item name="openingTime" label="开业时间">
-        {moment(props.infos.openingTime).format("YYYY-MM-DD")}
+        {props.infos.openingTime&&moment(props.infos.openingTime).format("YYYY-MM-DD")}
       </Form.Item>
       <Form.Item label="店主备注">{props.infos.personRemark}</Form.Item>
     </React.Fragment>

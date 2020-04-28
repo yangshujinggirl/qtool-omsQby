@@ -36,10 +36,7 @@ class NormalForm extends BaseFilter {
                 <Select allowClear={true} placeholder="请选择订单类型">
                   <Option value={1}>仓库直邮</Option>
                   <Option value={2}>保税订单</Option>
-                  <Option value={3}>保税订单</Option>
                   <Option value={4}>混合单</Option>
-                  <Option value={5}>快递邮寄</Option>
-                  <Option value={6}>门店自提</Option>
                 </Select>
               </Form.Item>
             </Col>

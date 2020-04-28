@@ -167,7 +167,8 @@ const AddReturnOrder = (props) => {
 							subItem.parentId = index;
 							if (subItem.isDelivery == 0 || subItem.expressStatus == 0 || subItem.isGift == 1) {
 								subItem.num = subItem.buyNum;
-								subItem.returnPrice = NP.times(subItem.actualPayPrice, subItem.buyNum);
+								// subItem.returnPrice = NP.times(subItem.actualPayPrice, subItem.buyNum);
+								subItem.returnPrice = subItem.canReturnAmount;
 							}
 							if (subItem.buyNum == subItem.alreadyReturnNum) {
 								subItem.num = 0;

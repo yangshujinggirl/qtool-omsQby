@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import moment from 'moment'
 const Columns = [
   {
     title: "banner名称",
@@ -18,7 +19,10 @@ const Columns = [
   },
   {
     title: "创建时间",
-    dataIndex: "createTime"
+    dataIndex: "createTime",
+    render:(text,record,index)=>(
+      <span>{text&&moment().format('YYYY-MM-DD HH:mm:ss')}</span>
+    )
   },
   {
     title: "修改人",

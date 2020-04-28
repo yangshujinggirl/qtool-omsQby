@@ -78,7 +78,7 @@ class AuditReturn extends Component {
 			_values.etime = '';
 		}
 		this.searchData(_values);
-		this.setState({ inputValues: _values });
+		this.setState({inputValues:{...this.state.inputValues, ..._values }});
 	};
 	render() {
 		const { dataList, everyPage, currentPage, total, loading } = this.state;
