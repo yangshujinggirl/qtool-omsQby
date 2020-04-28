@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Input,Form } from 'antd';
-import { cooperationStatus, accountsType } from '../options';
+import { statusOption, cooperationStatus, accountsType } from '../options';
 
 import { Link } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const Columns = [
     title: "审核状态",
     dataIndex: "status",
     render:(text,record,index)=> {
-      let statusVal=cooperationStatus.map((el) =>{
+      let statusVal=statusOption.map((el) =>{
         if(el.key == record.status) {
           return el.value
         }
