@@ -23,7 +23,7 @@ class Search extends BaseFilter {
           <Row gutter={24}>
             <Col {...this.colspans}>
               <FormItem label="商品编码" name="pdCode">
-                <Input placeholder="请输入商品名称" autoComplete="off" />
+                <Input placeholder="请输入商品编码" autoComplete="off" />
               </FormItem>
             </Col>
             <Col {...this.colspans}>

@@ -50,7 +50,7 @@ class ShopKeepRecharge extends Component {
         });
       }
     });
-   
+
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -61,8 +61,8 @@ class ShopKeepRecharge extends Component {
   onSubmit = (params) => {
     const { time, ..._values } = params;
     if (time && time[0]) {
-      _values.voucherDateStart = moment(time[0]).formate("YYYY-MM-DD HH:mm:ss");
-      _values.voucherDateEnd = moment(time[1]).formate("YYYY-MM-DD HH:mm:ss");
+      _values.voucherDateStart = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
+      _values.voucherDateEnd = moment(time[1]).format("YYYY-MM-DD HH:mm:ss");
     } else {
       _values.voucherDateStart = "";
       _values.voucherDateEnd = "";

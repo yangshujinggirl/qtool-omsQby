@@ -4,6 +4,7 @@ import { parColumns, subColumns } from './column';
 import QsubTable from 'common/QsubTable';
 import FilterForm from './components/FilterForm';
 import { message, Modal } from 'antd';
+import moment from "moment";
 
 const tipsText = {
 	1: '操作后商品将在Q掌柜-每日上新栏目展示售卖，是否确认操作？',
@@ -50,7 +51,15 @@ class Bgoods extends React.Component {
 	};
 	//搜索查询
 	onSubmit = (values) => {
-		this.searchData(values);
+		const { time, ..._values } = values;
+		if (time && time[0]) {
+			_values.createTimeST = moment(time[0]).format("YYYY-MM-DD");
+			_values.createTimeET = moment(time[0]).format("YYYY-MM-DD");
+		} else {
+			_values.createTimeST = "";
+			_values.createTimeET = "";
+		}
+		this.searchData(_values);
 		this.setState({
 			inputValues: values,
 		});

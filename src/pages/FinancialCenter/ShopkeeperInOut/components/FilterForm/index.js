@@ -64,6 +64,8 @@ export default class SearchForm extends BaseFilter {
                                 </Select>
                             </FormItem>
                         </Col>
+                        {/*占个位，把时间选择挤到下一行，否则无法清除时间选择，如果搜索条件有修改时间不在一行的最后一个则可以删除这个占位*/}
+                        <Col {...this.colspans} />
                         <Col {...this.colspans}>
                             <FilterSearchRangeTime
                                 selectTimeChange={this.props.selectTimeChange}
