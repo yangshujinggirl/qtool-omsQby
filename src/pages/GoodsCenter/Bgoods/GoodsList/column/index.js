@@ -178,7 +178,7 @@ const editColumns = [
   },
   {
     title: "SKU图片",
-    dataIndex: "img",
+    dataIndex: "image",
     render: (text, record, index) =>
       text ? (
         <img
