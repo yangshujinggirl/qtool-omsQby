@@ -15,7 +15,7 @@ import {
     DOCUMENT_TYPE_NORMAL,
     DOCUMENT_TYPE_SPECIMEN,
     LOGISTICS_EXPENSE_MODE_RECIPIENT_PAY,
-    LOGISTICS_EXPENSE_MODE_ZERO
+    LOGISTICS_EXPENSE_MODE_ZERO, PROCUREMENT_TARGET_HUAIAN, PROCUREMENT_TARGET_QTOOLS
 } from "./config";
 import moment from "moment";
 import TableDataListUtil from "utils/TableDataListUtil";
@@ -71,7 +71,11 @@ const PurchaseInDetail = (props) => {
             <Card title="采购单信息">
                 <QbaseInfo dataInfo={
                     [{key: "采购单号", value: dataInfo.stockingCode},
-                        {key: "采购主体", value: dataInfo.procurementTarget},
+                        {
+                            key: "采购主体",
+                            value: dataInfo.procurementTarget === PROCUREMENT_TARGET_HUAIAN ? "淮安" :
+                                (dataInfo.procurementTarget === PROCUREMENT_TARGET_QTOOLS ? "Qtools" : "")
+                        },
                         {key: "供应商名称", value: dataInfo.suppliersName},
                         {
                             key: "单据类型",
