@@ -24,7 +24,7 @@ const Columns = [
   },
   {
     title: "订单类型",
-    dataIndex: "orderStatusStr",
+    dataIndex: "orderTypeStr",
     key: "4"
   },
   {
