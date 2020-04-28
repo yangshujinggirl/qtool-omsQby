@@ -30,6 +30,8 @@ const BossActivity=({...props})=> {
       setDataList(result);
       setDataPagation({everyPage,currentPage,total});
       setLoading(false)
+    },err=> {
+      setLoading(false)
     })
   }
 

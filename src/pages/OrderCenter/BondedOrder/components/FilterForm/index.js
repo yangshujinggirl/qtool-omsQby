@@ -138,6 +138,8 @@ class NormalForm extends BaseFilter {
                 </Select>
               </Form.Item>
             </Col>
+            {/*占个位，把时间选择挤到下一行，否则无法清除时间选择，如果搜索条件有修改时间不在一行的最后一个则可以删除这个占位*/}
+            <Col {...this.colspans} />
             <Col {...this.colspans}>
               <Form.Item label="生成时间" name="time" {...formItemLayout}>
                 <RangePicker allowClear={true} showTime format="YYYY-MM-DD HH:mm:ss" />

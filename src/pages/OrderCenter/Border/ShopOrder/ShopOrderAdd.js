@@ -203,7 +203,7 @@ const ShopOrderAdd=({...props})=> {
             </Form.Item>
             <QupLoadAndDownLoad
               label="商品信息"
-              fileName="ordermd"
+              fileName="orderMd"
               data={{type: 12}}
               action="/qtoolsErp/import/excel"
               upDateList={upDateFileList}>

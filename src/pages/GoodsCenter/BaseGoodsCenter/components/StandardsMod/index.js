@@ -20,9 +20,9 @@ const StandardsMod=({...props})=> {
   };
   //商品规格change
   const handleChangeType=(type,option)=> {
-    let { specData,goodsList, pdType1Id, pdType2Id, totalData } =props;
+    let { specData, goodsList, pdType1Id, pdType2Id, skuInitData } =props;
     let { specTwo, specOne } =specData;
-    goodsList = [{ key:'0/0', taxRate:totalData.taxRate}];
+    goodsList = [{ key:'0/0',...skuInitData }];
     //重置商品规格id,商品属性
     if(option=='0'&&(pdType1Id==0||pdType2Id==0)){
       specData = {specTwo:[], specOne:[] };
@@ -31,6 +31,7 @@ const StandardsMod=({...props})=> {
       if(specTwo.length>0) {
         goodsList = specTwo.map((el) => {
           return {
+            ...skuInitData,
             name:el.name,
             key:el.key,
             salesAttributeName:el.name,
@@ -42,6 +43,7 @@ const StandardsMod=({...props})=> {
       if(specOne.length>0) {
         goodsList = specOne.map((el) => {
           return {
+            ...skuInitData,
             salesAttributeName:el.name,
             key:el.key,
             name:el.name
@@ -61,7 +63,7 @@ const StandardsMod=({...props})=> {
 
   //删除商品属性
   const deleteGoodsLabel=(removedTags,type)=> {
-    let { specData,goodsList } =props;
+    let { specData, goodsList, skuInitData } =props;
     let newArray;
     if(type == 'one') {
       let specOne = specData.specOne.filter(judgeTags => judgeTags.name !== removedTags.name);
@@ -69,13 +71,14 @@ const StandardsMod=({...props})=> {
         if(specData.specTwo.length>0) {
           newArray = specData.specTwo.map((el) => {
             return {
+              ...skuInitData,
               name:el.name,
               key:el.key,
               salesAttributeName:el.name,
             }
           })
         } else {
-          newArray = [{ key:'0/0', taxRate:totalData.taxRate}];
+          newArray = [{ key:'0/0', ...skuInitData}];
         }
       } else {
         newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
@@ -87,13 +90,14 @@ const StandardsMod=({...props})=> {
         if(specData.specOne.length>0) {
           newArray = specData.specOne.map((el) => {
             return {
+              ...skuInitData,
               name:el.name,
               key:el.key,
               salesAttributeName:el.name,
             }
           })
         } else {
-          newArray = [{ key:'0/0', taxRate:totalData.taxRate}];
+          newArray = [{ key:'0/0',...skuInitData}];
         }
       } else {
         newArray = goodsList.filter((value)=>{return value.salesAttributeName.indexOf(removedTags.name)=='-1'});
@@ -111,27 +115,29 @@ const StandardsMod=({...props})=> {
   }
   //增加商品属性
   const addGoodsLabel=(inputValue,type)=> {
-    let { specData, goodsList } =props;
+    let { specData, goodsList, skuInitData } =props;
     let newGoodsList = [...goodsList];
     let newArr = []
     if(type == 'one') {
-      let specOne = [...specData.specOne,...[{name:inputValue,key:inputValue}]];
+      let specOne = [...specData.specOne,...[{name:inputValue,key:inputValue,...skuInitData}]];
       if(specData.specTwo.length>0) {
         specData.specTwo.map((el,index) => {
           let item = {...el,salesAttributeName:`${inputValue}/${el.name}`};
           newArr.push(item);
         })
       } else {
-        newArr.push({salesAttributeName:inputValue,key:inputValue});
+        newArr.push({salesAttributeName:inputValue,key:inputValue,...skuInitData});
       }
       specData={ ...specData, specOne }
     } else {
-      let specTwo = [...specData.specTwo,...[{name:inputValue,key:inputValue}]];
+      let specTwo = [...specData.specTwo,...[{name:inputValue,key:inputValue,...skuInitData}]];
       if(specData.specOne.length>0) {
         specData.specOne.map((el,index) => {
           let item = {...el,salesAttributeName:`${el.name}/${inputValue}`};
           newArr.push(item);
         })
+      }else {
+        newArr.push({salesAttributeName:inputValue,key:inputValue,...skuInitData});
       }
       specData={ ...specData, specTwo }
     }

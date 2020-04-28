@@ -1,5 +1,6 @@
 const index = (state = {
   loading: false,
+  skuInitData:{},
   totalData:{isSave:true,pdType1Id:'0',pdType2Id:'0',minBoxSpecification:"1",procurementTarget:1},
   allGoods:[],
   goodsList:[{key:'0/0'}],//商品数据
@@ -16,6 +17,8 @@ const index = (state = {
     case "BASEGOODSADD_TOTALDATA":
       return { ...state,loading: false,...action.payload };
     case "BASEGOODSADD_RESETPAGE":
+      return { ...state,loading: false,...action.payload };
+    case "BASEGOODSADD_SKUINITDATA":
       return { ...state,loading: false,...action.payload };
     case "SET_LOADING":
       return {...state,...action.payload}

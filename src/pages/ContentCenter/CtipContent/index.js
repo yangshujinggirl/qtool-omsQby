@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import { Modal, Spin } from 'antd';
+import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { Qbtn, Qmessage, Qpagination, Qtable } from 'common';
 import { Columns } from './columns';
@@ -32,7 +33,12 @@ class CtipContent extends React.Component{
     let { fields, dataPagation } =this.state;
     this.setState({ loading:true })
     let params={...fields,everyPage:dataPagation.everyPage,currentPage:dataPagation.currentPage};
-    GetListApi(params)
+    let { time, ..._val } =params;
+    if(time&&time.length>0) {
+      _val.releaseTimeStr = moment(time[0]).format('YYYY-MM-DD HH:mm');
+      _val.releaseTimeEn = moment(time[1]).format('YYYY-MM-DD HH:mm');
+    }
+    GetListApi(_val)
     .then((res)=> {
       let { result, everyPage, currentPage, total } =res.result;
       result = result?result:[];
@@ -42,6 +48,8 @@ class CtipContent extends React.Component{
         dataPagation:{everyPage,currentPage,total},
         loading:false,
       })
+    },err=> {
+      this.setState({ loading:false })
     })
   }
   changePage = (currentPage, everyPage) => {

@@ -1,6 +1,6 @@
 import { Form, Checkbox, Modal, Col, Input, Radio, message, Button } from "antd";
 import { useState, useEffect } from 'react';
-import { QupLoadImgLimt, Qbtn, Qmessage } from 'common';
+import { QreturnBtn, QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
 import { GetSaveSetApi } from 'api/contentCenter/SingleGoodsSet';
 
@@ -9,11 +9,11 @@ const FormItem = Form.Item;
 const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 4 },
+        sm: { span: 5 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 20 },
+        sm: { span: 19 },
       },
     };
 
@@ -49,9 +49,17 @@ const ModuleSet=({...props})=> {
   useEffect(()=>{ initPage() },[homepageModuleId])
   return (
     <div className="oms-common-addEdit-pages">
-      <Form form={form} {...formItemLayout} className="common-addEdit-form">
+      <Form
+        form={form}
+        {...formItemLayout}
+        className="common-addEdit-form">
         <FormItem label="模块标题名称" className="common-required-formItem">
-          <FormItem name="title" rules={[{ required: true, message: '请输入模块标题名称' } ]} noStyle>
+          <FormItem
+            name="title"
+            rules={[
+              { required: true, message: '请输入模块标题名称'},
+              { pattern: /^.{2,4}$/, message: '请输入2-4个字符'}
+            ]} noStyle>
             <Input  placeholder="请输入模块标题名称" autoComplete="off" maxLength={4}/>
           </FormItem>
           将在C端App和小程序中展示
@@ -91,9 +99,10 @@ const ModuleSet=({...props})=> {
         <FormItem label="模块背景色号" name="moduleBackColor">
           <Input type='color' style={{ width: "60px",height:"32px" }}/>
         </FormItem>
-        <Col offset={4}>
+        <div className="handle-operate-save-action">
+          <QreturnBtn {...props} />
           <Qbtn onClick={handleSubmit}> 保存设置</Qbtn>
-        </Col>
+       </div>
       </Form>
       <Modal visible={visible} onCancel={onCancel} footer={null}>
         <img src={require("./img/ex3.png")} style={{ width: "472px" }}/>

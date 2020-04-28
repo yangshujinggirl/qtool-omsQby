@@ -114,7 +114,7 @@ const ActivityAdd=({...props})=> {
             </Form.Item>
             <QupLoadAndDownLoad
               label="商品信息"
-              fileName="activityBLow"
+              fileName="activityBoss"
               data={{type: 11}}
               action="/qtoolsErp/import/excel"
               upDateList={upDateFileList}>

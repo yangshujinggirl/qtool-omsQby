@@ -72,7 +72,7 @@ class SearchForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem
-                name="pdCategory1Id"
+                name="categoryCode1"
                 label="一级类目"
                 {...this.formItemLayout}
               >
@@ -91,7 +91,7 @@ class SearchForm extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem
-                name="pdCategory2Id"
+                name="categoryCode2"
                 label="二级类目"
                 {...this.formItemLayout}
               >

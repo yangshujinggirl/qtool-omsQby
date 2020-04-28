@@ -34,7 +34,7 @@ class QenlargeImg extends Component {
       <div  className={diySty}>
         {
           url?
-          <div>
+          <div className="wrap">
             <img src={`${fileDomain}${url}`} onClick={this.onShow}/>
             <Modal
               onOk={this.onCancel}

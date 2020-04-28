@@ -144,9 +144,9 @@ module.exports = {
         changeOrigin: true,
       },
       '/qtoolsErp': {
-        // target:'http://192.168.2.36:8078',
-        // pathRewrite: {"^/qtoolsErp" : ""},
-        target:'http://v1.oms.test.qtoolsbaby.net:81/',
+        target:'http://192.168.2.36:8078',
+        pathRewrite: {"^/qtoolsErp" : ""},
+        // target:'http://v1.oms.test.qtoolsbaby.net:81/',
         changeOrigin: true,
       },
       '/qtoolsApp': {

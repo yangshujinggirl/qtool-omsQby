@@ -28,6 +28,8 @@ function withSubscription(apiObj,activityType) {
         setDataList(result);
         setDataPagation({everyPage,currentPage,total});
         setLoading(false)
+      },err=> {
+        setLoading(false)
       })
     }
 
@@ -79,7 +81,7 @@ function withSubscription(apiObj,activityType) {
       confirm({
         content: '是否确认撤销审核',
         onOk:()=> {
-          GetApprovalsApi(record.promotionId)
+          GetApprovalsApi({promotionId:record.promotionId})
           .then((res) => {
             successCallback();
             Qmessage.success('撤销审核成功')

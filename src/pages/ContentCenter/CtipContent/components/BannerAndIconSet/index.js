@@ -2,7 +2,7 @@ import { Tabs, Button, Form, Modal } from 'antd';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import { CommonUtils } from 'utils';
-import {Qmessage, Qbtn } from 'common';
+import { QreturnBtn, Qmessage, Qbtn } from 'common';
 import FrameModal from './components/FrameModal';
 import BannerIconPicTables from './components/BannerIconPicTables';
 
@@ -156,6 +156,7 @@ function withSubscription(paramsObj,modType,WrapComponent) {//modType:1banner,2:
           }
         </Form>
         <div className="handle-operate-save-action">
+          <QreturnBtn {...props} />
           <Qbtn onClick={()=>onSubmit()}>保存</Qbtn>
         </div>
       </div>

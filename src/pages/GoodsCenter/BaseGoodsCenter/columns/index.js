@@ -213,7 +213,7 @@ const ColumnsAddGeneral=(list)=>{
     render:(text,record,index)=> {
       return  <Form.Item
                 name={['list',index,'bonusRate']}
-                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.moneyTwoFloat,message:'请输入数字'}]}>
+                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.taxRatePercent,message:'请输入数字'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
@@ -252,7 +252,7 @@ const ColumnsAddGeneral=(list)=>{
     render:(text,record,index)=> {
       return  <Form.Item
                 name={['list',index,'weight']}
-                rules={ [{ required: true, message: '请输入'},{pattern:RegExpUtil.qty,message:'请输入数字'}]}>
+                rules={ [{pattern:RegExpUtil.qty,message:'请输入数字'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
@@ -315,7 +315,7 @@ const ColumnsInfoGeneral=[
       textWrap: 'word-break',
     },{
       title: "审核状态",
-      dataIndex: "status",
+      dataIndex: "statusStr",
       width: 100,
       textWrap: 'word-break',
     },{
@@ -323,6 +323,15 @@ const ColumnsInfoGeneral=[
       dataIndex: "oldStatus",
       width: 120,
       textWrap: 'word-break',
+      render:(text,record,index)=> {
+        return <span>
+        {
+          oldStatusOptions.map((el) => (
+            record.oldStatus == el.key&&el.value
+          ))
+        }
+        </span>
+      }
     },{
       title: "*商品条码",
       dataIndex: "barCode",

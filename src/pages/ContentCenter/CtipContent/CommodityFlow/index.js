@@ -2,7 +2,7 @@ import { Tabs, Button, Col, Form } from 'antd';
 import NP from 'number-precision';
 import moment from 'moment';
 import lodash from 'lodash';
-import { Qbtn, Qmessage } from 'common';
+import { QreturnBtn, Qbtn, Qmessage } from 'common';
 import ClassifyMod from './components/ClassifyMod';
 import TabsMod from './components/TabsMod';
 import SortMod from './components/SortMod';
@@ -269,6 +269,7 @@ class CommodityFlow extends React.Component {
                     {...this.state}/>
                 </div>
                 <Col offset={11}>
+                  <QreturnBtn {...this.props} />&nbsp;&nbsp;
                   <Qbtn onClick={this.onSubmit}>保存</Qbtn>
                 </Col>
               </div>

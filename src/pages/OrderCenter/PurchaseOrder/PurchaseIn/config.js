@@ -70,3 +70,16 @@ export const LOGISTICS_EXPENSE_MODE_ZERO = 1;
  * @type {number}
  */
 export const LOGISTICS_EXPENSE_MODE_RECIPIENT_PAY = 2;
+
+
+//采购主体 1淮安 2qtools
+/**
+ * 采购主体 淮安
+ * @type {number}
+ */
+export const PROCUREMENT_TARGET_HUAIAN = 1
+/**
+ * 采购主体 qtools
+ * @type {number}
+ */
+export const PROCUREMENT_TARGET_QTOOLS = 2
