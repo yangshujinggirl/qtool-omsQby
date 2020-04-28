@@ -75,7 +75,7 @@ class SearchForm extends BaseFilter {
 							</FormItem>
 						</Col>
 						<Col {...this.colspans}>
-							<FormItem name="pdCategory1Id" label="一级类目" {...this.formItemLayout}>
+							<FormItem name="categoryCode1" label="一级类目" {...this.formItemLayout}>
 								<Select onChange={this.onChange} placeholder="请选择" allowClear={true}>
 									{catagoryList.map((item) => (
 										<Option value={item.id} key={item.id}>
@@ -86,7 +86,7 @@ class SearchForm extends BaseFilter {
 							</FormItem>
 						</Col>
 						<Col {...this.colspans}>
-							<FormItem name="pdCategory2Id" label="二级类目" {...this.formItemLayout}>
+							<FormItem name="categoryCode2" label="二级类目" {...this.formItemLayout}>
 								<Select placeholder="请选择" disabled={!catagoryList2.length > 0} allowClear={true}>
 									{catagoryList2.map((item) => (
 										<Option value={item.id} key={item.id}>

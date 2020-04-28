@@ -80,7 +80,7 @@ class NormalForm extends BaseFilter {
             {type == 1 && (
               <Col {...this.colspans}>
                 <Form.Item
-                  name="shopType"
+                  name="type"
                   label="门店类型"
                   {...this.formItemLayout}
                 >

@@ -34,7 +34,7 @@ class NormalForm extends BaseFilter {
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
-							<Form.Item name="channelPopularizeCoding" label="门店店主" {...this.formItemLayout}>
+							<Form.Item name="person" label="门店店主" {...this.formItemLayout}>
 								<Input placeholder="请输入门店店主" autoComplete="off" allowClear={true} />
 							</Form.Item>
 						</Col>
@@ -46,10 +46,10 @@ class NormalForm extends BaseFilter {
 						<Col {...this.colspans}>
 							<Form.Item name="channelStatus" label="营业状态" {...this.formItemLayout}>
 								<Select allowClear={true} placeholder="请选择营业状态">
-									<Option value={1} key={1}>
+									<Option value={2} key={2}>
 										待开业
 									</Option>
-									<Option value={2} key={2}>
+									<Option value={1} key={1}>
 										开业中
 									</Option>
 									<Option value={3} key={3}>
