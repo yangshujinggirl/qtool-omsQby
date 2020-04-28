@@ -38,7 +38,7 @@ class UserOrder extends Component {
     this.setState({
       loading: true
     });
-    getListApi(values)
+    getListApi(_values)
       .then(res => {
         this.setState({
           loading: false
