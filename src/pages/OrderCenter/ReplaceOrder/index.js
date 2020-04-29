@@ -154,7 +154,7 @@ class ReplaceOrder extends Component {
     };
     const uploadProps = {
       accept: ".xlsx,.xls",
-      action: "/qtoolsOms/upload/file_excel",
+      action: "/qtoolsOms/orderagency/fileUpload",
       data: { data: JSON.stringify({ type: 23 }) },
       showUploadList: false,
     };
