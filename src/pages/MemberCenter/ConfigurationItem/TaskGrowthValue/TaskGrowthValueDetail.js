@@ -35,6 +35,8 @@ const TaskGrowthValueDetail = (props) => {
             }
             setLogList(TableDataListUtil.addKeyAndResultList(taskLogList));
             _this.hideLoading();
+        }).catch(()=>{
+            _this.hideLoading();
         })
     };
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">

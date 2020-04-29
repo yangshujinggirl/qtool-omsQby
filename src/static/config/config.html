@@ -75,7 +75,11 @@
           dataType:'json',
           contentType:'application/json',
           success(res){
-            vm.list = res.result;
+            if(res.httpCode == 200){
+              vm.list = res.result;
+            }else{
+              alert(res.msg)
+            }
           },
           error(err){
             console.log(err)

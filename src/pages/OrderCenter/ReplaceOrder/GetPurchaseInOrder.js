@@ -14,32 +14,35 @@ const GetPurchaseInOrder = props => {
   const [form] = Form.useForm();
   const [supplierList, setSupplierList] = useState([]);
   const [dataSource, setDataSource] = useState([]);
-  const [totalNum, setTotalNum] = useState([]);
-  const [totalPrice, setTotalPrice] = useState([]);
+  const [totalNum, setTotalNum] = useState([]);//保存右边的共计数量
+  const [totalPrice, setTotalPrice] = useState([]);//保存右边的共计金额
   const [id, setId] = useState("");
   const [loading, setLoading] = useState("");
   useEffect(() => {
     getDataSource();
-  }, []);
+  }, []); 
   //获取采购列表
   const getDataSource = () => {
     let [dataSource, obj, totalNum, totalPrice] = [[], {}, 0, 0];
     const replaceList = JSON.parse(sessionStorage.getItem("replaceList"));
+    console.log(replaceList)
     replaceList.map(item => {
       obj[item["skuCode"]] = obj[item["skuCode"]]
         ? {
             ...item,
             orderNum: obj[item["skuCode"]]["orderNum"] + 1,
-            num: obj[item["skuCode"]]["num"] + item.num
+            num: obj[item["skuCode"]]["num"] + item.num,
+            totalPrice: obj[item["skuCode"]]["totalPrice"] + item.totalPrice
           }
-        : { ...item, orderNum: 1, num: item.num };
+        : { ...item, orderNum: 1, num: item.num,totalPrice:item.totalPrice };
     });
     for (let key in obj) {
       dataSource.push(obj[key]);
     }
+    console.log(dataSource)
     dataSource.map(item => {
       totalNum += item.num;
-      totalPrice += item.num * item.purchasePrice;
+      totalPrice += item.totalPrice;
     });
     form.setFieldsValue({ dataSource });
     setTotalNum(totalNum);

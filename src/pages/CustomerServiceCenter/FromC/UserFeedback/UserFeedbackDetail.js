@@ -122,7 +122,7 @@ const UserFeedbackDetail = (props) => {
                             key: "反馈图片", value: picList&&picList.length>0&&picList.map((item, index) => {
                                 return (
                                     <QenlargeImg
-                                        url={sessionStorage.getItem("oms_fileDomain") + item.imgPath}
+                                        url={item.imgPath}
                                         key={index} placement="inline"/>
                                 )
                             })

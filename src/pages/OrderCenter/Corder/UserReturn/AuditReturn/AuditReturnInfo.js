@@ -14,7 +14,6 @@ const AuditReturnInfo = (props) => {
 	const [status, setStatus] = useState('');
 	const [infos, setInfos] = useState({});
 	const [detailList, setDetailList] = useState([]);
-	const [isInvented, setIsInvented] = useState(true);
 	const { id } = props.match.params;
 	useEffect(() => {
 		getInfoApi({ reOrderNo: id }).then((res) => {
@@ -29,14 +28,10 @@ const AuditReturnInfo = (props) => {
 				}
 			}
 		});
-  }, []);
-  //审核状态修改
+	}, []);
+	//审核状态修改
 	const onChange = (e) => {
 		setStatus(e.target.value);
-  };
-  //退款方式更改
-	const returnTypeChange = (e) => {
-		setIsInvented(e.target.value);
 	};
 	/**
 	 * 提交
@@ -55,7 +50,7 @@ const AuditReturnInfo = (props) => {
 		labelCol: { span: 2 },
 		wrapperCol: { span: 8 },
 	};
-	
+
 	return (
 		<div>
 			<Card title="退单信息" className="base_info">
@@ -89,36 +84,31 @@ const AuditReturnInfo = (props) => {
 								label="退款类型"
 								rules={[{ required: true, message: '请选择退款类型' }]}
 							>
-								<Radio.Group onChange={returnTypeChange}>
-									<Radio value={false}>退货退款</Radio>
-									<Radio value={true}>仅退款</Radio>
+								<Radio.Group>
+									<Radio value={true}>退货退款</Radio>
 								</Radio.Group>
 							</Form.Item>
-							{isInvented == false && (
-								<React.Fragment>
-									<Form.Item
-										name="consignee"
-										label="收货人"
-										rules={[{ required: true, message: '请输入收货人' }]}
-									>
-										<Input placeholder="请输入收货人" autoComplete="off" />
-									</Form.Item>
-									<Form.Item
-										name="shPhone"
-										label="收货电话"
-										rules={[{ required: true, message: '请输入收货电话' }]}
-									>
-										<Input placeholder="请输入收货电话" autoComplete="off" />
-									</Form.Item>
-									<Form.Item
-										name="shAddress"
-										label="收货地址"
-										rules={[{ required: true, message: '请输入收货地址' }]}
-									>
-										<Input placeholder="请输入收货地址" autoComplete="off" />
-									</Form.Item>
-								</React.Fragment>
-							)}
+							<Form.Item
+								name="consignee"
+								label="收货人"
+								rules={[{ required: true, message: '请输入收货人' }]}
+							>
+								<Input placeholder="请输入收货人" autoComplete="off" />
+							</Form.Item>
+							<Form.Item
+								name="shPhone"
+								label="收货电话"
+								rules={[{ required: true, message: '请输入收货电话' }]}
+							>
+								<Input placeholder="请输入收货电话" autoComplete="off" />
+							</Form.Item>
+							<Form.Item
+								name="shAddress"
+								label="收货地址"
+								rules={[{ required: true, message: '请输入收货地址' }]}
+							>
+								<Input placeholder="请输入收货地址" autoComplete="off" />
+							</Form.Item>
 						</React.Fragment>
 					)}
 					{status == 99 && (
