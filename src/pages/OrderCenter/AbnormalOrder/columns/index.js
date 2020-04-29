@@ -21,10 +21,6 @@ const Columns = [
     dataIndex: "orderStatusStr"
   },
   {
-    title: "商品数量",
-    dataIndex: "itemCount"
-  },
-  {
     title: "实付金额",
     dataIndex: "orderTotal"
   },
