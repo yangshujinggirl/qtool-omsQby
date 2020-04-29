@@ -27,6 +27,8 @@ const CtipContent=({...props})=> {
       setDataList(result);
       setDataPagation({everyPage,currentPage,total});
       setLoading(false)
+    },err=> {
+      setLoading(false)
     })
   }
   const changePage = (currentPage, everyPage) => {

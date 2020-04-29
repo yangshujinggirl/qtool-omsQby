@@ -29,7 +29,7 @@ class Search extends BaseFilter {
             </Col>
             <Col {...this.colspans}>
               <FormItem label="最后修改人" name="updateUser">
-                <Input placeholder="请输入页面名称" autoComplete="off" />
+                <Input placeholder="请输入最后修改人" autoComplete="off" />
               </FormItem>
             </Col>
             <Col span={24}>

@@ -53,7 +53,6 @@ const ImageTextEdit=({...props})=> {
       props.form.setFieldsValue({[fieldName]:newArray})
     }
   },[newArray]);
-
   return <div className="image-text-function-are">
           <div className="left-are">
             <p className="tit-par">功能组件</p>
@@ -71,7 +70,7 @@ const ImageTextEdit=({...props})=> {
                           <div className="wrap-item">
                             {
                               el.type==1?
-                              <Form.Item name={[fieldName,idx,'content']} rules={[{ required: true, message: '请输入文本' } ]}>
+                              <Form.Item name={[fieldName,idx,'content']} rules={props.required?[{ required: true, message: '请输入文本' } ]:null}>
                                 <Input.TextArea/>
                               </Form.Item>
                               :
@@ -80,7 +79,7 @@ const ImageTextEdit=({...props})=> {
                                 fileList={el.content}
                                 limit="1"
                                 upDateList={(fileList)=>handleChangeFile(fileList,idx)}
-                                rules={[{ required: true, message: '请上传图片' } ]}/>
+                                rules={props.required?[{ required: true, message: '请上传图片' } ]:null}/>
                             }
                             <div className="btns-action">
                               <span className="icon-wrap" onClick={()=>handleDown(idx)}><DownOutlined /></span>

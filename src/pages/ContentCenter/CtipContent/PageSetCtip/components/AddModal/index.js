@@ -4,6 +4,17 @@ import { Sessions,  CommonUtils } from 'utils';
 import { GetSearchApi } from 'api/contentCenter/PageSetCtip';
 import { QupLoadImgLimt } from 'common';
 
+const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+      },
+    };
+
 const AddModal=({...props})=> {
   const { type, text, template, pdCode, rowcode,fileList } =props.currentItem;
   let [newFileList,setFileList]=useState(text);
@@ -71,26 +82,35 @@ const AddModal=({...props})=> {
       case 1:
         mod = <div>
                 <QupLoadImgLimt
+                  formItemLayout={formItemLayout}
                   label="图片"
                   name="text"
                   fileList={newFileList}
                   limit="1"
                   upDateList={(fileList)=>handleChangeFile(fileList)}
                   rules={[{ required: true, message: '请上传图片' } ]}/>
-                <Form.Item label="链接商品1" name="pdCode">
+                <Form.Item {...formItemLayout} label="链接商品1" name="pdCode">
                   <Input autoComplete="off" placeholder='请输入商品编码'/>
                 </Form.Item>
               </div>
         break;
       case 2:
         mod = <div>
-                <Form.Item label="商品模板" name="template" rules={[{ required: true, message: '请输入分享标题，30字以内'}]}>
+                <Form.Item
+                  {...formItemLayout}
+                  label="商品模板"
+                  name="template"
+                  rules={[{ required: true, message: '请输入分享标题，30字以内'}]}>
                   <Radio.Group>
                     <Radio value={1}>单列展示</Radio>
                     <Radio value={2}>双列展示</Radio>
                   </Radio.Group>
                 </Form.Item>
-                <Form.Item label="链接商品1" name="pdCode" rules={[{ required: true, message: '请输入商品编码'}]}>
+                <Form.Item
+                  {...formItemLayout}
+                  label="链接商品1"
+                  name="pdCode"
+                  rules={[{ required: true, message: '请输入商品编码'}]}>
                   <Input autoComplete="off" placeholder='请输入商品编码'/>
                 </Form.Item>
                 <Form.Item
@@ -98,7 +118,11 @@ const AddModal=({...props})=> {
                   shouldUpdate={(prevValues, currentValues) => prevValues.template !== currentValues.template}>
                   {({ getFieldValue }) => {
                     return getFieldValue('template') == 2 ? (
-                      <Form.Item label="链接商品2" name="rowcode" rules={[{ required: true, message: '请输入商品编码'}]}>
+                      <Form.Item
+                        {...formItemLayout}
+                        label="链接商品2"
+                        name="rowcode"
+                        rules={[{ required: true, message: '请输入商品编码'}]}>
                         <Input autoComplete="off" placeholder='请输入商品编码'/>
                       </Form.Item>
                     ) : null;
@@ -108,7 +132,7 @@ const AddModal=({...props})=> {
         break;
       case 3:
       case 4:
-        mod = <Form.Item label="文本" name="text" rules={[{ required: true, message: '请输入商品编码'}]}>
+        mod = <Form.Item {...formItemLayout} label="文本" name="text" rules={[{ required: true, message: '请输入商品编码'}]}>
                 <Input autoComplete="off" placeholder='请输入商品编码'/>
               </Form.Item>
         break;
