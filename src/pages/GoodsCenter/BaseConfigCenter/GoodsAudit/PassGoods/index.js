@@ -79,9 +79,7 @@ class TradeGoods extends Component {
   onSubmit = (params) => {
     this.searchData(params);
     const {inputValues} = this.state;
-    console.log("xxx",JSON.stringify(inputValues))
     this.setState({ inputValues: {...inputValues,...params} });
-    console.log("xxx",JSON.stringify(this.state.inputValues))
   };
   rowSelectChange = (selectedRowKeys) => {
     this.setState({
