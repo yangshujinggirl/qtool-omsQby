@@ -10,9 +10,9 @@ export function GetListApi(values){
 export function GetDeleteApi(values) {
   return erpAjax.put('/promotion/del',{...values})
 }
-//c端活动列表撤销审核
-export function GetApprovalsApi(promotionId) {
-  return erpAjax.put(`/approval/${promotionId}`)
+//动列表撤销审核
+export function GetApprovalsApi(values) {
+  return erpAjax.post(`/approval/cancel`,{...values})
 }
 // //c端活动列表作废，强制结束
 export function GetEnableApi(values) {

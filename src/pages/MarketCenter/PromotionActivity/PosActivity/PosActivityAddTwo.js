@@ -27,9 +27,25 @@ const CtipActivityAddTwo=({...props})=> {
     .then((res)=> {
       let { promotionProducts } =res.result;
       promotionProducts&&promotionProducts.map((el,index)=>el.key=index);
-      setProducts(promotionProducts);
+      countProfitRate(promotionProducts);
       setCurrentdata(JSON.parse(Sessions.get("currentdata")))
     })
+  }
+  const countProfitRate=(promotionProducts)=> {
+    promotionProducts&&promotionProducts.map(item=>{
+      //一般贸易商品（包括品牌直供商品）：C端活动单品毛利率=（活动价-B端活动售价）/ 活动价
+      if(item.pdKind == 1||item.pdKind == 2){ //一般贸易和直供
+        if(Number(item.eventPrice) && Number(item.activityPrice)){
+          item.profitRate = (((item.activityPrice-item.eventPrice)/item.activityPrice)*100).toFixed(2);
+        }else{
+          item.profitRate = '';
+        };
+      };
+      if(item.pdKind == 3){//保税商品：C端毛利率=分成比例
+        item.profitRate = item.shareRatio;
+      };
+    });
+    setProducts(promotionProducts);
   }
   //上传文件
   const upDateFieList=(response)=> {

@@ -27,7 +27,7 @@ const Audit=({...props})=> {
       let params={...values,approvalId};
       GetSaveApprovalsApi(params)
       .then((res)=> {
-        props.history.push('/account/posAudit')
+        props.history.push('/account/c_sales_promotion_check')
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
