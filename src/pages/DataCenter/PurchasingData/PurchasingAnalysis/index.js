@@ -29,11 +29,10 @@ const PurchasingAnalysis = (props) => {
 	 * @param _this
 	 */
 	const baseDetailComponentCallback = (_this) => {
-		_this.showLoading();
-		GetPurchaseData()
+		new GetPurchaseData()
 			.then((res) => {
 				_this.hideLoading();
-				if (res.httpCode == 200) {
+				if (res.httpCode === 200) {
 					const { proposalGoodsList, ...iRpPurchaseAnalysis } = res.result;
 					iRpPurchaseAnalysis.purchaseAmountRate = CommonUtils.dataDifferenceValueComparison(
 						iRpPurchaseAnalysis.purchaseAmount,

@@ -105,6 +105,8 @@ const WorkOrderDetail = (props) => {
             }
             setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
             _this.hideLoading();
+        }).catch(() => {
+            _this.hideLoading();
         })
     };
 
