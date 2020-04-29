@@ -28,7 +28,7 @@ class PosUserManage extends Component {
   };
   //搜索列表
   searchData = values => {
-    const {time,..._values} = params;
+    const {time,..._values} = values;
     if(time&&time[0]){
       _values.dateStart = moment(time[0]).formate('YYYY-MM-DD HH:mm:ss')
       _values.dateEnd = moment(time[1]).formate('YYYY-MM-DD HH:mm:ss')
