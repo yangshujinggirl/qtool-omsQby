@@ -1,7 +1,7 @@
 import { Form,Input } from 'antd';
 import moment from "moment";
 import {Link} from "react-router-dom";
-import React from "react";
+import { RegExpUtil } from 'utils';
 
 const Columns = [
     {
@@ -71,7 +71,7 @@ const ColumnsAdd=(onBlur)=>{
               return  <Form.Item
                           name={['list',index,'qty']}
                           rules={[{ required: true, message: '请输入订购数量'},
-                                { pattern:/^[1-9]+(\d*)$/,message:'请输入正整数' },
+                                { pattern:RegExpUtil.qty,message:'请输入正整数' },
                           ]}>
                         <Input
                           onBlur={(e)=>onBlur(e,index,'qty')}
@@ -153,9 +153,9 @@ const ColumnsReturnAdd=(handleBlur)=> {
               return (
                   <Form.Item
                     name={['list',index,'returnQty']}
-                    rules={[{ required: true, message: '请输入订购数量'},
-                        { pattern:/^[1-9]+(\d*)$/,message:'请输入正整数' },
-                        {validator:validateQty}
+                    rules={[
+                        { pattern:RegExpUtil.qty,message:'请输入正整数' },
+                        { validator:validateQty}
                     ]}>
                     <Input placeholder="退货数量" onBlur={(e)=>handleBlur(e, index)}/>
                   </Form.Item>

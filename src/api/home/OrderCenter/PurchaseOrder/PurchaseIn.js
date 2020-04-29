@@ -41,7 +41,7 @@ export function searchSupplierApi(values) {
   });
 }
 /**
- * 搜索仓库
+ * 搜索仓库  warehouseType  仓库类型 1大仓   2门店仓  3保税仓
  */
 export function searchStoreApi(values) {
   return omsAjax.get("/warehouse/usableWarehouse", {

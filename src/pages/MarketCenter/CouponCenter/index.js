@@ -37,7 +37,12 @@ const CouponCenter=({...props})=> {
     if(values) {
       params = {...params,...values};
     }
-    GetListApi(params)
+    let { time, ..._val } =params;
+    if(time&&time.length>0) {
+      _val.releaseTimeStr = moment(time[0]).format('YYYY-MM-DD HH:mm')
+      _val.releaseTimeEn = moment(time[1]).format('YYYY-MM-DD HH:mm')
+    }
+    GetListApi(_val)
     .then((res)=> {
       let { result, everyPage, currentPage, total } =res.result;
       result = result?result:[];
@@ -53,10 +58,10 @@ const CouponCenter=({...props})=> {
     searchList()
   }
   const changePage = (currentPage, everyPage) => {
-    searchList(currentPage, everyPage)
+    searchList({currentPage, everyPage})
   };
   const onShowSizeChange = (currentPage, everyPage) => {
-    searchList(currentPage, everyPage)
+    searchList({currentPage, everyPage})
   };
   const onSubmit = params => {
     setFields(params)

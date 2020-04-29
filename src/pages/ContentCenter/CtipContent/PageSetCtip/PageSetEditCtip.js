@@ -33,6 +33,7 @@ const formItemLayoutBig = {
 function EditImg({...props}) {
   const [form] = Form.useForm();
   let [loading, setLoading] = useState(false);
+  let [btnloading, setBtnloading] = useState(false);
   let [totalData, setTotal] = useState({});
   let [imgList, setImgList] = useState([]);
   let [imgCircleList, setImgCircleList] = useState([]);
@@ -43,7 +44,7 @@ function EditImg({...props}) {
     if(!pdConfigureId) {
       return;
     }
-    // setLoading(true)
+    setLoading(true)
     GetInfoApi(pdConfigureId)
     .then((res) => {
       let { shareFriendImg, shareFriendCircleImg, pdConfigureConfigList,...val } =res.result;
@@ -52,7 +53,10 @@ function EditImg({...props}) {
       setImgList(shareFriendImg);
       setImgCircleList(shareFriendCircleImg);
       setTotal(val);
-      setDetailImg(pdConfigureConfigList)
+      setDetailImg(pdConfigureConfigList);
+      setLoading(false)
+    },err=> {
+      setLoading(false)
     })
   }
   const goReturn=()=> {
@@ -62,6 +66,10 @@ function EditImg({...props}) {
     try {
       const values = await form.validateFields();
       let { shareFriendImg, shareFriendCircleImg, productDetailImgList, ..._val } =values;
+      if(detailImg.length==0) {
+        Qmessage.error('页面配置不能为空');
+        return;
+      }
       let params={ ..._val, pdConfigureConfigList:detailImg };
       if(_val.isShare==1) {
         shareFriendImg = CommonUtils.formatToUrlPath(shareFriendImg);
@@ -71,10 +79,14 @@ function EditImg({...props}) {
       if(pdConfigureId) {
         params={...params, pdConfigureId }
       }
+      setBtnloading(true)
       GetSaveApi(params)
       .then((res)=> {
         Qmessage.success('保存成功');
+        setBtnloading(false)
         goReturn()
+      },err=> {
+        setBtnloading(false)
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);

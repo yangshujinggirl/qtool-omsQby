@@ -51,7 +51,7 @@ class PosUserManage extends Component {
         });
       }
     });
-   
+
   };
   //更改分页
   changePage = (currentPage, everyPage) => {

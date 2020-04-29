@@ -4,6 +4,7 @@ import { parColumns, subColumns } from './column';
 import QsubTable from 'common/QsubTable';
 import FilterForm from './components/FilterForm';
 import { message, Modal } from 'antd';
+import moment from "moment";
 
 const tipsText = {
 	1: '操作后商品将在Q掌柜-每日上新栏目展示售卖，是否确认操作？',

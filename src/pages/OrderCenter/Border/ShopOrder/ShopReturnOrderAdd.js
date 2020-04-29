@@ -27,6 +27,7 @@ const ShopOrderAdd=({...props})=> {
   let [totalData, setTotal] = useState({});
   let [goodsList, setGoodsList] = useState([]);
   let [expressList, setExpressList] = useState([]);
+  let [loading, setLoading] = useState(false);
   //搜索快递
   const getExpressList=()=> {
     GetExpressApi()
@@ -83,17 +84,37 @@ const ShopOrderAdd=({...props})=> {
   //确认
   const handleOk=(values)=> {
     let { list,...params } =values;
+    let qty=0
+    list = goodsList.map((el,index) =>{
+      list.map((item,idx) =>{
+        if(index == idx) {
+          el = {...el, ...item};
+        }
+        if(el.returnQty) {
+          qty = NP.plus(qty, el.returnQty);
+        }
+      })
+      return el;
+    })
+    if(qty == 0) {
+      Qmessage.error('退货数量不可为0');
+      return;
+    }
     params = {
       ...params,
       type:"20",
-      details:goodsList,
+      details:list,
       spOrderId:totalData.spOrderId,
       spShopId:totalData.spShopId
     }
+    setLoading(true);
     GetSaveReturnApi(params)
     .then((res)=> {
+      setLoading(false)
       Qmessage.success('保存成功')
       goReturn();
+    },err=> {
+      setLoading(false)
     })
   }
   const upDateList=(arrVal)=> { setGoodsList(arrVal) }
@@ -162,7 +183,7 @@ const ShopOrderAdd=({...props})=> {
           </Card>
           <div className="handle-operate-save-action">
             <QreturnBtn {...props} />
-            <Qbtn onClick={()=>onSubmit()}>
+          <Qbtn onClick={()=>onSubmit()} loading={loading}>
               保存
             </Qbtn>
           </div>
