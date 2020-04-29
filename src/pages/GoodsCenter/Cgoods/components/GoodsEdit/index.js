@@ -6,6 +6,7 @@ import {
   AutoComplete,Descriptions,Form
 } from 'antd';
 import { useState, useEffect } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { ColumnsAdd } from '../column';
 import { QreturnBtn, Qtable, Qbtn, Qmessage } from 'common';
@@ -138,9 +139,10 @@ function withSubscription(WrappedComponent,productNature) {
       .then((res) => {
         let { descriptAttributeList, subList,...pdSpu} =res.result;
         let serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo;
+        subList = subList?subList:[]
         pdSpu.serviceInfo = serviceInfo==""?['1','2','3']:serviceInfo.split('-');
         descriptAttributeList&&descriptAttributeList.map((el,idx) =>el.key=`${el.descriptAttributeId}${idx}`)
-        subList&&subList.map((el)=>el.key=el.pdSkuId);
+        subList.map((el)=>{el.key=el.pdSkuId;el.skuShelfLife = moment(el.skuShelfLife)});
         setTotal(pdSpu)
         setGoodsList(subList)
         setDescList(descriptAttributeList)
@@ -162,6 +164,7 @@ function withSubscription(WrappedComponent,productNature) {
         let  values = await form.validateFields();
         values.serviceInfo = values.serviceInfo&&values.serviceInfo.join('-');
         values.subList = values.subList&&values.subList.map((el,index)=> {
+          el.skuShelfLife = moment(el.skuShelfLife).format('YYYY-MM-DD');
           goodsList.map((item,idx) => {
             if(index == idx) {
               el.skuCode=item.skuCode;
@@ -178,7 +181,7 @@ function withSubscription(WrappedComponent,productNature) {
           })
           return el;
         })
-        values = {...values,spuCode,operateUser:'yj' }
+        values = {...values,spuCode }
         GetEditApi(values)
         .then((res)=> {
           Qmessage.success('保存成功')
