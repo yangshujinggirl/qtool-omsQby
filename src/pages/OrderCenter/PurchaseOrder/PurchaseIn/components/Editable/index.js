@@ -6,9 +6,9 @@ const Editable = props => {
   const { dataSource, changeDataSource, getPrice } = props;
   /**
    * input输入框更改，相应修改list
-   * @param {*} e 
-   * @param {*} record 
-   * @param {*} keyName 
+   * @param {*} e
+   * @param {*} record
+   * @param {*} keyName
    */
   const changeData = (e, record, keyName) => {
     const { value } = e.target;
@@ -34,7 +34,7 @@ const Editable = props => {
             <Input
               onBlur={e => getPrice(e, record)}
               autoComplete="off"
-              placeholder="30字以内，C端展示"
+              placeholder="请输入SKU编码"
             />
           </Form.Item>
         );

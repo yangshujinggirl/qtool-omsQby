@@ -10,7 +10,7 @@ const EditTable = props => {
     const newData = [...dataSource, { key: keyIndex }];
     props.changeDataSource(newData);
   };
-  
+
   //删除
   const del = record => {
     let newData = [...dataSource];
@@ -27,7 +27,7 @@ const EditTable = props => {
         <Input
           onBlur={e => props.getPrice(e, record)}
           autoComplete="off"
-          placeholder="30字以内，C端展示"
+          placeholder="请输入SKU编码"
         />
       </Form.Item>
     );
