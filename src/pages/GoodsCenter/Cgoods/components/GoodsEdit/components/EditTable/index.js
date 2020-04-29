@@ -1,4 +1,4 @@
-import { Table,Input,Form } from 'antd';
+import { Table,Input,Form, DatePicker } from 'antd';
 import { QenlargeImg } from 'common';
 import { Sessions } from 'utils';
 
@@ -11,7 +11,7 @@ class EditTable extends React.Component {
   }
   renderSkuShelfLife=(text,record,index)=> {
     return <Form.Item name={['subList',index,'skuShelfLife']}>
-               <Input autoComplete="off" placeholder="请输入商品保质期"/>
+               <DatePicker format="YYYY-MM-DD" placeholder="请输入商品保质期"/>
             </Form.Item>
   }
   renderImage =(text,record,index)=> {

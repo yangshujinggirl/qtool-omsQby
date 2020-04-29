@@ -5,7 +5,7 @@ import {
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { QupLoadAndDownLoad, Qtable, Qbtn, BaseEditTable, Qmessage, CascaderAddressOptions } from 'common';
-import { GetInfoApi, GetSpuCodeApi, GetSaveApi } from 'api/marketCenter/BossActivity';
+import { GetInfoApi, GetSpuCodeApi, GetSaveEditApi, GetSaveAddApi  } from 'api/marketCenter/BossActivity';
 import { ColumnsAdd } from './columns';
 
 const { RangePicker } = DatePicker;
@@ -78,8 +78,12 @@ const ActivityAdd=({...props})=> {
         params.endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
       }
       params = { ...params, type:2, productList:goodsList }
-      if(activityId) { params= {...params, activityId }};
-      GetSaveApi(params)
+      let saveApi = GetSaveAddApi;
+      if(activityId) {
+        saveApi = GetSaveEditApi;
+        params= {...params, activityId }
+      };
+      saveApi(params)
       .then((res)=> {
         Qmessage.success('保存成功')
         goReturn();
