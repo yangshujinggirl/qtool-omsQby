@@ -17,6 +17,12 @@ function DetailBase({ ...props }) {
   const { labelCol, wrapperCol, info } = props;
   let lxOption = info.promotionScope == 1 ? singleOption : prefectureOption;
   let shareOption = info.promotionScope == 1 ? prefectureOption : singleOption;
+  info.costApportions = info.costApportions&&info.costApportions.map((el) => {
+    if(info.budget) {
+      el.budget = info.budget;
+    }
+    return el;
+  })
   let purposeVal= info.purposeTypes &&info.purposeTypes.map((el, index) => {
       return purposeTypesOption.map(item => {
           if (el == item.key) {
