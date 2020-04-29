@@ -16,8 +16,8 @@ const formItemLayout = {
  *
  * 新建退单 zhy
  */
-let allNotNeedReturnLength = 0;//所有不需要退款的单子
-let totalListLength = 0;//所有订单数量
+let allNotNeedReturnLength = 0; //所有不需要退款的单子
+let totalListLength = 0; //所有订单数量
 
 const AddReturnOrder = (props) => {
 	const [form] = Form.useForm();
@@ -28,9 +28,9 @@ const AddReturnOrder = (props) => {
 	const [deliveryList, setDeliveryList] = useState([]);
 	const [visible, setVisible] = useState(false);
 	const [giftList, setGiftList] = useState([]);
-	const [isAddExpress,setIsAddExpress] = useState(false);
+	const [isAddExpress, setIsAddExpress] = useState(false);
 	useEffect(() => {
-		getTotalAmount(selectedRows)
+		getTotalAmount(selectedRows);
 	}, [props.selectedRows]);
 	//物流费用发生改变
 	const onRadioChange = (e) => {
@@ -45,7 +45,7 @@ const AddReturnOrder = (props) => {
 			});
 			if (isAddExpressFee()) {
 				totalReturnAmount = totalReturnAmount + infos.expressAmount;
-				setIsAddExpress(true)
+				setIsAddExpress(true);
 			}
 			form.setFieldsValue({ totalReturnAmount });
 		} else {
@@ -54,7 +54,7 @@ const AddReturnOrder = (props) => {
 	};
 	//判断加不加上运费
 	const isAddExpressFee = () => {
-		const isAllSelect = totalListLength-allNotNeedReturnLength == selectedRows.length; //没有全退的是否都勾选了
+		const isAllSelect = totalListLength - allNotNeedReturnLength == selectedRows.length; //没有全退的是否都勾选了
 		const isAllNotSend = deliveryList.reduce(function (isNotSend, item) {
 			return isNotSend && item['details'].every((temp) => temp.expressStatus == 0); //是否全部未发货
 		}, true);
@@ -103,7 +103,7 @@ const AddReturnOrder = (props) => {
 		values.channelOrderNo = channelOrderNo;
 		values.orderType = orderType;
 		values.isDelivery = isDelivery;
-		values.expressAmount = isAddExpress?expressAmount:0;
+		values.expressAmount = isAddExpress ? expressAmount : 0;
 		let details = [];
 		selectedRows.map((item) => {
 			const { channelOrderDetailNo, skuCode, isGift } = item;
@@ -130,6 +130,8 @@ const AddReturnOrder = (props) => {
 	const getDetail = (e) => {
 		//重置页面数据
 		form.resetFields();
+		allNotNeedReturnLength = 0; //所有不需要退款的单子
+		totalListLength = 0; //所有订单数量
 		props.dispatch({
 			type: 'addReturn/setSelectRows',
 			payload: [],
@@ -184,7 +186,6 @@ const AddReturnOrder = (props) => {
 						return item;
 					});
 					setDeliveryList(deliveryList);
-
 				}
 			});
 		}
@@ -326,7 +327,7 @@ const AddReturnOrder = (props) => {
 									},
 								]}
 							>
-								<Input placeholder="请输入退单原因，50字以内" autoComplete="off"/>
+								<Input placeholder="请输入退单原因，50字以内" autoComplete="off" />
 							</Form.Item>
 						</React.Fragment>
 					)}
