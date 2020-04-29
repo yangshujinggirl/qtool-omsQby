@@ -9,7 +9,6 @@ import { getBonedInfoApi } from 'api/home/OrderCenter/Corder/UserOrder';
  * 保税订单详情
  * @param {*} props
  */
-console.log(GoodColumns);
 const BondedOrderInfo = (props) => {
 	const [orderInfo, setOrderInfo] = useState({});
 	const [receiveInfo, setReceiveInfo] = useState({});
@@ -64,7 +63,6 @@ const BondedOrderInfo = (props) => {
 				<Form.Item label="优惠券批次号">{orderInfo.couponCode}</Form.Item>
 				<Form.Item label="来源">{orderInfo.source}</Form.Item>
 			</Card>
-
 			<Card title="收货信息" className="base_info">
 				<Form.Item label="姓名">{receiveInfo.nickname}</Form.Item>
 				<Form.Item label="身份证号">

@@ -138,26 +138,26 @@ module.exports = {
     open: true,
     proxy: {
       '/qtoolsOms': {
-        // target:'http://192.168.2.36:8061',
-        // pathRewrite: {"^/qtoolsOms" : ""},
-        target:'http://v1.oms.test.qtoolsbaby.net:81/',
+        target:'http://192.168.2.36:8061',
+        // target:'http://192.168.2.31:8061',
+        pathRewrite: {"^/qtoolsOms" : ""},
         changeOrigin: true,
       },
       '/qtoolsErp': {
         target:'http://192.168.2.36:8078',
+        // target:'http://192.168.2.31:8078/',
         pathRewrite: {"^/qtoolsErp" : ""},
-        // target:'http://v1.oms.test.qtoolsbaby.net:81/',
         changeOrigin: true,
       },
       '/qtoolsApp': {
-        // target:'http://192.168.2.36:8023',
-        // pathRewrite: {"^/qtoolsApp" : ""},
-        target:'http://v1.oms.test.qtoolsbaby.net:81/',
+        target:'http://192.168.2.36:8023',
+        // target:'http://192.168.2.31:8023',
+        pathRewrite: {"^/qtoolsApp" : ""},
         changeOrigin: true,
       },
       '/qtools-report': {
-        // target:'http://192.168.2.155:8081',
-        // changeOrigin: true,
+        target:'http://192.168.2.155:8081',
+        changeOrigin: true,
       }
     }
   }

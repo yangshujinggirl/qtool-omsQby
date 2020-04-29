@@ -20,5 +20,5 @@ export default combineReducers({
   ShopKeeperReducers,
   OnlineReducers,
   TaxOrderReducers,
-  AddReturnOrderReducers
+  AddReturnOrderReducers,
 })
