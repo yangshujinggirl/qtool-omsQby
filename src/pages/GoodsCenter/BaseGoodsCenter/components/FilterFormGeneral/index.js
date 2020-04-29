@@ -1,7 +1,7 @@
 import '@ant-design/compatible/assets/index.css';
 import { AutoComplete, Input, Select, DatePicker, Row, Col, Form } from "antd";
 import { BaseFilter, Qbtn } from "common";
-import { GetBrandApi, GetCategoryApi } from "api/home/BaseGoods";
+import { GetBrandApi, GetCategoryCodeApi } from "api/home/BaseGoods";
 import moment from 'moment';
 
 const FormItem = Form.Item;
@@ -30,7 +30,7 @@ class Search extends BaseFilter {
     })
   }
   initPage(){
-    GetCategoryApi({ level: 1, parentId: "" })
+    GetCategoryCodeApi({ level: 1 })
     .then(res => {
       let { result } =res;
       result=result?result:[];
@@ -41,7 +41,7 @@ class Search extends BaseFilter {
     this.formRef.current.resetFields(['categoryCode2']);
     this.setState({catagoryList2:[]});
     if (value) {
-      GetCategoryApi({ level: 2, parentId: value })
+      GetCategoryCodeApi({ level: 2, categoryCode: value })
       .then(res => {
         this.setState({
           catagoryList2: res.result || []
@@ -53,6 +53,7 @@ class Search extends BaseFilter {
   render() {
     const { catagoryList, catagoryList2, brandList } = this.state;
     let  initialValues = this.props.inputValues;
+    console.log('12333')
     return (
       <div className="qtoolOms-condition">
         <Form

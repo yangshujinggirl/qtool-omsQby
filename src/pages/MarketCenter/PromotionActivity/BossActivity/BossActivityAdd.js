@@ -78,7 +78,7 @@ const ActivityAdd=({...props})=> {
         params.endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
       }
       params = { ...params, type:2, productList:goodsList }
-      if(activityId) { params= {...params, params }};
+      if(activityId) { params= {...params, activityId }};
       GetSaveApi(params)
       .then((res)=> {
         Qmessage.success('保存成功')
