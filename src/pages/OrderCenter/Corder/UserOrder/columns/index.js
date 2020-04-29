@@ -141,20 +141,32 @@ const handleLogColumns = [
 //详情--赠品信息
 const giftSkuColumns = [
   {
-    title: "操作",
-    dataIndex: "qerpAction"
+    title: "商品名称",
+    dataIndex: "spuName"
   },
   {
-    title: "操作时间",
-    dataIndex: "createTime"
+    title: "规格",
+    dataIndex: "displayName"
   },
   {
-    title: "操作人",
-    dataIndex: "user"
+    title: "商品编码",
+    dataIndex: "code"
   },
   {
-    title: "备注",
-    dataIndex: "remark"
-  }
+    title: "赠送数量",
+    dataIndex: "qty"
+  },
+  {
+    title: "零售价",
+    dataIndex: "price"
+  },
+  {
+    title: "实付总价",
+    dataIndex: "actualAmount",
+  },
+  {
+    title: "活动信息",
+    dataIndex: "activityInfo"
+  },
 ];
 export { Columns, GoodColumns, handleLogColumns, giftSkuColumns };

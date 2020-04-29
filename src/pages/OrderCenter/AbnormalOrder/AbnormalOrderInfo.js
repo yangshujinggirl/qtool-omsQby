@@ -30,7 +30,7 @@ const AuditReturnInfo = props => {
     values.orderNo = id;
     handelAbnormalApi(values).then(res => {
       if (res.httpCode == 200) {
-        props.history.push("/account/subscriber_refund_orders");
+        props.history.push("/account/unlawful_orders");
       }
     });
   };
@@ -38,7 +38,7 @@ const AuditReturnInfo = props => {
   return (
     <div>
       <Card title="订单信息" className="base_info">
-        <Form.Item label="订单号">{infos.id}</Form.Item>
+        <Form.Item label="订单号">{infos.orderNo}</Form.Item>
         <Form.Item label="关联门店">{infos.channelName}</Form.Item>
         <Form.Item label="下单人">{infos.consignee}</Form.Item>
         <Form.Item label="手机号">{infos.phone}</Form.Item>

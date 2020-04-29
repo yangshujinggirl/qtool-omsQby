@@ -31,7 +31,7 @@ class BrandInfo extends React.Component {
           <Form.Item label="品牌名称">
             {infos.brandNameCn} {infos.brandNameEn}
           </Form.Item>
-          <Form.Item label="品牌归属地">{infos.brandCountry}</Form.Item>
+          <Form.Item label="品牌归属地">{infos.brandCountryName}</Form.Item>
           <Form.Item label="状态">
             {infos.status == 1 ? "启用" : "不启用"}
           </Form.Item>

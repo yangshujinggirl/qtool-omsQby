@@ -3,6 +3,7 @@ import { Card, Tabs,Form } from "antd";
 import { Qtable } from "common";
 const { TabPane } = Tabs;
 import { GoodColumns, LogColumns } from "./columns";
+import './index'
 
 const StoreOutInfo = (props) => {
   const { orderPackageList } = props;
@@ -11,7 +12,7 @@ const StoreOutInfo = (props) => {
       <Card title="出库信息" className="base_info">
         <Tabs type="card">
           {orderPackageList.map((item, index) => (
-            <TabPane tab={item.name} key={`${index + 1}`}>
+            <TabPane tab={item.titleName} key={`${index + 1}`}>
               <div>
                 <div>包裹{index + 1}</div>
                 <div>

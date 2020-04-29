@@ -15,7 +15,7 @@ class NormalForm extends BaseFilter {
           className="serach-common-form"
           {...this.formItemLayout}
         >
-          <Row>
+          <Row gutter={24}>
             <Col {...this.colspan}>
               <Form.Item name="reOrderNo" label="退单号">
                 <Input placeholder="请输入退单号" autoComplete="off"  allowClear={true} />
@@ -36,10 +36,7 @@ class NormalForm extends BaseFilter {
                 <Select allowClear={true} placeholder="请选择订单类型">
                   <Option value={1}>仓库直邮</Option>
                   <Option value={2}>保税订单</Option>
-                  <Option value={3}>保税订单</Option>
                   <Option value={4}>混合单</Option>
-                  <Option value={5}>快递邮寄</Option>
-                  <Option value={6}>门店自提</Option>
                 </Select>
               </Form.Item>
             </Col>

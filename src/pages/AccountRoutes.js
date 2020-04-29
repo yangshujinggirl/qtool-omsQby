@@ -162,6 +162,7 @@ import AddBanswer from "./OperateCenter/Boperate/Banswer/AddBanswer";
 
 /************************************   用户中心   *******************************************/
 import PosUserOrder from "./UserCenter/PosUserManage";
+import PosUserOrderInfo from "./UserCenter/PosUserManage/infos";
 import CuserOrder from "./UserCenter/CuserManage";
 
 /************************************   财务中心   *******************************************/
@@ -367,6 +368,7 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/work_order" component={WorkOrder} />
         <Route exact path="/account/work_order/detail/:id?" component={WorkOrderDetail}/>
         <Route exact path="/account/pos_user" component={PosUserOrder} />
+        <Route exact path="/account/pos_user_infos" component={PosUserOrderInfo} />
         <Route exact path="/account/c_user" component={CuserOrder} />
 
         {/* ----------------------------------  会员中心   ---------------------------------------*/}

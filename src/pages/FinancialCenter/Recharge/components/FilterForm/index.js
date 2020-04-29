@@ -30,6 +30,8 @@ class NormalForm extends BaseFilter {
 								<Input placeholder="请输入充值号" autoComplete="off" />
 							</Form.Item>
 						</Col>
+						{/*占个位，把时间选择挤到下一行，否则无法清除时间选择，如果搜索条件有修改时间不在一行的最后一个则可以删除这个占位*/}
+						<Col {...this.colspans} />
 						<Col {...this.colspans}>
 							<Form.Item name="time" label="充值时间">
 								<RangePicker allowClear={true} showTime format="YYYY-MM-DD HH:mm:ss" />

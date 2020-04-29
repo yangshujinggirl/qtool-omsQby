@@ -28,7 +28,7 @@ class NormalForm extends BaseFilter {
   }
   formRef = React.createRef();
   componentDidMount = () => {
-    searchStoreApi().then((res) => {
+    searchStoreApi({warehouseType:3}).then((res) => {
       if (res.httpCode == 200) {
         this.setState({
           storeList: res.result,

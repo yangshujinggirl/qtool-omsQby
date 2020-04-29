@@ -32,7 +32,9 @@ const Columns = [{
     dataIndex: 'opation',
     render: (text, record) => {
         return (
-            <Link to={`/account/posDetail/${record.mbCardId}`}/>
+            <Link to={`/account/pos_user_infos?mbCardId=${record.mbCardId}&spShopId=${record.spShopId}`}>
+                查看
+            </Link>
         );
     }
 }
