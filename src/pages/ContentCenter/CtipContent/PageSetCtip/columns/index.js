@@ -23,7 +23,7 @@ const Columns = [
 		key: 'previewLink',
 		render: (text, record, index) => {
 			const currentUrl = window.location.host;
-			const url = 'http://' + currentUrl + '/config.html?configureCode=' + record.configureCode;
+			const url = 'http://' + currentUrl + '/static/config/config.html?configureCode=' + record.configureCode;
 			console.log(url)
 			return (
 				<a className="theme-color" target="_blank" href={url}>
