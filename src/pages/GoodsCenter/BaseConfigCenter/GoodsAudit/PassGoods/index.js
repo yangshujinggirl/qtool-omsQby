@@ -64,7 +64,7 @@ class TradeGoods extends Component {
         });
       }
     });
-    
+
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
@@ -78,7 +78,10 @@ class TradeGoods extends Component {
   //搜索查询
   onSubmit = (params) => {
     this.searchData(params);
-    this.setState({ inputValues: params });
+    const {inputValues} = this.state;
+    console.log("xxx",JSON.stringify(inputValues))
+    this.setState({ inputValues: {...inputValues,...params} });
+    console.log("xxx",JSON.stringify(this.state.inputValues))
   };
   rowSelectChange = (selectedRowKeys) => {
     this.setState({
