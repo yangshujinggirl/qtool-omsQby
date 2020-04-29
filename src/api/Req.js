@@ -2,16 +2,10 @@ import { message } from 'antd';
 import { Qmessage } from 'common';
 import axios from 'axios';
 const defaultHeader = {
-<<<<<<< HEAD
-  // 'Accept': 'application/json, text/plain, */*',
   'Content-Type': 'application/json',
   // "Host":"http://v1.oms.test.qtoolsbaby.net:81/",
   // "Origin": "http://v1.oms.test.qtoolsbaby.net:81/",
   // "Referer":"http://v1.oms.test.qtoolsbaby.net:81/",
-=======
-	// 'Accept': 'application/json, text/plain, */*',
-	'Content-Type': 'application/json',
->>>>>>> 11e2bbb96afcaa03797747ce1d846c7d758bab3f
 };
 function request({ baseURL = '', timeout = 600000, headers = defaultHeader, isInterceptors = true }) {
 	const axiosinstance = axios.create({
