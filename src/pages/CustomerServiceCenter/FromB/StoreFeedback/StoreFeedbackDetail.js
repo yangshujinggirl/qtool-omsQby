@@ -109,7 +109,9 @@ const StoreFeedbackDetail = (props) => {
             setPicList(feedbackPics);
             setLogList(TableDataListUtil.addKeyAndResultList(feedbackLogs));
             _this.hideLoading();
-        })
+        }).catch(e => {
+            _this.hideLoading()
+        });
     };
 
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">
@@ -136,7 +138,7 @@ const StoreFeedbackDetail = (props) => {
                         {
                             key: "反馈图片", value: picList.map((item, index) => {
                                 return (
-                                    <QenlargeImg url={sessionStorage.getItem("oms_fileDomain") + item.url} key={index} placement="inline"/>
+                                    <QenlargeImg url={item.url} key={index} placement="inline"/>
                                 )
                             })
                         }]

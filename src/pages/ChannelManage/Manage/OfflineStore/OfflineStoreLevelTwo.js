@@ -62,6 +62,8 @@ const OfflineStoreLevelTwo = (props) => {
         new GetOfflineStoreLevelTwoChannelInfo(id).then(rep => {
             setDataInfo(rep.result);
             _this.hideLoading()
+        }).catch(() => {
+            _this.hideLoading();
         });
     };
     return <QbaseDetail childComponent={<div className="oms-common-addEdit-pages bgood_add">

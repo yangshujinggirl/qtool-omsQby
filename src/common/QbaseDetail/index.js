@@ -13,13 +13,17 @@ import './index.less'
  * 备注：
  */
 export default class QbaseDetail extends React.Component {
+    /**
+     * 最大加载中数量
+     * @type {number}
+     */
+    maxLoadingCount = 1;
     state = {
         showLoadingStatus: false,
     };
 
     componentDidMount() {
-        //先显示加载中
-        this.showLoading();
+        this.showLoading()
         //判断是否要返回当前实例
         if (this.props.baseDetailComponentCallback != null) {
             this.props.baseDetailComponentCallback(this)
@@ -28,8 +32,14 @@ export default class QbaseDetail extends React.Component {
 
     /**
      * 显示加载中
+     * @param maxLoadingCount 最大加载框数量，当多接口同时请求时传递，当搜索时可不传，默认没有加载中
+     * @param isAddOneLoading 是否添加一个加载中，默认调用一次增加一个加载中
      */
-    showLoading() {
+    showLoading(maxLoadingCount = 0, isAddOneLoading = true) {
+        this.maxLoadingCount = maxLoadingCount
+        if (isAddOneLoading) {
+            this.maxLoadingCount += 1;
+        }
         this.setState({
             showLoadingStatus: true
         })
@@ -39,9 +49,13 @@ export default class QbaseDetail extends React.Component {
      * 隐藏加载中
      */
     hideLoading() {
-        this.setState({
-            showLoadingStatus: false
-        })
+        //调用一次隐藏一个加载中
+        this.maxLoadingCount -= 1;
+        if (this.maxLoadingCount <= 0) {
+            this.setState({
+                showLoadingStatus: false
+            })
+        }
     }
 
 
