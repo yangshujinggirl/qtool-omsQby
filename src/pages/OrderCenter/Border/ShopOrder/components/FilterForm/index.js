@@ -81,14 +81,14 @@ export default class SearchForm extends BaseFilter {
                                 selectTimeChange={this.props.selectTimeChange}
                                 defaultValue={[moment(this.searchCriteriaDefaultStartTime), moment(this.searchCriteriaDefaultEndTime)]}
                                 startTimeName="dateStart" endTimeName="dateEnd" label="下单时间"
-                                itemLayout={this.formItemLayout}/>
+                                itemLayout={this.formItemLayout2}/>
                         </Col>
                         <Col {...this.colspans}>
                             <FilterSearchRangeTime
                                 allowClear={true}
                                 selectTimeChange={this.props.selectTimeChange}
                                 startTimeName="deliveryTimeST" endTimeName="deliveryTimeET" label="发货时间"
-                                itemLayout={this.formItemLayout}/>
+                                itemLayout={this.formItemLayout2}/>
                         </Col>
 
                     </Row>
