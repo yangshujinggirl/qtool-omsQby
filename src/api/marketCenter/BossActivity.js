@@ -13,7 +13,7 @@ export function GetLoseApi(values){
     return erpAjax.put(`/spActivity/status`,{...values})
 }
 export function GetSaveApi(values){
-    return erpAjax.post(`/spActivity`,{...values})
+    return erpAjax.put(`/spActivity`,{...values})
 }
 export function GetSpuCodeApi(skuCode){
     return erpAjax.get(`/product/sku/${skuCode}`)

@@ -1,4 +1,4 @@
-import { Form, Checkbox, Modal, Col, Input, Radio, message, Button } from "antd";
+import { Form, Select, Checkbox, Modal, Col, Input, Radio, message, Button } from "antd";
 import { useState, useEffect } from 'react';
 import { QreturnBtn, QupLoadImgLimt, Qbtn, Qmessage } from 'common';
 import { GetModalInfoApi } from 'api/contentCenter/BannerSetCtip';
@@ -81,6 +81,33 @@ const ModuleSet=({...props})=> {
             <Radio value={1}>显示</Radio>
           </Radio.Group>
         </FormItem>
+        <Form.Item
+          noStyle
+          shouldUpdate={(prevValues, currentValues) => prevValues.isDisplayMore !== currentValues.isDisplayMore}>
+          {({ getFieldValue }) => {
+            return getFieldValue('isDisplayMore')&&getFieldValue('isDisplayMore')=="1"?
+            <Form.Item label="其他" className="common-required-formItem">
+              <Form.Item name="moreLinkType" rules={[{ required: true, message: "请选择配置页面" }]}>
+                  <Select placeholder="请选择配置页面">
+                    <Option value={1}>去配置页面</Option>
+                    <Option value={2}>去H5页面</Option>
+                    <Option value={10}>去促销活动页</Option>
+                  </Select>
+              </Form.Item>
+              <Form.Item
+                noStyle
+                shouldUpdate={(prevValues, currentValues) => prevValues.moreLinkType !== currentValues.moreLinkType}>
+                {({ getFieldValue }) => {
+                  return getFieldValue('moreLinkType')&&
+                  <FormItem name="moreLinkInfo" rules={[{ required: true, message: "请填写" }]}>
+                    <Input placeholder="请填写" style={{ width: "200px" }} autoComplete="off" />
+                  </FormItem>
+                }}
+              </Form.Item>
+            </Form.Item>
+            :null
+          }}
+        </Form.Item>
         <FormItem label="是否隐藏模块分割线" name="isDisplaySplitLine" rules={[{ required: true, message: '请选择' } ]}>
           <Radio.Group>
             <Radio value={1}>不隐藏</Radio>

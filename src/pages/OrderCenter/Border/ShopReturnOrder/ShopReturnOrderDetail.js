@@ -21,30 +21,35 @@ const ShopReturnOrderDetail = (props) => {
       })
     }
     useEffect(() => { getInfo() }, []);
+    let baseData = [
+      {key:"退货单号", value:dataInfo.reOrderNo},
+      {key:"关联门店订单", value:dataInfo.channelOrderNo},
+      {key:"退货门店", value:dataInfo.channelName},
+      {key:"退货原因", value:dataInfo.reason},
+      {key:"订单状态", value:dataInfo.statusStr},
+      {key:"退单类型", value:dataInfo.inventedStr},
+      {key:"申请数量", value:dataInfo.reNum},
+      {key:"到货数量", value:dataInfo.itemCount},
+      {key:"到货商品金额", value:dataInfo.reArriveAmount},
+      {key:"实退金额", value:dataInfo.refundMoney},
+      {key:"订单创建人", value:dataInfo.createBy},
+      {key:"创建时间", value:moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")},
+      {key:"订单备注", value:dataInfo.remarkes},
+    ];
+    if(dataInfo.inventedStr == "退货退款") {
+      let sra = [
+        {key:"收货仓库", value:dataInfo.warehouseName},
+        {key:"发货快递", value:dataInfo.courierCompany},
+        {key:"快递单号", value:dataInfo.expressNo},
+        {key:"快递费用", value:dataInfo.rePostage},
+      ]
+      baseData = [...baseData,...sra]
+    }
+
     return (
         <div className="oms-common-addEdit-pages bgood_add">
             <Card title="门店退单信息">
-                <QbaseInfo dataInfo={
-                    [
-                      {key:"退货单号", value:dataInfo.reOrderNo},
-                      {key:"关联门店订单", value:dataInfo.channelOrderNo},
-                      {key:"退货门店", value:dataInfo.channelName},
-                      {key:"退货原因", value:dataInfo.reason},
-                      {key:"订单状态", value:dataInfo.statusStr},
-                      {key:"退单类型", value:dataInfo.inventedStr},
-                      {key:"收货仓库", value:dataInfo.warehouseName},
-                      {key:"发货快递", value:dataInfo.courierCompany},
-                      {key:"快递单号", value:dataInfo.expressNo},
-                      {key:"申请数量", value:dataInfo.reNum},
-                      {key:"到货数量", value:dataInfo.itemCount},
-                      {key:"到货商品金额", value:dataInfo.reArriveAmount},
-                      {key:"快递费用", value:dataInfo.rePostage},
-                      {key:"实退金额", value:dataInfo.refundMoney},
-                      {key:"订单创建人", value:dataInfo.createBy},
-                      {key:"创建时间", value:moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")},
-                      {key:"订单备注", value:dataInfo.remarkes},
-                    ]
-                }/>
+                <QbaseInfo dataInfo={baseData}/>
             </Card>
             <Card title="退货商品">
                 <Qtable columns={GoodsColumns} dataSource={goodsList}/>

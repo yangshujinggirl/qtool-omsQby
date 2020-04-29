@@ -11,6 +11,7 @@ import EditModal from "./components/SetGoods/EditModal";
 import {InitColumns} from './columns';
 
 let fileMap={
+  "10":"singleDown",
   "11":"singleZeng",
   "20":"cYuanZeng",
   "21":"cJianZeng",

@@ -24,6 +24,15 @@ export function GetCategoryApi(values){
     })
 }
 /**
+ * 后台一级类目列表
+ * @param {*} values
+ */
+export function GetCategoryCodeApi(values){
+    return omsAjax.get('/category/searchCategoryByCode',{
+       params:{...values}
+    })
+}
+/**
  * 规格
  * @param {*} values
  */

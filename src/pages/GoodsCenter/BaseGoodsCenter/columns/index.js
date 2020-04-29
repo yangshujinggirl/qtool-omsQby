@@ -19,7 +19,7 @@ let commonColumns = {
     }
     return <span>
           {
-            (record.skuCod||list.length==1)?"-":
+            (record.skuCode||list.length==1)?"-":
             (isSingle||list.length==1 ?'-'
               :
               <span className="pointerSty" onClick={()=>record.onOperateClick('delete')}>删除</span>

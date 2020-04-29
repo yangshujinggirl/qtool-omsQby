@@ -11,6 +11,7 @@ const MoreGoodsMod =({...props})=> {
     props.history.push(`/account/cMoreGoodSet/${homepageModuleId}`);
   }
   const fileDomain = Sessions.get('fileDomain');
+  console.log(isDisplayMore)
   return(
     <div>
       {!!isDisplaySplitLine&&<Line />}
