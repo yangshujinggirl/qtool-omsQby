@@ -41,6 +41,7 @@ class Bgoods extends React.Component {
 					everyPage,
 					total: total,
 					currentPage,
+					inputValues:params
 				});
 			}
 		});
@@ -51,17 +52,10 @@ class Bgoods extends React.Component {
 	};
 	//搜索查询
 	onSubmit = (values) => {
-		const { time, ..._values } = values;
-		if (time && time[0]) {
-			_values.createTimeST = moment(time[0]).format("YYYY-MM-DD");
-			_values.createTimeET = moment(time[0]).format("YYYY-MM-DD");
-		} else {
-			_values.createTimeST = "";
-			_values.createTimeET = "";
-		}
-		this.searchData(_values);
+		const params = {values,currentPage:1,everyPage:15}
+		this.searchData(params);
 		this.setState({
-			inputValues: values,
+			inputValues: params,
 		});
 	};
 	//批量操作
@@ -122,7 +116,7 @@ class Bgoods extends React.Component {
 			if (res.httpCode == 200) {
 				const text = attr == 1 ? '上架成功' : '下架成功';
 				message.success(text, 0.8);
-				this.searchData();
+				this.searchData({});
 			}
 		});
 	};
@@ -151,6 +145,7 @@ class Bgoods extends React.Component {
 			selectedRowKeys,
 		});
 	};
+	
 	render() {
 		const { goodLists, everyPage, total, currentPage, attr, visible, selectedRowKeys } = this.state;
 		const dataSource = this.formatList(goodLists);

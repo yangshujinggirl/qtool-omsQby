@@ -28,7 +28,15 @@ class PosUserManage extends Component {
   };
   //搜索列表
   searchData = values => {
-    const params = { ...this.state.inputValues, ...values };
+    const {time,..._values} = params;
+    if(time&&time[0]){
+      _values.dateStart = moment(time[0]).formate('YYYY-MM-DD HH:mm:ss')
+      _values.dateEnd = moment(time[1]).formate('YYYY-MM-DD HH:mm:ss')
+    }else{
+      _values.dateStart = ''
+      _values.dateEnd = ''
+    };
+    const params = { ...this.state.inputValues, ..._values };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;
@@ -52,16 +60,8 @@ class PosUserManage extends Component {
   };
   //搜索查询
   onSubmit = params => {
-    const {time,..._values} = params;
-    if(time&&time[0]){
-      _values.startTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
-      _values.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss')
-    }else{
-      _values.startTime = ''
-      _values.endTime = ''
-    };
-    this.searchData(_values);
-    this.setState({ inputValues: _values });
+    this.searchData(params);
+    this.setState({ inputValues: params });
   };
   render() {
     const {

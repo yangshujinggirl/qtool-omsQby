@@ -44,6 +44,11 @@ const Columns = [
 	{
 		title: '订单时间',
 		dataIndex: 'createTime',
+		render:(text,record,index)=>{
+			return (
+			<span>{text&&moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
+			)
+		}
 	},
 	{
 		title: '消费门店',
@@ -96,7 +101,7 @@ const PosUserInfo = (props) => {
 				<Form.Item label="会员手机">{infos.mobile}</Form.Item>
 				<Form.Item label="会员级别">{infos.levelStr}</Form.Item>
 				{infos.birthday &&
-					infos.birthday.length &&
+					infos.birthday.length>0 &&
 					infos.birthday.map((item, index) => (
 						<Form.Item label={'宝宝生日' + index}>
 							{item.date + '【' + item.typeStr + '】'}

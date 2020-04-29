@@ -81,6 +81,7 @@ class BrandAdd extends React.Component {
 			logo: logo || [],
 			introduceImg,
 			isSq: infos.isSq,
+			brandCountry:infos.brandCountry
 		});
 	};
 	/**

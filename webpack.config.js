@@ -139,23 +139,36 @@ module.exports = {
     proxy: {
       '/qtoolsOms': {
         target:'http://192.168.2.36:8061',
+<<<<<<< HEAD
         // target:'http://192.168.2.31:8061',//v1
+=======
+        // target:'http://192.168.2.31:8061',
+>>>>>>> 11e2bbb96afcaa03797747ce1d846c7d758bab3f
         pathRewrite: {"^/qtoolsOms" : ""},
         changeOrigin: true,
       },
       '/qtoolsErp': {
         target:'http://192.168.2.36:8078',
+<<<<<<< HEAD
         // target:'http://192.168.2.31:8078',////v1
+=======
+        // target:'http://192.168.2.31:8078/',
+>>>>>>> 11e2bbb96afcaa03797747ce1d846c7d758bab3f
         pathRewrite: {"^/qtoolsErp" : ""},
         changeOrigin: true,
       },
       '/qtoolsApp': {
         target:'http://192.168.2.36:8023',
+<<<<<<< HEAD
         // target:'http://192.168.2.31:8023',//v1
+=======
+        // target:'http://192.168.2.31:8023',
+>>>>>>> 11e2bbb96afcaa03797747ce1d846c7d758bab3f
         pathRewrite: {"^/qtoolsApp" : ""},
         changeOrigin: true,
       },
       '/qtools-report': {
+<<<<<<< HEAD
         // target:'http://192.168.2.155:8081',
         // changeOrigin: true,
       },
@@ -163,6 +176,11 @@ module.exports = {
      //   referer: 'http://v1.oms.test.qtoolsbaby.net:81/',//referer
      //   origin: 'http://v1.oms.test.qtoolsbaby.net:81/'
      // }
+=======
+        target:'http://192.168.2.155:8081',
+        changeOrigin: true,
+      }
+>>>>>>> 11e2bbb96afcaa03797747ce1d846c7d758bab3f
     }
   }
 };

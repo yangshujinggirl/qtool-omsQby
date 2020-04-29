@@ -39,7 +39,7 @@ class BrandInfo extends React.Component {
           <Form.Item label="授权书">
             {infos.introduceImgList &&
               infos.introduceImgList.map((item, index) => (
-                <QenlargeImg key={index} url={fileDomain + item}/>
+                <QenlargeImg key={index} url={item}/>
               ))}
           </Form.Item>
           <Form.Item label="授权有效期">
@@ -58,7 +58,7 @@ class BrandInfo extends React.Component {
           </Form.Item>
           <Form.Item label="品牌logo">
             {infos.logo && (
-              <QenlargeImg url={fileDomain + infos.logo}/>
+              <QenlargeImg url={infos.logo}/>
             )}
           </Form.Item>
           <Form.Item label="品牌简介">{infos.brandIntroduce}</Form.Item>
