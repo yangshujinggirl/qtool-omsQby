@@ -237,6 +237,7 @@ class AddShopManage extends Component {
             </Card>
             <Card title="合作经营">
               <Cooperate
+                id={id}
                 contractPic={contractPic}
                 upDateContractList={this.upDateContractList}
               />

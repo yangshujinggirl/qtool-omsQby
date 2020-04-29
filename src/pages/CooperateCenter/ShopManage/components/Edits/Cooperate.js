@@ -2,6 +2,7 @@ import { Input, Select, Radio, Form } from 'antd';
 import UploadContractImg from 'common/QupLoadImgLimt';
 
 const Cooperate = (props) => {
+	const {id} = props;
 	return (
 		<React.Fragment>
 			<Form.Item name="channelStatus" label="门店状态" rules={[{ required: true, message: '请选择门店状态' }]}>
@@ -11,8 +12,8 @@ const Cooperate = (props) => {
 					<Select.Option value={3}>关业中</Select.Option>
 				</Select>
 			</Form.Item>
-			<Form.Item name="channelType" label="门店类型" rules={[{ required: true, message: '请选择门店类型' }]}>
-				<Select allowClear={true} placeholder="请选择门店状态">
+			<Form.Item name="channelType"  label="门店类型" rules={[{ required: true, message: '请选择门店类型' }]}>
+				<Select disabled={id} allowClear={true} placeholder="请选择门店状态">
 					<Select.Option value={1}>直营店</Select.Option>
 					<Select.Option value={2}>联营店</Select.Option>
 					<Select.Option value={3}>加盟店</Select.Option>
