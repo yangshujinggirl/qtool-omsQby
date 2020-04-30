@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import NP from 'number-precision';
-import { Form, Input, Radio, Spin, Button, message } from 'antd';
+import { Form, Input, Radio, Spin, Button, message} from 'antd';
 import { getReturnInfoApi, addReturnOrderApi } from 'api/home/OrderCenter/Corder/UserOrder';
 import './index.less';
 import ReturnGoods from './components/Editable';
@@ -158,7 +158,9 @@ const AddReturnOrder = (props) => {
 		//重置页面数据
 		const { value } = e.target;
 		if (value.trim()) {
+			setLoading(true)
 			getReturnInfoApi({ channelOrderNo: value.trim() }).then((res) => {
+				setLoading(false)
 				if (res.httpCode == 200) {
 					const { deliveryList, ...infos } = res.result;
 					const { orderType, isDelivery } = infos;
@@ -194,6 +196,8 @@ const AddReturnOrder = (props) => {
 					});
 					setDeliveryList(deliveryList);
 				}
+			}).catch(err=>{
+				setLoading(false)
 			});
 		}
 	};
