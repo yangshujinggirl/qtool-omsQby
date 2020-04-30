@@ -86,11 +86,15 @@ const AddReturnOrder = (props) => {
 						});
 						goBack();
 					}
-					if (res.result.code == 'E_9020') {
+					if (res.result.code == 'E_9020') {//如果存在赠品没退的情况，弹出赠品列表
 						setGiftList(res.result.needReturnGifts);
 						setVisible(true);
 					} else {
-						message.error(res.result.windowMessage);
+						if (res.result.code == 200) {
+							message.success(res.result.windowMessage);
+						} else {
+							message.error(res.result.windowMessage);
+						}
 					}
 				}
 			})
@@ -197,11 +201,7 @@ const AddReturnOrder = (props) => {
 	return (
 		<Spin spinning={loading}>
 			<div className="oms-common-addEdit-pages add_toC_return">
-				<Form
-					className="common-addEdit-form"
-					form={form}
-					{...formItemLayout}
-				>
+				<Form className="common-addEdit-form" form={form} {...formItemLayout}>
 					<Form.Item label="用户订单" className="item_required">
 						<Form.Item
 							noStyle
