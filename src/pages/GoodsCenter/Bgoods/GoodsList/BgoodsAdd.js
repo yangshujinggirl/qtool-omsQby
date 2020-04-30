@@ -18,6 +18,7 @@ import {
 import "./index.less";
 import Editable from "./components/Editable";
 import { editColumns as Columns } from "./column";
+import {QbaseDetail} from "common/index";
 
 const formItemLayout = {
   labelCol: { span: 6 },
@@ -30,11 +31,14 @@ const BgoodsAdd = (props) => {
   const [infos, setInfos] = useState({});
   const [tipStatus, setTipStatus] = useState(0);
   const [goodList, setGoodList] = useState([]);
+  const [showLoading, setShowLoading] = useState(false);
+
   const batchTips = useRef();
   //请求详情
   useEffect(() => {
     const { id } = props.match.params;
     console.log(typeof id);
+    setShowLoading(true)
     GetGoodDetailApi({ id }).then((res) => {
       if (res.httpCode == "200") {
         const { result } = res;
@@ -45,7 +49,7 @@ const BgoodsAdd = (props) => {
           label: result.label,
         });
       }
-    });
+    }).finally(()=>setShowLoading(false))
   }, []);
   //得到数据后处理
   const formatValue = (result) => {
@@ -75,6 +79,7 @@ const BgoodsAdd = (props) => {
   //保存
   const onFinish = async () => {
     try {
+      setShowLoading(true)
       const values = await form.validateFields();
       const { label, ..._values } = values;
       _values.isNew = label.some((item) => item == "上新") ? 1 : 0;
@@ -88,13 +93,15 @@ const BgoodsAdd = (props) => {
       saveGoodApi(_values).then((res) => {
         message.success("保存成功", 0.8);
         props.history.push("/account/commodities_list");
-      });
+      }).finally(()=>setShowLoading(false))
     } catch (error) {
       console.log(error);
+      setShowLoading(false)
     }
   };
   //返回
   const goBack = () => {
+    setShowLoading(false)
     props.history.push("/account/commodities_list");
   };
   //批量操作显示
@@ -111,172 +118,170 @@ const BgoodsAdd = (props) => {
     setGoodList([...newData]);
     setTipStatus(0);
   };
-  return (
-    <div className="oms-common-addEdit-pages bgood_add">
-      <Form form={form} name="search_form" {...formItemLayout}>
-        <Card title="基础信息">
-          <Row>
-            <Col span={12}>
-              <Form.Item label="spu编码">{infos.spuCode}</Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="品牌">{infos.brandName}</Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Form.Item label="基础商品名称">{infos.productName}</Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="品牌归属地">{infos.brandAddress}</Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Form.Item label="后台类目">{infos.cateStr}</Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="产地">{infos.country}</Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Form.Item
+  return <QbaseDetail showLoading={showLoading} childComponent={<div className="oms-common-addEdit-pages bgood_add">
+    <Form form={form} name="search_form" {...formItemLayout}>
+      <Card title="基础信息">
+        <Row>
+          <Col span={12}>
+            <Form.Item label="spu编码">{infos.spuCode}</Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label="品牌">{infos.brandName}</Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <Form.Item label="基础商品名称">{infos.productName}</Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label="品牌归属地">{infos.brandAddress}</Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <Form.Item label="后台类目">{infos.cateStr}</Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label="产地">{infos.country}</Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <Form.Item
                 label="B端商品名称"
                 name="productBname"
                 rules={[{ required: true, message: "请输入B端商品名称" }]}
-              >
-                <Input
+            >
+              <Input
                   style={{ width: "250px" }}
                   placeholder="请输入内容，54字符以内"
                   autoComplete="off"
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-        <Card title="销售信息">
-          <Row>
-            <Col span={12}>
-              <Form.Item label="供货方式">
-                {infos.sendType==1?'非代发':'代发'}（下单后{infos.distributionDays}个工作日发货）
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Form.Item
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      </Card>
+      <Card title="销售信息">
+        <Row>
+          <Col span={12}>
+            <Form.Item label="供货方式">
+              {infos.sendType==1?'非代发':'代发'}（下单后{infos.distributionDays}个工作日发货）
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <Form.Item
                 label="是否预售"
                 name="isBeforeSales"
                 rules={[{ required: true, message: "请选择是否预售" }]}
-              >
-                <Radio.Group>
-                  <Radio value={0}>非预售</Radio>
-                  <Radio value={1}>预售</Radio>
-                </Radio.Group>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
+            >
+              <Radio.Group>
+                <Radio value={0}>非预售</Radio>
+                <Radio value={1}>预售</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
                 name="label"
                 label="商品标签"
                 rules={[{ required: true, message: "请输入商品标签" }]}
-              >
-                <Checkbox.Group>
-                  <Checkbox value="上新">上新</Checkbox>
-                  <Checkbox value="畅销">畅销</Checkbox>
-                </Checkbox.Group>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-        <Card title="SKU信息">
-          {goodList.length > 0 && (
+            >
+              <Checkbox.Group>
+                <Checkbox value="上新">上新</Checkbox>
+                <Checkbox value="畅销">畅销</Checkbox>
+              </Checkbox.Group>
+            </Form.Item>
+          </Col>
+        </Row>
+      </Card>
+      <Card title="SKU信息">
+        {goodList.length > 0 && (
             <Editable
-              changeDataSource={changeDataSource}
-              Columns={Columns}
-              dataSource={goodList}
+                changeDataSource={changeDataSource}
+                Columns={Columns}
+                dataSource={goodList}
             />
-          )}
-          <div className="batch_operate">
-            批量操作:
-            <div className="sub_content">
-              {tipStatus == 1 ? (
+        )}
+        <div className="batch_operate">
+          批量操作:
+          <div className="sub_content">
+            {tipStatus == 1 ? (
                 <span>
                   <Input
-                    ref={batchTips}
-                    placeholder="该内容会显示在掌柜，请谨慎填写"
-                    style={{ width: "250px", margin: "0 8px" }}
+                      ref={batchTips}
+                      placeholder="该内容会显示在掌柜，请谨慎填写"
+                      style={{ width: "250px", margin: "0 8px" }}
                   />
                   <CheckOutlined
-                    onClick={batchOperate}
-                    style={{ fontSize: "12px", color: "#35bab0" }}
+                      onClick={batchOperate}
+                      style={{ fontSize: "12px", color: "#35bab0" }}
                   />
                 </span>
-              ) : (
+            ) : (
                 <a onClick={changeStatus}>商品提示</a>
-              )}
-            </div>
+            )}
           </div>
-        </Card>
-        <Card title="图文信息">
-          <Row>
-            <Col span={18}>
-              <Form.Item
+        </div>
+      </Card>
+      <Card title="图文信息">
+        <Row>
+          <Col span={18}>
+            <Form.Item
                 label="商品主图"
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 18 }}
-              >
-                {infos.spuImg &&
-                  infos.spuImg.length > 0 &&
-                  JSON.parse(infos.spuImg).map((item, index) => (
-                    <img
+            >
+              {infos.spuImg &&
+              infos.spuImg.length > 0 &&
+              JSON.parse(infos.spuImg).map((item, index) => (
+                  <img
                       key={index}
                       className="main_img"
                       src={sessionStorage.getItem("oms_fileDomain") + item}
-                    />
-                  ))}
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={18}>
-              <Form.Item
+                  />
+              ))}
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={18}>
+            <Form.Item
                 label="图文描述"
                 className="container"
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 18 }}
-              >
-                {infos.productDetailImg &&
-                  infos.productDetailImg.length > 0 &&
-                  JSON.parse(infos.productDetailImg).map((item, index) =>
-                    item.type == 1 ? (
+            >
+              {infos.productDetailImg &&
+              infos.productDetailImg.length > 0 &&
+              JSON.parse(infos.productDetailImg).map((item, index) =>
+                  item.type == 1 ? (
                       <div key={index} className="b_list_img_content">
                         {item.content}
                       </div>
-                    ) : (
+                  ) : (
                       <img
-                        className="content_img"
-                        key={index}
-                        src={
-                          sessionStorage.getItem("oms_fileDomain") +
-                          item.content
-                        }
+                          className="content_img"
+                          key={index}
+                          src={
+                            sessionStorage.getItem("oms_fileDomain") +
+                            item.content
+                          }
                       />
-                    )
-                  )}
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-        <div className="handle-operate-save-action">
-          <Button onClick={goBack} size='large'>取消</Button>
-          <Button type="primary" size='large' onClick={onFinish}>
-            保存
-          </Button>
-        </div>
-      </Form>
-    </div>
-  );
+                  )
+              )}
+            </Form.Item>
+          </Col>
+        </Row>
+      </Card>
+      <div className="handle-operate-save-action">
+        <Button onClick={goBack} size='large'>取消</Button>
+        <Button type="primary" size='large' onClick={onFinish}>
+          保存
+        </Button>
+      </div>
+    </Form>
+  </div>}/>
 };
 export default BgoodsAdd;
