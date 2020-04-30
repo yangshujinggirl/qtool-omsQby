@@ -31,11 +31,14 @@ const AddReturnOrder = (props) => {
 	const [isAddExpress, setIsAddExpress] = useState(false);
 	useEffect(() => {
 		getTotalAmount(selectedRows);
+		if (props.selectedRows.length > 0) {
+			form.setFieldsValue({ returnWay: selectedRows[0].expressStatus == 0 ? 1 : 2 });
+		}
 	}, [props.selectedRows]);
-	//物流费用发生改变
-	const onRadioChange = (e) => {
-		setReturnWay(e.target.value);
-	};
+	// //物流费用发生改变
+	// const onRadioChange = (e) => {
+	// 	setReturnWay(e.target.value);
+	// };
 	//获取合计退款
 	const getTotalAmount = (list) => {
 		if (list.length > 0) {
@@ -190,12 +193,15 @@ const AddReturnOrder = (props) => {
 			});
 		}
 	};
-	console.log(allNotNeedReturnLength);
-	console.log(totalListLength);
+	console.log(selectedRows);
 	return (
 		<Spin spinning={loading}>
 			<div className="oms-common-addEdit-pages add_toC_return">
-				<Form initialValues={{ returnWay: 1 }} className="common-addEdit-form" form={form} {...formItemLayout}>
+				<Form
+					className="common-addEdit-form"
+					form={form}
+					{...formItemLayout}
+				>
 					<Form.Item label="用户订单" className="item_required">
 						<Form.Item
 							noStyle
@@ -237,68 +243,77 @@ const AddReturnOrder = (props) => {
 									deliveryList={deliveryList}
 								/>
 							</Form.Item>
-							{selectedRows.length == 0 ||
-							(selectedRows.length > 0 && selectedRows[0].expressStatus == 1) ? (
+							{selectedRows.length == 0 && (
 								<Form.Item label="退款方式">
 									<Form.Item
 										noStyle
 										name="returnWay"
 										rules={[{ required: true, message: '请选择退款方式' }]}
 									>
-										<Radio.Group onChange={onRadioChange} disabled={selectedRows.length == 0}>
-											<Radio value={1}>仅退款</Radio>
-											<Radio value={2}>退货退款</Radio>
+										<Radio.Group disabled>
+											<Radio>仅退款</Radio>
+											<Radio>退货退款</Radio>
 										</Radio.Group>
 									</Form.Item>
 									<Form.Item noStyle>
 										<span className="suffix_tips">勾选退款商品后选择退款方式</span>
 									</Form.Item>
 								</Form.Item>
-							) : (
-								<Form.Item label="退款方式" name="returnWay">
+							)}
+							{selectedRows.length > 0 && selectedRows[0].expressStatus == 0 && (
+								<Form.Item
+									label="退款方式"
+									name="returnWay"
+									rules={[{ required: true, message: '请选择退款方式' }]}
+								>
 									<Radio.Group value={1}>
-										<Radio value={1} disabled>
-											仅退款
-										</Radio>
+										<Radio value={1}>仅退款</Radio>
 									</Radio.Group>
 								</Form.Item>
 							)}
-							{returnWay == 2 && (
-								<Form.Item label="退货地址" className="item_required">
-									<Form.Item
-										name="returnName"
-										rules={[
-											{
-												required: true,
-												message: '请输入姓名',
-											},
-										]}
-									>
-										<Input placeholder="请输入姓名" autoComplete="off" allowClear={true} />
+							{selectedRows.length > 0 && selectedRows[0].expressStatus == 1 && (
+								<React.Fragment>
+									<Form.Item label="退款方式" name="returnWay">
+										<Radio.Group defaultValue={2}>
+											<Radio value={2}>退货退款</Radio>
+										</Radio.Group>
 									</Form.Item>
-									<Form.Item
-										name="returnMobile"
-										rules={[
-											{
-												required: true,
-												message: '请输入联系电话',
-											},
-										]}
-									>
-										<Input placeholder="请输入联系电话" autoComplete="off" allowClear={true} />
+									<Form.Item label="退货地址" className="item_required">
+										<Form.Item
+											name="returnName"
+											rules={[
+												{
+													required: true,
+													message: '请输入姓名',
+												},
+											]}
+										>
+											<Input placeholder="请输入姓名" autoComplete="off" />
+										</Form.Item>
+										<Form.Item
+											name="returnMobile"
+											rules={[
+												{
+													required: true,
+													message: '请输入联系电话',
+												},
+											]}
+										>
+											<Input placeholder="请输入联系电话" autoComplete="off" />
+										</Form.Item>
+										<Form.Item
+											name="returnAddress"
+											rules={[
+												{
+													required: true,
+													message: '请输入地址',
+												},
+											]}
+										>
+											<Input placeholder="请输入地址" autoComplete="off" />
+										</Form.Item>
 									</Form.Item>
-									<Form.Item
-										name="returnAddress"
-										rules={[
-											{
-												required: true,
-												message: '请输入地址',
-											},
-										]}
-									>
-										<Input placeholder="请输入地址" autoComplete="off" allowClear={true} />
-									</Form.Item>
-								</Form.Item>
+								</React.Fragment>
 							)}
 							<Form.Item label="运费">{infos.expressAmount}</Form.Item>
 							<Form.Item label="合计退款">
