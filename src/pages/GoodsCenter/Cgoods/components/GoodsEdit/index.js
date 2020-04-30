@@ -30,8 +30,8 @@ const formItemLayout = {
     };
 
 const MainComponent=({...props})=> {
-  let { goodsList,totalData, descList,labelList,
-          form,onSubmit } =props;
+  let { goodsList,totalData, descList,labelList,form,onSubmit } =props;
+
   return(
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages general-trade-edit-pages">
@@ -48,7 +48,7 @@ const MainComponent=({...props})=> {
               {totalData.brandName}
             </FormItem>
             <FormItem label='品牌归属地'>
-              {totalData.brandAddress}
+              {totalData.brandAddressName}
             </FormItem>
             <FormItem label='商品类型'>
               {totalData.productTypeStr}
@@ -96,11 +96,11 @@ const MainComponent=({...props})=> {
           </div>
           <div className="part-wrap">
             <p className="title-wrap"><span className="title-name">服务信息</span></p>
-            <Form.Item label="服务" name="serviceInfo" rules={[{ required: true, message: '请选择服务' }]}>
+            <Form.Item label="服务" name="serviceInfoVal" rules={[{ required: true, message: '请选择服务' }]}>
               <Checkbox.Group>
                 {
-                  serviceOption&&serviceOption.map((el)=> (
-                    <Checkbox value={el.key} key={el.key}>{el.value}</Checkbox>
+                  totalData.serviceInfoList&&totalData.serviceInfoList.map((el)=> (
+                    <Checkbox value={el.pdExplainId} key={el.pdExplainId}>{el.name}</Checkbox>
                   ))
                 }
               </Checkbox.Group>
@@ -127,7 +127,7 @@ function withSubscription(WrappedComponent,productNature) {
   // console.log('edit',productNature)
   return ({...props})=> {
     const [form] = Form.useForm();
-    let [totalData, setTotal] = useState({});
+    let [totalData, setTotal] = useState({serviceInfoList:[]});
     let [goodsList, setGoodsList] = useState([]);
     let [descList, setDescList] = useState([]);
     let [labelList, setLabelList] = useState([]);
@@ -140,9 +140,17 @@ function withSubscription(WrappedComponent,productNature) {
         let { descriptAttributeList, subList,...pdSpu} =res.result;
         let serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo;
         subList = subList?subList:[]
-        pdSpu.serviceInfo = serviceInfo==""?['1','2','3']:serviceInfo.split('-');
+        pdSpu.serviceInfo = serviceInfo==""?[]:serviceInfo.split('-');
         descriptAttributeList&&descriptAttributeList.map((el,idx) =>el.key=`${el.descriptAttributeId}${idx}`)
         subList.map((el)=>{el.key=el.pdSkuId;el.skuShelfLife = moment(el.skuShelfLife)});
+        pdSpu.serviceInfoList = pdSpu.serviceInfoList?pdSpu.serviceInfoList:[];
+        let serviceInfoVal =[];
+        pdSpu.serviceInfoList.map((el) => {
+          if(el.selected==1){
+            serviceInfoVal.push(el.pdExplainId)
+          }
+        });
+        pdSpu.serviceInfoVal = serviceInfoVal;
         setTotal(pdSpu)
         setGoodsList(subList)
         setDescList(descriptAttributeList)
@@ -162,9 +170,9 @@ function withSubscription(WrappedComponent,productNature) {
     const onSubmit=async ()=> {
       try {
         let  values = await form.validateFields();
-        values.serviceInfo = values.serviceInfo&&values.serviceInfo.join('-');
-        values.subList = values.subList&&values.subList.map((el,index)=> {
-          el.skuShelfLife = moment(el.skuShelfLife).format('YYYY-MM-DD');
+        let { serviceInfoVal,..._val } =values;
+        _val.subList = _val.subList&&_val.subList.map((el,index)=> {
+          el.skuShelfLife = el.skuShelfLife?moment(el.skuShelfLife).format('YYYY-MM-DD'):null;
           goodsList.map((item,idx) => {
             if(index == idx) {
               el.skuCode=item.skuCode;
@@ -172,7 +180,7 @@ function withSubscription(WrappedComponent,productNature) {
           })
           return el;
         })
-        values.descriptAttributeList = values.descriptAttributeList&&values.descriptAttributeList.map((el,index) => {
+        _val.descriptAttributeList = _val.descriptAttributeList&&_val.descriptAttributeList.map((el,index) => {
           descList.map((item,idx) => {
             if(index==idx) {
               el.attributeId = item.attributeId;
@@ -181,8 +189,8 @@ function withSubscription(WrappedComponent,productNature) {
           })
           return el;
         })
-        values = {...values,spuCode }
-        GetEditApi(values)
+        _val = {..._val, spuCode, serviceInfoList: serviceInfoVal }
+        GetEditApi(_val)
         .then((res)=> {
           Qmessage.success('保存成功')
           goReturn();

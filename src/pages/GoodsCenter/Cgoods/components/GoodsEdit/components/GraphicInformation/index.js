@@ -16,7 +16,7 @@ function GraphicInformation({...props}) {
             {
               mainPicUrlList.map((el,index) => (
                 <span className="main-image" key={index}>
-                  <QenlargeImg url={`${el}`}/>
+                  <QenlargeImg url={el}/>
                 </span>
               ))
             }
@@ -25,7 +25,12 @@ function GraphicInformation({...props}) {
             {
               imageListCList.map((el,index) => (
                 <span className="main-desc" key={index}>
-                  <img src={`${fileDomain}${el}`}></img>
+                  {
+                    el.type == 2?
+                    <img src={`${fileDomain}${el.content}`} />
+                    :
+                    <span>{el.content}</span>
+                  }
                 </span>
               ))
             }
