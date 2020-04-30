@@ -4,6 +4,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Qtable } from "common";
 import NP from "number-precision";
 import "./index.less";
+import accounting from 'accounting'
 import {
   getSupplierListApi,
   createPurchaseinOrderApi
@@ -32,9 +33,9 @@ const GetPurchaseInOrder = props => {
             ...item,
             orderNum: obj[item["skuCode"]]["orderNum"] + 1,
             num: obj[item["skuCode"]]["num"] + item.num,
-            totalPrice: obj[item["skuCode"]]["totalPrice"] + item.totalPrice
+            totalPrice: obj[item["skuCode"]]["totalPrice"] + item.totalPrice,
           }
-        : { ...item, orderNum: 1, num: item.num,totalPrice:item.totalPrice };
+        : { ...item, orderNum: 1, num: item.num,totalPrice:item.totalPrice,purchasePriceStr:accounting.formatMoney(item.purchasePrice, { symbol:'', precision:4 })};
     });
     for (let key in obj) {
       dataSource.push(obj[key]);
@@ -77,11 +78,14 @@ const GetPurchaseInOrder = props => {
     },
     {
       title: "采购单价",
-      dataIndex: "purchasePrice",
+      dataIndex: "purchasePriceStr",
       render: (text, record, index) => (
         <Form.Item
-          name={["dataSource", index, "purchasePrice"]}
-          rules={[{ required: true, message: "请输入采购单价" }]}
+          name={["dataSource", index, "purchasePriceStr"]}
+          rules={[
+            { required: true, message: "请输入采购单价" },
+            { pattern:/^\d+(\.\d{0,4})?$/,message:'仅限四位小数' },
+          ]}
         >
           <Input
             placeholder="采购单价"
@@ -165,8 +169,9 @@ const GetPurchaseInOrder = props => {
     const values = form.validateFields();
     let dfList = [];
     dataSource.map(item => {
-      const { id, purchasePrice, remarks } = item;
-      dfList.push({ id, purchasePrice, remarks });
+      const { id, purchasePriceStr, remarks } = item;
+
+      dfList.push({ id, purchasePrice:Number(purchasePriceStr), remarks });
     });
     setLoading(true);
     createPurchaseinOrderApi({ dfList, id }).then(res => {
