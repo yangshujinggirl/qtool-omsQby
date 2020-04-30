@@ -10,6 +10,7 @@ import {
   saveInfosApi,
   resetPwdApi,
 } from "api/home/CooperateCenter/ShopManage";
+import {QbaseDetail} from "common/index";
 const formLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 },
@@ -31,22 +32,15 @@ class AddShopManage extends Component {
   //获取详情
   getInfo = () => {
     const { id } = this.props.match.params;
-    this.setState({
-      loading: true,
-    });
+    this.setState({loading: true});
     getInfosApi({ id })
       .then((res) => {
-        this.setState({
-          loading: false,
-        });
-        if (res.httpCode == 200) {
+        if (res.httpCode === 200) {
           this.formatInfos(res);
         }
       })
-      .catch(() => {
-        this.setState({
-          loading: false,
-        });
+      .finally(() => {
+        this.setState({loading: false,});
       });
   };
   //格式化详情数据
@@ -116,15 +110,10 @@ class AddShopManage extends Component {
     });
     const values = await this.formRef.current.validateFields();
     const _values = this.formatValue(values);
-    this.setState({
-      loading: true,
-    });
+    this.setState({loading: true});
     saveInfosApi(_values)
       .then((res) => {
-        this.setState({
-          loading: false,
-        });
-        if (res.httpCode == 200) {
+        if (res.httpCode === 200) {
           if (!_values.id) {
             this.resetModal(res, _values.id);
           }else{
@@ -133,10 +122,8 @@ class AddShopManage extends Component {
           }
         }
       })
-      .catch(() => {
-        this.setState({
-          loading: false,
-        });
+      .finally(() => {
+        this.setState({loading: false,});
       });
   };
   //保存格式化
@@ -204,20 +191,22 @@ class AddShopManage extends Component {
   };
   //重置密码
   resetPwd = () => {
+    this.setState({loading:true})
     const { id } = this.props.match.params;
     const { channelCode } = this.state;
     resetPwdApi({ channelCode }).then((res) => {
-      if (res.httpCode == 200) {
+      if (res.httpCode === 200) {
         this.resetModal(res, id);
       }
-    });
+    }).finally(()=>{
+      this.setState({loading:false})
+    })
+
   };
   render() {
     const { loading, contractPic, channelPic } = this.state;
     const {id} = this.props.match.params;
-    return (
-      <Spin spinning={loading}>
-        <div className="oms-common-addEdit-pages">
+    return<QbaseDetail showLoading={loading} childComponent={<div className="oms-common-addEdit-pages">
           <Form
             className="common-addEdit-form"
             ref={this.formRef}
@@ -254,9 +243,7 @@ class AddShopManage extends Component {
               保存
             </Button>
           </div>
-        </div>
-      </Spin>
-    );
+        </div>}/>
   }
 }
 export default AddShopManage;

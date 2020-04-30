@@ -8,6 +8,7 @@ import {
   savePushApi,
   getInfosApi
 } from "api/home/OperateCenter/Boperate/Bpush";
+import {QbaseDetail} from "common/index";
 const options = [
   { label: "店主", value: "1" },
   { label: "店长", value: "2" },
@@ -28,11 +29,13 @@ const AddPush = props => {
   const [pushNow, setPushNow] = useState(1);
   const [alertType, setAlertType] = useState(true);
   const [status, setStatus] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
   const { id } = props.match.params;
   //修改时初始化数据
   useEffect(() => {
     const { id } = props.match.params;
     if (id) {
+      setShowLoading(true)
       getInfosApi(id).then(res => {
         if (res.httpCode == 200) {
           const {
@@ -68,7 +71,7 @@ const AddPush = props => {
             pushTime: pushNow == 0 ? moment(pushTime) : undefined
           });
         }
-      });
+      }).finally(()=>setShowLoading(false));
     }
   }, []);
   /**
@@ -89,17 +92,18 @@ const AddPush = props => {
       form.resetFields(["alertTypeContent"]);
       setAlertType(alertType);
     }
-   
+
   };
   //保存
   const handleSubmit = async e => {
     const values = await form.validateFields();
+    setShowLoading(true)
     const params = formatValue(values);
     savePushApi(params).then(res => {
       if (res.httpCode == 200) {
         goBack();
       }
-    });
+    }).finally(()=>setShowLoading(false))
   };
   //请求数据格式化
   const formatValue = values => {
@@ -135,41 +139,40 @@ const AddPush = props => {
     lineHeight: "30px",
     marginBottom: "20px"
   };
-  return (
-    <div className="oms-common-addEdit-pages">
-      <Form
+  return <QbaseDetail showLoading={showLoading} childComponent={<div className="oms-common-addEdit-pages">
+    <Form
         onValuesChange={onValuesChange}
         form={form}
         {...formItemLayout}
         className="common-addEdit-form"
-      >
-        <Form.Item
+    >
+      <Form.Item
           label="推送主题"
           name="title"
           rules={[{ required: true, message: "请输入推送主题" }]}
-        >
-          <Input
+      >
+        <Input
             placeholder="请输入10字以内推送主题"
             maxLength="10"
             autoComplete="off"
-          />
-        </Form.Item>
-        <Form.Item label="推送时间">
-          <Form.Item
+        />
+      </Form.Item>
+      <Form.Item label="推送时间">
+        <Form.Item
             name="pushNow"
             noStyle
             rules={[{ required: true, message: "请选择推送时间" }]}
-          >
-            <RadioGroup>
-              <Radio style={radioStyle} value={1}>
-                立即推送
-              </Radio>
-              <Radio style={radioStyle} value={0}>
-                定时推送
-              </Radio>
-            </RadioGroup>
-          </Form.Item>
-          <Form.Item
+        >
+          <RadioGroup>
+            <Radio style={radioStyle} value={1}>
+              立即推送
+            </Radio>
+            <Radio style={radioStyle} value={0}>
+              定时推送
+            </Radio>
+          </RadioGroup>
+        </Form.Item>
+        <Form.Item
             noStyle
             name="pushTime"
             rules={[
@@ -191,98 +194,97 @@ const AddPush = props => {
                 }
               }
             ]}
-          >
-            <DatePicker
+        >
+          <DatePicker
               disabled={pushNow !== 0}
               showTime
               format="YYYY-MM-DD HH:mm:ss"
-            />
-          </Form.Item>
+          />
         </Form.Item>
-        <Form.Item
+      </Form.Item>
+      <Form.Item
           label="推送内容"
           name="msgContent"
           rules={[{ required: true, message: "请选择推送内容" }]}
-        >
-          <TextArea
+      >
+        <TextArea
             className="ant-textarea"
             placeholder="请输入30字以下推送内容"
             maxLength="30"
             rows={6}
-          />
-        </Form.Item>
-        <Form.Item label="推送类型">
-          <Form.Item
+        />
+      </Form.Item>
+      <Form.Item label="推送类型">
+        <Form.Item
             noStyle
             name="alertType"
             rules={[{ required: true, message: "请选择推送类型" }]}
-          >
-            <RadioGroup>
-              <Radio style={radioStyle} value={10}>
-                banner id
-              </Radio>
-              <Radio style={radioStyle} value={20}>
-                商品编码
-              </Radio>
-              <Radio style={radioStyle} value={30}>
-                H5连接URL
-              </Radio>
-              <Radio style={radioStyle} value={40}>
-                文本信息
-              </Radio>
-            </RadioGroup>
-          </Form.Item>
-          <div style={{ display: "inline-block", verticalAlign: "top" }}>
-            <Form.Item
+        >
+          <RadioGroup>
+            <Radio style={radioStyle} value={10}>
+              banner id
+            </Radio>
+            <Radio style={radioStyle} value={20}>
+              商品编码
+            </Radio>
+            <Radio style={radioStyle} value={30}>
+              H5连接URL
+            </Radio>
+            <Radio style={radioStyle} value={40}>
+              文本信息
+            </Radio>
+          </RadioGroup>
+        </Form.Item>
+        <div style={{ display: "inline-block", verticalAlign: "top" }}>
+          <Form.Item
               name={["alertTypeContent", "bannerIdNum"]}
               rules={[{ required: alertType == 10, message: "请输入bannerid" }]}
-            >
-              <Input disabled={alertType !== 10} autoComplete="off" />
-            </Form.Item>
-           <Form.Item
+          >
+            <Input disabled={alertType !== 10} autoComplete="off" />
+          </Form.Item>
+          <Form.Item
               name={["alertTypeContent", "code"]}
               rules={[{ required: alertType == 20, message: "请输入商品编码" }]}
-            >
-              <Input disabled={alertType !== 20} autoComplete="off" />
-            </Form.Item>
-            <Form.Item
+          >
+            <Input disabled={alertType !== 20} autoComplete="off" />
+          </Form.Item>
+          <Form.Item
               name={["alertTypeContent", "H5Url"]}
               rules={[
                 { required: alertType == 30, message: "请输入H5连接URL" }
               ]}
-            >
-              <Input disabled={alertType !== 30} autoComplete="off" />
-            </Form.Item>
-            <Form.Item
+          >
+            <Input disabled={alertType !== 30} autoComplete="off" />
+          </Form.Item>
+          <Form.Item
               name={["alertTypeContent", "textInfo"]}
               rules={[{ required: alertType == 40, message: "请输入文本信息" }]}
-            >
-              <TextArea
+          >
+            <TextArea
                 className="ant-textarea"
                 disabled={alertType !== 40}
                 placeholder="请输入300字以下推送内容"
                 maxLength="300"
                 rows={6}
-              />
-            </Form.Item>
-          </div>
-        </Form.Item>
-        <Form.Item
+            />
+          </Form.Item>
+        </div>
+      </Form.Item>
+      <Form.Item
           label="推送人群"
           name="pushPerson"
           rules={[{ required: true, message: "请输入推送人群" }]}
-        >
-          <CheckboxGroup options={options} />
-        </Form.Item>
-        <div className="handle-operate-save-action">
-          <Button onClick={goBack} size='large'>返回</Button>
-          <Button type="primary" size='large' onClick={handleSubmit}>
-            保存
-          </Button>
-        </div>
-      </Form>
-    </div>
-  );
+      >
+        <CheckboxGroup options={options} />
+      </Form.Item>
+      <div className="handle-operate-save-action">
+        <Button onClick={goBack} size='large'>返回</Button>
+        <Button type="primary" size='large' onClick={handleSubmit}>
+          保存
+        </Button>
+      </div>
+    </Form>
+  </div>}/>
 };
 
 export default AddPush;

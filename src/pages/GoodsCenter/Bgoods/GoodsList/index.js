@@ -52,7 +52,7 @@ class Bgoods extends React.Component {
 	};
 	//搜索查询
 	onSubmit = (values) => {
-		const params = {values,currentPage:1,everyPage:15}
+		const params = {...values,currentPage:1,everyPage:15}
 		this.searchData(params);
 		this.setState({
 			inputValues: params,
@@ -145,7 +145,7 @@ class Bgoods extends React.Component {
 			selectedRowKeys,
 		});
 	};
-	
+
 	render() {
 		const { goodLists, everyPage, total, currentPage, attr, visible, selectedRowKeys } = this.state;
 		const dataSource = this.formatList(goodLists);

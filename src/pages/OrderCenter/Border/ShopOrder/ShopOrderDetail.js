@@ -7,12 +7,14 @@ import { OrderLogsColumns, GoodsColumns, ShippingInformationColumns } from "./co
 
 const ShopOrderDetail = (props) => {
   const [totalData, setDataInfo] = useState({});
+  const [loading,setLoading] = useState(false);
   const [orderLogs, setOrderLogs] = useState([]);
   const [outList, setOutList] = useState([]);
   const [goodsList, setGoodsList] = useState([]);
   const orderNo = props.match.params.id;
 
   const getInfo=()=> {
+    setLoading(true)
     GetOrderInfoApi(orderNo)
     .then((res)=> {
       let { spOrder, orderLogs, listDetails, wsOrderNos, expressInfos } =res.result;
@@ -28,6 +30,9 @@ const ShopOrderDetail = (props) => {
       setOrderLogs(orderLogs)
       setOutList(expressInfos)
       setGoodsList(listDetails)
+      setLoading(false)
+    },err=> {
+      setLoading(false)
     })
   }
   //返回
@@ -46,7 +51,7 @@ const ShopOrderDetail = (props) => {
             {key:'订单标签',value:`${totalData.sendType==2?"代发,":""}${totalData.preSellStatus==1?"预售":""}`},
             {key:'下单原因',value:totalData.createTypeStr},
             {key:'订单创建人',value:totalData.itemCount},
-            {key:'创建时间',value:totalData.createTime},
+            {key:'创建时间',value:moment(totalData.createTime).format('YYYY-MM-DD HH:mm')},
             {key:'订单备注',value:totalData.remark},
           ]
     if(goodsList.length>0) {

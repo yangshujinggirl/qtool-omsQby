@@ -35,7 +35,7 @@ class GoodsInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
-      totalData:{},
+      totalData:{serviceInfoList:[]},
       subList:[],
       descriptAttributeList:[]
     }
@@ -48,16 +48,10 @@ class GoodsInfo extends React.Component {
     GetDetailApi(params.id)
     .then((res) => {
       let { descriptAttributeList, subList,...pdSpu} =res.result;
-      let serviceInfo = pdSpu.serviceInfo&&pdSpu.serviceInfo;
-      pdSpu.serviceInfo = serviceInfo==""?[]:serviceInfo.split('-');
       descriptAttributeList=descriptAttributeList?descriptAttributeList:[];
       subList&&subList.map((el)=>el.key=el.pdSkuId);
       this.setState({ totalData:pdSpu, subList, descriptAttributeList })
     })
-  }
-  goReturn=()=> {
-    let link = this.props.productNature == 1?'general_trade_product':'cross_border_product';
-    this.props.history.push(`/account/${link}`)
   }
   render() {
     const { totalData, subList, descriptAttributeList } =this.state;
@@ -115,10 +109,8 @@ class GoodsInfo extends React.Component {
             <div className="part-wrap">
               <p className="title-wrap"><span className="title-name">服务信息</span></p>
               <Form.Item label="服务">
-                {totalData.serviceInfo&&totalData.serviceInfo.map((el)=>{
-                    return serviceOption.map((item,index)=> (
-                      <span key={item.key}>{el==item.key&&item.value},</span>
-                    ))
+                {totalData.serviceInfoList&&totalData.serviceInfoList.map((el)=>{
+                  return <span key={el.selected}>{el.selected==1?`${el.name},`:''}</span>
                 })}
               </Form.Item>
             </div>
