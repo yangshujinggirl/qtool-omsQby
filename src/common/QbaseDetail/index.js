@@ -11,6 +11,9 @@ import './index.less'
  * 修改人：
  * 修改时间：
  * 备注：
+ * 使用方式：
+ * 1、使用props的showLoading传参来决定是否显示加载中
+ * 2、在页面初始化完成后通过callback回调当前实例然后做显示dialog以及隐藏dialog函数调用
  */
 export default class QbaseDetail extends React.Component {
     /**
@@ -23,10 +26,28 @@ export default class QbaseDetail extends React.Component {
     };
 
     componentDidMount() {
-        this.showLoading()
         //判断是否要返回当前实例
         if (this.props.baseDetailComponentCallback != null) {
             this.props.baseDetailComponentCallback(this)
+        }
+        //初始化加载中配置
+        if (this.props.showLoading != null) {
+            if (this.props.showLoading !== this.state.showLoadingStatus) {
+                this.setState({
+                    showLoadingStatus: this.props.showLoading
+                })
+            }
+        } else {
+            this.showLoading()
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        //更新加载中配置判断
+        if (this.props.showLoading != null && this.props.showLoading !== this.state.showLoadingStatus) {
+            this.setState({
+                showLoadingStatus: this.props.showLoading
+            })
         }
     }
 

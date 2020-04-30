@@ -40,15 +40,14 @@ const Columns = [
 					<Link className="theme-color" to={`/account/timerInfo/${record.pdTaskTimeId}`}>
 						查看
 					</Link>
-					　
 					{record.status == 1 && (
 						<Link className="theme-color" to={`/account/addTimer/${record.pdTaskTimeId}`}>
-							编辑
+							&emsp;编辑
 						</Link>
 					)}
 					{record.status == 1 && (
 						<a className="theme-color" onClick={() => record.onOperateClick()}>
-							强制无效
+							&emsp;强制无效
 						</a>
 					)}
 				</div>

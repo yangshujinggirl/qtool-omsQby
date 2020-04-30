@@ -5,6 +5,7 @@ import { Form, Input, Button, message, Radio, Modal } from "antd";
 import moment from "moment";
 import ImportBtn from "common/QuploadFileList";
 import { DateTime } from "common/QdisabledDateTime";
+import {QbaseDetail} from "common/index";
 const formLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 }
@@ -15,12 +16,14 @@ const AddTimer = props => {
   const [form] = Form.useForm();
   const [goodList, setGoodList] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const { id } = props.match.params;
 
   //初始化数据
   useEffect(() => {
     if (id) {
+      setShowLoading(true)
       getTimeInfoApi({ pdTaskTimeId: id }).then(res => {
         if (res.httpCode == 200) {
           let { taskDetails, ...infos } = res.result;
@@ -31,7 +34,7 @@ const AddTimer = props => {
           setGoodList(taskDetails);
           form.setFieldsValue(infos);
         }
-      });
+      }).finally(()=>setShowLoading(false))
     }
   }, []);
 
@@ -40,6 +43,7 @@ const AddTimer = props => {
    * @param {*} e
    */
   const handleSubmit = async e => {
+    setShowLoading(true)
     const { salestatus, statusnew, statushot } = form.getFieldsValue(["salestatus", "statusnew", "statushot"]);
     if (!(String(salestatus) || String(statusnew) || String(tatushot))) {
       form.setFields([{ name: ["salestatus"], errors: ["请选择调整状态"] }]);
@@ -56,7 +60,7 @@ const AddTimer = props => {
             message.success("修改成功", 0.8);
             goback();
           }
-        });
+        }).finally(()=>setShowLoading(false));
         return;
       }
       AddTimeApi(_values).then(res => {
@@ -64,7 +68,7 @@ const AddTimer = props => {
           message.success("保存成功", 0.8);
           goback();
         }
-      });
+      }).finally(()=>setShowLoading(false));
     }
   };
 
@@ -90,11 +94,12 @@ const AddTimer = props => {
   const downLoadTemp = () => {
     window.open("/static/timing.xlsx");
   };
-  
+
   /**
    * 返回
    */
   const goback = () => {
+    setShowLoading(false)
     props.history.push("/account/b_timing");
   };
 
@@ -104,61 +109,60 @@ const AddTimer = props => {
   const onCancel = () => {
     setVisible(false);
   };
-  return (
-    <div className="oms-common-addEdit-pages">
-      <Form className="common-addEdit-form" form={form} {...formLayout}>
-        <Form.Item
+  return <QbaseDetail  showLoading={showLoading} childComponent={<div className="oms-common-addEdit-pages">
+    <Form className="common-addEdit-form" form={form} {...formLayout}>
+      <Form.Item
           label="定时名称"
           name="taskName"
           rules={[{ required: true, message: "请输入定时名称" }]}
-        >
-          <Input
+      >
+        <Input
             placeholder="请输入定时名称，最多60个字符"
             maxLength={60}
             autoComplete="off"
-          />
-        </Form.Item>
-        <Form.Item
+        />
+      </Form.Item>
+      <Form.Item
           name="taskTime"
           label="执行时间"
           rules={[{ required: true, message: "请选择定时时间" }]}
-        >
-          <DateTime />
+      >
+        <DateTime />
+      </Form.Item>
+      <Form.Item label="状态调整" className="item_required">
+        <Form.Item name="salestatus" noStyle>
+          <Radio.Group onChange={onChange}>
+            <Radio value={1}>上架</Radio>
+            <Radio value={0}>下架</Radio>
+          </Radio.Group>
         </Form.Item>
-        <Form.Item label="状态调整" className="item_required">
-          <Form.Item name="salestatus" noStyle>
-            <Radio.Group onChange={onChange}>
-              <Radio value={1}>上架</Radio>
-              <Radio value={0}>下架</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item name="statusnew" noStyle>
-            <Radio.Group onChange={onChange}>
-              <Radio value={1}>上新</Radio>
-              <Radio value={0}>下新</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item name="statushot" noStyle>
-            <Radio.Group onChange={onChange}>
-              <Radio value={1}>上畅销</Radio>
-              <Radio value={0}>下畅销</Radio>
-            </Radio.Group>
-          </Form.Item>
+        <Form.Item name="statusnew" noStyle>
+          <Radio.Group onChange={onChange}>
+            <Radio value={1}>上新</Radio>
+            <Radio value={0}>下新</Radio>
+          </Radio.Group>
         </Form.Item>
-        <Form.Item label="请选择要修改的sku">
-          <ImportBtn
+        <Form.Item name="statushot" noStyle>
+          <Radio.Group onChange={onChange}>
+            <Radio value={1}>上畅销</Radio>
+            <Radio value={0}>下畅销</Radio>
+          </Radio.Group>
+        </Form.Item>
+      </Form.Item>
+      <Form.Item label="请选择要修改的sku">
+        <ImportBtn
             changeDataSource={changeDataSource}
             downLoadTemp={downLoadTemp}
             Columns={Columns}
             dataSource={goodList}
             action="/qtoolsErp/inputcode/taskTime"
-          >
-            {visible && (
+        >
+          {visible && (
               <Modal
-                title="导入商品结果"
-                visible={visible}
-                footer={null}
-                onCancel={onCancel}
+                  title="导入商品结果"
+                  visible={visible}
+                  footer={null}
+                  onCancel={onCancel}
               >
                 <div>
                   <p style={{ color: "#35bab0" }}>
@@ -167,20 +171,19 @@ const AddTimer = props => {
                   {errMessage && <p>{errMessage}</p>}
                 </div>
               </Modal>
-            )}
-          </ImportBtn>
-        </Form.Item>
-        <Form.Item wrapperCol={{ push: 4, span: 20 }}>
-          <Button className="edit_btn" size="large" onClick={goback}>
-            取消
-          </Button>
-          <Button type="primary" size="large" onClick={handleSubmit}>
-            保存
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
-  );
+          )}
+        </ImportBtn>
+      </Form.Item>
+      <Form.Item wrapperCol={{ push: 4, span: 20 }}>
+        <Button className="edit_btn" size="large" onClick={goback}>
+          取消
+        </Button>
+        <Button type="primary" size="large" onClick={handleSubmit}>
+          保存
+        </Button>
+      </Form.Item>
+    </Form>
+  </div>}/>;
 };
 
 export default AddTimer;
