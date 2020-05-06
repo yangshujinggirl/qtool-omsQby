@@ -8,6 +8,7 @@ import Columns from './columns';
 import moment from 'moment';
 import { OmsExportApi } from 'api/Export';
 import SendModal from './components/SendModal';
+import './index.less'
 
 /**
  *
@@ -148,8 +149,10 @@ class ReplaceOrder extends Component {
 						failList: result.failList,
 						failModal: true,
 					});
+				}else{
+					message.success('批量发货成功',.8)
 				}
-			} else {
+			} else{
 				message.error(file.response.msg, 0.8);
 			}
 		}
@@ -188,7 +191,7 @@ class ReplaceOrder extends Component {
 		};
 		return (
 			<Spin spinning={loading}>
-				<div className="oms-common-index-pages-wrap">
+				<div className="oms-common-index-pages-wrap replaceOrder">
 					<FilterForm onSubmit={this.searchData} />
 					<div className="handle-operate-btn-action">
 						<Qbtn size="free" onClick={this.getPurchaseOrder}>
@@ -222,7 +225,7 @@ class ReplaceOrder extends Component {
 						/>
 					)}
 					{failModal && (
-						<Modal visible={failModal} onCancel={this.onCancel} footer={null}>
+						<Modal wrapClassName='replaceOrder_fileList_modal' visible={failModal} onCancel={this.onCancel} footer={null}>
 							{failList && failList.length > 0 && failList.map((item) => <p>{item}</p>)}
 						</Modal>
 					)}

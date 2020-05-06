@@ -16,7 +16,7 @@ const GetPurchaseInOrder = props => {
   const [supplierList, setSupplierList] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [totalNum, setTotalNum] = useState([]);//保存右边的共计数量
-  const [totalPrice, setTotalPrice] = useState([]);//保存右边的共计金额
+  const [allTotalPrice, setTotalPrice] = useState([]);//保存右边的共计金额
   const [id, setId] = useState("");
   const [loading, setLoading] = useState("");
   useEffect(() => {
@@ -24,9 +24,10 @@ const GetPurchaseInOrder = props => {
   }, []); 
   //获取采购列表
   const getDataSource = () => {
-    let [dataSource, obj, totalNum, totalPrice] = [[], {}, 0, 0];
+    let [dataSource, obj, totalNum, allTotalPrice] = [[], {}, 0, 0];
     const replaceList = JSON.parse(sessionStorage.getItem("replaceList"));
     console.log(replaceList)
+    console.log(obj)
     replaceList.map(item => {
       obj[item["skuCode"]] = obj[item["skuCode"]]
         ? {
@@ -34,20 +35,23 @@ const GetPurchaseInOrder = props => {
             orderNum: obj[item["skuCode"]]["orderNum"] + 1,
             num: obj[item["skuCode"]]["num"] + item.num,
             totalPrice: obj[item["skuCode"]]["totalPrice"] + item.totalPrice,
+            purchasePriceStr:obj[item["skuCode"]]["purchasePriceStr"]
           }
         : { ...item, orderNum: 1, num: item.num,totalPrice:item.totalPrice,purchasePriceStr:accounting.formatMoney(item.purchasePrice, { symbol:'', precision:4 })};
+        return item;
     });
+    console.log(obj)
     for (let key in obj) {
       dataSource.push(obj[key]);
     }
     console.log(dataSource)
     dataSource.map(item => {
       totalNum += item.num;
-      totalPrice += item.totalPrice;
+      allTotalPrice += item.num * Number(item.purchasePrice);
     });
     form.setFieldsValue({ dataSource });
     setTotalNum(totalNum);
-    setTotalPrice(totalPrice);
+    setTotalPrice(allTotalPrice);
     setDataSource(dataSource);
   };
 
@@ -143,11 +147,11 @@ const GetPurchaseInOrder = props => {
       const item = newData[index];
       newData.splice(index, 1, { ...item, [type]: value.trim() });
       if (type == "purchasePrice") {
-        let totalPrice = 0;
+        let allTotalPrice = 0;
         newData.map(item => {
-          totalPrice += item.num * Number(item.purchasePrice);
+          allTotalPrice += item.num * Number(item.purchasePrice);
         });
-        setTotalPrice(totalPrice);
+        setTotalPrice(allTotalPrice);
       }
       setDataSource(newData);
     }
@@ -222,7 +226,7 @@ const GetPurchaseInOrder = props => {
               <span>
                 共计：
                 <span className="brandColor">
-                  {Number(totalPrice).toFixed(2)}
+                  {Number(allTotalPrice).toFixed(2)}
                 </span>
                 元
               </span>
