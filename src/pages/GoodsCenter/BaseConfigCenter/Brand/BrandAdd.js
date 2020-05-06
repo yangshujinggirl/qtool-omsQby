@@ -4,6 +4,7 @@ const { RangePicker } = DatePicker;
 import { GetInfoApi, AddBrandApi, UpdataBrandApi, BrandAddressApi } from 'api/home/Brand';
 import UploadLogo from 'common/QupLoadImgLimt';
 import UploadIsSq from 'common/QupLoadImgLimt';
+import {QreturnBtn} from 'common'
 import { Qbtn } from 'common';
 import moment from 'moment';
 import './index.less';
@@ -320,6 +321,7 @@ class BrandAdd extends React.Component {
 						<Input.TextArea rows={7} cols={6} maxLength="400" placeholder="请输入品牌介绍，400字符以内" />
 					</Form.Item>
 					<div className="handle-operate-save-action">
+						<QreturnBtn backUrl='/account/brand' {...this.props}/>
 						<Qbtn onClick={this.handleSubmit}>保存</Qbtn>
 					</div>
 				</Form>

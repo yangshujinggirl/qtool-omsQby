@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Modal } from 'antd';
 import UploadList from 'common/QupLoadImgLimt';
+import { QreturnBtn } from 'common';
 import { saveApi, getInfoApi } from 'api/home/GoodsCenter/Cgoods/ActExchangeGoods';
 import './index.less';
 const formItemLayout = {
@@ -44,11 +45,11 @@ const AddExchangeGoods = (props) => {
 	const handleSubmit = async () => {
 		const values = await form.validateFields();
 		values.pdSpuActiveId = id;
-		values.picUrl = values.picUrl
+		values.picUrl = (values.picUrl&&values.picUrl.length)
 			? values.picUrl[0].response
 				? values.picUrl[0].response.result
 				: values.picUrl[0].img
-			: null;
+			: '';
 		saveApi(values).then((res) => {
 			if (res.httpCode == 200) {
 				goBack();
@@ -101,10 +102,8 @@ const AddExchangeGoods = (props) => {
 					<Input placeholder="请输入可兑换数量" autoComplete="off" disabled={Boolean(props.data)} />
 				</Form.Item>
 				<div className="handle-operate-save-action">
-					<Button onClick={goBack} size="large">
-						返回
-					</Button>
-					<Button type="primary" size="large" onClick={handleSubmit}>
+					<QreturnBtn {...props} />
+					<Button style={{width:'100px',padding:'0 30px'}} type="primary" size="large" onClick={handleSubmit}>
 						保存
 					</Button>
 				</div>
