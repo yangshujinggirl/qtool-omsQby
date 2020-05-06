@@ -140,7 +140,7 @@ module.exports = {
     proxy: {
       '/qtoolsOms': {
         target:'http://192.168.2.36:8061',
-        // target:'http://192.168.2.31:8061',//v1
+        // target:'http://192.168.2.31:8061',//v1 
         pathRewrite: {"^/qtoolsOms" : ""},
         changeOrigin: true,
       },

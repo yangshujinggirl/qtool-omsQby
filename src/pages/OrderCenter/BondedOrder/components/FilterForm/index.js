@@ -119,6 +119,7 @@ class NormalForm extends BaseFilter {
                   <Option value={210}>待发货</Option>
                   <Option value={230}>已发货</Option>
                   <Option value={911}>已取消</Option>
+                  <Option value={999}>已完成</Option>
                 </Select>
               </Form.Item>
             </Col>
