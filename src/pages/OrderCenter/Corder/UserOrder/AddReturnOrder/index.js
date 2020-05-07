@@ -47,7 +47,7 @@ const AddReturnOrder = (props) => {
 				totalReturnAmount += Number(item.returnPrice || 0);
 			});
 			if (isAddExpressFee()) {
-				totalReturnAmount = totalReturnAmount + infos.expressAmount;
+				totalReturnAmount = NP.plus(totalReturnAmount,infos.expressAmount);
 				setIsAddExpress(true);
 			}
 			form.setFieldsValue({ totalReturnAmount });

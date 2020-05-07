@@ -158,7 +158,7 @@ class ReplaceOrder extends Component {
 		}
   };
   //批量发货取消
-  onCancel=()=>{
+  onBatchCancel=()=>{
     this.setState({
       failModal:false
     })
@@ -225,7 +225,7 @@ class ReplaceOrder extends Component {
 						/>
 					)}
 					{failModal && (
-						<Modal wrapClassName='replaceOrder_fileList_modal' visible={failModal} onCancel={this.onCancel} footer={null}>
+						<Modal wrapClassName='replaceOrder_fileList_modal' visible={failModal} onCancel={this.onBatchCancel} footer={null}>
 							{failList && failList.length > 0 && failList.map((item) => <p>{item}</p>)}
 						</Modal>
 					)}
