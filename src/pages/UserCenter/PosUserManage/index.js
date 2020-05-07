@@ -30,11 +30,11 @@ class PosUserManage extends Component {
   searchData = values => {
     const {time,..._values} = values;
     if(time&&time[0]){
-      _values.dateStart = moment(time[0]).formate('YYYY-MM-DD HH:mm:ss')
-      _values.dateEnd = moment(time[1]).formate('YYYY-MM-DD HH:mm:ss')
+      _values.startTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
+      _values.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss')
     }else{
-      _values.dateStart = ''
-      _values.dateEnd = ''
+      _values.startTime = ''
+      _values.endTime = ''
     };
     const params = { ...this.state.inputValues, ..._values };
     getListApi(params).then(res => {
