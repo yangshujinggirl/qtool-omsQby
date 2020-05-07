@@ -116,7 +116,7 @@ class SearchForm extends BaseFilter {
 							</FormItem>
 						</Col>
 						<Col {...this.colspans}>
-							<FormItem name="time" label="创建时间" {...this.formItemLayout}>
+							<FormItem name="time" label="上架时间" {...this.formItemLayout}>
 								<RangePicker format={this.formatType} showTime />
 							</FormItem>
 						</Col>

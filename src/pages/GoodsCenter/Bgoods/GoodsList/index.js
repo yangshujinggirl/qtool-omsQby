@@ -51,11 +51,19 @@ class Bgoods extends React.Component {
 		this.searchData({ ...this.state.inputValues, currentPage, everyPage });
 	};
 	//搜索查询
-	onSubmit = (values) => {
-		const params = {...values,currentPage:1,everyPage:15}
-		this.searchData(params);
+	onSubmit = (params) => {
+		const { time, ..._values } = {...params,currentPage:1,everyPage:15};
+		if (time && time[0]) {
+			_values.lastUpperShelvesTimeStart = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
+			_values.lastUpperShelvesTimeEnd = moment(time[1]).format("YYYY-MM-DD HH:mm:ss");
+		} else {
+			_values.lastUpperShelvesTimeStart = "";
+			_values.lastUpperShelvesTimeEnd = "";
+		}
+
+		this.searchData(_values);
 		this.setState({
-			inputValues: params,
+			inputValues: _values,
 		});
 	};
 	//批量操作
