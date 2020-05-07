@@ -51,7 +51,8 @@ const Bpush = props => {
             pushTime,
             alertTypeContent,
             pushNow,
-            status
+            status,
+            pushPerson
           } = res.result;
           let content = {};
           switch (alertType) {
@@ -68,10 +69,12 @@ const Bpush = props => {
           setPushNow(pushNow);
           setAlertType(alertType);
           setStatus(status);
+          setPushPersonType(pushPerson?1:0)
           form.setFieldsValue({
             ...res.result,
             alertTypeContent: content,
-            pushTime: pushNow == 0 ? moment(pushTime) : undefined
+            pushTime: pushNow == 0 ? moment(pushTime) : undefined,
+            pushPersonType:pushPerson?1:0
           });
         }
       });

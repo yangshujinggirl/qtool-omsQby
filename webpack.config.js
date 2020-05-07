@@ -157,8 +157,8 @@ module.exports = {
         changeOrigin: true,
       },
       '/qtools-report': {
-        // target:'http://192.168.2.155:8081',
-        // changeOrigin: true,
+        target:'http://192.168.2.36:8061',
+        changeOrigin: true,
       },
      //  headers: {//header设置
      //   referer: 'http://v1.oms.test.qtoolsbaby.net:81/',//referer

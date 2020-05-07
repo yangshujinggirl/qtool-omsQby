@@ -105,7 +105,9 @@ const getColumns = props => {
       const list = arr[record.parentId]["details"];
       const index = list.findIndex(item => item.key == record.key);
       const item = list[index];
-      const returnPrice = NP.times(record.actualPayPrice, Number(value));
+      // const returnPrice = NP.times(record.actualPayPrice, Number(value));//实付单价*数量
+      const returnPrice = NP.times(NP.divide(record.actualPayAmount, record.buyNum),Number(value));//实付单价*数量
+      console.log(returnPrice)
       list.splice(index, 1, { ...item, num: Number(value), returnPrice });
       props.changeDataSource(arr);
       if(props.selectedRows.length>0){//当已勾选，又更改数量的时候，同时更新合计退款
