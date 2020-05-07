@@ -82,7 +82,7 @@ class SearchForm extends BaseFilter {
                   allowClear={true}
                 >
                   {catagoryList.map((item) => (
-                    <Option value={item.id} key={item.id}>
+                    <Option value={item.categoryCode} key={item.id}>
                       {item.categoryName}
                     </Option>
                   ))}
@@ -101,7 +101,7 @@ class SearchForm extends BaseFilter {
                   allowClear={true}
                 >
                   {catagoryList2.map((item) => (
-                    <Option value={item.id} key={item.id}>
+                    <Option value={item.categoryCode} key={item.id}>
                       {item.categoryName}
                     </Option>
                   ))}
