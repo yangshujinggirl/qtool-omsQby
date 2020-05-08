@@ -34,15 +34,14 @@ const BondedOrderInfo = (props) => {
 				setOrderInfo(orderInfo);
 				setReceiveInfo(receiveInfo);
 				setSkuList(Utils.addKey(skuList));
-				setPackageList(packageList);
-				setExpressInfo(expressInfo);
+				setPackageList(Utils.addKey(packageList));
+				setExpressInfo(Utils.addKey(expressInfo));
 				setOrderOperateLogList(Utils.addKey(orderOperateLogList));
 				setOtherOperateLogList(otherOperateLogList);
 			}
 		});
 	}, []);
 	console.log(orderOperateLogList);
-
 	const showModal = () => {
 		setVisible(true);
 	};

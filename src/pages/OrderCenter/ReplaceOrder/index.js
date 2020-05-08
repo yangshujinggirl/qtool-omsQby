@@ -131,7 +131,7 @@ class ReplaceOrder extends Component {
 	batchFahuo = () => {
 		window.open('/static/fahuo.xls');
 	};
-	//
+	//生成代发采购单
 	getPurchaseOrder = () => {
 		if (this.state.selectedRowKeys.length == 0) {
 			return message.warning('请至少选择一个订单；', 0.8);
@@ -150,7 +150,8 @@ class ReplaceOrder extends Component {
 						failModal: true,
 					});
 				}else{
-					message.success('批量发货成功',.8)
+					message.success('批量发货成功',.8);
+					this.searchData(this.state.inputValues);
 				}
 			} else{
 				message.error(file.response.msg, 0.8);
@@ -198,7 +199,7 @@ class ReplaceOrder extends Component {
 							生成代发采购单
 						</Qbtn>
 						<Upload {...uploadProps}>
-							<Qbtn onClick={this.cancelPush}>批量发货</Qbtn>
+							<Qbtn>批量发货</Qbtn>
 						</Upload>
 						<Qbtn size="free" onClick={this.batchFahuo}>
 							批量发货模板
