@@ -24,7 +24,7 @@ class PosUserManage extends Component {
 
   //初始化数据
   componentDidMount = () => {
-    this.searchData({});
+    this.searchData({time:[moment().subtract(1, 'days'), moment()]});
   };
   //搜索列表
   searchData = values => {
@@ -36,7 +36,7 @@ class PosUserManage extends Component {
       _values.startTime = ''
       _values.endTime = ''
     };
-    const params = { ...this.state.inputValues, ..._values };
+    const params = { ...this.state.inputValues, ..._values,time:null };
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;
