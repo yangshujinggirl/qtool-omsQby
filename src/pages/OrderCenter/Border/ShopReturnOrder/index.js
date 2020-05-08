@@ -56,6 +56,6 @@ const ShopReturnOrder = QbaseList((_this) => {
 },
 (params)=> {
   return GetListApi({sourceType:2,...params})
-},false);
+});
 
 export default ShopReturnOrder

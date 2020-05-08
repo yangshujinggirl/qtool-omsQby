@@ -57,5 +57,5 @@ const Total = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     )
-}, getTotalListApi, false);
+}, getTotalListApi);
 export default Total;

@@ -34,6 +34,8 @@ const PurchasingTheArrivalOfTheGoods = QbaseList(
 		);
 	},
 	GetPurchasingTheArrivalOfTheGoodsDataList,
-	true
+	{
+		isComponentDidMountRequestData: true,
+	}
 );
 export default PurchasingTheArrivalOfTheGoods;

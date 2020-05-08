@@ -22,5 +22,7 @@ const LogModal = QbaseList((logThis) => {
                 onChange={logThis.changePage}/>
         </div>
     )
-}, (params, _this) => new GetMarketPromotionLogList(_this.props.requestId), true);
+}, (params, _this) => new GetMarketPromotionLogList(_this.props.requestId), {
+    isComponentDidMountRequestData:true
+});
 export default LogModal;

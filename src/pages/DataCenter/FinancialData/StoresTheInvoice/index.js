@@ -32,51 +32,54 @@ const StoresTheInvoice = QbaseList((_this) => {
                     onChange={_this.changePage}/>
             </div>
         );
-    }, GetStoresTheInvoiceList, false, null, {tableShowColumns: []}
-    , null, null, (_this, rep) => {
-    debugger
-        //默认表格字段
-        const defaultTableColumns = [
-            {title: '门店名称', dataIndex: 'name', width: 300},
-            {title: '销售总金额', dataIndex: 'amount', width: 120},
-            {title: '销售数量', dataIndex: 'salesSumQty', width: 120},
-            {title: '退货总金额', dataIndex: 'returnAmount', width: 120},
-            {title: '退货数量', dataIndex: 'refundSumQty', width: 120}]
-        //插入特殊字段
-        rep.result.result.categoryNames.forEach((item, index) => {
+    }, GetStoresTheInvoiceList,
+    {
+        childStateParams: {tableShowColumns: []},
+        optionsResponseDataFun:(_this, rep) => {
+            debugger
+            //默认表格字段
+            const defaultTableColumns = [
+                {title: '门店名称', dataIndex: 'name', width: 300},
+                {title: '销售总金额', dataIndex: 'amount', width: 120},
+                {title: '销售数量', dataIndex: 'salesSumQty', width: 120},
+                {title: '退货总金额', dataIndex: 'returnAmount', width: 120},
+                {title: '退货数量', dataIndex: 'refundSumQty', width: 120}]
+            //插入特殊字段
+            rep.result.result.categoryNames.forEach((item, index) => {
+                defaultTableColumns.push({
+                    title: item,
+                    dataIndex: ['changeName' + index],
+                    width: 120
+                })
+            });
             defaultTableColumns.push({
-                title: item,
-                dataIndex: ['changeName' + index],
-                width: 120
-            })
-        });
-        defaultTableColumns.push({
-            title: "详细信息",
-            dataIndex: "detailInfo",
-            width: 120,
-            render: (text, record, index) => {
-                return <a className={record.url ? 'theme-color pointer' : 'placehold-color'}
-                          onClick={() => {
-                              if (record.url) {
-                                  window.open(record.url)
-                              }
-                          }}>下载</a>
-            },
-        });
-        let dataList = rep.result.result.shopdatas;
-        if (dataList.length) {
-            for (let i = 0; i < dataList.length; i++) {
-                dataList[i].key = i + 1;
-                if (dataList[i].categoryAmounts != null) {
-                    for (let j = 0; j < dataList[i].categoryAmounts.length; j++) {
-                        dataList[i]['changeName' + j] = dataList[i].categoryAmounts[j];
+                title: "详细信息",
+                dataIndex: "detailInfo",
+                width: 120,
+                render: (text, record, index) => {
+                    return <a className={record.url ? 'theme-color pointer' : 'placehold-color'}
+                              onClick={() => {
+                                  if (record.url) {
+                                      window.open(record.url)
+                                  }
+                              }}>下载</a>
+                },
+            });
+            let dataList = rep.result.result.shopdatas;
+            if (dataList.length) {
+                for (let i = 0; i < dataList.length; i++) {
+                    dataList[i].key = i + 1;
+                    if (dataList[i].categoryAmounts != null) {
+                        for (let j = 0; j < dataList[i].categoryAmounts.length; j++) {
+                            dataList[i]['changeName' + j] = dataList[i].categoryAmounts[j];
+                        }
                     }
                 }
             }
+            _this.setState({
+                tableShowColumns: defaultTableColumns,
+                dataList: dataList
+            })
         }
-        _this.setState({
-            tableShowColumns: defaultTableColumns,
-            dataList: dataList
-        })
     });
 export default StoresTheInvoice;

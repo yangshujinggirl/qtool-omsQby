@@ -30,5 +30,7 @@ const OfflineStore = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     )
-}, GetOfflineStoreChannelList, true);
+}, GetOfflineStoreChannelList, {
+    isComponentDidMountRequestData: true,
+});
 export default OfflineStore;

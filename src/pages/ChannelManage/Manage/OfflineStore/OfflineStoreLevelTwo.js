@@ -39,7 +39,9 @@ const TableListShow = QbaseList((_this) => {
     )
 }, (params, _this) => {
     return new GetOfflineStoreLevelTwoChannelList(_this.props.requestId)
-}, true);
+}, {
+    isComponentDidMountRequestData: true,
+});
 
 /**
  * 功能作用：线下门店二级渠道管理

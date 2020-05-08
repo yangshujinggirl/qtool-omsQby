@@ -95,10 +95,8 @@ const PurchaseOutOrderList = QbaseList(
     );
   },
   GetPurchaseOutOrderListApi,
-  false,
-  "stockingReCode",
-  null,
-  null,
-  null
+    {
+        dataListOptionsKey: "stockingReCode",
+    }
 );
 export default PurchaseOutOrderList;

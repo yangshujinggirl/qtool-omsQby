@@ -22,5 +22,7 @@ const TaskGrowthValue = QbaseList((_this) => {
             select={true}
             dataSource={dataList}/>
     </div>
-}, GetDataListApi, true);
+}, GetDataListApi, {
+    isComponentDidMountRequestData: true,
+});
 export default TaskGrowthValue

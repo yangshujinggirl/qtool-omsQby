@@ -120,5 +120,5 @@ const WorkOrder = QbaseList((_this) => {
             }
         </div>
     )
-}, GetWorkOrder, false);
+}, GetWorkOrder);
 export default WorkOrder;

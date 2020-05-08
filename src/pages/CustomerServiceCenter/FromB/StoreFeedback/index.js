@@ -30,5 +30,5 @@ const StoreFeedback = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     )
-}, GetStoreFeedback, false);
+}, GetStoreFeedback);
 export default StoreFeedback;

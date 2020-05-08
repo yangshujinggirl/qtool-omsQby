@@ -59,15 +59,14 @@ const DirectMail = QbaseList(
 		);
 	},
 	getDirectMailListApi,
-	false,
-	null,
-	null,
-	(_this, params) => {
-		console.log(params);
-		return {
-			orderType: 1,
-			...params,
-		};
+	{
+		formatSearchCriteriaList:(_this, params) => {
+			console.log(params);
+			return {
+				orderType: 1,
+				...params,
+			};
+		}
 	}
 );
 export default DirectMail;

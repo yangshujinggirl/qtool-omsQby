@@ -25,5 +25,7 @@ const PosUserManage = QbaseList((_this) => {
             />
         </div>
     );
-}, getListApi, false, 'spShopId')
+}, getListApi, {
+    dataListOptionsKey: "spShopId",
+})
 export default PosUserManage;
