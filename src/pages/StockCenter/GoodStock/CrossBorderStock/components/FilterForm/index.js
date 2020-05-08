@@ -3,6 +3,7 @@ import { Form, Input, Select, Row, Col } from 'antd';
 import { GetCategoryApi } from 'api/home/BaseGoods';
 import { getStoreListApi } from 'api/home/StockCenter/GoodStock';
 import { BaseFilter, Qbtn } from 'common';
+import {GetCategoryCodeApi} from "../../../../../../api/home/BaseGoods";
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -35,7 +36,7 @@ class SearchForm extends BaseFilter {
 			catagoryList2: [],
 		});
 		if (value) {
-			GetCategoryApi({ level: -1, parentId: value }).then((res) => {
+			GetCategoryCodeApi({ level: 2, categoryCode: value }).then((res) => {
 				this.setState({
 					catagoryList2: res.result || [],
 				});
