@@ -47,7 +47,9 @@ const TableShowList = QbaseList(
     },
     (params, _this) =>
         new GetMarketPromotionLevelTwoChannelList(_this.props.requestId),
-    true
+    {
+        isComponentDidMountRequestData:true
+    }
 );
 
 /**

@@ -49,6 +49,5 @@ const ShopkeeperInOut = QbaseList(
     );
   },
   getListApi,
-  false
 );
 export default ShopkeeperInOut;

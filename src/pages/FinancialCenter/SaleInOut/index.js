@@ -53,5 +53,5 @@ const SaleInOut = QbaseList((_this) => {
             select={true}
             dataSource={dataList}/>
     </div>
-}, getListApi, false);
+}, getListApi);
 export default SaleInOut

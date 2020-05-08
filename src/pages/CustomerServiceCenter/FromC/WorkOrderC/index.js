@@ -30,5 +30,5 @@ const WorkOrderC = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     )
-}, GetWorkOrderC, false);
+}, GetWorkOrderC);
 export default WorkOrderC;

@@ -37,6 +37,5 @@ const JointOperationShareProportion = QbaseList(
 		);
 	},
 	GetDivideCostList,
-	false
 );
 export default JointOperationShareProportion;

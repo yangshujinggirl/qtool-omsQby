@@ -46,5 +46,5 @@ const ShopOrderList = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     );
-}, GetListApi, false, null, null, null, null);
+}, GetListApi);
 export default ShopOrderList

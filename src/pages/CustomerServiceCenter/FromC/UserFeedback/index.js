@@ -30,5 +30,5 @@ const UserFeedback = QbaseList((_this) => {
                 onChange={_this.changePage}/>
         </div>
     )
-}, GetUserFeedback, false);
+}, GetUserFeedback);
 export default UserFeedback;

@@ -205,10 +205,10 @@ const PurchaseInOrderList = QbaseList(
     );
   },
   GetPurchaseInOrderListApi,
-  false,
-  "stockingCode",
-  { forceCompleteHaveFail: [] },
-  null,
-  onModalCancelClick
+    {
+      dataListOptionsKey: "stockingCode",
+      childStateParams:{ forceCompleteHaveFail: [] },
+      onModalCancelClick:onModalCancelClick
+    }
 );
 export default PurchaseInOrderList;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Row, Col, Input, Select, DatePicker } from 'antd';
 import { BaseFilter, Qbtn } from 'common';
 import moment from 'moment';
+import {FilterSearchRangeTime} from "common/QdisabledDateTime";
 const { RangePicker } = DatePicker;
 
 class NormalForm extends BaseFilter {
@@ -43,14 +44,14 @@ class NormalForm extends BaseFilter {
 							</Form.Item>
 						</Col>
 						<Col {...this.colspans}>
-							<Form.Item label="最近使用时间" name="time" {...this.formItemLayout}>
-								<RangePicker
-									allowClear={true}
-									defaultValue={[moment().subtract(1, 'days'), moment()]}
-									showTime
-									format="YYYY-MM-DD HH:mm:ss"
-								/>
-							</Form.Item>
+							<FilterSearchRangeTime
+								selectTimeChange={this.props.selectTimeChange}
+								defaultValue={[moment().subtract(1, 'days'), moment()]}
+								startTimeName="startTime" endTimeName="endTime" label="最近使用时间"
+								itemLayout={this.formItemLayout}
+								allowClear={true}
+                                showTime
+                                format="YYYY-MM-DD HH:mm:ss"/>
 						</Col>
 						<Col span={24}>
 							<Form.Item className="oms-condition-operate">
