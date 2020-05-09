@@ -47,7 +47,7 @@ export default class GoodsDataAnalysisCharts extends Component {
 			},
 			legend: legend ? legend : null,
 			grid: {
-				left: '80',
+				left: '100',
 				top: '100',
 			},
 			xAxis: {

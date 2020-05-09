@@ -37,7 +37,7 @@ const AllReturnInfo = props => {
         <Form.Item  label="用户手机号">{infos.phone}</Form.Item >
         <Form.Item  label="退单状态">{infos.statusStr}</Form.Item >
         <Form.Item  label="退款类型">{infos.refundTypeStr}</Form.Item >
-        <Form.Item  label="退款方式">{infos.inventedStr}</Form.Item >
+        <Form.Item  label="退款方式">{infos.typeStr}</Form.Item >
         <Form.Item  label="退款运费">{infos.rePostage}</Form.Item >
         <Form.Item  label="退款商品金额">{infos.totalPrice}</Form.Item >
         <Form.Item  label="退款总金额">{infos.totalPrice}</Form.Item >

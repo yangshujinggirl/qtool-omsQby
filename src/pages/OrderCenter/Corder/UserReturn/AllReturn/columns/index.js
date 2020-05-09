@@ -34,7 +34,7 @@ const Columns = [
   },
   {
     title: "退款方式",
-    dataIndex: "inventedStr",
+    dataIndex: "typeStr",
   },
   {
     title: "原订单支付金额",
