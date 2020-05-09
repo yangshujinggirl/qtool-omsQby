@@ -49,9 +49,7 @@ class NormalForm extends BaseFilter {
 								defaultValue={[moment().subtract(1, 'days'), moment()]}
 								startTimeName="startTime" endTimeName="endTime" label="最近使用时间"
 								itemLayout={this.formItemLayout}
-								allowClear={true}
-                                showTime
-                                format="YYYY-MM-DD HH:mm:ss"/>
+								allowClear={true}/>
 						</Col>
 						<Col span={24}>
 							<Form.Item className="oms-condition-operate">

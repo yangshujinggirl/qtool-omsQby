@@ -16,7 +16,7 @@ class NormalForm extends BaseFilter {
           className="serach-common-form"
           {...this.formItemLayout}
         >
-          <Row>
+          <Row gutter={24}>
             <Col {...this.colspan}>
               <Form.Item name="orderNo" label="订单号">
                 <Input placeholder="请输入订单号" autoComplete="off" />

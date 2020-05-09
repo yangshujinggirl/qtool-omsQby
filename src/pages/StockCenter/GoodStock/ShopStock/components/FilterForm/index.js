@@ -2,6 +2,8 @@ import React from "react";
 import { Form, Input, Select, Row, Col } from "antd";
 import { GetCategoryApi } from "api/home/BaseGoods";
 import { BaseFilter, Qbtn } from "common";
+import {GetCategoryCodeApi} from "../../../../../../api/home/BaseGoods";
+import CommonUtils from "utils/CommonUtils";
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -21,12 +23,12 @@ class SearchForm extends BaseFilter {
   }
   //一级菜单更改
   onChange = value => {
-    this.formRef.current.setFieldsValue({ pdCategory2Id: undefined });
+    this.formRef.current.setFieldsValue({ pdCategory2Id: undefined })
     this.setState({
       catagoryList2: []
     });
     if (value) {
-      GetCategoryApi({ level: -1, parentId: value }).then(res => {
+      GetCategoryCodeApi({ level: 2, categoryCode: value }).then(res => {
         this.setState({
           catagoryList2: res.result || []
         });
