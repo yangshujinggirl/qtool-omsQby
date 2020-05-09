@@ -35,6 +35,6 @@ export function getInfoApi(values) {
 //退单日志
 export function  getLogApi(values){
   return omsAjax.get('/orderRefund/getLog',{
-    data:values
+    params:values
   })
 }
