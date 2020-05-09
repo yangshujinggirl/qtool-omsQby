@@ -137,8 +137,7 @@ const Bpush = props => {
       ..._values
     } = values;
     if (_values.pushPersonType == 1) {
-      const str = _values.pushPerson.replace(/\s+/g,"");
-      const pushPer = str.split("\n");
+      let pushPer = _values.pushPerson.split("\n");
       if (pushPer.length > 10000) {
         return message.error("最多支持10000条用户数据", 0.8);
       }
