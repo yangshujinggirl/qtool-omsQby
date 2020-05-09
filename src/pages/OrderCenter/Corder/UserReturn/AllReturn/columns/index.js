@@ -93,15 +93,21 @@ const ReturnGoods = [
 const ReturnLogs = [
   {
     title: "操作",
-    dataIndex: "skuCode",
+    dataIndex: "operation",
   },
   {
     title: "操作时间",
-    dataIndex: "productName",
+    dataIndex: "lastUpdateTime",
+    render:(text,record,index)=>(
+    <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>
+    )
   },
   {
     title: "退单状态",
-    dataIndex: "salesAttributeName",
+    dataIndex: "statusVal",
+    render:(text,record,index)=>(
+      text==10?'待审核':text==11?'待门店审核':text==20
+    )
   },
   {
     title: "操作人",

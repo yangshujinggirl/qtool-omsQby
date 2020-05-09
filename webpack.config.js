@@ -139,25 +139,25 @@ module.exports = {
     disableHostCheck:true,
     proxy: {
       '/qtoolsOms': {
-        // target:'http://192.168.2.36:8061',
-        target:'http://192.168.2.36:8061',//v1
+        target:'http://192.168.2.36:8061',
+        // target:'http://192.168.2.36:8061',//v1
         pathRewrite: {"^/qtoolsOms" : ""},
         changeOrigin: true,
       },
       '/qtoolsErp': {
-        // target:'http://192.168.2.36:8078',
-        target:'http://192.168.2.36:8078',////v1
+        target:'http://192.168.2.36:8078',
+        // target:'http://192.168.2.36:8078',////v1
         pathRewrite: {"^/qtoolsErp" : ""},
         changeOrigin: true,
       },
       '/qtoolsApp': {
-        // target:'http://192.168.2.36:8023',
-        target:'http://192.168.2.36:8023',//v1
+        target:'http://192.168.2.36:8023',
+        // target:'http://192.168.2.36:8023',//v1
         pathRewrite: {"^/qtoolsApp" : ""},
         changeOrigin: true,
       },
       '/qtools-report': {
-        target:'http://192.168.2.31:8081',//v1
+        target:'http://192.168.2.36:8081',//v1
         changeOrigin: true,
       },
      //  headers: {//header设置

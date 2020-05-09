@@ -2,7 +2,7 @@ import React, { useEffect,useState } from "react";
 import { Card, Form } from "antd";
 import { Qtable } from "common";
 import { ReturnGoods, ReturnLogs } from "./columns";
-import { getInfoApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
+import { getInfoApi,getLogApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 
 const AllReturnInfo = props => {
@@ -10,6 +10,7 @@ const AllReturnInfo = props => {
   const {id} = props.match.params;
   const [infos,setInfos] =useState({})
   const [detailList,setDetailList] =useState([])
+  const [logosList,setLogos] =useState([])
   useEffect(() => {
     getInfoApi({reOrderNo:id}).then(res => {
       if (res.httpCode == 200) {
@@ -17,7 +18,16 @@ const AllReturnInfo = props => {
         setDetailList( res.result.detailList)
       }
     });
+    getLogo()
   }, []);
+  //获取日志
+  const getLogo=()=>{
+    getLogApi({no:id}).then(res=>{
+      if(res.httpCode == 200){
+        setLogos(res.result)
+      }
+    })
+  }
   return (
     <div>
       <Card title="退单信息" className='base_info'>
@@ -50,7 +60,7 @@ const AllReturnInfo = props => {
         </Form.Item>
       </Card>
       <Card title="退单日志">
-        <Qtable columns={ReturnLogs} dataSource={detailList} />
+        <Qtable columns={ReturnLogs} dataSource={logosList} />
       </Card>
     </div>
   );

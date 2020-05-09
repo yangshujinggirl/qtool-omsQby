@@ -40,3 +40,4 @@ export function getBonedInfoApi(values) {
   const { orderNo } = values;
   return appAjax.get(`/toC/order/online/${orderNo}`);
 }
+

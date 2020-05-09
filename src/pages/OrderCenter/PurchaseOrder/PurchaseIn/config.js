@@ -58,7 +58,11 @@ export const DOCUMENT_TYPE_GOODS_OUT_OF_STOCK_PRESSURE = 3;
  * @type {number}
  */
 export const DOCUMENT_TYPE_SPECIMEN = 4;
-
+/**
+ * 代发采购单
+ * @type {number}
+ */
+export const DOCUMENT_TYPE_REPLACE = 5;
 //物流费用方式
 /**
  * 包邮

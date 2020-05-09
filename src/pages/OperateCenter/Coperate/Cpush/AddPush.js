@@ -52,7 +52,8 @@ const Bpush = props => {
             alertTypeContent,
             pushNow,
             status,
-            pushPerson
+            pushPerson,
+            linkInfoType
           } = res.result;
           let content = {};
           switch (alertType) {
@@ -69,12 +70,14 @@ const Bpush = props => {
           setPushNow(pushNow);
           setAlertType(alertType);
           setStatus(status);
-          setPushPersonType(pushPerson?1:0)
+          setPushPersonType(pushPerson=='0'?0:1)
+          setLinkInfoType(linkInfoType)
           form.setFieldsValue({
             ...res.result,
             alertTypeContent: content,
             pushTime: pushNow == 0 ? moment(pushTime) : undefined,
-            pushPersonType:pushPerson?1:0
+            pushPersonType:pushPerson=='0'?0:1,
+            pushPerson:pushPerson=='0'?'':pushPerson
           });
         }
       });
@@ -134,7 +137,8 @@ const Bpush = props => {
       ..._values
     } = values;
     if (_values.pushPersonType == 1) {
-      const pushPer = _values.pushPerson.replace(/\s+/g, "").split("\n");
+      const str = _values.pushPerson.replace(/\s+/g,"");
+      const pushPer = str.split("\n");
       if (pushPer.length > 10000) {
         return message.error("最多支持10000条用户数据", 0.8);
       }
