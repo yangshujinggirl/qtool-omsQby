@@ -70,12 +70,6 @@ class NormalForm extends BaseFilter {
 									<Option value={3} key={3}>
 										加盟店
 									</Option>
-									<Option value={4} key={4}>
-										APP
-									</Option>
-									<Option value={5} key={5}>
-										小程序
-									</Option>
 								</Select>
 							</Form.Item>
 						</Col>
