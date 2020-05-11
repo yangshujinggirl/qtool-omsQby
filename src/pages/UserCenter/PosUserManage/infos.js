@@ -103,8 +103,8 @@ const PosUserInfo = (props) => {
 				{infos.birthday &&
 					infos.birthday.length>0 &&
 					infos.birthday.map((item, index) => (
-						<Form.Item label={'宝宝生日' + index}>
-							{item.date + '【' + item.typeStr + '】'}
+						<Form.Item label={'宝宝生日' + (index==0?'':index)}>
+							{item.birthDate + '【' + item.typeStr + '】'}
 						</Form.Item>
 					))}
 
