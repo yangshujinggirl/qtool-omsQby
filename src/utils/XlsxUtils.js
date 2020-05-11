@@ -1,17 +1,7 @@
 import XLSX from "xlsx";
+import XLSX1 from 'xlsx-style'
+import {CommonUtils} from "utils/index";
 
-/**
- * 功能作用：excel文档工具类
- * 初始注释时间： 2020/5/7 2:17 下午
- * 注释创建人：LorenWang（王亮）
- * 方法介绍：
- * 思路：
- * 修改人：
- * 修改时间：
- * 备注：
- *
- *@author LorenWang（王亮）
- */
 
 const TestClass = [
     {
@@ -251,6 +241,48 @@ function generateXlsxData(pre, next, data, paramsClass) {
     return result
 }
 
+/**
+ * 生成要保存的workBook数据
+ * @param saveData 要保存的表数据
+ * @param columnCount 列数量
+ * @param headers 标题头数据
+ * @return  WorkBook数据
+ */
+function generateSaveWorkBook(saveData, columnCount, headers) {
+    //新建xlsx文件
+    const wb = XLSX.utils.book_new();
+    // json_to_sheet 将JS对象数组转换为工作表
+    const jsonWs = XLSX.utils.aoa_to_sheet(saveData, {
+        cellStyles: true
+    });
+    //设置合并单元格位置
+    jsonWs['!merges'] = [{
+        s: {r: 0, c: 0},
+        e: {r: 0, c: columnCount - 1}
+    }, ...headers.mergePosition]
+    jsonWs['A1'].s = {
+        font: {
+            sz: 50,
+            fontSize: 50,
+            bold: true,
+            color: "#0f0"
+        },
+        alignment: {
+            horizontal: "center"
+        }
+    }
+    // 将jsonWs 数据放入xlsx文件中，tab名为jsonWs
+    XLSX.utils.book_append_sheet(wb, jsonWs, 'data');
+    return wb;
+}
+
+/**
+ * 功能作用：excel数据工具类
+ * 初始注释时间： 2020/5/11 7:34 下午
+ * 注释创建人：LorenWang（王亮）
+ *
+ * @author LorenWang（王亮）
+ */
 const XlsxUtils = {
 
     /**
@@ -297,21 +329,14 @@ const XlsxUtils = {
         }
 
 
-        //新建xlsx文件
-        const wb = XLSX.utils.book_new();
-        // json_to_sheet 将JS对象数组转换为工作表
-        const jsonWs = XLSX.utils.aoa_to_sheet(saveData,{
-            cellStyles:true
-        });
-        //设置合并单元格位置
-        jsonWs['!merges'] = [{
-            s: {r: 0, c: 0},
-            e: {r: 0, c: columnCount - 1}
-        }, ...headers.mergePosition]
+        //生成WorkBook数据，用来存储保存
+        const wb = generateSaveWorkBook(saveData, columnCount, headers);
+        //生成excel数据字符串，然后通过字符串转成ArrayBuffer，再转换成blob数据进行数据存储
+        const saveStr = XLSX1.write(wb, {bookType: "xlsx", bookSST: false, type: 'binary'})
+        CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.string2ArrayBuffer(saveStr)], {type: ""}), saveFileName)
+    },
 
-        // 将jsonWs 数据放入xlsx文件中，tab名为jsonWs
-        XLSX.utils.book_append_sheet(wb, jsonWs, 'data');
-        XLSX.writeFile(wb, saveFileName);
-    }
+
 }
+
 export default XlsxUtils

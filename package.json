@@ -67,7 +67,9 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.3",
     "redux-thunk": "^2.3.0",
-    "swiper": "^5.3.6"
+    "swiper": "^5.3.6",
+    "xlsx": "^0.16.0",
+    "xlsx-style": "^0.8.13"
   },
   "theme": {
     "primary-color": "#35BAB0",
