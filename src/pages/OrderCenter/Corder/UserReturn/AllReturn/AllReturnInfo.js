@@ -55,7 +55,7 @@ const AllReturnInfo = props => {
         <Form.Item label="图片">
           {infos.imgList &&
             infos.imgList.map(img => (
-              <img src={localStorage.getInfoApi("oms_fileDomain") + img} />
+              <img src={localStorage.getItem("oms_fileDomain") + img} />
             ))}
         </Form.Item>
       </Card>
