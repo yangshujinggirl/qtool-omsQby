@@ -37,10 +37,10 @@ function withSubscription(apiObj,activityType) {
       searchList()
     }
     const changePage = (currentPage, everyPage) => {
-      searchList(currentPage, everyPage)
+      searchList({currentPage, everyPage})
     };
     const onShowSizeChange = (currentPage, everyPage) => {
-      searchList(currentPage, everyPage)
+      searchList({currentPage, everyPage})
     };
     const onSubmit = params => {
       setFields(params)

@@ -50,6 +50,9 @@ function EditImg({...props}) {
       let { shareFriendImg, shareFriendCircleImg, pdConfigureConfigList,...val } =res.result;
       shareFriendImg = CommonUtils.formatToFilelist(shareFriendImg);
       shareFriendCircleImg = CommonUtils.formatToFilelist(shareFriendCircleImg);
+      pdConfigureConfigList.map((el)=> {
+        el.fileList = CommonUtils.formatToFilelist(el.text);
+      })
       setImgList(shareFriendImg);
       setImgCircleList(shareFriendCircleImg);
       setTotal(val);

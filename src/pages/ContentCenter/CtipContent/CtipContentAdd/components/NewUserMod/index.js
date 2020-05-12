@@ -1,12 +1,13 @@
 import react, { Component } from "react";
 import { Button } from "antd";
+import { Sessions } from 'utils';
 import CommonMod from '../CommonMod';
 
 import './index.less'
 
 const NewUserMod=({...props})=> {
   let { homepageModuleId, moduleBackColor,isDisplay, moduleContent } =props.info;
-  const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+  const fileDomain = Sessions.get('fileDomain');
   const goEdit=()=> {
     props.history.push(`/account/cNewUserSet/${homepageModuleId}`);
   }

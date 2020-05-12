@@ -1,12 +1,12 @@
 import React, { useEffect,useState } from "react";
 import { Card, Form } from "antd";
-import { Qtable } from "common";
+import { Qtable, QenlargeImg } from "common";
 import { ReturnGoods, ReturnLogs } from "./columns";
 import { getInfoApi,getLogApi } from "api/home/OrderCenter/Corder/UserReturn/AllReturn";
 import moment from "moment";
 
 const AllReturnInfo = props => {
-  
+
   const {id} = props.match.params;
   const [infos,setInfos] =useState({})
   const [detailList,setDetailList] =useState([])
@@ -55,7 +55,7 @@ const AllReturnInfo = props => {
         <Form.Item label="图片">
           {infos.imgList &&
             infos.imgList.map(img => (
-              <img src={localStorage.getItem("oms_fileDomain") + img} />
+              <QenlargeImg url={img}/>
             ))}
         </Form.Item>
       </Card>

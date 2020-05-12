@@ -11,7 +11,7 @@ const GoodsColumns = [
     {title: "申请数量", dataIndex: "reNum", key: "5"},
     {title: "到货数量", dataIndex: "reArriveNum", key: "6"},
     {title: "退货单价", dataIndex: "price", key: "7"},
-    {title: "到货金额", dataIndex: "totalPrice", key: "8"},
+    {title: "到货金额", dataIndex: "reArriveAmount", key: "8"},
 ];
 const OrderLogsColumns = [
     {title: "操作", dataIndex: "operation", key: "1"},
@@ -21,7 +21,7 @@ const OrderLogsColumns = [
             <span>{text && moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>
         )
     },
-    {title: "订单状态", dataIndex: "stepVal", key: "4"},
+    {title: "订单状态", dataIndex: "statusVal", key: "4"},
     {title: "操作人", dataIndex: "modifyBy", key: "5"},
 ];
 const Columns = [

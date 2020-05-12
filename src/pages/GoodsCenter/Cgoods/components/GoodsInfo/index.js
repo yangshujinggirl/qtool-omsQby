@@ -71,7 +71,7 @@ class GoodsInfo extends React.Component {
                 {totalData.brandName}
               </FormItem>
               <FormItem label='品牌归属地'>
-                {totalData.brandAddress}
+                {totalData.brandAddressName}
               </FormItem>
               <FormItem label='商品类型'>
                 {totalData.productTypeStr}
@@ -110,7 +110,7 @@ class GoodsInfo extends React.Component {
               <p className="title-wrap"><span className="title-name">服务信息</span></p>
               <Form.Item label="服务">
                 {totalData.serviceInfoList&&totalData.serviceInfoList.map((el)=>{
-                  return <span key={el.selected}>{el.selected==1?`${el.name},`:''}</span>
+                  return <span key={el.pdExplainId}>{`${el.name},`}</span>
                 })}
               </Form.Item>
             </div>

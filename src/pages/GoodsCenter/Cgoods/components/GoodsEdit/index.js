@@ -142,7 +142,7 @@ function withSubscription(WrappedComponent,productNature) {
         subList = subList?subList:[]
         pdSpu.serviceInfo = serviceInfo==""?[]:serviceInfo.split('-');
         descriptAttributeList&&descriptAttributeList.map((el,idx) =>el.key=`${el.descriptAttributeId}${idx}`)
-        subList.map((el)=>{el.key=el.pdSkuId;el.skuShelfLife = moment(el.skuShelfLife)});
+        subList.map((el)=>{el.key=el.pdSkuId;el.skuShelfLife = el.skuShelfLife?moment(el.skuShelfLife):null});
         pdSpu.serviceInfoList = pdSpu.serviceInfoList?pdSpu.serviceInfoList:[];
         let serviceInfoVal =[];
         pdSpu.serviceInfoList.map((el) => {

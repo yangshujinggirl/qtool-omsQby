@@ -52,10 +52,22 @@ const Columns = [
   {
     title: "创建人",
     dataIndex: "createBy",
+    render:(text,record,index)=> {
+      return <div>
+            <p>{record.createBy}</p>
+            <p>{record.createTime?moment(record.createTime).format('YYYY-MM-DD HH:mm:ss'):null}</p>
+          </div>
+    }
   },
   {
     title: "最后操作人",
     dataIndex: "modifyBy",
+    render:(text,record,index)=> {
+      return <div>
+            <p>{record.modifyBy}</p>
+            <p>{record.lastUpdateTime?moment(record.lastUpdateTime).format('YYYY-MM-DD HH:mm:ss'):null}</p>
+          </div>
+    }
   },
   {
     title: "操作",
@@ -66,11 +78,15 @@ const Columns = [
           to={`/account/supplierManage/info/${record.id}`}>
           查看
         </Link>
-        <Link
-          className="link-color"
-          to={`/account/supplierManage/add/${record.id}`}>
-          编辑
-        </Link>
+        {
+          record.status!='0'&&
+          <Link
+            className="link-color"
+            to={`/account/supplierManage/add/${record.id}`}>
+            编辑
+          </Link>
+        }
+
       </div>
     )
   }

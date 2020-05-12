@@ -245,7 +245,7 @@ const ColumnsAddGeneral=(list)=>{
 
     }
   },{
-    title: "*毛重（g）",
+    title: "毛重（g）",
     dataIndex: "weight",
     width: 100,
     textWrap: 'word-break',

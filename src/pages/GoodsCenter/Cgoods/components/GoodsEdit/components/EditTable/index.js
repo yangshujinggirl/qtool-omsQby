@@ -6,7 +6,7 @@ import { Sessions } from 'utils';
 class EditTable extends React.Component {
   renderSkuTips=(text,record,index)=> {
     return <Form.Item name={['subList',index,'skuTips']}>
-               <Input autoComplete="off" placeholder="30字以内，C端展示"/>
+               <Input autoComplete="off" placeholder="30字以内，C端展示" maxLength="30"/>
             </Form.Item>
   }
   renderSkuShelfLife=(text,record,index)=> {
