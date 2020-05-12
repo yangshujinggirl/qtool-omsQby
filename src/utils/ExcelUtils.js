@@ -405,6 +405,7 @@ const ExcelUtils = {
     exportExcelData(resultData, exportExcelConfig) {
         //参数校验
         if (!resultData || !exportExcelConfig.paramsClass || resultData.length === 0) {
+            console.log('导出Excel数据异常')
             return
         }
         //初始默认值设置
@@ -416,7 +417,7 @@ const ExcelUtils = {
         }
 
         //标题
-        const titles = [title];
+        const titles = [exportExcelConfig.title];
         //列数量
         let columnCount = 0;
         //表格行列数据

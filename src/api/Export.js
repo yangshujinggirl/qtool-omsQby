@@ -1,4 +1,9 @@
-import {appEmptyInterceptorsAjax, erpEmptyInterceptorsAjax, omsEmptyInterceptorsAjax,dataEmptyInterceptorsAjax} from "./Req";
+import {
+    appEmptyInterceptorsAjax,
+    erpEmptyInterceptorsAjax,
+    omsEmptyInterceptorsAjax,
+    dataEmptyInterceptorsAjax
+} from "./Req";
 import {Qmessage} from "common/index";
 import ExcelUtils from "utils/ExcelUtils";
 
@@ -31,6 +36,7 @@ export function ErpExportApi(data, url) {
 export function AppExportApi(data, url) {
     new ExportApi(data, url, appEmptyInterceptorsAjax);
 }
+
 /**
  * 数据中心相关导出数据调用
  * @param data 请求数据体
@@ -38,9 +44,11 @@ export function AppExportApi(data, url) {
  * @param exportParamsClass 导出excel解析类
  * @constructor
  */
-export function DataExportApi(data, url,exportParamsClass) {
-    return dataEmptyInterceptorsAjax.post(url,{...data}).then(rep=>{
-        ExcelUtils.exportExcelData(rep.result.result,exportParamsClass)
+export function DataExportApi(data, url, exportParamsClass) {
+    return dataEmptyInterceptorsAjax.post(url, {
+        params: data
+    }).then(rep => {
+        ExcelUtils.exportExcelData(rep.data.result.result, exportParamsClass)
     })
 }
 
