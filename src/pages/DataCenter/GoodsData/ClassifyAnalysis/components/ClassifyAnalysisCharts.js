@@ -2,7 +2,7 @@ import {Component} from 'react';
 import {Button} from 'antd'
 import {Qcharts, Qtable} from 'common';
 import Columns from './column';
-import {DataExportApi} from 'api/Export';
+import {DataExportApi, DataExportApiColumn} from 'api/Export';
 import {GetClassifyAnalysis} from 'api/home/DataCenter/BaseData/GoodsData';
 
 //分类分析柱状图
@@ -70,19 +70,7 @@ class ClassifyAnalysisCharts extends Component {
     };
     //导出数据
     exportData = () => {
-        const paramsClass = [];
-        Columns.forEach((item) => {
-            paramsClass.push({
-                key: item.dataIndex,//数据中取值的key
-                headerRow: 0,//该值在表头的行
-                name: item.title,//表头要显示的名称
-                column: true,//是否是一列
-            })
-        })
-        DataExportApi(this.state.searchFilterList, '/goods/classifyAnalysisExport', {
-            title: "商品数据-分类分析",
-            paramsClass: paramsClass
-        })
+        DataExportApiColumn(this.state.searchFilterList, '/goods/classifyAnalysisExport', Columns, "商品数据-分类分析")
     };
     //需要传递给子组件的数据
     formatToChildValue = () => {
