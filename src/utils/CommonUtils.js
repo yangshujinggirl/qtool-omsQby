@@ -138,7 +138,7 @@ const CommonUtils = {
      * @param s 字符串
      * @return {ArrayBuffer} 转换后的ArrayBuffer
      */
-    string2ArrayBuffer(s) {
+    stringToArrayBuffer(s) {
         const buf = new ArrayBuffer(s.length);
         const view = new Uint8Array(buf);
         for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;

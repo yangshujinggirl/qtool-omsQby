@@ -33,6 +33,34 @@ const TestClass = [
         ]
     },
 ]
+/**
+ * 标题样式
+ */
+const titleStyle = {
+    font: {
+        name: 'Arial',
+        sz: 18,
+        bold: true
+    },
+    alignment: {
+        horizontal: "center",
+        vertical: "center"
+    }
+}
+/**
+ * 表头样式
+ */
+const headerStyle = {
+    font: {
+        name: 'Arial',
+        sz: 14,
+        bold: true
+    },
+    alignment: {
+        horizontal: "center",
+        vertical: "center"
+    }
+}
 
 /**
  * 获取数据的行数
@@ -59,10 +87,11 @@ function getHeaderMaxRow(lastRows, paramsClass) {
  * @param data 当前条数据
  * @param paramsClass 解析实体类
  * @param maxRow 表头最大行数
- * @param titleRow 标题所占的行数
  * @return {*} 处理之后的表头
  */
-function getHeader(lastHeaders, data, paramsClass, maxRow, leftColumns, titleRow) {
+function getHeader(lastHeaders, data, paramsClass, maxRow, leftColumns) {
+    //标题行数
+    const titleRow = 1;
     let startRow;
     let startColumn;
     let endRow;
@@ -130,7 +159,7 @@ function getHeader(lastHeaders, data, paramsClass, maxRow, leftColumns, titleRow
             const childParamsClass = itemClass.children;
             let child;
             data[itemClass.key].forEach((childData) => {
-                child = getHeader(lastHeaders, childData, childParamsClass, maxRow, index, titleRow)
+                child = getHeader(lastHeaders, childData, childParamsClass, maxRow, index)
                 lastHeaders.data = child.data;
                 lastHeaders.mergePosition = child.mergePosition;
             })
@@ -242,17 +271,37 @@ function generateXlsxData(pre, next, data, paramsClass) {
 }
 
 /**
+ * 列号转成列字符
+ * @param column 列号
+ * @return 大写列字符
+ */
+function convertToLetter(column) {
+    const first = parseInt(column / 27);
+    const second = parseInt(column - first * 26);
+    let letter = "";
+    if (first > 0) {
+        letter = String.fromCharCode(first + 64);
+    }
+    if (second > 0) {
+        letter += String.fromCharCode(second + 64);
+    }
+    return letter.toUpperCase();
+}
+
+/**
  * 生成要保存的workBook数据
- * @param saveData 要保存的表数据
+ * @param titles 标题数据
+ * @param headers 表头数据
+ * @param tableRowColumnData 表格行列数据
  * @param columnCount 列数量
  * @param headers 标题头数据
  * @return  WorkBook数据
  */
-function generateSaveWorkBook(saveData, columnCount, headers) {
+function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount) {
     //新建xlsx文件
     const wb = XLSX.utils.book_new();
     // json_to_sheet 将JS对象数组转换为工作表
-    const jsonWs = XLSX.utils.aoa_to_sheet(saveData, {
+    const jsonWs = XLSX.utils.aoa_to_sheet([titles, ...headers.data, ...tableRowColumnData], {
         cellStyles: true
     });
     //设置合并单元格位置
@@ -260,17 +309,20 @@ function generateSaveWorkBook(saveData, columnCount, headers) {
         s: {r: 0, c: 0},
         e: {r: 0, c: columnCount - 1}
     }, ...headers.mergePosition]
-    jsonWs['A1'].s = {
-        font: {
-            sz: 50,
-            fontSize: 50,
-            bold: true,
-            color: "#0f0"
-        },
-        alignment: {
-            horizontal: "center"
+    //设置标题样式
+    jsonWs["A1"].s = titleStyle;
+    //设置表头样式
+    let ws;
+    for (let i = 0; i < headers.data.length; i++) {
+        //因为计算使用的是数字转字符，表格首个字母为A，所以列号要从1开始，同时行号要从第二行开始，行号为2，所以i为行数，行号要加2
+        for (let j = 0; j < columnCount; j++) {
+            ws = jsonWs[convertToLetter(j + 1) + (i + 2)]
+            if (ws) {
+                ws.s = headerStyle;
+            }
         }
     }
+
     // 将jsonWs 数据放入xlsx文件中，tab名为jsonWs
     XLSX.utils.book_append_sheet(wb, jsonWs, 'data');
     return wb;
@@ -290,8 +342,6 @@ const XlsxUtils = {
      */
     exportXlsx(resultData, title = "测试标题", saveFileName = "xxx.xlsx") {
 
-        //初始化要保存的数据
-        const saveData = [];
 
         //获取表头最大行数
         const headerMaxRow = getHeaderMaxRow(0, TestClass)
@@ -299,7 +349,7 @@ const XlsxUtils = {
         const headers = getHeader({
             data: [],
             mergePosition: []
-        }, resultData[0], TestClass, headerMaxRow, 0, 1);
+        }, resultData[0], TestClass, headerMaxRow, 0);
 
         //列数量获取
         let columnCount = 0;
@@ -312,11 +362,8 @@ const XlsxUtils = {
             //从1开始，因为第0个元素是要显示的标题
             titles.push(null)
         }
-        //存储标题数据以及表头数据
-        saveData.push(titles);
-        saveData.push(...headers.data);
-
-
+        //表格行列数据
+        const tableRowColumnData = [];
         //获取内容数据
         const tableData = getTableData(resultData, TestClass)
         //获取数据行数
@@ -325,15 +372,15 @@ const XlsxUtils = {
         let start;
         for (let i = 0; i < dataRows; i++) {
             start = columnCount * i;
-            saveData.push(tableData.slice(start, start + columnCount))
+            tableRowColumnData.push(tableData.slice(start, start + columnCount))
         }
 
 
         //生成WorkBook数据，用来存储保存
-        const wb = generateSaveWorkBook(saveData, columnCount, headers);
+        const wb = generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount);
         //生成excel数据字符串，然后通过字符串转成ArrayBuffer，再转换成blob数据进行数据存储
         const saveStr = XLSX1.write(wb, {bookType: "xlsx", bookSST: false, type: 'binary'})
-        CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.string2ArrayBuffer(saveStr)], {type: ""}), saveFileName)
+        CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.stringToArrayBuffer(saveStr)], {type: ""}), saveFileName)
     },
 
 
