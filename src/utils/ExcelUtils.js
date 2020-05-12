@@ -65,7 +65,6 @@ const headerStyle = {
         vertical: "center"
     }
 }
-
 /**
  * 行列数据样式
  */
@@ -105,9 +104,10 @@ function getHeaderMaxRow(lastRows, paramsClass) {
  * @param data 当前条数据
  * @param paramsClass 解析实体类
  * @param maxRow 表头最大行数
+ * @param columnDynamic 列是否是动态的，动态则按数据处理，非动态则取数据第一个值
  * @return {*} 处理之后的表头
  */
-function getHeader(lastHeaders, data, paramsClass, maxRow) {
+function getHeader(lastHeaders, data, paramsClass, maxRow, columnDynamic) {
     //标题行数
     const titleRow = 1;
     let startRow;
@@ -176,11 +176,18 @@ function getHeader(lastHeaders, data, paramsClass, maxRow) {
         } else {
             const childParamsClass = itemClass.children;
             let child;
-            data[itemClass.key].forEach((childData) => {
-                child = getHeader(lastHeaders, childData, childParamsClass, maxRow)
+            if (columnDynamic) {
+                data[itemClass.key].forEach((childData) => {
+                    child = getHeader(lastHeaders, childData, childParamsClass, maxRow, columnDynamic)
+                    lastHeaders.data = child.data;
+                    lastHeaders.mergePosition = child.mergePosition;
+                })
+            } else {
+                //非动态时直接在paramsClass中获取表头即可
+                child = getHeader(lastHeaders, [], childParamsClass, maxRow, columnDynamic)
                 lastHeaders.data = child.data;
                 lastHeaders.mergePosition = child.mergePosition;
-            })
+            }
         }
     })
     return lastHeaders;
@@ -345,6 +352,11 @@ function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount, 
     jsonWs['!merges'] = mergePosition
     //设置标题样式
     jsonWs["A1"].s = titleStyle;
+    //调整列宽度
+    jsonWs['!cols'] = [];
+    for (let i = 0; i < columnCount; i++) {
+        jsonWs['!cols'].push({wch: 20})
+    }
     //设置表头样式
     let ws;
     let startRow = 2
@@ -384,10 +396,13 @@ function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount, 
 const ExcelUtils = {
 
     /**
-     * 导出文档
+     * 导出xlsx文档
+     * @param resultData 接口返回的数据
+     * @param paramsClass 要解析的格式化类
+     * @param title 标题
+     * @param columnDynamic 列是否是根据接口返回数据动态变更
      */
-    exportExcelData(resultData, title = "测试标题", saveFileName = "xxx.xlsx", columnDynamic = true) {
-
+    exportExcelData(resultData, paramsClass, title = "unknow", columnDynamic = false) {
 
         //标题
         const titles = [title];
@@ -399,13 +414,13 @@ const ExcelUtils = {
         let mergePosition = [];
 
         //获取表头最大行数
-        const headerMaxRow = getHeaderMaxRow(0, TestClass)
+        const headerMaxRow = getHeaderMaxRow(0, paramsClass)
 
         //生成表头二维数组
         const headers = getHeader({
             data: [],
             mergePosition: []
-        }, resultData[0], TestClass, headerMaxRow);
+        }, resultData[0], paramsClass, headerMaxRow, columnDynamic);
         mergePosition.push(...headers.mergePosition)
 
         //列数量获取
@@ -424,7 +439,7 @@ const ExcelUtils = {
         //表格行列数据获取
         if (columnDynamic) {
             //获取内容数据
-            const tableData = getColumnDynamicTableData(resultData, TestClass)
+            const tableData = getColumnDynamicTableData(resultData, paramsClass)
             //获取数据行数
             const dataRows = tableData.length / columnCount;
             //开始拆分内容数据
@@ -434,7 +449,7 @@ const ExcelUtils = {
                 tableRowColumnData.push(tableData.slice(start, start + columnCount))
             }
         } else {
-            const tableData = getTableData([], [], resultData, TestClass)
+            const tableData = getTableData([], [], resultData, paramsClass)
             tableRowColumnData = tableData;
             //数据行数
             const dataLines = tableData.length;
@@ -470,9 +485,8 @@ const ExcelUtils = {
         const wb = generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount, mergePosition);
         //生成excel数据字符串，然后通过字符串转成ArrayBuffer，再转换成blob数据进行数据存储
         const saveStr = XLSX1.write(wb, {bookType: "xlsx", bookSST: false, type: 'binary'})
-        CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.stringToArrayBuffer(saveStr)], {type: ""}), saveFileName)
+        CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.stringToArrayBuffer(saveStr)], {type: ""}), title + '.xlsx')
     },
-
 
 }
 
