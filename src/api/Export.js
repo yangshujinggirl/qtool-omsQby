@@ -53,6 +53,22 @@ export function DataExportApi(data, url, exportParamsClass) {
 }
 
 /**
+ * 数据中心相关导出数据调用,只针对于表头是1行同时生成的Excel表格和当前页面表格显示表头一直的情况下使用,同时表头非动态生成
+ * @param data 请求数据体
+ * @param url 请求url，可为空，为空时使用通用接口
+ * @param column table所使用的Columns列表配置
+ * @param title excel表格标题
+ * @constructor
+ */
+export function DataExportApiColumn(data, url, column,title) {
+    return dataEmptyInterceptorsAjax.post(url, {
+        params: data
+    }).then(rep => {
+        ExcelUtils.exportExcelDataColumn(rep.data.result.result, column,title)
+    })
+}
+
+/**
  * 导出api调用
  * @param data 请求参数
  * @param url 请求地址

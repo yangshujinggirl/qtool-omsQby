@@ -1,6 +1,7 @@
 import XLSX from "xlsx";
 import XLSX1 from 'static/xlsx-style'
 import {CommonUtils} from "utils/index";
+import Columns from "../pages/DataCenter/GoodsData/ClassifyAnalysis/components/column";
 
 
 const TestClass = [
@@ -404,7 +405,7 @@ const ExcelUtils = {
      */
     exportExcelData(resultData, exportExcelConfig) {
         //参数校验
-        if (!resultData || !exportExcelConfig.paramsClass || resultData.length === 0) {
+        if (!resultData || !exportExcelConfig || !exportExcelConfig.paramsClass || resultData.length === 0) {
             console.log('导出Excel数据异常')
             return
         }
@@ -499,6 +500,34 @@ const ExcelUtils = {
         const saveStr = XLSX1.write(wb, {bookType: "xlsx", bookSST: false, type: 'binary'})
         CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.stringToArrayBuffer(saveStr)], {type: ""}), exportExcelConfig.title + '.xlsx')
     },
+
+    /**
+     * 导出xlsx文档 只针对于表头是1行同时生成的Excel表格和当前页面表格显示表头一直的情况下使用,同时表头非动态生成
+     * @param resultData 接口返回的数据
+     * @param column table所使用的Columns列表配置
+     * @param title excel表格标题
+     */
+    exportExcelDataColumn(resultData, column, title) {
+        if (!column || !resultData || !(column instanceof Array)) {
+            console.log('导出Excel数据异常')
+            return
+        }
+        //自动转换params
+        const paramsClass = [];
+        column.forEach((item) => {
+            paramsClass.push({
+                key: item.dataIndex,//数据中取值的key
+                headerRow: 0,//该值在表头的行
+                name: item.title,//表头要显示的名称
+                column: true,//是否是一列
+            })
+        })
+        this.exportExcelData(resultData, {
+            title: title,
+            columnDynamic: false,
+            paramsClass: paramsClass
+        })
+    }
 }
 
 export default ExcelUtils
