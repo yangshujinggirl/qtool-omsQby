@@ -5,14 +5,14 @@ import {CommonUtils} from "utils/index";
 
 const TestClass = [
     {
-        key: "shopName",
-        headerRow: 0,
-        name: "门店名称",
-        column: true
+        key: "shopName",//数据中取值的key
+        headerRow: 0,//该值在表头的行
+        name: "门店名称",//表头要显示的名称
+        column: true,//是否是一列
     },
     {
         key: "categoryAmountQtyDXOS",
-        children: [
+        children: [//是否有子列表动态数据
             {
                 key: "categoryName",
                 headerRow: 0,
@@ -22,7 +22,10 @@ const TestClass = [
                 key: "saleQty",
                 name: "数量",
                 headerRow: 1,
-                column: true
+                column: true,
+                showMap: {//要根据所获取的数据展示的key-value对应关系
+                    0: "测试"
+                }
             },
             {
                 key: "saleAmount",
@@ -33,6 +36,7 @@ const TestClass = [
         ]
     },
 ]
+
 /**
  * 标题样式
  */
@@ -178,7 +182,9 @@ function getTableData(showData, paramsClass) {
     const optionsData = [];
     //最大子列表数组长度
     let maxChildLength = 0;
-    let childData;
+    let childData;//子列表数据
+    let showValue;//要显示的值
+    let dataValue;//数据值
     showData && showData.forEach((item) => {
         paramsClass.forEach((itemClass) => {
             if (itemClass.children != null) {
@@ -192,7 +198,17 @@ function getTableData(showData, paramsClass) {
                     optionsData.push(...childData)
                 }
             } else if (itemClass.column) {
-                optionsData.push(item[itemClass.key])
+                if (itemClass.showMap) {
+                    dataValue = item[itemClass.key];
+                    showValue = itemClass.showMap[dataValue]
+                    if (showValue) {
+                        optionsData.push(showValue)
+                    } else {
+                        optionsData.push(dataValue)
+                    }
+                } else {
+                    optionsData.push(item[itemClass.key])
+                }
             }
         })
     })
