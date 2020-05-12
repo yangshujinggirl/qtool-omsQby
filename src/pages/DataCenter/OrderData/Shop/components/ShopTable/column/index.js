@@ -5,19 +5,19 @@ const Columns = [
 	},
 	{
 		title: '总订单数',
-		dataIndex: 'qtySum',
+		dataIndex: 'orderQty',
 	},
 	{
 		title: '销售额',
-		dataIndex: 'amountSum',
+		dataIndex: 'saleAmount',
 	},
 	{
 		title: '预售订单数',
-		dataIndex: 'preSellQtySum',
+		dataIndex: 'preSellQty',
 	},
 	{
 		title: '预售销售额',
-		dataIndex: 'preSellAmountSum',
+		dataIndex: 'preSellAmount',
 	},
 	{
 		title: '直邮订单数',
@@ -25,15 +25,15 @@ const Columns = [
 	},
 	{
 		title: '直邮销售额',
-		dataIndex: 'deAmountSum',
+		dataIndex: 'deAmount',
 	},
 	{
 		title: '取消订单数',
-		dataIndex: 'cancelQtySum',
+		dataIndex: 'cancelQty',
 	},
 	{
 		title: '取消销售额',
-		dataIndex: 'cancelAmountSum',
+		dataIndex: 'cancelAmount',
 	},
 ];
 export default Columns;

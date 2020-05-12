@@ -4,10 +4,11 @@ import { Qtable } from 'common';
 import moment from 'moment';
 import Columns from './column';
 import { DataExportApi } from 'api/Export';
-import { GetPosData } from 'api/home/DataCenter/OrderData';
+import { GetPosTableData } from 'api/home/DataCenter/OrderData';
 const { RangePicker } = DatePicker;
 const formatType = 'YYYY-MM-DD';
-const startDate = moment().format(formatType);
+const startDate = moment().subtract(6,'days').format(formatType);
+const endDate = moment().format(formatType);
 
 //订单数据--->pos数据列表
 const PosTable = () => {
@@ -19,14 +20,14 @@ const PosTable = () => {
 	};
 	//数据初始化
 	useEffect(() => {
-		getList({ startDate, endDate: startDate });
+		getList({ startDate, endDate });
 	}, []);
 	//请求数据
 	const getList = (values) => {
 		const params = { ...inputValues, ...values };
-		GetPosData(params).then((res) => {
+		GetPosTableData(params).then((res) => {
 			if (res.httpCode == 200) {
-				const { result } = res;
+				const { result } = res.result;
 				if (result && result.length) {
 					result.map((item, index) => (item.key = index));
 					setDataSource(result);
@@ -43,10 +44,9 @@ const PosTable = () => {
 			getList({ startDate, endDate });
 		}
 	};
-
 	return (
 		<div>
-			<RangePicker defaultValue={[moment(), moment()]} format={formatType} onChange={onChange} />
+			<RangePicker defaultValue={[moment().subtract(6,'days'), moment()]} format={formatType} onChange={onChange} />
 			<Button
 				style={{ marginLeft:'10px','marginBottom':'10px'}}
 				type="primary"

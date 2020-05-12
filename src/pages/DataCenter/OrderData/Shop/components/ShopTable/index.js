@@ -4,28 +4,29 @@ import { Qtable } from 'common';
 import moment from 'moment';
 import Columns from './column';
 import { DataExportApi } from 'api/Export';
-import { GetSpData } from 'api/home/DataCenter/OrderData';
+import { GetSpTableData } from 'api/home/DataCenter/OrderData';
 const { RangePicker } = DatePicker;
 const formatType = 'YYYY-MM-DD';
-const startDate = moment().format(formatType);
+const startDate = moment().subtract(6, 'days').format(formatType);
+const endDate = moment().format(formatType);
 
 //订单数据--->门店数据列表
 const ShopTable = () => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
 	const exportData = () => {
-		DataExportApi(inputValues,'/order/shopOrderDataTendencyChartExport');
+		DataExportApi(inputValues, '/order/shopOrderDataTendencyChartExport');
 	};
 	//数据初始化
 	useEffect(() => {
-		getList({ startDate, endDate: startDate });
+		getList({ startDate, endDate });
 	}, []);
 	//请求数据
 	const getList = (values) => {
 		const params = { ...inputValues, ...values };
-		GetSpData(params).then((res) => {
+		GetSpTableData(params).then((res) => {
 			if (res.httpCode == 200) {
-				const { result } = res;
+				const { result } = res.result;
 				if (result && result.length) {
 					result.map((item, index) => (item.key = index));
 					setDataSource(result);
@@ -42,14 +43,15 @@ const ShopTable = () => {
 			getList({ startDate, endDate });
 		}
 	};
+	
 	return (
 		<div>
-			<RangePicker defaultValue={[moment(), moment()]} format={formatType} onChange={onChange} />
-			<Button
-				style={{ marginLeft:'10px','marginBottom':'10px'}}
-				type="primary"
-				onClick={exportData}
-			>
+			<RangePicker
+				defaultValue={[moment().subtract(6, 'days'), moment()]}
+				format={formatType}
+				onChange={onChange}
+			/>
+			<Button style={{ marginLeft: '10px', marginBottom: '10px' }} type="primary" onClick={exportData}>
 				导出数据
 			</Button>
 			<Qtable columns={Columns} dataSource={dataSource} />

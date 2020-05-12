@@ -34,7 +34,7 @@ const GoodsDataList = QbaseList(
 	},
 	GetGoodsDataList,
 	{
-		dataListOptionsKey:'stockingCode'
+		dataListOptionsKey:'barCode'
 	}
 );
 export default GoodsDataList;
