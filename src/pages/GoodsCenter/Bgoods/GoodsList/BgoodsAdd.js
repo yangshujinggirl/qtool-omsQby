@@ -46,6 +46,7 @@ const BgoodsAdd = (props) => {
         form.setFieldsValue({
           productBname: result.productBname,
           isBeforeSales: result.isBeforeSales,
+          isDirectSales: result.isDirectSales,
           label: result.label,
         });
       }
@@ -170,7 +171,7 @@ const BgoodsAdd = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col span={12}>
+          <Col span={8}>
             <Form.Item
                 label="是否预售"
                 name="isBeforeSales"
@@ -182,7 +183,19 @@ const BgoodsAdd = (props) => {
               </Radio.Group>
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col span={8}>
+            <Form.Item
+                label="是否直邮"
+                name="isDirectSales"
+                rules={[{ required: true, message: "请选择是否预售" }]}
+            >
+              <Radio.Group>
+                <Radio value={1}>是</Radio>
+                <Radio value={0}>否</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+          <Col span={8}>
             <Form.Item
                 name="label"
                 label="商品标签"

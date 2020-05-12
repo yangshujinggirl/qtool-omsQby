@@ -90,12 +90,17 @@ const BgoodsAdd = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item label="是否预售">
-                <span>{infos.isBeforeSales ? "预售" : "非预售"}</span>
+                <span>{infos.isBeforeSales ? "是" : "否"}</span>
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
+              <Form.Item label="是否直邮">
+                <span>{infos.isDirectSales ? "是" : "否"}</span>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
               <Form.Item label="商品标签">
                 {infos.label &&
                   infos.label.map((item, index) => (
