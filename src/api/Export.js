@@ -1,5 +1,6 @@
 import {appEmptyInterceptorsAjax, erpEmptyInterceptorsAjax, omsEmptyInterceptorsAjax,dataEmptyInterceptorsAjax} from "./Req";
 import {Qmessage} from "common/index";
+import ExcelUtils from "utils/ExcelUtils";
 
 /**
  * OMS相关导出数据调用
@@ -34,10 +35,13 @@ export function AppExportApi(data, url) {
  * 数据中心相关导出数据调用
  * @param data 请求数据体
  * @param url 请求url，可为空，为空时使用通用接口
+ * @param exportParamsClass 导出excel解析类
  * @constructor
  */
-export function DataExportApi(data, url) {
-    new ExportApi(data, url, dataEmptyInterceptorsAjax);
+export function DataExportApi(data, url,exportParamsClass) {
+    return dataEmptyInterceptorsAjax.post(url,{...data}).then(rep=>{
+        ExcelUtils.exportExcelData(rep.result.result,exportParamsClass)
+    })
 }
 
 /**
