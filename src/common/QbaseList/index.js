@@ -1,8 +1,6 @@
 import React from "react";
 import TableDataListUtil from "utils/TableDataListUtil";
 import {Spin} from "antd";
-import XlsxUtils from "utils/ExcelUtils";
-import ExcelUtils from "utils/ExcelUtils";
 
 /**
  * 默认配置
@@ -191,23 +189,6 @@ function QbaseList(ChildComponent, apiRequest, config = defaultConfig) {
                     this.hideLoading();
                 });
         };
-
-        /**
-         * 导出Excel文档请求
-         */
-        exportExcelRequest = (paramsClass, title, columnDynamic) => {
-            this.showLoading()
-            let params = {...this.state.searchCriteriaList, everyPage: 50000, exportExcelData: true}
-            if (this.optionsConfig && this.optionsConfig.formatSearchCriteriaList != null) {
-                params = {...params, ...this.optionsConfig && this.optionsConfig.formatSearchCriteriaList(this, params)};
-            }
-            apiRequest(params, this)
-                .then(rep => {
-                    ExcelUtils.exportExcelData(rep.result.result, paramsClass, title, columnDynamic)
-                }).finally(() => {
-                this.hideLoading()
-            })
-        }
 
         /**
          * 刷新数据列表，同时隐藏各个弹窗
