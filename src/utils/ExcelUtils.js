@@ -67,6 +67,20 @@ const headerStyle = {
 }
 
 /**
+ * 行列数据样式
+ */
+const rowColumnDataStyle = {
+    font: {
+        name: 'Arial',
+        sz: 12,
+    },
+    alignment: {
+        horizontal: "center",
+        vertical: "center"
+    }
+}
+
+/**
  * 获取数据的行数
  * @param lastRows 上一次记录的行数
  * @param paramsClass 要格式化的解析类
@@ -93,7 +107,7 @@ function getHeaderMaxRow(lastRows, paramsClass) {
  * @param maxRow 表头最大行数
  * @return {*} 处理之后的表头
  */
-function getHeader(lastHeaders, data, paramsClass, maxRow, leftColumns) {
+function getHeader(lastHeaders, data, paramsClass, maxRow) {
     //标题行数
     const titleRow = 1;
     let startRow;
@@ -163,7 +177,7 @@ function getHeader(lastHeaders, data, paramsClass, maxRow, leftColumns) {
             const childParamsClass = itemClass.children;
             let child;
             data[itemClass.key].forEach((childData) => {
-                child = getHeader(lastHeaders, childData, childParamsClass, maxRow, index)
+                child = getHeader(lastHeaders, childData, childParamsClass, maxRow)
                 lastHeaders.data = child.data;
                 lastHeaders.mergePosition = child.mergePosition;
             })
@@ -173,12 +187,12 @@ function getHeader(lastHeaders, data, paramsClass, maxRow, leftColumns) {
 }
 
 /**
- * 获取表格数据
+ * 获取表格数据（表格列是动态的）
  * @param showData 要处理的数据
  * @param paramsClass 格式化解析类型
  * @return {[]} 返回处理后的数据
  */
-function getTableData(showData, paramsClass) {
+function getColumnDynamicTableData(showData, paramsClass) {
     const optionsData = [];
     //最大子列表数组长度
     let maxChildLength = 0;
@@ -188,7 +202,7 @@ function getTableData(showData, paramsClass) {
     showData && showData.forEach((item) => {
         paramsClass.forEach((itemClass) => {
             if (itemClass.children != null) {
-                childData = getTableData(item[itemClass.key], itemClass.children)
+                childData = getColumnDynamicTableData(item[itemClass.key], itemClass.children)
                 maxChildLength = Math.max(childData.length, maxChildLength)
                 if (!childData || childData.length === 0) {
                     for (let i = 0; i < maxChildLength; i++) {
@@ -216,26 +230,23 @@ function getTableData(showData, paramsClass) {
 }
 
 /**
- * 生成xlsx数据
+ * 获取表格数据（表格列是静态的）
  * @param pre 前面要拼接的数组
  * @param next 后面要拼接的数据数组
  * @param data 数据实体
  * @param paramsClass 要格式化处理的配置类
  * @returns {[]}
  */
-function generateXlsxData(pre, next, data, paramsClass) {
-    const result = {
-        //数据
-        data: [],
-        //要合并数据位置
-        dataMergePosition: [],
-    };
+function getTableData(pre, next, data, paramsClass) {
+    const result = [];
     //带有子属性的左侧属性
     let preData;
     //带有子属性的右侧属性
     let nextData;
     //带有子属性的解析类
     let childClass;
+    let showValue;//要显示的值
+    let dataValue;//数据值
     data && data.forEach((item, index) => {
         preData = [];
         nextData = [];
@@ -246,7 +257,7 @@ function generateXlsxData(pre, next, data, paramsClass) {
         } else {
             if (pre.length > 0) {
                 for (let i = 0; i < pre.length; i++) {
-                    preData.push(null)
+                    preData.push(undefined)
                 }
             }
         }
@@ -256,7 +267,7 @@ function generateXlsxData(pre, next, data, paramsClass) {
         } else {
             if (next.length > 0) {
                 for (let i = 0; i < next.length; i++) {
-                    nextData.push(null)
+                    nextData.push(undefined)
                 }
             }
         }
@@ -266,21 +277,30 @@ function generateXlsxData(pre, next, data, paramsClass) {
             if (itemClass.children != null) {
                 childClass = itemClass;
                 childClass.itemDataIndex = itemIndex;
-            } else if (itemClass.show) {
-                if (childClass) {
-                    nextData.push(item[itemClass.key])
+            } else if (itemClass.column) {
+                if (itemClass.showMap) {
+                    dataValue = item[itemClass.key];
+                    showValue = itemClass.showMap[dataValue]
+                    if (!showValue) {
+                        showValue = dataValue
+                    }
                 } else {
-                    preData.push(item[itemClass.key])
+                    showValue = item[itemClass.key];
                 }
+                if (childClass) {
+                    nextData.push(showValue)
+                } else {
+                    preData.push(showValue)
+                }
+
             }
         })
         if (childClass) {
             //生成子数组，但是要和当前已处理的数据数组的空占位做拼接,保证后面可以做单元格合并使用
-            const resultData = generateXlsxData(preData, nextData, item[childClass.key], childClass.children)
-            result.data.push(...resultData.data)
-            result.dataMergePosition.push(...resultData.dataMergePosition)
+            const resultData = getTableData(preData, nextData, item[childClass.key], childClass.children)
+            result.push(...resultData)
         } else {
-            result.data.push([...preData, ...nextData])
+            result.push([...preData, ...nextData])
         }
     })
     return result
@@ -311,9 +331,10 @@ function convertToLetter(column) {
  * @param tableRowColumnData 表格行列数据
  * @param columnCount 列数量
  * @param headers 标题头数据
+ * @param mergePosition 合并位置
  * @return  WorkBook数据
  */
-function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount) {
+function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount, mergePosition) {
     //新建xlsx文件
     const wb = XLSX.utils.book_new();
     // json_to_sheet 将JS对象数组转换为工作表
@@ -321,20 +342,29 @@ function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount) 
         cellStyles: true
     });
     //设置合并单元格位置
-    jsonWs['!merges'] = [{
-        s: {r: 0, c: 0},
-        e: {r: 0, c: columnCount - 1}
-    }, ...headers.mergePosition]
+    jsonWs['!merges'] = mergePosition
     //设置标题样式
     jsonWs["A1"].s = titleStyle;
     //设置表头样式
     let ws;
+    let startRow = 2
     for (let i = 0; i < headers.data.length; i++) {
         //因为计算使用的是数字转字符，表格首个字母为A，所以列号要从1开始，同时行号要从第二行开始，行号为2，所以i为行数，行号要加2
         for (let j = 0; j < columnCount; j++) {
-            ws = jsonWs[convertToLetter(j + 1) + (i + 2)]
+            ws = jsonWs[convertToLetter(j + 1) + (i + startRow)]
             if (ws) {
                 ws.s = headerStyle;
+            }
+        }
+    }
+    //行列数据样式修改
+    startRow += headers.data.length
+    for (let i = 0; i < tableRowColumnData.length; i++) {
+        //因为计算使用的是数字转字符，表格首个字母为A，所以列号要从1开始，同时行号要从第二行开始，行号为2，所以i为行数，行号要加2
+        for (let j = 0; j < columnCount; j++) {
+            ws = jsonWs[convertToLetter(j + 1) + (i + startRow)]
+            if (ws) {
+                ws.s = rowColumnDataStyle;
             }
         }
     }
@@ -351,49 +381,93 @@ function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount) 
  *
  * @author LorenWang（王亮）
  */
-const XlsxUtils = {
+const ExcelUtils = {
 
     /**
      * 导出文档
      */
-    exportXlsx(resultData, title = "测试标题", saveFileName = "xxx.xlsx") {
+    exportExcelData(resultData, title = "测试标题", saveFileName = "xxx.xlsx", columnDynamic = true) {
 
+
+        //标题
+        const titles = [title];
+        //列数量
+        let columnCount = 0;
+        //表格行列数据
+        let tableRowColumnData = [];
+        //合并位置
+        let mergePosition = [];
 
         //获取表头最大行数
         const headerMaxRow = getHeaderMaxRow(0, TestClass)
+
         //生成表头二维数组
         const headers = getHeader({
             data: [],
             mergePosition: []
-        }, resultData[0], TestClass, headerMaxRow, 0);
+        }, resultData[0], TestClass, headerMaxRow);
+        mergePosition.push(...headers.mergePosition)
 
         //列数量获取
-        let columnCount = 0;
         if (headers.data.length > 0 && headers.data[0] != null) {
             columnCount = headers.data[0].length;
         }
+        //列数量获取结束后设置标题合并位置
+        mergePosition.push({s: {r: 0, c: 0}, e: {r: 0, c: columnCount - 1}})
+
         //根据表头二维数组单条元素数组长度，生成标题
-        const titles = [title];
         for (let i = 1; i < columnCount; i++) {
             //从1开始，因为第0个元素是要显示的标题
             titles.push(null)
         }
-        //表格行列数据
-        const tableRowColumnData = [];
-        //获取内容数据
-        const tableData = getTableData(resultData, TestClass)
-        //获取数据行数
-        const dataRows = tableData.length / columnCount;
-        //开始拆分内容数据
-        let start;
-        for (let i = 0; i < dataRows; i++) {
-            start = columnCount * i;
-            tableRowColumnData.push(tableData.slice(start, start + columnCount))
+
+        //表格行列数据获取
+        if (columnDynamic) {
+            //获取内容数据
+            const tableData = getColumnDynamicTableData(resultData, TestClass)
+            //获取数据行数
+            const dataRows = tableData.length / columnCount;
+            //开始拆分内容数据
+            let start;
+            for (let i = 0; i < dataRows; i++) {
+                start = columnCount * i;
+                tableRowColumnData.push(tableData.slice(start, start + columnCount))
+            }
+        } else {
+            const tableData = getTableData([], [], resultData, TestClass)
+            tableRowColumnData = tableData;
+            //数据行数
+            const dataLines = tableData.length;
+            //遍历处理合并数据
+            let startRow;
+            let endRow;
+            for (let i = 0; i < 1; i++) {
+                for (let j = 0; j < dataLines; j++) {
+                    //为undefined或者计算到了最后一个
+                    if (tableData[j][i] !== undefined || j === dataLines - 1) {
+                        //如果是最后一个还是为空且endRow不为空则行数要加一，方便后面处理
+                        if (endRow && tableData[j][i] === undefined && j === dataLines - 1) {
+                            endRow += 1;
+                        }
+                        //判断位置是否要合并
+                        if (startRow && endRow && startRow !== endRow) {
+                            //记录行数不为空，同时是有数据的，则上一行为结束行
+                            mergePosition.push({
+                                s: {r: startRow, c: i},
+                                e: {r: endRow, c: i}
+                            })
+                        }
+                        startRow = endRow = j + headers.data.length + 1;
+                    } else {
+                        endRow += 1;
+                    }
+                }
+            }
         }
 
 
         //生成WorkBook数据，用来存储保存
-        const wb = generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount);
+        const wb = generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount, mergePosition);
         //生成excel数据字符串，然后通过字符串转成ArrayBuffer，再转换成blob数据进行数据存储
         const saveStr = XLSX1.write(wb, {bookType: "xlsx", bookSST: false, type: 'binary'})
         CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.stringToArrayBuffer(saveStr)], {type: ""}), saveFileName)
@@ -402,4 +476,4 @@ const XlsxUtils = {
 
 }
 
-export default XlsxUtils
+export default ExcelUtils
