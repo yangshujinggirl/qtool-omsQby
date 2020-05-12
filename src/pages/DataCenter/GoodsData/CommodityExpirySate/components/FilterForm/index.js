@@ -47,7 +47,7 @@ export default class SearchForm extends BaseFilter {
 						</Col>
 						<Col {...this.colspans}>
 							<FormItem name="expireType" label="到期天数" {...this.formItemLayout}>
-								<Select allowClear={true} placeholder="请选择一级分类">
+								<Select placeholder="请选择一级分类">
 									<Option value={COMMODITY_EXPIRY_SATE_TYPE_OUT_OF_DATE}>已过期</Option>
 									<Option value={COMMODITY_EXPIRY_SATE_TYPE_EXPIRED_IN_SEVEN_DAYS}>7天内过期</Option>
 									<Option value={COMMODITY_EXPIRY_SATE_TYPE_EXPIRED_IN_THIRTY_DAYS}>

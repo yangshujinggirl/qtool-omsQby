@@ -11,12 +11,13 @@ const Columns = [
 	{ title: '销购比', dataIndex: 'ratio', key: '6' },
 ];
 //门店排行
-const SpRanking = () => {
+const SpRanking = (props) => {
 	const [dataSource, setDataSource] = useState([]);
 	useEffect(() => {
-		GetSpLearningList().then((res) => {
+		const {id} = props.match.params;
+		GetSpLearningList({type:id}).then((res) => {
 			if (res.httpCode == 200) {
-				const { result } = res;
+				const { result } = res.result;
 				if (result && result.length) {
 					result.map((item, index) => (item.key = index));
 					setDataSource(result);

@@ -80,7 +80,7 @@ export default class BaseData extends React.Component {
 		const { dataList1, dataList2, tableDataList } = this.state;
 		return (
 			<div>
-				<TopTitleDesHeader isShowUpdateTime={false} desInfoClick={this.desInfo()} />
+				<TopTitleDesHeader isShowUpdateTime={false} desInfoClick={this.desInfo} />
 				<Qcards data={dataList1} />
 				<Qcards data={dataList2} />
 				<Qtable columns={Columns} dataSource={tableDataList} />

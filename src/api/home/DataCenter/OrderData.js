@@ -11,12 +11,22 @@ export function GetSpHeaderData(values) {
 }
 
 /**
- * 获取门店订单图表表格数据
+ * 获取门店订单图表数据
  * @param values 请求参数
  * @constructor
  */
 export function GetSpData(values) {
 	return dataAjax.get('/order/shopOrderDataTendencyChart', {
+		params: values,
+	});
+}
+/**
+ * 获取门店订单表格数据
+ * @param values 请求参数
+ * @constructor
+ */
+export function GetSpTableData(values) {
+	return dataAjax.get('/order/queryShopOrderData', {
 		params: values,
 	});
 }
@@ -38,6 +48,16 @@ export function GetPosHeaderData(values) {
  */
 export function GetPosData(values) {
 	return dataAjax.get('order/posOrderDataTendencyChart', {
+		params: values,
+	});
+}
+/**
+ * 获取Pos订单表格数据
+ * @param values 请求参数
+ * @constructor
+ */
+export function GetPosTableData(values) {
+	return dataAjax.get('/order/queryPosOrderData', {
 		params: values,
 	});
 }

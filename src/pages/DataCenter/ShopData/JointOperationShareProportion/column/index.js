@@ -1,5 +1,4 @@
 import React from "react";
-import {Link} from "react-router-dom";
 
 const Columns = [
     {title: '门店名称', dataIndex: 'shopName', key: '1'},

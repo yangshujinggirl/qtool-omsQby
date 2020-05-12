@@ -4,6 +4,7 @@ import FilterForm from './components/FilterForm';
 import Columns from './column';
 import { GetDivideCostList } from 'api/home/DataCenter/ShopData';
 import {DataExportApi} from 'api/Export'
+import moment from 'moment'
 
 /**
  * 功能作用：联营分成页面
@@ -37,5 +38,14 @@ const JointOperationShareProportion = QbaseList(
 		);
 	},
 	GetDivideCostList,
+	{
+		isComponentDidMountRequestData:true,
+		formatSearchCriteriaList:(_this,values)=>{
+			const params = values?values:{};
+			params.startDate = (!values||!values.time)?moment().format('YYYY-MM-DD'):values.time.format('YYYY-MM-DD')
+			const {time,..._values} = params;
+			return _values;
+		}
+	}
 );
 export default JointOperationShareProportion;

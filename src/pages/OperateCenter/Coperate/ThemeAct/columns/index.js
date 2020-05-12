@@ -20,11 +20,8 @@ const Columns = [
     dataIndex: "previewLink",
     render: (text, record) => {
       const currentUrl = window.location.host;
-      const url =
-        "http://" +
-        currentUrl +
-        "/config.html?pdConfigureId=" +
-        record.pdConfigureId;
+			const url = 'http://' + currentUrl + '/static/config/config.html?configureCode=' + record.pageCode;
+			console.log(url)
       return (
         <div>
           <a target="_blank" className="theme-color" href={url}>

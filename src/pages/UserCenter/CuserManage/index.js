@@ -32,8 +32,8 @@ class CuserManage extends Component {
     getListApi(params).then(res => {
       if (res.httpCode == 200) {
         let { result, everyPage, currentPage, total } = res.result;
-        result.map(item => {
-          item.key = item.spShopId;
+        result.map((item,index) => {
+          item.key = index;
         });
         this.setState({
           dataList: result,

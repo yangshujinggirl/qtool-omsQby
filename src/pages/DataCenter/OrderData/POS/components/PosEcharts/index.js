@@ -1,6 +1,7 @@
 import { Component } from 'react';
-import { Qcharts} from 'common';
+import { Qcharts } from 'common';
 import { GetPosData } from 'api/home/DataCenter/OrderData';
+import moment from 'moment';
 
 //订单数据--->pos订单图表
 class PosEcharts extends Component {
@@ -39,12 +40,9 @@ class PosEcharts extends Component {
 				data2.push(item.orderAmount); //销售额
 				return item;
 			});
-			this.setState(
-				{ xdata, type: '1', data1, data2,searchFilterList: params },
-				() => {
-					this.refs['Qcharts'].writeCall();
-				}
-			);
+			this.setState({ xdata, type: '1', data1, data2, searchFilterList: params }, () => {
+				this.refs['Qcharts'].writeCall();
+			});
 		}
 	};
 	//类型切换
@@ -66,7 +64,16 @@ class PosEcharts extends Component {
 			},
 		];
 		const btnText = ['订单数量', '订单金额'];
-		return { title, xdata, series, btnText, type };
+		return {
+			title,
+			xdata,
+			series,
+			btnText,
+			type,
+			defaultValue: [moment().subtract(6, 'days'), moment()],
+			start: moment().subtract(6, 'days').format('YYYY-MM-DD'),
+			end: moment().format('YYYY-MM-DD'),
+		};
 	};
 	render() {
 		const propsParams = this.formatToChildValue();
