@@ -16,9 +16,9 @@ const formItemLayout = {
     };
 
 const AddModal=({...props})=> {
-  const { type, text, template, pdCode, rowcode,fileList } =props.currentItem;
-  let [newFileList,setFileList]=useState(text);
-  const { visible  } =props;
+  let { visible, type, text, template, pdCode, rowcode,fileList } =props.currentItem;
+  fileList = fileList?fileList:[];
+  let [newFileList,setFileList]=useState(fileList);
 
   const onSubmit=async()=> {
     try{

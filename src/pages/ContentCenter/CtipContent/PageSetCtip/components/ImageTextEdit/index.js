@@ -20,7 +20,7 @@ const ImageTextEdit=({...props})=> {
 
   const handleEdit=(record,index)=> {
     setVisible(true);
-    setCurrentItem(record);
+    setCurrentItem({...record,currentIndex:index});
   }
   const handlAdd=(type)=> {
     deKey++;
@@ -55,12 +55,17 @@ const ImageTextEdit=({...props})=> {
     props.upDateList(newArray);
   };
   const onOk=(items)=> {
-    newArray.push(items);
+    if(currentItem.pdConfigureConfigId) {
+      newArray[currentItem.currentIndex]=items;
+    } else {
+      newArray.push(items);
+    }
     props.upDateList(newArray);
     setVisible(false);
   }
   const onCancel=()=> {
     setVisible(false);
+    setCurrentItem({});
   }
   const itemMod=(el,index)=> {
     let mod;
