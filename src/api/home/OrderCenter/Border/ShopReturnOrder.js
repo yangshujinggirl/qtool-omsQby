@@ -14,6 +14,11 @@ export function GetInfoApi(values) {
         params: { ...values }
     });
 }
+export function GetLogInfoApi(values) {
+    return omsAjax.get("/orderRefund/getLog", {
+        params: { ...values }
+    });
+}
 export function GetCancelApi(values) {
     return omsAjax.post("/orderRefund/batchOperation", {...values});
 }

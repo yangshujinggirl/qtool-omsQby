@@ -344,7 +344,7 @@ const CouponAdd=({...props})=> {
               rules={[{ required: true, message: "请选择适用商品类型" }]}>
               <RadioGroup>
                 <Radio value="4">全部商品</Radio>
-                <Radio value="1">一般贸易商品</Radio>
+                <Radio value="1">一般贸易商品(包括品牌直供)</Radio>
                 <Radio value="2">保税商品</Radio>
                 <Radio value="5">指定品牌</Radio>
               </RadioGroup>

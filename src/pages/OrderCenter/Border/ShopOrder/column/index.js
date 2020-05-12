@@ -122,7 +122,7 @@ const ShippingInformationColumns = [
     {title: "物流/快递单号", dataIndex: "trackingNumber"},
     {title: "物流/快递公司", dataIndex: "carrier"},
     {title: "运费", dataIndex: "freightPrice"},
-    {title: "状态 ", dataIndex: "status"},
+    {title: "状态 ", dataIndex: "statusStr"},
 ];
 const ColumnsReturnAdd=(handleBlur)=> {
   return [{

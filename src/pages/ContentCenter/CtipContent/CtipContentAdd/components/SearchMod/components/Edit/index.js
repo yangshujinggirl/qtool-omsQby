@@ -49,7 +49,6 @@ const Search=({...props})=> {
       <Form layout="vertical" form={form}>
         <QupLoadImgLimt
           label='App背景图片(ios全面屏和安卓机型适用)'
-          rules={[{ required: true, message: '请上传图片' } ]}
           name="backgroundPicUrl"
           fileList={fileList}
           limit="1"
@@ -60,7 +59,6 @@ const Search=({...props})=> {
         </QupLoadImgLimt>
         <QupLoadImgLimt
           label='APP背景图片(ios非全面屏适用)'
-          rules={[{ required: true, message: '请上传图片' } ]}
           name="noFullScreenBackGroundPic"
           fileList={fileList2}
           limit="1"
@@ -71,7 +69,6 @@ const Search=({...props})=> {
         </QupLoadImgLimt>
         <QupLoadImgLimt
           label='小程序背景图片'
-          rules={[{ required: true, message: '请上传图片' } ]}
           name="contentPicUrl"
           fileList={fileList3}
           limit="1"
