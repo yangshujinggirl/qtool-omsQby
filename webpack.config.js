@@ -165,5 +165,8 @@ module.exports = {
      //   origin: 'http://v1.oms.test.qtoolsbaby.net:81/'
      // }
     }
+  },
+  node: {
+    fs:'empty'
   }
 };
