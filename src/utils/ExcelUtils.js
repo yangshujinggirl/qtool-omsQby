@@ -1,5 +1,5 @@
 import XLSX from "xlsx";
-import XLSX1 from 'xlsx-style'
+import XLSX1 from 'static/xlsx-style'
 import {CommonUtils} from "utils/index";
 
 
