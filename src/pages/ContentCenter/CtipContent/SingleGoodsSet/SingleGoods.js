@@ -3,7 +3,7 @@ import {
   Input,Spin,Form,Select,Table,Card,Modal,
   Row,Col,Checkbox,Button
 } from 'antd';
-import { useState, useEffect } from 'react';
+import { useCallback, memo, useState, useEffect } from 'react';
 import { QreturnBtn, Qmessage, QupLoadAndDownLoad, BaseEditTable, QupLoadImgLimt, Qbtn } from 'common';
 import { GetActivityInfoApi, GetActivityListApi, GetSaveGoodsApi } from 'api/contentCenter/SingleGoodsSet';
 import MainMod from './components/MainMod';
@@ -54,7 +54,7 @@ const MoreGoodSet=({...props})=> {
     .then((res)=> {
       let { pdSpuList,...val } =res.result;
       pdSpuList =pdSpuList?pdSpuList:[];
-      pdSpuList.map((el,index)=>el.key=index);
+      pdSpuList.map((el,index)=>el.key=el.pdSpuId);
 
       upDateList(pdSpuList)
       setTotalData(val)

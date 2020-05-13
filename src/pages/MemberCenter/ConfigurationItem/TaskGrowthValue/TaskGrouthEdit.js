@@ -3,8 +3,8 @@ import {
 } from 'antd';
 import moment from 'moment'
 import { useState, useEffect } from 'react';
-import {Sessions} from 'utils';
-import { QupLoadImgLimt, Qtable, Qbtn, Qmessage } from 'common';
+import { Sessions, CommonUtils } from 'utils';
+import { QreturnBtn, QupLoadImgLimt, Qtable, Qbtn, Qmessage } from 'common';
 import { GetInfoApi, GetSaveApi } from "api/home/MemberCenter/ConfigurationItem/TaskGrowthValue";
 import { SubAddColumns } from './column';
 
@@ -35,14 +35,7 @@ const TaskGrowthEdit=({...props})=> {
     .then((res)=> {
       const {growthTaskDetail, taskLogList} = res.result;
       let { taskPic, subTitleField1, subTitleField2, subTitleField3,...vals } =growthTaskDetail;
-      taskPic=taskPic?taskPic:[];
-      taskPic = [{
-        uid: "-1",
-        name: 'image.png',
-        status: 'done',
-        path:taskPic,
-        url:`${fileDomain}${taskPic}`
-      }]
+      taskPic = CommonUtils.formatToFilelist(taskPic);
       let lists=[{subTitleField1,subTitleField2, subTitleField3,key:0}];
       setTotalData(vals);
       setTaskPic(taskPic);
@@ -58,17 +51,12 @@ const TaskGrowthEdit=({...props})=> {
         _val.subTitleField2 = el.subTitleField2;
         _val.subTitleField3 = el.subTitleField3;
       })
-      if(taskPic&&taskPic[0].response) {
-        let taskPic = taskPic[0].response.result;
-        _val.taskPic = taskPic;
-      } else {
-        _val.taskPic = taskPic[0].path;
-      }
+      _val.taskPic = CommonUtils.formatToUrlPath(taskPic);
       _val = { ..._val, growthTaskId }
       GetSaveApi(_val)
       .then((res)=> {
         Qmessage.success('保存成功')
-        goReturn();
+        props.history.push('/account/growth_task_configuration');
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
@@ -114,6 +102,7 @@ const TaskGrowthEdit=({...props})=> {
               <Input.TextArea placeholder='请输入备注，50字以内' maxLength='50' rows={4} autoComplete="off"/>
             </Form.Item>
           <div className="handle-operate-save-action">
+            <QreturnBtn {...props} />
             <Qbtn onClick={()=>onSubmit()}> 保存 </Qbtn>
           </div>
         </Form>

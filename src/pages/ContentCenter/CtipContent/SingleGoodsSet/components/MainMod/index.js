@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Form, Input, message } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import lodash from 'lodash';
 import DragableBodyRow from '../DragField';
 import { GetSearCodeApi } from 'api/contentCenter/SingleGoodsSet';
@@ -126,4 +126,4 @@ const Mod=({...props})=> {
     </DndProvider>
   );
 }
-export default Mod;
+export default memo(Mod);

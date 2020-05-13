@@ -12,21 +12,20 @@ const ImageTextEdit=({...props})=> {
   let { detailImg } =props;
   let newArray = [...detailImg];
   let [deKey,setDeKey] = useState(newArray.length);
-  let [fileList,setFileList] = useState([]);
   let [loading,setLoad] = useState(false);
   let [visible,setVisible] = useState(false);
-  let [currentItem,setCurrentItem] = useState({text:[],type:1});
+  let [currentItem,setCurrentItem] = useState({text:[],type:1,fileList:[]});
   let fileDomain=Sessions.get("fileDomain");
 
   const handleEdit=(record,index)=> {
     setVisible(true);
-    setCurrentItem(record);
+    setCurrentItem({...record,currentIndex:index});
   }
   const handlAdd=(type)=> {
     deKey++;
     setDeKey(deKey);
     setVisible(true);
-    setCurrentItem({type, text:type==1?[]:'', key: deKey});
+    setCurrentItem({type, text:type==1?[]:'', fileList:[], key: deKey});
   }
   const handleDelete=(index)=> {
     newArray.splice(index,1);
@@ -55,12 +54,17 @@ const ImageTextEdit=({...props})=> {
     props.upDateList(newArray);
   };
   const onOk=(items)=> {
-    newArray.push(items);
+    if(currentItem.pdConfigureConfigId) {
+      newArray[currentItem.currentIndex]=items;
+    } else {
+      newArray.push(items);
+    }
     props.upDateList(newArray);
     setVisible(false);
   }
   const onCancel=()=> {
     setVisible(false);
+    setCurrentItem({fileList:[]});
   }
   const itemMod=(el,index)=> {
     let mod;

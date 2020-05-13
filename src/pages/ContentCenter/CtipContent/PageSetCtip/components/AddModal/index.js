@@ -1,5 +1,5 @@
 import { Modal, Radio, Form, Input, } from 'antd';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sessions,  CommonUtils } from 'utils';
 import { GetSearchApi } from 'api/contentCenter/PageSetCtip';
 import { QupLoadImgLimt } from 'common';
@@ -16,9 +16,9 @@ const formItemLayout = {
     };
 
 const AddModal=({...props})=> {
-  const { type, text, template, pdCode, rowcode,fileList } =props.currentItem;
-  let [newFileList,setFileList]=useState(text);
-  const { visible  } =props;
+  let { type, text, template, pdCode, rowcode,fileList } =props.currentItem;
+  let { visible } =props;
+  let [newFileList,setFileList]=useState(fileList);
 
   const onSubmit=async()=> {
     try{
@@ -27,13 +27,10 @@ const AddModal=({...props})=> {
       let items;
       switch (type) {
         case 1:
-          text = CommonUtils.formatToUrlPath(text);
-          items = { type, text };
-          props.onOk(items);
-          props.form.resetFields(['text','template','pdCode','rowcode']);
+          getPdSpu({type, pdCode, text})
           break;
         case 2:
-          getPdSpu(pdCode, rowcode, type, template)
+          getPdSpu({pdCode, rowcode, type, template})
           break;
         case 3:
         case 4:
@@ -47,12 +44,18 @@ const AddModal=({...props})=> {
       console.log('Failed:', errorInfo);
     }
   }
-  const getPdSpu=(pdCode, rowcode, type, template)=> {
+  const getPdSpu=({pdCode, rowcode, type, template, text })=> {
     let item, pdSpu,rowPdSpu;
     GetSearchApi({code:pdCode})
     .then((res)=> {
       let { result } =res;
       item = {...res.result, template, type, pdCode, pdSpu:result };
+      if(type == 1) {//图片
+        text = CommonUtils.formatToUrlPath(text);
+        props.onOk({type, text, pdCode});
+        props.form.resetFields(['text','template','pdCode','rowcode']);
+        return;
+      }
       if(template == 2) {
         let { result } =res;
         GetSearchApi({code:rowcode})
@@ -69,9 +72,7 @@ const AddModal=({...props})=> {
     })
 
   }
-  const handleChangeFile=(arr)=> {
-    setFileList(arr)
-  }
+  const handleChangeFile=(arr)=> { setFileList(arr) }
   const handleCancel=()=> {
     props.onCancel();
     props.form.resetFields(['text','template','pdCode','rowcode']);
@@ -133,12 +134,30 @@ const AddModal=({...props})=> {
       case 3:
       case 4:
         mod = <Form.Item {...formItemLayout} label="文本" name="text" rules={[{ required: true, message: '请输入商品编码'}]}>
-                <Input autoComplete="off" placeholder='请输入商品编码'/>
+                <Input autoComplete="off" placeholder='请输入文本'/>
               </Form.Item>
         break;
     }
     return mod;
   }
+
+  useEffect(()=>{ setFileList(fileList) },[fileList]);
+  useEffect(()=>{
+    switch (type) {
+      case 1:
+        props.form.setFieldsValue({ text:fileList, pdCode });
+        break;
+      case 2:
+        props.form.setFieldsValue({ pdCode, rowcode, template});
+        break;
+      case 3:
+      case 4:
+        props.form.setFieldsValue({ text });
+        break;
+      default:
+    }
+  },[props.currentItem]);
+
   return <Modal
           destroyOnClose={true}
           title="新增"

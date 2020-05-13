@@ -46,7 +46,7 @@ const Columns = [
     {title: "申请总金额", dataIndex: "totalPrice", key: "4"},
     {title: "到货数量", dataIndex: "itemCount", key: "5"},
     {title: "实退金额", dataIndex: "reArriveAmount", key: "6"},
-    {title: "退单类型", dataIndex: "inventedStr", key: "7"},
+    {title: "退单类型", dataIndex: "typeStr", key: "7"},
     {title: "订单状态", dataIndex: "statusStr", key: "8"},
     {
       title: "创建人",
