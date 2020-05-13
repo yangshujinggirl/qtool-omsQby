@@ -1,11 +1,12 @@
 import {
-    appEmptyInterceptorsAjax,
-    erpEmptyInterceptorsAjax,
-    omsEmptyInterceptorsAjax,
-    dataEmptyInterceptorsAjax
-} from "./Req";
-import {Qmessage} from "common/index";
-import ExcelUtils from "utils/ExcelUtils";
+	appEmptyInterceptorsAjax,
+	erpEmptyInterceptorsAjax,
+	omsEmptyInterceptorsAjax,
+	dataEmptyInterceptorsAjax,
+} from './Req';
+import { Qmessage } from 'common/index';
+import ExcelUtils from 'utils/ExcelUtils';
+import { message } from 'antd';
 
 /**
  * OMS相关导出数据调用
@@ -14,7 +15,7 @@ import ExcelUtils from "utils/ExcelUtils";
  * @constructor
  */
 export function OmsExportApi(data, url) {
-    new ExportApi(data, url, omsEmptyInterceptorsAjax);
+	new ExportApi(data, url, omsEmptyInterceptorsAjax);
 }
 
 /**
@@ -24,7 +25,7 @@ export function OmsExportApi(data, url) {
  * @constructor
  */
 export function ErpExportApi(data, url) {
-    new ExportApi(data, url, erpEmptyInterceptorsAjax);
+	new ExportApi(data, url, erpEmptyInterceptorsAjax);
 }
 
 /**
@@ -34,7 +35,7 @@ export function ErpExportApi(data, url) {
  * @constructor
  */
 export function AppExportApi(data, url) {
-    new ExportApi(data, url, appEmptyInterceptorsAjax);
+	new ExportApi(data, url, appEmptyInterceptorsAjax);
 }
 
 /**
@@ -45,11 +46,13 @@ export function AppExportApi(data, url) {
  * @constructor
  */
 export function DataExportApi(data, url, exportParamsClass) {
-    return dataEmptyInterceptorsAjax.post(url, {
-        params: data
-    }).then(rep => {
-        ExcelUtils.exportExcelData(rep.data.result.result, exportParamsClass)
-    })
+	return dataEmptyInterceptorsAjax.post(url, { ...data, everyPage: 50000 }).then((rep) => {
+		if (rep.data.result.result && rep.data.result.result.length) {
+			ExcelUtils.exportExcelData(rep.data.result.result, exportParamsClass);
+		} else {
+			message.warning('该导出数据无内容',1);
+		}
+	});
 }
 
 /**
@@ -60,12 +63,14 @@ export function DataExportApi(data, url, exportParamsClass) {
  * @param title excel表格标题
  * @constructor
  */
-export function DataExportApiColumn(data, url, column,title) {
-    return dataEmptyInterceptorsAjax.post(url, {
-        params: data
-    }).then(rep => {
-        ExcelUtils.exportExcelDataColumn(rep.data.result.result, column,title)
-    })
+export function DataExportApiColumn(data, url, column, title) {
+	return dataEmptyInterceptorsAjax.post(url, { ...data, everyPage: 50000 }).then((rep) => {
+		if (rep.data.result.result && rep.data.result.result.length) {
+			ExcelUtils.exportExcelDataColumn(rep.data.result.result, column, title);
+		} else {
+			message.warning('该导出数据无内容',1);
+		}
+	});
 }
 
 /**
@@ -76,32 +81,39 @@ export function DataExportApiColumn(data, url, column,title) {
  * @constructor
  */
 function ExportApi(data, url, request) {
-    request.post(url != null ? url : "/export/commonExport", {
-        ...data
-    }, {
-        responseType: "blob"
-    }).then(response => {
-        if (response === undefined || response == null) {
-            Qmessage.error("导出失败")
-        } else {
-            let r = new FileReader();
-            r.onload = function () {
-                const filename = response.headers["content-disposition"];
-                const index = filename.search(/filename=/);
-                const filenames = filename.substring(index + 9, filename.length);
-                const link = document.createElement('a');
-                link.style.display = 'none';
-                link.href = URL.createObjectURL(response.data);
-                link.setAttribute('download', decodeURIComponent(filenames));
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            };
-            r.readAsText(response.data)
-        }
-    }).catch(error => {
-        Qmessage.error("导出失败")
-    })
+	request
+		.post(
+			url != null ? url : '/export/commonExport',
+			{
+				...data,
+			},
+			{
+				responseType: 'blob',
+			}
+		)
+		.then((response) => {
+			if (response === undefined || response == null) {
+				Qmessage.error('导出失败');
+			} else {
+				let r = new FileReader();
+				r.onload = function () {
+					const filename = response.headers['content-disposition'];
+					const index = filename.search(/filename=/);
+					const filenames = filename.substring(index + 9, filename.length);
+					const link = document.createElement('a');
+					link.style.display = 'none';
+					link.href = URL.createObjectURL(response.data);
+					link.setAttribute('download', decodeURIComponent(filenames));
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				};
+				r.readAsText(response.data);
+			}
+		})
+		.catch((error) => {
+			Qmessage.error('导出失败');
+		});
 }
 
 /**
@@ -113,12 +125,12 @@ function ExportApi(data, url, request) {
  * @param url 请求地址
  */
 export function getExportData(startTime, endTime, exportType, thinkStockingExportData, url) {
-    return {
-        stime: startTime,
-        etime: endTime,
-        exportType: exportType,
-        thinkStockingExport: thinkStockingExportData
-    }
+	return {
+		stime: startTime,
+		etime: endTime,
+		exportType: exportType,
+		thinkStockingExport: thinkStockingExportData,
+	};
 }
 
 /**

@@ -1,5 +1,6 @@
 import XLSX from "xlsx";
 import XLSX1 from 'static/xlsx-style'
+import {message} from 'antd'
 import {CommonUtils} from "utils/index";
 import Columns from "../pages/DataCenter/GoodsData/ClassifyAnalysis/components/column";
 

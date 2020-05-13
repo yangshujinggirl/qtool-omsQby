@@ -1,30 +1,10 @@
-import { dataAjax } from '../../Req';
+import { dataAjax,omsAjax } from '../../Req';
 /**
  * 获取门店智能检索返回的门店列表
  * @constructor
  */
 export function GetStoreIntelligentSearchList(values) {
-	return dataAjax.get('/finance/queryPurchaseArrivalGoods', {
-		params: values,
-	});
-}
-
-/**
- * 获取门店成本数据列表
- * @constructor
- */
-export function GetCostOfStoreDataList(values) {
-	return dataAjax.get('/finance/queryPurchaseArrivalGoods', {
-		params: values,
-	});
-}
-
-/**
- * 获取成本核算数据列表
- * @constructor
- */
-export function GetCostAccountingDataList(values) {
-	return dataAjax.get('/finance/queryPurchaseArrivalGoods', {
+	return omsAjax.get('channel/findChannelByName', {
 		params: values,
 	});
 }

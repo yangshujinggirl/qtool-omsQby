@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import { Qcards, Qtable } from 'common/index';
 import TopTitleDesHeader from '../../components/TopTitleDesHeader';
 import TableDataListUtil from 'utils/TableDataListUtil';
@@ -25,13 +25,16 @@ export default class BaseData extends React.Component {
 		 * 表格数据
 		 */
 		tableDataList: [],
+		loading: false,
 	};
 
 	/**
 	 * 第一次渲染结束操作
 	 */
 	componentDidMount() {
+		this.showLoading()
 		GetAppBaseData().then((rep) => {
+			this.hideLoading()
 			let { orderStatusList, ...infos } = rep.result;
 			let dataList1 = [
 				{ title: '注册总用户数', value: infos.regUsers },
@@ -52,6 +55,20 @@ export default class BaseData extends React.Component {
 				dataList2,
 				tableDataList: TableDataListUtil.addKeyAndResultList(orderStatusList),
 			});
+		}).catch(err=>{
+			this.hideLoading()
+		});
+	}
+	//显示loading
+	showLoading() {
+		this.setState({
+			loading: true,
+		});
+	}
+	//隐藏loading
+	hideLoading() {
+		this.setState({
+			loading: false,
 		});
 	}
 	/**
@@ -77,14 +94,14 @@ export default class BaseData extends React.Component {
 		});
 	};
 	render() {
-		const { dataList1, dataList2, tableDataList } = this.state;
+		const { dataList1, dataList2, tableDataList, loading } = this.state;
 		return (
-			<div>
+			<Spin spinning={loading}>
 				<TopTitleDesHeader isShowUpdateTime={false} desInfoClick={this.desInfo} />
 				<Qcards data={dataList1} />
 				<Qcards data={dataList2} />
 				<Qtable columns={Columns} dataSource={tableDataList} />
-			</div>
+			</Spin>
 		);
 	}
 }

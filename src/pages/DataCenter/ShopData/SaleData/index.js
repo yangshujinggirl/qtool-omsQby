@@ -1,11 +1,11 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import { QcardList, Qcards } from 'common';
 import TopTitleDesHeader from '../../components/TopTitleDesHeader';
 import SaleEcharts from './components/SaleEcharts';
 import { GetStoreSaleBaseData } from 'api/home/DataCenter/ShopData';
 import formatData from './components/formatData';
-import moment from 'moment'
+import moment from 'moment';
 const updateTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
 /*
@@ -14,10 +14,15 @@ const updateTime = moment().format('YYYY-MM-DD HH:mm:ss');
  * 注释创建人：LorenWang（王亮）
  */
 export default class SaleData extends React.Component {
-	state = {
-		data: [],
-		listData: [],
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			data: [],
+			listData: [],
+			loading: false,
+		};
+	}
+
 	/**
 	 * 第一次渲染结束操作
 	 */
@@ -26,6 +31,7 @@ export default class SaleData extends React.Component {
 	}
 	//获取头部基础数据
 	getHeaderData = () => {
+		this.showLoading();
 		GetStoreSaleBaseData().then((res) => {
 			const { data, listData } = formatData(res.result);
 			this.setState({
@@ -66,16 +72,28 @@ export default class SaleData extends React.Component {
 			),
 		});
 	};
-
+	//显示loading
+	showLoading = () => {
+		this.setState({
+			loading: true,
+		});
+	};
+	//隐藏loading
+	hideLoading = () => {
+		this.setState({
+			loading: false,
+		});
+	};
 	render() {
-		const { data, listData } = this.state;
+		const { data, listData, loading } = this.state;
+		console.log(loading);
 		return (
-			<div>
+			<Spin spinning={loading}>
 				<TopTitleDesHeader updateTime={updateTime} desInfoClick={this.desInfo} />
 				<Qcards data={data} />
 				<QcardList data={listData} />
-				<SaleEcharts />
-			</div>
+				<SaleEcharts hideLoading={this.hideLoading} showLoading={this.showLoading} />
+			</Spin>
 		);
 	}
 }

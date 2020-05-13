@@ -1,6 +1,7 @@
 import react, { useEffect, useState } from 'react';
 import { getHotSaleList, getColdSaleList } from 'api/home/DataCenter/BaseData/GoodsData';
-import { Qtable } from 'common';
+import { Qtable, Qpagination } from 'common';
+import {Spin} from 'antd'
 const Columns = [
 	{ title: '排名', dataIndex: 'rank' },
 	{ title: '商品编码', dataIndex: 'goodsCode' },
@@ -27,18 +28,39 @@ const GoodListTable = (props) => {
 	});
 	const { id, sellType } = obj;
 	const [goodList, setGoodList] = useState([]);
-	useEffect(() => {//id 1:热销 2:滞销
-		const RequestUrl = id == 1 ? getHotSaleList : getColdSaleList;
-		RequestUrl({ sellType }).then((res) => {
-			if (res.httpCode == 200) {
-				const { result } = res.result;
-				if (result && result.length > 0) {
-					result.map((item, index) => (item.key = index));
-				}
-				setGoodList(result);
-			}
-		});
+	const [loading, setLoading] = useState(false);
+	const [data, setData] = useState({ everyPage: 15, currentPage: 1, total: 0 });
+	useEffect(() => {
+		getList({})
 	}, []);
-	return <Qtable columns={id == 1 ? Columns : Columns2} dataSource={goodList} />;
+	//请求列表
+	const getList=(params)=>{//id 1:热销 2:滞销
+		const RequestUrl = id == 1 ? getHotSaleList : getColdSaleList;
+		setLoading(true);
+		RequestUrl({ sellType,...params })
+			.then((res) => {
+				if (res.httpCode == 200) {
+					const { result, currentPage, everyPage, total } = res.result;
+					if (result && result.length > 0) {
+						result.map((item, index) => (item.key = index));
+					}
+					setGoodList(result);
+					setData({ currentPage, everyPage, total });
+				}
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	}
+	//分页
+	const changePage=(currentPage,everyPage)=>{
+		getList({currentPage,everyPage})
+	}
+	return (
+		<Spin spinning={loading}>
+			<Qtable columns={id == 1 ? Columns : Columns2} dataSource={goodList} />
+			<Qpagination data={data} onChange={changePage} />
+		</Spin>
+	);
 };
 export default GoodListTable;
