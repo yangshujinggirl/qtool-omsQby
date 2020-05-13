@@ -51,6 +51,7 @@ function EditImg({...props}) {
       shareFriendImg = CommonUtils.formatToFilelist(shareFriendImg);
       shareFriendCircleImg = CommonUtils.formatToFilelist(shareFriendCircleImg);
       pdConfigureConfigList.map((el)=> {
+        el.key = el.pdConfigureConfigId;
         el.fileList = CommonUtils.formatToFilelist(el.text);
       })
       setImgList(shareFriendImg);
