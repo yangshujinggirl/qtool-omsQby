@@ -16,7 +16,8 @@ const formItemLayout = {
     };
 
 const AddModal=({...props})=> {
-  let { visible, type, text, template, pdCode, rowcode,fileList } =props.currentItem;
+  let { type, text, template, pdCode, rowcode,fileList } =props.currentItem;
+  let { visible } =props;
   fileList = fileList?fileList:[];
   let [newFileList,setFileList]=useState(fileList);
 
@@ -139,6 +140,7 @@ const AddModal=({...props})=> {
     }
     return mod;
   }
+  console.log(newFileList)
   return <Modal
           destroyOnClose={true}
           title="新增"
