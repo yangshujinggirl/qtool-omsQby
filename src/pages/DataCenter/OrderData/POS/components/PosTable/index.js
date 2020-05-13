@@ -3,21 +3,19 @@ import { Button, DatePicker } from 'antd';
 import { Qtable } from 'common';
 import moment from 'moment';
 import Columns from './column';
-import { DataExportApi } from 'api/Export';
+import { DataExportApiColumn } from 'api/Export';
 import { GetPosTableData } from 'api/home/DataCenter/OrderData';
+import { deBounce } from 'utils/tools';
 const { RangePicker } = DatePicker;
 const formatType = 'YYYY-MM-DD';
-const startDate = moment().subtract(6,'days').format(formatType);
+const startDate = moment().subtract(6, 'days').format(formatType);
 const endDate = moment().format(formatType);
 
 //订单数据--->pos数据列表
 const PosTable = () => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
-	//导出数据
-	const exportData = () => {
-		DataExportApi('posOrderDataTendencyChartExport', inputValues);
-	};
+
 	//数据初始化
 	useEffect(() => {
 		getList({ startDate, endDate });
@@ -44,14 +42,18 @@ const PosTable = () => {
 			getList({ startDate, endDate });
 		}
 	};
+	//导出数据
+	const exportData = deBounce(() => {
+		DataExportApiColumn(inputValues, '/order/queryPosOrderDataExport', Columns, 'pos订单');
+	}, 500);
 	return (
 		<div>
-			<RangePicker defaultValue={[moment().subtract(6,'days'), moment()]} format={formatType} onChange={onChange} />
-			<Button
-				style={{ marginLeft:'10px','marginBottom':'10px'}}
-				type="primary"
-				onClick={exportData}
-			>
+			<RangePicker
+				defaultValue={[moment().subtract(6, 'days'), moment()]}
+				format={formatType}
+				onChange={onChange}
+			/>
+			<Button style={{ marginLeft: '10px', marginBottom: '10px' }} type="primary" onClick={exportData}>
 				导出数据
 			</Button>
 			<Qtable columns={Columns} dataSource={dataSource} />

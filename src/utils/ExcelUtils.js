@@ -1,6 +1,7 @@
 import XLSX from "xlsx";
 import XLSX1 from 'static/xlsx-style'
 import {CommonUtils} from "utils/index";
+import Columns from "../pages/DataCenter/GoodsData/ClassifyAnalysis/components/column";
 
 
 const TestClass = [
@@ -394,18 +395,30 @@ function generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount, 
  * @author LorenWang（王亮）
  */
 const ExcelUtils = {
-
     /**
      * 导出xlsx文档
      * @param resultData 接口返回的数据
-     * @param paramsClass 要解析的格式化类
-     * @param title 标题
-     * @param columnDynamic 列是否是根据接口返回数据动态变更
+     * @param exportExcelConfig 导出Excel配置
+     * @param exportExcelConfig.paramsClass 要解析的格式化类
+     * @param exportExcelConfig.title 标题
+     * @param exportExcelConfig.columnDynamic 列是否是根据接口返回数据动态变更
      */
-    exportExcelData(resultData, paramsClass, title = "unknow", columnDynamic = false) {
+    exportExcelData(resultData, exportExcelConfig) {
+        //参数校验
+        if (!resultData || !exportExcelConfig || !exportExcelConfig.paramsClass || resultData.length === 0) {
+            console.log('导出Excel数据异常')
+            return
+        }
+        //初始默认值设置
+        if (!exportExcelConfig.title) {
+            exportExcelConfig.title = "unknow"
+        }
+        if (!exportExcelConfig.columnDynamic) {
+            exportExcelConfig.columnDynamic = false;
+        }
 
         //标题
-        const titles = [title];
+        const titles = [exportExcelConfig.title];
         //列数量
         let columnCount = 0;
         //表格行列数据
@@ -414,13 +427,13 @@ const ExcelUtils = {
         let mergePosition = [];
 
         //获取表头最大行数
-        const headerMaxRow = getHeaderMaxRow(0, paramsClass)
+        const headerMaxRow = getHeaderMaxRow(0, exportExcelConfig.paramsClass)
 
         //生成表头二维数组
         const headers = getHeader({
             data: [],
             mergePosition: []
-        }, resultData[0], paramsClass, headerMaxRow, columnDynamic);
+        }, resultData[0], exportExcelConfig.paramsClass, headerMaxRow, exportExcelConfig.columnDynamic);
         mergePosition.push(...headers.mergePosition)
 
         //列数量获取
@@ -437,9 +450,9 @@ const ExcelUtils = {
         }
 
         //表格行列数据获取
-        if (columnDynamic) {
+        if (exportExcelConfig.columnDynamic) {
             //获取内容数据
-            const tableData = getColumnDynamicTableData(resultData, paramsClass)
+            const tableData = getColumnDynamicTableData(resultData, exportExcelConfig.paramsClass)
             //获取数据行数
             const dataRows = tableData.length / columnCount;
             //开始拆分内容数据
@@ -449,7 +462,7 @@ const ExcelUtils = {
                 tableRowColumnData.push(tableData.slice(start, start + columnCount))
             }
         } else {
-            const tableData = getTableData([], [], resultData, paramsClass)
+            const tableData = getTableData([], [], resultData, exportExcelConfig.paramsClass)
             tableRowColumnData = tableData;
             //数据行数
             const dataLines = tableData.length;
@@ -485,9 +498,37 @@ const ExcelUtils = {
         const wb = generateSaveWorkBook(titles, headers, tableRowColumnData, columnCount, mergePosition);
         //生成excel数据字符串，然后通过字符串转成ArrayBuffer，再转换成blob数据进行数据存储
         const saveStr = XLSX1.write(wb, {bookType: "xlsx", bookSST: false, type: 'binary'})
-        CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.stringToArrayBuffer(saveStr)], {type: ""}), title + '.xlsx')
+        CommonUtils.downLoadFileResponseDispose(new Blob([CommonUtils.stringToArrayBuffer(saveStr)], {type: ""}), exportExcelConfig.title + '.xlsx')
     },
 
+    /**
+     * 导出xlsx文档 只针对于表头是1行同时生成的Excel表格和当前页面表格显示表头一直的情况下使用,同时表头非动态生成
+     * @param resultData 接口返回的数据
+     * @param column table所使用的Columns列表配置
+     * @param title excel表格标题
+     */
+    exportExcelDataColumn(resultData, column, title) {
+        if (!column || !resultData || !(column instanceof Array)) {
+            console.log('导出Excel数据异常')
+            return
+        }
+        //自动转换params
+        const paramsClass = [];
+        column.forEach((item) => {
+            paramsClass.push({
+                ...item,
+                key: item.dataIndex,//数据中取值的key
+                headerRow: 0,//该值在表头的行
+                name: item.title,//表头要显示的名称
+                column: true,//是否是一列
+            })
+        })
+        this.exportExcelData(resultData, {
+            title: title,
+            columnDynamic: false,
+            paramsClass: paramsClass
+        })
+    }
 }
 
 export default ExcelUtils

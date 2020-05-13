@@ -1,5 +1,11 @@
-import {appEmptyInterceptorsAjax, erpEmptyInterceptorsAjax, omsEmptyInterceptorsAjax,dataEmptyInterceptorsAjax} from "./Req";
+import {
+    appEmptyInterceptorsAjax,
+    erpEmptyInterceptorsAjax,
+    omsEmptyInterceptorsAjax,
+    dataEmptyInterceptorsAjax
+} from "./Req";
 import {Qmessage} from "common/index";
+import ExcelUtils from "utils/ExcelUtils";
 
 /**
  * OMS相关导出数据调用
@@ -30,14 +36,36 @@ export function ErpExportApi(data, url) {
 export function AppExportApi(data, url) {
     new ExportApi(data, url, appEmptyInterceptorsAjax);
 }
+
 /**
  * 数据中心相关导出数据调用
  * @param data 请求数据体
  * @param url 请求url，可为空，为空时使用通用接口
+ * @param exportParamsClass 导出excel解析类
  * @constructor
  */
-export function DataExportApi(data, url) {
-    new ExportApi(data, url, dataEmptyInterceptorsAjax);
+export function DataExportApi(data, url, exportParamsClass) {
+    return dataEmptyInterceptorsAjax.post(url, {
+        params: data
+    }).then(rep => {
+        ExcelUtils.exportExcelData(rep.data.result.result, exportParamsClass)
+    })
+}
+
+/**
+ * 数据中心相关导出数据调用,只针对于表头是1行同时生成的Excel表格和当前页面表格显示表头一直的情况下使用,同时表头非动态生成
+ * @param data 请求数据体
+ * @param url 请求url，可为空，为空时使用通用接口
+ * @param column table所使用的Columns列表配置
+ * @param title excel表格标题
+ * @constructor
+ */
+export function DataExportApiColumn(data, url, column,title) {
+    return dataEmptyInterceptorsAjax.post(url, {
+        params: data
+    }).then(rep => {
+        ExcelUtils.exportExcelDataColumn(rep.data.result.result, column,title)
+    })
 }
 
 /**

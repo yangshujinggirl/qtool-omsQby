@@ -3,8 +3,9 @@ import { Button, DatePicker } from 'antd';
 import { Qtable } from 'common';
 import moment from 'moment';
 import Columns from './column';
-import { DataExportApi } from 'api/Export';
+import { DataExportApiColumn } from 'api/Export';
 import { GetSpTableData } from 'api/home/DataCenter/OrderData';
+import {deBounce} from 'utils/tools'
 const { RangePicker } = DatePicker;
 const formatType = 'YYYY-MM-DD';
 const startDate = moment().subtract(6, 'days').format(formatType);
@@ -14,9 +15,7 @@ const endDate = moment().format(formatType);
 const ShopTable = () => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
-	const exportData = () => {
-		DataExportApi(inputValues, '/order/shopOrderDataTendencyChartExport');
-	};
+	
 	//数据初始化
 	useEffect(() => {
 		getList({ startDate, endDate });
@@ -43,7 +42,10 @@ const ShopTable = () => {
 			getList({ startDate, endDate });
 		}
 	};
-	
+	//导出数据
+	const exportData = deBounce(() => {
+		DataExportApiColumn(inputValues, '/order/queryShopOrderDataExport',Columns,'门店订单');
+	},500);
 	return (
 		<div>
 			<RangePicker
