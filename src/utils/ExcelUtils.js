@@ -516,6 +516,7 @@ const ExcelUtils = {
         const paramsClass = [];
         column.forEach((item) => {
             paramsClass.push({
+                ...item,
                 key: item.dataIndex,//数据中取值的key
                 headerRow: 0,//该值在表头的行
                 name: item.title,//表头要显示的名称
