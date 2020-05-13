@@ -105,13 +105,10 @@ const ReturnLogs = [
   {
     title: "退单状态",
     dataIndex: "statusVal",
-    render:(text,record,index)=>(
-      text==10?'待审核':text==11?'待门店审核':text==20
-    )
   },
   {
     title: "操作人",
-    dataIndex: "reNum",
+    dataIndex: "modifyBy",
   },
 ];
 export { Columns, ReturnGoods, ReturnLogs };
