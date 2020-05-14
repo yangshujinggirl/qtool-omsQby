@@ -1,4 +1,4 @@
-import {ImageFlex} from 'common';
+import {QenlargeImg} from 'common';
 import { Row, Col } from 'antd';
 
 function DetailWebShow({...props}) {
@@ -19,12 +19,12 @@ function DetailWebShow({...props}) {
                 info.promotionScope==1&&
                 <Row className="item-row">
                   <Col span={labelCol}>分享微信好友图片：</Col>
-                  <Col span={wrapperCol}><ImageFlex picUrl={info.shareWechatPic}/></Col>
+                  <Col span={wrapperCol}><QenlargeImg url={info.shareWechatPic}/></Col>
                 </Row>
               }
               <Row className="item-row">
                 <Col span={labelCol}>朋友圈分享图片：</Col>
-                <Col span={wrapperCol}><ImageFlex picUrl={info.shareWechatCfPic}/></Col>
+                <Col span={wrapperCol}><QenlargeImg url={info.shareWechatCfPic}/></Col>
               </Row>
             </div>
           }

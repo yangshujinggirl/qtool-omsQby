@@ -27,10 +27,10 @@ function withSubscription(WrapComponents,handleType ) {//
       GetBaseInfoApi(promotionId)
       .then((res)=> {
         let { result } =res;
-        let { costApportions, ...val } =result;
+        let { costApportions, promtionShare, ...val } =result;
         costApportions=costApportions?costApportions:[];
         costApportions.map((el,index)=>el.key=index);
-        val={...val,costApportions}
+        val={...val,...promtionShare, costApportions}
         setTotalData(val);
       })
       GetDiscountInfoApi(promotionId)
