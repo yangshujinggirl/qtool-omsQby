@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { Modal } from 'antd';
 import TopTitleDesHeader from '../../components/TopTitleDesHeader';
-import { QbaseDetail, Qcards, Qtable } from 'common/index';
+import { QbaseDetail, Qcards, Qtable, Qpagination } from 'common/index';
 import Columns from './column';
 import { GetPurchaseData } from 'api/home/DataCenter/PurchaseData';
 import CommonUtils from 'utils/CommonUtils';
@@ -12,28 +12,28 @@ import TableDataListUtil from 'utils/TableDataListUtil';
  * 初始注释时间： 2020/3/20 19:07
  * 注释创建人：LorenWang（王亮）
  */
-const PurchasingAnalysis = (props) => {
-	const [dataInfo, setDataInfo] = useState({
-		/**
-		 * 基础信息
-		 */
-		datalist: [],
-	});
-	/**
-	 * 表格数据
-	 */
-	const [tableList, setTableList] = useState([]);
+class PurchasingAnalysis extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			datalist:[],
+			tableList: [],
+			everyPage:15,
+			currentPage:1,
+			total:0
+		};
+	}
 
 	/**
 	 * 初始化完成回调
 	 * @param _this
 	 */
-	const baseDetailComponentCallback = (_this) => {
-		new GetPurchaseData()
+	baseDetailComponentCallback = (_this, values) => {
+		new GetPurchaseData(values)
 			.then((res) => {
 				_this.hideLoading();
 				if (res.httpCode === 200) {
-					const { proposalGoodsList, ...iRpPurchaseAnalysis } = res.result;
+					const { proposalGoodsList, everyPage,currentPage,total,...iRpPurchaseAnalysis} = res.result;
 					iRpPurchaseAnalysis.purchaseAmountRate = CommonUtils.dataDifferenceValueComparison(
 						iRpPurchaseAnalysis.purchaseAmount,
 						iRpPurchaseAnalysis.upPurchaseAmount
@@ -80,11 +80,16 @@ const PurchasingAnalysis = (props) => {
 							type: iRpPurchaseAnalysis.returnQtyRate < 0 ? '0' : '1',
 						},
 					];
-					setDataInfo({
+					this.setState({
 						datalist,
+						everyPage,
+						currentPage,
+						total,
 					});
 					if (proposalGoodsList && proposalGoodsList.length) {
-                        setTableList(TableDataListUtil.addKeyAndResultList(proposalGoodsList));
+						this.setState({
+							tableList: TableDataListUtil.addKeyAndResultList(proposalGoodsList),
+						});
 					}
 				}
 			})
@@ -96,7 +101,7 @@ const PurchasingAnalysis = (props) => {
 	/**
 	 * 数据定义说明
 	 */
-	const desInfo = () => {
+	desInfo = () => {
 		Modal.info({
 			title: '字段解释',
 			content: (
@@ -111,23 +116,31 @@ const PurchasingAnalysis = (props) => {
 				</div>
 			),
 		});
-    };
-    console.log(tableList)
-
-	return (
-		<QbaseDetail
-			childComponent={
-				<div>
-					<TopTitleDesHeader isShowUpdateTime={false} desInfoClick={desInfo} />
-					<Qcards data={dataInfo.datalist} />
-					<div>建议采购商品</div>
-					<div className="oms-common-index-pages-wrap">
-						<Qtable columns={Columns} dataSource={tableList} />
+	};
+	changePage = (currentPage, everyPage) => {
+		baseDetailComponentCallback({ currentPage, everyPage });
+	};
+	render() {
+		const { datalist, tableList, everyPage, currentPage, total } = this.state;
+		console.log(everyPage)
+		console.log(currentPage)
+		console.log(total)
+		return (
+			<QbaseDetail
+				childComponent={
+					<div>
+						<TopTitleDesHeader isShowUpdateTime={false} desInfoClick={this.desInfo} />
+						<Qcards data={datalist} />
+						<div>建议采购商品</div>
+						<div className="oms-common-index-pages-wrap">
+							<Qtable columns={Columns} dataSource={tableList} />
+						</div>
+						<Qpagination data={{ everyPage, currentPage, total }} onChange={this.changePage} />
 					</div>
-				</div>
-			}
-			baseDetailComponentCallback={baseDetailComponentCallback}
-		/>
-	);
-};
+				}
+				baseDetailComponentCallback={(_this) => this.baseDetailComponentCallback(_this, {})}
+			/>
+		);
+	}
+}
 export default PurchasingAnalysis;
