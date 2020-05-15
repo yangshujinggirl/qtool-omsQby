@@ -48,6 +48,10 @@ const normalOptions=[
     value:'采购主体',
     closable:true
   },{
+    label:'suitRangeName',
+    value:'适用年龄/范围',
+    closable:true
+  },{
     label:'profitsStr',
     value:'联营分成类型',
     closable:true
@@ -156,6 +160,10 @@ const crossPlainOptions=[
   },{
     label:"bondedWarehouseName",
     value:'保税仓',
+    closable:true
+  },{
+    label:'suitRangeName',
+    value:'适用年龄/范围',
     closable:true
   },{
     label:'statusStr',

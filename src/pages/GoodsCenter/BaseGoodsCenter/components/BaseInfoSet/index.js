@@ -1,9 +1,9 @@
 import { Input,Form,Select,Card,Checkbox,Radio,AutoComplete} from 'antd';
 import { useState, useEffect } from 'react';
 import { GetOriginApi, GetBrandApi, GetWarehouseApi, GetCategoryApi } from "api/home/BaseGoods";
-import { productTypeOptions, procurementTargetOptions } from '../options';
-let Option = Select.Option;
+import { rangeBaby,rangMa, productTypeOptions, procurementTargetOptions } from '../options';
 
+let {Option, OptGroup} = Select;
 const BaseInfoSet=({...props})=> {
   const [wareList,setWareList] =useState([]);
   const [brandList,setBrandlIst] =useState([])
@@ -260,6 +260,32 @@ const BaseInfoSet=({...props})=> {
           ))
         }
         </Select>
+      </Form.Item>
+      <Form.Item label="适用年龄/范围"className="common-required-formItem">
+        <Form.Item name="rang" rules={[ { required: true, message: '请输入适用年龄/范围' }]}>
+          <Select>
+            <Option value="B">宝宝</Option>
+            <Option value="M">妈妈</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          noStyle
+          shouldUpdate={(prevValues, currentValues) => prevValues.rang !== currentValues.rang}>
+          {({ getFieldValue }) => {
+            let rangOption = getFieldValue('rang')=='B'?rangeBaby:rangMa;
+            return getFieldValue('rang')&&
+            <Form.Item  name="suitRangeList" rules={[ { required: true, message: '请请选择' }]}>
+              <Checkbox.Group>
+                {
+                  rangOption.map((el)=> (
+                    <Checkbox value={el.property} key={el.property}>{el.itemName}</Checkbox>
+                  ))
+                }
+
+              </Checkbox.Group>
+            </Form.Item>
+          }}
+        </Form.Item>
       </Form.Item>
     </Card>
   )

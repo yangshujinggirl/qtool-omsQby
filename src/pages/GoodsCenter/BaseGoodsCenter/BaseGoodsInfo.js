@@ -120,6 +120,9 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
             <Form.Item label="四级类目">
               {totalData.categoryName4}
             </Form.Item>
+            <Form.Item label="适用年龄/范围">
+              {totalData.suitRangeName}
+            </Form.Item>
           </Card>
           {
             productNature==1&&

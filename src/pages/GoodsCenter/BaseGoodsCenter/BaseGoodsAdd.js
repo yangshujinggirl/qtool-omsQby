@@ -14,14 +14,14 @@ import StandardsMod from './components/StandardsMod';
 import ResetModal from './components/ResetModal';
 import BaseInfoSet from './components/BaseInfoSet';
 import {
-  sendTypeOptions,profitsOptions,
+  sendTypeOptions,profitsOptions,rangeBaby,rangMa,
   isBeforeSalesOptions, isDirectSalesOptions,
   batchProcessingStatusOptions, batchProcessingTypeOptions
 } from './components/options';
 import './BaseGoodsAdd.less';
 
 let FormItem = Form.Item;
-let Option = Select.Option;
+let {Option, OptGroup} = Select;
 const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -155,7 +155,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   const submit = async (saveType) => {
     try {
       const values = await form.validateFields();
-      let { brandAddressName, brandName, countryName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      let { rang, brandAddressName, brandName, countryName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
       if((pdType1Id!='0')&&specData.specOne.length==0) {
         Qmessage.error('请添加属性');
         return;
@@ -175,8 +175,18 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
       let listOne = specData.specOne.map((el)=> el.name);
       let listTwo = specData.specTwo.map((el)=> el.name);
+      let rangOption = rang=='B'?rangeBaby:rangMa;
+      let suitRangeNameList=[];
+      paramsVal.suitRangeList.map((el) => {
+        rangOption.map((item) => {
+          if(el == item.property) {
+            suitRangeNameList.push(item.itemName);
+          }
+        })
+      })
       paramsVal = {
         ...paramsVal,
+        suitRangeNameList,
         country:totalData.countryCode,
         brandId:totalData.brandId,
         categoryId:categoryId4,
@@ -191,6 +201,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
           attributeValueList:listTwo
         }]
       }
+
       if(spuCode) { paramsVal = {...paramsVal,spuCode} }
       GetEditApi(paramsVal)
       .then((res)=> {
