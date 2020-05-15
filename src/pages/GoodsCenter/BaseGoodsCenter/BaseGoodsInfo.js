@@ -120,14 +120,14 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
             <Form.Item label="四级类目">
               {totalData.categoryName4}
             </Form.Item>
+            <Form.Item label="适用年龄/范围">
+              {totalData.suitRangeName}
+            </Form.Item>
           </Card>
           {
             productNature==1&&
             <div>
               <Card title="销售信息">
-                <Form.Item label="适用年龄/范围">
-                  {totalData.suitRangeName}
-                </Form.Item>
                 <Form.Item label="联营分成类别">
                   {
                     profitsOptions.map((el)=>(

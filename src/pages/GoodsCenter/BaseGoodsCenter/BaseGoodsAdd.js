@@ -267,32 +267,6 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
             productNature==1&&
             <div>
               <Card title="销售信息">
-                <Form.Item label="适用年龄/范围"className="common-required-formItem">
-                  <Form.Item name="rang" rules={[ { required: true, message: '请输入适用年龄/范围' }]}>
-                    <Select>
-                      <Option value="B">宝宝</Option>
-                      <Option value="M">妈妈</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    noStyle
-                    shouldUpdate={(prevValues, currentValues) => prevValues.rang !== currentValues.rang}>
-                    {({ getFieldValue }) => {
-                      let rangOption = getFieldValue('rang')=='B'?rangeBaby:rangMa;
-                      return getFieldValue('rang')&&
-                      <Form.Item  name="suitRangeList" rules={[ { required: true, message: '请请选择' }]}>
-                        <Checkbox.Group>
-                          {
-                            rangOption.map((el)=> (
-                              <Checkbox value={el.property} key={el.property}>{el.itemName}</Checkbox>
-                            ))
-                          }
-
-                        </Checkbox.Group>
-                      </Form.Item>
-                    }}
-                  </Form.Item>
-                </Form.Item>
                 <Form.Item label="联营分成类别" name="profits" rules={[{ required: true, message: '请选择联营分成类别' }]}>
                   <Radio.Group>
                     {
