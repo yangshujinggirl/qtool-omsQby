@@ -14,14 +14,14 @@ import StandardsMod from './components/StandardsMod';
 import ResetModal from './components/ResetModal';
 import BaseInfoSet from './components/BaseInfoSet';
 import {
-  sendTypeOptions,profitsOptions,
+  sendTypeOptions,profitsOptions,rangeBaby,rangMa,
   isBeforeSalesOptions, isDirectSalesOptions,
   batchProcessingStatusOptions, batchProcessingTypeOptions
 } from './components/options';
 import './BaseGoodsAdd.less';
 
 let FormItem = Form.Item;
-let Option = Select.Option;
+let {Option, OptGroup} = Select;
 const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -155,7 +155,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
   const submit = async (saveType) => {
     try {
       const values = await form.validateFields();
-      let { brandAddressName, brandName, countryName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
+      let { rang, brandAddressName, brandName, countryName, country, categoryId, categoryId2, categoryId3, categoryId4, pdType1Id, pdType2Id, list, ...paramsVal} = values;
       if((pdType1Id!='0')&&specData.specOne.length==0) {
         Qmessage.error('请添加属性');
         return;
@@ -175,8 +175,18 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
       })
       let listOne = specData.specOne.map((el)=> el.name);
       let listTwo = specData.specTwo.map((el)=> el.name);
+      let rangOption = rang=='B'?rangeBaby:rangMa;
+      let suitRangeNameList=[];
+      paramsVal.suitRangeList.map((el) => {
+        rangOption.map((item) => {
+          if(el == item.property) {
+            suitRangeNameList.push(item.itemName);
+          }
+        })
+      })
       paramsVal = {
         ...paramsVal,
+        suitRangeNameList,
         country:totalData.countryCode,
         brandId:totalData.brandId,
         categoryId:categoryId4,
@@ -191,6 +201,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
           attributeValueList:listTwo
         }]
       }
+
       if(spuCode) { paramsVal = {...paramsVal,spuCode} }
       GetEditApi(paramsVal)
       .then((res)=> {
@@ -256,6 +267,32 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
             productNature==1&&
             <div>
               <Card title="销售信息">
+                <Form.Item label="适用年龄/范围"className="common-required-formItem">
+                  <Form.Item name="rang" rules={[ { required: true, message: '请输入适用年龄/范围' }]}>
+                    <Select>
+                      <Option value="B">宝宝</Option>
+                      <Option value="M">妈妈</Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    noStyle
+                    shouldUpdate={(prevValues, currentValues) => prevValues.rang !== currentValues.rang}>
+                    {({ getFieldValue }) => {
+                      let rangOption = getFieldValue('rang')=='B'?rangeBaby:rangMa;
+                      return getFieldValue('rang')&&
+                      <Form.Item  name="suitRangeList" rules={[ { required: true, message: '请请选择' }]}>
+                        <Checkbox.Group>
+                          {
+                            rangOption.map((el)=> (
+                              <Checkbox value={el.property} key={el.property}>{el.itemName}</Checkbox>
+                            ))
+                          }
+
+                        </Checkbox.Group>
+                      </Form.Item>
+                    }}
+                  </Form.Item>
+                </Form.Item>
                 <Form.Item label="联营分成类别" name="profits" rules={[{ required: true, message: '请选择联营分成类别' }]}>
                   <Radio.Group>
                     {

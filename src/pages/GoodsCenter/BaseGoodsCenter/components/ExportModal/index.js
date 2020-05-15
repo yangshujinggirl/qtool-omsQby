@@ -82,7 +82,7 @@ const ExportModal =({...props})=> {
             indeterminate={indeterminate}
             onChange={onCheckAllChange}
             checked={checkAll}>
-              Check all
+              全选
           </Checkbox>
           <br />
           <Checkbox.Group
