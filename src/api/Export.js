@@ -47,10 +47,14 @@ export function AppExportApi(data, url) {
  */
 export function DataExportApi(data, url, exportParamsClass) {
 	return dataEmptyInterceptorsAjax.post(url, { ...data, everyPage: 50000 }).then((rep) => {
-		if (rep.data.result.result && rep.data.result.result.length) {
-			ExcelUtils.exportExcelData(rep.data.result.result, exportParamsClass);
+		if (rep.httpCode == 200) {
+			if (rep.data.result.result && rep.data.result.result.length) {
+				ExcelUtils.exportExcelData(rep.data.result.result, exportParamsClass);
+			} else {
+				message.warning('该导出数据无内容', 1);
+			}
 		} else {
-			message.warning('该导出数据无内容',1);
+			message.error('导出失败',.8);
 		}
 	});
 }
@@ -65,10 +69,14 @@ export function DataExportApi(data, url, exportParamsClass) {
  */
 export function DataExportApiColumn(data, url, column, title) {
 	return dataEmptyInterceptorsAjax.post(url, { ...data, everyPage: 50000 }).then((rep) => {
-		if (rep.data.result.result && rep.data.result.result.length) {
-			ExcelUtils.exportExcelDataColumn(rep.data.result.result, column, title);
+		if (rep.httpCode == 200) {
+			if (rep.data.result.result && rep.data.result.result.length) {
+				ExcelUtils.exportExcelDataColumn(rep.data.result.result, column, title);
+			} else {
+				message.warning('该导出数据无内容', 1);
+			}
 		} else {
-			message.warning('该导出数据无内容',1);
+			message.error('导出失败',.8);
 		}
 	});
 }

@@ -4,7 +4,6 @@ import moment from 'moment';
 import echarts from 'echarts';
 import './index.less';
 const { RangePicker } = DatePicker;
-
 /**
  * 初始注释时间： 2020/3/15 15:01
  * 注释创建人：LorenWang（王亮）

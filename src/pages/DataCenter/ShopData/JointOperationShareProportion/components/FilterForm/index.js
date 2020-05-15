@@ -18,26 +18,13 @@ class SearchForm extends BaseFilter {
 		};
 	}
 	//智能搜索
-	handleSearch(value) {
-		this.setState({
-			spShopId: null,
-		});
-		if (value) {
-			GetStoreIntelligentSearchList({ channelName: value }).then((rep) => {
-				const shops = rep.result.result;
-				const dataSources = [];
-				for (let i = 0; i < shops.length; i++) {
-					dataSources.push({
-						value: shops[i].name,
-						spShopId: shops[i].spShopId,
-					});
-				}
-				this.setState({
-					dataSources,
-				});
+	handleSearch = (value) => {
+		GetStoreIntelligentSearchList({ channelName: value }).then((rep) => {
+			this.setState({
+				dataSources: rep.result,
 			});
-		}
-	}
+		});
+	};
 	render() {
 		return (
 			<div className="qtoolOms-condition">
@@ -50,10 +37,7 @@ class SearchForm extends BaseFilter {
 					<Row gutter={24}>
 						<Col {...this.colspans}>
 							<FormItem label="门店名称" name="shopName" {...this.formItemLayout}>
-								<AutoComplete
-									onSearch={this.handleSearch}
-									placeholder="请选择门店名称"
-								>
+								<AutoComplete onSearch={this.handleSearch} placeholder="请选择门店名称">
 									{this.state.dataSources.map((item) => (
 										<Option value={item.channelName}>{item.channelName}</Option>
 									))}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { Modal, Spin } from 'antd';
 import { Qcards } from 'common';
 import { GetSpHeaderData } from 'api/home/DataCenter/OrderData';
@@ -8,6 +8,7 @@ import formatData from './components/formatData';
 import ShopTable from './components/ShopTable';
 import moment from 'moment';
 const updateTime = moment().format('YYYY-MM-DD HH:mm:ss');
+import _ from 'lodash'
 
 /**
  * 功能作用：门店订单数据列表页面
@@ -15,7 +16,7 @@ const updateTime = moment().format('YYYY-MM-DD HH:mm:ss');
  * 注释创建人：LorenWang（王亮）
  */
 const Shop = (props) => {
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState({header:false,charts:false,table:false});
 	const [dataInfo, setDataInfo] = useState({
 		data: [],
 		datalist1: [], //门店
@@ -27,7 +28,7 @@ const Shop = (props) => {
 	}, []);
 	//请求头部数据
 	const getCardList = () => {
-		setLoading(true);
+		setIsLoading(_.assign(isLoading,{header:true}))
 		GetSpHeaderData().then((res) => {
 				if (res.httpCode == 200) {
 					const { analysis, datalist1, datalist2 } = formatData(res.result);
@@ -37,11 +38,9 @@ const Shop = (props) => {
 						datalist2,
 					});
 				}
-				setLoading(false);
+			}).finally(()=>{
+				setIsLoading(_.assign(isLoading,{header:false}))
 			})
-			.catch((err) => {
-				setLoading(false);
-			});
 	};
 	/**
 	 * 数据定义说明
@@ -66,14 +65,18 @@ const Shop = (props) => {
 			),
 		});
 	};
+	const changeLoading=(values)=>{
+		setIsLoading({...isLoading,...values})
+	}
+	const {table,charts,header} = isLoading;
 	return (
 		<div>
-			<Spin spinning={loading}>
+			<Spin spinning={table||charts||header}>
 				<TopTitleDesHeader updateTime={updateTime} desInfoClick={desInfo} />
 				<Qcards data={dataInfo.datalist1} />
 				<Qcards data={dataInfo.datalist2} />
-				<ShopEcharts />
-				<ShopTable />
+				<ShopEcharts changeLoading={changeLoading}/>
+				<ShopTable changeLoading={changeLoading}/>
 			</Spin>
 		</div>
 	);

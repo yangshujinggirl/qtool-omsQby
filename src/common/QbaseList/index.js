@@ -216,6 +216,7 @@ function QbaseList(ChildComponent, apiRequest, config = defaultConfig) {
         selectTimeChange = (values, isDefaultInitFinish) => {
             const params = {...this.state.searchCriteriaList, ...values};
             this.setState({recordSearchCriteriaList: params});
+            console.log(params)
             if (isDefaultInitFinish) {
                 this.searchDataList(params);
             }

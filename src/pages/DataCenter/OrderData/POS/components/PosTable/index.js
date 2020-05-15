@@ -12,10 +12,9 @@ const startDate = moment().subtract(6, 'days').format(formatType);
 const endDate = moment().format(formatType);
 
 //订单数据--->pos数据列表
-const PosTable = () => {
+const PosTable = (props) => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
-
 	//数据初始化
 	useEffect(() => {
 		getList({ startDate, endDate });
@@ -23,16 +22,21 @@ const PosTable = () => {
 	//请求数据
 	const getList = (values) => {
 		const params = { ...inputValues, ...values };
-		GetPosTableData(params).then((res) => {
-			if (res.httpCode == 200) {
-				const { result } = res.result;
-				if (result && result.length) {
-					result.map((item, index) => (item.key = index));
-					setDataSource(result);
-					setInputValues(params);
+		props.changeLoading({ table: true });
+		GetPosTableData(params)
+			.then((res) => {
+				if (res.httpCode == 200) {
+					const { result } = res.result;
+					if (result && result.length) {
+						result.map((item, index) => (item.key = index));
+						setDataSource(result);
+						setInputValues(params);
+					}
 				}
-			}
-		});
+			})
+			.finally(() => {
+				props.changeLoading({ table: false });
+			});
 	};
 	//时间发生改变
 	const onChange = (values) => {

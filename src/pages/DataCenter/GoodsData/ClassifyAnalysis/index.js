@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal,Spin } from 'antd';
 import moment from 'moment'
 import TopTitleDesHeader from '../../components/TopTitleDesHeader';
 import ClassifyAnalysisCharts from './components/ClassifyAnalysisCharts';
@@ -11,6 +11,9 @@ import ClassifyAnalysisCharts from './components/ClassifyAnalysisCharts';
  * 注释创建人：LorenWang（王亮）
  */
 export default class ClassifyAnalysis extends React.Component {
+	state={
+		loading:false
+	}
 	/**
 	 * 数据定义说明
 	 */
@@ -31,15 +34,25 @@ export default class ClassifyAnalysis extends React.Component {
 			),
 		});
 	};
+	showLoading=()=>{
+		this.setState({
+			loading:true
+		})
+	}
+	hideLoading=()=>{
+		this.setState({
+			loading:false
+		})
+	}
 	render() {
 		const updateTime = moment().format('YYYY-MM-DD HH:mm:ss')
 		return (
-			<div>
+			<Spin spinning={this.state.loading}>
 				<TopTitleDesHeader updateTime={updateTime} desInfoClick={this.desInfo.bind(this)} />
 				<div style={{ border: '1px solid #e8e8e8', padding: '20px', marginTop: '30px' }}>
-					<ClassifyAnalysisCharts/>
+					<ClassifyAnalysisCharts showLoading={this.showLoading} hideLoading={this.hideLoading}/>
 				</div>
-			</div>
+			</Spin>
 		);
 	}
 }

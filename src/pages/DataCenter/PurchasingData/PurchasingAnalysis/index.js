@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import TopTitleDesHeader from '../../components/TopTitleDesHeader';
 import { QbaseDetail, Qcards, Qtable, Qpagination } from 'common/index';
 import Columns from './column';
-import { GetPurchaseData } from 'api/home/DataCenter/PurchaseData';
+import { GetPurchaseHeaderData, GetPurchaseTableData } from 'api/home/DataCenter/PurchaseData';
 import CommonUtils from 'utils/CommonUtils';
 import TableDataListUtil from 'utils/TableDataListUtil';
 
@@ -16,86 +16,104 @@ class PurchasingAnalysis extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			datalist:[],
+			datalist: [],
 			tableList: [],
-			everyPage:15,
-			currentPage:1,
-			total:0
+			everyPage: 15,
+			currentPage: 1,
+			total: 0,
 		};
 	}
-
+	//获取列表数据
+	getTableData = (values) => {
+		return new Promise((resolve, reject) => {
+			GetPurchaseTableData(values).then((res) => {
+				if (res.httpCode == 200) {
+					const { result, currentPage, everyPage, total } = res.result;
+					if (result && result.length) {
+						this.setState({
+							tableList: TableDataListUtil.addKeyAndResultList(result),
+							everyPage,
+							currentPage,
+							total,
+						});
+					}
+				}
+			}).finally(()=>{
+				resolve()
+			});
+		});
+	};
+	//获取头部数据
+	getHeaderData = () => {
+		return new Promise((resolve, reject) => {
+			GetPurchaseHeaderData().then((res) => {
+				if (res.httpCode == 200) {
+					if (res.httpCode === 200) {
+						const iRpPurchaseAnalysis = res.result;
+						iRpPurchaseAnalysis.purchaseAmountRate = CommonUtils.dataDifferenceValueComparison(
+							iRpPurchaseAnalysis.purchaseAmount,
+							iRpPurchaseAnalysis.upPurchaseAmount
+						); //采购金额
+						iRpPurchaseAnalysis.purchaseQtyRate = CommonUtils.dataDifferenceValueComparison(
+							iRpPurchaseAnalysis.purchaseQty,
+							iRpPurchaseAnalysis.upPurchaseQty
+						); //采购数量
+						iRpPurchaseAnalysis.returnAmountRate = CommonUtils.dataDifferenceValueComparison(
+							iRpPurchaseAnalysis.returnAmount,
+							iRpPurchaseAnalysis.upReturnAmount
+						); //才退金额
+						iRpPurchaseAnalysis.returnQtyRate = CommonUtils.dataDifferenceValueComparison(
+							iRpPurchaseAnalysis.returnQty,
+							iRpPurchaseAnalysis.upReturnQty
+						); //才退数量
+						const datalist = [
+							{
+								title: '本月采购金额',
+								value: iRpPurchaseAnalysis.purchaseAmount,
+								rate: Math.abs(iRpPurchaseAnalysis.purchaseAmountRate),
+								text: '同比上月',
+								type: iRpPurchaseAnalysis.purchaseAmountRate < 0 ? '0' : '1',
+							},
+							{
+								title: '本月采购商品数',
+								value: iRpPurchaseAnalysis.purchaseQty,
+								rate: Math.abs(iRpPurchaseAnalysis.purchaseQtyRate),
+								text: '同比上月',
+								type: iRpPurchaseAnalysis.qbyQtyRate < 0 ? '0' : '1',
+							},
+							{
+								title: '本月采退金额',
+								value: iRpPurchaseAnalysis.returnAmount,
+								rate: Math.abs(iRpPurchaseAnalysis.returnAmountRate),
+								text: '同比上月',
+								type: iRpPurchaseAnalysis.returnAmountRate < 0 ? '0' : '1',
+							},
+							{
+								title: '本月采退商品数',
+								value: iRpPurchaseAnalysis.returnQty,
+								rate: Math.abs(iRpPurchaseAnalysis.returnQtyRate),
+								text: '同比上月',
+								type: iRpPurchaseAnalysis.returnQtyRate < 0 ? '0' : '1',
+							},
+						];
+						this.setState({
+							datalist,
+						});
+					}
+				}
+			}).finally(()=>{
+				resolve()
+			});;
+		});
+	};
 	/**
 	 * 初始化完成回调
 	 * @param _this
 	 */
-	baseDetailComponentCallback = (_this, values) => {
-		new GetPurchaseData(values)
-			.then((res) => {
-				_this.hideLoading();
-				if (res.httpCode === 200) {
-					const { proposalGoodsList, everyPage,currentPage,total,...iRpPurchaseAnalysis} = res.result;
-					iRpPurchaseAnalysis.purchaseAmountRate = CommonUtils.dataDifferenceValueComparison(
-						iRpPurchaseAnalysis.purchaseAmount,
-						iRpPurchaseAnalysis.upPurchaseAmount
-					); //采购金额
-					iRpPurchaseAnalysis.purchaseQtyRate = CommonUtils.dataDifferenceValueComparison(
-						iRpPurchaseAnalysis.purchaseQty,
-						iRpPurchaseAnalysis.upPurchaseQty
-					); //采购数量
-					iRpPurchaseAnalysis.returnAmountRate = CommonUtils.dataDifferenceValueComparison(
-						iRpPurchaseAnalysis.returnAmount,
-						iRpPurchaseAnalysis.upReturnAmount
-					); //才退金额
-					iRpPurchaseAnalysis.returnQtyRate = CommonUtils.dataDifferenceValueComparison(
-						iRpPurchaseAnalysis.returnQty,
-						iRpPurchaseAnalysis.upReturnQty
-					); //才退数量
-					const datalist = [
-						{
-							title: '本月采购金额',
-							value: iRpPurchaseAnalysis.purchaseAmount,
-							rate: Math.abs(iRpPurchaseAnalysis.purchaseAmountRate),
-							text: '同比上月',
-							type: iRpPurchaseAnalysis.purchaseAmountRate < 0 ? '0' : '1',
-						},
-						{
-							title: '本月采购商品数',
-							value: iRpPurchaseAnalysis.purchaseQty,
-							rate: Math.abs(iRpPurchaseAnalysis.purchaseQtyRate),
-							text: '同比上月',
-							type: iRpPurchaseAnalysis.qbyQtyRate < 0 ? '0' : '1',
-						},
-						{
-							title: '本月采退金额',
-							value: iRpPurchaseAnalysis.returnAmount,
-							rate: Math.abs(iRpPurchaseAnalysis.returnAmountRate),
-							text: '同比上月',
-							type: iRpPurchaseAnalysis.returnAmountRate < 0 ? '0' : '1',
-						},
-						{
-							title: '本月采退商品数',
-							value: iRpPurchaseAnalysis.returnQty,
-							rate: Math.abs(iRpPurchaseAnalysis.returnQtyRate),
-							text: '同比上月',
-							type: iRpPurchaseAnalysis.returnQtyRate < 0 ? '0' : '1',
-						},
-					];
-					this.setState({
-						datalist,
-						everyPage,
-						currentPage,
-						total,
-					});
-					if (proposalGoodsList && proposalGoodsList.length) {
-						this.setState({
-							tableList: TableDataListUtil.addKeyAndResultList(proposalGoodsList),
-						});
-					}
-				}
-			})
-			.catch((err) => {
-				_this.hideLoading();
-			});
+	baseDetailComponentCallback = async(_this) => {
+		await this.getHeaderData();
+		await this.getTableData({});
+		_this.hideLoading()
 	};
 
 	/**
@@ -117,16 +135,17 @@ class PurchasingAnalysis extends Component {
 			),
 		});
 	};
-	changePage = (currentPage, everyPage) => {
-		baseDetailComponentCallback({ currentPage, everyPage });
+	//分页
+	changePage = async(currentPage, everyPage) => {
+		this.refs["QbaseDetail"].showLoading ();
+		await this.getTableData({currentPage, everyPage})
+		this.refs["QbaseDetail"].hideLoading()
 	};
 	render() {
 		const { datalist, tableList, everyPage, currentPage, total } = this.state;
-		console.log(everyPage)
-		console.log(currentPage)
-		console.log(total)
 		return (
 			<QbaseDetail
+				ref='QbaseDetail'
 				childComponent={
 					<div>
 						<TopTitleDesHeader isShowUpdateTime={false} desInfoClick={this.desInfo} />
@@ -138,7 +157,7 @@ class PurchasingAnalysis extends Component {
 						<Qpagination data={{ everyPage, currentPage, total }} onChange={this.changePage} />
 					</div>
 				}
-				baseDetailComponentCallback={(_this) => this.baseDetailComponentCallback(_this, {})}
+				baseDetailComponentCallback={(_this) => this.baseDetailComponentCallback(_this)}
 			/>
 		);
 	}

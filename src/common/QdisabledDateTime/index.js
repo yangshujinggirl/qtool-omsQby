@@ -48,7 +48,6 @@ class RangeTime extends Component {
 		);
 	}
 }
-
 /**
  * 功能作用：筛选搜索当中的时间范围选择
  * 初始注释时间： 2020/3/10 11:57
@@ -105,7 +104,6 @@ class FilterSearchRangeTime extends Component {
 		);
 	}
 }
-
 /**
  * 功能作用：表格中的单项item时间显示
  * 初始注释时间： 2020/3/16 16:34
@@ -121,5 +119,4 @@ class TableItemShowTime extends Component {
 		return <span>{this.props.showTime && moment(this.props.showTime).format('YYYY-MM-DD H:mm:ss')}</span>;
 	}
 }
-
 export { DateTime, RangeTime, FilterSearchRangeTime, TableItemShowTime };

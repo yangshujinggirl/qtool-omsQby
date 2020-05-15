@@ -10,9 +10,8 @@ const { RangePicker } = DatePicker;
 const formatType = 'YYYY-MM-DD';
 const startDate = moment().subtract(6, 'days').format(formatType);
 const endDate = moment().format(formatType);
-
 //订单数据--->门店数据列表
-const ShopTable = () => {
+const ShopTable = (props) => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
 	
@@ -23,6 +22,7 @@ const ShopTable = () => {
 	//请求数据
 	const getList = (values) => {
 		const params = { ...inputValues, ...values };
+		props.changeLoading({ table: true });
 		GetSpTableData(params).then((res) => {
 			if (res.httpCode == 200) {
 				const { result } = res.result;
@@ -32,7 +32,9 @@ const ShopTable = () => {
 					setInputValues(params);
 				}
 			}
-		});
+		}).finally(() => {
+			props.changeLoading({ table: false });
+		});;
 	};
 	//时间发生改变
 	const onChange = (values) => {
