@@ -5,15 +5,16 @@ import HotSale from './HotSale';
 import ClerkSale from './ClerkSale';
 import PurchaseSellStock from './PurchaseSellStock';
 import ScoreReport from './ScoreReport';
+import './index.less'
 
 const { TabPane } = Tabs;
 const Index = () => {
 	const [activeKey, setActivekey] = useState('1');
-	const callback = (activeKey) => {
+	const onChange = (activeKey) => {
 		setActivekey(activeKey);
 	};
 	return (
-		<Tabs tabPosition={top} activeKey={activeKey} onChange={callback}>
+		<Tabs activeKey={activeKey} onChange={onChange}>
 			<TabPane tab="每日对账单" key="1">
 				<DailyAccount />
 			</TabPane>

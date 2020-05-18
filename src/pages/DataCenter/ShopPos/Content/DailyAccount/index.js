@@ -5,8 +5,12 @@ import ShopSale from './ShopSale';
 import ShopDivide from './ShopDivide';
 
 const DailyAccount = () => {
+	const [activeKey,setActivekey] = useState('1')
+	const onChange=(activeKey)=>{
+		setActivekey(activeKey)
+	}
 	return (
-		<Tabs activeKey='1'>
+		<Tabs {...{activeKey,onChange}}>
 			<TabPane key='1' tab="门店销售对账单">
 				<ShopSale />
 			</TabPane>
