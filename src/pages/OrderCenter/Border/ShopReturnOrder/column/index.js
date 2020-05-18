@@ -59,6 +59,14 @@ const Columns = [
               <span>{text && moment(text).format("YYYY-MM-DD H:mm:ss")}</span>
           </div>
       )
+    },{
+      title: "操作",
+      dataIndex: "action",
+      render: (text, record) =>{
+        return <span className="pointerSty" onClick={() => record.onOperateClick('cancel')}>
+                  取消退单
+              </span>
+      }
     }];
 export  {
   Columns,OrderLogsColumns,GoodsColumns
