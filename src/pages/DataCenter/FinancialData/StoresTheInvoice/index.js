@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Qtable, Qpagination } from 'common';
 import { GetStoresTheInvoiceList } from 'api/home/DataCenter/FinancialData';
-import { Button,Spin } from 'antd';
+import { Button, Spin } from 'antd';
 import FilterForm from './components/FilterForm/index';
 import moment from 'moment';
 import Columns from './column';
@@ -22,18 +22,19 @@ class StoresTheInvoice extends Component {
 	componentDidMount() {
 		this.searchData({ startDate: moment().format('YYYY-MM-01'), firstDisplay: true });
 	}
+
 	//显示loading
-	showLoading=()=> {
+	showLoading = () => {
 		this.setState({
 			loading: true,
 		});
-	}
+	};
 	//隐藏loading
-	hideLoading=()=> {
+	hideLoading = () => {
 		this.setState({
 			loading: false,
 		});
-	}
+	};
 	//点击搜索
 	searchData = (values) => {
 		const { firstDisplay, ..._values } = values;

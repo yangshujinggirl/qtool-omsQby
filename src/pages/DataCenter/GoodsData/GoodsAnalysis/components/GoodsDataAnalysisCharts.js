@@ -24,6 +24,8 @@ class GoodsAnalysisEcharts extends Component {
 				const analysisData = res.result;
 				this.formatValue(analysisData,params);
 			}
+		}).finally(()=>{
+			this.props.hideLoading()
 		});
 	};
 	//数据格式化

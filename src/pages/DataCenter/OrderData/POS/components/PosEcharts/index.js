@@ -17,12 +17,15 @@ class PosEcharts extends Component {
 	}
 	//请求数据
 	getDataList = (values) => {
+		this.props.changeLoading({charts:true})
 		const params = { ...this.state.searchFilterList, ...values };
 		GetPosData(params).then((res) => {
 			if (res.httpCode == 200) {
 				const analysisData = res.result;
 				this.formatValue(analysisData, params);
 			}
+		}).finally(()=>{
+			this.props.changeLoading({charts:false})
 		});
 	};
 	//数据格式化

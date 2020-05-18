@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal } from 'antd';
+import { Modal,Spin } from 'antd';
 import TopTitleDesHeader from '../../components/TopTitleDesHeader';
 import { GetPosHeaderData } from 'api/home/DataCenter/OrderData';
 import { Qcards } from 'common/index';
@@ -18,6 +18,7 @@ const POS = (props) => {
 		datalist1: [],
 		datalist2: [],
 	});
+	const [isLoading,setIsLoading] = useState({header:false,charts:false,table:false})
 	//初始化
 	useEffect(() => {
 		getHeaderData();
@@ -27,6 +28,7 @@ const POS = (props) => {
 	 * @param _this
 	 */
 	const getHeaderData = () => {
+		setIsLoading({...isLoading,header:true});
 		GetPosHeaderData().then((res) => {
 			if (res.httpCode == 200) {
 				const analysis = res.result;
@@ -36,6 +38,8 @@ const POS = (props) => {
 					datalist2,
 				});
 			}
+		}).finally(()=>{
+			setIsLoading({...isLoading,header:false});
 		});
 	};
 
@@ -62,15 +66,18 @@ const POS = (props) => {
 			onOk() {},
 		});
 	};
-
+	const changeLoading=(values)=>{
+		setIsLoading({...isLoading,...values})
+	}
+	const {header,charts,table} = isLoading;
 	return (
-		<div>
+		<Spin spinning={header||charts||table}>
 			<TopTitleDesHeader updateTime={dataInfo.updateTime} desInfoClick={desInfo} />
 			<Qcards data={dataInfo.datalist1} />
 			<Qcards data={dataInfo.datalist2} />
-			<PosEcharts />
-			<PosTable />
-		</div>
+			<PosEcharts changeLoading={changeLoading}/>
+			<PosTable changeLoading={changeLoading}/>
+		</Spin>
 	);
 };
 export default POS;

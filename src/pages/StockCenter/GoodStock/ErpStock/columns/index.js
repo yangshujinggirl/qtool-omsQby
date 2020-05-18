@@ -33,11 +33,26 @@ const Columns = [
   },
   {
     title: "ERP库存数",
+    dataIndex: "erpStock",
+    key: "7"
+  },
+  {
+    title: "蔻兔仓库存",
+    dataIndex: "qtoolsActualStock",
+    key: "7"
+  },
+  {
+    title: "淮安仓库存",
     dataIndex: "actualStock",
     key: "7"
   },
   {
-    title: "可售库存数",
+    title: "蔻兔仓可用库存",
+    dataIndex: "qtoolsAvailableStock",
+    key: "7"
+  },
+  {
+    title: "淮安仓可用库存",
     dataIndex: "availableStock",
     key: "8"
   }

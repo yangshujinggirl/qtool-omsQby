@@ -18,12 +18,15 @@ class ShopEcharts extends Component {
 	}
 	//请求数据
 	getDataList = (values) => {
+		this.props.changeLoading({charts:true})
 		const params = { ...this.state.searchFilterList, ...values };
 		GetSpData(params).then((res) => {
 			if (res.httpCode == 200) {
 				const analysisData = res.result;
 				this.formatValue(analysisData, params);
 			}
+		}).finally(()=>{
+			this.props.changeLoading({charts:false})
 		});
 	};
 	//数据格式化
@@ -73,14 +76,10 @@ class ShopEcharts extends Component {
 			series,
 			btnText,
 			type,
-			defaultValue: [moment().subtract(6, 'days'), moment()],
-			start: moment().subtract(6, 'days').format('YYYY-MM-DD'),
-			end: moment().format('YYYY-MM-DD'),
 		};
 	};
 	render() {
 		const propsParams = this.formatToChildValue();
-		const { dataSource } = this.state;
 		return (
 			<div>
 				<Qcharts {...propsParams} getDataList={this.getDataList} changeType={this.changeType} ref="Qcharts" />

@@ -133,6 +133,8 @@ import SpRanking from "./DataCenter/ShopData/SaleData/SpRanking"; //门店排行
 import SpNotice from "./DataCenter/ShopData/SaleData/SpNotice"; //门店注意
 import PurchasingTheArrivalOfTheGoods from "./DataCenter/FinancialData/PurchasingTheArrivalOfTheGoods"; //财务数据--->采购到货
 import StoresTheInvoice from "./DataCenter/FinancialData/StoresTheInvoice"; //财务数据--->门店发票
+import ShopPos from './DataCenter/ShopPos'//门店pos
+import ShopPos_Content from './DataCenter/ShopPos/Content'//门店pos内部
 
 
 
@@ -327,6 +329,8 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/shopData/sp_notice" component={SpNotice} />
         <Route exact path="/account/cost_accounting_data" component={StoresTheInvoice} />
         <Route exact path="/account/stores_cost_data" component={PurchasingTheArrivalOfTheGoods} />
+        <Route exact path="/account/store_pos_data" component={ShopPos} />
+        <Route exact path="/account/shop_pos_in" component={ShopPos_Content} />
 
 
 
