@@ -11,11 +11,10 @@ const { SubMenu } = Menu;
 
 class AccountInfo extends Component {
   onClick=(value)=> {
-    console.log(value)
     let type = value.key;
     switch (type) {
       case '0':
-        console.log(type)
+        window.open('/static/help.pdf');
         break;
       case '1':
         this.changePassWord()
@@ -53,7 +52,7 @@ class AccountInfo extends Component {
     const userName = sessionStorage.getItem("oms_userName")
     return (
       <div className="oms-home-header-nav">
-        <span className="download-center">下载中心</span>
+        {/*<span className="download-center">下载中心</span>*/}
         <span className="account-center">
           <Dropdown overlay={menu} trigger={['click']}>
             <a className="ant-dropdown-link" href="#">

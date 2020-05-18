@@ -198,7 +198,7 @@ const BaseInfoSet=({...props})=> {
             </Radio.Group>
           </Form.Item>
           <Form.Item label="采购主体" name="procurementTarget" rules={[{ required: true, message: '请选择采购主体'}]}>
-            <Select placeholder="请选择后台一级类目" disabled>
+            <Select placeholder="请选择后台一级类目">
               {
                 procurementTargetOptions.map((el)=>(
                 <Option value={el.key} key={el.key}>{el.value}</Option>
