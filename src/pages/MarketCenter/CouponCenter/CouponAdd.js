@@ -2,6 +2,7 @@ import {
   Input,Spin,Form,Upload,Select,Table,Card,Tag,
   Row,Col,Checkbox,Button,Radio,AutoComplete,DatePicker
 } from 'antd';
+import moment from 'moment';
 import { QreturnBtn, Qbtn, Qmessage, BaseEditTable, QupLoadAndDownLoad } from 'common';
 import { useState, useEffect } from 'react';
 import Proration from '../components/Proration';
@@ -109,7 +110,7 @@ const CouponAdd=({...props})=> {
   const submit = async () => {
     try {
       let values = await form.validateFields();
-      let { bearers, costApportion, ..._val} =values;
+      let { bearers, costApportion, couponValidDate, ..._val} =values;
       let proportionList = ratioList.map((el)=> {
         if(el.budget) {
           _val.budget = el.budget
@@ -120,8 +121,11 @@ const CouponAdd=({...props})=> {
           bearerName:el.bearerStr,
         }
       })
+      if(couponValidDate) {
+        _val.couponValidDateST = moment(couponValidDate[0]).format("YYYY-MM-DD HH:mm:ss");
+        _val.couponValidDateET = moment(couponValidDate[1]).format("YYYY-MM-DD HH:mm:ss");
+      }
       _val = {..._val,proportionList}
-      console.log(_val);
       GetAddApi(_val)
       .then((res)=> {
         Qmessage.success('保存成功')
