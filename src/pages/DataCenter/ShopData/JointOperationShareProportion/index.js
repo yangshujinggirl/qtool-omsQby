@@ -6,6 +6,7 @@ import { GetDivideCostList } from 'api/home/DataCenter/ShopData';
 import { DataExportApiColumn, DataExportApi } from 'api/Export';
 import { ExportExcelInfo } from './ExportExcelInfo';
 import moment from 'moment';
+import { message } from 'antd';
 
 /**
  * 功能作用：联营分成页面
@@ -17,7 +18,11 @@ const exportData = (_this) => {
 	DataExportApiColumn(_this.state.searchCriteriaList, 'shop/queryConsortiumDivideIntoExport', Columns, '联营分成');
 };
 const handleOperateClick = (_this, record) => {
-	DataExportApi({shopId:record.shopId,..._this.state.searchCriteriaList}, '/shop/queryDivideIntoDownloadExport', ExportExcelInfo);
+	DataExportApi(
+		{ shopId: record.shopId, ..._this.state.searchCriteriaList },
+		'/shop/queryDivideIntoDownloadExport',
+		ExportExcelInfo
+	);
 };
 
 const JointOperationShareProportion = QbaseList(
@@ -41,18 +46,6 @@ const JointOperationShareProportion = QbaseList(
 	GetDivideCostList,
 	{
 		isComponentDidMountRequestData: true,
-		formatSearchCriteriaList: (_this, values) => {
-			const params = values ? values : {};
-			const {time,..._values} = params;
-			if(time&&time[0]){
-				_values.startDate = moment(time[0]).format('YYYY-MM-DD')
-				_values.endDate = moment(time[1]).format('YYYY-MM-DD')
-			}else{
-				_values.startDate = moment().format('YYYY-MM-DD')
-				_values.endDate = moment().format('YYYY-MM-DD')
-			}
-			return _values;
-		},
 	}
 );
 export default JointOperationShareProportion;

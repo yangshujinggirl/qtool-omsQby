@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Form } from 'antd';
+import { DatePicker, Form ,message} from 'antd';
 import { disabledDate, disabledDateTime } from 'utils/tools';
 import moment from 'moment';
 const { RangePicker } = DatePicker;
@@ -56,7 +56,7 @@ class RangeTime extends Component {
 class FilterSearchRangeTime extends Component {
 	constructor(props) {
 		super(props);
-		this.formatType = (this.props.showTime == null || this.props.showTime) ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
+		this.formatType = this.props.showTime == null || this.props.showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
 	}
 	/**
 	 * 第一次渲染结束回调
@@ -76,14 +76,19 @@ class FilterSearchRangeTime extends Component {
 	 * @param values [起始时间，结束时间]
 	 */
 	onChange = (values) => {
-		console.log(values);
-		const { selectTimeChange, startTimeName, endTimeName } = this.props;
+		const { selectTimeChange, startTimeName, endTimeName, isLimit } = this.props;
 		if (selectTimeChange) {
 			let orderTimes = {};
 			if (values && values[0]) {
+				if (isLimit) {
+					const diffDay = moment(values[1]).diff(moment(values[0]), 'days');
+					if (diffDay > 31) {
+						return message.error('只能查询一个月数据');
+					}
+				}
 				orderTimes[startTimeName] = moment(values[0]).format(this.formatType);
 				orderTimes[endTimeName] = moment(values[1]).format(this.formatType);
-			}else{
+			} else {
 				orderTimes[startTimeName] = '';
 				orderTimes[endTimeName] = '';
 			}

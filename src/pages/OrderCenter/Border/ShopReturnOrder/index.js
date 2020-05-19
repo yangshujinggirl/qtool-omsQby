@@ -34,8 +34,9 @@ const ShopReturnOrder = QbaseList((_this) => {
     }
     const handleExport=()=> {
       OmsExportApi({
+          ...searchCriteriaList,
         exportType:"8",
-        reOrderExport:searchCriteriaList
+        reOrderExport:{sourceType:2,...searchCriteriaList}
       },'/export/commonExport')
     }
     return (

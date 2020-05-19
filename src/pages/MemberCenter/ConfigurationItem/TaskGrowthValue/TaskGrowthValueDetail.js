@@ -47,10 +47,8 @@ const TaskGrowthValueDetail = (props) => {
                     [{key: "成长值类型", value: dataInfo.growthType},
                         {key: "任务项", value: dataInfo.name},
                         {
-                            key: "成长值任务图标", value: dataInfo.url != null ?
-                                <QenlargeImg
-                                    url={sessionStorage.getItem("oms_fileDomain") + dataInfo.url}
-                                    key={dataInfo.url} placement="inline"/> : null
+                          key: "成长值任务图标",
+                          value: <QenlargeImg url={dataInfo.taskPic}/>
                         },
                         {key: "成长值任务标题", value: dataInfo.title},
                         {

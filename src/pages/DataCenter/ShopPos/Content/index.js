@@ -5,15 +5,19 @@ import HotSale from './HotSale';
 import ClerkSale from './ClerkSale';
 import PurchaseSellStock from './PurchaseSellStock';
 import ScoreReport from './ScoreReport';
+import './index.less';
 
 const { TabPane } = Tabs;
-const Index = () => {
-	const [activeKey, setActivekey] = useState('1');
-	const callback = (activeKey) => {
-		setActivekey(activeKey);
+const Index = (props) => {
+	const [act,setAct] = useState('1')
+	const onChange = (activeKey) => {
+		sessionStorage.setItem('oms_shopPos_activeKey',activeKey)
+		setAct(activeKey)//无实际意义，只是为了刷新
 	};
+	const shop_pos_activeKey = sessionStorage.getItem('oms_shopPos_activeKey')
+	const activeKey = shop_pos_activeKey?shop_pos_activeKey:'1'
 	return (
-		<Tabs tabPosition={top} activeKey={activeKey} onChange={callback}>
+		<Tabs activeKey={activeKey} onChange={onChange}>
 			<TabPane tab="每日对账单" key="1">
 				<DailyAccount />
 			</TabPane>
@@ -32,5 +36,6 @@ const Index = () => {
 		</Tabs>
 	);
 };
+
 
 export default Index;

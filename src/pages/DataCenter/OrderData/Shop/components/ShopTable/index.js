@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Button, DatePicker } from 'antd';
+import { Button, DatePicker, message } from 'antd';
 import { Qtable } from 'common';
 import moment from 'moment';
 import Columns from './column';
 import { DataExportApiColumn } from 'api/Export';
 import { GetSpTableData } from 'api/home/DataCenter/OrderData';
-import {deBounce} from 'utils/tools'
+import { deBounce } from 'utils/tools';
 const { RangePicker } = DatePicker;
 const formatType = 'YYYY-MM-DD';
 const startDate = moment().subtract(6, 'days').format(formatType);
@@ -14,7 +14,7 @@ const endDate = moment().format(formatType);
 const ShopTable = (props) => {
 	const [inputValues, setInputValues] = useState({});
 	const [dataSource, setDataSource] = useState([]);
-	
+
 	//数据初始化
 	useEffect(() => {
 		getList({ startDate, endDate });
@@ -23,22 +23,28 @@ const ShopTable = (props) => {
 	const getList = (values) => {
 		const params = { ...inputValues, ...values };
 		props.changeLoading({ table: true });
-		GetSpTableData(params).then((res) => {
-			if (res.httpCode == 200) {
-				const { result } = res.result;
-				if (result && result.length) {
-					result.map((item, index) => (item.key = index));
-					setDataSource(result);
-					setInputValues(params);
+		GetSpTableData(params)
+			.then((res) => {
+				if (res.httpCode == 200) {
+					const { result } = res.result;
+					if (result && result.length) {
+						result.map((item, index) => (item.key = index));
+						setDataSource(result);
+						setInputValues(params);
+					}
 				}
-			}
-		}).finally(() => {
-			props.changeLoading({ table: false });
-		});;
+			})
+			.finally(() => {
+				props.changeLoading({ table: false });
+			});
 	};
 	//时间发生改变
 	const onChange = (values) => {
 		if (values && values[0]) {
+			const diffDay = moment(values[1]).diff(moment(values[0]), 'days');
+			if (diffDay > 31) {
+				return message.error('只能查询一个月数据');
+			}
 			const startDate = moment(values[0]).format(formatType);
 			const endDate = moment(values[1]).format(formatType);
 			getList({ startDate, endDate });
@@ -46,8 +52,8 @@ const ShopTable = (props) => {
 	};
 	//导出数据
 	const exportData = deBounce(() => {
-		DataExportApiColumn(inputValues, '/order/queryShopOrderDataExport',Columns,'门店订单');
-	},500);
+		DataExportApiColumn(inputValues, '/order/queryShopOrderDataExport', Columns, '门店订单');
+	}, 500);
 	return (
 		<div>
 			<RangePicker

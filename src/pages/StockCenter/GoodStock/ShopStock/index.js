@@ -5,6 +5,7 @@ import { getListApi } from "api/home/StockCenter/GoodStock";
 import FilterForm from "./components/FilterForm/index";
 import Columns from "./columns";
 import { AppExportApi } from "api/Export";
+import {OmsExportApi} from "../../../../api/Export";
 
 /**
  * 门店库存  zhy
@@ -64,9 +65,12 @@ class ShopStock extends Component {
   };
   //导出数据
   exportData = () => {
-    AppExportApi(
-      { type: 1, ...this.state.inputValues },
-      "/channelStatistics/export"
+    OmsExportApi({
+          exportType: 3,
+          skuStockExport:{
+            ...this.state.inputValues,
+          }
+        },'/export/commonExport'
     );
   };
   render() {

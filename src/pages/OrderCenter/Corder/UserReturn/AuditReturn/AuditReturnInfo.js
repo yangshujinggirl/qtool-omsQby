@@ -53,6 +53,9 @@ const AuditReturnInfo = (props) => {
 		labelCol: { span: 2 },
 		wrapperCol: { span: 8 },
 	};
+	const consignee = '蔻兔售后部'
+	const shPhone='0511-87285073'
+	const shAddress = 'Qtools华东仓配中心（江苏省镇江市句容市开发区宁杭北路与石狮路交叉口东南侧）'
 	return <QbaseDetail showLoading={showLoading} childComponent={<div>
 		<Card title="退单信息" className="base_info">
 			<Form.Item label="退单号">{infos.reOrderNo}</Form.Item>
@@ -71,7 +74,11 @@ const AuditReturnInfo = (props) => {
 			<Qtable columns={AbnormalGoodsColumns} dataSource={detailList} />
 		</Card>
 		<Card title="异常处理">
-			<Form form={form} {...formLayout}>
+			<Form form={form} {...formLayout} initialValues={{
+				consignee:(infos.deliveryType==1||infos.deliveryType==4)?consignee:'',
+				shPhone:(infos.deliveryType==1||infos.deliveryType==4)?shPhone:'',
+				shAddress:(infos.deliveryType==1||infos.deliveryType==4)?shAddress:'',
+				}}>
 				<Form.Item name="status" label="审核结果" rules={[{ required: true, message: '请选择审核结果' }]}>
 					<Radio.Group onChange={onChange}>
 						<Radio value={20}>同意退款</Radio>
