@@ -113,7 +113,7 @@ const rangMa = [
         "property":"M3"
     },
     {
-        "itemName":"1通用（非孕期）",
+        "itemName":"通用（非孕期）",
         "property":"M4"
     }]
 export {

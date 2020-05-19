@@ -24,17 +24,24 @@ const AddModal=({...props})=> {
     try{
       const values = await props.form.validateFields(['text','template','pdCode','rowcode']);
       let { text, pdCode, rowcode, template } =values;
-      let items;
+      let items = props.currentItem;
       switch (type) {
         case 1:
-          getPdSpu({type, pdCode, text})
+          if(!pdCode) {
+              let fileList = text;
+              text = CommonUtils.formatToUrlPath(text);
+              props.onOk({...items,type, text, fileList});
+              props.form.resetFields(['text','template','pdCode','rowcode']);
+              return;
+          }
+          getPdSpu({...items, type, pdCode, text})
           break;
         case 2:
-          getPdSpu({pdCode, rowcode, type, template})
+          getPdSpu({...items, pdCode, rowcode, type, template})
           break;
         case 3:
         case 4:
-          items = { type, text }
+          items = { ...items, type, text }
           props.onOk(items);
           props.form.resetFields(['text','template','pdCode','rowcode']);
           break;
@@ -45,11 +52,11 @@ const AddModal=({...props})=> {
     }
   }
   const getPdSpu=({pdCode, rowcode, type, template, text })=> {
-    let item, pdSpu,rowPdSpu;
+    let item=props.currentItem, pdSpu,rowPdSpu;
     GetSearchApi({code:pdCode})
     .then((res)=> {
       let { result } =res;
-      item = {...res.result, template, type, pdCode, pdSpu:result };
+      item = {...item, ...res.result, template, type, pdCode, pdSpu:result };
       if(type == 1) {//图片
         text = CommonUtils.formatToUrlPath(text);
         props.onOk({type, text, pdCode});
@@ -101,7 +108,7 @@ const AddModal=({...props})=> {
                   {...formItemLayout}
                   label="商品模板"
                   name="template"
-                  rules={[{ required: true, message: '请输入分享标题，30字以内'}]}>
+                  rules={[{ required: true, message: '请输入商品模板'}]}>
                   <Radio.Group>
                     <Radio value={1}>单列展示</Radio>
                     <Radio value={2}>双列展示</Radio>
@@ -133,7 +140,7 @@ const AddModal=({...props})=> {
         break;
       case 3:
       case 4:
-        mod = <Form.Item {...formItemLayout} label="文本" name="text" rules={[{ required: true, message: '请输入商品编码'}]}>
+        mod = <Form.Item {...formItemLayout} label="文本" name="text" rules={[{ required: true, message: '请输入文本'}]}>
                 <Input autoComplete="off" placeholder='请输入文本'/>
               </Form.Item>
         break;

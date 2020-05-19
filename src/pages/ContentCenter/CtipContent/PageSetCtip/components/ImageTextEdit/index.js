@@ -54,11 +54,17 @@ const ImageTextEdit=({...props})=> {
     props.upDateList(newArray);
   };
   const onOk=(items)=> {
-    if(currentItem.pdConfigureConfigId) {
+    console.log(items)
+    if(currentItem.currentIndex!=undefined&&currentItem.currentIndex == items.currentIndex) {
       newArray[currentItem.currentIndex]=items;
     } else {
       newArray.push(items);
     }
+    // if(currentItem.pdConfigureConfigId) {
+    //   newArray[currentItem.currentIndex]=items;
+    // } else {
+    //   newArray.push(items);
+    // }
     props.upDateList(newArray);
     setVisible(false);
   }
