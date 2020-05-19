@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Spin, Button } from 'antd';
-import { getDivideListApi } from 'api/home/DataCenter/ShopPos/dailyAccount';
+import { getClerkListApi } from 'api/home/DataCenter/ShopPos/ClerkSale';
 import { Qtable, Qpagination } from 'common';
 import FilterForm from './components/FilterForm';
 import Columns from './column';
@@ -21,7 +21,7 @@ const Index = () => {
 	//请求列表
 	const searchData = (values) => {
 		setLoading(true);
-		getDivideListApi(values)
+		getClerkListApi(values)
 			.then((res) => {
 				if (res.httpCode == 200) {
 					const { accountTotal, accounts } = res.result;

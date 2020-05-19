@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Row, Col, Card, Button, Spin, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { getTabelListApi } from 'api/home/DataCenter/ShopPos/dailyAccount';
+import { getPurchaseListApi } from 'api/home/DataCenter/ShopPos/PurchaseSaleStock';
 import { Qtable, Qpagination } from 'common';
 import OtherCostModal from './components/OtherCostModal'
 import FilterForm from './FilterForm';
@@ -32,7 +32,7 @@ const Index = (props) => {
 	//搜索列表
 	const searchData = (values) => {
 		setLoading(true);
-		getTabelListApi(values)
+		getPurchaseListApi(values)
 			.then((res) => {
 				if (res.httpCode == '200') {
 					const { rpDayAccount, rpDayAccounts, everyPage, total, currentPage } = res.result;

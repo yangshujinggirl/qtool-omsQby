@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Row, Col, Card, Button, Spin, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { getTabelListApi } from 'api/home/DataCenter/ShopPos/dailyAccount';
+import { getScoreReportListApi } from 'api/home/DataCenter/ShopPos/ScoreReport';
 import { Qtable, Qpagination } from 'common';
 import FilterForm from './FilterForm';
 import Columns from './column';
@@ -28,7 +28,7 @@ const Index = (props) => {
 	//搜索列表
 	const searchData = (values) => {
 		setLoading(true);
-		getTabelListApi(values)
+		getScoreReportListApi(values)
 			.then((res) => {
 				if (res.httpCode == '200') {
 					const { rpDayAccount, rpDayAccounts, everyPage, total, currentPage } = res.result;

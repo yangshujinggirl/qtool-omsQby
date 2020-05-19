@@ -42,7 +42,7 @@ class NormalForm extends BaseFilter {
                   <Option value={10}>待审核</Option>
                   <Option value={20}>待收货</Option>
                   <Option value={41}>退款中</Option>
-                  <Option value={70}>已退款</Option>
+                  <Option value={40}>已退款</Option>
                   <Option value={90}>已取消</Option>
                   <Option value={99}>已拒绝</Option>
                 </Select>

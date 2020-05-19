@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Spin, Button } from 'antd';
-import { getDivideListApi } from 'api/home/DataCenter/ShopPos/dailyAccount';
+import { getHotListApi } from 'api/home/DataCenter/ShopPos/HotSale';
 import { Qtable, Qpagination } from 'common';
 import FilterForm from './components/FilterForm';
 import Columns from './column';
@@ -17,7 +17,7 @@ const Index = () => {
 	//请求列表
 	const searchData = (values) => {
 		setLoading(true);
-		getDivideListApi(values)
+		getHotListApi(values)
 			.then((res) => {
 				if (res.httpCode == 200) {
 					const { result, everyPage, currentPage, total } = res.result;

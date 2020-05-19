@@ -1,5 +1,5 @@
 import {erpAjax} from '../../../Req'
-//获取列表数据
+//获取每日对账单列表数据
 export const getTabelListApi=(values)=>{
 	return erpAjax.get('/rpdayaccount/list',{
 		params:values
@@ -7,7 +7,7 @@ export const getTabelListApi=(values)=>{
 }
 //获取门店分成对账的列表数据
 export const getDivideListApi=(values)=>{
-	return erpAjax.get('/pos/rpshareprofit/list',{
+	return erpAjax.get('/rpshareProfit/list',{
 		params:values
 	})
 }
