@@ -4,7 +4,7 @@ import { Qtable, Qpagination, Qbtn } from "common"; //表单
 import { getListApi } from "api/home/StockCenter/GoodStock";
 import FilterForm from "./components/FilterForm/index";
 import Columns from "./columns";
-import { AppExportApi } from "api/Export";
+import {AppExportApi, OmsExportApi} from "api/Export";
 
 /**
  * erp库存  zhy
@@ -64,9 +64,12 @@ class ErpStock extends Component {
   };
   //导出数据
   exportData = () => {
-    AppExportApi(
-      { type: 1, ...this.state.inputValues },
-      "/channelStatistics/export"
+    OmsExportApi({
+          exportType: 3,
+          skuStockExport:{
+            ...this.state.inputValues,
+          }
+        },'/export/commonExport'
     );
   };
   render() {
