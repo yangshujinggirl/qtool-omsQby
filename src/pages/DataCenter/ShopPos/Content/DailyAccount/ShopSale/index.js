@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Row, Col, Card, Button, Spin } from 'antd';
+import { Row, Col, Card, Button, Spin, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { getTabelListApi } from 'api/home/DataCenter/ShopPos/dailyAccount';
 import { Qtable, Qpagination } from 'common';
@@ -27,7 +27,7 @@ const Index = (props) => {
 	};
 	//搜索列表
 	const searchData = (values) => {
-		setLoading(true)
+		setLoading(true);
 		getTabelListApi(values)
 			.then((res) => {
 				if (res.httpCode == '200') {
@@ -44,7 +44,7 @@ const Index = (props) => {
 				}
 			})
 			.finally(() => {
-				setLoading(false)
+				setLoading(false);
 			});
 	};
 	//更改分页
@@ -82,15 +82,16 @@ const Index = (props) => {
 										: '0'}
 									<span>
 										.
-										{rpDayAccount.cleanAmount &&
-										rpDayAccount.cleanAmount != '0'
+										{rpDayAccount.cleanAmount && rpDayAccount.cleanAmount != '0'
 											? rpDayAccount.cleanAmount.split('.')[1]
 											: '00'}
 									</span>
 								</p>
 								<span>
-									<label>净收款</label>
-									<ExclamationCircleOutlined />
+									<Tooltip title="微信转账+微信扫码+支付宝转账+支付宝扫码+现金+银联+App支付">
+										<label>净收款</label>
+										<ExclamationCircleOutlined />
+									</Tooltip>
 								</span>
 							</div>
 						</Card>
@@ -111,8 +112,10 @@ const Index = (props) => {
 									</span>
 								</p>
 								<span>
-									<label>销售额</label>
-									<ExclamationCircleOutlined />
+									<Tooltip title="销售订单金额-退款订单金额">
+										<label>销售额</label>
+										<ExclamationCircleOutlined />
+									</Tooltip>
 								</span>
 							</div>
 						</Card>
@@ -125,8 +128,10 @@ const Index = (props) => {
 									{rpDayAccount.orderQty ? rpDayAccount.orderQty : '0'}
 								</p>
 								<span>
-									<label>订单量</label>
-									<ExclamationCircleOutlined />
+									<Tooltip title="订单的总数量">
+										<label>订单量</label>
+										<ExclamationCircleOutlined />
+									</Tooltip>
 								</span>
 							</div>
 						</Card>
@@ -136,21 +141,21 @@ const Index = (props) => {
 							<div>
 								<p>
 									<i>￥</i>
-									{rpDayAccount.rechargeAmount &&
-									rpDayAccount.rechargeAmount != '0'
+									{rpDayAccount.rechargeAmount && rpDayAccount.rechargeAmount != '0'
 										? rpDayAccount.rechargeAmount.split('.')[0]
 										: '0'}
 									<span>
 										.
-										{rpDayAccount.rechargeAmount &&
-										rpDayAccount.rechargeAmount != '0'
+										{rpDayAccount.rechargeAmount && rpDayAccount.rechargeAmount != '0'
 											? rpDayAccount.rechargeAmount.split('.')[1]
 											: '00'}
 									</span>
 								</p>
 								<span>
-									<label>充值金额</label>
-									<ExclamationCircleOutlined />
+									<Tooltip title="充值订单的总金额">
+										<label>充值金额</label>
+										<ExclamationCircleOutlined />
+									</Tooltip>
 								</span>
 							</div>
 						</Card>

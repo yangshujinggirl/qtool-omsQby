@@ -39,15 +39,18 @@ class SaleDataEcharts extends Component {
 					if (res.httpCode == 200) {
 						const analysisData = res.result;
 						this.formatValue(analysisData, params);
-						resolve();
 					}
 				})
+				.finally(() => {
+					resolve();
+				});
 		});
 	};
 	//table数据处理
 	getTableData = (params) => {
 		return new Promise((resolve, reject) => {
-			GetSpTableData(params).then((res) => {
+			GetSpTableData(params)
+				.then((res) => {
 					if (res.httpCode == 200) {
 						const { result, everyPage, total, currentPage } = res.result;
 						if (result && result.length) {
@@ -59,19 +62,19 @@ class SaleDataEcharts extends Component {
 								currentPage,
 							});
 						}
-						resolve();
-						console.log(22)
 					}
 				})
+				.finally(() => {
+					resolve();
+				});
 		});
 	};
 	//分页搜索
-	changePage = async(currentPage, everyPage) => {
+	changePage = async (currentPage, everyPage) => {
 		const params = { ...this.state.searchFilterList, currentPage, everyPage };
 		this.props.showLoading();
 		await this.getTableData(params);
 		this.props.hideLoading();
-
 	};
 	//数据格式化
 	formatValue = (analysisData, params) => {

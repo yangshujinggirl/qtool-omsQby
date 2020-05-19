@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Row, Col, Card, Button, Spin } from 'antd';
+import { Row, Col, Card, Button, Spin, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { getTabelListApi } from 'api/home/DataCenter/ShopPos/dailyAccount';
 import { Qtable, Qpagination } from 'common';
@@ -27,7 +27,7 @@ const Index = (props) => {
 	};
 	//搜索列表
 	const searchData = (values) => {
-		setLoading(true)
+		setLoading(true);
 		getTabelListApi(values)
 			.then((res) => {
 				if (res.httpCode == '200') {
@@ -44,7 +44,7 @@ const Index = (props) => {
 				}
 			})
 			.finally(() => {
-				setLoading(false)
+				setLoading(false);
 			});
 	};
 	//更改分页
@@ -82,15 +82,16 @@ const Index = (props) => {
 										: '0'}
 									<span>
 										.
-										{rpDayAccount.cleanAmount &&
-										rpDayAccount.cleanAmount != '0'
+										{rpDayAccount.cleanAmount && rpDayAccount.cleanAmount != '0'
 											? rpDayAccount.cleanAmount.split('.')[1]
 											: '00'}
 									</span>
 								</p>
 								<span>
-									<label>发放积分数</label>
-									<ExclamationCircleOutlined />
+									<Tooltip title="统计订单时间内，门店消费赠送总积分 - 门店退货扣减总积分">
+										<label>发放积分数</label>
+										<ExclamationCircleOutlined />
+									</Tooltip>
 								</span>
 							</div>
 						</Card>
@@ -111,8 +112,10 @@ const Index = (props) => {
 									</span>
 								</p>
 								<span>
-									<label>抵扣积分数</label>
-									<ExclamationCircleOutlined />
+									<Tooltip title="统计订单时间内，门店积分抵值总数">
+										<label>抵扣积分数</label>
+										<ExclamationCircleOutlined />
+									</Tooltip>
 								</span>
 							</div>
 						</Card>
@@ -125,32 +128,10 @@ const Index = (props) => {
 									{rpDayAccount.orderQty ? rpDayAccount.orderQty : '0'}
 								</p>
 								<span>
-									<label>积分池待抵扣总积分</label>
-									<ExclamationCircleOutlined />
-								</span>
-							</div>
-						</Card>
-					</Col>
-					<Col span={5}>
-						<Card className="shop_sale_card shop_sale_card_04">
-							<div>
-								<p>
-									<i>￥</i>
-									{rpDayAccount.rechargeAmount &&
-									rpDayAccount.rechargeAmount != '0'
-										? rpDayAccount.rechargeAmount.split('.')[0]
-										: '0'}
-									<span>
-										.
-										{rpDayAccount.rechargeAmount &&
-										rpDayAccount.rechargeAmount != '0'
-											? rpDayAccount.rechargeAmount.split('.')[1]
-											: '00'}
-									</span>
-								</p>
-								<span>
-									<label>充值金额</label>
-									<ExclamationCircleOutlined />
+									<Tooltip title="门店待抵扣积分总数">
+										<label>积分池待抵扣总积分</label>
+										<ExclamationCircleOutlined />
+									</Tooltip>
 								</span>
 							</div>
 						</Card>

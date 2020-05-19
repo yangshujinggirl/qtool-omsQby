@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Form, Row, Col, DatePicker, AutoComplete } from 'antd';
 import { BaseFilter, Qbtn } from 'common';
 import { GetStoreIntelligentSearchList } from 'api/home/DataCenter/FinancialData';
-const { RangePicker } = DatePicker;
+import {FilterSearchRangeTime} from 'common/QdisabledDateTime'
 const { Option } = AutoComplete;
 
 const FormItem = Form.Item;
@@ -29,7 +29,6 @@ class SearchForm extends BaseFilter {
 		return (
 			<div className="qtoolOms-condition">
 				<Form
-					initialValues={{ time: [moment(), moment()] }}
 					className="serach-common-form"
 					ref={this.formRef}
 					{...this.formItemLayout}
@@ -44,9 +43,19 @@ class SearchForm extends BaseFilter {
 								</AutoComplete>
 							</FormItem>
 						</Col>
-						<FormItem name="time" label="选择时间" {...this.formItemLayout}>
-							<RangePicker allowClear={false} />
-						</FormItem>
+						<Col {...this.colspans}>
+							<FilterSearchRangeTime
+								selectTimeChange={this.props.selectTimeChange}
+								defaultValue={[moment(), moment()]}
+								startTimeName="startDate"
+								endTimeName="endDate"
+								label="选择时间"
+								itemLayout={this.formItemLayout}
+								showTime={false}
+								allowClear={false}
+								isLimit={true}
+							/>
+						</Col>
 					</Row>
 				</Form>
 				<Col offset={21}>

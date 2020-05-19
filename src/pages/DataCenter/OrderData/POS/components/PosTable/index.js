@@ -41,6 +41,10 @@ const PosTable = (props) => {
 	//时间发生改变
 	const onChange = (values) => {
 		if (values && values[0]) {
+			const diffDay = moment(values[1]).diff(moment(values[0]), 'days');
+			if (diffDay > 31) {
+				return message.error('只能查询一个月数据');
+			}
 			const startDate = moment(values[0]).format(formatType);
 			const endDate = moment(values[1]).format(formatType);
 			getList({ startDate, endDate });

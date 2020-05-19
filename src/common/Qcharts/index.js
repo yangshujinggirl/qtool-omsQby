@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, DatePicker } from 'antd';
+import { Input, DatePicker,message } from 'antd';
 import moment from 'moment';
 import echarts from 'echarts';
 import './index.less';
@@ -23,8 +23,13 @@ export default class GoodsDataAnalysisCharts extends Component {
 	}
 	//时间改变
 	onDateChange = (time) => {
+		const diffDay = moment(time[1]).diff(moment(time[0]),'days');
+		if(diffDay>31){
+			return message.error('只能查询一个月数据')
+		}
 		const startDate = moment(time[0]).format('YYYY-MM-DD');
 		const endDate = moment(time[1]).format('YYYY-MM-DD');
+		
 		this.props.getDataList({ startDate, endDate });
 	};
 	//商品编码回车

@@ -43,6 +43,7 @@ export default class SearchForm extends BaseFilter {
 								itemLayout={this.formItemLayout}
 								showTime={false}
 								allowClear={false}
+								isLimit={true}
 							/>
 						</Col>
 					</Row>

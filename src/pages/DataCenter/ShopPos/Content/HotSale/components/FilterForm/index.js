@@ -13,7 +13,7 @@ class NormalForm extends BaseFilter {
 	//初始化
 	render() {
 		return (
-			<div className="qtoolOms-condition" style={{ paddingTop: '20px' }}>
+			<div className="qtoolOms-condition data_center_condition" style={{ paddingTop: '20px' }}>
 				<Form
 					className="serach-common-form"
 					ref={this.formRef}
