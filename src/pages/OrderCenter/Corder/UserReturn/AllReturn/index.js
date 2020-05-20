@@ -126,8 +126,11 @@ class AllReturn extends Component {
 	};
 	//导出数据
 	exportData = () => {
-		const { stime, etime, ...params } = this.state.inputValues;
-		OmsExportApi({ stime, etime, exportType: 8, reOrderExport: { ...params } }, '/export/commonExport');
+		OmsExportApi({
+			...this.state.inputValues,
+			exportType:"8",
+			reOrderExport:{...this.state.inputValues}
+		},'/export/commonExport')
 	};
 	onSubmit = (values) => {
 		const { rangePicker, ..._values } = values;

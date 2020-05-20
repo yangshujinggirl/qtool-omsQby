@@ -252,7 +252,7 @@ const ColumnsAddGeneral=(list)=>{
     render:(text,record,index)=> {
       return  <Form.Item
                 name={['list',index,'weight']}
-                rules={ [{pattern:RegExpUtil.qty,message:'请输入数字'}]}>
+                rules={ [{pattern:RegExpUtil.noZerotwoFloat,message:'请输入数字'}]}>
                 <Input  disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
               </Form.Item>
 
