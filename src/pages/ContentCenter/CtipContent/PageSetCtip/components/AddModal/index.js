@@ -34,10 +34,10 @@ const AddModal=({...props})=> {
               props.form.resetFields(['text','template','pdCode','rowcode']);
               return;
           }
-          getPdSpu({...items, type, pdCode, text})
+          getPdSpu({type, pdCode, text})
           break;
         case 2:
-          getPdSpu({...items, pdCode, rowcode, type, template})
+          getPdSpu({pdCode, rowcode, type, template})
           break;
         case 3:
         case 4:
@@ -56,10 +56,11 @@ const AddModal=({...props})=> {
     GetSearchApi({code:pdCode})
     .then((res)=> {
       let { result } =res;
-      item = {...item, ...res.result, template, type, pdCode, pdSpu:result };
+      item = {...item, ...res.result, template, type, text, pdCode, pdSpu:result };
       if(type == 1) {//图片
+        let fileList = text;
         text = CommonUtils.formatToUrlPath(text);
-        props.onOk({type, text, pdCode});
+        props.onOk({...item, fileList, text});
         props.form.resetFields(['text','template','pdCode','rowcode']);
         return;
       }
