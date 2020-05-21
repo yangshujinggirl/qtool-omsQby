@@ -32,7 +32,7 @@ const ShopReturnOrderDetail = (props) => {
       {key:"退货门店", value:dataInfo.channelName},
       {key:"退货原因", value:dataInfo.reason},
       {key:"订单状态", value:dataInfo.statusStr},
-      {key:"退单类型", value:dataInfo.inventedStr},
+      {key:"退单类型", value:dataInfo.typeStr},
       {key:"申请数量", value:dataInfo.returnQty},
       {key:"到货数量", value:dataInfo.itemCount},
       {key:"到货商品金额", value:dataInfo.reArriveAmount},
@@ -41,7 +41,7 @@ const ShopReturnOrderDetail = (props) => {
       {key:"创建时间", value:moment(dataInfo.createTime).format("YYYY-MM-DD HH:mm:ss")},
       {key:"订单备注", value:dataInfo.remarkes},
     ];
-    if(dataInfo.inventedStr == "退货退款") {
+    if(dataInfo.type == 1) {
       let sra = [
         {key:"收货仓库", value:dataInfo.warehouseName},
         {key:"发货快递", value:dataInfo.courierCompany},
