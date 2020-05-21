@@ -28,7 +28,7 @@ const UnderBond = QbaseList((_this) => {
             <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
             <div className="handle-operate-btn-action">
                 <Qbtn size="free"
-                      onClick={() => new ErpExportApi(_this.state.searchCriteriaList, "/rpshareProfit/directDeveryOrder/export")}>导出数据</Qbtn>
+                      onClick={() => new ErpExportApi(_this.state.searchCriteriaList, "/rpshareProfit/export/bondedOrders")}>导出数据</Qbtn>
                 <div style={{float: 'right'}}>
                     <p onClick={() => Modal.info({
                         width:500,
