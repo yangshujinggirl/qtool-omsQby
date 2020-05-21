@@ -7,6 +7,7 @@ import CgoodSagas from './models/Cgoods';
 import ClassifySagas from './models/Classify';
 import AttributionSagas from './models/Attributions';
 import AddReturnOrder from './models/OrderCenter/UserOrder/addReturnOrder.js'
+import ShopPos from './models/DataCenter/ShopPos.js'
 
 export function* helloSaga () {
   yield all([
@@ -16,5 +17,6 @@ export function* helloSaga () {
     call(ClassifySagas),
     call(AttributionSagas),
     call(AddReturnOrder),
+    call(ShopPos)
   ])
 }

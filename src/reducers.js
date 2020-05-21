@@ -9,6 +9,7 @@ import ShopKeeperReducers from './pages/OrderCenter/ShopKeeperOrder/reducers/red
 import OnlineReducers from './pages/OrderCenter/OnlineOrder/reducers/reducersIndex';
 import TaxOrderReducers from './pages/OrderCenter/TaxOrder/reducers/reducersIndex';
 import AddReturnOrderReducers from './pages/OrderCenter/Corder/UserOrder/AddReturnOrder/reducers/reducersIndex';
+import ShopPosReducers from './pages/DataCenter/ShopPos/reducers/reducersIndex'
 
 export default combineReducers({
   BaseGoodsAddReducers,
@@ -21,4 +22,5 @@ export default combineReducers({
   OnlineReducers,
   TaxOrderReducers,
   AddReturnOrderReducers,
+  ShopPosReducers
 })

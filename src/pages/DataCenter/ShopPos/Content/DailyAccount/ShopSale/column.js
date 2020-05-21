@@ -1,38 +1,38 @@
 const Columns = [{
     title: '订单编号',
-    dataIndex: 'orderNo',
+    dataIndex: 'orderno',
 },{
     title: '结算金额',
     dataIndex: 'amount',
 },{
     title: '销售额',
-    dataIndex: 'saleAmount',
+    dataIndex: 'saleamount',
 },{
     title: '微信(转账）',
-    dataIndex: 'wechatAmount',
+    dataIndex: 'wechatamount',
 },{
     title: '微信(扫码）',
-    dataIndex: 'scanWechatAmount',
+    dataIndex: 'scanwechatamount',
 },{
     title: '支付宝(转账）',
-    dataIndex: 'alipayAmount',
+    dataIndex: 'alipayamount',
 },{
     title: '支付宝(扫码）',
-    dataIndex: 'scanAlipayAmount',
+    dataIndex: 'scanalipayamount',
 },{
     title: 'APP支付',
-    dataIndex: 'appPay',
+    dataIndex: 'apppay',
 },{
     title: '现金',
-    dataIndex: 'cashAmount',
+    dataIndex: 'cashamount',
 },{
     title: '银联',
-    dataIndex: 'unionpayAmount',
+    dataIndex: 'unionpayamount',
 },{
     title: '会员卡消费',
-    dataIndex: 'cardConsumeAmount',
+    dataIndex: 'cardconsumeamount',
 },{
     title: '积分抵扣',
-    dataIndex: 'pointAmount',
+    dataIndex: 'pointamount',
 }];
 export default Columns
