@@ -36,8 +36,18 @@ class Bgoods extends React.Component {
 		GetListsApi(params).then((res) => {
 			if (res.httpCode == 200) {
 				const { result, everyPage, total, currentPage } = res.result;
+				const goodLists = result.forEach(item=>{
+					let [totalStockQty,totalSaleQty] = [0,0];
+					item.subList&&item.subList.length&&item.subList.map(el=>{
+						totalStockQty+=el.stockQty
+						totalSaleQty+=el.saleQty
+					});
+					item.totalStockQty = totalStockQty;
+					item.totalSaleQty = totalSaleQty;
+					return item;
+				})
 				this.setState({
-					goodLists: result,
+					goodLists,
 					everyPage,
 					total: total,
 					currentPage,
