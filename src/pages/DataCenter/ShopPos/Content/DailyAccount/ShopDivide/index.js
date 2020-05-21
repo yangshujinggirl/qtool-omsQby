@@ -6,6 +6,8 @@ import FilterForm from './components/FilterForm';
 import Columns from './column';
 import moment from 'moment';
 import CommonUtils from 'utils/CommonUtils';
+import {ErpExportApi} from 'api/Export'
+
 const Index = (props) => {
 	const [dataInfo, setDataInfo] = useState({ infos: {}, dataList: [], everyPage: 15, currentPage: 1, total: 0 });
 	const [loading, setLoading] = useState(false);
@@ -95,12 +97,16 @@ const Index = (props) => {
 		searchData(_values);
 		setInputValues({ ...inputValues, ..._values });
 	};
+	//导出数据
+	const exportData=()=>{
+		ErpExportApi(inputValues,'')
+	}
 	const { dataList, everyPage, currentPage, total, infos } = dataInfo;
 	return (
 		<Spin spinning={loading}>
 			<FilterForm onSubmit={onSubmit} />
 			<div className="handle-operate-btn-action">
-				<Button type="primary">导出数据</Button>
+				<Button type="primary" onClick={exportData}>导出数据</Button>
 			</div>
 			<div>
 				共计{infos.orderNum}单，合计分成{infos.shareProfitSumAmount}元

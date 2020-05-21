@@ -8,6 +8,7 @@ import Columns from './column';
 import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
+import {ErpExportApi} from 'api/Export'
 
 const Index = (props) => {
 	const [loading, setLoading] = useState(false);
@@ -644,6 +645,10 @@ const Index = (props) => {
 			</React.Fragment>
 		);
 	};
+	//导出数据
+	const exportData=()=>{
+		ErpExportApi(inputValue,'/rpdayaccount/export')
+	}
 	return (
 		<Spin spinning={loading}>
 			<div className="data_shop_sale">
@@ -721,7 +726,7 @@ const Index = (props) => {
 				<div>
 					<FilterForm onSubmit={onSubmit} />
 					<div className="handle-operate-btn-action">
-						<Button type="primary">导出数据</Button>
+						<Button type="primary" onClick={exportData}>导出数据</Button>
 					</div>
 					<Qtable columns={Columns} dataSource={dataList} />
 					<Qpagination data={{ everyPage, currentPage, total }} onChange={changePage} />

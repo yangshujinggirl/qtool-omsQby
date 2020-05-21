@@ -8,6 +8,7 @@ import Columns from './column';
 import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
+import {ErpExportApi} from 'api/Export'
 
 const Index = (props) => {
 	const [loading, setLoading] = useState(false);
@@ -113,6 +114,10 @@ const Index = (props) => {
 		searchData(_values);
 		setInputValue({ ...inputValue, ..._values });
 	};
+	//导出数据
+	const exportData=()=>{
+		ErpExportApi(inputValue,'/mbcard/export')
+	}
 	const { infos, dataList, everyPage, currentPage, total } = dataListInfo;
 	console.log(infos);
 	return (
@@ -167,7 +172,7 @@ const Index = (props) => {
 				<div>
 					<FilterForm onSubmit={onSubmit} />
 					<div className="handle-operate-btn-action">
-						<Button type="primary">导出数据</Button>
+						<Button type="primary" onClick={exportData}>导出数据</Button>
 					</div>
 					<Qtable columns={Columns} dataSource={dataList} />
 					<Qpagination data={{ everyPage, currentPage, total }} onChange={changePage} />

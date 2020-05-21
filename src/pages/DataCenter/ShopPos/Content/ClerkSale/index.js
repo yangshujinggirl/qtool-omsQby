@@ -371,11 +371,11 @@ const Index = () => {
 			_values.endDate = moment(time[1]).format('YYYY-MM-DD');
 		}
 		searchData(_values);
-		setInputValues({ ...inputValues, ..._values });
+		setInputValues({ ...inputValue, ..._values });
 	};
 	//切换门店
 	const changeShop = () => {
-		props.history.push('/account/');
+		props.history.push('/account/store_pos_data');
 	};
 	return (
 		<Spin spinning={loading}>

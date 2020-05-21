@@ -6,6 +6,8 @@ import FilterForm from './components/FilterForm';
 import Columns from './column';
 import moment from 'moment';
 import CommonUtils from 'utils/CommonUtils';
+import {ErpExportApi} from 'api/Export'
+
 const Index = () => {
 	const [dataInfo, setDataInfo] = useState({ dataList: [], everyPage: 15, currentPage: 1, total: 0 });
 	const [loading, setLoading] = useState(false);
@@ -105,12 +107,16 @@ const Index = () => {
 		searchData(_values);
 		setInputValues({ ...inputValues, ..._values });
 	};
+	//导出数据
+	const exportData=()=>{
+		ErpExportApi(inputValues,'/hotgood/export')
+	}
 	const { dataList, everyPage, currentPage, total } = dataInfo;
 	return (
 		<Spin spinning={loading}>
 			<FilterForm onSubmit={onSubmit} />
 			<div className="handle-operate-btn-action">
-				<Button type="primary">导出数据</Button>
+				<Button type="primary" onClick={exportData}>导出数据</Button>
 			</div>
 			<Qtable columns={Columns} dataSource={dataList} />
 			<Qpagination data={{ total, everyPage, currentPage }} onChange={onChange} />
