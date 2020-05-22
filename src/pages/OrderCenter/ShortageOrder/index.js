@@ -89,6 +89,7 @@ class ShortageOrder extends Component {
           <FilterForm onSubmit={this.searchData} />
           <div className="handle-operate-btn-action">
             <Qbtn onClick={this.exportData}>导出数据</Qbtn>
+            <span style={{color:'red',float:'right'}}>注：本页面仅提供缺货商品查询，如需取消缺货商品，请前往对应订单列表页进行操作</span>
           </div>
           <Qtable dataSource={dataList} columns={Columns} />
           {dataList.length > 0 ? (
