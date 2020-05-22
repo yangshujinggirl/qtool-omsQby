@@ -12,11 +12,11 @@ const Index = (props) => {
 	const [dataInfo, setDataInfo] = useState({ infos: {}, dataList: [], everyPage: 15, currentPage: 1, total: 0 });
 	const [loading, setLoading] = useState(false);
 	const [inputValues, setInputValues] = useState({});
+	const shopId = sessionStorage.getItem('oms_shopId');
 	
 	//请求列表
 	const searchData = (values) => {
 		setLoading(true);
-		const shopId = sessionStorage.getItem('oms_shopId');
 		getDivideListApi({ shopId, ...values })
 		.then((res) => {
 			if (res.httpCode == 200) {
@@ -35,52 +35,6 @@ const Index = (props) => {
 		.finally(() => {
 			setLoading(false);
 		});
-		// const res = {
-		// 	httpCode: 200,
-		// 	msg: 'success',
-		// 	result: {
-		// 		orderNum: 2,
-		// 		shareProfitSumAmount: 176,
-		// 		result: [
-		// 			{
-		// 				orderNo: 'QT000040200419000004200419000014',
-		// 				shareTypeStr: null,
-		// 				shopTypeStr: null,
-		// 				orderTypeStr: null,
-		// 				shareType: 1,
-		// 				shareProfitAmount: 88,
-		// 				createTime: '2020-04-20 16:45:23',
-		// 				orderType: 1,
-		// 			},
-		// 			{
-		// 				orderNo: 'QTMD00003320042000000120042000008221',
-		// 				shareTypeStr: null,
-		// 				shopTypeStr: null,
-		// 				orderTypeStr: null,
-		// 				shareType: 1,
-		// 				shareProfitAmount: 88,
-		// 				createTime: '2020-04-22 11:06:42',
-		// 				orderType: 2,
-		// 			},
-		// 		],
-		// 		currentPage: 1,
-		// 		everyPage: 2,
-		// 		total: 2,
-		// 	},
-		// 	fileDomain: null,
-		// };
-		// if (res.httpCode == 200) {
-		// 	const { result, everyPage, currentPage, total, ...infos } = res.result;
-		// 	const dataList = CommonUtils.addKey(result);
-		// 	setDataInfo({
-		// 		...dataInfo,
-		// 		dataList,
-		// 		everyPage,
-		// 		currentPage,
-		// 		total,
-		// 		infos,
-		// 	});
-		// }
 	};
 	//修改分页
 	const onChange = (currentPage, everyPage) => {
@@ -99,7 +53,7 @@ const Index = (props) => {
 	};
 	//导出数据
 	const exportData=()=>{
-		ErpExportApi(inputValues,'')
+		ErpExportApi({shopId,...inputValues},'/rpshareProfit/export')
 	}
 	const { dataList, everyPage, currentPage, total, infos } = dataInfo;
 	return (

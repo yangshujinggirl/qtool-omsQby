@@ -6,91 +6,32 @@ import FilterForm from './components/FilterForm';
 import Columns from './column';
 import moment from 'moment';
 import CommonUtils from 'utils/CommonUtils';
-import {ErpExportApi} from 'api/Export'
+import { ErpExportApi } from 'api/Export';
 
 const Index = () => {
 	const [dataInfo, setDataInfo] = useState({ dataList: [], everyPage: 15, currentPage: 1, total: 0 });
 	const [loading, setLoading] = useState(false);
 	const [inputValues, setInputValues] = useState({});
+	const shopId = sessionStorage.getItem('oms_shopId');
 	//请求列表
 	const searchData = (values) => {
 		setLoading(true);
-		const shopId = sessionStorage.getItem('oms_shopId');
 		getHotListApi({ shopId, ...values })
-		.then((res) => {
-			if (res.httpCode == 200) {
-				const { result, everyPage, currentPage, total } = res.result;
-				const dataList = CommonUtils.addKey(result);
-				setDataInfo({
-					dataList,
-					everyPage,
-					currentPage,
-					total,
-				});
-			}
-		})
-		.finally(() => {
-			setLoading(false);
-		});
-		// const res = {
-		// 	httpCode: 200,
-		// 	msg: 'success',
-		// 	result: {
-		// 		currentPage: 1,
-		// 		everyPage: 15,
-		// 		sort: null,
-		// 		result: [
-		// 			{
-		// 				pdSpuId: 9092578,
-		// 				pdSkuId: 1006838,
-		// 				shopId: null,
-		// 				amount: 0.02,
-		// 				qty: 2,
-		// 				barcode: 'test2020041500011',
-		// 				name: '一般商品0415-1/c',
-		// 				invQty: '93',
-		// 				displayName: '1/c',
-		// 				pdCategory1Name: '安全出行',
-		// 				pdCategory2Name: '0415二级',
-		// 				pdCategory1: null,
-		// 				pdExchangeQty: null,
-		// 				pdExchangeAmount: null,
-		// 				pdExchangeCostAmount: null,
-		// 				onSale: 1,
-		// 			},
-		// 			{
-		// 				pdSpuId: 9092578,
-		// 				pdSkuId: 6853014,
-		// 				shopId: null,
-		// 				amount: -2.97,
-		// 				qty: 1,
-		// 				barcode: 'test202004150007',
-		// 				name: '一般商品0415-2/b',
-		// 				invQty: '114',
-		// 				displayName: '2/b',
-		// 				pdCategory1Name: '安全出行',
-		// 				pdCategory2Name: '0415二级',
-		// 				pdCategory1: null,
-		// 				pdExchangeQty: null,
-		// 				pdExchangeAmount: null,
-		// 				pdExchangeCostAmount: null,
-		// 				onSale: 1,
-		// 			},
-		// 		],
-		// 		total: 2,
-		// 	},
-		// 	fileDomain: null,
-		// };
-		// if (res.httpCode == 200) {
-		// 	const { result, everyPage, currentPage, total } = res.result;
-		// 	const dataList = CommonUtils.addKey(result);
-		// 	setDataInfo({
-		// 		dataList,
-		// 		everyPage,
-		// 		currentPage,
-		// 		total,
-		// 	});
-		// }
+			.then((res) => {
+				if (res.httpCode == 200) {
+					const { result, everyPage, currentPage, total } = res.result;
+					const dataList = CommonUtils.addKey(result);
+					setDataInfo({
+						dataList,
+						everyPage,
+						currentPage,
+						total,
+					});
+				}
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 	//修改分页
 	const onChange = (currentPage, everyPage) => {
@@ -108,15 +49,17 @@ const Index = () => {
 		setInputValues({ ...inputValues, ..._values });
 	};
 	//导出数据
-	const exportData=()=>{
-		ErpExportApi(inputValues,'/hotgood/export')
-	}
+	const exportData = () => {
+		ErpExportApi({ shopId, ...inputValues }, '/hotgood/export');
+	};
 	const { dataList, everyPage, currentPage, total } = dataInfo;
 	return (
 		<Spin spinning={loading}>
 			<FilterForm onSubmit={onSubmit} />
 			<div className="handle-operate-btn-action">
-				<Button type="primary" onClick={exportData}>导出数据</Button>
+				<Button type="primary" onClick={exportData}>
+					导出数据
+				</Button>
 			</div>
 			<Qtable columns={Columns} dataSource={dataList} />
 			<Qpagination data={{ total, everyPage, currentPage }} onChange={onChange} />

@@ -6,7 +6,7 @@ const Columns = [
 	{
 		title: '业务类型',
 		dataIndex: 'orderType',
-		render: (text, record, index) => <span>{text == 4 ? '仓库直邮订单' : '保税订单'}</span>,
+		render: (text, record, index) => <span>{text == 1 ? '仓库直邮订单' : '保税订单'}</span>,
 	},
 	{
 		title: '订单分类',

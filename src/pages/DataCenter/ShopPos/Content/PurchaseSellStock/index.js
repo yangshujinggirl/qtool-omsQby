@@ -9,9 +9,10 @@ import Columns from './column';
 import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
-import {ErpExportApi} from 'api/Export'
+import { ErpExportApi } from 'api/Export';
 
 const Index = (props) => {
+	const shopId = sessionStorage.getItem('oms_shopId');
 	const [loading, setLoading] = useState(false);
 	const [visible, setVisible] = useState(false);
 	const [dataSource, setDataSource] = useState([]);
@@ -31,11 +32,11 @@ const Index = (props) => {
 	//搜索列表
 	const searchData = (values) => {
 		setLoading(true);
-		const shopId = sessionStorage.getItem('oms_shopId');
+
 		getPurchaseListApi({ shopId, ...values })
 			.then((res) => {
 				if (res.httpCode == '200') {
-					const {  rpInventoryHeaderVo, result, everyPage, total, currentPage,...infos } = res.result;
+					const { rpInventoryHeaderVo, result, everyPage, total, currentPage, ...infos } = res.result;
 					const dataList = CommonUtils.addKey(result);
 					const { otherSum } = rpInventoryHeaderVo;
 					setdataListInfo({
@@ -52,225 +53,6 @@ const Index = (props) => {
 			.finally(() => {
 				setLoading(false);
 			});
-		// const res = {
-		// 	httpCode: 200,
-		// 	msg: 'success',
-		// 	result: {
-		// 		result: [
-		// 			{
-		// 				barcode: 'test2020041700021',
-		// 				pdSpuName: '0417一般商品',
-		// 				displayName: '一般2/普',
-		// 				pdCategory1: '喂哺用品',
-		// 				qty: 0,
-		// 				invAmount: 0,
-		// 				recQty: 10,
-		// 				recAmount: 0.2,
-		// 				posQty: 3,
-		// 				sumCostAmount: 0.03,
-		// 				returnQty: 1,
-		// 				returnSumAmount: 0.01,
-		// 				adjustQty: 1000,
-		// 				adjustCostAmount: 10,
-		// 				spPromotionQty: 0,
-		// 				spPromotionAmount: 0,
-		// 				pdLostQty: 1000,
-		// 				pdLostAmount: 10,
-		// 				pdExpiredQty: 0,
-		// 				pdExpiredAmount: 0,
-		// 				checkQty: 0,
-		// 				checkAmount: 0,
-		// 				finalQty: 1018,
-		// 				finalInvAmount: 10.18,
-		// 				pdExchangeCancelQty: 0,
-		// 				pdExchangeCancelAmount: 0,
-		// 				pdExchangeQty: 0,
-		// 				pdExchangeAmount: 0,
-		// 				appSaleQty: -1,
-		// 				appSaleCostAmount: -0.01,
-		// 				appReturnQty: 0,
-		// 				appReturnCostAmount: 0,
-		// 				spReturnQty: -10,
-		// 				spReturnAmount: -0.1,
-		// 			},
-		// 			{
-		// 				barcode: '8767876',
-		// 				pdSpuName: 'wl_一般测试商品',
-		// 				displayName: '但是/代大是大非',
-		// 				pdCategory1: '安全出行',
-		// 				qty: 0,
-		// 				invAmount: 0,
-		// 				recQty: 1010,
-		// 				recAmount: 10.1,
-		// 				posQty: 0,
-		// 				sumCostAmount: 0,
-		// 				returnQty: 0,
-		// 				returnSumAmount: 0,
-		// 				adjustQty: 0,
-		// 				adjustCostAmount: 0,
-		// 				spPromotionQty: 0,
-		// 				spPromotionAmount: 0,
-		// 				pdLostQty: 0,
-		// 				pdLostAmount: 0,
-		// 				pdExpiredQty: 0,
-		// 				pdExpiredAmount: 0,
-		// 				checkQty: 0,
-		// 				checkAmount: 0,
-		// 				finalQty: 1010,
-		// 				finalInvAmount: 10.1,
-		// 				pdExchangeCancelQty: 0,
-		// 				pdExchangeCancelAmount: 0,
-		// 				pdExchangeQty: 0,
-		// 				pdExchangeAmount: 0,
-		// 				appSaleQty: 0,
-		// 				appSaleCostAmount: 0,
-		// 				appReturnQty: 0,
-		// 				appReturnCostAmount: 0,
-		// 				spReturnQty: 0,
-		// 				spReturnAmount: 0,
-		// 			},
-		// 			{
-		// 				barcode: '2000245235',
-		// 				pdSpuName: '联调完成_一般商品测试',
-		// 				displayName: 'ee/cc',
-		// 				pdCategory1: '奶粉辅食',
-		// 				qty: 0,
-		// 				invAmount: 0,
-		// 				recQty: 1312,
-		// 				recAmount: 13.12,
-		// 				posQty: 0,
-		// 				sumCostAmount: 0,
-		// 				returnQty: 0,
-		// 				returnSumAmount: 0,
-		// 				adjustQty: 0,
-		// 				adjustCostAmount: 0,
-		// 				spPromotionQty: 0,
-		// 				spPromotionAmount: 0,
-		// 				pdLostQty: 0,
-		// 				pdLostAmount: 0,
-		// 				pdExpiredQty: 0,
-		// 				pdExpiredAmount: 0,
-		// 				checkQty: 0,
-		// 				checkAmount: 0,
-		// 				finalQty: 1312,
-		// 				finalInvAmount: 13.12,
-		// 				pdExchangeCancelQty: 0,
-		// 				pdExchangeCancelAmount: 0,
-		// 				pdExchangeQty: 0,
-		// 				pdExchangeAmount: 0,
-		// 				appSaleQty: 0,
-		// 				appSaleCostAmount: 0,
-		// 				appReturnQty: 0,
-		// 				appReturnCostAmount: 0,
-		// 				spReturnQty: 0,
-		// 				spReturnAmount: 0,
-		// 			},
-		// 			{
-		// 				barcode: '20000003',
-		// 				pdSpuName: 'wl测试商品',
-		// 				displayName: '22/3',
-		// 				pdCategory1: '奶粉辅食',
-		// 				qty: 0,
-		// 				invAmount: 0,
-		// 				recQty: 0,
-		// 				recAmount: 0,
-		// 				posQty: 8,
-		// 				sumCostAmount: 0.08,
-		// 				returnQty: 0,
-		// 				returnSumAmount: 0,
-		// 				adjustQty: 1001,
-		// 				adjustCostAmount: 10.01,
-		// 				spPromotionQty: 0,
-		// 				spPromotionAmount: 0,
-		// 				pdLostQty: 1002,
-		// 				pdLostAmount: 10.02,
-		// 				pdExpiredQty: 0,
-		// 				pdExpiredAmount: 0,
-		// 				checkQty: -2,
-		// 				checkAmount: -0.02,
-		// 				finalQty: 993,
-		// 				finalInvAmount: 9.93,
-		// 				pdExchangeCancelQty: 0,
-		// 				pdExchangeCancelAmount: 0,
-		// 				pdExchangeQty: 0,
-		// 				pdExchangeAmount: 0,
-		// 				appSaleQty: -7,
-		// 				appSaleCostAmount: -0.07,
-		// 				appReturnQty: 0,
-		// 				appReturnCostAmount: 0,
-		// 				spReturnQty: 0,
-		// 				spReturnAmount: 0,
-		// 			},
-		// 			{
-		// 				barcode: '234243243',
-		// 				pdSpuName: 'wl_代发商品测试',
-		// 				displayName: 'dd/cc',
-		// 				pdCategory1: '喂哺用品',
-		// 				qty: 0,
-		// 				invAmount: 0,
-		// 				recQty: 7,
-		// 				recAmount: 0.07,
-		// 				posQty: 1,
-		// 				sumCostAmount: 0.01,
-		// 				returnQty: 0,
-		// 				returnSumAmount: 0,
-		// 				adjustQty: 0,
-		// 				adjustCostAmount: 0,
-		// 				spPromotionQty: 0,
-		// 				spPromotionAmount: 0,
-		// 				pdLostQty: 0,
-		// 				pdLostAmount: 0,
-		// 				pdExpiredQty: 0,
-		// 				pdExpiredAmount: 0,
-		// 				checkQty: 0,
-		// 				checkAmount: 0,
-		// 				finalQty: 6,
-		// 				finalInvAmount: 0.06,
-		// 				pdExchangeCancelQty: 0,
-		// 				pdExchangeCancelAmount: 0,
-		// 				pdExchangeQty: 0,
-		// 				pdExchangeAmount: 0,
-		// 				appSaleQty: -1,
-		// 				appSaleCostAmount: -0.01,
-		// 				appReturnQty: 0,
-		// 				appReturnCostAmount: 0,
-		// 				spReturnQty: 0,
-		// 				spReturnAmount: 0,
-		// 			},
-		// 		],
-		// 		finalInvAmountSum: 43.19,
-		// 		invAmountSum: 0,
-		// 		receiptAmountSum: 23.49,
-		// 		saleAmountSum: 0.12,
-		// 		adjustPdCheckAmountSum: 20.01,
-		// 		rpInventoryHeaderVo: {
-		// 			returnSum: 0.01,
-		// 			adjustSum: 20.01,
-		// 			pdExchangeSum: 0,
-		// 			otherSum: 20.02,
-		// 		},
-		// 		returnSumAmount: null,
-		// 		currentPage: 1,
-		// 		everyPage: 0,
-		// 		total: 5,
-		// 	},
-		// 	fileDomain: null,
-		// };
-		// if (res.httpCode == '200') {
-		// 	const { rpInventoryHeaderVo, result, everyPage, total, currentPage, ...infos } = res.result;
-		// 	const dataList = CommonUtils.addKey(result);
-		// 	const { otherSum } = rpInventoryHeaderVo;
-		// 	setdataListInfo({
-		// 		...dataListInfo,
-		// 		dataList,
-		// 		infos,
-		// 		everyPage,
-		// 		currentPage,
-		// 		total,
-		// 		otherSum,
-		// 	});
-		// 	setDataSource([rpInventoryHeaderVo]);
-		// }
 	};
 	//更改分页
 	const changePage = (currentPage, everyPage) => {
@@ -293,9 +75,9 @@ const Index = (props) => {
 		setVisible(false);
 	};
 	//导出数据
-	const exportData=()=>{
-		ErpExportApi(inputValue,'/purchase/export')
-	}
+	const exportData = () => {
+		ErpExportApi({ shopId, ...inputValue }, '/purchase/export');
+	};
 	const { infos, dataList, everyPage, currentPage, total, otherSum } = dataListInfo;
 	const setHtml = (value) => {
 		return (
@@ -397,7 +179,9 @@ const Index = (props) => {
 				<div>
 					<FilterForm onSubmit={onSubmit} />
 					<div className="handle-operate-btn-action">
-						<Button type="primary" onClick={exportData}>导出数据</Button>
+						<Button type="primary" onClick={exportData}>
+							导出数据
+						</Button>
 					</div>
 					<Qtable columns={Columns} dataSource={dataList} />
 					<Qpagination data={{ everyPage, currentPage, total }} onChange={changePage} />
