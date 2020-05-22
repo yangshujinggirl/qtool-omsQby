@@ -7,6 +7,7 @@ import Columns from './column';
 import moment from 'moment';
 import CommonUtils from 'utils/CommonUtils';
 import { ErpExportApi } from 'api/Export';
+import {deBounce} from 'utils/tools'
 
 const Index = () => {
 	const [dataInfo, setDataInfo] = useState({ dataList: [], everyPage: 15, currentPage: 1, total: 0 });
@@ -49,9 +50,9 @@ const Index = () => {
 		setInputValues({ ...inputValues, ..._values });
 	};
 	//导出数据
-	const exportData = () => {
+	const exportData = deBounce(() => {
 		ErpExportApi({ shopId, ...inputValues }, '/hotgood/export');
-	};
+	},500);
 	const { dataList, everyPage, currentPage, total } = dataInfo;
 	return (
 		<Spin spinning={loading}>

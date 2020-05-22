@@ -132,8 +132,8 @@ const GoodEditForm = function (props) {
 			{taskType == 1 && (
 				<FormItem label="状态调整" name="extraField" rules={[{ required: true, message: '请选择状态' }]}>
 					<RadioGroup>
-						<Radio value="1">上架</Radio>
-						<Radio value="0">下架</Radio>
+						<Radio value="0">上架</Radio>
+						<Radio value="1">下架</Radio>
 					</RadioGroup>
 				</FormItem>
 			)}
@@ -150,7 +150,7 @@ const GoodEditForm = function (props) {
 					</FormItem>
 				</div>
 			)}
-			<FormItem label="请上传spu" labelCol={{ span: 3, offset: 1 }} wrapperCol={{ span: 20 }}>
+			<FormItem label="请选择需要修改的sku" labelCol={{ span: 3, offset: 1 }} wrapperCol={{ span: 20 }}>
 				<ImportBtn
 					action="/qtoolsApp/task/importSku/1"
 					changeDataSource={changeDataSource}

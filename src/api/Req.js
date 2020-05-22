@@ -38,6 +38,7 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader, isIn
 				if (httpCode != 200) {
 					//业务错误弹框
 					Qmessage.error(resultMessage);
+					console.log('走了')
 					return Promise.reject(result);
 				}
 				return { result, httpCode, fileDomain };

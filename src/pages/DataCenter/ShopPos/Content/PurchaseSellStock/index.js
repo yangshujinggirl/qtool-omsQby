@@ -10,6 +10,7 @@ import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
 import { ErpExportApi } from 'api/Export';
+import {deBounce} from 'utils/tools'
 
 const Index = (props) => {
 	const shopId = sessionStorage.getItem('oms_shopId');
@@ -39,6 +40,7 @@ const Index = (props) => {
 					const { rpInventoryHeaderVo, result, everyPage, total, currentPage, ...infos } = res.result;
 					const dataList = CommonUtils.addKey(result);
 					const { otherSum } = rpInventoryHeaderVo;
+					const dataSource = [rpInventoryHeaderVo]
 					setdataListInfo({
 						...dataListInfo,
 						dataList,
@@ -48,6 +50,7 @@ const Index = (props) => {
 						total,
 						otherSum,
 					});
+					setDataSource(dataSource)
 				}
 			})
 			.finally(() => {
@@ -75,9 +78,9 @@ const Index = (props) => {
 		setVisible(false);
 	};
 	//导出数据
-	const exportData = () => {
+	const exportData = deBounce(() => {
 		ErpExportApi({ shopId, ...inputValue }, '/purchase/export');
-	};
+	},500);
 	const { infos, dataList, everyPage, currentPage, total, otherSum } = dataListInfo;
 	const setHtml = (value) => {
 		return (

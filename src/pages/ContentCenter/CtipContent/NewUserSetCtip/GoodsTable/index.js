@@ -12,14 +12,13 @@ const GoodsTable = (props) => {
 	const [visible, setVisible] = useState(false);
 	const homepageModuleId = props.match.params.id;
 	useEffect(() => {
-		console.log(props)
 		getTableList({});
 	}, []);
 	//删除
 	const handleOperateClick = (record) => {
 		const { pdSpuId } = record;
 		DeleteTableListApi({ homepageModuleId, pdSpuId }).then((res) => {
-			if (res.httpCode == '0') {
+			if (res.httpCode == 200) {
 				getTableList({}); //刷新列表
 			}
 		});
@@ -43,8 +42,8 @@ const GoodsTable = (props) => {
 	//商品导入
 	const onChange = (info) => {
 		if (info.file.response) {
-			if (info.file.response.code == '0') {
-				const { repeat, notExist, redundant } = info.file.response;
+			if (info.file.response.httpCode == 200) {
+				const { repeat, notExist, redundant } = info.file.response.result;
 				if (repeat.length || notExist.length || redundant.length) {
 					setVisible(true);
 					setRepeat(repeat);
@@ -59,7 +58,7 @@ const GoodsTable = (props) => {
 	};
 	//下载模板
 	const download = () => {
-		window.open('../../../../../static/new_user_gift.xlsx');
+		window.open('/static/new_user_gift.xlsx');
 	};
 	//取消
 	const onCancel = () => {

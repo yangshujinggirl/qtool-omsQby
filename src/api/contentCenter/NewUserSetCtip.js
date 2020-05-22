@@ -13,5 +13,5 @@ export function GetTableListApi(values) {
 }
 //商品列表删除
 export function DeleteTableListApi(values) {
-	return appAjax.delete(`/newUserGift/pdDel`, {...values });
+	return appAjax.delete(`/newUserGift/pdDel`, { params: values });
 }

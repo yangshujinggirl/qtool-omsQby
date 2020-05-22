@@ -9,6 +9,7 @@ import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
 import { ErpExportApi } from 'api/Export';
+import {deBounce} from 'utils/tools'
 
 const Index = (props) => {
 	const shopId = sessionStorage.getItem('oms_shopId');
@@ -62,9 +63,9 @@ const Index = (props) => {
 		setInputValue({ ...inputValue, ..._values });
 	};
 	//导出数据
-	const exportData = () => {
+	const exportData = deBounce(() => {
 		ErpExportApi({ shopId, ...inputValue }, '/mbcard/export');
-	};
+	},500);
 	const { infos, dataList, everyPage, currentPage, total } = dataListInfo;
 	console.log(infos);
 	return (
