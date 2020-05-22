@@ -34,6 +34,10 @@ const Columns = [
     render: (text, record) => <span> {text === -1 ? "不限制" : text}</span>
   },
   {
+    title: "优惠券有效期",
+    dataIndex: "expirationDate",
+  },
+  {
     title: "已经发放数量",
     dataIndex: "couponGiveCount",
     render: (text, record) => {

@@ -4,7 +4,7 @@ import { parColumns, subColumns } from './column';
 import QsubTable from 'common/QsubTable';
 import FilterForm from './components/FilterForm';
 import { message, Modal } from 'antd';
-import moment from "moment";
+import moment from 'moment';
 
 const tipsText = {
 	1: '操作后商品将在Q掌柜-每日上新栏目展示售卖，是否确认操作？',
@@ -41,7 +41,7 @@ class Bgoods extends React.Component {
 					everyPage,
 					total: total,
 					currentPage,
-					inputValues:params
+					inputValues: params,
 				});
 			}
 		});
@@ -52,13 +52,13 @@ class Bgoods extends React.Component {
 	};
 	//搜索查询
 	onSubmit = (params) => {
-		const { time, ..._values } = {...params,currentPage:1,everyPage:15};
+		const { time, ..._values } = { ...params, currentPage: 1, everyPage: 15 };
 		if (time && time[0]) {
-			_values.lastUpperShelvesTimeStart = moment(time[0]).format("YYYY-MM-DD HH:mm:ss");
-			_values.lastUpperShelvesTimeEnd = moment(time[1]).format("YYYY-MM-DD HH:mm:ss");
+			_values.lastUpperShelvesTimeStart = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+			_values.lastUpperShelvesTimeEnd = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
 		} else {
-			_values.lastUpperShelvesTimeStart = "";
-			_values.lastUpperShelvesTimeEnd = "";
+			_values.lastUpperShelvesTimeStart = '';
+			_values.lastUpperShelvesTimeEnd = '';
 		}
 
 		this.searchData(_values);
@@ -130,18 +130,18 @@ class Bgoods extends React.Component {
 	};
 	formatList = (data) => {
 		data &&
-			data.map((item) => {
+			data.forEach((item) => {
 				item.key = item.spuCode;
+				let [totalStockQty, totalSaleQty] = [0, 0];
 				item['subList'] &&
-					item['subList'].map((subItem) => {
+					item['subList'].forEach((subItem) => {
 						subItem.key = subItem.id;
-						let [totalStockQty, totalSaleQty] = [0, 0];
 						totalStockQty += Number(subItem.stockQty);
 						totalSaleQty += Number(subItem.saleQty);
-						item.totalStockQty = totalStockQty;
-						item.totalSaleQty = totalSaleQty;
 						return subItem;
 					});
+				item.totalStockQty = totalStockQty;
+				item.totalSaleQty = totalSaleQty;
 				return item;
 			});
 		return data;

@@ -10,6 +10,9 @@ class NormalForm extends BaseFilter {
 	constructor(props) {
 		super(props);
 	}
+	componentDidMount=()=>{
+		this.btn.props.onClick()
+	}
 	//初始化
 	render() {
 		return (
@@ -17,11 +20,11 @@ class NormalForm extends BaseFilter {
 				<Form
 					className="serach-common-form"
 					ref={this.formRef}
-					initialValues={{ time: [moment().subtract(30, 'days'), moment()], orderType: 7, shareType: 0 }}
+					initialValues={{ time: [moment().subtract(30, 'days'), moment()], orderType: 7 }}
 				>
 					<Row gutter={24}>
 						<Col {...this.colspans}>
-							<Form.Item name="time" label="订单完成时间" {...this.formItemLayout}>
+							<Form.Item name="time" label="选择时间" {...this.formItemLayout}>
 								<RangePicker />
 							</Form.Item>
 						</Col>
@@ -36,7 +39,7 @@ class NormalForm extends BaseFilter {
 						</Col>
 						<Col span={24}>
 							<Form.Item className="oms-condition-operate">
-								<Qbtn type="primary" onClick={this.handleSubmit}>
+								<Qbtn type="primary" onClick={this.handleSubmit} ref={(refs)=>this.btn = refs}>
 									搜索
 								</Qbtn>
 							</Form.Item>

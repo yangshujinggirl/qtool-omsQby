@@ -8,35 +8,34 @@ import Columns from './column';
 import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
+import {ErpExportApi} from 'api/Export'
 
 const Index = (props) => {
 	const [loading, setLoading] = useState(false);
 	const [inputValue, setInputValue] = useState({});
 	const [dataListInfo, setdataListInfo] = useState({
-		rpDayAccount: {},
-		dataList,
+		infos: {},
+		dataList: [],
 		everyPage: 15,
 		currentPage: 1,
 		total: 0,
 	});
-	useEffect(() => {
-		searchData({});
-	}, []);
 	const changeShop = () => {
 		props.history.push('/account/store_pos_data');
 	};
 	//搜索列表
 	const searchData = (values) => {
 		setLoading(true);
-		getScoreReportListApi(values)
+		const shopId = sessionStorage.getItem('oms_shopId');
+		getScoreReportListApi({ shopId, ...values })
 			.then((res) => {
 				if (res.httpCode == '200') {
-					const { rpDayAccount, rpDayAccounts, everyPage, total, currentPage } = res.result;
-					const dataList = CommonUtils.addKey(rpDayAccounts);
+					const { result = [], everyPage, total, currentPage, ...infos } = res.result;
+					const dataList = CommonUtils.addKey(result);
 					setdataListInfo({
 						...dataListInfo,
 						dataList,
-						rpDayAccount,
+						infos,
 						everyPage,
 						currentPage,
 						total,
@@ -46,6 +45,59 @@ const Index = (props) => {
 			.finally(() => {
 				setLoading(false);
 			});
+		// const res = {
+		// 	httpCode: 200,
+		// 	msg: 'success',
+		// 	result: {
+		// 		deductPoints: 0,
+		// 		toDeductTotalPoints: -4,
+		// 		allocatePoints: -4,
+		// 		result: [
+		// 			{
+		// 				deductPoints: null,
+		// 				toDeductTotalPoints: null,
+		// 				allocatePoints: null,
+		// 				orderNo: 'XSMD0000332004160025',
+		// 				pointAmount: -1,
+		// 				outType: 1,
+		// 				pointType: '消费赠送',
+		// 				cardNo: 'A45572',
+		// 				isLocalShopStr: '本店会员',
+		// 				orderTime: '2020-04-16 11:41:25',
+		// 				spShopId: 4,
+		// 			},
+		// 			{
+		// 				deductPoints: null,
+		// 				toDeductTotalPoints: null,
+		// 				allocatePoints: null,
+		// 				orderNo: 'XSMD0000332004150011',
+		// 				pointAmount: -3,
+		// 				outType: 1,
+		// 				pointType: '消费赠送',
+		// 				cardNo: 'A45572',
+		// 				isLocalShopStr: '本店会员',
+		// 				orderTime: '2020-04-15 19:23:52',
+		// 				spShopId: 4,
+		// 			},
+		// 		],
+		// 		currentPage: 1,
+		// 		everyPage: 15,
+		// 		total: 2,
+		// 	},
+		// 	fileDomain: null,
+		// };
+		// if (res.httpCode == '200') {
+		// 	const { result, everyPage, total, currentPage, ...infos } = res.result;
+		// 	const dataList = CommonUtils.addKey(result);
+		// 	setdataListInfo({
+		// 		...dataListInfo,
+		// 		dataList,
+		// 		infos,
+		// 		everyPage,
+		// 		currentPage,
+		// 		total,
+		// 	});
+		// }
 	};
 	//更改分页
 	const changePage = (currentPage, everyPage) => {
@@ -62,7 +114,12 @@ const Index = (props) => {
 		searchData(_values);
 		setInputValue({ ...inputValue, ..._values });
 	};
-	const { rpDayAccount, dataList, everyPage, currentPage, total } = dataListInfo;
+	//导出数据
+	const exportData=()=>{
+		ErpExportApi(inputValue,'/mbcard/export')
+	}
+	const { infos, dataList, everyPage, currentPage, total } = dataListInfo;
+	console.log(infos);
 	return (
 		<Spin spinning={loading}>
 			<div className="data_shop_sale">
@@ -75,18 +132,7 @@ const Index = (props) => {
 					<Col span={5}>
 						<Card className="shop_sale_card shop_sale_card_01">
 							<div>
-								<p>
-									<i>￥</i>
-									{rpDayAccount.cleanAmount && rpDayAccount.cleanAmount != '0'
-										? rpDayAccount.cleanAmount.split('.')[0]
-										: '0'}
-									<span>
-										.
-										{rpDayAccount.cleanAmount && rpDayAccount.cleanAmount != '0'
-											? rpDayAccount.cleanAmount.split('.')[1]
-											: '00'}
-									</span>
-								</p>
+								<p>{infos.allocatePoints}</p>
 								<span>
 									<Tooltip title="统计订单时间内，门店消费赠送总积分 - 门店退货扣减总积分">
 										<label>发放积分数</label>
@@ -99,18 +145,7 @@ const Index = (props) => {
 					<Col span={5}>
 						<Card className="shop_sale_card shop_sale_card_02">
 							<div>
-								<p>
-									<i>￥</i>
-									{rpDayAccount.saleAmount && rpDayAccount.saleAmount != '0'
-										? rpDayAccount.saleAmount.split('.')[0]
-										: '0'}
-									<span>
-										.
-										{rpDayAccount.saleAmount && rpDayAccount.saleAmount != '0'
-											? rpDayAccount.saleAmount.split('.')[1]
-											: '00'}
-									</span>
-								</p>
+								<p>{infos.deductPoints}</p>
 								<span>
 									<Tooltip title="统计订单时间内，门店积分抵值总数">
 										<label>抵扣积分数</label>
@@ -123,10 +158,7 @@ const Index = (props) => {
 					<Col span={5}>
 						<Card className="shop_sale_card shop_sale_card_03">
 							<div>
-								<p>
-									<i>￥</i>
-									{rpDayAccount.orderQty ? rpDayAccount.orderQty : '0'}
-								</p>
+								<p>{infos.toDeductTotalPoints}</p>
 								<span>
 									<Tooltip title="门店待抵扣积分总数">
 										<label>积分池待抵扣总积分</label>
@@ -140,7 +172,7 @@ const Index = (props) => {
 				<div>
 					<FilterForm onSubmit={onSubmit} />
 					<div className="handle-operate-btn-action">
-						<Button type="primary">导出数据</Button>
+						<Button type="primary" onClick={exportData}>导出数据</Button>
 					</div>
 					<Qtable columns={Columns} dataSource={dataList} />
 					<Qpagination data={{ everyPage, currentPage, total }} onChange={changePage} />

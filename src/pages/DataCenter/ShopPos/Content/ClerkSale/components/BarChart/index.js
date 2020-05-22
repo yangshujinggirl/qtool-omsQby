@@ -8,7 +8,7 @@ class BarChart extends React.Component {
 		clerkSale.forEach((ele) => {
 			datarow.push(ele.name);
 			dataclum.push({
-				value: ele.orderSum,
+				value: ele.saleAmount,
 				name: ele.name,
 			});
 		});

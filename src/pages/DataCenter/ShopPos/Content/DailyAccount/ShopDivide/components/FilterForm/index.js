@@ -10,6 +10,9 @@ class NormalForm extends BaseFilter {
 	constructor(props) {
 		super(props);
 	}
+	componentDidMount=()=>{
+		this.btn.props.onClick()
+	}
 	//初始化
 	render() {
 		return (
@@ -45,7 +48,7 @@ class NormalForm extends BaseFilter {
 						</Col>
 						<Col span={24}>
 							<Form.Item className="oms-condition-operate">
-								<Qbtn type="primary" onClick={this.handleSubmit}>
+								<Qbtn type="primary" ref={(refs)=>this.btn = refs} onClick={this.handleSubmit}>
 									搜索
 								</Qbtn>
 							</Form.Item>
