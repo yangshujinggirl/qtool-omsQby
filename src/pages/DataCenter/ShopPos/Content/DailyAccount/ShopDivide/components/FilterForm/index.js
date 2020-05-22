@@ -32,8 +32,8 @@ class NormalForm extends BaseFilter {
 							<Form.Item name="orderType" label="业务类型" {...this.formItemLayout}>
 								<Select placeholder="请选择业务类型">
 									<Option value={0}>全部</Option>
-									<Option value={4}>仓库直邮订单</Option>
-									<Option value={5}>保税订单</Option>
+									<Option value={1}>仓库直邮订单</Option>
+									<Option value={2}>保税订单</Option>
 								</Select>
 							</Form.Item>
 						</Col>

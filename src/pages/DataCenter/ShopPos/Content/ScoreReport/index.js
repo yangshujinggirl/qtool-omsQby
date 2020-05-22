@@ -8,9 +8,10 @@ import Columns from './column';
 import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
-import {ErpExportApi} from 'api/Export'
+import { ErpExportApi } from 'api/Export';
 
 const Index = (props) => {
+	const shopId = sessionStorage.getItem('oms_shopId');
 	const [loading, setLoading] = useState(false);
 	const [inputValue, setInputValue] = useState({});
 	const [dataListInfo, setdataListInfo] = useState({
@@ -26,7 +27,6 @@ const Index = (props) => {
 	//搜索列表
 	const searchData = (values) => {
 		setLoading(true);
-		const shopId = sessionStorage.getItem('oms_shopId');
 		getScoreReportListApi({ shopId, ...values })
 			.then((res) => {
 				if (res.httpCode == '200') {
@@ -45,59 +45,6 @@ const Index = (props) => {
 			.finally(() => {
 				setLoading(false);
 			});
-		// const res = {
-		// 	httpCode: 200,
-		// 	msg: 'success',
-		// 	result: {
-		// 		deductPoints: 0,
-		// 		toDeductTotalPoints: -4,
-		// 		allocatePoints: -4,
-		// 		result: [
-		// 			{
-		// 				deductPoints: null,
-		// 				toDeductTotalPoints: null,
-		// 				allocatePoints: null,
-		// 				orderNo: 'XSMD0000332004160025',
-		// 				pointAmount: -1,
-		// 				outType: 1,
-		// 				pointType: '消费赠送',
-		// 				cardNo: 'A45572',
-		// 				isLocalShopStr: '本店会员',
-		// 				orderTime: '2020-04-16 11:41:25',
-		// 				spShopId: 4,
-		// 			},
-		// 			{
-		// 				deductPoints: null,
-		// 				toDeductTotalPoints: null,
-		// 				allocatePoints: null,
-		// 				orderNo: 'XSMD0000332004150011',
-		// 				pointAmount: -3,
-		// 				outType: 1,
-		// 				pointType: '消费赠送',
-		// 				cardNo: 'A45572',
-		// 				isLocalShopStr: '本店会员',
-		// 				orderTime: '2020-04-15 19:23:52',
-		// 				spShopId: 4,
-		// 			},
-		// 		],
-		// 		currentPage: 1,
-		// 		everyPage: 15,
-		// 		total: 2,
-		// 	},
-		// 	fileDomain: null,
-		// };
-		// if (res.httpCode == '200') {
-		// 	const { result, everyPage, total, currentPage, ...infos } = res.result;
-		// 	const dataList = CommonUtils.addKey(result);
-		// 	setdataListInfo({
-		// 		...dataListInfo,
-		// 		dataList,
-		// 		infos,
-		// 		everyPage,
-		// 		currentPage,
-		// 		total,
-		// 	});
-		// }
 	};
 	//更改分页
 	const changePage = (currentPage, everyPage) => {
@@ -115,9 +62,9 @@ const Index = (props) => {
 		setInputValue({ ...inputValue, ..._values });
 	};
 	//导出数据
-	const exportData=()=>{
-		ErpExportApi(inputValue,'/mbcard/export')
-	}
+	const exportData = () => {
+		ErpExportApi({ shopId, ...inputValue }, '/mbcard/export');
+	};
 	const { infos, dataList, everyPage, currentPage, total } = dataListInfo;
 	console.log(infos);
 	return (
@@ -172,7 +119,9 @@ const Index = (props) => {
 				<div>
 					<FilterForm onSubmit={onSubmit} />
 					<div className="handle-operate-btn-action">
-						<Button type="primary" onClick={exportData}>导出数据</Button>
+						<Button type="primary" onClick={exportData}>
+							导出数据
+						</Button>
 					</div>
 					<Qtable columns={Columns} dataSource={dataList} />
 					<Qpagination data={{ everyPage, currentPage, total }} onChange={changePage} />

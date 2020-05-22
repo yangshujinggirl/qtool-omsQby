@@ -10,6 +10,7 @@ import OnlineReducers from './pages/OrderCenter/OnlineOrder/reducers/reducersInd
 import TaxOrderReducers from './pages/OrderCenter/TaxOrder/reducers/reducersIndex';
 import AddReturnOrderReducers from './pages/OrderCenter/Corder/UserOrder/AddReturnOrder/reducers/reducersIndex';
 import ShopPosReducers from './pages/DataCenter/ShopPos/reducers/reducersIndex'
+import NewUserGiftReducers from './pages/ContentCenter/CtipContent/NewUserSetCtip/reducers/reducersIndex'
 
 export default combineReducers({
   BaseGoodsAddReducers,
@@ -22,5 +23,6 @@ export default combineReducers({
   OnlineReducers,
   TaxOrderReducers,
   AddReturnOrderReducers,
-  ShopPosReducers
+  ShopPosReducers,
+  NewUserGiftReducers,
 })
