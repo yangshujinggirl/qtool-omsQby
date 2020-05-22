@@ -16,7 +16,7 @@ const Columns = [
     {title: "订单金额", dataIndex: "amountSum"},
     {title: "订单状态", dataIndex: "statusStr"},
     {title: "订单来源", dataIndex: "sourceName"},
-    {title: "订单类型", dataIndex: "sourceName"},
+    {title: "订单类型", dataIndex: "typeStr"},
     {
       title: "订单标签",
       render:(text,record,index)=> {

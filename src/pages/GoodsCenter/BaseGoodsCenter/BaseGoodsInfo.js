@@ -200,6 +200,9 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
               scroll={{x:'100%'}}
               dataSource={goodsList}
               columns={columnsInfo}/>
+            <Form.Item label="修改说明">
+              {totalData.remarks}
+            </Form.Item>
           </Card>
           <div className="handle-operate-save-action">
             <QreturnBtn {...props} />
