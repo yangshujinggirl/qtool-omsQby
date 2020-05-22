@@ -30,7 +30,7 @@ const AddModal=({...props})=> {
           if(!pdCode) {
               let fileList = text;
               text = CommonUtils.formatToUrlPath(text);
-              props.onOk({...items,type, text, fileList});
+              props.onOk({...items,type, text, fileList, pdCode});
               props.form.resetFields(['text','template','pdCode','rowcode']);
               return;
           }
