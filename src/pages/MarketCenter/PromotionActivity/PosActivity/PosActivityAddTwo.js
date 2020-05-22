@@ -101,7 +101,7 @@ const CtipActivityAddTwo=({...props})=> {
     });
     promotionProducts=promotionProducts?promotionProducts:[]
     promotionProducts.map((el,index)=>el.key=index);
-    setProducts(promotionProducts);
+    countProfitRate(promotionProducts)
   }
   //更新商品列表
   const upDateProductList=(array)=> {
