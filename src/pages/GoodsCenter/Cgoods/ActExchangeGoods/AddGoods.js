@@ -11,6 +11,7 @@ const formItemLayout = {
 const AddExchangeGoods = (props) => {
 	const [form] = Form.useForm();
 	const [fileList, setFileList] = useState([]);
+	const [infos, setInfos] = useState({});
 	const { id } = props.match.params;
 
 	//修改时初始化数据
@@ -33,6 +34,7 @@ const AddExchangeGoods = (props) => {
 						];
 					}
 					setFileList(fileList);
+					setInfos(infos);
 					infos.picUrl = fileList;
 					form.setFieldsValue(infos);
 				}
@@ -61,17 +63,18 @@ const AddExchangeGoods = (props) => {
 		setFileList(fileList);
 	};
 	const validatorNum = (rule, value) => {
-		if (/^[0-9]*$/.test(value)) {
-			return Promise.resolve();
-		} else {
-			if (this.props.data) {
-				if (value >= this.state.infos.convertibleQty) {
-					return Promise.resolve();
+		if (value) {
+			if (!/^[0-9]*$/.test(value)) {
+				return Promise.reject('只可输入正整数');
+			} else {
+				if (id) {
+					if (value < infos.convertibleQty) {
+						return Promise.reject('数量只能填写比原来大的数字');
+					}
 				}
-				return Promise.reject('数量只能填写比原来大的数字');
 			}
-			return Promise.reject('只可输入正整数');
 		}
+		return Promise.resolve()
 	};
 	return (
 		<div className="oms-common-addEdit-pages add_theme">

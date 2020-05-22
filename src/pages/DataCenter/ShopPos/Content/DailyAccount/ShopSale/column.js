@@ -3,7 +3,7 @@ const Columns = [{
     dataIndex: 'orderNo',
 },{
     title: '结算金额',
-    dataIndex: 'Amount',
+    dataIndex: 'amount',
 },{
     title: '销售额',
     dataIndex: 'saleAmount',

@@ -21,7 +21,7 @@ const Columns = [
     key: "valueQty"
   },
   {
-    title: "可兑换数量",
+    title: "可领取数量",
     dataIndex: "convertibleQty",
     key: "convertibleQty"
   },

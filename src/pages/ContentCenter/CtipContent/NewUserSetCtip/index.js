@@ -14,6 +14,7 @@ const index = (props) => {
 		});
 	};
   const { activeKey, newUserGiftId } = props.NewUserGiftReducers;
+  console.log(props)
 	return (
 		<div className="content_box stock-tabs">
 			<Tabs onChange={callback} activeKey={activeKey}>

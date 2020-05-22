@@ -62,10 +62,18 @@ const NewUserGift = ({ ...props }) => {
 				});
 			params.beginTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
 			params.endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
-			params = { ...params, couponIds, newComerPicUrl, couponPopUpPicUrl, homepageModuleId };
+			params = { ...params, couponIds, newComerPicUrl, couponPopUpPicUrl,modulePicUrl, homepageModuleId };
 			GetSaveApi(params).then((res) => {
 				Qmessage.success('保存成功');
 			});
+			// props.dispatch({
+			// 	type: 'newUser/setNewUserGiftId',
+			// 	payload: { newUserGiftId },
+			// });
+			props.dispatch({
+				type:'newUser/setActiveKey',
+				payload:{activeKey:'2'}
+			})
 		} catch (errorInfo) {
 			console.log('Failed:', errorInfo);
 		}
