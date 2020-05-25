@@ -178,7 +178,7 @@ class AddModal extends React.Component {
         if (res.httpCode == 200) {
           message.success("编辑分类成功");
           this.formRef.current.resetFields();
-          this.props.onOk();
+          this.props.onOk({level});
         }
       });
     } else {
@@ -186,7 +186,7 @@ class AddModal extends React.Component {
         if (res.httpCode == 200) {
           message.success("添加分类成功");
           this.formRef.current.resetFields();
-          this.props.onOk();
+          this.props.onOk({level});
         }
       });
     }
