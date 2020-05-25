@@ -88,14 +88,14 @@ class CommonSort extends React.Component {
     });
   };
   //新增onCancel
-  onOk = () => {
+  onOk = (values) => {
     this.setState({
       visible: false,
       id:'',
     });
     this.props.dispatch({
       type: "classify/fetchList",
-      payload: { ...this.state.inputValues }
+      payload: { ...this.state.inputValues,...values }
     });
   };
   onEditCancel = () => {

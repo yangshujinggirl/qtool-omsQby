@@ -27,6 +27,7 @@ const formItemLayout = {
 };
 
 const AddPurchaseIn = props => {
+  const { id } = props.match.params;
   const [form] = Form.useForm();
   const [storeList, setStoreList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,6 @@ const AddPurchaseIn = props => {
    *请求页面详情数据
    */
   const initPage = () => {
-    const { id } = props.match.params;
     if (id) {
       setLoading(true);
       GetPurchaseInOrderDetailApi({ stockingCode: id })
@@ -75,7 +75,8 @@ const AddPurchaseIn = props => {
    * 获取仓库列表
    */
   const getStoreList = () => {
-    searchStoreApi().then(res => {
+    const params = id?null:{state:1}
+    searchStoreApi(params).then(res => {
       if (res.httpCode == 200) {
         setStoreList(res.result);
       }
@@ -86,7 +87,8 @@ const AddPurchaseIn = props => {
    * @param {string} value
    */
   const onSearch = value => {
-    searchSupplierApi({ sname: value }).then(res => {
+    const params = id?{sname: value}:{state:1,sname: value};
+    searchSupplierApi(params).then(res => {
       setSupplierList(res.result);
     });
   };
