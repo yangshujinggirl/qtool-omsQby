@@ -32,7 +32,7 @@ const columnsSingleDown = [
     }
   },
   {
-    title: 'POS售价',
+    title: 'C端售价',
     dataIndex: 'sellPrice',
   },
   {
