@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import lodash from 'lodash';
 import { PlusOutlined } from '@ant-design/icons';
 import { Tag, Input, Tooltip, message } from 'antd';
 
@@ -24,7 +25,8 @@ class Creatlabel extends Component {
   }
   //新建
   handleInputConfirm = (e) => {
-    const { inputValue } = this.state;
+    let { inputValue } = this.state;
+    inputValue = lodash.trim(inputValue);
     if(inputValue == '') {
       this.setState({ inputVisible:false })
       return
