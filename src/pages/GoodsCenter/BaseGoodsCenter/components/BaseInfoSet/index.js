@@ -15,7 +15,8 @@ const BaseInfoSet=({...props})=> {
   const { totalData, isEdit, categoryData, productNature } =props;
 
   const initCategory=(level,parentId)=> {
-    GetCategoryApi({ level, parentId })
+    let status = totalData.spuCode?'':'1'
+    GetCategoryApi({ level, parentId, status })
     .then(res => {
       let list = res.result?res.result:[];
       list.map((el,index)=>el.key=index);
@@ -36,8 +37,9 @@ const BaseInfoSet=({...props})=> {
     });
   }
   const getCategory=(level,parentId)=> {
+    let status = totalData.spuCode?'':'1'
     return new Promise((resolve, reject) => {
-      GetCategoryApi({ level, parentId })
+      GetCategoryApi({ level, parentId, status })
       .then(res => {
         let list = res.result?res.result:[];
         list.map((el,index)=>el.key=index);
