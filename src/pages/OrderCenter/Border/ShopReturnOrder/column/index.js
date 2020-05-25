@@ -63,9 +63,15 @@ const Columns = [
       title: "操作",
       dataIndex: "action",
       render: (text, record) =>{
-        return <span className="pointerSty" onClick={() => record.onOperateClick('cancel')}>
-                  取消退单
-              </span>
+        return <>
+                {
+                  record.status <40 &&
+                  <span className="pointerSty" onClick={() => record.onOperateClick('cancel')}>
+                      取消退单
+                  </span>
+                }
+
+              </>
       }
     }];
 export  {
