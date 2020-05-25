@@ -124,6 +124,7 @@ class BondedOrder extends Component {
 						<Qbtn onClick={this.exportData} size="free">
 							导出商品数据
 						</Qbtn>
+						<span style={{color:'red',float:'right'}}>注：一个保税订单只能发一个包裹，如订单有多个包裹，请先拆单再发货</span>
 					</div>
 					<Qtable dataSource={dataList} columns={Columns} onOperateClick={this.handleOperateClick} />
 					{dataList.length > 0 ? (
