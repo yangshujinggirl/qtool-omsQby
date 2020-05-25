@@ -30,7 +30,7 @@ const parColumns = [
 				{record.isBeforeSales ? '预/' : ''}
 				{record.isDirectSales ? '直/' : ''}
 				{record.isMultipleSpec ? '多/' : ''}
-				{record.isComplete ? '缺/' : ''}
+				{record.isComplete ? '' : '缺/'}
 			</span>
 		),
 	},

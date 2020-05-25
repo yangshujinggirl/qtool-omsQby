@@ -10,7 +10,7 @@ class OrderAgency extends React.Component {
 		this.state = {
 			everyPage: 20,
 			currentPage: 1,
-			totalCount: 0,
+			total: 0,
 			tableList: [],
 			inputValues: {},
 			selectedRows: [],
@@ -41,14 +41,14 @@ class OrderAgency extends React.Component {
 		}
 		const params = { ...this.state.inputValues, ..._values };
 		GetListApi(params).then((res) => {
-			const { everyPage, currentPage, totalCount, resultList } = res.result;
+			const { everyPage, currentPage, total, resultList } = res.result;
 			resultList.map((item) => {
 				item.key = item.id;
 			});
 			this.setState({
 				everyPage,
 				currentPage,
-				totalCount,
+				total,
 				tableList: resultList,
 			});
 		});
@@ -84,8 +84,8 @@ class OrderAgency extends React.Component {
 		});
 	};
 	render() {
-		const { tableList, everyPage, totalCount, currentPage, selectedRows, rowSelection, visible } = this.state;
-		const PagesParams = { everyPage, totalCount, currentPage };
+		const { tableList, everyPage, total, currentPage, selectedRows, rowSelection, visible } = this.state;
+		const PagesParams = { everyPage, total, currentPage };
 		return (
 			<div className="oms-common-index-pages-wrap">
 				<FilterForm onSubmit={this.onSubmit} />

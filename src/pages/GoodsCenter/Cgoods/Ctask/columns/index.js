@@ -17,11 +17,11 @@ const Columns = [
   },
   {
     title: "最后修改人",
-    dataIndex: "taskOperateUserStr"
+    dataIndex: "taskOperateUser"
   },
   {
     title: "定时时间",
-    dataIndex: "taskOperateStartTimeStr"
+    dataIndex: "taskOperateStartTime"
   },
   {
     title: "操作",

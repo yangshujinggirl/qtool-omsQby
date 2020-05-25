@@ -22,7 +22,7 @@ class ShopstockOrder extends React.Component {
       dataPag:{
         everyPage:15,
         currentPage:1,
-        totalCount:0
+        total:0
       }
     }
   }
@@ -44,14 +44,14 @@ class ShopstockOrder extends React.Component {
   getList(values){
     GetOrderListApi(values)
     .then((res)=> {
-      let {resultList=[],everyPage,currentPage,totalCount} = res.result;
+      let {resultList=[],everyPage,currentPage,total} = res.result;
       resultList.map((el,index)=>el.key=index)
       this.setState({
         ordeList:resultList,
         dataPag:{
           everyPage,
           currentPage,
-          totalCount
+          total
         }
       })
     })

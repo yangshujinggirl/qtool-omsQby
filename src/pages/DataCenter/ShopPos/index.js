@@ -18,8 +18,8 @@ const ShopPos = (props) => {
 	const goIn = async () => {
 		const values = await form.validateFields();
 		if (isSelect) {
-			props.history.push('/account/shop_pos_in');
 			setIsSelect(false);
+			props.history.push('/account/shop_pos_in');
 		}
 	};
 	//选中后

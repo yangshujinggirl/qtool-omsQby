@@ -9,6 +9,7 @@ import moment from 'moment';
 import './index.less';
 import CommonUtils from 'utils/CommonUtils';
 import { ErpExportApi } from 'api/Export';
+import {deBounce} from 'utils/tools'
 
 const Index = (props) => {
 	const shopId = sessionStorage.getItem('oms_shopId');
@@ -73,9 +74,9 @@ const Index = (props) => {
 		);
 	};
 	//导出数据
-	const exportData = () => {
+	const exportData = deBounce(() => {
 		ErpExportApi({ shopId, ...inputValue }, '/rpdayaccount/export');
-	};
+	},500);
 	return (
 		<Spin spinning={loading}>
 			<div className="data_shop_sale">

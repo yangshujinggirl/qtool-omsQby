@@ -16,7 +16,7 @@ class TradeGoods extends Component {
       tableLists: [],
       everyPage: 20,
       currentPage: 0,
-      totalCount: 0,
+      total: 0,
       selectedRowKeys: [],
       type: "",
       visible: false,

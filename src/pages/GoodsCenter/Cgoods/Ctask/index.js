@@ -22,7 +22,7 @@ class Ctask extends Component {
       taskName: "",
       everyPage: 20,
       currentPage: 1,
-      totalCount: 0,
+      total: 0,
       inputValues: {}
     };
   }
@@ -36,12 +36,12 @@ class Ctask extends Component {
     const params = { ...this.state.inputValues, ...values};
     GetTaskListsApi(params).then(res => {
       if (res.httpCode == 200) {
-        let { result, everyPage, currentPage, totalCount } = res.result;
+        let { result, everyPage, currentPage, total } = res.result;
         this.setState({
           taskList:result,
           everyPage,
           currentPage,
-          totalCount
+          total
         });
       }
     });
@@ -107,7 +107,7 @@ class Ctask extends Component {
       taskList,
       everyPage,
       currentPage,
-      totalCount,
+      total,
       visible,
       taskName
     } = this.state;
@@ -161,7 +161,7 @@ class Ctask extends Component {
           onOperateClick={this.handleOperateClick}
         />
         <Qpagination
-          data={{ everyPage, currentPage, totalCount }}
+          data={{ everyPage, currentPage, total }}
           onChange={this.changePage}
         />
         {visible && (

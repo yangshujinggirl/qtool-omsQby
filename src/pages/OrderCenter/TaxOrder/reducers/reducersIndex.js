@@ -3,7 +3,7 @@ const initialState={
     tableLists:[],
     everyPage:15,
     currentPage:1,
-    totalCount:0,
+    total:0,
 }
 const index=(state=initialState,action)=>{
     switch(action.type){

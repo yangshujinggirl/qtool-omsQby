@@ -48,9 +48,13 @@ const AddTimer = (props) => {
 	 */
 	const handleSubmit = async (e) => {
 		const { salestatus, statusnew, statushot } = form.getFieldsValue(['salestatus', 'statusnew', 'statushot']);
-		if (!(String(salestatus) || String(statusnew) || String(statushot))) {
+		if (
+		(salestatus==undefined||(salestatus&&salestatus.length==0)) 
+		&& (statusnew==undefined||(statusnew&&statusnew.length==0))
+		&& (statushot==undefined||(statushot&&statushot.length==0)) 
+		){
 			form.setFields([{ name: ['salestatus'], errors: ['请选择调整状态'] }]);
-		}
+		};
 		const values = await form.validateFields();
 		if (!form.getFieldError('salestatus')[0]) {
 			setShowLoading(true);

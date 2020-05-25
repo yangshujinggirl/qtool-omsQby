@@ -4,7 +4,7 @@ import {GetListsApi} from 'api/home/Bgoods'
 function* getTabsList(action){
     let params = action.payload;
     const res = yield call (GetListsApi,params);
-    let {resultList,everyPage,currentPage,totalCount} = res.result;
+    let {resultList,everyPage,currentPage,total} = res.result;
     resultList&&resultList.map(item=>{
         item.key = item.id
     })
@@ -14,7 +14,7 @@ function* getTabsList(action){
             goodLists:resultList,
             everyPage,
             currentPage,
-            totalCount
+            total
         }
     })
 }
