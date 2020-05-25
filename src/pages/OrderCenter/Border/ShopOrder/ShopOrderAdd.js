@@ -26,11 +26,21 @@ const formItemLayout = {
       },
     };
 
+const goodsOption = [
+  { key:'1',value:'新店铺货' },
+  { key:'3',value:'总部样品' },
+  { key:'4',value:'办公物料' },
+]
+const goodsFreeOption = [
+  { key:'2',value:'门店赠品' },
+]
 
 const ShopOrderAdd=({...props})=> {
   const [form] = Form.useForm();
   let orderType = props.match.params.type;//2赠品 1商品
   let SaveOrderApi = orderType==1?GetSaveApi:GetSaveFreeApi;
+  let reasonOption = orderType==1?goodsOption:goodsFreeOption;
+
   let [totalData, setTotal] = useState({});
   let [shopList, setShopList] = useState([]);
   let [goodsList, setGoodsList] = useState([{key:0}]);
@@ -180,9 +190,11 @@ const ShopOrderAdd=({...props})=> {
             </Form.Item>
             <Form.Item label="下单原因" name="createType" rules={[{ required: true, message: '请选择' }]}>
               <Select placeholder="请选择" allowClear={true}>
-                <Option value='1'>新店铺货</Option>
-                <Option value='3'>总部样品</Option>
-                <Option value='4'>办公物料</Option>
+                {
+                  reasonOption.map((el) => (
+                    <Option value={el.key} key={el.key}>{el.value}</Option>
+                  ))
+                }
               </Select>
             </Form.Item>
             <Form.Item label="收货人" name="recName" rules={[{ required: true, message: '请输入收货人'}]}>
