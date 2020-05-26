@@ -218,7 +218,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
     let { sendType, list } = changedValues;
     if(currentKey!='list') {
       if(sendType == 2) {
-        changedValues['isBeforeSales'] =true;
+        changedValues['isBeforeSalesInt'] =1;
       }
       props.dispatch({
         type:'baseGoodsAdd/getTotalState',
