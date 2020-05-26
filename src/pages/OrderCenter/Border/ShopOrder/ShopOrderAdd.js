@@ -88,7 +88,10 @@ const ShopOrderAdd=({...props})=> {
   const upDateFileList=(response)=> {
     let { result } = response.result;
     result=result?result:[]
-    result.map((el,index)=>el.key=index)
+    result.map((el,index)=>{
+      el.key=index;
+      el.qty = el.num
+    })
     setGoodsList(result)
   }
   const handleBlur=(event,index,type)=> {
