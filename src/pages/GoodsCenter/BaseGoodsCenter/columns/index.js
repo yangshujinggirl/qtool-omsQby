@@ -32,7 +32,7 @@ let commonColumns = {
   },
   renderBarCode:(text,record,index)=> {
     return  <Form.Item name={['list',index,'barCode']} rules={ [{ required: true, message: '请输入'}]}>
-              <Input disabled={record.isExamine} className="goods-name" key={index} autoComplete="off"/>
+              <Input disabled={record.spuCode?true:false} className="goods-name" key={index} autoComplete="off"/>
             </Form.Item>
   },
   renderPurchasePrice:(text,record,index)=> {
