@@ -75,7 +75,7 @@ const OfflineStoreLevelTwo = (props) => {
                     [{key: "一级渠道ID", value: dataInfo.channelPopularizeCoding},
                         {key: "一级渠道名称", value: dataInfo.name},
                         {key: "渠道类型", value: dataInfo.channelType},
-                        {key: "省份", value: dataInfo.province},
+                        {key: "省份", value: dataInfo.provinceName},
                         {key: "二级渠道数", value: dataInfo.secondChannelNum}]
                 }/>
         </Card>
