@@ -34,7 +34,7 @@ function withSubscription(WrappedComponent,productNature) {
       super(props);
       this.state = {
         goodLists:[],
-        currentPage:0,
+        currentPage:1,
         everyPage:15,
         total:0,
         inputValues: {
