@@ -21,7 +21,7 @@ const Columns = [
 	},
 	{
 		title: '直邮订单数',
-		dataIndex: 'deQtySum',
+		dataIndex: 'deQty',
 	},
 	{
 		title: '直邮销售额',

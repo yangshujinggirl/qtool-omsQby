@@ -15,7 +15,7 @@ const SpRanking = () => {
 	useEffect(() => {
 		GetSpRankingList().then((res) => {
 			if (res.httpCode == 200) {
-				const { result } = res.result;
+				const { result } = res;
 				if (result && result.length) {
 					result.map((item, index) => (item.key = index));
 					setDataSource(result);

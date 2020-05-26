@@ -3,7 +3,9 @@ import { QbaseList, Qpagination, Qbtn, Qtable } from 'common/index';
 import FilterForm from './components/FilterForm';
 import Columns from './column';
 import { GetPurchasingTheArrivalOfTheGoodsDataList } from 'api/home/DataCenter/FinancialData';
-import { DataExportApi } from 'api/Export';
+import { DataExportApiColumn } from 'api/Export';
+import { deBounce } from 'utils/tools';
+
 /**
  * 功能作用：财务中心采购到货页面
  * 初始注释时间： 2020/3/22 16:57
@@ -14,9 +16,9 @@ import { DataExportApi } from 'api/Export';
  * 修改时间：
  * 备注：
  */
-const exportData = (_this) => {
-	DataExportApi(_this.state.searchCriteriaList, '/finance/queryPurchaseArrivalGoodsExport');
-};
+const exportData = deBounce((_this) => {
+	DataExportApiColumn(_this.state.searchCriteriaList,'/finance/queryPurchaseArrivalGoodsExport',Columns,'采购到货');
+},500);
 const PurchasingTheArrivalOfTheGoods = QbaseList(
 	(_this) => {
 		const { dataList, everyPage, currentPage, total } = _this.state;

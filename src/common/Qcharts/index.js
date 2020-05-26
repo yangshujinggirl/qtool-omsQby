@@ -57,11 +57,14 @@ export default class GoodsDataAnalysisCharts extends Component {
 			},
 			xAxis: {
 				type: 'category',
-				boundaryGap: false,
+				// boundaryGap: false,
 				data: xdata,
 			},
 			yAxis: {
 				type: 'value',
+				axisLabel: {
+                    formatter: '{value}'
+                }
 			},
 			series,
 		});
