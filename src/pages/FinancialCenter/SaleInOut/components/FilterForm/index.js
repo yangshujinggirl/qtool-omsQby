@@ -43,7 +43,6 @@ export default class SearchForm extends BaseFilter {
 							<FormItem label="订单状态" name="incomeStatus" {...this.formItemLayout}>
 								<Select placeholder="请选择订单状态" allowClear={true}>
 									<Option value={SALE_IN_OUT_ORDER_STATE_OFF_THE_STOCKS}>已完成</Option>
-									<Option value={SALE_IN_OUT_ORDER_STATE_CANCELED}>已取消</Option>
 									<Option value={SALE_IN_OUT_ORDER_STATE_REFUNDED}>已退款</Option>
 								</Select>
 							</FormItem>
