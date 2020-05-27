@@ -10,8 +10,8 @@ const StandardsMod=({...props})=> {
   let [attributeArray,setAttributeArray] =useState([]);
   //获取规格
   const fetchAttribute=()=>{
-    let status = totalData.spuCode?'':'1'
-    GetAttributeApi({status})
+    let state = totalData.spuCode?'':'1'
+    GetAttributeApi({state})
     .then((res) => {
       let { result } =res;
       result=result?result:[]
