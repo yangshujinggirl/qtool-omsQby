@@ -340,7 +340,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                   <Input placeholder="请输入大于0的整数" autoComplete="off"/>
                 </Form.Item>
                 <Form.Item label="效期管理" name="batchProcessingStatus" rules={[{ required: true, message: '请选择效期管理' }]}>
-                  <Radio.Group>
+                  <Radio.Group disabled={isEdit}>
                     {
                       batchProcessingStatusOptions.map((el,index)=> (
                         <Radio value={el.key} key={el.key}>{el.value}</Radio>
