@@ -11,16 +11,6 @@ const Columns = [
     key: "name"
   },
   {
-    title: "商品零售价",
-    dataIndex: "price",
-    key: "price"
-  },
-  {
-    title: "兑换所需金币数",
-    dataIndex: "valueQty",
-    key: "valueQty"
-  },
-  {
     title: "可领取数量",
     dataIndex: "convertibleQty",
     key: "convertibleQty"

@@ -182,6 +182,9 @@ class ReplaceOrder extends Component {
 			type: 'checkbox',
 			selectedRowKeys,
 			onChange: this.onChange,
+			getCheckboxProps:(record)=>({
+				disabled:record.purchaseNo
+			})
 		};
 		const uploadProps = {
 			accept: '.xlsx,.xls',
