@@ -47,7 +47,7 @@ export function AppExportApi(data, url) {
  */
 export function DataExportApi(data, url, exportParamsClass) {
 	return dataEmptyInterceptorsAjax.post(url, { ...data, everyPage: 50000 }).then((rep) => {
-		if (rep.httpCode == 200) {
+		if (rep.data.httpCode == 200) {
 			if (rep.data.result.result && rep.data.result.result.length) {
 				ExcelUtils.exportExcelData(rep.data.result.result, exportParamsClass);
 			} else {

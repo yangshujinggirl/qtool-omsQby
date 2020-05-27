@@ -4,6 +4,7 @@ import { Qcharts, Qtable } from 'common';
 import Columns from './column';
 import { DataExportApi, DataExportApiColumn } from 'api/Export';
 import { GetClassifyAnalysis } from 'api/home/DataCenter/BaseData/GoodsData';
+import { deBounce } from 'utils/tools';
 
 //分类分析柱状图
 class ClassifyAnalysisCharts extends Component {
@@ -71,9 +72,9 @@ class ClassifyAnalysisCharts extends Component {
 		});
 	};
 	//导出数据
-	exportData = () => {
+	exportData = deBounce(() => {
 		DataExportApiColumn(this.state.searchFilterList, '/goods/classifyAnalysisExport', Columns, '商品数据-分类分析');
-	};
+	},500);
 	//需要传递给子组件的数据
 	formatToChildValue = () => {
 		const { xdata, type, data1, data2, data3, data4 } = this.state;
@@ -81,12 +82,13 @@ class ClassifyAnalysisCharts extends Component {
 		const legend = {
 			data: [{ name: '掌柜销售' }, { name: 'POS销售' }],
 			top: '43',
-			left: '460',
+			left: '350',
 		};
 		const series = [
 			{
 				name: '掌柜销售',
 				type: 'bar',
+				barGap: 0,
 				data: type === '1' ? data1 : data3,
 			},
 			{
