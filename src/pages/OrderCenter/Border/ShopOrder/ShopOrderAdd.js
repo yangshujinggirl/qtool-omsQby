@@ -86,7 +86,11 @@ const ShopOrderAdd=({...props})=> {
   }
   //上传更新
   const upDateFileList=(response)=> {
-    let { result } = response.result;
+    let { result, httpCode, msg } = response.result;
+    if(httpCode!='200') {
+      Qmessage.error(msg);
+      return;
+    }
     result=result?result:[]
     result.map((el,index)=>{
       el.key=index;
