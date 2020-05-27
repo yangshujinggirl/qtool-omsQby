@@ -96,7 +96,7 @@ class AllReturn extends Component {
 				if (selectedRows && selectedRows[0].warehouseType !== 1) {
 					return message.warning('仅Qtools收货的退单支持此操作', 0.8);
 				}
-				if ((selectedRows && selectedRows[0].status !== 20) || selectedRows[0].status !== 10) {
+				if ((selectedRows && selectedRows[0].status !== 20) && selectedRows[0].status !== 10) {
 					return message.warning('仅待收货的退单支持此操作', 0.8);
 				}
 			}
@@ -107,16 +107,16 @@ class AllReturn extends Component {
 	};
 	//确定收货||取消退单
 	onOk = deBounce(() => {
-		const { selectedRowKeys, operateType } = this.state;
-		const values = { reOrderNo: selectedRowKeys[0], operation: operateType == 0 ? 3 : 2 };
+		const { selectedRows, operateType } = this.state;
+		const values = { reOrderNo: selectedRows[0].reOrderNo, operation: operateType == 0 ? 3 : 2 };
 		operateReturnApi(values).then((res) => {
 			if (res.httpCode == 200) {
 				message.success('撤销成功', 0.8);
 				const { inputValues, everyPage, currentPage } = this.state;
 				this.searchData({ ...inputValues, everyPage, currentPage });
-				this.setState({ isPushVisible: false, selectedRowKeys: [] });
+				this.setState({ visible: false, selectedRowKeys: [] });
 			} else {
-				this.setState({ isPushVisible: false, selectedRowKeys: [] });
+				this.setState({ visible: false, selectedRowKeys: [] });
 			}
 		});
 	}, 500);
@@ -151,6 +151,7 @@ class AllReturn extends Component {
 			selectedRowKeys,
 			onChange: this.onChange,
 		};
+		console.log(selectedRowKeys)
 		return (
 			<Spin spinning={loading}>
 				<div className="oms-common-index-pages-wrap">
