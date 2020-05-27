@@ -268,7 +268,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
             <div>
               <Card title="销售信息">
                 <Form.Item label="联营分成类别" name="profits" rules={[{ required: true, message: '请选择联营分成类别' }]}>
-                  <Radio.Group>
+                  <Radio.Group disabled={isEdit}>
                     {
                       profitsOptions.map((el)=> (
                         <Radio value={el.key} key={el.key}>{el.value}</Radio>
@@ -340,7 +340,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                   <Input placeholder="请输入大于0的整数" autoComplete="off"/>
                 </Form.Item>
                 <Form.Item label="效期管理" name="batchProcessingStatus" rules={[{ required: true, message: '请选择效期管理' }]}>
-                  <Radio.Group>
+                  <Radio.Group disabled={isEdit}>
                     {
                       batchProcessingStatusOptions.map((el,index)=> (
                         <Radio value={el.key} key={el.key}>{el.value}</Radio>
@@ -355,7 +355,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
                     return getFieldValue('batchProcessingStatus') == 2&&
                     <div>
                       <Form.Item label="效期类型" name="batchProcessingType" rules={[{ required: true, message: '请选择效期类型' }]}>
-                        <Radio.Group>
+                        <Radio.Group disabled={isEdit}>
                           {
                             batchProcessingTypeOptions.map((el,index)=> (
                               <Radio value={el.key} key={el.key}>{el.value}</Radio>
