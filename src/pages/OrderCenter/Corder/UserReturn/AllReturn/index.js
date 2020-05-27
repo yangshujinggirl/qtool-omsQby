@@ -52,7 +52,6 @@ class AllReturn extends Component {
 					if (result.length) {
 						result.map((item) => (item.key = item.id));
 					}
-
 					this.setState({
 						dataList: result,
 						everyPage,
