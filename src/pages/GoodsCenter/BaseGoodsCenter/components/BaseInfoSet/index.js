@@ -191,7 +191,7 @@ const BaseInfoSet=({...props})=> {
         productNature==1?
         <div>
           <Form.Item label="商品类型" name="productType" rules={[{ required: true, message: '请选择商品类型' }]}>
-            <Radio.Group>
+            <Radio.Group disabled={isEdit}>
               {
                 productTypeOptions.map((el)=>(
                 <Radio value={el.key} key={el.key}>{el.value}</Radio>
