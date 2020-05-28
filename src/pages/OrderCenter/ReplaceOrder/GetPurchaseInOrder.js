@@ -174,8 +174,8 @@ const GetPurchaseInOrder = (props) => {
 		let dfList = [];
 		replaceList.map((item) => {
 			const index = dataSource.findIndex((el) => el.skuCode == item.skuCode);
-			const { purchasePriceStr, remarks } = dataSource[index];
-			dfList.push({ id: item.id, purchasePriceStr, remarks });
+			const { purchasePrice, remarks } = dataSource[index];
+			dfList.push({ id: item.id, purchasePrice, remarks });
 		});
 		setLoading(true);
 		createPurchaseinOrderApi({ dfList, id })
