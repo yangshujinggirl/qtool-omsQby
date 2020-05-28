@@ -32,7 +32,7 @@ const GetPurchaseInOrder = (props) => {
 						...item,
 						orderNum: obj[item['skuCode']]['orderNum'] + 1,
 						num: obj[item['skuCode']]['num'] + item.num,
-						totalPrice: obj[item['skuCode']]['totalPrice'] + item.totalPrice,
+						totalPrice: NP.plus(obj[item['skuCode']]['totalPrice'] , item.totalPrice),
 						purchasePriceStr: obj[item['skuCode']]['purchasePriceStr'],
 				  }
 				: {
