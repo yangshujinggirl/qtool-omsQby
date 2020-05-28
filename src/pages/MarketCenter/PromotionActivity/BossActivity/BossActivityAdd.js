@@ -61,7 +61,12 @@ const ActivityAdd=({...props})=> {
   const upDateList=(arrVal)=> { setGoodsList(arrVal) };
   //上传更新
   const upDateFileList=(response)=> {
-    let { pdSpuAsnLists } = response.result;
+    let { httpCode, msg, result } =response;
+    if(httpCode!='200') {
+      Qmessage.error(msg);
+      return;
+    }
+    let { pdSpuAsnLists } = result;
     pdSpuAsnLists=pdSpuAsnLists?pdSpuAsnLists:[]
     pdSpuAsnLists.map((el,index)=>el.key=index)
     setGoodsList(pdSpuAsnLists)
