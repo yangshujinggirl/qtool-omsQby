@@ -60,7 +60,7 @@ const AbnormalGoodsColumns = [
   },
   {
     title: "实付金额",
-    dataIndex: "totalPrice"
+    dataIndex: "orderTotal"
   },
   {
     title: "退款数量",
