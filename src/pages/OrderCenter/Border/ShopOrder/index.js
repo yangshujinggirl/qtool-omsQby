@@ -42,7 +42,7 @@ const ShopOrderList = QbaseList((_this) => {
             <CancelModal
               currentItem={currentItem}
               visible={visible}
-              onOK={onOk}
+              onOk={onOk}
               onCancel={onCancel}/>
         </div>
     );
