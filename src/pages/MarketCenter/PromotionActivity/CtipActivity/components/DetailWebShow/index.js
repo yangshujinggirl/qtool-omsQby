@@ -1,4 +1,4 @@
-import {ImageFlex} from 'common';
+import {QenlargeImg} from 'common';
 import { Row, Col } from 'antd';
 
 function DetailWebShow({...props}) {
@@ -6,7 +6,7 @@ function DetailWebShow({...props}) {
   return <div className="detail-mode-wrap">
           <Row className="item-row">
             <Col span={labelCol}>活动配置促销活动页头图：</Col>
-            <Col span={wrapperCol}><ImageFlex picUrl={info.websiteBanner}/></Col>
+            <Col span={wrapperCol}><QenlargeImg url={info.websiteBanner}/></Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>是否需要商详横幅条：</Col>
@@ -29,7 +29,7 @@ function DetailWebShow({...props}) {
               </Row>
               <Row className="item-row">
                 <Col span={labelCol}>商品详情页横幅条背景图：</Col>
-                <Col span={wrapperCol}><ImageFlex picUrl={info.pdDetailBannerPic}/></Col>
+                <Col span={wrapperCol}><QenlargeImg url={info.pdDetailBannerPic}/></Col>
               </Row>
 
 
@@ -48,7 +48,7 @@ function DetailWebShow({...props}) {
               </Row>
               <Row className="item-row">
                 <Col span={labelCol}>活动主题logo图：</Col>
-                <Col span={wrapperCol}><ImageFlex picUrl={info.logoPic}/></Col>
+                <Col span={wrapperCol}><QenlargeImg url={info.logoPic}/></Col>
               </Row>
             </div>
           }
