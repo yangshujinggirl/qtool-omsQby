@@ -28,7 +28,7 @@ const Columns = [
 		title: '状态',
 		dataIndex: 'status',
 		key: '5',
-		render: (text) => (text == 1 ? '启用' : '不启用'),
+		render: (text) => (text == 1 ? '启用' : '禁用'),
 	},
 	{
 		title: '品牌授权',
