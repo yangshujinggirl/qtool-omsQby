@@ -138,10 +138,10 @@ export function columnsFun(handleBlur,type){
          return <FormItem
                  name={['fieldsOne',index,'pdCode']}
                  rules={[
-                   { required:true,message:'请输入Spuid' },
+                   { required:true,message:'请输入商品编码' },
                    { pattern:/^\S+$/g,message:'不可输入空格' }
                  ]}>
-                 <Input onBlur={(e)=>handleBlur(e,record,'pdCode')} maxLength='15' placeholder="请输入Spuid" autoComplete="off"/>
+                 <Input onBlur={(e)=>handleBlur(e,record,'pdCode')} maxLength='15' placeholder="请输入商品编码" autoComplete="off"/>
              </FormItem>
        }
      };
