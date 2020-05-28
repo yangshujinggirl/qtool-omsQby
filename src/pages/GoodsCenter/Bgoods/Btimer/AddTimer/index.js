@@ -26,12 +26,12 @@ const AddTimer = (props) => {
 			getTimeInfoApi({ pdTaskTimeId: id })
 				.then((res) => {
 					if (res.httpCode == 200) {
-            let { taskDetails,salestatus,statusnew, statushot, ...infos } = res.result;
-            infos.salestatus = salestatus&&Array.of(salestatus);
-            infos.statusnew = statusnew&&Array.of(statusnew);
-            infos.statushot = statushot&&Array.of(statushot);
+						let { taskDetails, salestatus, statusnew, statushot, ...infos } = res.result;
+						infos.salestatus = !isNaN(salestatus) && Array.of(salestatus);
+						infos.statusnew = !isNaN(statusnew) && Array.of(statusnew);
+						infos.statushot = !isNaN(statushot) && Array.of(statushot);
 						if (taskDetails.length) {
-							taskDetails.map((item) => (item.key = item.pdTaskTimeId));
+							taskDetails.map((item) => (item.key = item.pdTaskTimeDetailId));
 						}
 						infos.taskTime = moment(infos.taskTime);
 						setGoodList(taskDetails);
@@ -49,12 +49,12 @@ const AddTimer = (props) => {
 	const handleSubmit = async (e) => {
 		const { salestatus, statusnew, statushot } = form.getFieldsValue(['salestatus', 'statusnew', 'statushot']);
 		if (
-		(salestatus==undefined||(salestatus&&salestatus.length==0)) 
-		&& (statusnew==undefined||(statusnew&&statusnew.length==0))
-		&& (statushot==undefined||(statushot&&statushot.length==0)) 
-		){
+			(salestatus == undefined || (salestatus && salestatus.length == 0)) &&
+			(statusnew == undefined || (statusnew && statusnew.length == 0)) &&
+			(statushot == undefined || (statushot && statushot.length == 0))
+		) {
 			form.setFields([{ name: ['salestatus'], errors: ['请选择调整状态'] }]);
-		};
+		}
 		const values = await form.validateFields();
 		if (!form.getFieldError('salestatus')[0]) {
 			setShowLoading(true);
