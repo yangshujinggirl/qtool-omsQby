@@ -32,7 +32,7 @@ const GetPurchaseInOrder = (props) => {
 						...item,
 						orderNum: obj[item['skuCode']]['orderNum'] + 1,
 						num: obj[item['skuCode']]['num'] + item.num,
-						totalPrice: obj[item['skuCode']]['totalPrice'] + item.totalPrice,
+						totalPrice: NP.plus(obj[item['skuCode']]['totalPrice'] , item.totalPrice),
 						purchasePriceStr: obj[item['skuCode']]['purchasePriceStr'],
 				  }
 				: {
@@ -174,8 +174,8 @@ const GetPurchaseInOrder = (props) => {
 		let dfList = [];
 		replaceList.map((item) => {
 			const index = dataSource.findIndex((el) => el.skuCode == item.skuCode);
-			const { purchasePriceStr, remarks } = dataSource[index];
-			dfList.push({ id: item.id, purchasePriceStr, remarks });
+			const { purchasePrice, remarks } = dataSource[index];
+			dfList.push({ id: item.id, purchasePrice, remarks });
 		});
 		setLoading(true);
 		createPurchaseinOrderApi({ dfList, id })

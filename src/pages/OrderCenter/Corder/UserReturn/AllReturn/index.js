@@ -110,7 +110,7 @@ class AllReturn extends Component {
 		const values = { reOrderNo: selectedRows[0].reOrderNo, operation: operateType == 0 ? 3 : 2 };
 		operateReturnApi(values).then((res) => {
 			if (res.httpCode == 200) {
-				message.success('撤销成功', 0.8);
+				message.success('操作成功', 0.8);
 				const { inputValues, everyPage, currentPage } = this.state;
 				this.searchData({ ...inputValues, everyPage, currentPage });
 				this.setState({ visible: false, selectedRowKeys: [] });
