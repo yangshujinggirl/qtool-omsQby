@@ -50,7 +50,6 @@ const CouponAdd = ({ ...props }) => {
 	let [selectBdKeyList, setSelectBdkeyList] = useState([]);
 	let [linkInfoType, setLinkInfoType] = useState('');//跳转类型
 	let [limitDisabled, setLimitDisabled] = useState(false);
-
 	//上传更新
 	const upDateFileList = (response) => {
 		let { result } = response;
@@ -104,7 +103,7 @@ const CouponAdd = ({ ...props }) => {
 			return el.key;
 		});
 		setSelectBdList(selectBdList);
-		setSelectBdKeyList(bdKeyList);
+		setSelectBdkeyList(bdKeyList);
 	};
 	//商品查询
 	const handleBlur = (e, index) => {
@@ -139,7 +138,13 @@ const CouponAdd = ({ ...props }) => {
 				_val.couponValidDateST = moment(couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
 				_val.couponValidDateET = moment(couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
 			}
-			_val = { ..._val, proportionList };
+			let newBranList = selectBdList.map((el) => {
+				return {
+					name:el.value,
+					pdBrandId:el.key
+				}
+			})
+			_val = { ..._val, proportionList, brandList:newBranList };
 			GetAddApi(_val).then((res) => {
 				Qmessage.success('保存成功');
 				goReturn();
