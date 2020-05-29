@@ -22,6 +22,7 @@ const AddPurchaseOut = (props) => {
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState(false);
 	const [totalPrice, setTotalPrice] = useState(0);
+	const [totalAmount, setTotalAmount] = useState(0);
 	const [goodList, setGoodList] = useState([]);
 	const [options, setOptions] = useState([]);
 	const [suppliersName, setSuppliersName] = useState('');
@@ -61,16 +62,19 @@ const AddPurchaseOut = (props) => {
 	 * 计算总价
 	 */
 	const countPrice = (list) => {
-		let totalPrice = 0;
+		let [totalPrice,totalAmount] = [0,0];
 		if (list.length > 0) {
 			list.map((item) => {
+				item.prevPrice = item.price;
 				item.key = item.id;
 				item.total = NP.times(Number(item.amount), Number(item.price)).toFixed(2);
 				totalPrice += Number(item.total);
+				totalAmount += Number(item.amount)
 			});
 		}
 		setGoodList(list);
 		setTotalPrice(totalPrice);
+		setTotalAmount(totalAmount);
 	};
 	/**
 	 * 根据名称搜索供应商
@@ -87,7 +91,6 @@ const AddPurchaseOut = (props) => {
 	const handleSubmit = async () => {
 		const values = await form.validateFields();
 		const { provinces, goodList: data, ..._values } = values;
-		debugger;
 		if (provinces) {
 			_values.province = provinces[0];
 			_values.city = provinces[1];
@@ -100,6 +103,12 @@ const AddPurchaseOut = (props) => {
 			data[index].thinkCode = goodList[index].thinkCode;
 			data[index].itemCode = goodList[index].itemCode;
 		});
+		const totalReturnAmount = data.reduce((sum,current)=>{
+			return sum+Number(current.amount)
+		},0);
+		if(totalReturnAmount==0){
+			return message.error('商品采退总数量为0，请至少填写一个商品的采退数量')
+		}
 		_values.detailList = data;
 		_values.stockingReCode = props.match.params.id;
 		addPurchaseOutApi(_values).then((res) => {
@@ -134,13 +143,15 @@ const AddPurchaseOut = (props) => {
 	 */
 	const changeDataSource = (goodList) => {
 		setGoodList([...goodList]);
-		let totalPrice = 0;
+		form.setFieldsValue({ goodList });
+		let [totalPrice,totalAmount] = [0,0];
 		goodList.map((item) => {
 			totalPrice += Number(item.total);
+			totalAmount += Number(item.amount);
 		});
 		setTotalPrice(totalPrice);
+		setTotalAmount(totalAmount);
 	};
-	console.log();
 	return (
 		<Spin spinning={loading}>
 			<div className="oms-common-addEdit-pages add_purchase">
@@ -223,7 +234,7 @@ const AddPurchaseOut = (props) => {
 						<div className="return_price">
 							<span>
 								商品数量：
-								<span className="return_price_color">{goodList.length}</span>，
+								<span className="return_price_color">{totalAmount}</span>，
 							</span>
 							<span>
 								共计：
