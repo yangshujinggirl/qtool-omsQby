@@ -87,6 +87,7 @@ const ShopOrderAdd=({...props})=> {
   //上传更新
   const upDateFileList=(response)=> {
     let { result, httpCode, msg } = response.result;
+    let qtySum=0, amountSum=0;
     if(httpCode!='200') {
       Qmessage.error(msg);
       return;
@@ -94,8 +95,17 @@ const ShopOrderAdd=({...props})=> {
     result=result?result:[]
     result.map((el,index)=>{
       el.key=index;
-      el.qty = el.num
+      el.qty = el.num;
+      if(el.qty) {
+        qtySum=NP.plus(qtySum, el.qty)
+        el.amount=NP.times(el.qty,el.businessPrice);
+        if(orderType==2) {
+          el.amount=NP.times(el.qty,"0.01");
+        }
+        amountSum=NP.plus(amountSum,el.amount);
+      }
     })
+    setTotal({...totalData,qtySum, amountSum })
     setGoodsList(result)
   }
   const handleBlur=(event,index,type)=> {

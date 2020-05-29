@@ -67,6 +67,7 @@ const TimeSet=({...props})=> {
   }
   const goSave=(record)=> {
     let params={
+      pdListDisplayCfgId:record.pdListDisplayCfgId,
       homepageModuleId,
       type:totalData.type,
       beginTime:moment(record.time[0]).format('YYYY-MM-DD HH:mm:ss'),

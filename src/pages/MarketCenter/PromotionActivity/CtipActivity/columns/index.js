@@ -36,7 +36,7 @@ const columnsAdd1 = [
   },
   { title: "商品编码", dataIndex: "pdCode", key: "3" },
   { title: "商品名称", dataIndex: "pdName", key: "4" },
-  { title: "商品规格", dataIndex: "pdName", key: "5" },
+  { title: "商品规格", dataIndex: "pdSpec", key: "5" },
   {
     title: "商品种类",
     dataIndex: "pdKind",
