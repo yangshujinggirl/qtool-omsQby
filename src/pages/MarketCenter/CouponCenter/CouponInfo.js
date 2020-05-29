@@ -129,9 +129,9 @@ const CouponInfo = ({ ...props }) => {
 					</FormItem>
 					{totalData.couponUseScope == '5' && (
 						<FormItem label="选择品牌" {...formItemLayout}>
-							{brandList.map((item, index) => (
+							{brandDataSource.map((item, index) => (
 								<span key={index}>
-									{item.name} {index !== brandList.length - 1 ? '、' : ''}
+									{item.name} {index !== brandDataSource.length - 1 ? '、' : ''}
 								</span>
 							))}
 						</FormItem>
