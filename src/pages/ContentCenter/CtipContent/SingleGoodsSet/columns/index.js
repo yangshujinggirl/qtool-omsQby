@@ -47,7 +47,6 @@ export function columnsFun(handleBlur,type){
           return <FormItem
                   name={['fieldsOne',index,'pdSpuId']}
                   rules={[
-                    { required:true,message:'请输入Spuid' },
                     { pattern:/^\S+$/g,message:'不可输入空格' }
                   ]}>
                     <Input onBlur={(e)=>handleBlur(e,record,'pdSpuId')} maxLength='15' placeholder="请输入Spuid" autoComplete="off"/>
@@ -189,7 +188,6 @@ export function columnsTwoFun( handleBlur, type){
         return <FormItem
                 name={['fieldsTwo',index,'pdSpuId']}
                 rules={[
-                  { required:true,message:'请输入Spuid' },
                   { pattern:/^\S+$/g,message:'不可输入空格' }
                 ]}>
                   <Input onBlur={(e)=>handleBlur(e,record,'pdSpuId')} maxLength='15' placeholder="请输入Spuid" autoComplete="off"/>
