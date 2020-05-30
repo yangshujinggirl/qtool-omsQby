@@ -2,6 +2,7 @@ import { Input, Form, Select, Button, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Sessions } from 'utils';
+import {QenlargeImg} from "common/index";
 const FormItem = Form.Item;
 
 const fileDomain = Sessions.get('fileDomain');
@@ -63,7 +64,7 @@ export function columnsFun(handleBlur,type){
          return <div className="img-wrap">
                   {
                     record.pdSpuPic&&
-                    <img src={`${fileDomain}${record.pdSpuPic}`}/>
+                    <QenlargeImg url={record.pdSpuPic}/>
                   }
                </div>
        }
@@ -205,7 +206,7 @@ export function columnsTwoFun( handleBlur, type){
         return <div className="img-wrap">
                  {
                    record.pdSpuPic&&
-                   <img src={`${fileDomain}${record.pdSpuPic}`}/>
+                   <QenlargeImg url={record.pdSpuPic}/>
                  }
               </div>
       }
