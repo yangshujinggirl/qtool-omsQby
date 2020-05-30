@@ -82,6 +82,7 @@ const TimeSet=({...props})=> {
   const goGoodSet=(record)=> {
     let params = {
       pdListDisplayCfgId:record.pdListDisplayCfgId,
+      activityId:record.activityId,
       activeKey:"3",
       type:totalData.type
     }
