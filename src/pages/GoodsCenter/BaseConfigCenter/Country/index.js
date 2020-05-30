@@ -1,6 +1,7 @@
 import FilterForm from "./FilterForm";
 import { GetCountryListsApi } from "api/home/Country";
 import "./index.less";
+import {QenlargeImg} from "common/index";
 
 class Country extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class Country extends React.Component {
         <div onScrollCapture={this.handleScroll} ref="country">
           {countryList.length>0&&countryList.map(item => (
             <div key={item.id} className="imgBox">
-              <img src={item.countryImages} />
+              <QenlargeImg url={item.countryImages} />
               <p>{item.countryName}</p>
             </div>
           ))}
