@@ -13,14 +13,14 @@ class SiderBarController extends React.Component {
   state = {
     collapsed: 'false',
     selectKeys:this.props.selectKeys,
-    defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')),
-    defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys')),
+    defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')) || [],
+    defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys')) || "",
   };
   static getDerivedStateFromProps(props, state) {
     if(props.selectKeys!==state.selectKeys) {
       return {
-        defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')),
-        defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys'))
+        defaultSelectedKeys:JSON.parse(Sessions.get('selectedMenuKeys')) || [],
+        defaultOpenKeys:JSON.parse(Sessions.get('openMenuKeys')) || ""
       }
     }
     return null;
