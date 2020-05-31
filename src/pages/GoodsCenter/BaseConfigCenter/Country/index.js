@@ -57,6 +57,7 @@ class Country extends React.Component {
     this.searchData(params);
   };
   render() {
+    const fileDomain = sessionStorage.getItem('oms_fileDomain')
     const { countryList=[] } = this.state;
     return (
       <div className="oms-common-index-pages-wrap country" ref='container'>
@@ -64,7 +65,7 @@ class Country extends React.Component {
         <div onScrollCapture={this.handleScroll} ref="country">
           {countryList.length>0&&countryList.map(item => (
             <div key={item.id} className="imgBox">
-              <img src={item.countryImages} />
+              <img src={fileDomain+item.countryImages} />
               <p>{item.countryName}</p>
             </div>
           ))}
