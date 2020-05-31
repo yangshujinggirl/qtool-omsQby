@@ -1,6 +1,7 @@
 import FilterForm from "./FilterForm";
 import { GetCountryListsApi } from "api/home/Country";
 import "./index.less";
+import {QenlargeImg} from "common/index";
 
 class Country extends React.Component {
   constructor(props) {

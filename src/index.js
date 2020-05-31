@@ -44,9 +44,7 @@ ReactDOM.render(
             return <div>
                     <Route component={HomeController}  path="/account" />
                     <Route  path="/login" component={Login}/>
-                    <Route exact path="/" render={()=>{
-                      return <Redirect to="/account/purchaseOrder"/>
-                    }}/>
+                    <Route  component={HomeController}  exact path="/"/>
                   </div>
           } else {
             return <Redirect to="/login"/>

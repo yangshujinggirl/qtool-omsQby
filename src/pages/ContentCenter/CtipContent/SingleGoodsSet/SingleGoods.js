@@ -64,6 +64,8 @@ const MoreGoodSet=({...props})=> {
       let { activitys } =res.result;
       activitys = activitys?activitys:[]
       setActivityList(activitys);
+      selectId(params.activityId)
+      form.setFieldsValue({ activityId: params.activityId });
     })
   }
   //提交
@@ -82,8 +84,9 @@ const MoreGoodSet=({...props})=> {
         pdSpuList = fieldsOne;
       }
       let val= { homepageModuleId, pdSpuList, pdListDisplayCfgId:params.pdListDisplayCfgId};
-      if(val.type == 1) {
+      if(params.type === 1) {
         val = {...val,activityId}
+        val.type = params.type;
       }
       GetSaveGoodsApi(val)
       .then((res)=> {

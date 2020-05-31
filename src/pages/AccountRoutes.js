@@ -1,5 +1,6 @@
 import { Switch, Route, Link } from "react-router-dom";
 import NotFound from "./NotFound";
+import DefaultPage from "./DefaultPage";
 
 /************************************  商品中心  ********************************************/
 //基础配置-----------------------------------//////
@@ -201,9 +202,10 @@ class HomeRoutes extends React.Component {
   render() {
     return (
       <Switch>
-        {/* <Route exact path="/account/public" component={Public} /> */}
-        {/* ----------------------------------  商品中心   ---------------------------------------*/}
-        <Route exact path="/account/country_and_region" component={Country} />
+          <Route exact path="/" component={DefaultPage} />
+          {/* <Route exact path="/account/public" component={Public} /> */}
+          {/* ----------------------------------  商品中心   ---------------------------------------*/}
+          <Route exact path="/account/country_and_region" component={Country} />
         <Route exact path="/account/brand" component={Brand} />
         <Route exact path="/account/brandAdd/:id?" component={BrandAdd} />
         <Route exact path="/account/brandInfo/:id?" component={BrandInfo} />

@@ -2,9 +2,8 @@ import { Input, Form, Select, Button, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Sessions } from 'utils';
+import {QenlargeImg} from "common/index";
 const FormItem = Form.Item;
-
-const fileDomain = Sessions.get('fileDomain');
 
 let tagsTit =(
     <span>
@@ -63,7 +62,7 @@ export function columnsFun(handleBlur,type){
          return <div className="img-wrap">
                   {
                     record.pdSpuPic&&
-                    <img src={`${fileDomain}${record.pdSpuPic}`}/>
+                    <QenlargeImg url={record.pdSpuPic}/>
                   }
                </div>
        }
@@ -138,7 +137,6 @@ export function columnsFun(handleBlur,type){
          return <FormItem
                  name={['fieldsOne',index,'pdCode']}
                  rules={[
-                   { required:true,message:'请输入商品编码' },
                    { pattern:/^\S+$/g,message:'不可输入空格' }
                  ]}>
                  <Input onBlur={(e)=>handleBlur(e,record,'pdCode')} maxLength='15' placeholder="请输入商品编码" autoComplete="off"/>
@@ -205,7 +203,7 @@ export function columnsTwoFun( handleBlur, type){
         return <div className="img-wrap">
                  {
                    record.pdSpuPic&&
-                   <img src={`${fileDomain}${record.pdSpuPic}`}/>
+                   <QenlargeImg url={record.pdSpuPic}/>
                  }
               </div>
       }
@@ -293,10 +291,9 @@ export function columnsTwoFun( handleBlur, type){
          return <FormItem
                  name={['fieldsTwo',index,'pdCode']}
                  rules={[
-                   { required:true,message:'请输入Spuid' },
                    { pattern:/^\S+$/g,message:'不可输入空格' }
                  ]}>
-                 <Input onBlur={(e)=>handleBlur(e,record,'pdCode')} maxLength='15' placeholder="请输入Spuid" autoComplete="off"/>
+                 <Input onBlur={(e)=>handleBlur(e,record,'pdCode')} maxLength='15' placeholder="请输入商品编码" autoComplete="off"/>
              </FormItem>
        }
      };
