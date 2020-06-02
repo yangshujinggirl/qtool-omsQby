@@ -77,7 +77,7 @@ const BaseGoodsAdd =({...props})=> {//productNature：1一般贸易，2：跨境
               {totalData.productName}
             </Form.Item>
             <FormItem label='品牌'>
-             {totalData.productName}
+             {totalData.brandName}
             </FormItem>
             <Form.Item label="品牌归属地">
               {totalData.brandAddressName}
