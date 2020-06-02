@@ -25,7 +25,7 @@ class AccountBanlance extends Component {
 
   //初始化数据
   componentDidMount = () => {
-    this.searchData({});
+    this.searchData({currentPage:1,everyPage:15});
   };
   //搜索列表
   searchData = values => {
