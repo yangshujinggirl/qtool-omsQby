@@ -329,6 +329,7 @@ const CtipActivityAddTwo=({...props})=> {
 
   const dataParams={ type: promotionType, beginTime, endTime, pdKind,promotionId }
   const downLoadFileName=fileMap[promotionType];
+
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">

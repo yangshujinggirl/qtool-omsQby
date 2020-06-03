@@ -156,6 +156,7 @@ const DiscountTwo=({...props})=>{
     };
     return Promise.resolve();
   }
+  console.log(newDataSource)
 
   return (
     <div className="discountTwo">
@@ -175,7 +176,7 @@ const DiscountTwo=({...props})=>{
                 阶梯{index + 1}：<span style={{ color: "red" }}>*</span>单笔订单满　
                 <FormItem
                   className="satified_price"
-                  name={['fieldValues',index,'leastAmount']}
+                  name={['ruleField',index,'param','leastAmount']}
                   getValueFromEvent={(event)=>{
                     return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
                   }}
@@ -190,7 +191,7 @@ const DiscountTwo=({...props})=>{
               <FormItem noStyle>
                 <FormItem
                   className="reduce_price"
-                  name={['fieldValues',index,'reduceAmount']}
+                  name={['ruleField',index,'param','reduceAmount']}
                   getValueFromEvent={(event)=>{
                     return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
                   }}
@@ -211,7 +212,7 @@ const DiscountTwo=({...props})=>{
                 阶梯{index + 1}：<span style={{ color: "red" }}>*</span> 单笔买满　
                 <FormItem
                   className="satified_price"
-                  name={['fieldValues',index,'leastQty']}
+                  name={['ruleField',index,'param','leastQty']}
                   rules={[ { required: true, message: "请填写优惠内容" },{ validator:(rule, value, callback)=>validatorTwo(rule, value, callback, index) }]}
                   getValueFromEvent={(event)=>{
                     return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
@@ -229,7 +230,7 @@ const DiscountTwo=({...props})=>{
                   getValueFromEvent={(event)=>{
                     return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
                   }}
-                  name={['fieldValues',index,'reduceQty']}
+                  name={['ruleField',index,'param','reduceQty']}
                   rules={[ { required: true, message: "请填写优惠内容" },{ validator: (rule, value, callback)=>validatorFour(rule, value, callback, index) }]}>
                   <Input
                     onChange={e => onChange(e, index, "reduceQty")}
