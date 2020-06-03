@@ -90,7 +90,7 @@ const CtipActivityAddTwo=({...props})=> {
       case 11://单品满件赠
         promotionProducts&&promotionProducts.map(item=>{
           let [arr1,arr2] = [[],[]];
-          item.promotionRules&&item.promotionRules.map(subItem=>{
+          proRules&&proRules.map(subItem=>{
             //预计到手价=C端售价*优惠门槛/（优惠门槛+赠品数量）
             const price = (Number(item.sellPrice)*(Number(subItem.param.leastQty))/(Number(subItem.param.leastQty)+Number(subItem.param.giftQty))).toFixed(2);
             //毛利率=（到手价-B端活动售价）/ 到手价
@@ -114,7 +114,7 @@ const CtipActivityAddTwo=({...props})=> {
       case 22://专区满元减
         promotionProducts && promotionProducts.length>0&& promotionProducts.map(item=>{
           let [arr1,arr2] = [[],[]];
-          state.dataSource && state.dataSource.length>0 && state.dataSource.map(subItem=>{
+          proRules.length>0 && proRules.map(subItem=>{
             //预计到手价=C端售价*（1-减钱/优惠门槛 ）
             let price = '';
             if(subItem.param.leastAmount && subItem.param.reduceAmount){
@@ -145,6 +145,7 @@ const CtipActivityAddTwo=({...props})=> {
         });
         break;
     }
+    console.log(promotionProducts);
     setProducts(promotionProducts);
   }
   //表格操作
