@@ -26,7 +26,7 @@ const ImportFile=({...props})=> {
         if (response.httpCode == "200") {
           props.upDateList(response);
         } else {
-          Qmessage.error(file.response.message, 0.8);
+          Qmessage.error(file.response.msg, 0.8);
         }
         return file.response.status === "success";
       }
