@@ -140,10 +140,8 @@ const AddPurchaseIn = props => {
     const { predictCtimeStr, goodList: data, ..._values } = values;
     _values.predictCtimeStr = moment(predictCtimeStr).format("YYYY-MM-DD");
     if(props.match.params.id){//修改
-      goodList.map(item => {
-        data.map(subItem => {
-          subItem.id = item.id;
-        });
+      goodList.map((item,index) => {
+        data[index].id = goodList[index].id
       });
     };
     _values.data = data;
