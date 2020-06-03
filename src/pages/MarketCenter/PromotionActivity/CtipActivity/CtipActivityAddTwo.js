@@ -145,7 +145,6 @@ const CtipActivityAddTwo=({...props})=> {
         });
         break;
     }
-    console.log(promotionProducts);
     setProducts(promotionProducts);
   }
   //表格操作
