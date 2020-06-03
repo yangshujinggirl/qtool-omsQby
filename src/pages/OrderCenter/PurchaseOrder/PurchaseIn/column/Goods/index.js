@@ -3,6 +3,7 @@ import moment from "moment";
 
 const GoodsColumns = [
     {title: "SKU编码", dataIndex: "itemCode", key: "1"},
+    {title: "商品条码", dataIndex: "barCode", key: "9"},
     {title: "商品名称", dataIndex: "itemName", key: "2"},
     {title: "商品规格", dataIndex: "salesAttributeName", key: "3"},
     {title: "SKU创建时间", dataIndex: "skuCreateTime", key: "4",
