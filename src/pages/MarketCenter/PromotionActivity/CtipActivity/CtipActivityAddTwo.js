@@ -90,7 +90,7 @@ const CtipActivityAddTwo=({...props})=> {
       case 11://单品满件赠
         promotionProducts&&promotionProducts.map(item=>{
           let [arr1,arr2] = [[],[]];
-          proRules&&proRules.map(subItem=>{
+          item.promotionRules&&item.promotionRules.map(subItem=>{
             //预计到手价=C端售价*优惠门槛/（优惠门槛+赠品数量）
             const price = (Number(item.sellPrice)*(Number(subItem.param.leastQty))/(Number(subItem.param.leastQty)+Number(subItem.param.giftQty))).toFixed(2);
             //毛利率=（到手价-B端活动售价）/ 到手价

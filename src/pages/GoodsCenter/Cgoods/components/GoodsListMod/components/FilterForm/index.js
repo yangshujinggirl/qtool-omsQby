@@ -39,7 +39,7 @@ class Search extends BaseFilter {
       }
     });
   }
-  onChangeCatagory = (level,value) => {
+  onSelectCatagory = (level,value) => {
     switch(level) {
       case 1:
         this.setState({ catagoryList3: [],catagoryList4:[] });
@@ -54,6 +54,21 @@ class Search extends BaseFilter {
         break;
     }
     this.getCategoryList(level, value);
+  };
+  onChangeCatagory = (level,value) => {
+    switch(level) {
+      case 1:
+        this.setState({ catagoryList3: [],catagoryList4:[] });
+        this.formRef.current.resetFields(['categoryCode2','categoryCode3','categoryCode4']);
+      case 2:
+        this.setState({ catagoryList3: [],catagoryList4:[] });
+        this.formRef.current.resetFields(['categoryCode2','categoryCode3','categoryCode4']);
+        break;
+      case 3:
+        this.setState({ catagoryList4: [] });
+        this.formRef.current.resetFields(['categoryCode4']);
+        break;
+    }
   };
   render() {
     const { catagoryList, catagoryList2, catagoryList3, catagoryList4 } = this.state;
@@ -127,7 +142,8 @@ class Search extends BaseFilter {
             <Col {...this.colspans}>
               <FormItem label="后端一级类目" name="category1Id">
                 <Select placeholder="请选择" allowClear={true}
-                onChange={(value)=>this.onChangeCatagory(2,value)}>
+                onChange={(value)=>this.onChangeCatagory(2,value)}
+                onSelect={(value)=>this.onSelectCatagory(2,value)}>
                   {catagoryList.map(item => (
                     <Option value={item.id} key={item.id}>
                       {item.categoryName}
@@ -143,6 +159,7 @@ class Search extends BaseFilter {
                   disabled={!catagoryList2.length > 0}
                   allowClear={true}
                   onChange={(value)=>this.onChangeCatagory(3,value)}
+                  onSelect={(value)=>this.onSelectCatagory(3,value)}
                 >
                   {catagoryList2.map(item => (
                     <Option value={item.id} key={item.id}>
@@ -159,6 +176,7 @@ class Search extends BaseFilter {
                   disabled={!catagoryList3.length > 0}
                   allowClear={true}
                   onChange={(value)=>this.onChangeCatagory(4,value)}
+                  onSelect={(value)=>this.onSelectCatagory(4,value)}
                 >
                   {catagoryList3.map(item => (
                     <Option value={item.id} key={item.id}>
