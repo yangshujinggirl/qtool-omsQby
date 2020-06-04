@@ -156,8 +156,75 @@ const DiscountTwo=({...props})=>{
     };
     return Promise.resolve();
   }
-  console.log(newDataSource)
-
+  const renderAmount=(index)=> {
+    return <div>
+      <FormItem className="satified_price">
+        阶梯{index + 1}：<span style={{ color: "red" }}>*</span>单笔订单满　
+        <FormItem
+          className="satified_price"
+          name={['ruleField',index,'param','leastAmount']}
+          getValueFromEvent={(event)=>{
+            return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+          }}
+          rules={[ { required: true, message: "请填写优惠内容" },{ validator:(rule, value, callback)=>validatorOne(rule, value, callback,index) }]}>
+            <Input
+              onChange={(e)=> onChange(e, index, "leastAmount")}
+              autoComplete="off"
+              style={{ width: "150px" }}/>
+        </FormItem>
+        元, 减　
+      </FormItem>
+      <FormItem noStyle>
+        <FormItem
+          className="reduce_price"
+          name={['ruleField',index,'param','reduceAmount']}
+          getValueFromEvent={(event)=>{
+            return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+          }}
+          rules={[
+            { required: true, message: "请填写优惠内容" },
+            { validator:(rule, value, callback)=>validatorThr(rule, value, callback,index) }
+          ]}>
+          <Input
+            onChange={(e)=> onChange(e, index, "reduceAmount")}
+            autoComplete="off" style={{ width: "150px" }} />
+        </FormItem>
+        元
+      </FormItem>
+    </div>
+  }
+  const renderQty=(index)=> {
+    return <div>
+      <FormItem className="satified_price">
+        阶梯{index + 1}：<span style={{ color: "red" }}>*</span> 单笔买满　
+        <FormItem className="satified_price" name={['ruleField',index,'param','leastQty']}
+          getValueFromEvent={(event)=>{ return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')}}
+          rules={[
+            { required: true, message: "请填写优惠内容" },
+            { validator:(rule, value, callback)=>validatorTwo(rule, value, callback,index) }]}>
+            <Input
+              onChange={(e)=> onChange(e, index, "leastQty")}
+              autoComplete="off"
+              style={{ width: "150px" }}/>
+        </FormItem>
+        件, 减免
+      </FormItem>
+      <FormItem noStyle>
+        <FormItem
+          className="reduce_price"
+          getValueFromEvent={(event)=>{
+            return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+          }}
+          name={['ruleField',index,'param','reduceQty']}
+          rules={[ { required: true, message: "请填写优惠内容" },{ validator: (rule, value, callback)=>validatorFour(rule, value, callback, index) }]}>
+          <Input
+            onChange={e => onChange(e, index, "reduceQty")}
+            autoComplete="off" style={{ width: "150px" }} />
+          </FormItem>
+          件
+      </FormItem>
+    </div>
+  }
   return (
     <div className="discountTwo">
       <div className='discountTwo-tips'>
@@ -171,74 +238,9 @@ const DiscountTwo=({...props})=>{
       {newDataSource&& newDataSource.map((item, index) => (
         <div className="step" key={index}>
           {currentdata&&currentdata.promotionType == 22 ?
-            <div>
-              <FormItem className="satified_price">
-                阶梯{index + 1}：<span style={{ color: "red" }}>*</span>单笔订单满　
-                <FormItem
-                  className="satified_price"
-                  name={['ruleField',index,'param','leastAmount']}
-                  getValueFromEvent={(event)=>{
-                    return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
-                  }}
-                  rules={[ { required: true, message: "请填写优惠内容" },{ validator:(rule, value, callback)=>validatorOne(rule, value, callback,index) }]}>
-                    <Input
-                      onChange={(e)=> onChange(e, index, "leastAmount")}
-                      autoComplete="off"
-                      style={{ width: "150px" }}/>
-                </FormItem>
-                元, 减　
-              </FormItem>
-              <FormItem noStyle>
-                <FormItem
-                  className="reduce_price"
-                  name={['ruleField',index,'param','reduceAmount']}
-                  getValueFromEvent={(event)=>{
-                    return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
-                  }}
-                  rules={[
-                    { required: true, message: "请填写优惠内容" },
-                    { validator:(rule, value, callback)=>validatorThr(rule, value, callback,index) }
-                  ]}>
-                  <Input
-                    onChange={(e)=> onChange(e, index, "reduceAmount")}
-                    autoComplete="off" style={{ width: "150px" }} />
-                </FormItem>
-                元
-              </FormItem>
-            </div>
+            renderAmount(index)
             :
-            <div>
-              <FormItem className="satified_price">
-                阶梯{index + 1}：<span style={{ color: "red" }}>*</span> 单笔买满　
-                <FormItem
-                  className="satified_price"
-                  name={['ruleField',index,'param','leastQty']}
-                  rules={[ { required: true, message: "请填写优惠内容" },{ validator:(rule, value, callback)=>validatorTwo(rule, value, callback, index) }]}
-                  getValueFromEvent={(event)=>{
-                    return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
-                  }}>
-                    <Input
-                      onChange={(e) => onChange(e, index, "leastQty") }
-                      autoComplete="off"
-                      style={{ width: "150px" }}/>　　
-                </FormItem>
-               件, 减免
-              </FormItem>
-              <FormItem noStyle>
-                <FormItem
-                  className="reduce_price"
-                  getValueFromEvent={(event)=>{
-                    return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
-                  }}
-                  name={['ruleField',index,'param','reduceQty']}
-                  rules={[ { required: true, message: "请填写优惠内容" },{ validator: (rule, value, callback)=>validatorFour(rule, value, callback, index) }]}>
-                  <Input
-                    onChange={e => onChange(e, index, "reduceQty")}
-                    autoComplete="off" style={{ width: "150px" }} />
-                  </FormItem>
-                  件
-              </FormItem>
-            </div>
+            renderQty(index)
           }
           {newDataSource.length > 1 && (
             <a className="theme-color" onClick={() => handleDelete(index)}>
