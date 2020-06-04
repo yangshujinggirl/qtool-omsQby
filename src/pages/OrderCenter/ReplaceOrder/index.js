@@ -52,8 +52,7 @@ class ReplaceOrder extends Component {
 			_values.stime = '';
 			_values.etime = '';
 		}
-		const params = { ...this.state.inputValues, ..._values };
-		getListApi(params)
+		getListApi(_values)
 			.then((res) => {
 				this.setState({
 					loading: false,
@@ -76,7 +75,6 @@ class ReplaceOrder extends Component {
 					loading: false,
 				});
 			});
-		this.setState({ inputValues: params });
 	};
 
 	//点击分页
@@ -164,6 +162,11 @@ class ReplaceOrder extends Component {
       failModal:false
     })
   }
+  onSubmit=(values)=>{
+	const params = {...this.state.inputValues,...values};
+	this.searchData(params);
+	this.setState({inputValues:params})
+  }
 	render() {
 		const {
 			dataList,
@@ -196,7 +199,7 @@ class ReplaceOrder extends Component {
 		return (
 			<Spin spinning={loading}>
 				<div className="oms-common-index-pages-wrap replaceOrder">
-					<FilterForm onSubmit={this.searchData} />
+					<FilterForm onSubmit={this.onSubmit} />
 					<div className="handle-operate-btn-action">
 						<Qbtn size="free" onClick={this.getPurchaseOrder}>
 							生成代发采购单
