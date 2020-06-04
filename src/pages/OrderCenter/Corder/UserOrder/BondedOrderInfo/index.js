@@ -41,7 +41,6 @@ const BondedOrderInfo = (props) => {
 			}
 		});
 	}, []);
-	console.log(orderOperateLogList);
 	const showModal = () => {
 		setVisible(true);
 	};
@@ -85,7 +84,8 @@ const BondedOrderInfo = (props) => {
 				<Qtable columns={GoodColumns} dataSource={skuList} />
 			</Card>
 
-			{packageList&&packageList.length > 0 &&
+			{packageList &&
+				packageList.length > 0 &&
 				packageList.map((item, index) => (
 					<Card title={`子单${index + 1}信息`} className="base_info">
 						<div>
