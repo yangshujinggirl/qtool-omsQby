@@ -110,7 +110,11 @@ class GoodsInfo extends React.Component {
               <p className="title-wrap"><span className="title-name">服务信息</span></p>
               <Form.Item label="服务">
                 {totalData.serviceInfoList&&totalData.serviceInfoList.map((el)=>{
-                  return <span key={el.pdExplainId}>{`${el.name},`}</span>
+                  return <>
+                  {
+                    el.selected =='1'&&<span key={el.pdExplainId}>{`${el.name},`}</span>
+                  }
+                  </>
                 })}
               </Form.Item>
             </div>
