@@ -24,7 +24,8 @@ class ShopStock extends Component {
 		};
 	}
 	componentDidMount() {
-		this.searchData(this.state.inputValues);
+		//注释掉，当前使用默认在搜索条件中设置一个固定值，固定值设定成功后回调搜索进行数据搜索
+		// this.searchData(this.state.inputValues);
 	}
 	//点击搜索
 	searchData = (values) => {
