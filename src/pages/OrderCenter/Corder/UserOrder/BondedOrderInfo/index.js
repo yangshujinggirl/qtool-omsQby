@@ -85,7 +85,7 @@ const BondedOrderInfo = (props) => {
 				<Qtable columns={GoodColumns} dataSource={skuList} />
 			</Card>
 
-			{packageList.length > 0 &&
+			{packageList&&packageList.length > 0 &&
 				packageList.map((item, index) => (
 					<Card title={`子单${index + 1}信息`} className="base_info">
 						<div>
@@ -107,7 +107,8 @@ const BondedOrderInfo = (props) => {
 				<Qtable columns={OrderLogsColumns} dataSource={orderOperateLogList} />
 			</Card>
 
-			{otherOperateLogList.length > 0 &&
+			{otherOperateLogList &&
+				otherOperateLogList.length > 0 &&
 				otherOperateLogList.map((item, index) => (
 					<Card title={`${item.titleName}`}>
 						<Qtable columns={HangzhouClearLogsColumns} dataSource={item.operateLogList} />
