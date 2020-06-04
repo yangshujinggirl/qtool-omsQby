@@ -1,9 +1,9 @@
 import React from "react";
-import { Form, Input, Select, Row, Col } from "antd";
+import { Form, Input, Select, Row, Col, AutoComplete } from "antd";
 import { GetCategoryApi } from "api/home/BaseGoods";
 import { BaseFilter, Qbtn } from "common";
 import {GetCategoryCodeApi} from "../../../../../../api/home/BaseGoods";
-import CommonUtils from "utils/CommonUtils";
+import {getShopListApi} from "../../../../../../api/home/StockCenter/GoodStock";
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -13,7 +13,8 @@ class SearchForm extends BaseFilter {
     super(props);
     this.state = {
       catagoryList: [],
-      catagoryList2: []
+      catagoryList2: [],
+      shopList:[]
     };
   }
   componentDidMount() {
@@ -35,8 +36,41 @@ class SearchForm extends BaseFilter {
       });
     }
   };
+  //门店模糊搜索
+  onSearch=(value)=>{
+    getShopListApi({channelName:value}).then(res=>{
+      if(res.httpCode == 200){
+        this.setState({
+          shopList:res.result
+        })
+      }
+    })
+  }
+  //选择后
+  onSelect=(value,option)=>{
+    this.setState({
+      channelCode:option.key
+    })
+  }
+  //提交
+  handleSubmit=async()=>{
+    try {
+      const values = await this.formRef.current.validateFields();
+      for (let i in values) {
+        if (typeof values[i] == "string") {
+          values[i] = values[i].replace(/^\s+|\s+$/gm, "");
+        }
+      }
+      if(values.channelCode){
+        values.channelCode = this.state.channelCode
+      }
+      this.props.onSubmit && this.props.onSubmit(values);
+    } catch (errorInfo) {
+      console.log("Failed:", errorInfo);
+    }
+  }
   render() {
-    const { catagoryList, catagoryList2 } = this.state;
+    const { catagoryList, catagoryList2,shopList } = this.state;
     return (
       <div className="qtoolOms-condition">
         <Form
@@ -46,8 +80,17 @@ class SearchForm extends BaseFilter {
         >
           <Row gutter={24}>
             <Col {...this.colspans}>
-              <FormItem name="channelName" label="门店名称">
-                <Input placeholder="请输入门店名称" autoComplete="off" />
+              <FormItem name="channelCode" label="门店名称">
+                <AutoComplete placeholder='请选择门店名称' onSearch={this.onSearch} onSelect={this.onSelect}>
+                    {
+                      shopList&&shopList.length>0&&(
+                        shopList.map(item=>(
+                        <AutoComplete.Option key={item.channelCode} value={item.channelName}>{item.channelName}</AutoComplete.Option>
+                        ))
+                       
+                      )
+                    }
+                </AutoComplete>
               </FormItem>
             </Col>
             <Col {...this.colspans}>

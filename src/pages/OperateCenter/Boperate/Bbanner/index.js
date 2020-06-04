@@ -33,7 +33,6 @@ class Banner extends Component {
         });
       }
     });
-    this.setState({ inputValues: values });
   };
 
   //点击分页
@@ -41,6 +40,13 @@ class Banner extends Component {
     const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
   };
+   //搜索
+   onSubmit=(values)=>{
+    this.searchData(values);
+    this.setState({
+      inputValues:values
+    })
+  }
   render() {
     const {
       dataList,
@@ -51,7 +57,7 @@ class Banner extends Component {
     dataList.map(item => (item.key = item.pdBannerId));
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.searchData} />
+        <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Link to='/account/add_banner'>
             <Qbtn onClick={this.addPush}>新增banner</Qbtn>

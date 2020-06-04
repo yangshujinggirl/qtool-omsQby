@@ -8,7 +8,7 @@ import Columns from './columns';
 import moment from 'moment';
 import { OmsExportApi } from 'api/Export';
 import SendModal from './components/SendModal';
-import './index.less'
+import './index.less';
 
 /**
  *
@@ -44,15 +44,7 @@ class ReplaceOrder extends Component {
 		this.setState({
 			loading: true,
 		});
-		const { time, ..._values } = values;
-		if (time && time[0]) {
-			_values.stime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
-			_values.etime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
-		} else {
-			_values.stime = '';
-			_values.etime = '';
-		}
-		getListApi(_values)
+		getListApi(values)
 			.then((res) => {
 				this.setState({
 					loading: false,
@@ -135,38 +127,46 @@ class ReplaceOrder extends Component {
 			return message.warning('请至少选择一个订单；', 0.8);
 		}
 		this.props.history.push('/account/get_purchasein_order');
-  };
-  //批量发货
+	};
+	//批量发货
 	handleChange = (info) => {
 		let file = info.file;
 		if (file.status == 'done') {
 			if (file.response && file.response.httpCode == '200') {
 				const { result } = file.response;
-				if (result.failList&&result.failList.length>0) {
+				if (result.failList && result.failList.length > 0) {
 					this.setState({
 						failList: result.failList,
 						failModal: true,
 					});
-				}else{
-					message.success('批量发货成功',.8);
+				} else {
+					message.success('批量发货成功', 0.8);
 					this.searchData(this.state.inputValues);
 				}
-			} else{
+			} else {
 				message.error(file.response.msg, 0.8);
 			}
 		}
-  };
-  //批量发货取消
-  onBatchCancel=()=>{
-    this.setState({
-      failModal:false
-    })
-  }
-  onSubmit=(values)=>{
-	const params = {...this.state.inputValues,...values};
-	this.searchData(params);
-	this.setState({inputValues:params})
-  }
+	};
+	//批量发货取消
+	onBatchCancel = () => {
+		this.setState({
+			failModal: false,
+		});
+	};
+	//搜索
+	onSubmit = (values) => {
+		const { time, ..._values } = values;
+		if (time && time[0]) {
+			_values.stime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+			_values.etime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
+		} else {
+			_values.stime = '';
+			_values.etime = '';
+		}
+		this.searchData(_values);
+		this.setState({ inputValues: _values });
+	};
 	render() {
 		const {
 			dataList,
@@ -185,9 +185,9 @@ class ReplaceOrder extends Component {
 			type: 'checkbox',
 			selectedRowKeys,
 			onChange: this.onChange,
-			getCheckboxProps:(record)=>({
-				disabled:record.purchaseNo
-			})
+			getCheckboxProps: (record) => ({
+				disabled: record.purchaseNo,
+			}),
 		};
 		const uploadProps = {
 			accept: '.xlsx,.xls',
@@ -232,7 +232,12 @@ class ReplaceOrder extends Component {
 						/>
 					)}
 					{failModal && (
-						<Modal wrapClassName='replaceOrder_fileList_modal' visible={failModal} onCancel={this.onBatchCancel} footer={null}>
+						<Modal
+							wrapClassName="replaceOrder_fileList_modal"
+							visible={failModal}
+							onCancel={this.onBatchCancel}
+							footer={null}
+						>
 							{failList && failList.length > 0 && failList.map((item) => <p>{item}</p>)}
 						</Modal>
 					)}

@@ -62,13 +62,10 @@ const commonPush=(propsData)=>{
               });
             }
           });
-          this.setState({ inputValues: params });
         };
-      
         //点击分页
         changePage = (currentPage, everyPage) => {
-          const values = { ...this.state.inputValues, currentPage, everyPage};
-          this.searchData(values);
+          this.searchData({ currentPage, everyPage});
         };
         //撤销推送
         cancelPush = () => {
@@ -124,6 +121,11 @@ const commonPush=(propsData)=>{
         onCancel = () => {
           this.setState({ isPushVisible: false,selectedRowKeys:[] });
         };
+        //提交
+        onSubmit=(values)=>{
+          this.searchData(values)
+          this.setState({ inputValues: values });
+        }
         render() {
           const {
             dataList,
@@ -141,7 +143,7 @@ const commonPush=(propsData)=>{
           dataList.map(item=>item.key = item.bsPushId)
           return (
             <div className="oms-common-index-pages-wrap">
-              <FilterForm onSubmit={this.searchData} />
+              <FilterForm onSubmit={this.onSubmit} />
               <div className="handle-operate-btn-action">
                 <Link to={propsData.AddUrl}>
                   <Qbtn>

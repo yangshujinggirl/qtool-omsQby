@@ -37,7 +37,6 @@ class Banswer extends Component {
         });
       }
     });
-    this.setState({ inputValues: values });
   };
 
   //点击分页
@@ -45,7 +44,13 @@ class Banswer extends Component {
     const values = { ...this.state.inputValues, currentPage, everyPage };
     this.searchData(values);
   };
- 
+  //搜索
+  onSubmit=(values)=>{
+    this.searchData(values);
+    this.setState({
+      inputValues:values
+    })
+  }
   render() {
     const {
       dataList,
@@ -58,7 +63,7 @@ class Banswer extends Component {
     console.log(dataList)
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.searchData} />
+        <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Link to='/account/add_b_answer'>
             <Qbtn>新增问答</Qbtn>

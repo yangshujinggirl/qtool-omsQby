@@ -35,7 +35,6 @@ class ActExchangeGoods extends Component {
         });
       }
     });
-    this.setState({ inputValues: values });
   };
 
   //点击分页
@@ -81,6 +80,13 @@ class ActExchangeGoods extends Component {
       onlineVisible: false
     });
   };
+  //搜索
+  onSubmit=(values)=>{
+    this.searchData(values)
+    this.setState({
+      inputValues:values
+    })
+  }
   render() {
     const {
       dataList,
@@ -90,7 +96,7 @@ class ActExchangeGoods extends Component {
     } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.searchData} />
+        <FilterForm onSubmit={this.onSubmit} />
         <div className="handle-operate-btn-action">
           <Link to="/account/add_act_exchange_goods">
             <Qbtn>新增商品</Qbtn>

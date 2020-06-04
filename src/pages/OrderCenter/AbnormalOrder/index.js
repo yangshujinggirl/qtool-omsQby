@@ -38,8 +38,7 @@ class AbnormalOrder extends Component {
       _values.stime = "";
       _values.etime = "";
     }
-    const params = { ...this.state.inputValues, ..._values };
-    getListApi(params)
+    getListApi(values)
       .then(res => {
         this.setState({
           loading: false
@@ -62,7 +61,6 @@ class AbnormalOrder extends Component {
           loading: false
         });
       });
-    this.setState({ inputValues: params });
   };
 
   //点击分页
@@ -76,6 +74,13 @@ class AbnormalOrder extends Component {
     const {stime,etime,...params} = this.state.inputValues
     OmsExportApi({stime,etime,exportType:10,reOrderExport:{...params}}, "/export/commonExport");
   }
+  //搜索
+  onSubmit=(values)=>{
+    this.searchData(values);
+    this.setState({
+      inputValues:values
+    })
+  }
   render() {
     const {
       dataList,
@@ -88,7 +93,7 @@ class AbnormalOrder extends Component {
     return (
       <Spin spinning={loading}>
         <div className="oms-common-index-pages-wrap">
-          <FilterForm onSubmit={this.searchData} />
+          <FilterForm onSubmit={this.onSubmit} />
           <div className="handle-operate-btn-action">
             <Qbtn onClick={this.exportData}>导出数据</Qbtn>
           </div>

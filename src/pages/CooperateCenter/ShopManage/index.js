@@ -31,14 +31,7 @@ class ShopManage extends Component {
     this.setState({
       loading: true,
     });
-    const { province, ..._values } = values;
-    if (province) {
-      _values.province = province[0];
-      _values.city = province[1];
-      _values.area = province[2];
-    }
-    const params = { ...this.state.inputValues, ..._values };
-    getListApi(params)
+    getListApi(values)
       .then((res) => {
         if (res.httpCode == 200) {
           let { result, everyPage, currentPage, total } = res.result;
@@ -68,9 +61,15 @@ class ShopManage extends Component {
     this.searchData(params);
   };
   //搜索查询
-  onSubmit = (params) => {
-    this.searchData(params);
-    this.setState({ inputValues: params });
+  onSubmit = (values) => {
+    const { province, ..._values } = values;
+    if (province) {
+      _values.province = province[0];
+      _values.city = province[1];
+      _values.area = province[2];
+    }
+    this.searchData(_values);
+    this.setState({ inputValues: _values });
   };
 
   render() {
