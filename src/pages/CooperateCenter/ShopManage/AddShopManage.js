@@ -145,7 +145,7 @@ class AddShopManage extends Component {
       _values.contractPic = ''
     }
     if (openingTime) {
-      _values.openingTime = moment(openingTime).format("YYYY-MM-DD HH:mm:ss");
+      _values.openingTime = moment(openingTime).format("YYYY-MM-DD");
     }
     if (businessHoursS) {
       _values.businessHoursS = moment(businessHoursS).format("HH:mm");
