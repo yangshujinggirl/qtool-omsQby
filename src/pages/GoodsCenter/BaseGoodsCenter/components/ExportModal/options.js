@@ -179,7 +179,7 @@ const crossPlainOptions=[
     closable:true
   },{
     label:'purchasePrice',
-    value:'purchasePrice',
+    value:'采购价',
     closable:true
   },{
     label:'dhPrice',
