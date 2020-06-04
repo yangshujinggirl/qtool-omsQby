@@ -18,7 +18,7 @@ class QTable extends Component {
   }
   render() {
     const dataSource = this.processData(this.props.dataSource);
-    const { select, columns,scroll } = this.props;
+    const { select, columns,scroll,locale } = this.props;
     return(
       <Table
         loading={this.props.loading}
@@ -27,6 +27,7 @@ class QTable extends Component {
         dataSource={dataSource}
         columns = {this.props.columns}
         scroll={this.props.scroll}
+        locale={locale}
         rowKey={this.props.rowKey?this.props.rowKey:(record)=>record.key}
         rowSelection={select?this.props.rowSelection:null}
         scroll={scroll&&this.props.scroll}/>

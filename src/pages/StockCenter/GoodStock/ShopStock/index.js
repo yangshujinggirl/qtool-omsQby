@@ -24,7 +24,7 @@ class ShopStock extends Component {
 		};
 	}
 	componentDidMount() {
-		//注释掉，当前使用默认在搜索条件中设置一个固定值，固定值设定成功后回调搜索进行数据搜索
+		//注释掉，默认不进行数据搜索
 		// this.searchData(this.state.inputValues);
 	}
 	//点击搜索
@@ -91,7 +91,8 @@ class ShopStock extends Component {
 					<div className="handle-operate-btn-action">
 						<Qbtn onClick={this.exportData}>导出数据</Qbtn>
 					</div>
-					<Qtable dataSource={dataList} columns={Columns} />
+					<Qtable dataSource={dataList} columns={Columns}
+							locale={{emptyText:"暂无数据，请修改搜索条件"}}/>
 					{dataList.length > 0 ? (
 						<Qpagination data={{ everyPage, currentPage, total }} onChange={this.changePage} />
 					) : null}

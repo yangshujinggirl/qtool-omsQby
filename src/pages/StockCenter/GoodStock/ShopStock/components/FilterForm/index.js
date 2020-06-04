@@ -21,15 +21,6 @@ class SearchForm extends BaseFilter {
 		GetCategoryApi({ level: 1, parentId: '' }).then((res) => {
 			this.setState({ catagoryList: res.result || [] });
 		});
-		this.setState({
-			shopList:new Array({channelCode:8791,channelName:"Qtools Beta"}),
-			channelCode:8791
-		},function () {
-			this.formRef.current.setFieldsValue({channelCode:"Qtools Beta"})
-            this.props.onSubmit && this.props.onSubmit({
-                channelCode: this.state.channelCode
-            });
-		})
 	}
 	//一级菜单更改
 	onChange = (value) => {
