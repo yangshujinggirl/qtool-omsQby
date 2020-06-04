@@ -114,7 +114,7 @@ const CtipActivityAddTwo=({...props})=> {
       case 22://专区满元减
         promotionProducts && promotionProducts.length>0&& promotionProducts.map(item=>{
           let [arr1,arr2] = [[],[]];
-          state.dataSource && state.dataSource.length>0 && state.dataSource.map(subItem=>{
+          proRules.length>0 && proRules.map(subItem=>{
             //预计到手价=C端售价*（1-减钱/优惠门槛 ）
             let price = '';
             if(subItem.param.leastAmount && subItem.param.reduceAmount){
@@ -329,6 +329,7 @@ const CtipActivityAddTwo=({...props})=> {
 
   const dataParams={ type: promotionType, beginTime, endTime, pdKind,promotionId }
   const downLoadFileName=fileMap[promotionType];
+
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages ctipActivity-addEdit-pages">

@@ -151,7 +151,7 @@ const MoreGoodSet=({...props})=> {
   useEffect(()=> { getInfo() },[homepageModuleId]);
   useEffect(()=> {form.setFieldsValue({fieldsOne:goods.listOne})},[goods.listOne])
   useEffect(()=> {form.setFieldsValue({fieldsTwo:goods.listTwo})},[goods.listTwo])
-
+  console.log(params)
   return (
     <Spin tip="加载中..." spinning={false}>
       <div className="oms-common-addEdit-pages baseGoods-addEdit-pages">
