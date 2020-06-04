@@ -59,7 +59,6 @@ const CtipActivityAddTwo=({...props})=> {
             break;
         };
       };
-      countProfitRate(promotionType, promotionProducts);
       promotionRules && promotionRules.map((item,index)=>{
         item.key = index;
         if(item.promotionGifts) {
@@ -68,9 +67,11 @@ const CtipActivityAddTwo=({...props})=> {
       });
       setCurrentdata(JSON.parse(Sessions.get("currentdata")))
       setRules(promotionRules);
+      countProfitRate(promotionType, promotionProducts,promotionRules);
     })
   }
-  const countProfitRate=(promotionType,promotionProducts)=> {
+  const countProfitRate=(promotionType,promotionProducts, promotionRules)=> {
+    let newRules = promotionRules?promotionRules:proRules;
     switch(promotionType) {
       case 10://单品直降
         promotionProducts&&promotionProducts.map(item=>{
@@ -114,7 +115,7 @@ const CtipActivityAddTwo=({...props})=> {
       case 22://专区满元减
         promotionProducts && promotionProducts.length>0&& promotionProducts.map(item=>{
           let [arr1,arr2] = [[],[]];
-          proRules.length>0 && proRules.map(subItem=>{
+          newRules.length>0 && newRules.map(subItem=>{
             //预计到手价=C端售价*（1-减钱/优惠门槛 ）
             let price = '';
             if(subItem.param.leastAmount && subItem.param.reduceAmount){
