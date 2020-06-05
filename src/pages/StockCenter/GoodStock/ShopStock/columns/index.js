@@ -7,6 +7,22 @@ const Columns = [
     key: "1"
   },
   {
+    title: "门店类型",
+    dataIndex: "channelType",
+    render:(text,record,index)=> {
+      switch (text) {
+        case 1:
+          return <span>直营店</span>
+        case 2:
+          return <span>联营店</span>
+        case 3:
+          return <span>加盟店</span>
+        default:
+          return <span> </span>
+      }
+    }
+  },
+  {
     title: "SKU编码",
     dataIndex: "skuCode",
     key: "1"
