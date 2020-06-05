@@ -19,8 +19,10 @@ import rootReducer from './reducers';
 import Login from './pages/Login';
 import HomeController from './pages/HomeController';
 import zhCN from 'antd/es/locale/zh_CN';
-import {ConfigProvider } from 'antd'
-import 'utils/tools'
+import {ConfigProvider } from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware=createSagaMiddleware();
