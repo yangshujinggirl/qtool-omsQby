@@ -212,12 +212,13 @@ function QbaseList(ChildComponent, apiRequest, config = defaultConfig) {
          * 选择的时间改变
          * @param values 改变值
          * @param isDefaultInitFinish 默认值初始化完成
+         * @param isRequest 是否进行请求，默认进行数据请求
          */
-        selectTimeChange = (values, isDefaultInitFinish) => {
+        selectTimeChange = (values, isDefaultInitFinish,isRequest=true) => {
             const params = {...this.state.searchCriteriaList, ...values};
             this.setState({recordSearchCriteriaList: params});
             console.log(params)
-            if (isDefaultInitFinish) {
+            if (isDefaultInitFinish && isRequest) {
                 this.searchDataList(params);
             }
         };
@@ -248,28 +249,6 @@ function QbaseList(ChildComponent, apiRequest, config = defaultConfig) {
             );
         }
     };
-}
-
-/**
- * 功能作用：操作配置类
- * 初始注释时间： 2020/5/8 12:03 下午
- * 注释创建人：LorenWang（王亮）
- *
- * @author LorenWang（王亮）
- * @param isComponentDidMountRequestData 是否在第一次渲染完成是请求数据
- * @param dataListOptionsKey  数据列表操作时要读取的key值，为空时取index值
- * @param childStateParams 调用方传递参数
- * @param formatSearchCriteriaList 请求参数格式化
- * @param onModalCancelClick modal取消弹窗点击
- * @param optionsResponseDataFun 操作相应数据函数，当不为空时响应数据交由该函数处理
- */
-class OptionsConfig {
-    isComponentDidMountRequestData = false;
-    dataListOptionsKey = null;
-    childStateParams = null;
-    formatSearchCriteriaList = null;
-    onModalCancelClick = null;
-    optionsResponseDataFun = null;
 }
 
 export default QbaseList;

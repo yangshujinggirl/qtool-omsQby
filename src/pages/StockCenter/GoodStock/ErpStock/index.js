@@ -22,9 +22,6 @@ class ErpStock extends Component {
 			loading: false,
 		};
 	}
-	componentDidMount() {
-		this.searchData(this.state.inputValues);
-	}
 	//点击搜索
 	searchData = (values) => {
 		this.setState({
@@ -88,7 +85,8 @@ class ErpStock extends Component {
 					<div className="handle-operate-btn-action">
 						<Qbtn onClick={this.exportData}>导出数据</Qbtn>
 					</div>
-					<Qtable dataSource={dataList} columns={Columns} />
+					<Qtable dataSource={dataList} columns={Columns}
+							locale={{emptyText:"暂无数据，请修改搜索条件"}}/>
 					{dataList.length > 0 ? (
 						<Qpagination data={{ everyPage, currentPage, total }} onChange={this.changePage} />
 					) : null}

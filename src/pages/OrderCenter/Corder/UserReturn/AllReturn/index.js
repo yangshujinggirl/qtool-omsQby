@@ -26,9 +26,6 @@ class AllReturn extends Component {
 			loading: false,
 		};
 	}
-	componentDidMount() {
-		this.searchData({});
-	}
 	//按钮选择
 	onChange = (selectedRowKeys, selectedRows) => {
 		this.setState({
@@ -180,6 +177,7 @@ class AllReturn extends Component {
 						onOperateClick={this.handleOperateClick}
 						select
 						rowSelection={rowSelection}
+						locale={{emptyText:"暂无数据，请修改搜索条件"}}
 					/>
 					{dataList.length > 0 ? (
 						<Qpagination data={{ everyPage, currentPage, total }} onChange={this.changePage} />

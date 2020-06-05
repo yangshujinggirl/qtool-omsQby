@@ -22,9 +22,6 @@ class UserOrder extends Component {
       loading: false
     };
   }
-  componentDidMount() {
-    this.searchData({});
-  }
   //点击搜索
   searchData = values => {
     const { time, ..._values } = values;
@@ -89,7 +86,7 @@ class UserOrder extends Component {
             </Link>
             <Qbtn onClick={this.exportData}>导出数据</Qbtn>
           </div>
-          <Qtable dataSource={dataList} columns={Columns} />
+          <Qtable dataSource={dataList} columns={Columns} locale={{emptyText:"暂无数据，请修改搜索条件"}}/>
           {dataList.length > 0 ? (
             <Qpagination
               data={{ everyPage, currentPage, total }}
