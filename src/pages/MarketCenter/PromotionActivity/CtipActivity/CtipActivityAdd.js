@@ -75,7 +75,7 @@ const CtipActivityAdd =({...props})=> {
   const getBaseInfo=()=> {
     GetBaseInfoApi(promotionId)
     .then((res)=> {
-      let { costApportions, promtionShare } =res.result;
+      let { costApportions, promtionShare, notUserCouponsList } =res.result;
       let resData = {...res.result,...promtionShare};
       if(costApportions) {
         costApportions = costApportions.map((el) =>{
@@ -88,6 +88,7 @@ const CtipActivityAdd =({...props})=> {
           return el;
         });
       }
+      notUserCouponsList = notUserCouponsList?notUserCouponsList:[];
       resData.websiteBanner=CommonUtils.formatToFilelist(resData.websiteBanner);
       resData.pdDetailBannerPic=CommonUtils.formatToFilelist(resData.pdDetailBannerPic);
       resData.logoPic=CommonUtils.formatToFilelist(resData.logoPic);
@@ -103,6 +104,7 @@ const CtipActivityAdd =({...props})=> {
       setTotalData(resData);
       setRatioList(costApportions);
       setTagsList(tagsArray);
+      setCouponList(notUserCouponsList);
     })
   }
   //提交
