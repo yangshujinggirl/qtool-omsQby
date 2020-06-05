@@ -22,3 +22,6 @@ export function GetLogInfoApi(values) {
 export function GetCancelApi(values) {
     return omsAjax.post("/orderRefund/batchOperation", {...values});
 }
+export function GetChannelApi(values) {
+    return omsAjax.get("/channel/findChannelByName", {params:{...values}});
+}

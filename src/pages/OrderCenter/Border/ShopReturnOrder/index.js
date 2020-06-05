@@ -39,9 +39,14 @@ const ShopReturnOrder = QbaseList((_this) => {
         reOrderExport:{sourceType:2,...searchCriteriaList}
       },'/export/commonExport')
     }
+    const searchList = (values)=> {
+      conolle.log(values);
+      let {channelName, ..._val } = values;
+      _this.searchDataList(_val)
+    }
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
+        <FilterForm onSubmit={searchList} selectTimeChange={_this.selectTimeChange}/>
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={handleExport}>导出数据</Qbtn>
         </div>

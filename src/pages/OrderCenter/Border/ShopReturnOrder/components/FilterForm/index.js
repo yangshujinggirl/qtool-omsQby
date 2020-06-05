@@ -1,9 +1,10 @@
 import React from "react";
-import {Form, Input, Select, Row, Col, DatePicker} from "antd";
+import {Form, Input, Select, Row, AutoComplete, Col, DatePicker} from "antd";
 import {Qbtn} from "common";
 import moment from "moment";
 import {BaseFilter} from "common/index";
 import {FilterSearchRangeTime} from "common/QdisabledDateTime";
+import { GetChannelApi } from 'api/home/OrderCenter/Border/ShopReturnOrder';
 
 const FormItem = Form.Item;
 const {Option} = Select;
@@ -11,7 +12,33 @@ const {RangePicker} = DatePicker;
 
 export default class SearchForm extends BaseFilter {
     formRef = React.createRef();
+    constructor(props) {
+      super(props);
+      this.state = {
+        mdList:[],
+      }
+    }
+    //搜索
+    handleSearch=(value)=> {
+      GetChannelApi({channelName:value})
+      .then((res)=> {
+        let { result } =res;
+        result=result?result:[];
+        result = result.map((el)=>{
+          let item={}
+          item.key =el.channelCode;
+          item.value =el.channelName;
+          return item;
+        })
+        this.setState({ mdList:result });
+      })
+    }
+    //选中事件
+    autoSelect=(value,option)=> {
+      this.formRef.current.setFieldsValue({channelCode:option.key})
+    }
     render() {
+        const { mdList } =this.state;
         return (
             <div className="qtoolOms-condition">
                 <Form className="serach-common-form" ref={this.formRef}{...this.formItemLayout}>
@@ -23,7 +50,12 @@ export default class SearchForm extends BaseFilter {
                         </Col>
                         <Col {...this.colspans}>
                             <FormItem name="channelName" label="门店名称" {...this.formItemLayout}>
-                                <Input placeholder="请输入门店名称" autoComplete="off"/>
+                                <AutoComplete
+                                 autoComplete="off"
+                                 options={mdList}
+                                 onSearch={this.handleSearch}
+                                 onSelect={(value, option)=>this.autoSelect(value, option)}
+                                 placeholder="请输入门店名称"/>
                             </FormItem>
                         </Col>
                         <Col {...this.colspans}>
