@@ -31,10 +31,10 @@ function withSubscription(listApi,activityType) {//1：C端2：pos
       })
     }
     const changePage = (currentPage, everyPage) => {
-      searchList(currentPage, everyPage)
+      searchList({currentPage, everyPage})
     };
     const onShowSizeChange = (currentPage, everyPage) => {
-      searchList(currentPage, everyPage)
+      searchList({currentPage, everyPage})
     };
     const onSubmit = params => {
       setFields(params)
