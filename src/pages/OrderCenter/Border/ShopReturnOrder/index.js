@@ -42,7 +42,6 @@ const ShopReturnOrder = QbaseList((_this) => {
     const searchList = (values)=> {
       let {channelName, ..._val } = values;
       _val.channelCode = _this.state.channelCode;
-      console.log(_val);
       _this.searchDataList(_val)
     }
     const selectChannelCode = (value)=> {
