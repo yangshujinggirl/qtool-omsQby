@@ -25,7 +25,8 @@ const ShopOrderList = QbaseList((_this) => {
     }
     return (
         <div className="oms-common-index-pages-wrap">
-            <FilterForm onSubmit={_this.searchDataList} selectTimeChange={_this.selectTimeChange}/>
+            <FilterForm onSubmit={_this.searchDataList}
+                        selectTimeChange={(value,isDefaultInitFinish)=>_this.selectTimeChange(value,isDefaultInitFinish,false)}/>
             <div className="handle-operate-btn-action">
                 <Qbtn size="free"><Link to='/account/shopOrder/add/1'>新建门店订单</Link></Qbtn>
                 <Qbtn size="free"><Link to='/account/shopOrder/add/2'>新建赠品单</Link></Qbtn>
@@ -35,7 +36,8 @@ const ShopOrderList = QbaseList((_this) => {
             <Qtable
                 columns={Columns}
                 dataSource={dataList}
-                onOperateClick={onOperateClick}/>
+                onOperateClick={onOperateClick}
+                locale={{emptyText:"暂无数据，请修改搜索条件"}}/>
             <Qpagination
                 data={{everyPage, currentPage, total}}
                 onChange={_this.changePage}/>
@@ -46,5 +48,5 @@ const ShopOrderList = QbaseList((_this) => {
               onCancel={onCancel}/>
         </div>
     );
-}, GetListApi, {visible:false,currentItem:{}});
+}, GetListApi, {visible:false,currentItem:{},isComponentDidMountRequestData:false});
 export default ShopOrderList;

@@ -26,9 +26,6 @@ class BondedOrder extends Component {
 			loading: false,
 		};
 	}
-	componentWillMount() {
-		this.searchData({});
-	}
 	onChange = (selectedRowKeys, selectedRows) => {
 		this.setState({
 			selectedRowKeys,
@@ -127,7 +124,8 @@ class BondedOrder extends Component {
 							注：一个保税订单只能发一个包裹，如订单有多个包裹，请先拆单再发货
 						</span>
 					</div>
-					<Qtable dataSource={dataList} columns={Columns} onOperateClick={this.handleOperateClick} />
+					<Qtable dataSource={dataList} columns={Columns} onOperateClick={this.handleOperateClick}
+							locale={{emptyText:"暂无数据，请修改搜索条件"}} />
 					{dataList.length > 0 ? (
 						<Qpagination data={{ everyPage, currentPage, total }} onChange={this.changePage} />
 					) : null}

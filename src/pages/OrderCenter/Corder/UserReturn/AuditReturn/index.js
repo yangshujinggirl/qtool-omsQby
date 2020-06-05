@@ -21,9 +21,6 @@ class AuditReturn extends Component {
 			loading: false,
 		};
 	}
-	componentWillMount() {
-		this.searchData({});
-	}
 	//点击搜索
 	searchData = (values) => {
 		this.setState({
@@ -86,7 +83,8 @@ class AuditReturn extends Component {
 			<Spin spinning={loading}>
 				<div className="oms-common-index-pages-wrap">
 					<FilterForm onSubmit={this.onSubmit} />
-					<Qtable dataSource={dataList} columns={Columns} onOperateClick={this.handleOperateClick} />
+					<Qtable dataSource={dataList} columns={Columns} onOperateClick={this.handleOperateClick}
+							locale={{emptyText:"暂无数据，请修改搜索条件"}} />
 					{dataList.length > 0 ? (
 						<Qpagination data={{ everyPage, currentPage, total }} onChange={this.changePage} />
 					) : null}

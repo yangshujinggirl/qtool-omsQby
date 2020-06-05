@@ -46,14 +46,16 @@ const ShopReturnOrder = QbaseList((_this) => {
     }
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={searchList} selectTimeChange={_this.selectTimeChange}/>
+        <FilterForm onSubmit={searchList}
+                    selectTimeChange={(value,isDefaultInitFinish)=>_this.selectTimeChange(value,isDefaultInitFinish,false)}/>
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={handleExport}>导出数据</Qbtn>
         </div>
         <Qtable
           columns={Columns}
           dataSource={dataList}
-          onOperateClick={onOperateClick}/>
+          onOperateClick={onOperateClick}
+          locale={{emptyText:"暂无数据，请修改搜索条件"}}/>
         <Qpagination
           data={{everyPage, currentPage, total}}
           onChange={_this.changePage}/>
@@ -62,6 +64,6 @@ const ShopReturnOrder = QbaseList((_this) => {
 },
 (params)=> {
   return GetListApi({sourceType:2,...params})
-});
+},{isComponentDidMountRequestData:false});
 
 export default ShopReturnOrder

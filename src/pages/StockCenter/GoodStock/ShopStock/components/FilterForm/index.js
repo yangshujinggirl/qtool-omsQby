@@ -108,6 +108,21 @@ class SearchForm extends BaseFilter {
 							</FormItem>
 						</Col>
 						<Col {...this.colspans}>
+							<FormItem name="channelType" label="门店类型">
+								<Select placeholder="请选择" allowClear={true}>
+									<Option value={1} key={1}>
+										直营店
+									</Option>
+									<Option value={2} key={2}>
+										联营店
+									</Option>
+									<Option value={3} key={3}>
+										加盟店
+									</Option>
+								</Select>
+							</FormItem>
+						</Col>
+						<Col {...this.colspans}>
 							<FormItem name="categoryCode1" label="一级类目">
 								<Select onChange={this.onChange} placeholder="请选择" allowClear={true}>
 									{catagoryList.map((item) => (

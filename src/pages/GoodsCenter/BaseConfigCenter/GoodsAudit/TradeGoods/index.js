@@ -26,10 +26,6 @@ class TradeGoods extends Component {
       },
     };
   }
-  //初始化数据
-  componentDidMount = () => {
-    this.searchData([]);
-  };
   //搜索列表
   searchData = (values) => {
     const { time, time2, ..._values } = values;
