@@ -45,9 +45,13 @@ const ShopReturnOrder = QbaseList((_this) => {
       console.log(_val);
       _this.searchDataList(_val)
     }
+    const selectChannelCode = (value)=> {
+      _this.setState({ channelCode: value })
+    }
     return (
       <div className="oms-common-index-pages-wrap">
         <FilterForm onSubmit={searchList}
+                    selectChannelCode={selectChannelCode}
                     selectTimeChange={(value,isDefaultInitFinish)=>_this.selectTimeChange(value,isDefaultInitFinish,false)}/>
         <div className="handle-operate-btn-action">
           <Qbtn size="free" onClick={handleExport}>导出数据</Qbtn>
