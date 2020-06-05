@@ -146,7 +146,7 @@ module.exports = {
       },
       '/qtoolsErp': {
         // target:'http://192.168.2.32:8078',
-        target:'http://192.168.2.31:8078',////v1
+        target:'http://192.168.2.31:8078',//v1
         pathRewrite: {"^/qtoolsErp" : ""},
         changeOrigin: true,
       },
