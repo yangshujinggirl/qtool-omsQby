@@ -19,6 +19,13 @@ class Search extends BaseFilter {
       xxl:6
     }
   }
+  componentDidMount() {
+    this.formRef.current.setFieldsValue({status:"待审核"})
+    this.props.onSubmit && this.props.onSubmit({
+      status: 1
+    });
+  }
+
   render() {
     return (
       <div className="qtoolOms-condition">
