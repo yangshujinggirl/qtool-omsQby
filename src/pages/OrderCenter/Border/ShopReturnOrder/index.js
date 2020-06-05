@@ -40,7 +40,7 @@ const ShopReturnOrder = QbaseList((_this) => {
       },'/export/commonExport')
     }
     const searchList = (values)=> {
-      conolle.log(values);
+      console.log(values);
       let {channelName, ..._val } = values;
       _this.searchDataList(_val)
     }
