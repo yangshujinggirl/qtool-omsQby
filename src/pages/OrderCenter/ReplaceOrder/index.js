@@ -59,6 +59,7 @@ class ReplaceOrder extends Component {
 						everyPage,
 						currentPage,
 						total,
+						selectedRowKeys:[]
 					});
 				}
 			})

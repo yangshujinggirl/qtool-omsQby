@@ -11,9 +11,9 @@ const Cooperate = props => {
           : "关业中"}
       </Form.Item>
       <Form.Item label="门店类型">
-        {props.infos.channelStatus == 1
+        {props.infos.channelType == 1
           ? "直营店"
-          : props.infos.channelStatus == 2
+          : props.infos.channelType == 2
           ? "联营店"
           : "加盟店"}
       </Form.Item>
