@@ -23,15 +23,14 @@ class CrossGoodStore extends Component {
     };
   }
   componentWillMount() {
-    this.searchData({});
+    this.searchData(this.state.inputValues);
   }
   //点击搜索
   searchData = values => {
     this.setState({
       loading: true
     });
-    const params = {...this.state.inputValues,...values}
-    getListApi(params)
+    getListApi(values)
       .then(res => {
         this.setState({
           loading: false
@@ -60,7 +59,8 @@ class CrossGoodStore extends Component {
 
   //点击分页
   changePage = (currentPage, everyPage) => {
-    this.searchData({currentPage, everyPage});
+    const params = {...this.state.inputValues,currentPage,everyPage}
+    this.searchData(params);
   };
   //新建仓库
   addStore = () => {
@@ -100,8 +100,9 @@ class CrossGoodStore extends Component {
     })
   }
   onSubmit=(values)=>{
-    this.searchData(values)
-    this.setState({inputValues:{...this.state.inputValues,...values}})
+    const params = {...this.state.inputValues,...values};
+    this.searchData(params)
+    this.setState({inputValues:params})
   }
   render() {
     const { dataList, everyPage, currentPage, total, loading,visible,id } = this.state;

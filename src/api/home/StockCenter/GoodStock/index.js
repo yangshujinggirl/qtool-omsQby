@@ -14,4 +14,10 @@ export function getStoreListApi(values){
        params:{...values}
     })
 }
+//门店名称模糊搜索
+export function getShopListApi(values){
+    return omsAjax.get('channel/findChannelByName',{
+        params:values
+    })
+}
 

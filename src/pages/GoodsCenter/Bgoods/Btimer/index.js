@@ -17,8 +17,8 @@ class Btimer extends Component {
     super(props);
     this.state = {
       taskList: [],
-      everyPage: 20,
-      currentPage: 0,
+      everyPage: 15,
+      currentPage: 1,
       total: 0,
       inputValues: {}
     };
@@ -50,7 +50,7 @@ class Btimer extends Component {
   };
   //更改分页
   changePage = (currentPage, everyPage) => {
-    const params = { currentPage, everyPage };
+    const params = { ...this.state.inputValues,currentPage, everyPage };
     this.searchData(params);
   };
   //搜索查询

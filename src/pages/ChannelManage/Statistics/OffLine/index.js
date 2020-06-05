@@ -26,15 +26,7 @@ class OffLine extends Component {
   }
   //点击搜索
   searchData = values => {
-    const { time, ..._values } = values;
-    if (time && time[0]) {
-      _values.timeStart = moment(time[0]).format("YYYY-MM-DD");
-      _values.timeEnd = moment(time[0]).format("YYYY-MM-DD");
-    } else {
-      _values.timeStart = "";
-      _values.timeEnd = "";
-    }
-    getOffLineListApi(_values).then(res => {
+    getOffLineListApi(values).then(res => {
       if (res.httpCode == 200) {
         const { result, everyPage, currentPage, total } = res.result;
         if (result.length) {
@@ -48,9 +40,7 @@ class OffLine extends Component {
         });
       }
     });
-    this.setState({ inputValues: values });
   };
-
   //点击分页
   changePage = (currentPage, everyPage) => {
     const values = { ...this.state.inputValues, currentPage, everyPage };
@@ -60,11 +50,26 @@ class OffLine extends Component {
   exportData=()=>{
     AppExportApi({type:1,...this.state.inputValues},'/channelStatistics/export')
   }
+  //搜索
+  onSubmit=(values)=>{
+    const { time, ..._values } = values;
+    if (time && time[0]) {
+      _values.timeStart = moment(time[0]).format("YYYY-MM-DD");
+      _values.timeEnd = moment(time[0]).format("YYYY-MM-DD");
+    } else {
+      _values.timeStart = "";
+      _values.timeEnd = "";
+    }
+    this.searchData(_values);
+    this.setState({
+      inputValues:_values
+    })
+  }
   render() {
     const { dataList, everyPage, currentPage, total } = this.state;
     return (
       <div className="oms-common-index-pages-wrap">
-        <FilterForm onSubmit={this.searchData}  type={1}/>
+        <FilterForm onSubmit={this.onSubmit}  type={1}/>
         <div className="handle-operate-btn-action">
             <Qbtn onClick={this.exportData}>导出数据</Qbtn>
         </div>

@@ -28,8 +28,7 @@ class TradeGoodStore extends Component {
 		this.setState({
 			loading: true,
 		});
-		const params = { ...this.state.inputValues, ...values };
-		getListApi(params)
+		getListApi(values)
 			.then((res) => {
 				this.setState({
 					loading: false,
@@ -56,11 +55,13 @@ class TradeGoodStore extends Component {
 
 	//点击分页
 	changePage = (currentPage, everyPage) => {
-		this.searchData({ currentPage, everyPage });
+		const params = { ...this.state.inputValues, currentPage, everyPage };
+		this.searchData(params);
 	};
 	onSubmit = (values) => {
-		this.searchData(values);
-		this.setState({inputValues:{...this.state.inputValues,...values}})
+		const params = { ...this.state.inputValues, ...values };
+		this.searchData(params);
+		this.setState({ inputValues: params });
 	};
 
 	render() {
