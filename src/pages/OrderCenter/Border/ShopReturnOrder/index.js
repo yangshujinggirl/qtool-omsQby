@@ -40,8 +40,9 @@ const ShopReturnOrder = QbaseList((_this) => {
       },'/export/commonExport')
     }
     const searchList = (values)=> {
-      console.log(values);
       let {channelName, ..._val } = values;
+      _val.channelCode = _this.state.channelCode;
+      console.log(_val);
       _this.searchDataList(_val)
     }
     return (
@@ -63,7 +64,7 @@ const ShopReturnOrder = QbaseList((_this) => {
     );
 },
 (params)=> {
-  return GetListApi({sourceType:2,...params})
+  return GetListApi({sourceType:2, channelCode:null, ...params})
 },{isComponentDidMountRequestData:false});
 
 export default ShopReturnOrder

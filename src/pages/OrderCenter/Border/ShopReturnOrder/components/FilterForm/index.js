@@ -35,7 +35,8 @@ export default class SearchForm extends BaseFilter {
     }
     //选中事件
     autoSelect=(value,option)=> {
-      this.formRef.current.setFieldsValue({channelCode:option.key})
+      this.props.selectChannelCode(option.key)
+      // this.formRef.current.setFieldsValue({channelCode:option.key})
     }
     render() {
         const { mdList } =this.state;
