@@ -6,12 +6,11 @@ const Editable = props => {
   const { dataSource, changeDataSource, getPrice } = props;
   /**
    * input输入框更改，相应修改list
-   * @param {*} e
+   * @param {*} value
    * @param {*} record
    * @param {*} keyName
    */
-  const changeData = (e, record, keyName) => {
-    const { value } = e.target;
+  const changeData = (value, record, keyName) => {
     if (value) {
       const newData = [...dataSource];
       const index = newData.findIndex(item => item.key == record.key);
@@ -65,7 +64,7 @@ const Editable = props => {
             ]}
           >
             <Input
-              onBlur={e => changeData(e, record, "amount")}
+              onBlur={e => changeData(e.target.value, record, "amount")}
               autoComplete="off"
               placeholder="采购数量"
             />
@@ -87,7 +86,7 @@ const Editable = props => {
             ]}
           >
             <Input
-              onBlur={e => changeData(e, record, "price")}
+              onBlur={e => changeData(Number(e.target.value), record, "purchasePrice")}
               autoComplete="off"
               placeholder="采购单价"
             />

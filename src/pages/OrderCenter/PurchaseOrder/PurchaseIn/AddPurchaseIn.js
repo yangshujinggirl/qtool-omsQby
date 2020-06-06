@@ -160,6 +160,7 @@ const AddPurchaseIn = props => {
    * @param {[{}]} goodList
    */
   const changeDataSource = (goodList,type) => {
+    console.log('xxx',goodList)
     //添加采购单价显示，原有没有对采购单价处理
     goodList.forEach(item=>{
       item.price=item.purchasePrice
