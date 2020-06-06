@@ -41,6 +41,17 @@ const Editable = props => {
       }
     },
     {
+      title: "商品名称",
+      dataIndex: "itemName",
+    },
+    {
+      title: "税率",
+      dataIndex: "taxRate",
+      render: (text) => {
+        return text && <span>{text * 100}%</span>;
+      }
+    },
+    {
       width: 100,
       title: "采购数量",
       dataIndex: "amount",
