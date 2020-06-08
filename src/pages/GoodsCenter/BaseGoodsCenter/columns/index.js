@@ -444,11 +444,13 @@ const ColumnsCross = [
         to={`/account/baseGoodsAdd/2/${record.spuCode}`}>
         编辑商品
       </Link>
+      &nbsp;&nbsp;
       <Link
         className="link-color"
         to={`/account/baseGoodsEditImg/${record.spuCode}`}>
         编辑图文
       </Link>
+      &nbsp;&nbsp;
       <Link
         className="link-color"
         to={`/account/baseGoodsImgInfo/${record.spuCode}`}>
