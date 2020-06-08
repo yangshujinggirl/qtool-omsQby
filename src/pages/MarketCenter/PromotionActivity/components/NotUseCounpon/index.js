@@ -65,7 +65,7 @@ const NotUseCoupon=({...props})=> {
           {({ getFieldValue }) => {
             return getFieldValue('activityCouponStatus')=='2'&&
             <FormItem label='请选择不可使用的优惠券'>
-              <FormItem name="tagsCouponList" rules={[{ required: true, message: '请选择促销级别'}]}>
+              <FormItem name="tagsCouponList">
                 <Input
                   autoComplete="off"
                   style={{ width: "200px" }}
