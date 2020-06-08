@@ -160,6 +160,10 @@ const AddPurchaseIn = props => {
    * @param {[{}]} goodList
    */
   const changeDataSource = (goodList,type) => {
+    //添加采购单价显示，原有没有对采购单价处理
+    goodList.forEach(item=>{
+      item.price=item.purchasePrice
+    })
     setGoodList(goodList);
     form.setFieldsValue({ goodList });
   };
@@ -175,8 +179,9 @@ const AddPurchaseIn = props => {
           const { purchasePrice, ...reset } = res.result;
           const newData = [...goodList];
           const itemIndex = newData.findIndex(item => item.key == record.key);
-          const obj = { price: purchasePrice, ...reset,key:record.key };
+          const obj = { price: purchasePrice,purchasePrice, ...reset,key:record.key };
           newData.splice(itemIndex, 1, obj);
+          console.log('xxx',newData)
           setGoodList(newData);
           form.setFieldsValue({ goodList: newData });
         }
