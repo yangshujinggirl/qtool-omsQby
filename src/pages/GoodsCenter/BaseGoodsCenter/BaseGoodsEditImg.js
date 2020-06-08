@@ -95,7 +95,7 @@ function EditImg({...props}) {
         })
         return el;
       })
-      textImgField = textImgField.map((el,index) => {
+      textImgField = textImgField&&textImgField.map((el,index) => {
         detailImg.map((item,idx)=> {
           if(index==idx) {
             el.type = item.type;
