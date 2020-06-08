@@ -112,6 +112,12 @@ const ColumnsGeneral = [
           to={`/account/baseGoodsEditImg/${record.spuCode}`}>
           编辑图文
         </Link>
+        &nbsp;&nbsp;
+        <Link
+          className="link-color"
+          to={`/account/baseGoodsImgInfo/${record.spuCode}`}>
+          查看图文
+        </Link>
       </div>
     )
   }
@@ -261,7 +267,7 @@ const ColumnsAddGeneral=(list)=>{
 /*
 一般贸易编辑图文
  */
-const ColumnsEditImgGeneral=(upDateSkuList)=>{
+const ColumnsEditImgGeneral=(upDateSkuList,type)=>{
   return [{
     title: "sku编码",
     dataIndex: "skuCode",
@@ -292,11 +298,18 @@ const ColumnsEditImgGeneral=(upDateSkuList)=>{
     textWrap: 'word-break',
     width: 100,
     render:(text,record,index)=> {
-      return  <QupLoadImgLimt
-                name={['skuImgList',index,'skuImg']}
-                fileList={record.skuImg}
-                limit="1"
-                upDateList={(fileList)=>upDateSkuList(fileList,index)}/>
+      return <>
+        {
+          type=='info' ?
+            <QenlargeImg  url={record.skuImg} key={index}/>
+            :
+            <QupLoadImgLimt
+               name={['skuImgList',index,'skuImg']}
+               fileList={record.skuImg}
+               limit="1"
+               upDateList={(fileList)=>upDateSkuList(fileList,index)}/>
+        }
+      </>
     }
   }]}
 /*
@@ -435,6 +448,11 @@ const ColumnsCross = [
         className="link-color"
         to={`/account/baseGoodsEditImg/${record.spuCode}`}>
         编辑图文
+      </Link>
+      <Link
+        className="link-color"
+        to={`/account/baseGoodsImgInfo/${record.spuCode}`}>
+        查看图文
       </Link>
       </div>
     )

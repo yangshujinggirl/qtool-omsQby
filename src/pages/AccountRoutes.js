@@ -21,6 +21,7 @@ import BaseGoods from "./GoodsCenter/BaseGoodsCenter"; //基础商品
 import BaseGoodsAdd from "./GoodsCenter/BaseGoodsCenter/BaseGoodsAdd"; //基础商品
 import BaseGoodsInfo from "./GoodsCenter/BaseGoodsCenter/BaseGoodsInfo"; //基础商品
 import BaseGoodsEditImg from "./GoodsCenter/BaseGoodsCenter/BaseGoodsEditImg"; //基础商品
+import BaseGoodsImgInfo from "./GoodsCenter/BaseGoodsCenter/BaseGoodsImgInfo"; //基础商品
 import GoodsAudit from "./GoodsCenter/BaseConfigCenter/GoodsAudit"; //商品审核
 //C端---------------------------------------//////
 import CrossBorderLog from "./GoodsCenter/Cgoods/CrossBorderGoods/CrossBorderLog"; //C端跨境商品
@@ -215,6 +216,7 @@ class HomeRoutes extends React.Component {
         <Route exact path="/account/baseGoodsAdd/:type/:id?" component={BaseGoodsAdd}/>
         <Route exact path="/account/baseGoodsInfo/:type/:id?" component={BaseGoodsInfo}/>
         <Route exact path="/account/baseGoodsEditImg/:id?" component={BaseGoodsEditImg}/>
+        <Route exact path="/account/baseGoodsImgInfo/:id" component={BaseGoodsImgInfo}/>
         <Route exact path="/account/items_examine" component={GoodsAudit} />
         <Route exact path="/account/commodities_list" component={Bgoods} />
         <Route exact path="/account/bgoodsAdd/:id?" component={BgoodsAdd} />

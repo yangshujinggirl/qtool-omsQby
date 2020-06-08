@@ -27,7 +27,7 @@ class QenlargeImg extends Component {
   render() {
     const { visible } =this.state;
     const { url, placement } =this.props;
-    let diySty = `${placement}-arrange enlarge-img-components`;
+    let diySty = `${placement}-arrange enlarge-img-components ${this.props.className}`;
     let fileDomain = Sessions.get('fileDomain');
 
     return (
