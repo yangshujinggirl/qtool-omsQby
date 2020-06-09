@@ -47,8 +47,9 @@ const Editable = props => {
     {
       title: "税率",
       dataIndex: "taxRate",
-      render: (text) => {
-        return text && <span>{text * 100}%</span>;
+      render: (text,record,index) => {
+        const taxRate = text??0
+        return <span>{taxRate*100}%</span>;
       }
     },
     {
