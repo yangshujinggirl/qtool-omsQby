@@ -7,3 +7,11 @@ export function getListApi(values) {
         params: values
     });
 }
+/**
+ * 蔻兔列表
+ */
+export function getListKouTuApi(values) {
+    return omsAjax.get("/orders/getShortageOrderQtoolsList", {
+        params: values
+    });
+}
