@@ -20,7 +20,7 @@ class Search extends BaseFilter {
     }
   }
   componentDidMount() {
-    this.formRef.current.setFieldsValue({status:"待审核"})
+    this.formRef.current.setFieldsValue({status:1})
     this.props.onSubmit && this.props.onSubmit({
       status: 1
     });
