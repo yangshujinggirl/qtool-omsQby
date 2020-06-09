@@ -10,7 +10,8 @@ const Editable = props => {
    * @param {*} record
    * @param {*} keyName
    */
-  const changeData = (value, record, keyName) => {
+  const changeData = (e, record, keyName) => {
+    const { value } = e.target;
     if (value) {
       const newData = [...dataSource];
       const index = newData.findIndex(item => item.key == record.key);
@@ -64,7 +65,7 @@ const Editable = props => {
             ]}
           >
             <Input
-              onBlur={e => changeData(e.target.value, record, "amount")}
+              onBlur={e => changeData(e, record, "amount")}
               autoComplete="off"
               placeholder="采购数量"
             />
@@ -75,18 +76,18 @@ const Editable = props => {
     {
       width: 100,
       title: "采购单价",
-      dataIndex: "price",
+      dataIndex: "purchasePrice",
       render: (text, record, index) => {
         return (
           <Form.Item
-            name={["goodList", index, "price"]}
+            name={["goodList", index, "purchasePrice"]}
             rules={[
               { required: true, message: "请输入采购单价" },
               { pattern: /^\d+(\.\d{0,4})?$/, message: "请输入≥0的数字" }
             ]}
           >
             <Input
-              onBlur={e => changeData(Number(e.target.value), record, "purchasePrice")}
+              onBlur={e => changeData(e, record, "purchasePrice")}
               autoComplete="off"
               placeholder="采购单价"
             />
@@ -127,7 +128,7 @@ const Editable = props => {
         action="/qtoolsOms/upload/file_excel_return_list"
         dataSource={dataSource}
         Columns={Columns}
-        changeDataSource={changeDataSource}
+        changeDataSource={(result)=>changeDataSource(result)}
         downLoadTemp={downLoadTemp}
         footer={true}
         del={true}
