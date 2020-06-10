@@ -23,6 +23,7 @@ export default class SearchForm extends BaseFilter {
                         </Col>
                         <Col {...this.colspans}>
                             <FilterSearchRangeTime
+                                showTime
                                 selectTimeChange={this.props.selectTimeChange}
                                 defaultValue={[moment(this.searchCriteriaDefaultStartTime), moment(this.searchCriteriaDefaultEndTime)]}
                                 startTimeName="createST" endTimeName="createET" label="结算时间"

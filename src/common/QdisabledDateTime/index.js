@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DatePicker, Form ,message} from 'antd';
 import { disabledDate, disabledDateTime } from 'utils/tools';
 import moment from 'moment';
+import './index.less'
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 class DateTime extends Component {
@@ -98,7 +99,7 @@ class FilterSearchRangeTime extends Component {
 	render() {
 		const { label, defaultValue, itemLayout } = this.props;
 		return (
-			<FormItem label={label ? label : null} {...itemLayout}>
+			<FormItem label={label ? label : null} {...itemLayout} className='filter_search_range_time'>
 				<RangePicker
 					format={this.formatType}
 					defaultValue={defaultValue ? defaultValue : []}
