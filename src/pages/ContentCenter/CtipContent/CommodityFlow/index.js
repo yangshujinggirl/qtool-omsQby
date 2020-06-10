@@ -19,6 +19,7 @@ class CommodityFlow extends React.Component {
     this.state={
       selectkey:0,
       tabs:[{key:0, tabId:"-1" }],
+      subLoading:false,
       goodsList:[],
       sortObjArray:[
         {
@@ -63,6 +64,7 @@ class CommodityFlow extends React.Component {
   }
   //查询商品list
   getProductList=(tabId)=> {
+    let { sortObjArray } =this.state;
     GetProListApi(tabId)
     .then((res)=> {
       let { result } =res;
@@ -71,13 +73,23 @@ class CommodityFlow extends React.Component {
         return;
       }
       let { spuList, sortRule, ...vals} = result;
+      let sortArr = sortRule.sortArray?sortRule.sortArray:sortObjArray;
+      sortArr = sortArr.map((el)=> {
+        let mem={};
+        sortObjArray.map((item)=> {
+          if(el == item.key) {
+            mem = item;
+          }
+        })
+        return mem;
+      })
       spuList=spuList?spuList:[];
       spuList.map((el,index)=>el.key=index);
       vals={...vals, ...sortRule };
       if(vals.time) {
         vals.time = [moment(vals.time[0]),moment(vals.time[1])]
       }
-      this.setState({ totalData: vals, goodsList:spuList });
+      this.setState({ totalData: vals, goodsList:spuList, sortObjArray:sortArr });
     })
   }
   resetPage=()=> {
@@ -148,10 +160,12 @@ class CommodityFlow extends React.Component {
         return;
       }
       let  params = this.formatData(values);
+      this.setState({ subLoading:true });
       GetSaveApi(params)
       .then((res) => {
         Qmessage.success('保存成功',1);
         func&&typeof func == 'function'?func():this.getTabsList(selectkey);
+        this.setState({ subLoading:false });
       })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
@@ -237,7 +251,7 @@ class CommodityFlow extends React.Component {
     }
   }
   render() {
-    const { tabs, goodsList } =this.state;
+    const { tabs, goodsList, subLoading } =this.state;
     return(
       <div className="commodity-flow-pages">
         <div className="main-content-action">
@@ -270,7 +284,7 @@ class CommodityFlow extends React.Component {
                 </div>
                 <Col offset={11}>
                   <QreturnBtn {...this.props} />&nbsp;&nbsp;
-                  <Qbtn onClick={this.onSubmit}>保存</Qbtn>
+                  <Qbtn onClick={this.onSubmit} loading={subLoading}>保存</Qbtn>
                 </Col>
               </div>
             }
