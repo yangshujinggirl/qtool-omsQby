@@ -43,14 +43,14 @@ class Search extends BaseFilter {
     switch(level) {
       case 1:
         this.setState({ catagoryList3: [],catagoryList4:[] });
-        this.formRef.current.resetFields(['categoryCode2','categoryCode3','categoryCode4']);
+        this.formRef.current.resetFields(['category2Id','category3Id','category4Id']);
       case 2:
         this.setState({ catagoryList3: [],catagoryList4:[] });
-        this.formRef.current.resetFields(['categoryCode2','categoryCode3','categoryCode4']);
+        this.formRef.current.resetFields(['category2Id','category3Id','category4Id']);
         break;
       case 3:
         this.setState({ catagoryList4: [] });
-        this.formRef.current.resetFields(['categoryCode4']);
+        this.formRef.current.resetFields(['category4Id']);
         break;
     }
     this.getCategoryList(level, value);
@@ -59,14 +59,14 @@ class Search extends BaseFilter {
     switch(level) {
       case 1:
         this.setState({ catagoryList3: [],catagoryList4:[] });
-        this.formRef.current.resetFields(['categoryCode2','categoryCode3','categoryCode4']);
+        this.formRef.current.resetFields(['category2Id','category3Id','category4Id']);
       case 2:
         this.setState({ catagoryList3: [],catagoryList4:[] });
-        this.formRef.current.resetFields(['categoryCode2','categoryCode3','categoryCode4']);
+        this.formRef.current.resetFields(['category2Id','category3Id','category4Id']);
         break;
       case 3:
         this.setState({ catagoryList4: [] });
-        this.formRef.current.resetFields(['categoryCode4']);
+        this.formRef.current.resetFields(['category4Id']);
         break;
     }
   };
