@@ -38,7 +38,7 @@ class AbnormalOrder extends Component {
       _values.stime = "";
       _values.etime = "";
     }
-    getListApi(values)
+    getListApi(_values)
       .then(res => {
         this.setState({
           loading: false

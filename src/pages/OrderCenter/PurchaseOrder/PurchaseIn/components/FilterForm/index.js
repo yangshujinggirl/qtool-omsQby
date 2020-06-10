@@ -89,6 +89,7 @@ export default class SearchForm extends BaseFilter {
                 endTimeName="etime"
                 label="下单时间"
                 itemLayout={this.formItemLayout2}
+                showTime
               />
             </Col>
             <Col span={24}>
