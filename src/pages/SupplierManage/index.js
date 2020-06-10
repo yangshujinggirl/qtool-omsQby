@@ -40,17 +40,17 @@ class SupplierManage extends React.Component {
       this.setState({ list:result, total, everyPage, currentPage})
     })
   };
-  changePage = (currentPage) => {
-    currentPage--;
-    this.setState({currentPage},()=> {
-      this.searchData()
-    })
-  };
-  onShowSizeChange = (currentPage, everyPage) => {
+  changePage = (currentPage,everyPage) => {
     this.setState({currentPage,everyPage},()=> {
       this.searchData()
     })
   };
+  // onShowSizeChange = (currentPage, everyPage) => {
+  //   debugger
+  //   this.setState({currentPage,everyPage},()=> {
+  //     this.searchData()
+  //   })
+  // };
   onSubmit = params => {
     this.setState({ inputValues: params },()=> {
       this.searchData();
@@ -100,8 +100,8 @@ class SupplierManage extends React.Component {
           {list.length>0&&
             <Qpagination
               data={{ total, everyPage, currentPage }}
-              onChange={this.changePage}
-              onShowSizeChange={this.onShowSizeChange}/>}
+              onChange={this.changePage}/>
+            }
               <AuditModal
                 selectedRowKeys={selectedRowKeys}
                 visible={visible}
