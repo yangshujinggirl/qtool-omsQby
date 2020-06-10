@@ -1,11 +1,13 @@
 import { Form } from '@ant-design/compatible';
 import { QenlargeImg } from 'common';
+import { Sessions } from 'utils';
 import '@ant-design/compatible/assets/index.css';
 import './index.less';
 let FormItem = Form.Item;
 
 function GraphicInformation({...props}) {
-  let fileDomain = "https://qtltestfiles.oss-cn-shanghai.aliyuncs.com/";
+
+  let fileDomain = Sessions.get('fileDomain');
   let { picUrlObj } =props;
   let mainPicUrlList = picUrlObj&&picUrlObj.mainPicUrlList?picUrlObj.mainPicUrlList:[];
   let imageListCList = picUrlObj&&picUrlObj.imageListCList?picUrlObj.imageListCList:[];
