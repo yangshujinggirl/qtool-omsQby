@@ -153,7 +153,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="后端二级类目" name="categoryCode2">
+              <FormItem label="后端二级类目" name="category2Id">
                 <Select
                   placeholder="请选择"
                   disabled={!catagoryList2.length > 0}
@@ -170,7 +170,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="后端三级类目" name="categoryCode3">
+              <FormItem label="后端三级类目" name="category3Id">
                 <Select
                   placeholder="请选择"
                   disabled={!catagoryList3.length > 0}
@@ -187,7 +187,7 @@ class Search extends BaseFilter {
               </FormItem>
             </Col>
             <Col {...this.colspans}>
-              <FormItem label="后端四级类目" name="categoryCode4">
+              <FormItem label="后端四级类目" name="category4Id">
                   <Select
                     placeholder="请选择"
                     disabled={!catagoryList4.length > 0}
