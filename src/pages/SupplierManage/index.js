@@ -80,6 +80,7 @@ class SupplierManage extends React.Component {
      selectedRowKeys,
      onChange: this.onSelectChange,
    };
+   console.log('')
     return (
         <div className="oms-common-index-pages-wrap">
           <FilterForm onSubmit={this.onSubmit}/>
