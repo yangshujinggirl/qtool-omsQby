@@ -45,12 +45,7 @@ class SupplierManage extends React.Component {
       this.searchData()
     })
   };
-  // onShowSizeChange = (currentPage, everyPage) => {
-  //   debugger
-  //   this.setState({currentPage,everyPage},()=> {
-  //     this.searchData()
-  //   })
-  // };
+
   onSubmit = params => {
     this.setState({ inputValues: params },()=> {
       this.searchData();
